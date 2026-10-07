@@ -1,7 +1,4 @@
-/**
- * Example module entry point
- * Replace this with your actual implementation
- */
+/** Sensitive text APIs and retained template utilities. */
 
 /**
  * Example function that adds two numbers
@@ -26,3 +23,23 @@ export const multiply = (a, b) => a * b;
  */
 export const delay = (ms) =>
   new Promise((resolve) => globalThis.setTimeout(resolve, ms));
+
+export { inspect, sanitize, redact } from './sanitizer.js';
+export { createSanitizer } from './engines.js';
+export { REDACTED, entropy, luhn } from './detection.js';
+export { codePointRange } from './projection.js';
+export {
+  fromGitleaks,
+  fromTrufflehog,
+  fromDetectSecrets,
+  fromPresidio,
+  byteRange,
+  fromOffsetReport,
+} from './adapters.js';
+export { knownSecretsFromEnv, personalVariants } from './known.js';
+export { auditGitHistory } from './history.js';
+export {
+  createGitleaksDetector,
+  createTrufflehogDetector,
+  createPresidioDetector,
+} from './external.js';

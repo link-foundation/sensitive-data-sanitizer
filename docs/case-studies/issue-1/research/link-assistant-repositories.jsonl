@@ -1,0 +1,29 @@
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-assistant/api-tester"}
+{"archived": false, "default_branch": "main", "description": "The repository to host issues and community", "full_name": "link-assistant/master-plan"}
+{"archived": false, "default_branch": "main", "description": "A library, CLI and microservice to capture the web in required format", "full_name": "link-assistant/web-capture"}
+{"archived": false, "default_branch": "main", "description": "Let's take a look what is out there in the market", "full_name": "link-assistant/market-research"}
+{"archived": false, "default_branch": "main", "description": "A new kind of language for all people on earth", "full_name": "link-assistant/human-language"}
+{"archived": false, "default_branch": "main", "description": "Telegram and VK group bot, that is able to fact check statements, and intervene when sees factual mistakes in discussions.", "full_name": "link-assistant/fact-checker-bot"}
+{"archived": false, "default_branch": "main", "description": "Scripts to control the infrastructure", "full_name": "link-assistant/control-center"}
+{"archived": false, "default_branch": "main", "description": "The UI for efficient AI operations", "full_name": "link-assistant/operator"}
+{"archived": false, "default_branch": "main", "description": "The AI that controls AIs to do the automation of automation.", "full_name": "link-assistant/hive-mind"}
+{"archived": false, "default_branch": "main", "description": "A CLI tool to manage multiple Claude Code profiles", "full_name": "link-assistant/claude-profiles"}
+{"archived": false, "default_branch": "main", "description": "Telegram bot that collects user feedback, and creates issues based on it.", "full_name": "link-assistant/support-bot"}
+{"archived": false, "default_branch": "main", "description": "GitHub Pages AI models page", "full_name": "link-assistant/models"}
+{"archived": false, "default_branch": "main", "description": "A small tool that uses Claude Code CLI with haiku models to convert images with numbers to its string/digital representation", "full_name": "link-assistant/image-to-number"}
+{"archived": false, "default_branch": "main", "description": "A JavaScript library to control agents enclosed in CLI commands like Anthropic Claude Code CLI", "full_name": "link-assistant/agent-commander"}
+{"archived": false, "default_branch": "main", "description": "A research repository to find a way to formal universal ontology, taxonomy, language", "full_name": "link-assistant/semantic-primes"}
+{"archived": false, "default_branch": "main", "description": "Thin agent based on OpenCode CLI (without TUI)", "full_name": "link-assistant/agent"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-assistant/sales-audit-agent"}
+{"archived": false, "default_branch": "main", "description": "A Speach to text microservice", "full_name": "link-assistant/speech-to-text"}
+{"archived": false, "default_branch": "main", "description": "Experiment to run model in browser", "full_name": "link-assistant/model-in-browser"}
+{"archived": true, "default_branch": "main", "description": "A bot to trade in scalping strategy", "full_name": "link-assistant/scalper-trader-bot"}
+{"archived": false, "default_branch": "main", "description": "A bot to trade in portfolio balancing strategy", "full_name": "link-assistant/trader-bot"}
+{"archived": false, "default_branch": "main", "description": "Any language calculator", "full_name": "link-assistant/calculator"}
+{"archived": false, "default_branch": "main", "description": "A web search microservice", "full_name": "link-assistant/web-search"}
+{"archived": false, "default_branch": "main", "description": "Machines to make money", "full_name": "link-assistant/money-making-machines"}
+{"archived": false, "default_branch": "main", "description": "An AI api router", "full_name": "link-assistant/router"}
+{"archived": false, "default_branch": "main", "description": "An expression about expression", "full_name": "link-assistant/meta-expression"}
+{"archived": false, "default_branch": "main", "description": "A repository to research the best possible chat UI out there for talking with agents", "full_name": "link-assistant/react-chat-ui"}
+{"archived": false, "default_branch": "main", "description": "Symbolic first, formal, logical, and data driven associative language processor", "full_name": "link-assistant/formal-ai"}
+{"archived": false, "default_branch": "main", "description": "A tool to migrate and manage AI conversations", "full_name": "link-assistant/conversation"}

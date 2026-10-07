@@ -16,18 +16,19 @@ const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
 const lockJson = JSON.parse(readFileSync('package-lock.json', 'utf8'));
 
 describe('publishable package metadata', () => {
-  it('uses the real link-foundation example package name', () => {
-    expect(packageJson.name).toBe('@link-foundation/example-package-name');
+  it('uses the sensitive-data-sanitizer package name', () => {
+    expect(packageJson.name).toBe('@link-foundation/sensitive-data-sanitizer');
     expect(packageJson.publishConfig).toEqual({ access: 'public' });
-    expect(lockJson.name).toBe('@link-foundation/example-package-name');
+    expect(lockJson.name).toBe('@link-foundation/sensitive-data-sanitizer');
     expect(lockJson.packages[''].name).toBe(
-      '@link-foundation/example-package-name'
+      '@link-foundation/sensitive-data-sanitizer'
     );
   });
 
   it('defines a globally installable CLI command', () => {
     expect(packageJson.bin).toEqual({
       'example-package-name': './bin/example-package-name.js',
+      'sensitive-data-sanitizer': './bin/sensitive-data-sanitizer.js',
     });
     expect(existsSync('bin/example-package-name.js')).toBe(true);
   });
@@ -87,6 +88,12 @@ describe('publishable package metadata', () => {
     expect(packageJson.files).toEqual([
       'bin/',
       'src/',
+      'docs/API.md',
+      'docs/COVERAGE.md',
+      'docs/HISTORY-REMEDIATION.md',
+      'examples/combined-scanners.mjs',
+      'examples/presidio-bridge.py',
+      'examples/sanitize-session.mjs',
       'CHANGELOG.md',
       'LICENSE',
       'README.md',

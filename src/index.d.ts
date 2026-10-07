@@ -1,27 +1,164 @@
-/**
- * Example module type definitions
- * Replace this with your actual type definitions
- */
-
-/**
- * Adds two numbers
- * @param a - First number
- * @param b - Second number
- * @returns Sum of a and b
- */
+export type Category = 'credential' | 'personal';
+/** UTF-16 offsets, zero-based start and exclusive end; never contains source values. */
+export interface Finding {
+  start: number;
+  end: number;
+  category: Category;
+  type: string;
+  rule: string;
+  /** One-based line and UTF-16 column, populated by inspect. */
+  line?: number;
+  column?: number;
+}
+export interface PersonalValue {
+  type: string;
+  value: string;
+}
+export interface PublicEntity {
+  type: 'PERSON' | 'ORGANIZATION' | 'EMAIL';
+  value: string;
+  /** Organization-controlled HTTPS evidence, reviewed by the policy author. */
+  source: string;
+  /** ISO calendar date. The library does not fetch the evidence. */
+  reviewedAt: string;
+}
+export interface Detector {
+  id?: string;
+  /** Required detectors must throw on failure and return offsets for this exact input. */
+  detect(text: string): Finding[] | Promise<Finding[]>;
+}
+export interface SanitizerOptions {
+  knownSecrets?: string[];
+  knownPersonal?: PersonalValue[];
+  publicEntities?: PublicEntity[];
+  findings?: Finding[];
+  paranoid?: boolean;
+  decode?: boolean;
+  maxInputLength?: number;
+  maxFindings?: number;
+  debug?: (event: { event: 'detected'; count: number }) => void;
+  /** Used by createSanitizer; synchronous functions use native rules only. */
+  detectors?: Detector[];
+  /** Required by default in createSanitizer. */
+  secretlint?: boolean;
+}
+export interface SanitizedText {
+  text: string;
+  findings: Finding[];
+  /** Number of disjoint replacements after overlapping detections are merged. */
+  redactions: number;
+}
+export interface Sanitizer {
+  inspect(text: string): Promise<Finding[]>;
+  sanitize(text: string): Promise<SanitizedText>;
+}
+export declare const REDACTED: '[REDACTED]';
+export declare function inspect(
+  text: string,
+  options?: SanitizerOptions
+): Finding[];
+export declare function sanitize(
+  text: string,
+  options?: SanitizerOptions
+): SanitizedText;
+/** Apply validated findings; use sanitize for automatic residual verification. */
+export declare function redact(
+  text: string,
+  findings: Finding[],
+  options?: SanitizerOptions
+): string;
+export declare function createSanitizer(options?: SanitizerOptions): Sanitizer;
+export declare function entropy(value: string): number;
+export declare function luhn(value: string): boolean;
+export declare function codePointRange(
+  text: string,
+  start: number,
+  end: number
+): { start: number; end: number };
+export declare function byteRange(
+  text: string,
+  start: number,
+  end: number
+): { start: number; end: number };
+export declare function fromGitleaks(
+  text: string,
+  report: Array<{ Secret: string; [key: string]: unknown }>
+): Finding[];
+export declare function fromTrufflehog(
+  text: string,
+  report: Array<{ Raw: string; RawV2?: string; [key: string]: unknown }>
+): Finding[];
+export declare function fromDetectSecrets(
+  text: string,
+  report: {
+    results: Record<
+      string,
+      Array<{ line_number: number; [key: string]: unknown }>
+    >;
+  },
+  filename: string
+): Finding[];
+export declare function fromPresidio(
+  text: string,
+  report: Array<{
+    start: number;
+    end: number;
+    entity_type: string;
+    [key: string]: unknown;
+  }>
+): Finding[];
+export declare function fromOffsetReport(
+  text: string,
+  entries: Array<{
+    start: number;
+    end: number;
+    category: Category;
+    type: string;
+    [key: string]: unknown;
+  }>,
+  options: { unit: 'utf16' | 'codepoint' | 'byte'; rule: string }
+): Finding[];
+export declare function knownSecretsFromEnv(
+  env?: Record<string, string | undefined>,
+  names?: string[]
+): string[];
+export declare function personalVariants(
+  entries: PersonalValue[]
+): PersonalValue[];
+export interface LocalScannerOptions {
+  command?: string;
+  timeoutMs?: number;
+  maxOutputBytes?: number;
+}
+export declare function createGitleaksDetector(
+  options?: LocalScannerOptions
+): Detector;
+export declare function createTrufflehogDetector(
+  options?: LocalScannerOptions
+): Detector;
+export declare function createPresidioDetector(
+  options: LocalScannerOptions & { args: string[] }
+): Detector;
+export interface HistoryAudit {
+  scanned: number;
+  complete: boolean;
+  findings: Array<{
+    object: string;
+    type: 'blob' | 'commit' | 'tag';
+    findings: Finding[];
+  }>;
+  skipped: Array<{ object: string; reason: string }>;
+}
+export declare function auditGitHistory(
+  repository: string,
+  options?: {
+    sanitizer?: Pick<Sanitizer, 'inspect'>;
+    maxObjects?: number;
+    maxBytes?: number;
+    maxTotalBytes?: number;
+  }
+): Promise<HistoryAudit>;
+/** Retained template utilities and their CLI remain available. */
 export declare const add: (a: number, b: number) => number;
-
-/**
- * Multiplies two numbers
- * @param a - First number
- * @param b - Second number
- * @returns Product of a and b
- */
 export declare const multiply: (a: number, b: number) => number;
-
-/**
- * Delays execution for specified milliseconds
- * @param ms - Milliseconds to wait
- * @returns Promise that resolves after the delay
- */
 export declare const delay: (ms: number) => Promise<void>;

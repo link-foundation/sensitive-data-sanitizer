@@ -1,4 +1,4 @@
-# Contributing to js-ai-driven-development-pipeline-template
+# Contributing to sensitive-data-sanitizer
 
 ## Development Workflow
 
@@ -59,8 +59,11 @@ Tests should:
 # Run tests
 bun test --timeout 30000
 npm test
-deno test --allow-read
+deno test --allow-read --allow-env
+npm run check:secrets
 ```
+
+Deno needs environment permission for the required Secretlint dependency. Run runtime suites sequentially because Deno manages the shared npm directory automatically; restore `npm ci` before returning to Node/Bun tooling.
 
 ## Version Management with Changesets
 
