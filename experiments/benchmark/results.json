@@ -1,0 +1,66 @@
+{
+  "corpusVersion": 2,
+  "corpusSha256": "3ebb6c2c8601b76f6d3d2c905e239000e54c0e1910f93ee46d8de886c8373f80",
+  "sourceSha256": "f025058a47a7a953ad9819d5fd0663b784150bb1b5e94aeae184b6aab534c6b6",
+  "cases": 223,
+  "entities": 210,
+  "versions": {
+    "sanitizer": "review implementation",
+    "gitleaks": "8.30.1",
+    "trufflehog": "3.99.0",
+    "detect-secrets": "1.5.0",
+    "presidio": "2.2.364",
+    "spacy": "3.8.16 / en_core_web_sm 3.8.0",
+    "scrubadub": "2.0.1"
+  },
+  "metrics": {
+    "sanitizer": {
+      "detected": 210,
+      "partial": 0,
+      "missed": 0,
+      "falsePredictions": 0,
+      "recall": 1,
+      "precision": 1
+    },
+    "gitleaks": {
+      "detected": 3,
+      "partial": 1,
+      "missed": 206,
+      "falsePredictions": 0,
+      "recall": 0.014285714285714285,
+      "precision": 1
+    },
+    "trufflehog": {
+      "detected": 3,
+      "partial": 0,
+      "missed": 207,
+      "falsePredictions": 0,
+      "recall": 0.014285714285714285,
+      "precision": 1
+    },
+    "detect-secrets": {
+      "detected": 26,
+      "partial": 5,
+      "missed": 179,
+      "falsePredictions": 0,
+      "recall": 0.12380952380952381,
+      "precision": 1
+    },
+    "presidio": {
+      "detected": 87,
+      "partial": 7,
+      "missed": 116,
+      "falsePredictions": 51,
+      "recall": 0.4142857142857143,
+      "precision": 0.6644736842105263
+    },
+    "scrubadub": {
+      "detected": 24,
+      "partial": 1,
+      "missed": 185,
+      "falsePredictions": 1,
+      "recall": 0.11428571428571428,
+      "precision": 0.9615384615384616
+    }
+  }
+}

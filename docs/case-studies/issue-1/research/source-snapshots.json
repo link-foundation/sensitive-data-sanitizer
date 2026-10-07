@@ -36,6 +36,24 @@
       "commit": "d7f602b8c4a920c61ceee1c8017b618cb401126e",
       "path": "src/request_log/redaction.rs",
       "blob": "f39e496eae017208cc15c519accbf13744c1b1cc"
+    },
+    {
+      "repository": "link-assistant/hive-mind",
+      "commit": "f459ba73e6c4776e9d5523bc829dec7b7ab7baa0",
+      "path": "src/log-sanitize-stream.lib.mjs",
+      "blob": "6ec6e0baa4ad8fdfa8fcbb3ede1a5eb36e8c5fee"
+    },
+    {
+      "repository": "link-assistant/hive-mind",
+      "commit": "f459ba73e6c4776e9d5523bc829dec7b7ab7baa0",
+      "path": "src/log-sanitize-worker.lib.mjs",
+      "blob": "df4790d5dcdcf6590da18fde84db84947dd1da8f"
+    },
+    {
+      "repository": "link-assistant/hive-mind",
+      "commit": "f459ba73e6c4776e9d5523bc829dec7b7ab7baa0",
+      "path": "eslint-rules/require-sanitized-output.mjs",
+      "blob": "fdbd957b79769282371008a4fa8dc6a9f40d122e"
     }
   ],
   "relatedPullRequests": [

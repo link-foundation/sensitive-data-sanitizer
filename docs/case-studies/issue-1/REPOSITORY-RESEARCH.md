@@ -25,7 +25,7 @@ Transferred practices:
 - Treat detector failures as publication failures; perform a second scan of the exact final text.
 - Supplement prefix/entropy rules with explicitly selected environment credentials, including short values. Do not read unrelated auth files implicitly.
 - Recognize escaped/nested JSON and bounded encoded views, preserving original spans. Unicode and decoded forms must not leave fragments of a detected secret.
-- Keep diagnostics free of matched text. Preserve delimiters while replacing detected values completely; the new package uses full masking rather than retaining token prefixes/suffixes.
+- Keep diagnostics free of matched text. Preserve delimiters while replacing detected values completely; full masking is the default, with explicit compatible partial masking and encoding-preservation options.
 - Bound key affixes and decoding. Avoid interpreting token counters, code keywords and ordinary tool/hash identifiers as credentials.
 - Use private temporary files and publish only after successful verification.
 
@@ -47,7 +47,7 @@ Source snapshot: `b4e32ad9e0d355409801a958ec7e10f95b45a576`. Inspected modules i
 
 Personal redaction needs explicit private dictionaries and spelling variants: case, numeric separators and dates can vary independently of a service-token prefix. The new `knownPersonal` and `personalVariants()` APIs cover literal case matching and supported numeric/date spellings. Transliteration is caller-supplied; it is not guessed from a person's name.
 
-History work needs an immutable backup, dry-run/review, separate blob/message/author handling, and post-rewrite verification of complete snapshots. Preserving approved public values requires policy and regression tests. The package provides a read-only reachable/reflog object audit, including deleted blobs and author metadata, plus a [reviewed remediation procedure](../../HISTORY-REMEDIATION.md). It never rewrites or force-pushes automatically. Unreachable objects, remote caches, forks, artifacts and filenames need separate remediation.
+History work needs an immutable backup, dry-run/review, separate blob/message/author handling, and post-rewrite verification of complete snapshots. Preserving approved public values requires policy and regression tests. The package provides a read-only reachable/reflog object audit, including deleted blobs and author metadata, plus a [reviewed remediation procedure](../../HISTORY-REMEDIATION.md). The clone-only preview/rewrite API generates private plans, rewrites blobs/messages/identities/paths/refs only under explicit apply, and re-audits the clone. It never pushes. Unreachable objects, remote caches, forks and artifacts need separate remediation.
 
 ## router: structured request boundaries
 
@@ -60,3 +60,7 @@ The new text profile handles headers, query credentials, known values and JSON/e
 The common safety invariant is a verified publication boundary, not the count of regexes. Independently maintained engines extend recall; exact dictionaries cover context that heuristics cannot infer; offset validation prevents accidental under-masking; public exceptions require explicit evidence and never override credentials. Private writes and metadata-only reports reduce exposure during normal operation. Unsupported representations and ambiguous private/public context remain explicit coverage limits.
 
 All transferred algorithms here were implemented around this package's text/offset contract; third-party source files were not copied wholesale. Runtime component provenance is recorded in [the competitor study](COMPETITORS.md).
+
+## Publication practices carried over in the review
+
+The [hive-mind credential guide](https://github.com/link-assistant/hive-mind/blob/main/docs/CREDENTIAL-SANITIZATION.md) and its stream/worker/static-boundary modules informed bounded record retention, held base64 groups, worker staging/cleanup, HTML and byte decoding, optional `abc…xyz` masks, round-trip encoding, explicit `gh auth token`, Sentry/event sanitization and the ESLint guard. These are implemented in local modules with default full redaction and offline behavior; actual scanner/rewrite tests verify integrations independently. No credential-bearing third-party logs are copied into this repository.
