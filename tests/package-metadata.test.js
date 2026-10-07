@@ -10,7 +10,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-import { runCli } from '../bin/example-package-name.js';
+import { runCli } from '../bin/legacy-example-package-name.js';
 
 const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
 const lockJson = JSON.parse(readFileSync('package-lock.json', 'utf8'));
@@ -27,10 +27,10 @@ describe('publishable package metadata', () => {
 
   it('defines a globally installable CLI command', () => {
     expect(packageJson.bin).toEqual({
-      'example-package-name': './bin/example-package-name.js',
+      'sensitive-data-sanitizer-legacy': './bin/legacy-example-package-name.js',
       'sensitive-data-sanitizer': './bin/sensitive-data-sanitizer.js',
     });
-    expect(existsSync('bin/example-package-name.js')).toBe(true);
+    expect(existsSync('bin/legacy-example-package-name.js')).toBe(true);
   });
 
   it('supports the retained arithmetic package under browser resolution', () => {
@@ -43,7 +43,7 @@ describe('publishable package metadata', () => {
         '--conditions=browser',
         '--input-type=module',
         '--eval',
-        "import * as api from '@link-foundation/sensitive-data-sanitizer'; console.log(JSON.stringify({exports:Object.keys(api).sort(),sum:api.add(2,3),product:api.multiply(6,7)}));",
+        "import * as api from '@link-foundation/sensitive-data-sanitizer/legacy'; console.log(JSON.stringify({exports:Object.keys(api).sort(),sum:api.add(2,3),product:api.multiply(6,7)}));",
       ],
       { encoding: 'utf8' }
     );
@@ -79,7 +79,7 @@ describe('publishable package metadata', () => {
     const linkPath = join(tempRoot, 'example-package-name');
 
     try {
-      symlinkSync(resolve('bin/example-package-name.js'), linkPath);
+      symlinkSync(resolve('bin/legacy-example-package-name.js'), linkPath);
     } catch (error) {
       rmSync(tempRoot, { force: true, recursive: true });
 

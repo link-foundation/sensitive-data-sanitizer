@@ -1,6 +1,4 @@
-/** Sensitive text APIs and retained template utilities. */
-
-export { add, multiply, delay } from './arithmetic.js';
+/** Sensitive text detection and verified publication APIs. */
 
 export { inspect, sanitize, redact } from './sanitizer.js';
 export { createSanitizer } from './engines.js';

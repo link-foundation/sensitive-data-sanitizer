@@ -1,14 +1,14 @@
 # Sensitive Data Sanitizer
 
-An offline JavaScript library, detector framework, and CLI for redacting credentials and personal data from UTF-8 logs, AI sessions, and text files. It combines required Secretlint rules with contextual credentials, service formats, known values, multilingual labels, and bounded encoding detection. Optional local Gitleaks, TruffleHog, and Presidio detectors extend the union.
+An offline JavaScript library, detector framework, and CLI for redacting credentials and personal data from UTF-8 logs, AI sessions, and text files. It combines required Secretlint and 221 bundled Gitleaks text rules with contextual credentials, default multilingual name/PII recognition, known values and bounded encoding detection. Optional local Gitleaks, TruffleHog, and Presidio detectors extend the union.
 
-Every detected value is replaced completely with `[REDACTED]`. Publication methods scan the result again and block output if a required detector fails or finds a residual. Findings contain offsets and rule metadata; they omit matched values and source excerpts.
+By default every detected value is replaced completely with `[REDACTED]`. Publication methods verify full redaction and block output if a required detector fails or finds a residual. Optional typed transformations, compatible partial masks and encoding preservation are described in the API. Findings contain offsets and rule metadata; they omit matched values and source excerpts.
 
-Detection has limits: arbitrary names in prose need an installed NER model or known-personal dictionary. New token formats, unsupported encodings, and unconfigured languages can escape detection. Successful verification means the enabled detectors found no residual, not that the input is universally anonymous. See [coverage and limits](docs/COVERAGE.md) and the [issue #1 case study](docs/case-studies/issue-1/README.md).
+Detection has limits: the default 17-locale name gazetteer has finite vocabulary; unfamiliar names need an additional NER model or known-personal dictionary. New token formats, unsupported encodings, and unconfigured languages can escape detection. Successful verification means the enabled detectors found no residual, not that the input is universally anonymous. See [coverage and limits](docs/COVERAGE.md) and the [issue #1 case study](docs/case-studies/issue-1/README.md).
 
 ## Quick Start
 
-Sanitizer APIs require Node.js 22 or later. Browser package resolution retains the original `add`, `multiply` and `delay` arithmetic utilities through a separate entry; the existing universal example uses that entry. From this checkout:
+Sanitizer APIs require Node.js 22 or later. Template arithmetic utilities are available under `@link-foundation/sensitive-data-sanitizer/legacy`; the existing universal example uses that browser-compatible entry. From this checkout:
 
 ```sh
 npm ci
@@ -42,6 +42,8 @@ sensitive-data-sanitizer redact input.txt --in-place
 sensitive-data-sanitizer scan logs --config /private/policy.json
 sensitive-data-sanitizer redact input.txt --gitleaks --trufflehog --output safe.txt
 sensitive-data-sanitizer redact input.txt --presidio /path/presidio-bridge.py --model en_core_web_sm --language en
+sensitive-data-sanitizer redact large-session.jsonl --stream --output safe-session.jsonl
+sensitive-data-sanitizer history rewrite ./repository --output ./private-preview
 sensitive-data-sanitizer --help
 ```
 
@@ -53,11 +55,11 @@ sensitive-data-sanitizer --help
 | 1    | A complete scan/history audit found sensitive data                       |
 | 2    | Error, detector failure, or incomplete scan; redaction output is blocked |
 
-Defaults: 10 MiB input bytes, 100,000 findings, and 10,000 files. `--max-bytes` sets the byte limit; JSON config sets the other sanitizer limits. `--paranoid` adds entropy heuristics and increases false positives. `--native-only` explicitly disables Secretlint.
+Defaults: 10 MiB whole-text input bytes, 100,000 findings and 10,000 files. `--stream` permits 1 GiB total with 1 MiB held records, bounded workers for files and atomic publication. `--max-bytes` sets the byte limit; JSON config sets the other sanitizer limits. `--paranoid` adds entropy heuristics and increases false positives. `--native-only` explicitly disables Secretlint.
 
 ## Configuration
 
-Keep policies containing real private values outside Git. A public-data policy must be reviewed against organization-controlled evidence; the sanitizer does not browse or infer public status:
+Keep policies containing real private values outside Git. Built-in exact public knowledge and narrowly scoped role/domain heuristics are enabled offline. Explicit private literals override public exemptions. Keep custom public policies reviewed against evidence; `--verify-public` separately opts into Wikidata name lookup:
 
 ```json
 {
@@ -74,7 +76,7 @@ Keep policies containing real private values outside Git. A public-data policy m
 }
 ```
 
-Only exact reviewed `PERSON`, `ORGANIZATION`, and `EMAIL` detections can be preserved. Credential detections always win, including a public email used as a password or authorization value. Evidence is an explicit caller decision and does not make every occurrence harmless.
+Custom policies preserve exact reviewed `PERSON`, `ORGANIZATION` and `EMAIL` detections. Built-in public resolvers/documentation IPs are also exempt. Credential detections always win, including a public email used as a password or authorization value. Evidence is an explicit caller decision and does not make every occurrence harmless.
 
 ## Extend detection
 
@@ -103,7 +105,7 @@ For CLI name recognition, `--presidio PATH` selects a local Python JSON bridge. 
 
 ## Git history
 
-`history` audits reachable blobs, commit messages/authors, annotated tags, and reflog-reachable objects without changing refs. It can find deleted files. It reports object hashes and safe findings, and refuses limits or reports skipped binary objects as incomplete. It does not erase remote caches, forks, artifacts, filenames, or unreachable objects. Follow the [history remediation guide](docs/HISTORY-REMEDIATION.md) for a separate reviewed rewrite.
+`history` audits reachable blobs, commit messages/authors, annotated tags, and reflog-reachable objects without changing refs. It can find deleted files. It reports object hashes and safe findings, and refuses limits or reports skipped binary objects as incomplete. The `history rewrite SOURCE --output NEW_DIRECTORY` command previews private replacement/mailmap files in a fresh mirror clone; add `--apply` to rewrite only that clone and re-audit blobs, metadata, paths and refs. It never pushes. Remote caches, forks, artifacts and unreachable objects require separate remediation; see the [history guide](docs/HISTORY-REMEDIATION.md).
 
 ## Contributing
 
@@ -114,7 +116,7 @@ bun test --timeout 30000
 deno test --allow-read --allow-env
 ```
 
-See [contributing](docs/CONTRIBUTING.md). `add`, `multiply`, `delay`, the `example-package-name` CLI, and the universal app example remain available; inherited pipeline instructions are in [the template guide](docs/TEMPLATE-PIPELINE.md).
+See [contributing](docs/CONTRIBUTING.md). `add`, `multiply` and `delay` live in the `legacy` subpath, with the `sensitive-data-sanitizer-legacy` CLI and retained universal app; inherited pipeline instructions are in [the template guide](docs/TEMPLATE-PIPELINE.md).
 
 ### Auto-regenerated preview screenshots
 

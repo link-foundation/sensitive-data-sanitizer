@@ -6,8 +6,8 @@
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "bin": {
-    "example-package-name": "./bin/example-package-name.js",
-    "sensitive-data-sanitizer": "./bin/sensitive-data-sanitizer.js"
+    "sensitive-data-sanitizer": "./bin/sensitive-data-sanitizer.js",
+    "sensitive-data-sanitizer-legacy": "./bin/legacy-example-package-name.js"
   },
   "files": [
     "bin/",
@@ -25,12 +25,16 @@
   "exports": {
     ".": {
       "types": "./src/index.d.ts",
-      "browser": "./src/arithmetic.js",
       "import": "./src/index.js"
     },
     "./eslint-plugin": {
       "types": "./src/eslint-plugin.d.ts",
       "import": "./src/eslint-plugin.js"
+    },
+    "./legacy": {
+      "types": "./src/legacy.d.ts",
+      "browser": "./src/arithmetic.js",
+      "import": "./src/legacy.js"
     }
   },
   "scripts": {

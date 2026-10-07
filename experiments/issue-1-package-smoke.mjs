@@ -28,7 +28,10 @@ try {
   if (output !== 'password=[REDACTED]') {
     throw new Error('Installed CLI did not redact the synthetic credential.');
   }
-  const legacy = join(directory, 'node_modules/.bin/example-package-name');
+  const legacy = join(
+    directory,
+    'node_modules/.bin/sensitive-data-sanitizer-legacy'
+  );
   if (execute(process.execPath, [legacy, 'add', '2', '3']) !== '5') {
     throw new Error('Installed arithmetic CLI failed.');
   }

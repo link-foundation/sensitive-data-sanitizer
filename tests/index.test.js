@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect } from 'test-anywhere';
-import { add, multiply } from '../src/index.js';
+import { add, multiply } from '../src/legacy.js';
 
 describe('add function', () => {
   it('should add two positive numbers', () => {

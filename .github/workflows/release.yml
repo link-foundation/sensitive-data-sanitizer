@@ -270,7 +270,7 @@ jobs:
     # budget below (see scripts/run-with-budget-warning.sh); this cap is
     # only the backstop behind those budgets, sized so the budgets always
     # expire first. A job killed by timeout-minutes reports *cancelled*,
-    # which hides the failure -- see docs/CI-TIMEOUT-BUDGETS.md.
+    # which hides the failure -- see docs/legacy/CI-TIMEOUT-BUDGETS.md.
     timeout-minutes: 15
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.runtime }}-${{ matrix.os }}
@@ -839,7 +839,7 @@ jobs:
       - name: Build and push platform image by digest
         id: build
         # Step-level budget below the job's timeout-minutes backstop; see
-        # docs/CI-TIMEOUT-BUDGETS.md.
+        # docs/legacy/CI-TIMEOUT-BUDGETS.md.
         timeout-minutes: 20
         uses: ./.github/actions/publish-dockerhub
         with:

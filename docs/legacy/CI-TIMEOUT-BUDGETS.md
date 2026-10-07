@@ -51,7 +51,7 @@ Every long step owns an explicit budget, and every budget expires before the
 job's backstop fires.
 
 - **`run:` steps** wrap their command in
-  [`scripts/run-with-budget-warning.sh`](../scripts/run-with-budget-warning.sh):
+  [`scripts/run-with-budget-warning.sh`](../../scripts/run-with-budget-warning.sh):
 
   ```yaml
   - name: Run tests (Node.js)

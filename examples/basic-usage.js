@@ -8,7 +8,7 @@
  * - Deno: deno run examples/basic-usage.js
  */
 
-import { add, multiply, delay } from '../src/index.js';
+import { add, multiply, delay } from '../src/legacy.js';
 
 // Example: Using add function
 console.log('Addition examples:');

@@ -177,11 +177,6 @@ export declare function auditGitHistory(
     maxTotalBytes?: number;
   }
 ): Promise<HistoryAudit>;
-/** Retained template utilities and their CLI remain available. */
-export declare const add: (a: number, b: number) => number;
-export declare const multiply: (a: number, b: number) => number;
-export declare const delay: (ms: number) => Promise<void>;
-
 export type Transformation =
   | { mode: 'redact' | 'hive-mask' }
   | { mode: 'mask'; keepStart?: number; keepEnd?: number }

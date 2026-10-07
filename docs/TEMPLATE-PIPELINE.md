@@ -55,7 +55,7 @@ npm run example:web:build
 npm run example:desktop:package
 
 # Try the CLI locally
-node bin/example-package-name.js add 2 3
+node bin/legacy-example-package-name.js add 2 3
 ```
 
 ## Project Structure
@@ -189,7 +189,7 @@ That cap is a backstop, never the deadline: GitHub reports a job it
 kills as **cancelled**, not **failed**. Long steps therefore own an
 explicit budget via `scripts/run-with-budget-warning.sh`, which warns at
 70% of the budget and fails the step with exit code 124 when it expires.
-See [CI-TIMEOUT-BUDGETS.md](CI-TIMEOUT-BUDGETS.md).
+See [CI-TIMEOUT-BUDGETS.md](legacy/CI-TIMEOUT-BUDGETS.md).
 
 Individual tests are also capped inside supported runners:
 `npm test` runs `node --test --test-timeout=30000`, and the CI Bun
