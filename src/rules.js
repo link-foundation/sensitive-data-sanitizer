@@ -2,6 +2,8 @@
 // Lengths are intentionally conservative: suspicious prefixes are redacted
 // even when a pasted credential is truncated. No online verification occurs.
 export const serviceRules = [
+  ['gitlab-runner', /GR1348941[A-Za-z0-9_-]{16,}/g],
+  ['firebase', /AAAA[A-Za-z0-9_-]{6,}:APA91b[A-Za-z0-9_-]{32,}/g],
   ['github', /(?:github_pat_|gh[pousr]_)[A-Za-z0-9_]{16,}/g],
   [
     'gitlab',
@@ -45,6 +47,19 @@ export const labels = {
     'password',
     'passwd',
     'pwd',
+    'passphrase',
+    'credentials',
+    'api key',
+    'mot de passe',
+    'kata sandi',
+    'mật khẩu',
+    'пароля',
+    'паролем',
+    'паролю',
+    'contraseñas',
+    'senhas',
+    'şifresi',
+    'पासवर्ड है',
     'secret',
     'token',
     'api_key',
@@ -143,6 +158,8 @@ export const labels = {
     'ssn',
     'national_id',
     'tax_id',
+    'inn',
+    'инн',
     'social_security',
     'cpf',
     'aadhaar',

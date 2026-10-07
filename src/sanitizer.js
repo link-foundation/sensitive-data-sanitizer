@@ -2,6 +2,7 @@ import { failure, nativeDetect, REDACTED } from './detection.js';
 import { projectText } from './projection.js';
 import { decodedRuns } from './encoded.js';
 import { URL } from 'node:url';
+import { isPublic } from './public.js';
 
 const publicTypes = new Set(['PERSON', 'ORGANIZATION', 'EMAIL']);
 const optionNames = new Set([
@@ -16,6 +17,7 @@ const optionNames = new Set([
   'debug',
   'detectors',
   'secretlint',
+  'publicKnowledge',
 ]);
 
 function validateCollections(options) {
@@ -86,7 +88,7 @@ export function validateOptions(options = {}) {
   ) {
     throw failure('ERR_CONFIG');
   }
-  for (const key of ['paranoid', 'decode', 'secretlint']) {
+  for (const key of ['paranoid', 'decode', 'secretlint', 'publicKnowledge']) {
     if (options[key] !== undefined && typeof options[key] !== 'boolean') {
       throw failure('ERR_CONFIG');
     }
@@ -231,7 +233,10 @@ export function inspect(text, options = {}) {
   }
   const unique = new Map();
   for (const f of findings) {
-    if (!allowed(text, f, options.publicEntities ?? [])) {
+    if (
+      !allowed(text, f, options.publicEntities ?? []) &&
+      !isPublic(text, f, options)
+    ) {
       unique.set(`${f.start}:${f.end}:${f.category}:${f.type}:${f.rule}`, f);
     }
   }

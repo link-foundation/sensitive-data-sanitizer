@@ -31,6 +31,8 @@ export interface SanitizerOptions {
   knownSecrets?: string[];
   knownPersonal?: PersonalValue[];
   publicEntities?: PublicEntity[];
+  /** Built-in exact public entities/resolvers and role mail on known domains. */
+  publicKnowledge?: boolean;
   findings?: Finding[];
   paranoid?: boolean;
   decode?: boolean;

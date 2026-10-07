@@ -12,3 +12,24 @@
 10. Update PR #2 with reproduction, tests, research, and limitations. List CI runs with timestamps/SHAs, preserve every failing run's logs under `ci-logs/`, analyze errors by line, and recheck after fixes. Review the final PR diff and clean working tree; mark PR ready after all applicable checks pass.
 
 Research started 2026-10-07. GitHub code search is indexed and capped; repository inventory is complete for accessible repositories, while code coverage is explicitly qualified in the study. No comparative superiority claim is made without a reproducible benchmark.
+
+## Review follow-up execution checklist
+
+- [x] Read the complete requirements review, issue, updated description and all comment endpoints; confirm branch and clean starting tree. Latest five CI runs all succeeded for starting SHA `60cdd96` after its commit.
+- [ ] Add every review input to reproducible default-engine regression fixtures; record failures before implementation.
+- [ ] Fix complete credential spans with context-aware quoted, line, query and shell value boundaries.
+- [ ] Expand credential vocabulary, 17-language prose/inflection and known command password flags.
+- [ ] Add default multilingual free-text names, national phones, postal addresses, IBAN, contextual national IDs, MACs, handles and home-path usernames; normalize non-Latin digits with original offsets.
+- [ ] Add evidence-backed built-in public entity/contact/IP knowledge, manual overrides and opt-in verification.
+- [ ] Vendor pinned MIT Gitleaks rules with reproducible sync/provenance; add entropy and missing provider recognizers.
+- [ ] Build a labelled synthetic corpus and run independently pinned Gitleaks, TruffleHog, detect-secrets, Presidio and scrubadub comparisons; publish full-span metrics and iterate on misses.
+- [ ] Implement typed confidence/likelihood and common transforms with keyed deterministic pseudonyms, partial masking, date shifts and bucketing; test disclosure and credential-priority behavior.
+- [ ] Carry over HTML/byte decoding, encoded structure preservation, compatible masking, opt-in local GitHub credentials, bounded streaming/workers, outbound helpers and ESLint boundary rule.
+- [ ] Implement fresh-clone Git-history preview/rewrite including blob/message/identity redaction and post-rewrite audit without remote pushes; retain reproducible disposable-repo tests.
+- [ ] Move template API/bin/docs into explicit legacy namespaces and update affected packaging/example tests.
+- [ ] Extend language-specific fixtures, API/declaration docs, research/coverage tables and release Changeset.
+- [ ] Run all Node/Bun/Deno tests and local CI checks with saved logs; bound stress probes by finite input and heap/stack limits.
+- [ ] Review final diff, merge current default branch, commit atomic passing steps and push only `issue-1-b188f503edf3`.
+- [ ] Rewrite PR #2 description around delivered behavior and measured evidence; check latest-SHA CI timestamps, download/analyze all failures, fix and recheck; mark ready with a clean working tree.
+
+No market-wide or proprietary-model guarantee can be proven from finite tests. The follow-up must deliver concrete functionality and measurements, and distinguish corpus results from universal recall instead of treating documentation alone as delivery.

@@ -1,13 +1,16 @@
 import { isIP } from 'node:net';
-import { serviceRules, labels } from './rules.js';
+import { serviceRules } from './rules.js';
+import { detectContext } from './context.js';
+import { detectPersonal } from './personal.js';
 
 export const REDACTED = '[REDACTED]';
 export const failure = (code = 'ERR_SANITIZATION') =>
   Object.assign(new Error('Sanitization failed; output was blocked.'), {
     code,
   });
-export const escapePattern = (text) =>
-  text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+export function escapePattern(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 export function collectMatches(
   text,
@@ -34,92 +37,6 @@ export function collectMatches(
       end: match.index + offset + value.length,
       ...details,
     });
-  }
-}
-
-function labelled(text, emit) {
-  for (const [kind, words] of Object.entries(labels)) {
-    const alternation = words.map(escapePattern).join('|');
-    const key =
-      kind === 'credential'
-        ? `[\\p{L}\\p{N}_.-]{0,32}(?:${alternation})[\\p{L}\\p{N}_.-]{0,32}`
-        : `(?:${alternation})`;
-    // Handle quotes escaped inside an AI-session JSON string as well as raw
-    // JSON, YAML, env, INI, shell flags and query-string assignments.
-    const prefix = `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(${key})(?:\\\\*["'])?[ \\t]*[:=：](?!>)[ \\t]*`;
-    const quoted = new RegExp(`${prefix}(\\\\*["'])(.*?)(\\2)`, 'giu');
-    const unquoted = new RegExp(
-      `${prefix}(?![\\\\"'{\\[])([^\\s,;&}\\]"'<>]+)`,
-      'giu'
-    );
-    const details = {
-      type: kind === 'credential' ? 'SECRET' : kind,
-      category: kind === 'credential' ? 'credential' : 'personal',
-      rule: kind === 'credential' ? 'context' : 'label',
-    };
-    const accept = (value, match) => {
-      if (value === REDACTED) {
-        return false;
-      }
-      if (kind !== 'credential') {
-        return true;
-      }
-      const keyName = match[1].replace(/[^\p{L}\p{N}]/gu, '').toLowerCase();
-      if (
-        /tokens$|token(?:count|limit|usage|budget)$/.test(keyName) &&
-        /^\d+(?:\.\d+)?$/.test(value)
-      ) {
-        return false;
-      }
-      return !/^(?:true|false|null|undefined|await|async|function|none|nil)$/.test(
-        value
-      );
-    };
-    collectMatches(text, quoted, emit, details, 3, accept);
-    if (kind === 'credential') {
-      collectMatches(text, unquoted, emit, details, 2, accept);
-    }
-    // PII in labelled prose commonly spans multiple words.
-    if (kind !== 'credential') {
-      collectMatches(
-        text,
-        new RegExp(`${prefix}(?![\\\\"'{\\[])([^\\r\\n,;<>]{1,256})`, 'giu'),
-        emit,
-        details,
-        2
-      );
-    }
-    if (kind === 'credential') {
-      collectMatches(
-        text,
-        new RegExp(`<((${key}))[ \\t]*>([^<]+)</\\1[ \\t]*>`, 'giu'),
-        emit,
-        details,
-        3
-      );
-      collectMatches(
-        text,
-        new RegExp(`--(${key})[ \\t]+(?:"([^"]+)"|'([^']+)'|([^\\s]+))`, 'giu'),
-        emit,
-        details,
-        2
-      );
-      // Separate unquoted/single-quoted CLI variants to keep capture offsets exact.
-      collectMatches(
-        text,
-        new RegExp(`--(${key})[ \\t]+(?:'([^']+)'|([^\\s"']+))`, 'giu'),
-        emit,
-        details,
-        2
-      );
-      collectMatches(
-        text,
-        new RegExp(`--(${key})[ \\t]+([^\\s"']+)`, 'giu'),
-        emit,
-        details,
-        2
-      );
-    }
   }
 }
 
@@ -177,7 +94,8 @@ export function nativeDetect(text, options, emit) {
       rule: 'known-personal',
     });
   }
-  labelled(text, emit);
+  detectContext(text, emit);
+  detectPersonal(text, emit);
   collectMatches(
     text,
     /-----BEGIN ([A-Z0-9 ]*PRIVATE KEY)-----[\s\S]*?(?:-----END \1-----|$)/g,
