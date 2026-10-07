@@ -8,7 +8,7 @@ Detection has limits: arbitrary names in prose need an installed NER model or kn
 
 ## Quick Start
 
-Requires Node.js 22 or later. From this checkout:
+Sanitizer APIs require Node.js 22 or later. Browser package resolution retains the original `add`, `multiply` and `delay` arithmetic utilities through a separate entry; the existing universal example uses that entry. From this checkout:
 
 ```sh
 npm ci

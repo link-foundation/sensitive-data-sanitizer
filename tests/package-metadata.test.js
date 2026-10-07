@@ -33,6 +33,28 @@ describe('publishable package metadata', () => {
     expect(existsSync('bin/example-package-name.js')).toBe(true);
   });
 
+  it('supports the retained arithmetic package under browser resolution', () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
+    const result = spawnSync(
+      process.execPath,
+      [
+        '--conditions=browser',
+        '--input-type=module',
+        '--eval',
+        "import * as api from '@link-foundation/sensitive-data-sanitizer'; console.log(JSON.stringify({exports:Object.keys(api).sort(),sum:api.add(2,3),product:api.multiply(6,7)}));",
+      ],
+      { encoding: 'utf8' }
+    );
+    expect(result.status).toBe(0);
+    expect(JSON.parse(result.stdout)).toEqual({
+      exports: ['add', 'delay', 'multiply'],
+      sum: 5,
+      product: 42,
+    });
+  });
+
   it('runs package functions through the CLI command', () => {
     const stdout = [];
     const stderr = [];

@@ -48,7 +48,7 @@ describe('universal React example app', () => {
   it('renders a visual UI using the package add and multiply functions', () => {
     const appSource = readText(appSourcePath);
 
-    expect(appSource).toContain("from '../../../src/index.js'");
+    expect(appSource).toContain("from '../../../src/arithmetic.js'");
     expect(appSource).toContain('add(parsedLeft, parsedRight)');
     expect(appSource).toContain('multiply(parsedLeft, parsedRight)');
     expect(appSource).toContain('Addition');

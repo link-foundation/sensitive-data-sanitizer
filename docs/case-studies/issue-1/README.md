@@ -35,6 +35,7 @@ The template had no detector or sanitization entry point; the first minimum regr
 - Known dictionaries were initially compared to normalized text without applying the same projection to their values. The dictionary regression now passes for literal and obscured values; original matching is retained as well.
 - An empty TruffleHog record could be treated as a clean result, and impossible calendar dates could pass public-policy validation. Both inputs now fail validation, with reproducing tests.
 - The optional Presidio bridge was initially exposed only through the API. CLI flags now select the required local bridge, interpreter, installed model and language; the actual model experiment verifies both entry points.
+- Adding Node scanner imports to the original root entry broke the existing Vite example build (`node:net`'s `isIP` was unavailable in the browser). A browser arithmetic entry and direct example import preserve the template UI. Browser-condition package resolution has a regression test, and the existing web/desktop build workflows verify the actual bundling.
 - The repository's initial security CI failed because Dependency Review reported an unsupported/disabled dependency graph. Logs were downloaded before intervention. Enabling repository vulnerability alerts restored the dependency comparison API; new CI runs verify the result. This was repository configuration, not a sanitizer test failure.
 
 ## Architecture

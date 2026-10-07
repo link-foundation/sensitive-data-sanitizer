@@ -25,6 +25,7 @@
   "exports": {
     ".": {
       "types": "./src/index.d.ts",
+      "browser": "./src/arithmetic.js",
       "import": "./src/index.js"
     }
   },
