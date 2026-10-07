@@ -1,8 +1,24 @@
 import { describe, it, expect } from 'test-anywhere';
 import { sanitize } from '../src/index.js';
 import { nameExamples } from '../src/names.js';
+import { spawnSync } from 'node:child_process';
 
 describe('context-specific complete spans', () => {
+  it('handles a finite hostile whitespace run without polynomial matching', () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
+    const result = spawnSync(
+      'node',
+      [
+        '--max-old-space-size=128',
+        '--stack_size=1024',
+        'experiments/issue-1-prose-boundary.mjs',
+      ],
+      { timeout: 2000, maxBuffer: 4096 }
+    );
+    expect(result.status).toBe(0);
+  });
   for (const [input, expected] of [
     ['password: a b&c,d;e', 'password: [REDACTED]'],
     [

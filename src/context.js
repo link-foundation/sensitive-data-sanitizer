@@ -102,7 +102,7 @@ export function valueRange(text, start, mode = 'token') {
       : mode === 'line'
         ? /[\r\n<>]/
         : mode === 'prose'
-          ? /[\r\n<>]|[ \t]+(?:for the|for my|для|pour|para|für|لـ)(?:[ \t]|$)/iu
+          ? /[\r\n<>]|(?<![ \t])[ \t]+(?:for the|for my|для|pour|para|für|لـ)(?:[ \t]|$)/iu
           : /[\s,;}\]"'<>]/;
   const stop = tail.search(terminator);
   const end = stop < 0 ? text.length : start + stop;
