@@ -52,7 +52,7 @@ export function personalVariants(entries) {
       !entry ||
       typeof entry.value !== 'string' ||
       !entry.value ||
-      !/^[A-Z][A-Z_]{0,63}$/.test(entry.type)
+      !/^[A-Z][A-Z0-9_]{0,63}$/.test(entry.type)
     ) {
       throw failure('ERR_CONFIG');
     }
@@ -72,5 +72,37 @@ export function personalVariants(entries) {
       values.add(`${local[3]}-${local[2]}-${local[1]}`);
     }
     return [...values].map((value) => ({ type: entry.type, value }));
+  });
+}
+
+/** Explicitly load the current local gh credential without logging the value. */
+export async function knownSecretsFromGitHubAuth({
+  command = 'gh',
+  hostname,
+  timeoutMs = 5000,
+} = {}) {
+  const { execFile } = await import('node:child_process');
+  if (
+    typeof command !== 'string' ||
+    !command ||
+    (hostname !== undefined && !/^[a-z0-9.-]+$/i.test(hostname)) ||
+    !Number.isSafeInteger(timeoutMs) ||
+    timeoutMs <= 0
+  ) {
+    throw failure('ERR_CONFIG');
+  }
+  return new Promise((accept, reject) => {
+    execFile(
+      command,
+      ['auth', 'token', ...(hostname ? ['--hostname', hostname] : [])],
+      { timeout: timeoutMs, maxBuffer: 65536, encoding: 'utf8' },
+      (error, stdout) => {
+        if (error || !stdout.trim()) {
+          reject(failure('ERR_AUTH'));
+          return;
+        }
+        accept([stdout.trim()]);
+      }
+    );
   });
 }

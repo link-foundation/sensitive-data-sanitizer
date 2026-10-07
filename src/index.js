@@ -21,3 +21,20 @@ export {
   createTrufflehogDetector,
   createPresidioDetector,
 } from './external.js';
+
+export { entityCatalogs } from './entities.js';
+export {
+  sanitizeStream,
+  sanitizeStreamToFile,
+  sanitizeFileToFile,
+  sanitizeFileBounded,
+} from './stream.js';
+
+export { createWikidataVerifier } from './public-verifier.js';
+export {
+  sanitizePayload,
+  createSentryBeforeSend,
+  createOutboundSanitizer,
+} from './outbound.js';
+export { knownSecretsFromGitHubAuth } from './known.js';
+export { rewriteGitHistory } from './history-rewrite.js';

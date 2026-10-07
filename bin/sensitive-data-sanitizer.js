@@ -11,6 +11,10 @@ import {
   decodeText,
 } from '../src/files.js';
 import { auditGitHistory } from '../src/history.js';
+import { rewriteGitHistory } from '../src/history-rewrite.js';
+import { knownSecretsFromGitHubAuth } from '../src/known.js';
+import { createWikidataVerifier } from '../src/public-verifier.js';
+import { streamCommand } from './stream.js';
 import {
   createGitleaksDetector,
   createTrufflehogDetector,
@@ -22,6 +26,8 @@ const help = `Usage: sensitive-data-sanitizer <redact|scan|history> [path|-] [op
 redact    Sanitize one UTF-8 file or stdin; publish only after verification
 scan      Report metadata for a file, directory, or stdin (never source text)
 history   Audit local reachable Git blobs, commit/tag metadata, and reflogs
+history rewrite SOURCE --output DIRECTORY [--apply]
+          Preview a fresh mirror clone; --apply rewrites only that clone
 
 --config PATH       JSON knownSecrets, knownPersonal, publicEntities, limits
 --output PATH       Write a new private output file atomically (redact only)
@@ -34,23 +40,38 @@ history   Audit local reachable Git blobs, commit/tag metadata, and reflogs
 --python COMMAND    Python executable for the bridge (default python3)
 --model NAME        Installed model passed to the selected bridge
 --language CODE     Model language passed to the selected bridge
+--stream            Process bounded UTF-8 records; files use a bounded worker
+--max-record-bytes N Maximum held record bytes (default 1048576)
+--hive-mask         Opt-in first/last 3 mask for values longer than 12 characters
+--preserve-encoding Re-encode sanitized encoded payloads with round-trip checks
+--gh-auth           Read local gh auth token and mask its exact value
+--verify-public     Opt-in Wikidata name lookup (sends candidate public names)
+--apply             Apply history rewrite to the fresh clone, then audit it
+--filter-repo PATH  git-filter-repo executable for history rewrite
 --max-bytes NUMBER  Input byte limit (default 10485760)
 --help              Show help
 --version           Show package version
 
 Exit codes: 0 successful redact / clean scan; 1 findings; 2 error/incomplete.
 Directory scans omit .git and node_modules. Binary files are reported as
-skipped and produce exit 2. History is read-only and never pushes.`;
+skipped and produce exit 2. History operations never push.`;
 
 function parseArgs(argv) {
   const command = argv[0];
-  const config = { command, path: '-', maxBytes: 10485760 };
+  const rewrite = command === 'history' && argv[1] === 'rewrite';
+  const config = { command, rewrite, path: '-' };
   const boolean = new Map([
     ['--in-place', 'inPlace'],
     ['--native-only', 'nativeOnly'],
     ['--paranoid', 'paranoid'],
     ['--gitleaks', 'gitleaks'],
     ['--trufflehog', 'trufflehog'],
+    ['--stream', 'stream'],
+    ['--hive-mask', 'hiveMask'],
+    ['--preserve-encoding', 'preserveEncoding'],
+    ['--gh-auth', 'ghAuth'],
+    ['--verify-public', 'verifyPublic'],
+    ['--apply', 'apply'],
   ]);
   const valued = new Map([
     ['--config', 'config'],
@@ -60,9 +81,11 @@ function parseArgs(argv) {
     ['--python', 'python'],
     ['--model', 'model'],
     ['--language', 'language'],
+    ['--max-record-bytes', 'maxRecordBytes'],
+    ['--filter-repo', 'filterRepo'],
   ]);
   let hasPath = false;
-  for (let i = 1; i < argv.length; i++) {
+  for (let i = rewrite ? 2 : 1; i < argv.length; i++) {
     const arg = argv[i];
     if (boolean.has(arg)) {
       config[boolean.get(arg)] = true;
@@ -83,7 +106,7 @@ function parseArgs(argv) {
 }
 
 function validateArgs(config) {
-  config.maxBytes = Number(config.maxBytes);
+  config.maxBytes = Number(config.maxBytes ?? defaultByteLimit(config));
   if (
     !['redact', 'scan', 'history'].includes(config.command) ||
     !Number.isSafeInteger(config.maxBytes) ||
@@ -93,14 +116,31 @@ function validateArgs(config) {
   }
   if (
     (config.output && config.inPlace) ||
-    ((config.output || config.inPlace) && config.command !== 'redact') ||
+    ((config.output || config.inPlace) &&
+      config.command !== 'redact' &&
+      !config.rewrite) ||
     (config.inPlace && config.path === '-') ||
     (config.command === 'history' && config.path === '-')
   ) {
     throw failure('ERR_ARGUMENT');
   }
+  validateFeatureArgs(config);
   validateOutput(config);
   validateBridge(config);
+}
+
+function validateFeatureArgs(config) {
+  config.maxRecordBytes = Number(config.maxRecordBytes ?? 1048576);
+  if (
+    !Number.isSafeInteger(config.maxRecordBytes) ||
+    config.maxRecordBytes <= 0 ||
+    (config.stream && config.command !== 'redact') ||
+    ((config.apply || config.filterRepo) && !config.rewrite) ||
+    (config.rewrite &&
+      (!config.output || config.inPlace || config.path === '-'))
+  ) {
+    throw failure('ERR_ARGUMENT');
+  }
 }
 
 function validateBridge(config) {
@@ -153,10 +193,14 @@ export async function runCli(
       return 0;
     }
     const config = parseArgs(argv);
-    const engine = createSanitizer(await loadOptions(config));
+    const options = await loadOptions(config);
+    const engine = createSanitizer(options);
     const context = { stdin, stdout };
     if (config.command === 'history') {
       return await historyCommand(config, engine, context);
+    }
+    if (config.stream) {
+      return await streamCommand(config, engine, options, context);
     }
     if (config.command === 'redact') {
       return await redactCommand(config, engine, context);
@@ -188,12 +232,31 @@ async function loadOptions(config) {
   if (config.paranoid) {
     options.paranoid = true;
   }
+  await featureOptions(config, options);
   options.detectors = selectedDetectors(config, options.detectors);
   options.maxInputLength = Math.min(
     options.maxInputLength ?? config.maxBytes,
     config.maxBytes
   );
   return options;
+}
+
+async function featureOptions(config, options) {
+  if (config.hiveMask) {
+    options.transformation = { mode: 'hive-mask' };
+  }
+  if (config.preserveEncoding) {
+    options.preserveEncoding = true;
+  }
+  if (config.ghAuth) {
+    options.knownSecrets = [
+      ...(options.knownSecrets ?? []),
+      ...(await knownSecretsFromGitHubAuth()),
+    ];
+  }
+  if (config.verifyPublic) {
+    options.verifyPublic = createWikidataVerifier();
+  }
 }
 
 function selectedDetectors(config, detectors = []) {
@@ -244,6 +307,16 @@ async function redactCommand(config, engine, { stdin, stdout }) {
 }
 
 async function historyCommand(config, engine, { stdout }) {
+  if (config.rewrite) {
+    const result = await rewriteGitHistory(config.path, config.output, {
+      sanitizer: engine,
+      apply: Boolean(config.apply),
+      filterRepoCommand: config.filterRepo ?? 'git-filter-repo',
+      maxBytes: config.maxBytes,
+    });
+    stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+    return 0;
+  }
   const result = await auditGitHistory(config.path, {
     sanitizer: engine,
     maxBytes: config.maxBytes,
@@ -282,4 +355,8 @@ if (
   realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))
 ) {
   process.exitCode = await runCli(process.argv.slice(2));
+}
+
+function defaultByteLimit(config) {
+  return config.stream ? 1073741824 : 10485760;
 }

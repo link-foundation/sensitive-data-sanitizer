@@ -53,3 +53,55 @@ Callbacks, policies, binaries, model packages, and their rule identifiers are tr
 For [Google findings](https://docs.cloud.google.com/java/docs/reference/google-cloud-dlp/latest/com.google.privacy.dlp.v2.Location), convert `location.byteRange` numeric strings to numbers and use `unit: 'byte'`; map infoTypes to appropriate category/type. Use only a report for the exact single text item, not offsets relative to a table cell. For [Azure](https://learn.microsoft.com/en-us/rest/api/language/analyze-text/analyze-text/analyze-text?view=rest-language-analyze-text-2026-05-01), request `stringIndexType: 'Utf16CodeUnit'` and use `offset` through `offset + length` with `unit: 'utf16'`. AWS's [PII entity documentation](https://docs.aws.amazon.com/comprehend/latest/APIReference/API_PiiEntity.html) describes character offsets; establish non-ASCII/end-boundary behavior for the SDK/report version before choosing an explicit unit. There is no guessed cloud offset default.
 
 The native package does not send text to these services. An application that chooses remote detection controls its own consent, regions, credentials, and retention.
+
+## Transformations and confidence
+
+Findings also carry `confidence` (0–1) and `likelihood` (`VERY_UNLIKELY` through `VERY_LIKELY`). Native scores describe rule strength; they are not probabilities calibrated across engines. External detectors can supply their own validated scores.
+
+Full redaction remains the default. `transformation` selects a global mode; `transformations` maps finding types to overrides. Credentials always receive full redaction except when the caller explicitly chooses `hive-mask`:
+
+| Mode                | Configuration and behavior                                                                                             |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `redact`            | Complete `[REDACTED]` replacement                                                                                      |
+| `hive-mask`         | First/last three Unicode characters with `…` for values longer than 12; shorter values remain opaque                   |
+| `mask`              | Personal data only; `keepStart`/`keepEnd` reveal a bounded prefix/suffix and mask the rest                             |
+| `pseudonym`         | Personal data only; keyed HMAC-SHA256, type-separated deterministic opaque identifier                                  |
+| `format-preserving` | Personal data only; keyed deterministic character-class pseudonym, preserving punctuation and ASCII letter/digit shape |
+| `date-shift`        | Personal ISO dates; finite integer `days`, UTC calendar arithmetic; invalid dates become opaque                        |
+| `bucket`            | Personal safe integers; positive integer `size`, inclusive numeric interval                                            |
+
+Both keyed modes require a key of at least 16 UTF-8 bytes. `format-preserving` is a non-reversible shape pseudonym, not NIST FF1 encryption; it does not preserve checksum validity, country-specific alphabets or guarantee uniqueness. Partial masks, date shifts and buckets intentionally retain information. Keep pseudonym keys outside logs. Residual verification checks the corresponding fully redacted representation; opted-in disclosures can remain recognizable in the transformed output. Use default redaction for publication that requires opaque output.
+
+`preserveEncoding: true` sanitizes decoded payloads with the same required engine union, re-encodes them and verifies decoding reproduces the sanitized content. Supported formats include base64/base64url, hex, percent, numeric HTML and UTF-8 byte escapes. Escaped JSON string content is sanitized and re-encoded even under default redaction so nested session JSON stays parseable. Malformed or unsupported encodings block opted-in preservation. Known encoding candidates and nesting are bounded.
+
+## Streaming and worker publication
+
+`sanitizeStream(source, options)` accepts iterable UTF-8 bytes/strings and yields sanitized records. It holds incomplete lines, quoted multiline values, PEM blocks and wrapped base64 groups across chunks. Defaults: 1 MiB held record, 256 KiB batch and 1 GiB total input. A record exceeding `maxRecordBytes` fails; raising the total limit does not raise the record limit. The generator may have yielded earlier verified records when a later record fails. Use `sanitizeStreamToFile` for atomic publication of the whole stream.
+
+`sanitizeFileToFile` rejects source symlinks and writes private temporary output, publishing only after complete verification. `sanitizeFileBounded` additionally uses a worker with a 256 MiB old-generation heap, 4 MiB stack and 60-second deadline; `workerHeapMb` and `workerTimeoutMs` are configurable. Worker failure removes its private staging directory before returning. Limits bound package work, not arbitrary external detectors. Callbacks supplied through `sanitizer` run in process; set `worker: false` explicitly to disable isolation. Pass serializable options through `sanitizerOptions` for workers. Memory limits do not include all native/WASM allocation.
+
+```js
+import { sanitizeFileBounded } from '@link-foundation/sensitive-data-sanitizer';
+await sanitizeFileBounded('session.jsonl', 'session.safe.jsonl', {
+  maxTotalBytes: 1024 * 1024 * 1024,
+  maxRecordBytes: 1024 * 1024,
+});
+```
+
+The CLI supports `redact FILE --stream --output NEWFILE` and stdin streaming. Stdout uses a private spool and receives nothing until the entire scan succeeds. `--max-record-bytes` controls held records; `--max-bytes` defaults to 1 GiB with `--stream`. `--hive-mask`, `--preserve-encoding` and `--gh-auth` are explicit opt-ins.
+
+## Public verification and publication helpers
+
+Built-in Wikidata names/organizations, resolver/documentation IPs and role emails on known organization domains are enabled by default; `publicKnowledge: false` disables those heuristics. `knownPersonal` forces private treatment. `publicEntities` remains an audited exact override; credentials always outrank exemptions.
+
+`createWikidataVerifier(options)` provides optional asynchronous `verifyPublic`; the CLI enables it only with `--verify-public`. It sends eligible PERSON/ORGANIZATION names to Wikidata, requires an exact label and a public-role description, caches bounded results, and blocks output on network failure. Name collisions remain possible: this is a public-name heuristic, not proof of a person's identity. Explicit private literals and sensitive relationship contexts prevent automatic exemptions. Offline mode makes no network requests.
+
+`knownSecretsFromGitHubAuth({command, hostname, timeoutMs})` explicitly invokes local `gh auth token` and returns its nonempty exact value without diagnostics. It is never called automatically; failed authentication blocks opted-in scans. `knownSecretsFromEnv` remains separate and reads only explicitly selected environment variables.
+
+`sanitizePayload(payload, {sanitizer})` sanitizes JSON payload values with the required union while retaining JSON structure. `createSentryBeforeSend(options)` returns a Sentry hook that drops the event (`null`) if sanitization fails. `createOutboundSanitizer(send, options)` calls the supplied transport only after successful sanitization. These helpers do not send data themselves.
+
+The optional ESLint plugin exports `require-sanitized-output` from the package's `eslint-plugin` subpath. It checks configured outbound sinks and common GitHub CLI body/title arguments, including `--body-file`, templates and argv arrays. Configure `sinks` and `sanitizers` for your application. It is a conservative syntactic aid, not a complete data-flow proof; runtime verification remains required.
+
+## Native documented entity catalogs
+
+`entityCatalogs` exposes source URLs, source-page SHA256 and documented names for Google (213), Azure (176) and AWS (36). Their canonical uppercase underscore labels are recognized natively, with complete value spans, independent of cloud services. The package also implements selected automatic formats and checksum algorithms. Catalog vocabulary support does not reproduce proprietary NER, image/document inspection, regional identity validators, cloud risk analysis or their accuracy. See the coverage table for that distinction.

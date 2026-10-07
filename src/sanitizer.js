@@ -1,8 +1,9 @@
-import { failure, nativeDetect, REDACTED } from './detection.js';
+import { failure, nativeDetect } from './detection.js';
 import { projectText } from './projection.js';
-import { decodedRuns } from './encoded.js';
+import { decodedRuns, encodeRun, encodedValue } from './encoded.js';
 import { URL } from 'node:url';
 import { isPublic } from './public.js';
+import { validateTransforms, renderReplacement } from './transforms.js';
 
 const publicTypes = new Set(['PERSON', 'ORGANIZATION', 'EMAIL']);
 const optionNames = new Set([
@@ -18,6 +19,10 @@ const optionNames = new Set([
   'detectors',
   'secretlint',
   'publicKnowledge',
+  'transformation',
+  'transformations',
+  'preserveEncoding',
+  'verifyPublic',
 ]);
 
 function validateCollections(options) {
@@ -49,7 +54,7 @@ function validateCollections(options) {
   }
 }
 
-function validatePublic(entry) {
+export function validatePublic(entry) {
   if (
     !entry ||
     !publicTypes.has(entry.type) ||
@@ -93,7 +98,14 @@ export function validateOptions(options = {}) {
       throw failure('ERR_CONFIG');
     }
   }
+  if (
+    options.verifyPublic !== undefined &&
+    typeof options.verifyPublic !== 'function'
+  ) {
+    throw failure('ERR_CONFIG');
+  }
   validateCollections(options);
+  validateTransforms(options);
   validateLimits(options);
   for (const entry of options.publicEntities ?? []) {
     validatePublic(entry);
@@ -102,7 +114,7 @@ export function validateOptions(options = {}) {
 }
 
 function validType(value) {
-  return typeof value === 'string' && /^[A-Z][A-Z_]{0,63}$/.test(value);
+  return typeof value === 'string' && /^[A-Z][A-Z0-9_]{0,63}$/.test(value);
 }
 
 export function validateInput(text, options) {
@@ -135,7 +147,42 @@ export function sanitizeFinding(finding, length) {
     type: finding.type,
     category: finding.category,
     rule: finding.rule,
+    confidence: validConfidence(finding),
+    likelihood: finding.likelihood ?? likelihood(validConfidence(finding)),
   };
+}
+
+function validConfidence(finding) {
+  const confidence =
+    finding.confidence ?? (finding.category === 'credential' ? 0.95 : 0.85);
+  if (
+    typeof confidence !== 'number' ||
+    !Number.isFinite(confidence) ||
+    confidence < 0 ||
+    confidence > 1 ||
+    (finding.likelihood &&
+      ![
+        'VERY_UNLIKELY',
+        'UNLIKELY',
+        'POSSIBLE',
+        'LIKELY',
+        'VERY_LIKELY',
+      ].includes(finding.likelihood))
+  ) {
+    throw failure('ERR_FINDING');
+  }
+  return confidence;
+}
+function likelihood(confidence) {
+  return confidence >= 0.9
+    ? 'VERY_LIKELY'
+    : confidence >= 0.7
+      ? 'LIKELY'
+      : confidence >= 0.4
+        ? 'POSSIBLE'
+        : confidence >= 0.2
+          ? 'UNLIKELY'
+          : 'VERY_UNLIKELY';
 }
 
 function allowed(text, finding, policy) {
@@ -251,7 +298,7 @@ export function inspect(text, options = {}) {
   return result;
 }
 
-export function redactResult(text, findings, options = {}) {
+function validatedSpans(text, findings, options) {
   validateOptions(options);
   validateInput(text, options);
   if (
@@ -268,18 +315,75 @@ export function redactResult(text, findings, options = {}) {
     const last = spans.at(-1);
     if (last && f.start < last.end) {
       last.end = Math.max(last.end, f.end);
+      if (f.category === 'credential') {
+        last.category = 'credential';
+      }
+      if (f.type === 'ENCODED_SENSITIVE') {
+        last.type = f.type;
+      }
     } else {
-      spans.push({ start: f.start, end: f.end });
+      spans.push({ ...f });
     }
   }
+  return spans;
+}
+export function redactResult(
+  text,
+  findings,
+  options = {},
+  replacements = new Map()
+) {
+  const spans = validatedSpans(text, findings, options);
   const parts = [];
   let cursor = 0;
   for (const span of spans) {
-    parts.push(text.slice(cursor, span.start), REDACTED);
+    parts.push(
+      text.slice(cursor, span.start),
+      replacements.get(`${span.start}:${span.end}`) ??
+        renderReplacement(text, span, options, (decoded) =>
+          sanitize(decoded, {
+            ...options,
+            findings: [],
+            preserveEncoding: true,
+          })
+        )
+    );
     cursor = span.end;
   }
   parts.push(text.slice(cursor));
   return { text: parts.join(''), redactions: spans.length };
+}
+
+export async function redactResultAsync(
+  text,
+  findings,
+  options,
+  sanitizeDecoded
+) {
+  const replacements = new Map();
+  {
+    for (const span of validatedSpans(text, findings, options)) {
+      if (span.type !== 'ENCODED_SENSITIVE') {
+        continue;
+      }
+      const run = encodedValue(text.slice(span.start, span.end));
+      if (!run) {
+        if (options.preserveEncoding) {
+          throw failure('ERR_ENCODING');
+        }
+        continue;
+      }
+      if (!options.preserveEncoding && run.encoding !== 'json-content') {
+        continue;
+      }
+      const result = await sanitizeDecoded(run.text);
+      replacements.set(
+        `${span.start}:${span.end}`,
+        encodeRun(run, result.text)
+      );
+    }
+  }
+  return redactResult(text, findings, options, replacements);
 }
 
 export function redact(text, findings, options = {}) {
@@ -289,7 +393,12 @@ export function redact(text, findings, options = {}) {
 export function sanitize(text, options = {}) {
   const findings = inspect(text, options);
   const result = redactResult(text, findings, options);
-  const sanitized = result.text;
+  const sanitized = redactResult(text, findings, {
+    ...options,
+    transformation: undefined,
+    transformations: undefined,
+    preserveEncoding: false,
+  }).text;
   if (inspect(sanitized, { ...options, findings: [] }).length) {
     throw failure('ERR_RESIDUAL');
   }

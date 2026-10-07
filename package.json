@@ -27,6 +27,10 @@
       "types": "./src/index.d.ts",
       "browser": "./src/arithmetic.js",
       "import": "./src/index.js"
+    },
+    "./eslint-plugin": {
+      "types": "./src/eslint-plugin.d.ts",
+      "import": "./src/eslint-plugin.js"
     }
   },
   "scripts": {

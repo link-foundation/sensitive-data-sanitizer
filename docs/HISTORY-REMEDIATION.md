@@ -26,3 +26,16 @@ Exit 1 means findings; exit 2 means incomplete analysis or failure. Trees are tr
 8. Have the repository owner review the actual rewritten refs, then coordinate publication and collaborator recloning. GitHub branch protections, PR references, caches, forks, Actions artifacts and other clones may require separate cleanup. Follow [GitHub's sensitive-data removal guide](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository), including Support assistance where applicable. Do not issue an unreviewed blanket force push.
 
 The automated regression creates a repository with a credential-bearing file, commits its deletion, and confirms the audit still finds the old blob and author email while leaving refs unchanged. It tests local discovery, not destructive rewriting or remote erasure.
+
+## Automated clone-only preview and rewrite
+
+`history rewrite SOURCE --output NEW_DIRECTORY` creates a new private mirror clone with `--no-local`, audits reachable objects and reflogs, and writes private `replace-text.txt`, `mailmap`, `replacements.json` and callback files for review. The original repository is unchanged. These preview files contain original private values: keep the directory private and remove it after review. The clone's origin remote is removed; no operation pushes.
+
+Add `--apply` to rewrite only the fresh clone using locally installed `git-filter-repo` (tested with 2.47.0). Use `--filter-repo PATH` to select its executable. Exact original-object callbacks sanitize complete blob contents, commit/tag messages, author/committer/tagger identities, filenames and refnames. They avoid replacement-file newline/regex ambiguity. Path/ref collisions fail rather than dropping objects. After filtering, the command audits again, checks names and refs, runs `git fsck --full`, removes private plans and writes a metadata-only manifest. An incomplete audit, binary object, remaining finding or missing tool fails and removes the new directory. A pre-existing destination is never reused or deleted.
+
+```sh
+sensitive-data-sanitizer history rewrite ./repository --output ./private-preview
+sensitive-data-sanitizer history rewrite ./repository --output ./private-rewritten --apply
+```
+
+The library exports `rewriteGitHistory(source, destination, options)` with `apply: false` by default and the same audit limits. A rewritten history changes object IDs and invalidates signatures. Review the clone before any separate repository replacement or remote push. Rotate affected credentials; deleting history cannot revoke a leaked secret or clean other clones. The disposable integration experiment in `experiments/history-rewrite-integration.mjs` verifies deleted blobs, messages, identities, paths and tags with the actual rewrite tool.

@@ -59,7 +59,7 @@ function emitValue(text, start, end, emit, details, keyName = '') {
     return;
   }
   if (
-    /tokens$|token(?:count|limit|usage|budget)$/.test(
+    /tokens$|token(?:count|limit|usage|budget)$|(?:password|passphrase)(?:length|count|size)$/.test(
       keyName.replace(/[^\p{L}\p{N}]/gu, '').toLowerCase()
     ) &&
     /^\d+(?:\.\d+)?$/.test(value)
@@ -69,7 +69,7 @@ function emitValue(text, start, end, emit, details, keyName = '') {
   emit({ start, end, ...details });
 }
 
-// An opening quote may itself be escaped inside an outer AI-session string.
+// Opening quotes support the escape depth of an outer AI-session string.
 // Only a quote at the same escape depth closes it; embedded quotes belong to
 // the value. Offsets cover escape bytes as well as the decoded characters.
 export function valueRange(text, start, mode = 'token') {
@@ -105,7 +105,42 @@ export function valueRange(text, start, mode = 'token') {
           ? /[\r\n<>]|[ \t]+(?:for the|for my|для|pour|para|für|لـ)(?:[ \t]|$)/iu
           : /[\s,;}\]"'<>]/;
   const stop = tail.search(terminator);
-  return { start, end: stop < 0 ? text.length : start + stop };
+  const end = stop < 0 ? text.length : start + stop;
+  return { start, end: Math.min(end, outerQuoteEnd(text, start) ?? end) };
+}
+
+// Prose labels inside JSON strings stop at the enclosing quote.
+function outerQuoteEnd(text, start) {
+  let opening = start - 1;
+  while (opening >= Math.max(0, start - 8192)) {
+    opening = text.lastIndexOf('"', opening);
+    if (opening < 0) {
+      return undefined;
+    }
+    if (backslashes(text, opening) % 2 === 0) {
+      break;
+    }
+    opening--;
+  }
+  if (
+    opening < 0 ||
+    !/:\s*$/.test(text.slice(Math.max(0, opening - 8), opening))
+  ) {
+    return undefined;
+  }
+  for (let i = start; i < text.length; i++) {
+    if (text[i] === '"' && backslashes(text, i) % 2 === 0) {
+      return i;
+    }
+  }
+  return undefined;
+}
+function backslashes(text, index) {
+  let count = 0;
+  while (index > 0 && text[--index] === '\\') {
+    count++;
+  }
+  return count;
 }
 
 function detectCredentials(text, emit) {
@@ -150,7 +185,7 @@ function detectPersonalLabels(text, emit) {
     const separator =
       type === 'ID'
         ? `(?:[:=：]|(?:${verbs})(?![\\p{L}\\p{N}_]))?[ \\t]+|[:=：][ \\t]*`
-        : `[:=：][ \\t]*`;
+        : `(?:[:=：]|(?:${verbs})(?![\\p{L}\\p{N}_]))[ \\t]*`;
     const prefix = new RegExp(
       `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(?:${words.map(escapePattern).join('|')})(?:\\\\*["'])?[ \\t]*(?:${separator})`,
       'giu'
@@ -176,7 +211,7 @@ function detectCommandPasswords(text, emit) {
   };
   // Scope short flags to programs whose documentation assigns that meaning.
   // mysql -P and psql -p are port numbers and deliberately excluded.
-  for (const line of text.matchAll(/[^\r\n]+/g)) {
+  for (const line of text.matchAll(/[^\r\n;|&]+/g)) {
     const command = line[0];
     let flag;
     if (/(?:^|[\s/])(?:mysql|mariadb|sshpass)(?:\s|$)/.test(command)) {

@@ -6,6 +6,14 @@ export interface Finding {
   category: Category;
   type: string;
   rule: string;
+  /** Detector confidence, not a cross-engine probability calibration. */
+  confidence?: number;
+  likelihood?:
+    | 'VERY_UNLIKELY'
+    | 'UNLIKELY'
+    | 'POSSIBLE'
+    | 'LIKELY'
+    | 'VERY_LIKELY';
   /** One-based line and UTF-16 column, populated by inspect. */
   line?: number;
   column?: number;
@@ -34,6 +42,15 @@ export interface SanitizerOptions {
   /** Built-in exact public entities/resolvers and role mail on known domains. */
   publicKnowledge?: boolean;
   findings?: Finding[];
+  transformation?: Transformation;
+  transformations?: Record<string, Transformation>;
+  preserveEncoding?: boolean;
+  /** Explicit network/callback verification; credentials never qualify. */
+  verifyPublic?: (candidate: {
+    type: PublicEntity['type'];
+    value: string;
+  }) => Promise<PublicEntity | undefined>;
+
   paranoid?: boolean;
   decode?: boolean;
   maxInputLength?: number;
@@ -164,3 +181,92 @@ export declare function auditGitHistory(
 export declare const add: (a: number, b: number) => number;
 export declare const multiply: (a: number, b: number) => number;
 export declare const delay: (ms: number) => Promise<void>;
+
+export type Transformation =
+  | { mode: 'redact' | 'hive-mask' }
+  | { mode: 'mask'; keepStart?: number; keepEnd?: number }
+  | { mode: 'pseudonym' | 'format-preserving'; key: string }
+  | { mode: 'date-shift'; days: number }
+  | { mode: 'bucket'; size: number };
+export interface StreamOptions extends SanitizerOptions {
+  sanitizerOptions?: SanitizerOptions;
+  sanitizer?: Sanitizer;
+  maxRecordBytes?: number;
+  batchBytes?: number;
+  maxTotalBytes?: number;
+  worker?: boolean;
+  workerHeapMb?: number;
+  workerTimeoutMs?: number;
+  replace?: boolean;
+}
+export declare function sanitizeStream(
+  source: AsyncIterable<string | Uint8Array> | Iterable<string | Uint8Array>,
+  options?: StreamOptions
+): AsyncGenerator<string>;
+export declare function sanitizeStreamToFile(
+  source: AsyncIterable<string | Uint8Array> | Iterable<string | Uint8Array>,
+  path: string,
+  options?: StreamOptions
+): Promise<{ outputBytes: number }>;
+export declare function sanitizeFileToFile(
+  source: string,
+  target: string,
+  options?: StreamOptions
+): Promise<{ inputBytes: number; outputBytes: number }>;
+export declare function sanitizeFileBounded(
+  source: string,
+  target: string,
+  options?: StreamOptions
+): Promise<{ inputBytes: number; outputBytes: number }>;
+export declare const entityCatalogs: Record<
+  'google' | 'azure' | 'aws',
+  { source: string; sha256: string; names: string[] }
+>;
+export declare function createWikidataVerifier(options?: {
+  fetch?: typeof fetch;
+  language?: string;
+  timeoutMs?: number;
+  maxEntries?: number;
+}): NonNullable<SanitizerOptions['verifyPublic']>;
+export declare function knownSecretsFromGitHubAuth(options?: {
+  command?: string;
+  hostname?: string;
+  timeoutMs?: number;
+}): Promise<string[]>;
+export interface OutboundOptions {
+  sanitizer?: Pick<Sanitizer, 'sanitize'>;
+  sanitizerOptions?: SanitizerOptions;
+}
+export declare function sanitizePayload<T>(
+  value: T,
+  options?: OutboundOptions
+): Promise<T>;
+export declare function createSentryBeforeSend<T>(
+  options?: OutboundOptions
+): (event: T) => Promise<T | null>;
+export declare function createOutboundSanitizer<T, R>(
+  publish: (payload: T) => R | Promise<R>,
+  options?: OutboundOptions
+): (payload: T) => Promise<R>;
+export interface HistoryRewrite {
+  applied: boolean;
+  repository: string;
+  before: HistoryAudit;
+  after?: HistoryAudit;
+  changedPaths: number;
+  changedRefs: number;
+}
+export declare function rewriteGitHistory(
+  source: string,
+  destination: string,
+  options?: {
+    apply?: boolean;
+    sanitizer?: Sanitizer;
+    sanitizerOptions?: SanitizerOptions;
+    filterRepoCommand?: string;
+    maxPaths?: number;
+    maxObjects?: number;
+    maxBytes?: number;
+    maxTotalBytes?: number;
+  }
+): Promise<HistoryRewrite>;

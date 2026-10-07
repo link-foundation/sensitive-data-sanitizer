@@ -1,9 +1,10 @@
 import {
   inspect,
-  redactResult,
+  redactResultAsync,
   validateOptions,
   validateInput,
   sanitizeFinding,
+  validatePublic,
 } from './sanitizer.js';
 import { failure } from './detection.js';
 import { projectText } from './projection.js';
@@ -122,19 +123,93 @@ export function createSanitizer(options = {}) {
       }
       await engineFindings(engine, projection, options, emit);
     }
-    return inspect(text, { ...options, findings });
+    const detected = inspect(text, { ...options, findings });
+    return options.verifyPublic
+      ? verifyFindings(text, detected, options.verifyPublic)
+      : detected;
   }
+
   return {
     inspect: analyze,
-    async sanitize(text) {
-      const findings = await analyze(text);
-      const result = redactResult(text, findings, options);
-      const sanitized = result.text;
-      // Verification at the publication boundary runs every enabled engine.
-      if ((await analyze(sanitized, [])).length) {
-        throw failure('ERR_RESIDUAL');
-      }
-      return { ...result, findings };
-    },
+    sanitize: sanitizeText,
   };
+  async function sanitizeText(text, depth = 0, fullRedaction = false) {
+    const findings = await analyze(text);
+    const fullOptions = {
+      ...options,
+      transformation: undefined,
+      transformations: undefined,
+      preserveEncoding: false,
+    };
+    const result = await redactResultAsync(
+      text,
+      findings,
+      fullRedaction ? fullOptions : options,
+      (decoded) =>
+        depth < 2
+          ? sanitizeText(decoded, depth + 1, fullRedaction)
+          : Promise.resolve({ text: '[REDACTED]' })
+    );
+    const sanitized = fullRedaction
+      ? result.text
+      : (
+          await redactResultAsync(text, findings, fullOptions, (decoded) =>
+            depth < 2
+              ? sanitizeText(decoded, depth + 1, true)
+              : Promise.resolve({ text: '[REDACTED]' })
+          )
+        ).text;
+    // Verification at the publication boundary runs every enabled engine.
+    if ((await analyze(sanitized, [])).length) {
+      throw failure('ERR_RESIDUAL');
+    }
+    return { ...result, findings };
+  }
+}
+
+function eligiblePublic(text, finding, findings) {
+  return (
+    finding.category !== 'credential' &&
+    finding.rule !== 'known-personal' &&
+    ['PERSON', 'ORGANIZATION', 'EMAIL'].includes(finding.type) &&
+    !findings.some(
+      (f) =>
+        f.category === 'credential' &&
+        f.start < finding.end &&
+        f.end > finding.start
+    ) &&
+    !/(?:patient|customer|employee|my name|пациент|клиент)\s*[:=]?\s*$/iu.test(
+      text.slice(Math.max(0, finding.start - 64), finding.start)
+    )
+  );
+}
+async function verifyFindings(text, findings, verifier) {
+  const retained = [];
+  for (const finding of findings) {
+    if (!eligiblePublic(text, finding, findings)) {
+      retained.push(finding);
+      continue;
+    }
+    let verified;
+    try {
+      verified = await verifier({
+        type: finding.type,
+        value: text.slice(finding.start, finding.end),
+      });
+    } catch {
+      throw failure('ERR_PUBLIC_VERIFICATION');
+    }
+    if (!verified) {
+      retained.push(finding);
+      continue;
+    }
+    validatePublic(verified);
+    if (
+      verified.type !== finding.type ||
+      verified.value !== text.slice(finding.start, finding.end)
+    ) {
+      throw failure('ERR_PUBLIC_VERIFICATION');
+    }
+  }
+  return retained;
 }

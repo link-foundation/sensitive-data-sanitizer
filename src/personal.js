@@ -1,5 +1,7 @@
 import { collectMatches, escapePattern } from './detection.js';
 import { firstNames } from './names.js';
+import { labels } from './rules.js';
+const labelWords = new Set(Object.values(labels).flat());
 
 const details = (type, rule, confidence = 0.85) => ({
   type,
@@ -77,7 +79,9 @@ export function detectPersonal(text, emit) {
       text,
       pattern,
       emit,
-      details('PERSON', 'name-gazetteer', 0.7)
+      details('PERSON', 'name-gazetteer', 0.7),
+      0,
+      (value) => !labelWords.has(value)
     );
   }
   collectMatches(

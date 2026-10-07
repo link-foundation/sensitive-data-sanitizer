@@ -1,3 +1,5 @@
+import { localeVocabulary, personalFieldTypes } from './locales.js';
+
 // Supplemental formats, independently maintained from upstream Secretlint.
 // Lengths are intentionally conservative: suspicious prefixes are redacted
 // even when a pasted credential is truncated. No online verification occurs.
@@ -173,3 +175,14 @@ export const labels = {
     'جواز السفر',
   ],
 };
+
+for (const [, credential, ...fields] of localeVocabulary) {
+  labels.credential.push(credential);
+  fields.forEach((word, i) => {
+    labels[personalFieldTypes[i]] ??= [];
+    labels[personalFieldTypes[i]].push(word);
+  });
+}
+for (const [type, words] of Object.entries(labels)) {
+  labels[type] = [...new Set(words)].sort((a, b) => b.length - a.length);
+}
