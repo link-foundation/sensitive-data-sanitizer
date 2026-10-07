@@ -186,7 +186,11 @@ function likelihood(confidence) {
 }
 
 function allowed(text, finding, policy) {
-  if (finding.category === 'credential' || !publicTypes.has(finding.type)) {
+  if (
+    finding.category === 'credential' ||
+    finding.rule === 'known-personal' ||
+    !publicTypes.has(finding.type)
+  ) {
     return false;
   }
   const value = text.slice(finding.start, finding.end).normalize('NFC');

@@ -174,7 +174,7 @@ function eligiblePublic(text, finding, findings) {
     ['PERSON', 'ORGANIZATION', 'EMAIL'].includes(finding.type) &&
     !findings.some(
       (f) =>
-        f.category === 'credential' &&
+        (f.category === 'credential' || f.rule === 'known-personal') &&
         f.start < finding.end &&
         f.end > finding.start
     ) &&

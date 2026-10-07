@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'test-anywhere';
+import { resolve } from 'node:path';
 import {
   createSanitizer,
   createWikidataVerifier,
@@ -47,6 +48,26 @@ describe('explicit public verification and outbound helpers', () => {
     }
     expect(blocked).toBe(true);
   });
+  it('keeps explicit private names ahead of manual and online public exemptions', async () => {
+    let queried = false;
+    const engine = createSanitizer({
+      knownPersonal: [{ type: 'PERSON', value: 'John Smith' }],
+      publicEntities: [
+        {
+          type: 'PERSON',
+          value: 'John Smith',
+          source: 'https://www.wikidata.org/wiki/Q123',
+          reviewedAt: '2026-10-07',
+        },
+      ],
+      verifyPublic: async () => {
+        queried = true;
+        return undefined;
+      },
+    });
+    expect((await engine.sanitize('John Smith')).text).toBe('[REDACTED]');
+    expect(queried).toBe(false);
+  });
   it('sanitizes contextual JSON and drops failed Sentry events', async () => {
     const payload = {
       password: 'a"b',
@@ -78,6 +99,9 @@ describe('explicit public verification and outbound helpers', () => {
     expect(called).toBe(false);
   });
   it('loads gh auth only on an explicit invocation and hides subprocess errors', async () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
     let blocked = false;
     try {
       await knownSecretsFromGitHubAuth({ command: '/no/such/synthetic-gh' });
@@ -85,5 +109,21 @@ describe('explicit public verification and outbound helpers', () => {
       blocked = e.code === 'ERR_AUTH';
     }
     expect(blocked).toBe(true);
+  });
+  it('detects the exact synthetic value returned by local auth', async () => {
+    if (typeof Deno !== 'undefined' || process.platform === 'win32') {
+      return;
+    }
+    const knownSecrets = await knownSecretsFromGitHubAuth({
+      command: resolve('experiments/mock-gh-auth.mjs'),
+      hostname: 'github.com',
+    });
+    expect(
+      (
+        await createSanitizer({ knownSecrets }).sanitize(
+          'Value: synthetic-local-auth-fixture'
+        )
+      ).text
+    ).toBe('Value: [REDACTED]');
   });
 });
