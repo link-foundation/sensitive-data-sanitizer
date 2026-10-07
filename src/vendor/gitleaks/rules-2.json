@@ -1,0 +1,292 @@
+[
+  {
+    "id": "github-oauth",
+    "description": "Discovered a GitHub OAuth Access Token, posing a risk of compromised GitHub account integrations and data leaks.",
+    "regex": "gho_[0-9a-zA-Z]{36}",
+    "entropy": 3,
+    "keywords": ["gho_"]
+  },
+  {
+    "id": "github-pat",
+    "description": "Uncovered a GitHub Personal Access Token, potentially leading to unauthorized repository access and sensitive content exposure.",
+    "regex": "ghp_[0-9a-zA-Z]{36}",
+    "entropy": 3,
+    "keywords": ["ghp_"],
+    "allowlists": [
+      {
+        "paths": ["(?:^|/)@octokit/auth-token/README\\.md$"]
+      }
+    ]
+  },
+  {
+    "id": "github-refresh-token",
+    "description": "Detected a GitHub Refresh Token, which could allow prolonged unauthorized access to GitHub services.",
+    "regex": "ghr_[0-9a-zA-Z]{36}",
+    "entropy": 3,
+    "keywords": ["ghr_"]
+  },
+  {
+    "id": "gitlab-cicd-job-token",
+    "description": "Identified a GitLab CI/CD Job Token, potential access to projects and some APIs on behalf of a user while the CI job is running.",
+    "regex": "glcbt-[0-9a-zA-Z]{1,5}_[0-9a-zA-Z_-]{20}",
+    "entropy": 3,
+    "keywords": ["glcbt-"]
+  },
+  {
+    "id": "gitlab-deploy-token",
+    "description": "Identified a GitLab Deploy Token, risking access to repositories, packages and containers with write access.",
+    "regex": "gldt-[0-9a-zA-Z_\\-]{20}",
+    "entropy": 3,
+    "keywords": ["gldt-"]
+  },
+  {
+    "id": "gitlab-feature-flag-client-token",
+    "description": "Identified a GitLab feature flag client token, risks exposing user lists and features flags used by an application.",
+    "regex": "glffct-[0-9a-zA-Z_\\-]{20}",
+    "entropy": 3,
+    "keywords": ["glffct-"]
+  },
+  {
+    "id": "gitlab-feed-token",
+    "description": "Identified a GitLab feed token, risking exposure of user data.",
+    "regex": "glft-[0-9a-zA-Z_\\-]{20}",
+    "entropy": 3,
+    "keywords": ["glft-"]
+  },
+  {
+    "id": "gitlab-incoming-mail-token",
+    "description": "Identified a GitLab incoming mail token, risking manipulation of data sent by mail.",
+    "regex": "glimt-[0-9a-zA-Z_\\-]{25}",
+    "entropy": 3,
+    "keywords": ["glimt-"]
+  },
+  {
+    "id": "gitlab-kubernetes-agent-token",
+    "description": "Identified a GitLab Kubernetes Agent token, risking access to repos and registry of projects connected via agent.",
+    "regex": "glagent-[0-9a-zA-Z_\\-]{50}",
+    "entropy": 3,
+    "keywords": ["glagent-"]
+  },
+  {
+    "id": "gitlab-oauth-app-secret",
+    "description": "Identified a GitLab OIDC Application Secret, risking access to apps using GitLab as authentication provider.",
+    "regex": "gloas-[0-9a-zA-Z_\\-]{64}",
+    "entropy": 3,
+    "keywords": ["gloas-"]
+  },
+  {
+    "id": "gitlab-pat",
+    "description": "Identified a GitLab Personal Access Token, risking unauthorized access to GitLab repositories and codebase exposure.",
+    "regex": "glpat-[\\w-]{20}",
+    "entropy": 3,
+    "keywords": ["glpat-"]
+  },
+  {
+    "id": "gitlab-pat-routable",
+    "description": "Identified a GitLab Personal Access Token (routable), risking unauthorized access to GitLab repositories and codebase exposure.",
+    "regex": "\\bglpat-[0-9a-zA-Z_-]{27,300}\\.[0-9a-z]{2}[0-9a-z]{7}\\b",
+    "entropy": 4,
+    "keywords": ["glpat-"]
+  },
+  {
+    "id": "gitlab-ptt",
+    "description": "Found a GitLab Pipeline Trigger Token, potentially compromising continuous integration workflows and project security.",
+    "regex": "glptt-[0-9a-f]{40}",
+    "entropy": 3,
+    "keywords": ["glptt-"]
+  },
+  {
+    "id": "gitlab-rrt",
+    "description": "Discovered a GitLab Runner Registration Token, posing a risk to CI/CD pipeline integrity and unauthorized access.",
+    "regex": "GR1348941[\\w-]{20}",
+    "entropy": 3,
+    "keywords": ["gr1348941"]
+  },
+  {
+    "id": "gitlab-runner-authentication-token",
+    "description": "Discovered a GitLab Runner Authentication Token, posing a risk to CI/CD pipeline integrity and unauthorized access.",
+    "regex": "glrt-[0-9a-zA-Z_\\-]{20}",
+    "entropy": 3,
+    "keywords": ["glrt-"]
+  },
+  {
+    "id": "gitlab-runner-authentication-token-routable",
+    "description": "Discovered a GitLab Runner Authentication Token (Routable), posing a risk to CI/CD pipeline integrity and unauthorized access.",
+    "regex": "\\bglrt-t\\d_[0-9a-zA-Z_\\-]{27,300}\\.[0-9a-z]{2}[0-9a-z]{7}\\b",
+    "entropy": 4,
+    "keywords": ["glrt-"]
+  },
+  {
+    "id": "gitlab-scim-token",
+    "description": "Discovered a GitLab SCIM Token, posing a risk to unauthorized access for a organization or instance.",
+    "regex": "glsoat-[0-9a-zA-Z_\\-]{20}",
+    "entropy": 3,
+    "keywords": ["glsoat-"]
+  },
+  {
+    "id": "gitlab-session-cookie",
+    "description": "Discovered a GitLab Session Cookie, posing a risk to unauthorized access to a user account.",
+    "regex": "_gitlab_session=[0-9a-z]{32}",
+    "entropy": 3,
+    "keywords": ["_gitlab_session="]
+  },
+  {
+    "id": "gitter-access-token",
+    "description": "Uncovered a Gitter Access Token, which may lead to unauthorized access to chat and communication services.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:gitter)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9_-]{40})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["gitter"]
+  },
+  {
+    "id": "gocardless-api-token",
+    "description": "Detected a GoCardless API token, potentially risking unauthorized direct debit payment operations and financial data exposure.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:gocardless)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(live_(?i)[a-z0-9\\-_=]{40})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["live_", "gocardless"]
+  },
+  {
+    "id": "grafana-api-key",
+    "description": "Identified a Grafana API key, which could compromise monitoring dashboards and sensitive data analytics.",
+    "regex": "(?i)\\b(eyJrIjoi[A-Za-z0-9]{70,400}={0,3})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["eyjrijoi"]
+  },
+  {
+    "id": "grafana-cloud-api-token",
+    "description": "Found a Grafana cloud API token, risking unauthorized access to cloud-based monitoring services and data exposure.",
+    "regex": "(?i)\\b(glc_[A-Za-z0-9+/]{32,400}={0,3})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["glc_"]
+  },
+  {
+    "id": "grafana-service-account-token",
+    "description": "Discovered a Grafana service account token, posing a risk of compromised monitoring services and data integrity.",
+    "regex": "(?i)\\b(glsa_[A-Za-z0-9]{32}_[A-Fa-f0-9]{8})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["glsa_"]
+  },
+  {
+    "id": "harness-api-key",
+    "description": "Identified a Harness Access Token (PAT or SAT), risking unauthorized access to a Harness account.",
+    "regex": "(?:pat|sat)\\.[a-zA-Z0-9_-]{22}\\.[a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{20}",
+    "keywords": ["pat.", "sat."]
+  },
+  {
+    "id": "hashicorp-tf-api-token",
+    "description": "Uncovered a HashiCorp Terraform user/org API token, which may lead to unauthorized infrastructure management and security breaches.",
+    "regex": "(?i)[a-z0-9]{14}\\.(?-i:atlasv1)\\.[a-z0-9\\-_=]{60,70}",
+    "entropy": 3.5,
+    "keywords": ["atlasv1"]
+  },
+  {
+    "id": "hashicorp-tf-password",
+    "description": "Identified a HashiCorp Terraform password field, risking unauthorized infrastructure configuration and security breaches.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:administrator_login_password|password)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(\"[a-z0-9=_\\-]{8,20}\")(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "path": "(?i)\\.(?:tf|hcl)$",
+    "entropy": 2,
+    "keywords": ["administrator_login_password", "password"]
+  },
+  {
+    "id": "heroku-api-key",
+    "description": "Detected a Heroku API Key, potentially compromising cloud application deployments and operational security.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:heroku)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["heroku"]
+  },
+  {
+    "id": "heroku-api-key-v2",
+    "description": "Detected a Heroku API Key, potentially compromising cloud application deployments and operational security.",
+    "regex": "\\b((HRKU-AA[0-9a-zA-Z_-]{58}))(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 4,
+    "keywords": ["hrku-aa"]
+  },
+  {
+    "id": "hubspot-api-key",
+    "description": "Found a HubSpot API Token, posing a risk to CRM data integrity and unauthorized marketing operations.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:hubspot)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["hubspot"]
+  },
+  {
+    "id": "huggingface-access-token",
+    "description": "Discovered a Hugging Face Access token, which could lead to unauthorized access to AI models and sensitive data.",
+    "regex": "\\b(hf_(?i:[a-z]{34}))(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["hf_"]
+  },
+  {
+    "id": "huggingface-organization-api-token",
+    "description": "Uncovered a Hugging Face Organization API token, potentially compromising AI organization accounts and associated data.",
+    "regex": "\\b(api_org_(?i:[a-z]{34}))(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["api_org_"]
+  },
+  {
+    "id": "infracost-api-token",
+    "description": "Detected an Infracost API Token, risking unauthorized access to cloud cost estimation tools and financial data.",
+    "regex": "\\b(ico-[a-zA-Z0-9]{32})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["ico-"]
+  },
+  {
+    "id": "intercom-api-key",
+    "description": "Identified an Intercom API Token, which could compromise customer communication channels and data privacy.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:intercom)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9=_\\-]{60})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["intercom"]
+  },
+  {
+    "id": "intra42-client-secret",
+    "description": "Found a Intra42 client secret, which could lead to unauthorized access to the 42School API and sensitive data.",
+    "regex": "\\b(s-s4t2(?:ud|af)-(?i)[abcdef0123456789]{64})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["intra", "s-s4t2ud-", "s-s4t2af-"]
+  },
+  {
+    "id": "jfrog-api-key",
+    "description": "Found a JFrog API Key, posing a risk of unauthorized access to software artifact repositories and build pipelines.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:jfrog|artifactory|bintray|xray)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{73})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["jfrog", "artifactory", "bintray", "xray"]
+  },
+  {
+    "id": "jfrog-identity-token",
+    "description": "Discovered a JFrog Identity Token, potentially compromising access to JFrog services and sensitive software artifacts.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:jfrog|artifactory|bintray|xray)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{64})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["jfrog", "artifactory", "bintray", "xray"]
+  },
+  {
+    "id": "jwt",
+    "description": "Uncovered a JSON Web Token, which may lead to unauthorized access to web applications and sensitive user data.",
+    "regex": "\\b(ey[a-zA-Z0-9]{17,}\\.ey[a-zA-Z0-9\\/\\\\_-]{17,}\\.(?:[a-zA-Z0-9\\/\\\\_-]{10,}={0,2})?)(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["ey"]
+  },
+  {
+    "id": "jwt-base64",
+    "description": "Detected a Base64-encoded JSON Web Token, posing a risk of exposing encoded authentication and data exchange information.",
+    "regex": "\\bZXlK(?:(?P<alg>aGJHY2lPaU)|(?P<apu>aGNIVWlPaU)|(?P<apv>aGNIWWlPaU)|(?P<aud>aGRXUWlPaU)|(?P<b64>aU5qUWlP)|(?P<crit>amNtbDBJanBi)|(?P<cty>amRIa2lPaU)|(?P<epk>bGNHc2lPbn)|(?P<enc>bGJtTWlPaU)|(?P<jku>cWEzVWlPaU)|(?P<jwk>cWQyc2lPb)|(?P<iss>cGMzTWlPaU)|(?P<iv>cGRpSTZJ)|(?P<kid>cmFXUWlP)|(?P<key_ops>clpYbGZiM0J6SWpwY)|(?P<kty>cmRIa2lPaUp)|(?P<nonce>dWIyNWpaU0k2)|(?P<p2c>d01tTWlP)|(?P<p2s>d01uTWlPaU)|(?P<ppt>d2NIUWlPaU)|(?P<sub>emRXSWlPaU)|(?P<svt>emRuUWlP)|(?P<tag>MFlXY2lPaU)|(?P<typ>MGVYQWlPaUp)|(?P<url>MWNtd2l)|(?P<use>MWMyVWlPaUp)|(?P<ver>MlpYSWlPaU)|(?P<version>MlpYSnphVzl1SWpv)|(?P<x>NElqb2)|(?P<x5c>NE5XTWlP)|(?P<x5t>NE5YUWlPaU)|(?P<x5ts256>NE5YUWpVekkxTmlJNkl)|(?P<x5u>NE5YVWlPaU)|(?P<zip>NmFYQWlPaU))[a-zA-Z0-9\\/\\\\_+\\-\\r\\n]{40,}={0,2}",
+    "entropy": 2,
+    "keywords": ["zxlk"]
+  },
+  {
+    "id": "kraken-access-token",
+    "description": "Identified a Kraken Access Token, potentially compromising cryptocurrency trading accounts and financial security.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:kraken)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9\\/=_\\+\\-]{80,90})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["kraken"]
+  },
+  {
+    "id": "kubernetes-secret-yaml",
+    "description": "Possible Kubernetes Secret detected, posing a risk of leaking credentials/tokens from your deployments",
+    "regex": "(?i)(?:\\bkind:[ \\t]*[\"']?\\bsecret\\b[\"']?(?s:.){0,200}?\\bdata:(?s:.){0,100}?\\s+([\\w.-]+:(?:[ \\t]*(?:\\||>[-+]?)\\s+)?[ \\t]*(?:[\"']?[a-z0-9+/]{10,}={0,3}[\"']?|\\{\\{[ \\t\\w\"|$:=,.-]+}}|\"\"|''))|\\bdata:(?s:.){0,100}?\\s+([\\w.-]+:(?:[ \\t]*(?:\\||>[-+]?)\\s+)?[ \\t]*(?:[\"']?[a-z0-9+/]{10,}={0,3}[\"']?|\\{\\{[ \\t\\w\"|$:=,.-]+}}|\"\"|''))(?s:.){0,200}?\\bkind:[ \\t]*[\"']?\\bsecret\\b[\"']?)",
+    "path": "(?i)\\.ya?ml$",
+    "keywords": ["secret"],
+    "allowlists": [
+      {
+        "regexes": [
+          "[\\w.-]+:(?:[ \\t]*(?:\\||>[-+]?)\\s+)?[ \\t]*(?:\\{\\{[ \\t\\w\"|$:=,.-]+}}|\"\"|'')"
+        ]
+      },
+      {
+        "regexTarget": "match",
+        "regexes": [
+          "(kind:(?s:.)+\\n---\\n(?s:.)+\\bdata:|data:(?s:.)+\\n---\\n(?s:.)+\\bkind:)"
+        ]
+      }
+    ]
+  }
+]

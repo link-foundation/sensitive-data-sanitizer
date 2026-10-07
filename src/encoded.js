@@ -10,6 +10,8 @@ export function* decodedRuns(text, depth = 0) {
     /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{16,8192}={0,2}(?![A-Za-z0-9_+/-])/g,
     /(?:[^\s"'<>?=&:/]{0,128}%[\da-fA-F]{2})+(?:[^\s"'<>?=&:/]{0,128})/g,
     /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{16,128}(?:\r?\n[A-Za-z0-9_+/-]{16,128})+={0,2}(?![A-Za-z0-9_+/-])/g,
+    /(?:&#(?:x[\da-fA-F]{1,6}|\d{1,7});|&(?:amp|lt|gt|quot|apos|nbsp);){2,2048}/g,
+    /(?:\\x[\da-fA-F]{2}){2,2048}/g,
   ];
   const seen = new Set();
   let count = 0;
@@ -51,7 +53,40 @@ export function* decodedRuns(text, depth = 0) {
 
 function decodeCandidates(raw) {
   const candidates = [];
-  if (raw.includes('%')) {
+  if (raw.startsWith('&#') || /^&(?:amp|lt|gt|quot|apos|nbsp);/.test(raw)) {
+    candidates.push(
+      raw.replace(
+        /&(?:#(x[\da-fA-F]+|\d+)|(amp|lt|gt|quot|apos|nbsp));/g,
+        (whole, code, named) => {
+          if (named) {
+            return {
+              amp: '&',
+              lt: '<',
+              gt: '>',
+              quot: '"',
+              apos: "'",
+              nbsp: ' ',
+            }[named];
+          }
+          const point =
+            code[0] === 'x' ? parseInt(code.slice(1), 16) : Number(code);
+          return point <= 0x10ffff && !(point >= 0xd800 && point <= 0xdfff)
+            ? String.fromCodePoint(point)
+            : whole;
+        }
+      )
+    );
+  } else if (raw.startsWith('\\x')) {
+    try {
+      candidates.push(
+        new TextDecoder('utf-8', { fatal: true }).decode(
+          Buffer.from(raw.replaceAll('\\x', ''), 'hex')
+        )
+      );
+    } catch {
+      /* Non-text bytes. */
+    }
+  } else if (raw.includes('%')) {
     try {
       candidates.push(decodeURIComponent(raw));
     } catch {

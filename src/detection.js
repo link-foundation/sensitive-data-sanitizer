@@ -2,6 +2,7 @@ import { isIP } from 'node:net';
 import { serviceRules } from './rules.js';
 import { detectContext } from './context.js';
 import { detectPersonal } from './personal.js';
+import { detectGitleaks } from './gitleaks.js';
 
 export const REDACTED = '[REDACTED]';
 export const failure = (code = 'ERR_SANITIZATION') =>
@@ -78,6 +79,7 @@ export function luhn(value) {
 
 export function nativeDetect(text, options, emit) {
   const credential = { type: 'SECRET', category: 'credential' };
+  detectGitleaks(text, emit);
   for (const [rule, pattern] of serviceRules) {
     collectMatches(text, pattern, emit, { ...credential, rule });
   }
@@ -96,6 +98,16 @@ export function nativeDetect(text, options, emit) {
   }
   detectContext(text, emit);
   detectPersonal(text, emit);
+  // detect-secrets-style quoted entropy detection; bare commit hashes and
+  // common tool identifiers remain outside this heuristic's scope.
+  collectMatches(
+    text,
+    /["']([A-Za-z0-9+/=_-]{20,256})["']/g,
+    emit,
+    { ...credential, rule: 'quoted-entropy' },
+    1,
+    (value) => entropy(value) >= (/^[a-f0-9]+$/i.test(value) ? 3 : 4.5)
+  );
   collectMatches(
     text,
     /-----BEGIN ([A-Z0-9 ]*PRIVATE KEY)-----[\s\S]*?(?:-----END \1-----|$)/g,

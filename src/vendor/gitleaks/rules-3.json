@@ -1,0 +1,263 @@
+[
+  {
+    "id": "kucoin-access-token",
+    "description": "Found a Kucoin Access Token, risking unauthorized access to cryptocurrency exchange services and transactions.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:kucoin)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{24})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["kucoin"]
+  },
+  {
+    "id": "kucoin-secret-key",
+    "description": "Discovered a Kucoin Secret Key, which could lead to compromised cryptocurrency operations and financial data breaches.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:kucoin)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["kucoin"]
+  },
+  {
+    "id": "launchdarkly-access-token",
+    "description": "Uncovered a Launchdarkly Access Token, potentially compromising feature flag management and application functionality.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:launchdarkly)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9=_\\-]{40})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["launchdarkly"]
+  },
+  {
+    "id": "linear-api-key",
+    "description": "Detected a Linear API Token, posing a risk to project management tools and sensitive task data.",
+    "regex": "lin_api_(?i)[a-z0-9]{40}",
+    "entropy": 2,
+    "keywords": ["lin_api_"]
+  },
+  {
+    "id": "linear-client-secret",
+    "description": "Identified a Linear Client Secret, which may compromise secure integrations and sensitive project management data.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:linear)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{32})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["linear"]
+  },
+  {
+    "id": "linkedin-client-id",
+    "description": "Found a LinkedIn Client ID, risking unauthorized access to LinkedIn integrations and professional data exposure.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:linked[_-]?in)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{14})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["linkedin", "linked_in", "linked-in"]
+  },
+  {
+    "id": "linkedin-client-secret",
+    "description": "Discovered a LinkedIn Client secret, potentially compromising LinkedIn application integrations and user data.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:linked[_-]?in)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{16})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["linkedin", "linked_in", "linked-in"]
+  },
+  {
+    "id": "lob-api-key",
+    "description": "Uncovered a Lob API Key, which could lead to unauthorized access to mailing and address verification services.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:lob)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}((live|test)_[a-f0-9]{35})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["test_", "live_"]
+  },
+  {
+    "id": "lob-pub-api-key",
+    "description": "Detected a Lob Publishable API Key, posing a risk of exposing mail and print service integrations.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:lob)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}((test|live)_pub_[a-f0-9]{31})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["test_pub", "live_pub", "_pub"]
+  },
+  {
+    "id": "looker-client-id",
+    "description": "Found a Looker Client ID, risking unauthorized access to a Looker account and exposing sensitive data.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:looker)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{20})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["looker"]
+  },
+  {
+    "id": "looker-client-secret",
+    "description": "Found a Looker Client Secret, risking unauthorized access to a Looker account and exposing sensitive data.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:looker)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{24})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["looker"]
+  },
+  {
+    "id": "mailchimp-api-key",
+    "description": "Identified a Mailchimp API key, potentially compromising email marketing campaigns and subscriber data.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:MailchimpSDK.initialize|mailchimp)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{32}-us\\d\\d)(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["mailchimp"]
+  },
+  {
+    "id": "mailgun-private-api-token",
+    "description": "Found a Mailgun private API token, risking unauthorized email service operations and data breaches.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:mailgun)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(key-[a-f0-9]{32})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["mailgun"]
+  },
+  {
+    "id": "mailgun-pub-key",
+    "description": "Discovered a Mailgun public validation key, which could expose email verification processes and associated data.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:mailgun)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(pubkey-[a-f0-9]{32})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["mailgun"]
+  },
+  {
+    "id": "mailgun-signing-key",
+    "description": "Uncovered a Mailgun webhook signing key, potentially compromising email automation and data integrity.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:mailgun)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-h0-9]{32}-[a-h0-9]{8}-[a-h0-9]{8})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["mailgun"]
+  },
+  {
+    "id": "mapbox-api-token",
+    "description": "Detected a MapBox API token, posing a risk to geospatial services and sensitive location data exposure.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:mapbox)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(pk\\.[a-z0-9]{60}\\.[a-z0-9]{22})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["mapbox"]
+  },
+  {
+    "id": "mattermost-access-token",
+    "description": "Identified a Mattermost Access Token, which may compromise team communication channels and data privacy.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:mattermost)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{26})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["mattermost"]
+  },
+  {
+    "id": "maxmind-license-key",
+    "description": "Discovered a potential MaxMind license key.",
+    "regex": "\\b([A-Za-z0-9]{6}_[A-Za-z0-9]{29}_mmk)(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 4,
+    "keywords": ["_mmk"]
+  },
+  {
+    "id": "messagebird-api-token",
+    "description": "Found a MessageBird API token, risking unauthorized access to communication platforms and message data.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:message[_-]?bird)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{25})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["messagebird", "message-bird", "message_bird"]
+  },
+  {
+    "id": "messagebird-client-id",
+    "description": "Discovered a MessageBird client ID, potentially compromising API integrations and sensitive communication data.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:message[_-]?bird)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["messagebird", "message-bird", "message_bird"]
+  },
+  {
+    "id": "microsoft-teams-webhook",
+    "description": "Uncovered a Microsoft Teams Webhook, which could lead to unauthorized access to team collaboration tools and data leaks.",
+    "regex": "https://[a-z0-9]+\\.webhook\\.office\\.com/webhookb2/[a-z0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}@[a-z0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}/IncomingWebhook/[a-z0-9]{32}/[a-z0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}",
+    "keywords": ["webhook.office.com", "webhookb2", "incomingwebhook"]
+  },
+  {
+    "id": "netlify-access-token",
+    "description": "Detected a Netlify Access Token, potentially compromising web hosting services and site management.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:netlify)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9=_\\-]{40,46})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["netlify"]
+  },
+  {
+    "id": "new-relic-browser-api-token",
+    "description": "Identified a New Relic ingest browser API token, risking unauthorized access to application performance data and analytics.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:new-relic|newrelic|new_relic)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(NRJS-[a-f0-9]{19})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["nrjs-"]
+  },
+  {
+    "id": "new-relic-insert-key",
+    "description": "Discovered a New Relic insight insert key, compromising data injection into the platform.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:new-relic|newrelic|new_relic)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(NRII-[a-z0-9-]{32})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["nrii-"]
+  },
+  {
+    "id": "new-relic-user-api-id",
+    "description": "Found a New Relic user API ID, posing a risk to application monitoring services and data integrity.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:new-relic|newrelic|new_relic)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{64})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["new-relic", "newrelic", "new_relic"]
+  },
+  {
+    "id": "new-relic-user-api-key",
+    "description": "Discovered a New Relic user API Key, which could lead to compromised application insights and performance monitoring.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:new-relic|newrelic|new_relic)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(NRAK-[a-z0-9]{27})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["nrak"]
+  },
+  {
+    "id": "notion-api-token",
+    "description": "Notion API token",
+    "regex": "\\b(ntn_[0-9]{11}[A-Za-z0-9]{32}[A-Za-z0-9]{3})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 4,
+    "keywords": ["ntn_"]
+  },
+  {
+    "id": "npm-access-token",
+    "description": "Uncovered an npm access token, potentially compromising package management and code repository access.",
+    "regex": "(?i)\\b(npm_[a-z0-9]{36})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["npm_"]
+  },
+  {
+    "id": "nuget-config-password",
+    "description": "Identified a password within a Nuget config file, potentially compromising package management access.",
+    "regex": "(?i)<add key=\\\"(?:(?:ClearText)?Password)\\\"\\s*value=\\\"(.{8,})\\\"\\s*/>",
+    "path": "(?i)nuget\\.config$",
+    "entropy": 1,
+    "keywords": ["<add key="],
+    "allowlists": [
+      {
+        "regexes": ["33f!!lloppa", "hal\\+9ooo_da!sY", "^\\%\\S.*\\%$"]
+      }
+    ]
+  },
+  {
+    "id": "nytimes-access-token",
+    "description": "Detected a Nytimes Access Token, risking unauthorized access to New York Times APIs and content services.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:nytimes|new-york-times,|newyorktimes)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9=_\\-]{32})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["nytimes", "new-york-times", "newyorktimes"]
+  },
+  {
+    "id": "octopus-deploy-api-key",
+    "description": "Discovered a potential Octopus Deploy API key, risking application deployments and operational security.",
+    "regex": "\\b(API-[A-Z0-9]{26})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["api-"]
+  },
+  {
+    "id": "okta-access-token",
+    "description": "Identified an Okta Access Token, which may compromise identity management services and user authentication data.",
+    "regex": "[\\w.-]{0,50}?(?i:[\\w.-]{0,50}?(?:(?-i:[Oo]kta|OKTA))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(00[\\w=\\-]{40})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 4,
+    "keywords": ["okta"]
+  },
+  {
+    "id": "openai-api-key",
+    "description": "Found an OpenAI API Key, posing a risk of unauthorized access to AI services and data manipulation.",
+    "regex": "\\b(sk-(?:proj|svcacct|admin)-(?:[A-Za-z0-9_-]{74}|[A-Za-z0-9_-]{58})T3BlbkFJ(?:[A-Za-z0-9_-]{74}|[A-Za-z0-9_-]{58})\\b|sk-[a-zA-Z0-9]{20}T3BlbkFJ[a-zA-Z0-9]{20})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["t3blbkfj"]
+  },
+  {
+    "id": "openshift-user-token",
+    "description": "Found an OpenShift user token, potentially compromising an OpenShift/Kubernetes cluster.",
+    "regex": "\\b(sha256~[\\w-]{43})(?:[^\\w-]|\\z)",
+    "entropy": 3.5,
+    "keywords": ["sha256~"]
+  },
+  {
+    "id": "perplexity-api-key",
+    "description": "Detected a Perplexity API key, which could lead to unauthorized access to Perplexity AI services and data exposure.",
+    "regex": "\\b(pplx-[a-zA-Z0-9]{48})(?:[\\x60'\"\\s;]|\\\\[nr]|$|\\b)",
+    "entropy": 4,
+    "keywords": ["pplx-"]
+  },
+  {
+    "id": "pkcs12-file",
+    "description": "Found a PKCS #12 file, which commonly contain bundled private keys.",
+    "path": "(?i)(?:^|\\/)[^\\/]+\\.p(?:12|fx)$"
+  },
+  {
+    "id": "plaid-api-token",
+    "description": "Discovered a Plaid API Token, potentially compromising financial data aggregation and banking services.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:plaid)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(access-(?:sandbox|development|production)-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["plaid"]
+  },
+  {
+    "id": "plaid-client-id",
+    "description": "Uncovered a Plaid Client ID, which could lead to unauthorized financial service integrations and data breaches.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:plaid)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{24})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3.5,
+    "keywords": ["plaid"]
+  },
+  {
+    "id": "plaid-secret-key",
+    "description": "Detected a Plaid Secret key, risking unauthorized access to financial accounts and sensitive transaction data.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:plaid)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{30})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3.5,
+    "keywords": ["plaid"]
+  },
+  {
+    "id": "planetscale-api-token",
+    "description": "Identified a PlanetScale API token, potentially compromising database management and operations.",
+    "regex": "\\b(pscale_tkn_(?i)[\\w=\\.-]{32,64})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["pscale_tkn_"]
+  }
+]
