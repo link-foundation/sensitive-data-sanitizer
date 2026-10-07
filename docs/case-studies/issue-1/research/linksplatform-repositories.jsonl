@@ -1,0 +1,88 @@
+{"archived": true, "default_branch": "master", "description": "Port of .NET Core to BareMetal OS", "full_name": "linksplatform/BareNET"}
+{"archived": true, "default_branch": "master", "description": "Port of NodeJS to BareMetal OS", "full_name": "linksplatform/BareJS"}
+{"archived": false, "default_branch": "main", "description": "Correlation Center Concept (Client) Web Hosting Repository", "full_name": "linksplatform/ccc"}
+{"archived": false, "default_branch": "main", "description": "Root web-site for Links Platform organization", "full_name": "linksplatform/linksplatform.github.io"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/resourse-cooperation"}
+{"archived": false, "default_branch": "main", "description": "Crawler experiment", "full_name": "linksplatform/Crawler"}
+{"archived": false, "default_branch": "main", "description": "Identifier distributor TCP/IP server implementation. A prototype for LinksPlatform cluster's core service.", "full_name": "linksplatform/IdDistributorServer"}
+{"archived": false, "default_branch": "main", "description": "TCP/IP client implementation for IdDistributorServer.", "full_name": "linksplatform/IdClient"}
+{"archived": false, "default_branch": "main", "description": "Documentation and support root repository for all LinksPlatform projects", "full_name": "linksplatform/Documentation"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Disposables Class Library", "full_name": "linksplatform/Disposables"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Interfaces Class Library", "full_name": "linksplatform/Interfaces"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Timestamps Class Library", "full_name": "linksplatform/Timestamps"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Ranges Class Library", "full_name": "linksplatform/Ranges"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Exceptions Class Library", "full_name": "linksplatform/Exceptions"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Comparers Class Library", "full_name": "linksplatform/Comparers"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Collections Class Library", "full_name": "linksplatform/Collections"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Reflection Class Library", "full_name": "linksplatform/Reflection"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Threading Class Library", "full_name": "linksplatform/Threading"}
+{"archived": true, "default_branch": "master", "description": "LinksPlatform's Platform.Reflection.Sigil Class Library", "full_name": "linksplatform/Reflection.Sigil"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Converters Class Library", "full_name": "linksplatform/Converters"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Numbers Class Library", "full_name": "linksplatform/Numbers"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Unsafe Class Library", "full_name": "linksplatform/Unsafe"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.IO Class Library", "full_name": "linksplatform/IO"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Memory Class Library", "full_name": "linksplatform/Memory"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Random Class Library", "full_name": "linksplatform/Random"}
+{"archived": true, "default_branch": "master", "description": "LinksPlatform's Platform.Helpers Class Library", "full_name": "linksplatform/Helpers"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Communication Class Library", "full_name": "linksplatform/Protocols"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Collections.Methods Class Library", "full_name": "linksplatform/Collections.Methods"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Data Class Library", "full_name": "linksplatform/Data"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Data.Doublets Class Library", "full_name": "linksplatform/Data.Doublets"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Data.Triplets Class Library", "full_name": "linksplatform/Data.Triplets"}
+{"archived": false, "default_branch": "main", "description": "A quick start example that shows how to create, read, update and delete the first link using Doublets", "full_name": "linksplatform/Examples.Doublets.CRUD"}
+{"archived": false, "default_branch": "main", "description": "Comparison of SQLite and LinksPlatform's Doublets (links) on basic embeded database operations with objects (create list, read list, delete list).", "full_name": "linksplatform/Comparisons.SQLiteVSDoublets"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Setters Class Library", "full_name": "linksplatform/Setters"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Singletons Class Library", "full_name": "linksplatform/Singletons"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Incrementers Class Library", "full_name": "linksplatform/Incrementers"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Scopes Class Library", "full_name": "linksplatform/Scopes"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Diagnostics Class Library", "full_name": "linksplatform/Diagnostics"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Data.Triplets.Kernel native library.", "full_name": "linksplatform/Data.Triplets.Kernel"}
+{"archived": true, "default_branch": "master", "description": "A fail-fast validating helper for .NET CIL generation (Further developed from https://github.com/kevin-montrose/Sigil project)", "full_name": "linksplatform/Sigil"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Hardware.Cpu Class Library", "full_name": "linksplatform/Hardware.Cpu"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.RegularExpressions.Transformer Class Library", "full_name": "linksplatform/RegularExpressions.Transformer"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.RegularExpressions.Transformer.CSharpToCpp Class Library", "full_name": "linksplatform/RegularExpressions.Transformer.CSharpToCpp"}
+{"archived": false, "default_branch": "main", "description": "Automation scripts for Continuous Integration, Continuous Deploy and Code Changes", "full_name": "linksplatform/Scripts"}
+{"archived": false, "default_branch": "main", "description": "A specific translator for LinksPlatform's libraries.", "full_name": "linksplatform/CSharpToCppTranslator"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Delegates Template Library", "full_name": "linksplatform/Delegates"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.RegularExpressions.Transformer.CppToJava Class Library", "full_name": "linksplatform/RegularExpressions.Transformer.CppToJava"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.RegularExpressions.Transformer.CSharpToPython Class Library", "full_name": "linksplatform/RegularExpressions.Transformer.CSharpToPython"}
+{"archived": false, "default_branch": "main", "description": "VK bot, GitHub bot, Discord bot, Trader bot", "full_name": "linksplatform/Bot"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.RegularExpressions.Transformer.PythonToNim Class Library.", "full_name": "linksplatform/RegularExpressions.Transformer.PythonToNim"}
+{"archived": false, "default_branch": "main", "description": "Test solution for CSharpToCppTranslator", "full_name": "linksplatform/CSharpToCppTranslatorTestSolution"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Hashing Template Library", "full_name": "linksplatform/Hashing"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/RawDoubletsViewer"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/InfiniteDepthTreeWebUIPrototype"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/react-deep-tree"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.RegularExpressions.Transformer.HasuraSQLSimplifier Class Library, with a command line tool to simplify SQL generated by Hasura.", "full_name": "linksplatform/RegularExpressions.Transformer.HasuraSQLSimplifier"}
+{"archived": false, "default_branch": "main", "description": "Translator java code to C++ code", "full_name": "linksplatform/java2cpp"}
+{"archived": false, "default_branch": "main", "description": "The C# code to Python code translator", "full_name": "linksplatform/cs2py"}
+{"archived": false, "default_branch": "main", "description": "Solution settings.", "full_name": "linksplatform/Settings"}
+{"archived": false, "default_branch": "main", "description": "LinksPlatform's Platform.Data.Doublets.Xml Class Library", "full_name": "linksplatform/Data.Doublets.Xml"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/Equality"}
+{"archived": false, "default_branch": "main", "description": "Platform.Data.Doublets.Json Class Library", "full_name": "linksplatform/Data.Doublets.Json"}
+{"archived": false, "default_branch": "master", "description": "Recipes for the ConanCenter repository", "full_name": "linksplatform/conan-center-index"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/Data.Doublets.Gql"}
+{"archived": false, "default_branch": "main", "description": "Platform.Data.Sequences", "full_name": "linksplatform/Data.Sequences"}
+{"archived": false, "default_branch": "main", "description": "Platform.Data.Doublets.Sequences", "full_name": "linksplatform/Data.Doublets.Sequences"}
+{"archived": false, "default_branch": "main", "description": "This is an attempt to translate the code from Java to Python using available rule-based translation tools on the market.", "full_name": "linksplatform/CodeNetJavaToPythonTranslationExperiment"}
+{"archived": false, "default_branch": "main", "description": "Files required for automation to work.", "full_name": "linksplatform/Files"}
+{"archived": false, "default_branch": "main", "description": "The comparison between Redis and Doublets", "full_name": "linksplatform/Comparisons.RedisVSDoublets"}
+{"archived": false, "default_branch": "main", "description": "The comparison between PostgreSQL and Doublets", "full_name": "linksplatform/Comparisons.PostgreSQLVSDoublets"}
+{"archived": false, "default_branch": "main", "description": "SQL interface to Doublets", "full_name": "linksplatform/Data.Doublets.Sql"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/.github"}
+{"archived": false, "default_branch": "main", "description": "Platform.Data.Doublets.Json Class Library", "full_name": "linksplatform/Data.Doublets.Lino"}
+{"archived": false, "default_branch": "master", "description": null, "full_name": "linksplatform/doublets-web"}
+{"archived": true, "default_branch": "main", "description": null, "full_name": "linksplatform/platform-rs"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/Data.Doublets.Gql.Client"}
+{"archived": false, "default_branch": "main", "description": "Schema generator for async-graphql 4.x", "full_name": "linksplatform/aqlgen"}
+{"archived": false, "default_branch": "main", "description": "Deep (PostgreSQL+Hasura) vs Doublets Rust vs Doublets C#", "full_name": "linksplatform/Comparisons.DeepGqlStandard"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/doublets-dev"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/mem-rs"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/data-rs"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/trees-rs"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/doublets-rs"}
+{"archived": false, "default_branch": "main", "description": "Algorithms to find shortest and simplest possible functions for given input and output data ranges.", "full_name": "linksplatform/Solver"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/Workflows"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/DoubletsVsClickHouseBenchmarks"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/Comparisons.Neo4jVSDoublets"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "linksplatform/Comparisons.SpacetimeDBVSDoublets"}

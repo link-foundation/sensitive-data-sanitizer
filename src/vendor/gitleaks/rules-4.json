@@ -1,0 +1,277 @@
+[
+  {
+    "id": "planetscale-oauth-token",
+    "description": "Found a PlanetScale OAuth token, posing a risk to database access control and sensitive data integrity.",
+    "regex": "\\b(pscale_oauth_[\\w=\\.-]{32,64})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["pscale_oauth_"]
+  },
+  {
+    "id": "planetscale-password",
+    "description": "Discovered a PlanetScale password, which could lead to unauthorized database operations and data breaches.",
+    "regex": "(?i)\\b(pscale_pw_(?i)[\\w=\\.-]{32,64})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["pscale_pw_"]
+  },
+  {
+    "id": "postman-api-token",
+    "description": "Uncovered a Postman API token, potentially compromising API testing and development workflows.",
+    "regex": "\\b(PMAK-(?i)[a-f0-9]{24}\\-[a-f0-9]{34})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["pmak-"]
+  },
+  {
+    "id": "prefect-api-token",
+    "description": "Detected a Prefect API token, risking unauthorized access to workflow management and automation services.",
+    "regex": "\\b(pnu_[a-zA-Z0-9]{36})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["pnu_"]
+  },
+  {
+    "id": "private-key",
+    "description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+    "regex": "(?i)-----BEGIN[ A-Z0-9_-]{0,100}PRIVATE KEY(?: BLOCK)?-----[\\s\\S-]{64,}?KEY(?: BLOCK)?-----",
+    "keywords": ["-----begin"]
+  },
+  {
+    "id": "privateai-api-token",
+    "description": "Identified a PrivateAI Token, posing a risk of unauthorized access to AI services and data manipulation.",
+    "regex": "[\\w.-]{0,50}?(?i:[\\w.-]{0,50}?(?:private[_-]?ai)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{32})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["privateai", "private_ai", "private-ai"]
+  },
+  {
+    "id": "pulumi-api-token",
+    "description": "Found a Pulumi API token, posing a risk to infrastructure as code services and cloud resource management.",
+    "regex": "\\b(pul-[a-f0-9]{40})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["pul-"]
+  },
+  {
+    "id": "pypi-upload-token",
+    "description": "Discovered a PyPI upload token, potentially compromising Python package distribution and repository integrity.",
+    "regex": "pypi-AgEIcHlwaS5vcmc[\\w-]{50,1000}",
+    "entropy": 3,
+    "keywords": ["pypi-ageichlwas5vcmc"]
+  },
+  {
+    "id": "rapidapi-access-token",
+    "description": "Uncovered a RapidAPI Access Token, which could lead to unauthorized access to various APIs and data services.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:rapidapi)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9_-]{50})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["rapidapi"]
+  },
+  {
+    "id": "readme-api-token",
+    "description": "Detected a Readme API token, risking unauthorized documentation management and content exposure.",
+    "regex": "\\b(rdme_[a-z0-9]{70})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["rdme_"]
+  },
+  {
+    "id": "rubygems-api-token",
+    "description": "Identified a Rubygem API token, potentially compromising Ruby library distribution and package management.",
+    "regex": "\\b(rubygems_[a-f0-9]{48})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["rubygems_"]
+  },
+  {
+    "id": "scalingo-api-token",
+    "description": "Found a Scalingo API token, posing a risk to cloud platform services and application deployment security.",
+    "regex": "\\b(tk-us-[\\w-]{48})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["tk-us-"]
+  },
+  {
+    "id": "sendbird-access-id",
+    "description": "Discovered a Sendbird Access ID, which could compromise chat and messaging platform integrations.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:sendbird)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["sendbird"]
+  },
+  {
+    "id": "sendbird-access-token",
+    "description": "Uncovered a Sendbird Access Token, potentially risking unauthorized access to communication services and user data.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:sendbird)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{40})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["sendbird"]
+  },
+  {
+    "id": "sendgrid-api-token",
+    "description": "Detected a SendGrid API token, posing a risk of unauthorized email service operations and data exposure.",
+    "regex": "\\b(SG\\.(?i)[a-z0-9=_\\-\\.]{66})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["sg."]
+  },
+  {
+    "id": "sendinblue-api-token",
+    "description": "Identified a Sendinblue API token, which may compromise email marketing services and subscriber data privacy.",
+    "regex": "\\b(xkeysib-[a-f0-9]{64}\\-(?i)[a-z0-9]{16})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["xkeysib-"]
+  },
+  {
+    "id": "sentry-access-token",
+    "description": "Found a Sentry.io Access Token (old format), risking unauthorized access to error tracking services and sensitive application data.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:sentry)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{64})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["sentry"]
+  },
+  {
+    "id": "sentry-org-token",
+    "description": "Found a Sentry.io Organization Token, risking unauthorized access to error tracking services and sensitive application data.",
+    "regex": "\\bsntrys_eyJpYXQiO[a-zA-Z0-9+/]{10,200}(?:LCJyZWdpb25fdXJs|InJlZ2lvbl91cmwi|cmVnaW9uX3VybCI6)[a-zA-Z0-9+/]{10,200}={0,2}_[a-zA-Z0-9+/]{43}(?:[^a-zA-Z0-9+/]|\\z)",
+    "entropy": 4.5,
+    "keywords": ["sntrys_eyjpyxqio"]
+  },
+  {
+    "id": "sentry-user-token",
+    "description": "Found a Sentry.io User Token, risking unauthorized access to error tracking services and sensitive application data.",
+    "regex": "\\b(sntryu_[a-f0-9]{64})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3.5,
+    "keywords": ["sntryu_"]
+  },
+  {
+    "id": "settlemint-application-access-token",
+    "description": "Found a Settlemint Application Access Token.",
+    "regex": "\\b(sm_aat_[a-zA-Z0-9]{16})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["sm_aat"]
+  },
+  {
+    "id": "settlemint-personal-access-token",
+    "description": "Found a Settlemint Personal Access Token.",
+    "regex": "\\b(sm_pat_[a-zA-Z0-9]{16})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["sm_pat"]
+  },
+  {
+    "id": "settlemint-service-access-token",
+    "description": "Found a Settlemint Service Access Token.",
+    "regex": "\\b(sm_sat_[a-zA-Z0-9]{16})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 3,
+    "keywords": ["sm_sat"]
+  },
+  {
+    "id": "shippo-api-token",
+    "description": "Discovered a Shippo API token, potentially compromising shipping services and customer order data.",
+    "regex": "\\b(shippo_(?:live|test)_[a-fA-F0-9]{40})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "entropy": 2,
+    "keywords": ["shippo_"]
+  },
+  {
+    "id": "shopify-access-token",
+    "description": "Uncovered a Shopify access token, which could lead to unauthorized e-commerce platform access and data breaches.",
+    "regex": "shpat_[a-fA-F0-9]{32}",
+    "entropy": 2,
+    "keywords": ["shpat_"]
+  },
+  {
+    "id": "shopify-custom-access-token",
+    "description": "Detected a Shopify custom access token, potentially compromising custom app integrations and e-commerce data security.",
+    "regex": "shpca_[a-fA-F0-9]{32}",
+    "entropy": 2,
+    "keywords": ["shpca_"]
+  },
+  {
+    "id": "shopify-private-app-access-token",
+    "description": "Identified a Shopify private app access token, risking unauthorized access to private app data and store operations.",
+    "regex": "shppa_[a-fA-F0-9]{32}",
+    "entropy": 2,
+    "keywords": ["shppa_"]
+  },
+  {
+    "id": "shopify-shared-secret",
+    "description": "Found a Shopify shared secret, posing a risk to application authentication and e-commerce platform security.",
+    "regex": "shpss_[a-fA-F0-9]{32}",
+    "entropy": 2,
+    "keywords": ["shpss_"]
+  },
+  {
+    "id": "sidekiq-secret",
+    "description": "Discovered a Sidekiq Secret, which could lead to compromised background job processing and application data breaches.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:BUNDLE_ENTERPRISE__CONTRIBSYS__COM|BUNDLE_GEMS__CONTRIBSYS__COM)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{8}:[a-f0-9]{8})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "bundle_enterprise__contribsys__com",
+      "bundle_gems__contribsys__com"
+    ]
+  },
+  {
+    "id": "sidekiq-sensitive-url",
+    "description": "Uncovered a Sidekiq Sensitive URL, potentially exposing internal job queues and sensitive operation details.",
+    "regex": "(?i)\\bhttps?://([a-f0-9]{8}:[a-f0-9]{8})@(?:gems.contribsys.com|enterprise.contribsys.com)(?:[\\/|\\#|\\?|:]|$)",
+    "keywords": ["gems.contribsys.com", "enterprise.contribsys.com"]
+  },
+  {
+    "id": "slack-app-token",
+    "description": "Detected a Slack App-level token, risking unauthorized access to Slack applications and workspace data.",
+    "regex": "(?i)xapp-\\d-[A-Z0-9]+-\\d+-[a-z0-9]+",
+    "entropy": 2,
+    "keywords": ["xapp"]
+  },
+  {
+    "id": "slack-bot-token",
+    "description": "Identified a Slack Bot token, which may compromise bot integrations and communication channel security.",
+    "regex": "xoxb-[0-9]{10,13}-[0-9]{10,13}[a-zA-Z0-9-]*",
+    "entropy": 3,
+    "keywords": ["xoxb"]
+  },
+  {
+    "id": "slack-config-access-token",
+    "description": "Found a Slack Configuration access token, posing a risk to workspace configuration and sensitive data access.",
+    "regex": "(?i)xoxe.xox[bp]-\\d-[A-Z0-9]{163,166}",
+    "entropy": 2,
+    "keywords": ["xoxe.xoxb-", "xoxe.xoxp-"]
+  },
+  {
+    "id": "slack-config-refresh-token",
+    "description": "Discovered a Slack Configuration refresh token, potentially allowing prolonged unauthorized access to configuration settings.",
+    "regex": "(?i)xoxe-\\d-[A-Z0-9]{146}",
+    "entropy": 2,
+    "keywords": ["xoxe-"]
+  },
+  {
+    "id": "slack-legacy-bot-token",
+    "description": "Uncovered a Slack Legacy bot token, which could lead to compromised legacy bot operations and data exposure.",
+    "regex": "xoxb-[0-9]{8,14}-[a-zA-Z0-9]{18,26}",
+    "entropy": 2,
+    "keywords": ["xoxb"]
+  },
+  {
+    "id": "slack-legacy-token",
+    "description": "Detected a Slack Legacy token, risking unauthorized access to older Slack integrations and user data.",
+    "regex": "xox[os]-\\d+-\\d+-\\d+-[a-fA-F\\d]+",
+    "entropy": 2,
+    "keywords": ["xoxo", "xoxs"]
+  },
+  {
+    "id": "slack-legacy-workspace-token",
+    "description": "Identified a Slack Legacy Workspace token, potentially compromising access to workspace data and legacy features.",
+    "regex": "xox[ar]-(?:\\d-)?[0-9a-zA-Z]{8,48}",
+    "entropy": 2,
+    "keywords": ["xoxa", "xoxr"]
+  },
+  {
+    "id": "slack-user-token",
+    "description": "Found a Slack User token, posing a risk of unauthorized user impersonation and data access within Slack workspaces.",
+    "regex": "xox[pe](?:-[0-9]{10,13}){3}-[a-zA-Z0-9-]{28,34}",
+    "entropy": 2,
+    "keywords": ["xoxp-", "xoxe-"]
+  },
+  {
+    "id": "slack-webhook-url",
+    "description": "Discovered a Slack Webhook, which could lead to unauthorized message posting and data leakage in Slack channels.",
+    "regex": "(?:https?://)?hooks.slack.com/(?:services|workflows|triggers)/[A-Za-z0-9+/]{43,56}",
+    "keywords": ["hooks.slack.com"]
+  },
+  {
+    "id": "snyk-api-token",
+    "description": "Uncovered a Snyk API token, potentially compromising software vulnerability scanning and code security.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:snyk[_.-]?(?:(?:api|oauth)[_.-]?)?(?:key|token))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "keywords": ["snyk"]
+  },
+  {
+    "id": "sonar-api-token",
+    "description": "Uncovered a Sonar API token, potentially compromising software vulnerability scanning and code security.",
+    "regex": "(?i)[\\w.-]{0,50}?(?:sonar[_.-]?(login|token))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}((?:squ_|sqp_|sqa_)?[a-z0-9=_\\-]{40})(?:[\\x60'\"\\s;]|\\\\[nr]|$)",
+    "secretGroup": 2,
+    "keywords": ["sonar"]
+  }
+]

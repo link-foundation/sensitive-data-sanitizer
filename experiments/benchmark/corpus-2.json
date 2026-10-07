@@ -1,0 +1,882 @@
+[
+  {
+    "id": "field/ja/0",
+    "text": "氏名: Private Person",
+    "spans": [
+      {
+        "start": 4,
+        "end": 18,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ja/1",
+    "text": "住所: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 4,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ja/2",
+    "text": "生年月日: 31.12.1990",
+    "spans": [
+      {
+        "start": 6,
+        "end": 16,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ja/3",
+    "text": "旅券: AB1234567",
+    "spans": [
+      {
+        "start": 4,
+        "end": 13,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ja/4",
+    "text": "電話番号: 09123456789",
+    "spans": [
+      {
+        "start": 6,
+        "end": 17,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ja/5",
+    "text": "メール: private@unknown.example",
+    "spans": [
+      {
+        "start": 5,
+        "end": 28,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ja/6",
+    "text": "組織: Private Company",
+    "spans": [
+      {
+        "start": 4,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ja/7",
+    "text": "ユーザー名: private-user",
+    "spans": [
+      {
+        "start": 7,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/ja",
+    "text": "パスワード: hunter2",
+    "spans": [
+      {
+        "start": 7,
+        "end": 14,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/zh/0",
+    "text": "姓名: Private Person",
+    "spans": [
+      {
+        "start": 4,
+        "end": 18,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh/1",
+    "text": "地址: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 4,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh/2",
+    "text": "出生日期: 31.12.1990",
+    "spans": [
+      {
+        "start": 6,
+        "end": 16,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh/3",
+    "text": "身份证: AB1234567",
+    "spans": [
+      {
+        "start": 5,
+        "end": 14,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh/4",
+    "text": "电话号码: 09123456789",
+    "spans": [
+      {
+        "start": 6,
+        "end": 17,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh/5",
+    "text": "邮箱: private@unknown.example",
+    "spans": [
+      {
+        "start": 4,
+        "end": 27,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh/6",
+    "text": "组织: Private Company",
+    "spans": [
+      {
+        "start": 4,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh/7",
+    "text": "用户名: private-user",
+    "spans": [
+      {
+        "start": 5,
+        "end": 17,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/zh",
+    "text": "密码: hunter2",
+    "spans": [
+      {
+        "start": 4,
+        "end": 11,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/zh-Hant/0",
+    "text": "姓名: Private Person",
+    "spans": [
+      {
+        "start": 4,
+        "end": 18,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh-Hant/1",
+    "text": "地址: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 4,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh-Hant/2",
+    "text": "出生日期: 31.12.1990",
+    "spans": [
+      {
+        "start": 6,
+        "end": 16,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh-Hant/3",
+    "text": "身分證: AB1234567",
+    "spans": [
+      {
+        "start": 5,
+        "end": 14,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh-Hant/4",
+    "text": "電話號碼: 09123456789",
+    "spans": [
+      {
+        "start": 6,
+        "end": 17,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh-Hant/5",
+    "text": "郵箱: private@unknown.example",
+    "spans": [
+      {
+        "start": 4,
+        "end": 27,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh-Hant/6",
+    "text": "組織: Private Company",
+    "spans": [
+      {
+        "start": 4,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/zh-Hant/7",
+    "text": "用戶名: private-user",
+    "spans": [
+      {
+        "start": 5,
+        "end": 17,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/zh-Hant",
+    "text": "密碼: hunter2",
+    "spans": [
+      {
+        "start": 4,
+        "end": 11,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/ko/0",
+    "text": "이름: Private Person",
+    "spans": [
+      {
+        "start": 4,
+        "end": 18,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ko/1",
+    "text": "주소: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 4,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ko/2",
+    "text": "생년월일: 31.12.1990",
+    "spans": [
+      {
+        "start": 6,
+        "end": 16,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ko/3",
+    "text": "여권: AB1234567",
+    "spans": [
+      {
+        "start": 4,
+        "end": 13,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ko/4",
+    "text": "전화번호: 09123456789",
+    "spans": [
+      {
+        "start": 6,
+        "end": 17,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ko/5",
+    "text": "이메일: private@unknown.example",
+    "spans": [
+      {
+        "start": 5,
+        "end": 28,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ko/6",
+    "text": "조직: Private Company",
+    "spans": [
+      {
+        "start": 4,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ko/7",
+    "text": "사용자 이름: private-user",
+    "spans": [
+      {
+        "start": 8,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/ko",
+    "text": "비밀번호: hunter2",
+    "spans": [
+      {
+        "start": 6,
+        "end": 13,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/ar/0",
+    "text": "الاسم: Private Person",
+    "spans": [
+      {
+        "start": 7,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ar/1",
+    "text": "العنوان: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 9,
+        "end": 26,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ar/2",
+    "text": "تاريخ الميلاد: 31.12.1990",
+    "spans": [
+      {
+        "start": 15,
+        "end": 25,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ar/3",
+    "text": "جواز السفر: AB1234567",
+    "spans": [
+      {
+        "start": 12,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ar/4",
+    "text": "الهاتف: 09123456789",
+    "spans": [
+      {
+        "start": 8,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ar/5",
+    "text": "البريد الإلكتروني: private@unknown.example",
+    "spans": [
+      {
+        "start": 19,
+        "end": 42,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ar/6",
+    "text": "المؤسسة: Private Company",
+    "spans": [
+      {
+        "start": 9,
+        "end": 24,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ar/7",
+    "text": "اسم المستخدم: private-user",
+    "spans": [
+      {
+        "start": 14,
+        "end": 26,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/ar",
+    "text": "كلمة المرور: hunter2",
+    "spans": [
+      {
+        "start": 13,
+        "end": 20,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/he/0",
+    "text": "שם: Private Person",
+    "spans": [
+      {
+        "start": 4,
+        "end": 18,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/he/1",
+    "text": "כתובת: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 7,
+        "end": 24,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/he/2",
+    "text": "תאריך לידה: 31.12.1990",
+    "spans": [
+      {
+        "start": 12,
+        "end": 22,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/he/3",
+    "text": "דרכון: AB1234567",
+    "spans": [
+      {
+        "start": 7,
+        "end": 16,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/he/4",
+    "text": "טלפון: 09123456789",
+    "spans": [
+      {
+        "start": 7,
+        "end": 18,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/he/5",
+    "text": "דואר אלקטרוני: private@unknown.example",
+    "spans": [
+      {
+        "start": 15,
+        "end": 38,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/he/6",
+    "text": "ארגון: Private Company",
+    "spans": [
+      {
+        "start": 7,
+        "end": 22,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/he/7",
+    "text": "שם משתמש: private-user",
+    "spans": [
+      {
+        "start": 10,
+        "end": 22,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/he",
+    "text": "סיסמה: hunter2",
+    "spans": [
+      {
+        "start": 7,
+        "end": 14,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/hi/0",
+    "text": "नाम: Private Person",
+    "spans": [
+      {
+        "start": 5,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/hi/1",
+    "text": "पता: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 5,
+        "end": 22,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/hi/2",
+    "text": "जन्म तिथि: 31.12.1990",
+    "spans": [
+      {
+        "start": 11,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/hi/3",
+    "text": "पासपोर्ट: AB1234567",
+    "spans": [
+      {
+        "start": 10,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/hi/4",
+    "text": "फ़ोन: 09123456789",
+    "spans": [
+      {
+        "start": 6,
+        "end": 17,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/hi/5",
+    "text": "ईमेल: private@unknown.example",
+    "spans": [
+      {
+        "start": 6,
+        "end": 29,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/hi/6",
+    "text": "संगठन: Private Company",
+    "spans": [
+      {
+        "start": 7,
+        "end": 22,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/hi/7",
+    "text": "उपयोगकर्ता नाम: private-user",
+    "spans": [
+      {
+        "start": 16,
+        "end": 28,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/hi",
+    "text": "पासवर्ड: hunter2",
+    "spans": [
+      {
+        "start": 9,
+        "end": 16,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/tr/0",
+    "text": "ad soyad: Private Person",
+    "spans": [
+      {
+        "start": 10,
+        "end": 24,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/tr/1",
+    "text": "adres: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 7,
+        "end": 24,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/tr/2",
+    "text": "doğum tarihi: 31.12.1990",
+    "spans": [
+      {
+        "start": 14,
+        "end": 24,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/tr/3",
+    "text": "pasaport: AB1234567",
+    "spans": [
+      {
+        "start": 10,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/tr/4",
+    "text": "telefon: 09123456789",
+    "spans": [
+      {
+        "start": 9,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/tr/5",
+    "text": "e-posta: private@unknown.example",
+    "spans": [
+      {
+        "start": 9,
+        "end": 32,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/tr/6",
+    "text": "kuruluş: Private Company",
+    "spans": [
+      {
+        "start": 9,
+        "end": 24,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/tr/7",
+    "text": "kullanıcı adı: private-user",
+    "spans": [
+      {
+        "start": 15,
+        "end": 27,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/tr",
+    "text": "şifre: hunter2",
+    "spans": [
+      {
+        "start": 7,
+        "end": 14,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/id/0",
+    "text": "nama: Private Person",
+    "spans": [
+      {
+        "start": 6,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/id/1",
+    "text": "alamat: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 8,
+        "end": 25,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/id/2",
+    "text": "tanggal lahir: 31.12.1990",
+    "spans": [
+      {
+        "start": 15,
+        "end": 25,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/id/3",
+    "text": "paspor: AB1234567",
+    "spans": [
+      {
+        "start": 8,
+        "end": 17,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/id/4",
+    "text": "telepon: 09123456789",
+    "spans": [
+      {
+        "start": 9,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/id/5",
+    "text": "surel: private@unknown.example",
+    "spans": [
+      {
+        "start": 7,
+        "end": 30,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/id/6",
+    "text": "organisasi: Private Company",
+    "spans": [
+      {
+        "start": 12,
+        "end": 27,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/id/7",
+    "text": "nama pengguna: private-user",
+    "spans": [
+      {
+        "start": 15,
+        "end": 27,
+        "category": "personal"
+      }
+    ]
+  }
+]

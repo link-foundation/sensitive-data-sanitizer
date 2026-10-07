@@ -3,7 +3,7 @@
 import { readFileSync, realpathSync } from 'node:fs';
 import { fileURLToPath, URL } from 'node:url';
 
-import { add, multiply } from '../src/index.js';
+import { add, multiply } from '../src/legacy.js';
 
 const COMMANDS = {
   add,
@@ -12,7 +12,7 @@ const COMMANDS = {
 
 function usage() {
   return [
-    'Usage: example-package-name <command> <left> <right>',
+    'Usage: sensitive-data-sanitizer-legacy <command> <left> <right>',
     '',
     'Commands:',
     '  add       Add two numbers',

@@ -1,0 +1,64 @@
+{
+  "collectedAt": "2026-10-07",
+  "sources": [
+    {
+      "repository": "link-assistant/hive-mind",
+      "commit": "56b651c9ddec153b5b6fdb052fd063cd8f2343a1",
+      "path": "src/credential-sanitization-core.lib.mjs",
+      "blob": "d55dec7a8c152b32c22c1abd4ec64bd948f547da"
+    },
+    {
+      "repository": "link-assistant/hive-mind",
+      "commit": "56b651c9ddec153b5b6fdb052fd063cd8f2343a1",
+      "path": "src/token-sanitization.lib.mjs",
+      "blob": "7fe225ba3396dc9a85696e0e66ffe32314e860ca"
+    },
+    {
+      "repository": "link-assistant/formal-ai",
+      "commit": "d209aac6461b355f1a527831202af3423135f7e6",
+      "path": "scripts/check-secrets.sh",
+      "blob": "c27f60fd52a3e45e63a58a16154fa73a84d54eb6"
+    },
+    {
+      "repository": "konard/documents-processing",
+      "commit": "b4e32ad9e0d355409801a958ec7e10f95b45a576",
+      "path": "src/evisa-redact.mjs",
+      "blob": "3d2f6a8d99578d0668f89e930aa9635afb230ad0"
+    },
+    {
+      "repository": "konard/documents-processing",
+      "commit": "b4e32ad9e0d355409801a958ec7e10f95b45a576",
+      "path": "src/redact-history.mjs",
+      "blob": "5f718d3c17a0f0192b417dda98b3b8362e8a9434"
+    },
+    {
+      "repository": "link-assistant/router",
+      "commit": "d7f602b8c4a920c61ceee1c8017b618cb401126e",
+      "path": "src/request_log/redaction.rs",
+      "blob": "f39e496eae017208cc15c519accbf13744c1b1cc"
+    },
+    {
+      "repository": "link-assistant/hive-mind",
+      "commit": "f459ba73e6c4776e9d5523bc829dec7b7ab7baa0",
+      "path": "src/log-sanitize-stream.lib.mjs",
+      "blob": "6ec6e0baa4ad8fdfa8fcbb3ede1a5eb36e8c5fee"
+    },
+    {
+      "repository": "link-assistant/hive-mind",
+      "commit": "f459ba73e6c4776e9d5523bc829dec7b7ab7baa0",
+      "path": "src/log-sanitize-worker.lib.mjs",
+      "blob": "df4790d5dcdcf6590da18fde84db84947dd1da8f"
+    },
+    {
+      "repository": "link-assistant/hive-mind",
+      "commit": "f459ba73e6c4776e9d5523bc829dec7b7ab7baa0",
+      "path": "eslint-rules/require-sanitized-output.mjs",
+      "blob": "fdbd957b79769282371008a4fa8dc6a9f40d122e"
+    }
+  ],
+  "relatedPullRequests": [
+    "https://github.com/link-assistant/hive-mind/pull/2398",
+    "https://github.com/link-assistant/hive-mind/pull/2401",
+    "https://github.com/link-assistant/formal-ai/pull/809"
+  ]
+}

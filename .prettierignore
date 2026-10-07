@@ -1,4 +1,5 @@
 node_modules
+ci-logs/
 coverage
 dist
 *.min.js

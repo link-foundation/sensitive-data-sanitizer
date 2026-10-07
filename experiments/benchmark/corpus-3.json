@@ -1,0 +1,623 @@
+[
+  {
+    "id": "credential/id",
+    "text": "kata sandi: hunter2",
+    "spans": [
+      {
+        "start": 12,
+        "end": 19,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/vi/0",
+    "text": "họ tên: Private Person",
+    "spans": [
+      {
+        "start": 8,
+        "end": 22,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/vi/1",
+    "text": "địa chỉ: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 9,
+        "end": 26,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/vi/2",
+    "text": "ngày sinh: 31.12.1990",
+    "spans": [
+      {
+        "start": 11,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/vi/3",
+    "text": "hộ chiếu: AB1234567",
+    "spans": [
+      {
+        "start": 10,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/vi/4",
+    "text": "điện thoại: 09123456789",
+    "spans": [
+      {
+        "start": 12,
+        "end": 23,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/vi/5",
+    "text": "thư điện tử: private@unknown.example",
+    "spans": [
+      {
+        "start": 13,
+        "end": 36,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/vi/6",
+    "text": "tổ chức: Private Company",
+    "spans": [
+      {
+        "start": 9,
+        "end": 24,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/vi/7",
+    "text": "tên người dùng: private-user",
+    "spans": [
+      {
+        "start": 16,
+        "end": 28,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/vi",
+    "text": "mật khẩu: hunter2",
+    "spans": [
+      {
+        "start": 10,
+        "end": 17,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/th/0",
+    "text": "ชื่อ: Private Person",
+    "spans": [
+      {
+        "start": 6,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/th/1",
+    "text": "ที่อยู่: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 9,
+        "end": 26,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/th/2",
+    "text": "วันเกิด: 31.12.1990",
+    "spans": [
+      {
+        "start": 9,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/th/3",
+    "text": "หนังสือเดินทาง: AB1234567",
+    "spans": [
+      {
+        "start": 16,
+        "end": 25,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/th/4",
+    "text": "โทรศัพท์: 09123456789",
+    "spans": [
+      {
+        "start": 10,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/th/5",
+    "text": "อีเมล: private@unknown.example",
+    "spans": [
+      {
+        "start": 7,
+        "end": 30,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/th/6",
+    "text": "องค์กร: Private Company",
+    "spans": [
+      {
+        "start": 8,
+        "end": 23,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/th/7",
+    "text": "ชื่อผู้ใช้: private-user",
+    "spans": [
+      {
+        "start": 12,
+        "end": 24,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/th",
+    "text": "รหัสผ่าน: hunter2",
+    "spans": [
+      {
+        "start": 10,
+        "end": 17,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "name/en",
+    "text": "Yesterday John Smith called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/es",
+    "text": "Yesterday Juan García called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/fr",
+    "text": "Yesterday Jean Dupont called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/de",
+    "text": "Yesterday Hans Müller called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/pt",
+    "text": "Yesterday João Silva called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/ru",
+    "text": "Yesterday Иван Петров called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/ja",
+    "text": "Yesterday 山田太郎 called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 14,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/zh",
+    "text": "Yesterday 张三 called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 12,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/zh-Hant",
+    "text": "Yesterday 張三 called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 12,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/ko",
+    "text": "Yesterday 김민수 called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 13,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/ar",
+    "text": "Yesterday محمد علي called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 18,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/he",
+    "text": "Yesterday דוד כהן called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 17,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/hi",
+    "text": "Yesterday आरव शर्मा called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/tr",
+    "text": "Yesterday Mehmet Yılmaz called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 23,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/id",
+    "text": "Yesterday Budi Santoso called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 22,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/vi",
+    "text": "Yesterday Nguyễn Văn An called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 23,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "name/th",
+    "text": "Yesterday สมชาย ใจดี called.",
+    "spans": [
+      {
+        "start": 10,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "email",
+    "text": "Send to alice.smith@private.example please.",
+    "spans": [
+      {
+        "start": 8,
+        "end": 35,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "ssn",
+    "text": "SSN 123-45-6789",
+    "spans": [
+      {
+        "start": 4,
+        "end": 15,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credit-card",
+    "text": "Card 4111 1111 1111 1111",
+    "spans": [
+      {
+        "start": 5,
+        "end": 24,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "phone-international",
+    "text": "Call +44 20 7946 0958",
+    "spans": [
+      {
+        "start": 5,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "ip-private",
+    "text": "Client 10.27.18.95",
+    "spans": [
+      {
+        "start": 7,
+        "end": 18,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "ipv6",
+    "text": "Client 2001:4860:dead:beef::1234",
+    "spans": [
+      {
+        "start": 7,
+        "end": 32,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "doppler",
+    "text": "Value dp.pt.Ab1cD2eF3gH4Ab1cD2eF3gH4Ab1cD2eF3gH4Z9yX8wV",
+    "spans": [
+      {
+        "start": 6,
+        "end": 55,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "github",
+    "text": "Value ghp_Ab1cD2Ab1cD2Ab1cD2Ab1cD2Ab1cD2Ab1cD2",
+    "spans": [
+      {
+        "start": 6,
+        "end": 46,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "slack",
+    "text": "Value xoxb-1234567890-1234567890-1234567890-AbCdEfGhIjKlMnOpQrStUvWx",
+    "spans": [
+      {
+        "start": 6,
+        "end": 68,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "aws",
+    "text": "Access AKIAAB12AB12AB12AB12",
+    "spans": [
+      {
+        "start": 7,
+        "end": 27,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "stripe",
+    "text": "Value sk_live_Ab1cD2eFAb1cD2eFAb1cD2eFAb1cD2eF",
+    "spans": [
+      {
+        "start": 6,
+        "end": 46,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "pem",
+    "text": "-----BEGIN PRIVATE KEY-----\nYWJjZGVmZ2hpamtsbW5vcA==\n-----END PRIVATE KEY-----",
+    "spans": [
+      {
+        "start": 0,
+        "end": 78,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "base64",
+    "text": "Encoded UGFzc3dvcmQ6IFRyMHViNGRvciYz",
+    "spans": [
+      {
+        "start": 8,
+        "end": 36,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "percent",
+    "text": "Encoded %70%61%73%73%77%6f%72%64%3a%20%68%75%6e%74%65%72%32",
+    "spans": [
+      {
+        "start": 8,
+        "end": 59,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "hex-entropy",
+    "text": "value=\"9b2c5d0e8f7a1346f0d28e7a4b69c531\"",
+    "spans": [
+      {
+        "start": 7,
+        "end": 39,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "negative/arithmetic",
+    "text": "add(2, 3) equals 5; 42 tests passed.",
+    "spans": []
+  },
+  {
+    "id": "negative/counts",
+    "text": "token_count=12345; total_tokens=42; password_length=16",
+    "spans": []
+  },
+  {
+    "id": "negative/public-person",
+    "text": "Albert Einstein worked on relativity.",
+    "spans": []
+  },
+  {
+    "id": "negative/public-org",
+    "text": "Microsoft and Google published docs.",
+    "spans": []
+  },
+  {
+    "id": "negative/public-resolver",
+    "text": "DNS 1.1.1.1 and 8.8.4.4",
+    "spans": []
+  },
+  {
+    "id": "negative/documentation-ip",
+    "text": "Examples use 192.0.2.1 and 203.0.113.42.",
+    "spans": []
+  },
+  {
+    "id": "negative/commit",
+    "text": "commit 9b2c5d0e8f7a1346f0d28e7a4b69c531",
+    "spans": []
+  },
+  {
+    "id": "negative/mysql-port",
+    "text": "mysql -P 3306; psql -p 5432",
+    "spans": []
+  },
+  {
+    "id": "negative/empty",
+    "text": "",
+    "spans": []
+  },
+  {
+    "id": "negative/redacted",
+    "text": "password: [REDACTED]",
+    "spans": []
+  },
+  {
+    "id": "negative/code",
+    "text": "const maxInputLength = 10485760; await sanitize(text);",
+    "spans": []
+  },
+  {
+    "id": "negative/tool",
+    "text": "mcp__playwright__browser_navigate; browser_snapshot",
+    "spans": []
+  }
+]

@@ -246,7 +246,7 @@ unnoticed on a pull request. Long steps therefore own an explicit
 budget through `scripts/run-with-budget-warning.sh` (or a step-level
 `timeout-minutes` for `uses:` steps), and `tests/ci-timeouts.test.js`
 asserts every budget stays at or under 70% of the job cap it sits
-under. See [CI-TIMEOUT-BUDGETS.md](CI-TIMEOUT-BUDGETS.md).
+under. See [CI-TIMEOUT-BUDGETS.md](legacy/CI-TIMEOUT-BUDGETS.md).
 
 Per-test timeouts are also enforced inside the runners that support a
 global budget:

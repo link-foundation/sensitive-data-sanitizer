@@ -1,0 +1,62 @@
+[
+  {
+    "mergedAt": "2026-09-13T14:43:09Z",
+    "number": 1132,
+    "title": "fix(release): publish to Docker Hub by defaulting its image and user",
+    "url": "https://github.com/link-assistant/formal-ai/pull/1132"
+  },
+  {
+    "mergedAt": "2026-08-24T04:10:07Z",
+    "number": 1056,
+    "title": "perf(ci): build once per platform and stop serializing on LTO",
+    "url": "https://github.com/link-assistant/formal-ai/pull/1056"
+  },
+  {
+    "mergedAt": "2026-09-15T22:13:03Z",
+    "number": 888,
+    "title": "E68: Generalize coding through dynamic discovery and close issue #710",
+    "url": "https://github.com/link-assistant/formal-ai/pull/888"
+  },
+  {
+    "mergedAt": "2026-07-20T11:04:04Z",
+    "number": 809,
+    "title": "Fix CI/CD false positives and errors, and run every release check at the pull-request stage",
+    "url": "https://github.com/link-assistant/formal-ai/pull/809"
+  },
+  {
+    "mergedAt": "2026-08-08T23:40:34Z",
+    "number": 981,
+    "title": "Fix false results in default-branch CI",
+    "url": "https://github.com/link-assistant/formal-ai/pull/981"
+  },
+  {
+    "mergedAt": "2026-08-15T05:30:50Z",
+    "number": 1007,
+    "title": "Require end-to-end Formal AI self-development each release",
+    "url": "https://github.com/link-assistant/formal-ai/pull/1007"
+  },
+  {
+    "mergedAt": "2026-07-26T22:01:55Z",
+    "number": 875,
+    "title": "docs: document the associative technology stack",
+    "url": "https://github.com/link-assistant/formal-ai/pull/875"
+  },
+  {
+    "mergedAt": "2026-08-09T08:38:37Z",
+    "number": 985,
+    "title": "feat(memory): add safe persisted-memory upgrades",
+    "url": "https://github.com/link-assistant/formal-ai/pull/985"
+  },
+  {
+    "mergedAt": "2026-08-02T04:05:07Z",
+    "number": 899,
+    "title": "Support Claude Code returning-user recap",
+    "url": "https://github.com/link-assistant/formal-ai/pull/899"
+  },
+  {
+    "mergedAt": "2026-08-10T20:09:12Z",
+    "number": 992,
+    "title": "E72: Research-driven coding knowledge loop — retrieved knowledge becomes verified coding procedures",
+    "url": "https://github.com/link-assistant/formal-ai/pull/992"
+  }
+]

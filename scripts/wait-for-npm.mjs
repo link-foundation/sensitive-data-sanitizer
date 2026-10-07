@@ -218,9 +218,9 @@ function sleep(seconds) {
   );
 }
 
-function readGithubOutputPath() {
+function readGithubOutputPath(env) {
   try {
-    return process.env.GITHUB_OUTPUT || '';
+    return env.GITHUB_OUTPUT || '';
   } catch {
     // Runtimes with restricted environment access (Deno without --allow-env)
     // throw here; step outputs are simply unavailable then.
@@ -228,8 +228,8 @@ function readGithubOutputPath() {
   }
 }
 
-function setOutput(name, value) {
-  const outputFile = readGithubOutputPath();
+function setOutput(name, value, env) {
+  const outputFile = readGithubOutputPath(env);
   if (outputFile) {
     appendFileSync(outputFile, `${name}=${value}\n`);
   }
@@ -341,8 +341,8 @@ export async function main({
       config.releaseVersion
     );
 
-    setOutput('npm_available', result.available ? 'true' : 'false');
-    setOutput('npm_check_status', result.status);
+    setOutput('npm_available', result.available ? 'true' : 'false', env);
+    setOutput('npm_check_status', result.status, env);
 
     if (!result.available) {
       stderr(

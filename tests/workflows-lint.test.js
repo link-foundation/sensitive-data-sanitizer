@@ -215,12 +215,14 @@ describe('reproducible workflow tooling and runner policy', () => {
     expect(['1.30.0', '1.30.1']).toContain(version);
   });
   it('pins both secretlint packages to the same exact version', () => {
-    const cli = releaseWorkflow.match(/-p secretlint@(\d+\.\d+\.\d+)/)?.[1];
-    const preset = releaseWorkflow.match(
-      /-p @secretlint\/secretlint-rule-preset-recommend@(\d+\.\d+\.\d+)/
-    )?.[1];
+    const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
+    const cli = packageJson.devDependencies.secretlint;
+    const preset =
+      packageJson.dependencies['@secretlint/secretlint-rule-preset-recommend'];
     expect(cli).toBe('13.0.7');
     expect(preset).toBe(cli);
+    expect(releaseWorkflow).toContain('run: npm run check:secrets');
+    expect(packageJson.scripts['check:secrets']).toBe('secretlint "**/*"');
   });
   it('pins every hosted OS image in every workflow', () => {
     for (const file of activeWorkflows) {

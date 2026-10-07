@@ -1,0 +1,92 @@
+[
+  {
+    "mergedAt": "2026-10-01T19:56:46Z",
+    "number": 2398,
+    "title": "fix: one failure comment with a clear reason, and unblock log upload (#2397)",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2398"
+  },
+  {
+    "mergedAt": "2026-09-08T12:58:45Z",
+    "number": 2227,
+    "title": "Keep the agent configuration minimal, mount only credentials into tasks, and make routed tasks single-credential (issue #2190)",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2227"
+  },
+  {
+    "mergedAt": "2026-09-03T09:42:36Z",
+    "number": 2193,
+    "title": "fix(2192): authenticate git downloads instead of failing repository setup",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2193"
+  },
+  {
+    "mergedAt": "2026-09-06T21:51:50Z",
+    "number": 2222,
+    "title": "CI/CD principle: prove the release can be published before building it (preflight credentials on main)",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2222"
+  },
+  {
+    "mergedAt": "2026-08-13T15:12:15Z",
+    "number": 2157,
+    "title": "fix(security): sanitize credentials that only appear encoded",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2157"
+  },
+  {
+    "mergedAt": "2026-09-21T19:27:03Z",
+    "number": 2282,
+    "title": "Restore protected releases without a dedicated token",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2282"
+  },
+  {
+    "mergedAt": "2026-08-26T13:54:34Z",
+    "number": 2174,
+    "title": "feat(router): route AI subscriptions, gh and git through hive-mind-router with per-task tokens (EXPERIMENTAL)",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2174"
+  },
+  {
+    "mergedAt": "2026-10-03T08:53:43Z",
+    "number": 2330,
+    "title": "Validate dispatched draft heads and test the draft health decision",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2330"
+  },
+  {
+    "mergedAt": "2026-07-27T17:59:26Z",
+    "number": 2112,
+    "title": "fix(security): sanitize credentials at every output boundary (#2111)",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2112"
+  },
+  {
+    "mergedAt": "2026-10-01T20:27:38Z",
+    "number": 2401,
+    "title": "fix: one Log Upload Failed comment, correct isolated log location, no keyword over-masking, no Secretlint profiler leak (#2400)",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2401"
+  },
+  {
+    "mergedAt": "2026-09-09T09:58:35Z",
+    "number": 2234,
+    "title": "Open a Formal AI draft for every new issue (#2233)",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2234"
+  },
+  {
+    "mergedAt": "2026-09-04T22:01:14Z",
+    "number": 2203,
+    "title": "Hot-load the model catalogue, add /models, and stop shipping a stale model list",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2203"
+  },
+  {
+    "mergedAt": "2026-09-04T10:07:45Z",
+    "number": 2197,
+    "title": "feat(2189): resume a killed session in its own container, and refresh every dependency",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2197"
+  },
+  {
+    "mergedAt": "2026-08-02T21:10:55Z",
+    "number": 2131,
+    "title": "fix(formal-ai): run native CLIs against a Formal AI endpoint instead of the argv wrapper",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2131"
+  },
+  {
+    "mergedAt": "2026-10-02T18:11:39Z",
+    "number": 2329,
+    "title": "Run tasks with optional GitHub credentials and record fixture cleanup",
+    "url": "https://github.com/link-assistant/hive-mind/pull/2329"
+  }
+]

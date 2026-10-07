@@ -1,0 +1,875 @@
+[
+  {
+    "id": "review/ampersand",
+    "text": "Password: Tr0ub4dor&3",
+    "spans": [
+      {
+        "start": 10,
+        "end": 21,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "review/phrase",
+    "text": "pwd: my secret phrase",
+    "spans": [
+      {
+        "start": 5,
+        "end": 21,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "review/json-quote",
+    "text": "{\"password\":\"a\\\"b\"}",
+    "spans": [
+      {
+        "start": 13,
+        "end": 17,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "review/password-prose",
+    "text": "the password is hunter2 for the server",
+    "spans": [
+      {
+        "start": 16,
+        "end": 23,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "review/russian-prose",
+    "text": "пароль от сервера: qwerty123",
+    "spans": [
+      {
+        "start": 19,
+        "end": 28,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "review/env-pass",
+    "text": "export PASS=xyz",
+    "spans": [
+      {
+        "start": 12,
+        "end": 15,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "review/env-db",
+    "text": "DB_PASS=short1",
+    "spans": [
+      {
+        "start": 8,
+        "end": 14,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "review/mysql",
+    "text": "mysql -u root -pS3cret",
+    "spans": [
+      {
+        "start": 16,
+        "end": 22,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "review/sshpass",
+    "text": "sshpass -p hunter2 ssh host",
+    "spans": [
+      {
+        "start": 11,
+        "end": 18,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "review/key-prose",
+    "text": "api key is ABCDEF1234567890XYZ",
+    "spans": [
+      {
+        "start": 11,
+        "end": 30,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "review/name-en",
+    "text": "Yesterday John Smith from Acme called me…",
+    "spans": [
+      {
+        "start": 10,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "review/name-ru",
+    "text": "Вчера мне позвонил Иван Петров из компании Ромашка.",
+    "spans": [
+      {
+        "start": 19,
+        "end": 30,
+        "category": "personal"
+      },
+      {
+        "start": 43,
+        "end": 50,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "review/phone-ru",
+    "text": "8 (912) 345-67-89",
+    "spans": [
+      {
+        "start": 0,
+        "end": 17,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "review/phone-us",
+    "text": "(415) 555-2671",
+    "spans": [
+      {
+        "start": 0,
+        "end": 14,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "review/address",
+    "text": "221B Baker Street, London NW1 6XE",
+    "spans": [
+      {
+        "start": 0,
+        "end": 33,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "review/iban",
+    "text": "DE89 3704 0044 0532 0130 00",
+    "spans": [
+      {
+        "start": 0,
+        "end": 27,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "review/passport",
+    "text": "паспорт 4509 123456",
+    "spans": [
+      {
+        "start": 8,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "review/inn",
+    "text": "my inn is 7707083893",
+    "spans": [
+      {
+        "start": 10,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "review/mac",
+    "text": "01:23:45:67:89:ab",
+    "spans": [
+      {
+        "start": 0,
+        "end": 17,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "review/handle",
+    "text": "@username",
+    "spans": [
+      {
+        "start": 0,
+        "end": 9,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "review/path-mac",
+    "text": "/Users/johnsmith/...",
+    "spans": [
+      {
+        "start": 7,
+        "end": 16,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "review/path-linux",
+    "text": "/home/alice/.ssh/id_rsa",
+    "spans": [
+      {
+        "start": 6,
+        "end": 11,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "review/public-email",
+    "text": "Contact press@microsoft.com",
+    "spans": []
+  },
+  {
+    "id": "review/public-ip",
+    "text": "8.8.8.8",
+    "spans": []
+  },
+  {
+    "id": "review/gitlab-runner",
+    "text": "GR1348941Az19Bc28Az19Bc28Az19Bc28",
+    "spans": [
+      {
+        "start": 0,
+        "end": 33,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "review/fcm",
+    "text": "AAAAA1b2A1b2:APA91bZ1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2Z1a2",
+    "spans": [
+      {
+        "start": 0,
+        "end": 147,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/en/0",
+    "text": "name: Private Person",
+    "spans": [
+      {
+        "start": 6,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/en/1",
+    "text": "address: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 9,
+        "end": 26,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/en/2",
+    "text": "date of birth: 31.12.1990",
+    "spans": [
+      {
+        "start": 15,
+        "end": 25,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/en/3",
+    "text": "passport: AB1234567",
+    "spans": [
+      {
+        "start": 10,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/en/4",
+    "text": "phone: 09123456789",
+    "spans": [
+      {
+        "start": 7,
+        "end": 18,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/en/5",
+    "text": "email: private@unknown.example",
+    "spans": [
+      {
+        "start": 7,
+        "end": 30,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/en/6",
+    "text": "organization: Private Company",
+    "spans": [
+      {
+        "start": 14,
+        "end": 29,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/en/7",
+    "text": "username: private-user",
+    "spans": [
+      {
+        "start": 10,
+        "end": 22,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/en",
+    "text": "password: hunter2",
+    "spans": [
+      {
+        "start": 10,
+        "end": 17,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/es/0",
+    "text": "nombre: Private Person",
+    "spans": [
+      {
+        "start": 8,
+        "end": 22,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/es/1",
+    "text": "dirección: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 11,
+        "end": 28,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/es/2",
+    "text": "fecha de nacimiento: 31.12.1990",
+    "spans": [
+      {
+        "start": 21,
+        "end": 31,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/es/3",
+    "text": "pasaporte: AB1234567",
+    "spans": [
+      {
+        "start": 11,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/es/4",
+    "text": "teléfono: 09123456789",
+    "spans": [
+      {
+        "start": 10,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/es/5",
+    "text": "correo electrónico: private@unknown.example",
+    "spans": [
+      {
+        "start": 20,
+        "end": 43,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/es/6",
+    "text": "organización: Private Company",
+    "spans": [
+      {
+        "start": 14,
+        "end": 29,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/es/7",
+    "text": "usuario: private-user",
+    "spans": [
+      {
+        "start": 9,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/es",
+    "text": "contraseña: hunter2",
+    "spans": [
+      {
+        "start": 12,
+        "end": 19,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/fr/0",
+    "text": "nom: Private Person",
+    "spans": [
+      {
+        "start": 5,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/fr/1",
+    "text": "adresse: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 9,
+        "end": 26,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/fr/2",
+    "text": "date de naissance: 31.12.1990",
+    "spans": [
+      {
+        "start": 19,
+        "end": 29,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/fr/3",
+    "text": "passeport: AB1234567",
+    "spans": [
+      {
+        "start": 11,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/fr/4",
+    "text": "téléphone: 09123456789",
+    "spans": [
+      {
+        "start": 11,
+        "end": 22,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/fr/5",
+    "text": "courriel: private@unknown.example",
+    "spans": [
+      {
+        "start": 10,
+        "end": 33,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/fr/6",
+    "text": "organisation: Private Company",
+    "spans": [
+      {
+        "start": 14,
+        "end": 29,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/fr/7",
+    "text": "identifiant: private-user",
+    "spans": [
+      {
+        "start": 13,
+        "end": 25,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/fr",
+    "text": "mot de passe: hunter2",
+    "spans": [
+      {
+        "start": 14,
+        "end": 21,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/de/0",
+    "text": "name: Private Person",
+    "spans": [
+      {
+        "start": 6,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/de/1",
+    "text": "adresse: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 9,
+        "end": 26,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/de/2",
+    "text": "geburtsdatum: 31.12.1990",
+    "spans": [
+      {
+        "start": 14,
+        "end": 24,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/de/3",
+    "text": "reisepass: AB1234567",
+    "spans": [
+      {
+        "start": 11,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/de/4",
+    "text": "telefon: 09123456789",
+    "spans": [
+      {
+        "start": 9,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/de/5",
+    "text": "e-mail: private@unknown.example",
+    "spans": [
+      {
+        "start": 8,
+        "end": 31,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/de/6",
+    "text": "organisation: Private Company",
+    "spans": [
+      {
+        "start": 14,
+        "end": 29,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/de/7",
+    "text": "benutzername: private-user",
+    "spans": [
+      {
+        "start": 14,
+        "end": 26,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/de",
+    "text": "passwort: hunter2",
+    "spans": [
+      {
+        "start": 10,
+        "end": 17,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/pt/0",
+    "text": "nome: Private Person",
+    "spans": [
+      {
+        "start": 6,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/pt/1",
+    "text": "endereço: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 10,
+        "end": 27,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/pt/2",
+    "text": "data de nascimento: 31.12.1990",
+    "spans": [
+      {
+        "start": 20,
+        "end": 30,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/pt/3",
+    "text": "passaporte: AB1234567",
+    "spans": [
+      {
+        "start": 12,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/pt/4",
+    "text": "telefone: 09123456789",
+    "spans": [
+      {
+        "start": 10,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/pt/5",
+    "text": "correio eletrônico: private@unknown.example",
+    "spans": [
+      {
+        "start": 20,
+        "end": 43,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/pt/6",
+    "text": "organização: Private Company",
+    "spans": [
+      {
+        "start": 13,
+        "end": 28,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/pt/7",
+    "text": "usuário: private-user",
+    "spans": [
+      {
+        "start": 9,
+        "end": 21,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/pt",
+    "text": "senha: hunter2",
+    "spans": [
+      {
+        "start": 7,
+        "end": 14,
+        "category": "credential"
+      }
+    ]
+  },
+  {
+    "id": "field/ru/0",
+    "text": "имя: Private Person",
+    "spans": [
+      {
+        "start": 5,
+        "end": 19,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ru/1",
+    "text": "адрес: 42 Example Avenue",
+    "spans": [
+      {
+        "start": 7,
+        "end": 24,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ru/2",
+    "text": "дата рождения: 31.12.1990",
+    "spans": [
+      {
+        "start": 15,
+        "end": 25,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ru/3",
+    "text": "паспорт: AB1234567",
+    "spans": [
+      {
+        "start": 9,
+        "end": 18,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ru/4",
+    "text": "телефон: 09123456789",
+    "spans": [
+      {
+        "start": 9,
+        "end": 20,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ru/5",
+    "text": "электронная почта: private@unknown.example",
+    "spans": [
+      {
+        "start": 19,
+        "end": 42,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ru/6",
+    "text": "организация: Private Company",
+    "spans": [
+      {
+        "start": 13,
+        "end": 28,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "field/ru/7",
+    "text": "имя пользователя: private-user",
+    "spans": [
+      {
+        "start": 18,
+        "end": 30,
+        "category": "personal"
+      }
+    ]
+  },
+  {
+    "id": "credential/ru",
+    "text": "пароля: hunter2",
+    "spans": [
+      {
+        "start": 8,
+        "end": 15,
+        "category": "credential"
+      }
+    ]
+  }
+]

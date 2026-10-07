@@ -1,16 +1,23 @@
 {
-  "name": "@link-foundation/example-package-name",
+  "name": "@link-foundation/sensitive-data-sanitizer",
   "version": "0.11.31",
-  "description": "A JavaScript/TypeScript package template for AI-driven development",
+  "description": "Offline sensitive-text sanitization with credential, multilingual personal-data and scanner union detection",
   "type": "module",
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "bin": {
-    "example-package-name": "./bin/example-package-name.js"
+    "sensitive-data-sanitizer": "./bin/sensitive-data-sanitizer.js",
+    "sensitive-data-sanitizer-legacy": "./bin/legacy-example-package-name.js"
   },
   "files": [
     "bin/",
     "src/",
+    "docs/API.md",
+    "docs/COVERAGE.md",
+    "docs/HISTORY-REMEDIATION.md",
+    "examples/combined-scanners.mjs",
+    "examples/presidio-bridge.py",
+    "examples/sanitize-session.mjs",
     "CHANGELOG.md",
     "LICENSE",
     "README.md"
@@ -19,6 +26,15 @@
     ".": {
       "types": "./src/index.d.ts",
       "import": "./src/index.js"
+    },
+    "./eslint-plugin": {
+      "types": "./src/eslint-plugin.d.ts",
+      "import": "./src/eslint-plugin.js"
+    },
+    "./legacy": {
+      "types": "./src/legacy.d.ts",
+      "browser": "./src/arithmetic.js",
+      "import": "./src/legacy.js"
     }
   },
   "scripts": {
@@ -29,6 +45,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check:duplication": "jscpd .",
+    "check:secrets": "secretlint \"**/*\"",
     "check": "npm run lint && npm run format:check && npm run check:duplication",
     "example:web:dev": "npm --prefix examples/universal-app run dev",
     "example:web:build": "npm --prefix examples/universal-app run build",
@@ -44,10 +61,13 @@
     "changeset:status": "changeset status --since=origin/main"
   },
   "keywords": [
-    "template",
-    "javascript",
-    "typescript",
-    "ai-driven"
+    "sanitization",
+    "redaction",
+    "secrets",
+    "pii",
+    "privacy",
+    "logs",
+    "cli"
   ],
   "author": "",
   "license": "Unlicense",
@@ -61,10 +81,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/link-foundation/js-ai-driven-development-pipeline-template.git"
+    "url": "git+https://github.com/link-foundation/sensitive-data-sanitizer.git"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "devDependencies": {
     "@changesets/cli": "^3.0.3",
@@ -75,6 +95,7 @@
     "jscpd": "^5.4.0",
     "lint-staged": "^16.4.0",
     "prettier": "^3.6.2",
+    "secretlint": "13.0.7",
     "test-anywhere": "^0.8.48"
   },
   "lint-staged": {
@@ -87,5 +108,11 @@
       "prettier --write",
       "prettier --check"
     ]
+  },
+  "dependencies": {
+    "@secretlint/core": "13.0.7",
+    "@secretlint/profiler": "13.0.7",
+    "@secretlint/secretlint-rule-preset-recommend": "13.0.7",
+    "re2-wasm": "1.0.2"
   }
 }

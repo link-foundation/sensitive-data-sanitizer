@@ -1,0 +1,172 @@
+{"archived": false, "default_branch": "main", "description": "A way to describe data using references and links.", "full_name": "link-foundation/links-notation"}
+{"archived": false, "default_branch": "#16", "description": null, "full_name": "link-foundation/boilerplate"}
+{"archived": false, "default_branch": "cyber", "description": "Monorepository with gitmodules for easy development of the entire project in one place.", "full_name": "link-foundation/dev"}
+{"archived": false, "default_branch": "documentation/add_documentation", "description": "useState style data layers", "full_name": "link-foundation/store"}
+{"archived": false, "default_branch": "Menzorg-patch-1", "description": null, "full_name": "link-foundation/hasura"}
+{"archived": false, "default_branch": "feature/update_dependencies", "description": null, "full_name": "link-foundation/react-hasura"}
+{"archived": false, "default_branch": "deepgraph-4-konard", "description": null, "full_name": "link-foundation/materialized-path"}
+{"archived": false, "default_branch": "app", "description": null, "full_name": "link-foundation/deeplinks"}
+{"archived": false, "default_branch": "animation", "description": null, "full_name": "link-foundation/deepcase.github.io"}
+{"archived": false, "default_branch": "master", "description": "fix _ symbol file and directory names for android support", "full_name": "link-foundation/android-lodash-fix"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/deepcase-heroku"}
+{"archived": false, "default_branch": "@roman-aframe-experiments", "description": null, "full_name": "link-foundation/deepcase-app"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/js-docker-isolation-provider"}
+{"archived": false, "default_branch": "@deep-foundation/capacitor-camera", "description": null, "full_name": "link-foundation/deep-memo-app"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/python-docker-isolation-provider"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/workflows"}
+{"archived": false, "default_branch": "main", "description": "NPM packager package for Deep. It handles installation and publication of deep packages.", "full_name": "link-foundation/npm-packager"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/vscode-deep-extension"}
+{"archived": false, "default_branch": "bugfix/faq/how_to_create_new_docker_isolation_provider", "description": "https://github.com/deep-foundation/Documentation/wiki", "full_name": "link-foundation/documentation"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/chatgpt"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/Discussions"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/tai"}
+{"archived": false, "default_branch": "autopr/1", "description": "Deep Client - a way to connect your favourite language with Deep.", "full_name": "link-foundation/deepclient"}
+{"archived": false, "default_branch": "gh-pages", "description": null, "full_name": "link-foundation/payments-tinkoff-c2b-test"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/payments-tinkoff-c2b-test-integration"}
+{"archived": false, "default_branch": "bugfix/empty_device_data_on_sync", "description": null, "full_name": "link-foundation/capacitor-device"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/react-with-packages-installed"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/react-use-are-packages-installed"}
+{"archived": false, "default_branch": "gh-pages", "description": "capacitor-voice-recorder package integration", "full_name": "link-foundation/capacitor-voice-recorder"}
+{"archived": false, "default_branch": "feature/add_decorator", "description": null, "full_name": "link-foundation/capacitor-motion"}
+{"archived": false, "default_branch": "gh-pages", "description": null, "full_name": "link-foundation/capacitor-network"}
+{"archived": false, "default_branch": "gh-pages", "description": null, "full_name": "link-foundation/deep-export"}
+{"archived": false, "default_branch": "gh-pages", "description": null, "full_name": "link-foundation/deep-import"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/payments-tinkoff-c2b"}
+{"archived": false, "default_branch": "gh-pages", "description": "capacitor-camera integration", "full_name": "link-foundation/capacitor-camera"}
+{"archived": false, "default_branch": "feature/add_package_class_generator", "description": null, "full_name": "link-foundation/npm-automation"}
+{"archived": false, "default_branch": "gh-pages", "description": null, "full_name": "link-foundation/create-typescript-npm-package"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/typescript-npm-package-template"}
+{"archived": false, "default_branch": "@deep-foundation/capacitor-camera", "description": null, "full_name": "link-foundation/sdk"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/.github"}
+{"archived": false, "default_branch": "breaking-bads", "description": null, "full_name": "link-foundation/rust-docker-isolation-provider"}
+{"archived": false, "default_branch": "gh-pages", "description": null, "full_name": "link-foundation/logger"}
+{"archived": false, "default_branch": "gh-pages", "description": null, "full_name": "link-foundation/logger-test"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/chatgpt-discord-listener"}
+{"archived": false, "default_branch": "feature/add_serial_operations", "description": "Provides links for working with @firebase/messaging and typescript library to simplify integration with this deep package", "full_name": "link-foundation/firebase-push-notification"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/capacitor-screen-reader"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/nextjs-chatgpt-assistant-template"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/php-docker-isolation-provider"}
+{"archived": false, "default_branch": "gh-pages", "description": null, "full_name": "link-foundation/capacitor-geolocation"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/jsonschema-form"}
+{"archived": false, "default_branch": "master", "description": "Automatically load declaration files while typing in monaco editor instances", "full_name": "link-foundation/monaco-editor-auto-typings"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/browser-extension"}
+{"archived": false, "default_branch": "client-first", "description": null, "full_name": "link-foundation/deepcase"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/yachts"}
+{"archived": false, "default_branch": "gh-pages", "description": null, "full_name": "link-foundation/deep-memo"}
+{"archived": false, "default_branch": "main", "description": "Links Theory", "full_name": "link-foundation/deep-theory"}
+{"archived": false, "default_branch": "dev", "description": null, "full_name": "link-foundation/kotlin-docker-isolation-provider"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/golang-docker-isolation-provider"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/puppeteer-docker-isolation-provider"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/cpp-docker-isolation-provider"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/bun-js-docker-isolation-provider"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/yoptascript-docker-isolation-provider"}
+{"archived": false, "default_branch": "feature/create", "description": null, "full_name": "link-foundation/capacitor-action-sheet"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/call-history"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/capacitor-dialog"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/capacitor-clipboard"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/capacitor-haptics"}
+{"archived": false, "default_branch": "gh-pages", "description": null, "full_name": "link-foundation/capacitor-contacts"}
+{"archived": false, "default_branch": "main", "description": "Scripts to help automate the automation", "full_name": "link-foundation/scripts"}
+{"archived": false, "default_branch": "gh-pages", "description": null, "full_name": "link-foundation/object-to-links-async-converter"}
+{"archived": false, "default_branch": "main", "description": "Experiment", "full_name": "link-foundation/loggify-js"}
+{"archived": false, "default_branch": "main", "description": "This is repository for packages that are published only in NPM.", "full_name": "link-foundation/deep-packages"}
+{"archived": false, "default_branch": "main", "description": "chatgpt-azure-discord-listener", "full_name": "link-foundation/chatgpt-azure-discord-listener"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/news-analytics-demo"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/object-to-links-converter"}
+{"archived": false, "default_branch": "main", "description": "This is repository for articles that are published on another resources", "full_name": "link-foundation/articles"}
+{"archived": false, "default_branch": "aframe", "description": null, "full_name": "link-foundation/deep-vision"}
+{"archived": false, "default_branch": "bugfix/fix_struct_tsconfig_consequences", "description": null, "full_name": "link-foundation/russian-laws"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/examples"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/chatgpt-telegram-bot"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/telegram-bot-listener"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/roadmap"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/telegram-channels-listener"}
+{"archived": false, "default_branch": "deep", "description": "Your 🔵 Superintelligence", "full_name": "link-foundation/deep-chain"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/payments-tinkoff-c2c"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/russian-laws-bot"}
+{"archived": false, "default_branch": "main", "description": "Experiments with gravity simulations", "full_name": "link-foundation/gravity-experiment"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/wisper-transcribation-telegram-bot"}
+{"archived": false, "default_branch": "documentation/upgrade_readme", "description": null, "full_name": "link-foundation/chatgpt-azure"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/travelling-salesman-problem-experiment"}
+{"archived": false, "default_branch": "main", "description": "Questions and answers", "full_name": "link-foundation/questions-and-answers"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/deepmemo-app"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/deepmemo-imports"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/deepmemo-links"}
+{"archived": false, "default_branch": "New", "description": null, "full_name": "link-foundation/deep-gpt"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/bruteForce-problem"}
+{"archived": false, "default_branch": "main", "description": "A discord bot that executes the code and gives output.", "full_name": "link-foundation/discord-code-executor"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/perception-imports"}
+{"archived": false, "default_branch": "master", "description": "Immortal robot for the Great Web", "full_name": "link-foundation/cyb-ts"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/perception-app"}
+{"archived": false, "default_branch": "main", "description": "use-m: dynamically download & import any JavaScript module", "full_name": "link-foundation/use-m"}
+{"archived": false, "default_branch": "main", "description": "A CLI tool to manipulate links.", "full_name": "link-foundation/link-cli"}
+{"archived": false, "default_branch": "main", "description": "Universal solution for working with any meaning.", "full_name": "link-foundation/deep"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/cw-deep"}
+{"archived": false, "default_branch": "main", "description": "Search for people and project that are pure associative in the nature or at least similar", "full_name": "link-foundation/people-and-projects"}
+{"archived": false, "default_branch": "main", "description": "International System of Units in JavaScript", "full_name": "link-foundation/si-units"}
+{"archived": false, "default_branch": "main", "description": "The script that pulls it all from GitHub", "full_name": "link-foundation/gh-pull-all"}
+{"archived": false, "default_branch": "main", "description": "Deduplicate LiNo (Links Notation)", "full_name": "link-foundation/deduplino"}
+{"archived": false, "default_branch": "main", "description": "$treamable commands executor", "full_name": "link-foundation/command-stream"}
+{"archived": false, "default_branch": "main", "description": "A simple abstration/wrapper, to make lazy logging efficient and nice", "full_name": "link-foundation/log-lazy"}
+{"archived": false, "default_branch": "main", "description": "A JavaScript library to operate .lenv files", "full_name": "link-foundation/lino-env"}
+{"archived": false, "default_branch": "main", "description": "Gamification of coding, execute any command with ability to auto-report issues on GitHub", "full_name": "link-foundation/start"}
+{"archived": false, "default_branch": "main", "description": "A communication bridge between group chats in different platforms, like VK, Telegram, Discord.", "full_name": "link-foundation/bridge"}
+{"archived": false, "default_branch": "main", "description": "A prototype for logic framework that can reason about anything relative to given probability of input statements.", "full_name": "link-foundation/relative-meta-logic"}
+{"archived": false, "default_branch": "main", "description": "A JavaScript testing framework that is build up on build in testing frameworks of Bun, Deno, Node", "full_name": "link-foundation/test-anywhere"}
+{"archived": false, "default_branch": "main", "description": "A tool to download GitHub issue for AI to solve", "full_name": "link-foundation/gh-load-issue"}
+{"archived": false, "default_branch": "main", "description": "A tool to download GitHub pull request for AI to improve or review", "full_name": "link-foundation/gh-load-pull-request"}
+{"archived": false, "default_branch": "main", "description": "The links meta-theory", "full_name": "link-foundation/meta-theory"}
+{"archived": false, "default_branch": "main", "description": "A setup of Links Notation Environment (lenv) + yargs to support easy configuration of CLI apps", "full_name": "link-foundation/lino-arguments"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/links-client"}
+{"archived": false, "default_branch": "main", "description": "A tool to show tree of files from GitHub Repository", "full_name": "link-foundation/gh-tree"}
+{"archived": false, "default_branch": "main", "description": "An example of project migrated to Associative Data Storage and Links Notation", "full_name": "link-foundation/ideav-local-associative-js"}
+{"archived": false, "default_branch": "main", "description": "A tool to upload the log to GitHub", "full_name": "link-foundation/gh-upload-log"}
+{"archived": false, "default_branch": "main", "description": "A tool to copy, move, keep or archive or stash all uncommitted changes", "full_name": "link-foundation/gh-uncommitted"}
+{"archived": false, "default_branch": "main", "description": "A notation for largest possible set of languages. It should focus on parsing ( ), { }, [ ], ' ', ` `, \" \" and so on.", "full_name": "link-foundation/meta-notation"}
+{"archived": false, "default_branch": "main", "description": "A library to encode/decode objects to/from links notation", "full_name": "link-foundation/lino-objects-codec"}
+{"archived": false, "default_branch": "main", "description": "A library to simplify control of local browsers for e2e testing", "full_name": "link-foundation/browser-commander"}
+{"archived": false, "default_branch": "main", "description": "Architecture principles for code design", "full_name": "link-foundation/code-architecture-principles"}
+{"archived": false, "default_branch": "main", "description": "A tool to setup git identity based on current gh user.", "full_name": "link-foundation/gh-setup-git-identity"}
+{"archived": false, "default_branch": "main", "description": "A template for AI driven development pipeline for JavaScript/TypeScript", "full_name": "link-foundation/js-ai-driven-development-pipeline-template"}
+{"archived": false, "default_branch": "main", "description": "A rule based turing complete transformer based on Links Notation", "full_name": "link-foundation/transformer"}
+{"archived": false, "default_branch": "main", "description": "A hybrid of Regular Expressions and PEGs based on Links Notation tokenizer", "full_name": "link-foundation/grammar-expressions"}
+{"archived": false, "default_branch": "main", "description": "Links Notation tokenizer, that can tokenize Unicode String as sequence of references in Links Notation", "full_name": "link-foundation/lino-tokenizer"}
+{"archived": false, "default_branch": "main", "description": "A rule based Python to JavaScript translator", "full_name": "link-foundation/python-to-javascript-translator"}
+{"archived": false, "default_branch": "main", "description": "A rule based translator for translation of JavaScript to Rust", "full_name": "link-foundation/javascript-to-rust-translator"}
+{"archived": false, "default_branch": "main", "description": "Yet another REST API framework, using Links Notation instead of Json", "full_name": "link-foundation/lino-rest-api"}
+{"archived": false, "default_branch": "main", "description": "A template for AI driven development in Python", "full_name": "link-foundation/python-ai-driven-development-pipeline-template"}
+{"archived": false, "default_branch": "main", "description": "A tool to download gist", "full_name": "link-foundation/gh-download-gist"}
+{"archived": false, "default_branch": "main", "description": "A cache, that stores objects in Links Notation, instead of JSON", "full_name": "link-foundation/lino-cache"}
+{"archived": false, "default_branch": "main", "description": "Links message queue", "full_name": "link-foundation/links-queue"}
+{"archived": false, "default_branch": "main", "description": "A template for AI driven development pipeline for Rust", "full_name": "link-foundation/rust-ai-driven-development-pipeline-template"}
+{"archived": false, "default_branch": "main", "description": "A template for AI driven development pipeline for Go", "full_name": "link-foundation/go-ai-driven-development-pipeline-template"}
+{"archived": false, "default_branch": "main", "description": "A template for AI driven development pipeline for Java", "full_name": "link-foundation/java-ai-driven-development-pipeline-template"}
+{"archived": false, "default_branch": "main", "description": "A template for AI driven development pipeline for C#", "full_name": "link-foundation/csharp-ai-driven-development-pipeline-template"}
+{"archived": false, "default_branch": "main", "description": "A tool to upload image to GitHub (for public and private repositories)", "full_name": "link-foundation/gh-upload-image"}
+{"archived": false, "default_branch": "main", "description": null, "full_name": "link-foundation/network-isomorphism-solver"}
+{"archived": false, "default_branch": "main", "description": "A docker container image, that contains most popular language runtimes and tools to be reused for software development environments", "full_name": "link-foundation/box"}
+{"archived": false, "default_branch": "main", "description": "A tool to setup git identity based on current glab user.", "full_name": "link-foundation/glab-setup-git-identity"}
+{"archived": false, "default_branch": "main", "description": "The best in class library and CLI tool to convert pdf to markdown", "full_name": "link-foundation/pdf-to-markdown"}
+{"archived": false, "default_branch": "main", "description": "A telegram library, to use best practices of telegram bots", "full_name": "link-foundation/anygram"}
+{"archived": false, "default_branch": "main", "description": "A library to set your process name across platforms", "full_name": "link-foundation/set-process-name"}
+{"archived": false, "default_branch": "main", "description": "A links notation dialect to describe links notation schema", "full_name": "link-foundation/lino-schema"}
+{"archived": false, "default_branch": "main", "description": "A tool to cover most of concepts/terms at markdown document with links to wikipedia", "full_name": "link-foundation/wiki-referencify"}
+{"archived": false, "default_branch": "main", "description": "A CLI tool to sync authentication for CLI tools", "full_name": "link-foundation/sync-auth"}
+{"archived": false, "default_branch": "main", "description": "The script that pulls it all from GitLab", "full_name": "link-foundation/glab-pull-all"}
+{"archived": false, "default_branch": "main", "description": "A universal document markup language", "full_name": "link-foundation/lino-document-markup-language"}
+{"archived": false, "default_branch": "main", "description": "A ontology that can describe itself", "full_name": "link-foundation/meta-ontology"}
+{"archived": false, "default_branch": "main", "description": "A Rust web based code sandbox", "full_name": "link-foundation/rust-web-box"}
+{"archived": false, "default_branch": "main", "description": "A tool to collect most frequent code changes that happen in the repository using its git history", "full_name": "link-foundation/code-changes-collector"}
+{"archived": false, "default_branch": "main", "description": "A tool to inference grammar from multiple examples of text in the same domain", "full_name": "link-foundation/grammar-inference"}
+{"archived": false, "default_branch": "main", "description": "A tool to inference rules from events/changes and requirements", "full_name": "link-foundation/rules-inference"}
+{"archived": false, "default_branch": "main", "description": "Software to manage profiles with guaranteed fully local control, the software to control all your online presence in once place", "full_name": "link-foundation/meta-sovereign"}
+{"archived": false, "default_branch": "main", "description": "Logging library that uses deduplicated Links Notation and lazy logging to reduce logs size", "full_name": "link-foundation/dedup-log"}
+{"archived": false, "default_branch": "main", "description": "The internationalization done in Links Notation", "full_name": "link-foundation/lino-i18n"}
+{"archived": false, "default_branch": "main", "description": "A query language for links", "full_name": "link-foundation/linksql"}
+{"archived": false, "default_branch": "main", "description": "A language about languages", "full_name": "link-foundation/meta-language"}
+{"archived": false, "default_branch": "main", "description": "A template for AI driven development pipeline for Symphony PHP", "full_name": "link-foundation/php-ai-driven-development-pipeline-template"}
+{"archived": false, "default_branch": "main", "description": "A microservice to accumulate, store, search logs, structured and unstructured in links using lossless deduplication", "full_name": "link-foundation/links-logs-vault"}
+{"archived": false, "default_branch": "main", "description": "A tool to manage GitHub", "full_name": "link-foundation/gh-manager"}
+{"archived": false, "default_branch": "main", "description": "A tool to manage package registries for different programming languages", "full_name": "link-foundation/package-registry-manager"}
+{"archived": false, "default_branch": "main", "description": "A template for AI driven development pipeline for C/C++", "full_name": "link-foundation/cpp-ai-driven-development-pipeline-template"}
+{"archived": false, "default_branch": "main", "description": "A sanitizer for sensitive data", "full_name": "link-foundation/sensitive-data-sanitizer"}

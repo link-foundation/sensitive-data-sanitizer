@@ -10,26 +10,49 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-import { runCli } from '../bin/example-package-name.js';
+import { runCli } from '../bin/legacy-example-package-name.js';
 
 const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
 const lockJson = JSON.parse(readFileSync('package-lock.json', 'utf8'));
 
 describe('publishable package metadata', () => {
-  it('uses the real link-foundation example package name', () => {
-    expect(packageJson.name).toBe('@link-foundation/example-package-name');
+  it('uses the sensitive-data-sanitizer package name', () => {
+    expect(packageJson.name).toBe('@link-foundation/sensitive-data-sanitizer');
     expect(packageJson.publishConfig).toEqual({ access: 'public' });
-    expect(lockJson.name).toBe('@link-foundation/example-package-name');
+    expect(lockJson.name).toBe('@link-foundation/sensitive-data-sanitizer');
     expect(lockJson.packages[''].name).toBe(
-      '@link-foundation/example-package-name'
+      '@link-foundation/sensitive-data-sanitizer'
     );
   });
 
   it('defines a globally installable CLI command', () => {
     expect(packageJson.bin).toEqual({
-      'example-package-name': './bin/example-package-name.js',
+      'sensitive-data-sanitizer-legacy': './bin/legacy-example-package-name.js',
+      'sensitive-data-sanitizer': './bin/sensitive-data-sanitizer.js',
     });
-    expect(existsSync('bin/example-package-name.js')).toBe(true);
+    expect(existsSync('bin/legacy-example-package-name.js')).toBe(true);
+  });
+
+  it('supports the retained arithmetic package under browser resolution', () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
+    const result = spawnSync(
+      process.execPath,
+      [
+        '--conditions=browser',
+        '--input-type=module',
+        '--eval',
+        "import * as api from '@link-foundation/sensitive-data-sanitizer/legacy'; console.log(JSON.stringify({exports:Object.keys(api).sort(),sum:api.add(2,3),product:api.multiply(6,7)}));",
+      ],
+      { encoding: 'utf8' }
+    );
+    expect(result.status).toBe(0);
+    expect(JSON.parse(result.stdout)).toEqual({
+      exports: ['add', 'delay', 'multiply'],
+      sum: 5,
+      product: 42,
+    });
   });
 
   it('runs package functions through the CLI command', () => {
@@ -56,7 +79,7 @@ describe('publishable package metadata', () => {
     const linkPath = join(tempRoot, 'example-package-name');
 
     try {
-      symlinkSync(resolve('bin/example-package-name.js'), linkPath);
+      symlinkSync(resolve('bin/legacy-example-package-name.js'), linkPath);
     } catch (error) {
       rmSync(tempRoot, { force: true, recursive: true });
 
@@ -87,6 +110,12 @@ describe('publishable package metadata', () => {
     expect(packageJson.files).toEqual([
       'bin/',
       'src/',
+      'docs/API.md',
+      'docs/COVERAGE.md',
+      'docs/HISTORY-REMEDIATION.md',
+      'examples/combined-scanners.mjs',
+      'examples/presidio-bridge.py',
+      'examples/sanitize-session.mjs',
       'CHANGELOG.md',
       'LICENSE',
       'README.md',

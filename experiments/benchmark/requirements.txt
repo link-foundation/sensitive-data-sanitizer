@@ -1,0 +1,4 @@
+detect-secrets==1.5.0
+presidio-analyzer==2.2.364
+scrubadub==2.0.1
+spacy==3.8.16

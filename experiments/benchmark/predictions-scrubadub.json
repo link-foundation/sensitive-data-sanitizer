@@ -1,0 +1,355 @@
+{
+  "review/ampersand": [],
+  "review/phrase": [],
+  "review/json-quote": [],
+  "review/password-prose": [],
+  "review/russian-prose": [],
+  "review/env-pass": [],
+  "review/env-db": [],
+  "review/mysql": [],
+  "review/sshpass": [],
+  "review/key-prose": [],
+  "review/name-en": [],
+  "review/name-ru": [],
+  "review/phone-ru": [
+    {
+      "start": 2,
+      "end": 17
+    }
+  ],
+  "review/phone-us": [
+    {
+      "start": 0,
+      "end": 14
+    }
+  ],
+  "review/address": [],
+  "review/iban": [],
+  "review/passport": [
+    {
+      "start": 8,
+      "end": 19
+    }
+  ],
+  "review/inn": [
+    {
+      "start": 10,
+      "end": 20
+    }
+  ],
+  "review/mac": [],
+  "review/handle": [
+    {
+      "start": 0,
+      "end": 9
+    }
+  ],
+  "review/path-mac": [],
+  "review/path-linux": [],
+  "review/public-email": [
+    {
+      "start": 8,
+      "end": 27
+    }
+  ],
+  "review/public-ip": [],
+  "review/gitlab-runner": [],
+  "review/fcm": [],
+  "field/en/0": [],
+  "field/en/1": [],
+  "field/en/2": [],
+  "field/en/3": [],
+  "field/en/4": [],
+  "field/en/5": [
+    {
+      "start": 7,
+      "end": 30
+    }
+  ],
+  "field/en/6": [],
+  "field/en/7": [],
+  "credential/en": [],
+  "field/es/0": [],
+  "field/es/1": [],
+  "field/es/2": [],
+  "field/es/3": [],
+  "field/es/4": [],
+  "field/es/5": [
+    {
+      "start": 20,
+      "end": 43
+    }
+  ],
+  "field/es/6": [],
+  "field/es/7": [],
+  "credential/es": [],
+  "field/fr/0": [],
+  "field/fr/1": [],
+  "field/fr/2": [],
+  "field/fr/3": [],
+  "field/fr/4": [],
+  "field/fr/5": [
+    {
+      "start": 10,
+      "end": 33
+    }
+  ],
+  "field/fr/6": [],
+  "field/fr/7": [],
+  "credential/fr": [],
+  "field/de/0": [],
+  "field/de/1": [],
+  "field/de/2": [],
+  "field/de/3": [],
+  "field/de/4": [],
+  "field/de/5": [
+    {
+      "start": 8,
+      "end": 31
+    }
+  ],
+  "field/de/6": [],
+  "field/de/7": [],
+  "credential/de": [],
+  "field/pt/0": [],
+  "field/pt/1": [],
+  "field/pt/2": [],
+  "field/pt/3": [],
+  "field/pt/4": [],
+  "field/pt/5": [
+    {
+      "start": 20,
+      "end": 43
+    }
+  ],
+  "field/pt/6": [],
+  "field/pt/7": [],
+  "credential/pt": [],
+  "field/ru/0": [],
+  "field/ru/1": [],
+  "field/ru/2": [],
+  "field/ru/3": [],
+  "field/ru/4": [],
+  "field/ru/5": [
+    {
+      "start": 19,
+      "end": 42
+    }
+  ],
+  "field/ru/6": [],
+  "field/ru/7": [],
+  "credential/ru": [],
+  "field/ja/0": [],
+  "field/ja/1": [],
+  "field/ja/2": [],
+  "field/ja/3": [],
+  "field/ja/4": [],
+  "field/ja/5": [
+    {
+      "start": 5,
+      "end": 28
+    }
+  ],
+  "field/ja/6": [],
+  "field/ja/7": [],
+  "credential/ja": [],
+  "field/zh/0": [],
+  "field/zh/1": [],
+  "field/zh/2": [],
+  "field/zh/3": [],
+  "field/zh/4": [],
+  "field/zh/5": [
+    {
+      "start": 4,
+      "end": 27
+    }
+  ],
+  "field/zh/6": [],
+  "field/zh/7": [],
+  "credential/zh": [],
+  "field/zh-Hant/0": [],
+  "field/zh-Hant/1": [],
+  "field/zh-Hant/2": [],
+  "field/zh-Hant/3": [],
+  "field/zh-Hant/4": [],
+  "field/zh-Hant/5": [
+    {
+      "start": 4,
+      "end": 27
+    }
+  ],
+  "field/zh-Hant/6": [],
+  "field/zh-Hant/7": [],
+  "credential/zh-Hant": [],
+  "field/ko/0": [],
+  "field/ko/1": [],
+  "field/ko/2": [],
+  "field/ko/3": [],
+  "field/ko/4": [],
+  "field/ko/5": [
+    {
+      "start": 5,
+      "end": 28
+    }
+  ],
+  "field/ko/6": [],
+  "field/ko/7": [],
+  "credential/ko": [],
+  "field/ar/0": [],
+  "field/ar/1": [],
+  "field/ar/2": [],
+  "field/ar/3": [],
+  "field/ar/4": [],
+  "field/ar/5": [
+    {
+      "start": 19,
+      "end": 42
+    }
+  ],
+  "field/ar/6": [],
+  "field/ar/7": [],
+  "credential/ar": [],
+  "field/he/0": [],
+  "field/he/1": [],
+  "field/he/2": [],
+  "field/he/3": [],
+  "field/he/4": [],
+  "field/he/5": [
+    {
+      "start": 15,
+      "end": 38
+    }
+  ],
+  "field/he/6": [],
+  "field/he/7": [],
+  "credential/he": [],
+  "field/hi/0": [],
+  "field/hi/1": [],
+  "field/hi/2": [],
+  "field/hi/3": [],
+  "field/hi/4": [],
+  "field/hi/5": [
+    {
+      "start": 6,
+      "end": 29
+    }
+  ],
+  "field/hi/6": [],
+  "field/hi/7": [],
+  "credential/hi": [],
+  "field/tr/0": [],
+  "field/tr/1": [],
+  "field/tr/2": [],
+  "field/tr/3": [],
+  "field/tr/4": [],
+  "field/tr/5": [
+    {
+      "start": 9,
+      "end": 32
+    }
+  ],
+  "field/tr/6": [],
+  "field/tr/7": [],
+  "credential/tr": [],
+  "field/id/0": [],
+  "field/id/1": [],
+  "field/id/2": [],
+  "field/id/3": [],
+  "field/id/4": [],
+  "field/id/5": [
+    {
+      "start": 7,
+      "end": 30
+    }
+  ],
+  "field/id/6": [],
+  "field/id/7": [],
+  "credential/id": [],
+  "field/vi/0": [],
+  "field/vi/1": [],
+  "field/vi/2": [],
+  "field/vi/3": [],
+  "field/vi/4": [],
+  "field/vi/5": [
+    {
+      "start": 13,
+      "end": 36
+    }
+  ],
+  "field/vi/6": [],
+  "field/vi/7": [],
+  "credential/vi": [],
+  "field/th/0": [],
+  "field/th/1": [],
+  "field/th/2": [],
+  "field/th/3": [],
+  "field/th/4": [],
+  "field/th/5": [
+    {
+      "start": 7,
+      "end": 30
+    }
+  ],
+  "field/th/6": [],
+  "field/th/7": [],
+  "credential/th": [],
+  "name/en": [],
+  "name/es": [],
+  "name/fr": [],
+  "name/de": [],
+  "name/pt": [],
+  "name/ru": [],
+  "name/ja": [],
+  "name/zh": [],
+  "name/zh-Hant": [],
+  "name/ko": [],
+  "name/ar": [],
+  "name/he": [],
+  "name/hi": [],
+  "name/tr": [],
+  "name/id": [],
+  "name/vi": [],
+  "name/th": [],
+  "email": [
+    {
+      "start": 8,
+      "end": 35
+    }
+  ],
+  "ssn": [
+    {
+      "start": 4,
+      "end": 15
+    }
+  ],
+  "credit-card": [],
+  "phone-international": [
+    {
+      "start": 5,
+      "end": 21
+    }
+  ],
+  "ip-private": [],
+  "ipv6": [],
+  "doppler": [],
+  "github": [],
+  "slack": [],
+  "aws": [],
+  "stripe": [],
+  "pem": [],
+  "base64": [],
+  "percent": [],
+  "hex-entropy": [],
+  "negative/arithmetic": [],
+  "negative/counts": [],
+  "negative/public-person": [],
+  "negative/public-org": [],
+  "negative/public-resolver": [],
+  "negative/documentation-ip": [],
+  "negative/commit": [],
+  "negative/mysql-port": [],
+  "negative/empty": [],
+  "negative/redacted": [],
+  "negative/code": [],
+  "negative/tool": []
+}

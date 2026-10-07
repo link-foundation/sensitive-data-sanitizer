@@ -111,6 +111,13 @@ export default [
     },
   },
   {
+    // Public-policy review dates are configuration data.
+    files: ['tests/sanitizer*.test.js', 'examples/sanitize-session.mjs'],
+    rules: {
+      'local/no-changelog-comments': ['warn', { allowDatesInStrings: true }],
+    },
+  },
+  {
     // Case studies preserve historical wording on purpose, and the rule's own
     // tests contain fixtures the rule is designed to flag.
     files: [

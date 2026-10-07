@@ -1,6 +1,6 @@
 # Universal Example App
 
-This example turns the package functions in `src/index.js` into a React UI and
+This example turns the package functions in `src/legacy.js` into a React UI and
 uses the same build output for GitHub Pages, Electron desktop packages, and
 Capacitor mobile projects.
 

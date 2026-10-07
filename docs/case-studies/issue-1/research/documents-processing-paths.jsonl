@@ -1,0 +1,7 @@
+{"path":".secretlintrc.json","url":"https://api.github.com/repos/konard/documents-processing/git/blobs/7a1a5df3c28e6739fd639bc2a2eac39f62f9a122"}
+{"path":"scripts/sanitize-npm-userconfig.mjs","url":"https://api.github.com/repos/konard/documents-processing/git/blobs/b344a25c1c543176af72fd0b75c227ec1cc512f8"}
+{"path":"src/evisa-redact.mjs","url":"https://api.github.com/repos/konard/documents-processing/git/blobs/3d2f6a8d99578d0668f89e930aa9635afb230ad0"}
+{"path":"src/redact-history.mjs","url":"https://api.github.com/repos/konard/documents-processing/git/blobs/5f718d3c17a0f0192b417dda98b3b8362e8a9434"}
+{"path":"tests/evisa-privacy.test.js","url":"https://api.github.com/repos/konard/documents-processing/git/blobs/f0276ab1247799f2b2f7dbcd0787f4144b8fd729"}
+{"path":"tests/evisa-redact.test.js","url":"https://api.github.com/repos/konard/documents-processing/git/blobs/558b0545276765c0883872e4b82ab4dce5192c64"}
+{"path":"tests/sanitize-npm-userconfig.test.js","url":"https://api.github.com/repos/konard/documents-processing/git/blobs/5edb4c500f94e7702fb9e846317e26fa0aa08357"}
