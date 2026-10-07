@@ -12,6 +12,7 @@
     "npm:jscpd@^5.4.0": "5.4.0",
     "npm:lint-staged@^16.4.0": "16.4.0",
     "npm:prettier@^3.6.2": "3.8.4",
+    "npm:re2-wasm@1.0.2": "1.0.2",
     "npm:secretlint@13.0.7": "13.0.7",
     "npm:test-anywhere@~0.8.48": "0.8.50"
   },
@@ -1091,6 +1092,9 @@
         "require-from-string"
       ]
     },
+    "re2-wasm@1.0.2": {
+      "integrity": "sha512-VXUdgSiUrE/WZXn6gUIVVIsg0+Hp6VPZPOaHCay+OuFKy6u/8ktmeNEf+U5qSA8jzGGFsg8jrDNu1BeHpz2pJA=="
+    },
     "read-pkg@10.1.0": {
       "integrity": "sha512-I8g2lArQiP78ll51UeMZojewtYgIRCKCWqZEgOO8c/uefTI+XDXvCSXu3+YNUaTNvZzobrL5+SqHjBrByRRTdg==",
       "dependencies": [
@@ -1380,6 +1384,7 @@
         "npm:jscpd@^5.4.0",
         "npm:lint-staged@^16.4.0",
         "npm:prettier@^3.6.2",
+        "npm:re2-wasm@1.0.2",
         "npm:secretlint@13.0.7",
         "npm:test-anywhere@~0.8.48"
       ]

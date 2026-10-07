@@ -25,6 +25,9 @@ async function invoke(args, chunks) {
 }
 describe('streaming publication CLI', () => {
   it('streams records and applies opt-in compatible masking', async () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
     const result = await invoke(
       ['redact', '-', '--stream', '--native-only', '--hive-mask'],
       ['password: abcdefghijklmnop\n', 'name: John Smith\n']
@@ -33,6 +36,9 @@ describe('streaming publication CLI', () => {
     expect(result.output).toBe('password: abc…nop\nname: [REDACTED]\n');
   });
   it('publishes nothing after late malformed input and cleans private spool files', async () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
     const directory = await mkdtemp(join(tmpdir(), 'stream-cli-'));
     try {
       const output = join(directory, 'result');

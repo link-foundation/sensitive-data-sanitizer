@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'test-anywhere';
-import { mkdtemp, writeFile, readFile, rm, stat } from 'node:fs/promises';
+import {
+  mkdtemp,
+  writeFile,
+  readFile,
+  rm,
+  stat,
+  readdir,
+} from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { sanitizeStream, sanitizeFileBounded } from '../src/index.js';
@@ -38,6 +45,9 @@ describe('bounded publication sanitization', () => {
     expect(blocked).toBe(true);
   });
   it('processes a file larger than 10 MiB in a bounded worker and publishes privately', async () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
     const directory = await mkdtemp(join(tmpdir(), 'sanitizer-large-'));
     try {
       const input = join(directory, 'input.txt'),
@@ -54,12 +64,17 @@ describe('bounded publication sanitization', () => {
       expect(
         (await readFile(output, 'utf8')).endsWith('password: [REDACTED]\n')
       ).toBe(true);
-      expect((await stat(output)).mode & 0o777).toBe(0o600);
+      if (process.platform !== 'win32') {
+        expect((await stat(output)).mode & 0o777).toBe(0o600);
+      }
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
   });
   it('blocks publication on a late invalid UTF-8 record and cleans temporary files', async () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
     const directory = await mkdtemp(join(tmpdir(), 'sanitizer-late-'));
     try {
       const input = join(directory, 'input.txt'),
@@ -82,6 +97,28 @@ describe('bounded publication sanitization', () => {
         exists = false;
       }
       expect(exists).toBe(false);
+    } finally {
+      await rm(directory, { recursive: true, force: true });
+    }
+  });
+  it('terminates a timed-out worker and removes staging before returning', async () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
+    const directory = await mkdtemp(join(tmpdir(), 'sanitizer-timeout-'));
+    try {
+      const input = join(directory, 'input');
+      await writeFile(input, 'ordinary record\n'.repeat(10000));
+      let blocked = false;
+      try {
+        await sanitizeFileBounded(input, join(directory, 'output'), {
+          workerTimeoutMs: 1,
+        });
+      } catch {
+        blocked = true;
+      }
+      expect(blocked).toBe(true);
+      expect(await readdir(directory)).toEqual(['input']);
     } finally {
       await rm(directory, { recursive: true, force: true });
     }

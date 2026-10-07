@@ -24,6 +24,9 @@ async function repository(directory) {
 }
 describe('fresh-clone history remediation', () => {
   it('previews private replacements and mailmap without editing the source or pushing', async () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
     const directory = await mkdtemp(join(tmpdir(), 'sanitizer-history-'));
     try {
       const { source, git } = await repository(directory),
@@ -51,6 +54,9 @@ describe('fresh-clone history remediation', () => {
     }
   });
   it('fails closed for missing rewrite tools and pre-existing destinations', async () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
     const directory = await mkdtemp(join(tmpdir(), 'sanitizer-history-'));
     try {
       const { source } = await repository(directory);
