@@ -10,7 +10,7 @@ The default native engine bundles 221 text rules from Gitleaks 8.30.1 (222 upstr
 
 Context rules recognize credential labels with bounded key affixes, JSON and nested escaped JSON, YAML/env/INI assignments, shell flags, XML values, URL userinfo, authorization headers, cookies, webhook paths, and complete or truncated private-key PEM blocks. Low-entropy contextual values such as `password=1234` are protected. Generic token counters, booleans/null/language literals and ordinary Git hashes are excluded to retain useful logs. Supply literal known values for ambiguous credentials or unusual key names.
 
-Entropy scanning is opt-in (`paranoid: true`), uses Shannon entropy ≥4.2 on bounded candidates, and exempts ordinary hex hashes and common tool identifiers. It has both false positives and false negatives; contextual detection and known-secret dictionaries remain necessary.
+Broader unquoted entropy scanning is opt-in (`paranoid: true`), uses Shannon entropy ≥4.2 on bounded candidates, and exempts ordinary hex hashes and common tool identifiers. Quoted hex/base64 and entropy checks belonging to bundled provider rules run by default. Entropy has both false positives and false negatives; contextual detection and known-secret dictionaries remain necessary.
 
 ## Personal data and languages
 
@@ -38,9 +38,9 @@ Credential labels have fixtures for 17 language variants:
 | Vietnamese          | mật_khẩu                 |
 | Thai                | รหัสผ่าน                 |
 
-These are tested label patterns, not 17 complete NER language models. `src/rules.js` defines the exact vocabulary. Unicode NFKC, combining marks, common invisible/bidi controls, ANSI escapes and JSON Unicode escapes are projected to a detection view with original offset mapping. Original delimiters/content outside redactions remain intact. NFKC does not equate every homoglyph or transliteration.
+These are tested label patterns, not 17 complete NER language models. `src/locales.js` and `src/rules.js` define the exact vocabulary. Unicode NFKC, combining marks, common invisible/bidi controls, ANSI escapes and JSON Unicode escapes are projected to a detection view with original offset mapping. Original delimiters/content outside redactions remain intact. NFKC does not equate every homoglyph or transliteration.
 
-The optional [Presidio bridge](../examples/presidio-bridge.py) accepts `--language` and `--model` for separately installed spaCy models. [Presidio's multilingual guide](https://presidio.dataprivacystack.org/tutorial/05_languages/) explains that models and recognizers must be configured per language. Installing one English model does not provide every language. There is no runtime model download. Public-person/organization/contact exceptions require exact caller-reviewed policy entries with HTTPS evidence; there is no automated popularity or web lookup.
+The optional [Presidio bridge](../examples/presidio-bridge.py) accepts `--language` and `--model` for separately installed spaCy models. [Presidio's multilingual guide](https://presidio.dataprivacystack.org/tutorial/05_languages/) explains that models and recognizers must be configured per language. Installing one English model does not provide every language. There is no runtime model download. Offline public classification uses bundled sourced entries and documented role/domain heuristics. Callers can add reviewed exact policies or explicitly enable Wikidata verification; known-private values and credential overlaps always retain private treatment.
 
 ## Bounds and unsupported inputs
 
