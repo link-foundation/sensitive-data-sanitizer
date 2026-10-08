@@ -28,6 +28,7 @@ export async function streamCommand(
       await sanitizeStreamToFile(stdin, target, {
         ...limits,
         sanitizer: engine,
+        sanitizerOptions: options,
       });
     } else {
       const serializable = !options.detectors?.length && !options.verifyPublic;
@@ -35,7 +36,7 @@ export async function streamCommand(
         ...limits,
         ...(serializable
           ? { sanitizerOptions: options }
-          : { sanitizer: engine }),
+          : { sanitizer: engine, sanitizerOptions: options }),
       });
     }
     if (spool) {

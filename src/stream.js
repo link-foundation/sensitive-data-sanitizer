@@ -15,6 +15,8 @@ import { randomUUID } from 'node:crypto';
 import { Worker } from 'node:worker_threads';
 import { createSanitizer } from './engines.js';
 import { failure } from './detection.js';
+import { sanitizeJsonlStream } from './jsonl-stream.js';
+import { workerExecArgv } from './worker-options.js';
 
 const streamKeys = new Set([
   'sanitizer',
@@ -23,12 +25,16 @@ const streamKeys = new Set([
   'batchBytes',
   'maxTotalBytes',
   'worker',
+  'workers',
   'workerHeapMb',
   'workerTimeoutMs',
   'replace',
 ]);
 function configuration(options) {
-  const maxRecordBytes = options.maxRecordBytes ?? 1024 * 1024;
+  const jsonl =
+    (options.sanitizerOptions?.structured ?? options.structured) === 'jsonl';
+  const maxRecordBytes =
+    options.maxRecordBytes ?? (jsonl ? 8 : 1) * 1024 * 1024;
   const batchBytes = options.batchBytes ?? 256 * 1024;
   const maxTotalBytes = options.maxTotalBytes ?? 1024 * 1024 * 1024;
   for (const limit of [maxRecordBytes, batchBytes, maxTotalBytes]) {
@@ -41,12 +47,14 @@ function configuration(options) {
       Object.fromEntries(
         Object.entries(options).filter(([k]) => !streamKeys.has(k))
       )),
-    maxInputLength: maxRecordBytes,
+    maxInputLength: Math.max(maxRecordBytes, batchBytes) + 1,
   };
   return {
     maxRecordBytes,
     batchBytes,
     maxTotalBytes,
+    sanitizerOptions,
+    jsonl,
     engine: options.sanitizer ?? createSanitizer(sanitizerOptions),
   };
 }
@@ -116,9 +124,10 @@ function releaseBoundary(text, final) {
   };
   for (const match of text.matchAll(/[^\n]*\n|[^\n]+$/g)) {
     const line = match[0];
-    const continuation = base64Start >= 0 ? 1 : 16;
-    const base64 = new RegExp(
-      `^[A-Za-z0-9+/_-]{${continuation},128}={0,2}\\r?\\n?$`
+    const base64 = (
+      base64Start >= 0
+        ? /^[A-Za-z0-9+/_-]{1,128}={0,2}\r?\n?$/
+        : /^[A-Za-z0-9+/_-]{16,128}={0,2}\r?\n?$/
     ).test(line);
     if (base64 && base64Start < 0) {
       base64Start = offset;
@@ -141,14 +150,23 @@ function releaseBoundary(text, final) {
   return final ? text.length : boundary;
 }
 export async function* sanitizeStream(source, options = {}) {
-  const { engine, maxRecordBytes, batchBytes, maxTotalBytes } =
-    configuration(options);
+  const config = configuration(options);
+  if (config.jsonl) {
+    yield* sanitizeJsonlStream(source, options, config);
+    return;
+  }
+  const { engine, maxRecordBytes, batchBytes, maxTotalBytes } = config;
   const decoder = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true });
   let pending = '',
     total = 0;
   async function* process(final) {
     if (Buffer.byteLength(pending) > maxRecordBytes) {
       throw failure('ERR_LIMIT');
+    }
+    // Until a batch can be released, rescanning every partial chunk only
+    // repeats work. The byte bound above still applies on every chunk.
+    if (!final && pending.length < Math.min(batchBytes, maxRecordBytes / 2)) {
+      return;
     }
     const boundary = releaseBoundary(pending, final);
     if (
@@ -283,6 +301,7 @@ export async function sanitizeFileBounded(source, target, options = {}) {
         options: { ...options, replace: false },
       },
       resourceLimits: { maxOldGenerationSizeMb: workerHeapMb, stackSizeMb: 4 },
+      execArgv: workerExecArgv(),
     });
     const result = await workerResult(worker, workerTimeoutMs);
     if (options.replace) {

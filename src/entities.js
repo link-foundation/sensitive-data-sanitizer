@@ -2,6 +2,7 @@ import google from './vendor/entities/google.json' with { type: 'json' };
 import azure from './vendor/entities/azure.json' with { type: 'json' };
 import aws from './vendor/entities/aws.json' with { type: 'json' };
 import { escapePattern, collectMatches } from './detection.js';
+import { numericNoise, epochNumber } from './confidence.js';
 import { valueRange } from './context.js';
 export const entityCatalogs = { google, azure, aws };
 const canonical = (name) =>
@@ -44,9 +45,12 @@ const prefix = new RegExp(
 export function detectCatalog(text, emit) {
   for (const match of text.matchAll(prefix)) {
     const entry = entries.get(match[1].toUpperCase());
+    if (entry.type === 'DATE') {
+      continue;
+    }
     const mode = /[?&]$/.test(text.slice(0, match.index))
       ? 'query'
-      : /["']\s*[:：]/.test(match[0])
+      : match[0].includes('=') || /["']\s*[:：]/.test(match[0])
         ? 'token'
         : 'line';
     const range = valueRange(text, match.index + match[0].length, mode);
@@ -62,7 +66,22 @@ export function detectCatalog(text, emit) {
     collectMatches(
       text,
       pattern,
-      emit,
+      (finding) => {
+        if (type === 'US_HEALTHCARE_NPI') {
+          const context = /\b(?:NPI|provider|healthcare|patient)\b/i.test(
+            text.slice(Math.max(0, finding.start - 64), finding.end + 32)
+          );
+          if (
+            !context &&
+            (numericNoise(text, finding.start, finding.end) ||
+              epochNumber(text.slice(finding.start, finding.end)))
+          ) {
+            return;
+          }
+          finding.confidence = context ? 0.95 : 0.35;
+        }
+        emit(finding);
+      },
       { type, category: 'personal', rule: 'entity-format', confidence: 0.85 },
       0,
       accept

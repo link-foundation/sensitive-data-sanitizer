@@ -1,3 +1,4 @@
+import { numericNoise, epochNumber } from './confidence.js';
 import {
   digitsOf,
   datePart,
@@ -15,7 +16,12 @@ import {
 } from './national-checks.js';
 
 const rules = [
-  ['UK_NHS', /\d{3}[ -]?\d{3}[ -]?\d{4}/g, /\bNHS\b/i, nhs],
+  [
+    'UK_NHS',
+    /\d{3}[ -]?\d{3}[ -]?\d{4}/g,
+    /\b(?:NHS|patient|healthcare|provider)\b/i,
+    nhs,
+  ],
   [
     'KR_RRN',
     /\d{6}[ -]?[1-8]\d{6}/g,
@@ -59,21 +65,18 @@ export function detectNational(text, emit) {
     for (const match of text.matchAll(pattern)) {
       const start = match.index,
         end = start + match[0].length;
-      if (
-        /[\p{L}\p{N}_.+-]/u.test(text[start - 1] ?? '') ||
-        /[\p{L}\p{N}_]/u.test(text[end] ?? '')
-      ) {
-        continue;
-      }
-      if (
-        /\d[ ()-]{0,3}$/.test(text.slice(Math.max(0, start - 4), start)) ||
-        /^[ ()-]{0,3}\d/.test(text.slice(end, end + 4))
-      ) {
+      if (!nationalBoundary(text, start, end)) {
         continue;
       }
       const hasContext = context.test(
         text.slice(Math.max(0, start - 64), end + 32)
       );
+      if (
+        !hasContext &&
+        (numericNoise(text, start, end) || epochNumber(match[0]))
+      ) {
+        continue;
+      }
       const checked = checksum(match[0]);
       if (checked || hasContext || plausible?.(match[0])) {
         emit({
@@ -82,9 +85,32 @@ export function detectNational(text, emit) {
           type,
           category: 'personal',
           rule: 'national-format',
-          confidence: checked ? 0.99 : hasContext ? 0.9 : 0.4,
+          confidence: nationalConfidence(
+            hasContext,
+            checked,
+            plausible?.(match[0])
+          ),
         });
       }
     }
   }
+}
+function nationalBoundary(text, start, end) {
+  return !(
+    /[\p{L}\p{N}_.+-]/u.test(text[start - 1] ?? '') ||
+    /[\p{L}\p{N}_]/u.test(text[end] ?? '') ||
+    /\d[ ()-]{0,3}$/.test(text.slice(Math.max(0, start - 4), start)) ||
+    /^[ ()-]{0,3}\d/.test(text.slice(end, end + 4))
+  );
+}
+function nationalConfidence(context, checked, plausible) {
+  return context
+    ? checked
+      ? 0.99
+      : 0.9
+    : plausible
+      ? checked
+        ? 0.99
+        : 0.4
+      : 0.35;
 }

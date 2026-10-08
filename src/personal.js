@@ -73,7 +73,34 @@ function detectIban(text, emit) {
   }
 }
 
+const latinGiven = Object.entries(firstNames)
+  .filter(([locale]) =>
+    ['en', 'es', 'fr', 'de', 'pt', 'ruLatn', 'tr'].includes(locale)
+  )
+  .flatMap(([, list]) => list.split(' '))
+  .map(escapePattern)
+  .join('|');
+const slavicSurname =
+  '[\\p{L}]{2,28}(?:ova|eva|ov|ev|in|ina|enko|sky|ski|skaya)';
+const latinPairs = new RegExp(
+  `(?<![\\p{L}\\p{M}])(?:${latinGiven})[ \\t]+(?:${slavicSurname}|Smith|Jones|Brown|Roe|Doe)(?![\\p{L}\\p{M}])`,
+  'giu'
+);
+const documentPairs = new RegExp(
+  `(?<![\\p{L}\\p{N}])(?:(?:${latinGiven})[-_][\\p{L}]{2,32}|[\\p{L}]{2,32}[-_](?:${latinGiven}))(?=[-_](?:PASSPORT|VISA|ID|PHOTO|SCAN|ПАСПОРТ)(?:[._-]|$))`,
+  'giu'
+);
+const russianFull =
+  /(?<![\p{L}])(?:[А-ЯЁ][а-яё]{2,30}[ \t]+){2}[А-ЯЁ][а-яё]{2,30}(?:вич|вна|ична)|(?<![\p{L}])(?:[А-ЯЁ][а-яё]{2,30}[ \t]+){2}(?:оглы|кызы)(?![\p{L}])/gu;
 export function detectPersonal(text, emit) {
+  for (const pattern of [latinPairs, documentPairs, russianFull]) {
+    collectMatches(
+      text,
+      pattern,
+      emit,
+      details('PERSON', 'name-identity', 0.9)
+    );
+  }
   for (const pattern of names) {
     collectMatches(
       text,

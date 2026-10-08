@@ -16,7 +16,11 @@ export function* decodedRuns(text, depth = 0) {
   ];
   const seen = new Set();
   let count = 0;
-  for (const pattern of patterns) {
+  for (const [index, pattern] of patterns.entries()) {
+    const marker = ['', '%', '\n', '&', '\\x', '"'][index];
+    if (marker && !text.includes(marker)) {
+      continue;
+    }
     for (const match of text.matchAll(pattern)) {
       const raw = match[0];
       if (raw.length > 8192) {
@@ -34,13 +38,7 @@ export function* decodedRuns(text, depth = 0) {
       for (const candidate of candidates) {
         const { text: decoded, encoding } = candidate;
         const key = `${match.index}:${raw.length}:${decoded}`;
-        if (
-          seen.has(key) ||
-          decoded === raw ||
-          !decoded ||
-          // eslint-disable-next-line no-control-regex -- Binary control characters cannot form a text detection view.
-          /[\x00-\x08\x0e-\x1f\x7f]/.test(decoded)
-        ) {
+        if (seen.has(key) || !decodedText(raw, decoded)) {
           continue;
         }
         seen.add(key);
@@ -62,6 +60,15 @@ export function* decodedRuns(text, depth = 0) {
       }
     }
   }
+}
+
+function decodedText(raw, decoded) {
+  return (
+    decoded !== raw &&
+    Boolean(decoded) &&
+    // eslint-disable-next-line no-control-regex -- Binary controls cannot form text detection views.
+    !/[\x00-\x08\x0e-\x1f\x7f]/.test(decoded)
+  );
 }
 
 function isLimitedTextRun(raw) {

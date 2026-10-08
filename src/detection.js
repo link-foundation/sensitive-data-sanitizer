@@ -1,3 +1,4 @@
+import { cardNetwork, numericNoise } from './confidence.js';
 import { isIP } from 'node:net';
 import { serviceRules } from './rules.js';
 import { detectContext } from './context.js';
@@ -175,7 +176,10 @@ export function nativeDetect(text, options, emit) {
     emit,
     { type: 'CREDIT_CARD', category: 'personal', rule: 'luhn' },
     0,
-    luhn
+    (value, match) =>
+      luhn(value) &&
+      cardNetwork(value) &&
+      !numericNoise(text, match.index, match.index + value.length)
   );
   collectMatches(
     text,

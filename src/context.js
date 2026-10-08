@@ -43,7 +43,12 @@ export const credentialVerbs = [
   'คือ',
 ];
 const verbs = credentialVerbs.map(escapePattern).join('|');
-const key = `[\\p{L}\\p{N}_.-]{0,32}(?:${labels.credential.map(escapePattern).join('|')})[\\p{L}\\p{N}_.-]{0,32}|(?:[\\p{L}\\p{N}_.-]{1,32}[_-])?(?:pass|pw)(?:[_-][\\p{L}\\p{N}_.-]{1,32})?`;
+const key = `(?:[\\p{L}\\p{N}]+[_.-])*(?:auth|authorization)(?:[_.-][\\p{L}\\p{N}]+)*|[\\p{L}\\p{N}_.-]{0,32}(?:${labels.credential
+  .filter((word) => !['auth', 'authorization'].includes(word))
+  .map(escapePattern)
+  .join(
+    '|'
+  )})[\\p{L}\\p{N}_.-]{0,32}|(?:[\\p{L}\\p{N}_.-]{1,32}[_-])?(?:pass|pw)(?:[_-][\\p{L}\\p{N}_.-]{1,32})?`;
 const credentialPrefix = new RegExp(
   `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(${key})(?:\\\\*["'])?(?:[ \\t]+(?:от|для|к|for|de|du|del)[^:=\\r\\n]{1,64})?[ \\t]*([:=：]|(?:${verbs})(?![\\p{L}\\p{N}_]))[ \\t]*`,
   'giu'
@@ -191,14 +196,36 @@ function detectPersonalLabels(text, emit) {
         ? `(?:[:=：]|(?:${verbs})(?![\\p{L}\\p{N}_]))?[ \\t]+|[:=：][ \\t]*`
         : `(?:[:=：]|(?:${verbs})(?![\\p{L}\\p{N}_]))[ \\t]*`;
     const prefix = new RegExp(
-      `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(?:${words.map(escapePattern).join('|')})(?:\\\\*["'])?[ \\t]*(?:${separator})`,
+      `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(?:${words.map(escapePattern).join('|')})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?[ \\t]*(?:${separator})`,
       'giu'
     );
     for (const match of text.matchAll(prefix)) {
-      const range = valueRange(text, match.index + match[0].length, 'line');
+      const identity = type === 'ID';
+      const suffix = identity
+        ? (/^(?:(?:number|no\.?|номер)[ \t]*[:=：]?[ \t]*|[№#][ \t]*)/iu.exec(
+            text.slice(match.index + match[0].length)
+          )?.[0] ?? '')
+        : '';
+      const range = valueRange(
+        text,
+        match.index + match[0].length + suffix.length,
+        identity ? 'token' : 'line'
+      );
       if (range) {
+        if (type === 'PERSON') {
+          const delimiter = text.slice(range.start, range.end).search(/[,;\d]/);
+          if (delimiter >= 0) {
+            range.end = range.start + delimiter;
+          }
+        }
         emitValue(text, range.start, range.end, emit, {
-          type,
+          type:
+            identity &&
+            /passport|паспорт|pasaporte|Reisepass|passeport|passaporto|护照|パスポート|جواز/iu.test(
+              match[0]
+            )
+              ? 'PASSPORT_NUMBER'
+              : type,
           category: 'personal',
           rule: 'label',
         });

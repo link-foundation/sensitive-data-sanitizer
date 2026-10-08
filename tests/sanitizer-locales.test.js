@@ -26,7 +26,11 @@ describe('contextual fields in every supported language', () => {
           .join('\n')
       );
       for (const type of personalFieldTypes) {
-        expect(result.findings.some((f) => f.type === type)).toBe(true);
+        expect(
+          result.findings.some(
+            (f) => f.type === (type === 'ID' ? 'PASSPORT_NUMBER' : type)
+          )
+        ).toBe(true);
       }
       expect(
         sanitize(
@@ -51,7 +55,7 @@ describe('contextual fields in every supported language', () => {
       for (const name of catalog.names) {
         const field = name.replace(/([a-z])([A-Z])/g, '$1_$2').toUpperCase();
         expect(sanitize(`${field}: private-value`).text).toBe(
-          `${field}: [REDACTED]`
+          `${field}: ${field === 'DATE' ? 'private-value' : '[REDACTED]'}`
         );
       }
     });
@@ -61,10 +65,12 @@ describe('contextual fields in every supported language', () => {
       '529.982.247-25',
       '12345678Z',
       'ABCPE1234F',
-      '1234567893',
+      'NPI 1234567893',
       `0x${'a1b2'.repeat(10)}`,
     ]) {
-      expect(sanitize(value).redactions > 0).toBe(true);
+      expect(sanitize(value, { minConfidence: 0.35 }).redactions > 0).toBe(
+        true
+      );
     }
     expect(sanitize('529.982.247-26').text).toBe('529.982.247-26');
   });
