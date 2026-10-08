@@ -9,6 +9,7 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 | `createSanitizer(options)`             | Asynchronous native + required Secretlint + selected detector union                                          |
 | `engine.inspect(text)`                 | Detect, validate, deduplicate, apply public policy, and return metadata                                      |
 | `engine.sanitize(text)`                | Detect, union overlapping spans, mask completely, verify every engine, return `{text, findings, redactions}` |
+| `engine.sanitizeJsonl(text)`           | Batched structured JSONL sanitization using the same options and required engines                            |
 | `inspect(text, options)`               | Synchronous native detection and caller findings                                                             |
 | `sanitize(text, options)`              | Synchronous native redaction and native residual verification                                                |
 | `redact(text, findings, options)`      | Apply validated ranges without automatic detection/verification                                              |
@@ -18,19 +19,24 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 
 ## Options
 
-| Option           | Default / meaning                                                                 |
-| ---------------- | --------------------------------------------------------------------------------- |
-| `knownSecrets`   | `[]`; exact literal credential values, regardless of length or format             |
-| `knownPersonal`  | `[]`; `{type, value}` literals with Unicode case-insensitive matching             |
-| `publicEntities` | `[]`; exact PERSON/ORGANIZATION/EMAIL exception with HTTPS source and review date |
-| `findings`       | `[]`; validated detections for the original input, supplied by the caller         |
-| `detectors`      | `[]`; additional required callbacks in the asynchronous engine                    |
-| `secretlint`     | `true` in the asynchronous engine                                                 |
-| `decode`         | `true`; bounded base64/base64url, hex and percent decoding                        |
-| `paranoid`       | `false`; entropy-based supplemental credential heuristic                          |
-| `maxInputLength` | 10,485,760 UTF-16 units                                                           |
-| `maxFindings`    | 100,000 detector hits before deduplication                                        |
-| `debug`          | Optional trusted callback for counts only                                         |
+| Option             | Default / meaning                                                                             |
+| ------------------ | --------------------------------------------------------------------------------------------- |
+| `knownSecrets`     | `[]`; exact literal credential values, regardless of length or format                         |
+| `knownPersonal`    | `[]`; `{type, value}` literals with Unicode case-insensitive matching                         |
+| `publicEntities`   | `[]`; exact PERSON/ORGANIZATION/EMAIL exception with HTTPS source and review date             |
+| `findings`         | `[]`; validated detections for the original input, supplied by the caller                     |
+| `detectors`        | `[]`; additional required callbacks in the asynchronous engine                                |
+| `secretlint`       | `true` in the asynchronous engine                                                             |
+| `decode`           | `true`; bounded base64/base64url, hex and percent decoding                                    |
+| `paranoid`         | `false`; entropy-based supplemental credential heuristic                                      |
+| `maxInputLength`   | 10,485,760 UTF-16 units                                                                       |
+| `maxFindings`      | 100,000 detector hits before deduplication                                                    |
+| `debug`            | Optional trusted callback for counts only                                                     |
+| `identityMask`     | `false`; identity types keep 2+2 Unicode characters with fixed `***`, or redact below five    |
+| `fakeIdentity`     | Off; `'specimen-and-synthetic'` retains explicitly fake identity values                       |
+| `fakeValues`       | `[]`; exact caller-reviewed identity values to retain, regardless of fakeIdentity             |
+| `structured`       | Off; `'json'` or `'jsonl'` validates and sanitizes string keys/values separately              |
+| `structuralFields` | `[]`; declared property names suppress weak name/ID/entropy heuristics in their string values |
 
 Unknown options and invalid limits are errors. `knownSecretsFromEnv(env, names)` explicitly selects common credential variables, deduplicating nonempty values. It never invokes shell commands or reads auth files. `personalVariants(entries)` generates numeric and ISO/day-first date spellings; name case variants are already handled by detection. Neither helper invents transliterations.
 
@@ -74,9 +80,51 @@ Both keyed modes require a key of at least 16 UTF-8 bytes. `format-preserving` i
 
 `preserveEncoding: true` sanitizes decoded payloads with the same required engine union, re-encodes them and verifies decoding reproduces the sanitized content. Supported formats include base64/base64url, hex, percent, numeric HTML and UTF-8 byte escapes. Escaped JSON string content is sanitized and re-encoded even under default redaction so nested session JSON stays parseable. Malformed or unsupported encodings block opted-in preservation. Known encoding candidates and nesting are bounded.
 
+## Identity policy and structured sessions
+
+`identityMask: true` applies `{mode: 'mask', keepStart: 2, keepEnd: 2,
+marker: '***', minLength: 5}` to document/travel/national-ID types, including
+catalog passport types. Explicit per-type/global transformations take precedence.
+`mask.marker` is an optional fixed string; omitting it preserves length-based
+asterisks. `mask.minLength` defaults to five for identity types and zero for other
+types. Length and retained boundaries count Unicode characters.
+
+`fakeIdentity: 'specimen-and-synthetic'` recognizes ICAO Utopia/Eriksson specimens,
+national specimen markers, repeated document digits and at least six consecutive
+ascending/descending document digits. `fakeValues` supplies exact reviewed
+identity values independently of that option. Kept findings carry `kept: 'fake'`
+and do not count as redactions. The same value check applies during verification.
+Words such as test/example/fake do not grant exemptions. Credentials from any
+engine and overlapping known secrets always win. Both policies are opt-in.
+
+```js
+const sessionSanitizer = createSanitizer({
+  structured: 'jsonl',
+  structuralFields: ['id', 'type', 'name', 'description'],
+});
+const result = await sessionSanitizer.sanitizeJsonl(sessionText);
+```
+
+Structured mode scans string keys and values in bounded batches, supplies field
+context, retains original source offsets/formatting, and verifies parseable
+output. Numbers, booleans and null remain their original types. Declarations
+apply to property names at every nesting level, including string array elements
+inside that property. Declare only fields your application treats as metadata:
+`name` may also contain a person's name. Known private values, explicit provider
+credentials, password/auth context, document formats and other strong findings
+remain protected in declared fields. Custom required detectors still run.
+Escaped nested JSON retains encoding. Invalid JSON and key collisions block
+publication with `ERR_JSON` / `ERR_JSON_COLLISION`.
+
+Oversized encoded runs receive a conservative complete-run `ENCODED_LIMIT`
+redaction rather than aborting the record. Decoding probes are capped at 4,096
+characters; full decoding stays capped at 8,192 characters. Whole-input,
+candidate-count, record and worker limits still apply. This fallback can remove
+large non-sensitive encoded outputs; its finding makes that decision auditable.
+
 ## Streaming and worker publication
 
-`sanitizeStream(source, options)` accepts iterable UTF-8 bytes/strings and yields sanitized records. It holds incomplete lines, quoted multiline values, PEM blocks and wrapped base64 groups across chunks. Defaults: 1 MiB held record, 256 KiB batch and 1 GiB total input. A record exceeding `maxRecordBytes` fails; raising the total limit does not raise the record limit. The generator may have yielded earlier verified records when a later record fails. Use `sanitizeStreamToFile` for atomic publication of the whole stream.
+`sanitizeStream(source, options)` accepts iterable UTF-8 bytes/strings and yields sanitized records. It holds incomplete lines, quoted multiline values, PEM/PuTTY blocks, netrc triplets and wrapped base64 groups across chunks. Defaults: 1 MiB held record, 256 KiB batch and 1 GiB total input. A record exceeding `maxRecordBytes` fails; raising the total limit does not raise the record limit. The generator may have yielded earlier verified records when a later record fails. Use `sanitizeStreamToFile` for atomic publication of the whole stream.
 
 `sanitizeFileToFile` rejects source symlinks and writes private temporary output, publishing only after complete verification. `sanitizeFileBounded` additionally uses a worker with a 256 MiB old-generation heap, 4 MiB stack and 60-second deadline; `workerHeapMb` and `workerTimeoutMs` are configurable. Worker failure removes its private staging directory before returning. Limits bound package work, not arbitrary external detectors. Callbacks supplied through `sanitizer` run in process; set `worker: false` explicitly to disable isolation. Pass serializable options through `sanitizerOptions` for workers. Memory limits do not include all native/WASM allocation.
 
@@ -88,7 +136,7 @@ await sanitizeFileBounded('session.jsonl', 'session.safe.jsonl', {
 });
 ```
 
-The CLI supports `redact FILE --stream --output NEWFILE` and stdin streaming. Stdout uses a private spool and receives nothing until the entire scan succeeds. `--max-record-bytes` controls held records; `--max-bytes` defaults to 1 GiB with `--stream`. `--hive-mask`, `--preserve-encoding` and `--gh-auth` are explicit opt-ins.
+The CLI supports `redact FILE --stream --output NEWFILE` and stdin streaming. Stdout uses a private spool and receives nothing until the entire scan succeeds. `--max-record-bytes` controls held records; `--max-bytes` defaults to 1 GiB with `--stream`. `--json` / `--jsonl`, `--identity-mask`, `--hive-mask`, `--preserve-encoding` and `--gh-auth` are explicit opt-ins.
 
 ## Public verification and publication helpers
 

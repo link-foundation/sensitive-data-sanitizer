@@ -42,7 +42,7 @@ sensitive-data-sanitizer redact input.txt --in-place
 sensitive-data-sanitizer scan logs --config /private/policy.json
 sensitive-data-sanitizer redact input.txt --gitleaks --trufflehog --output safe.txt
 sensitive-data-sanitizer redact input.txt --presidio /path/presidio-bridge.py --model en_core_web_sm --language en
-sensitive-data-sanitizer redact large-session.jsonl --stream --output safe-session.jsonl
+sensitive-data-sanitizer redact large-session.jsonl --jsonl --stream --output safe-session.jsonl
 sensitive-data-sanitizer history rewrite ./repository --output ./private-preview
 sensitive-data-sanitizer --help
 ```
@@ -58,6 +58,21 @@ sensitive-data-sanitizer --help
 Defaults: 10 MiB whole-text input bytes, 100,000 findings and 10,000 files. `--stream` permits 1 GiB total with 1 MiB held records, bounded workers for files and atomic publication. `--max-bytes` sets the byte limit; JSON config sets the other sanitizer limits. `--paranoid` adds entropy heuristics and increases false positives. `--native-only` explicitly disables Secretlint.
 
 ## Configuration
+
+For AI sessions, `--jsonl` preserves JSON records and declares `id`, `type`,
+`name`, and `description` as metadata. `--json` handles a single JSON document;
+use JSONL for streaming. Known private values and credential formats still
+override declarations. Set `structuralFields` in private config to choose your
+own property names, or use an empty array to scan every field normally.
+The library provides `structured: 'json' | 'jsonl'` and
+`engine.sanitizeJsonl(text)` with an empty structural policy by default.
+
+Native coverage includes tolerant passport MRZ fragments, country passport
+formats, PNR/ticket/visa identifiers, contextual birth dates, national IDs and
+messenger phone numbers. Opt-in `identityMask: true` / `--identity-mask` uses
+2+2 characters with a fixed `***` marker. Opt-in fake identity policies retain
+audited specimen/synthetic values while credentials remain protected.
+See [the API](docs/API.md) and [all issue 13 requirements and research](docs/case-studies/repository-issue-13/REQUIREMENTS.md).
 
 Keep policies containing real private values outside Git. Built-in exact public knowledge and narrowly scoped role/domain heuristics are enabled offline. Explicit private literals override public exemptions. Keep custom public policies reviewed against evidence; `--verify-public` separately opts into Wikidata name lookup:
 

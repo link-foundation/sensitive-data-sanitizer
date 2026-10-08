@@ -7,7 +7,7 @@ export function* decodedRuns(text, depth = 0) {
     return;
   }
   const patterns = [
-    /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{16,8192}={0,2}(?![A-Za-z0-9_+/-])/g,
+    /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{16,}={0,2}(?![A-Za-z0-9_+/-])/g,
     /(?:[^\s"'<>?=&:/]{0,128}%[\da-fA-F]{2})+(?:[^\s"'<>?=&:/]{0,128})/g,
     /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{16,128}(?:\r?\n[A-Za-z0-9_+/-]{1,128})+={0,2}(?![A-Za-z0-9_+/-])/g,
     /(?:&#(?:x[\da-fA-F]{1,6}|\d{1,7});|&(?:amp|lt|gt|quot|apos|nbsp);){2,2048}/g,
@@ -20,7 +20,15 @@ export function* decodedRuns(text, depth = 0) {
     for (const match of text.matchAll(pattern)) {
       const raw = match[0];
       if (raw.length > 8192) {
-        throw failure('ERR_LIMIT');
+        if (isLimitedTextRun(raw)) {
+          yield {
+            start: match.index,
+            end: match.index + raw.length,
+            limited: true,
+            depth,
+          };
+        }
+        continue;
       }
       const candidates = decodeCandidates(raw);
       for (const candidate of candidates) {
@@ -39,9 +47,10 @@ export function* decodedRuns(text, depth = 0) {
         if (++count > 4096) {
           throw failure('ERR_LIMIT');
         }
+        const inset = encoding === 'json-content' ? 1 : 0;
         const run = {
-          start: match.index + (encoding === 'json-content' ? 1 : 0),
-          end: match.index + raw.length - (encoding === 'json-content' ? 1 : 0),
+          start: match.index + inset,
+          end: match.index + raw.length - inset,
           text: decoded,
           encoding,
           depth,
@@ -55,7 +64,21 @@ export function* decodedRuns(text, depth = 0) {
   }
 }
 
-function decodeCandidates(raw) {
+function isLimitedTextRun(raw) {
+  // Bare opaque identifiers may share the base64 alphabet. Require a
+  // textual decode, or an explicit percent/wrapped encoding boundary.
+  const probe = decodeCandidates(raw.slice(0, 4096), true);
+  return (
+    raw.includes('%') ||
+    raw.includes('\n') ||
+    probe.some(
+      // eslint-disable-next-line no-control-regex -- Exclude binary controls from the bounded UTF-8 text probe.
+      (c) => c.text && !/[\x00-\x08\x0e-\x1f\x7f]/.test(c.text)
+    )
+  );
+}
+
+function decodeCandidates(raw, partial) {
   const candidates = [];
   if (raw.startsWith('"')) {
     return decodeJson(raw);
@@ -115,7 +138,9 @@ function decodeCandidates(raw) {
             compact.includes('-') || compact.includes('_')
               ? 'base64url'
               : 'base64',
-          text: new TextDecoder('utf-8', { fatal: true }).decode(bytes),
+          text: new TextDecoder('utf-8', { fatal: true }).decode(bytes, {
+            stream: partial,
+          }),
           wrapped: raw.includes('\n'),
           padded: raw.endsWith('='),
         });

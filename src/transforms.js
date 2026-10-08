@@ -1,6 +1,7 @@
 import { createHmac } from 'node:crypto';
 import { failure, REDACTED } from './detection.js';
 import { encodedValue, encodeRun } from './encoded.js';
+import { isIdentityType } from './identity.js';
 
 const modes = new Set([
   'redact',
@@ -54,7 +55,13 @@ function validateTransform(transform) {
     mask: () =>
       [transform.keepStart ?? 0, transform.keepEnd ?? 0].every(
         (value) => Number.isSafeInteger(value) && value >= 0
-      ),
+      ) &&
+      (transform.minLength === undefined ||
+        positiveInteger(transform.minLength)) &&
+      (transform.marker === undefined ||
+        (typeof transform.marker === 'string' &&
+          transform.marker.length > 0 &&
+          transform.marker.length <= 64)),
   };
   if (checks[transform.mode] && !checks[transform.mode]()) {
     throw failure('ERR_CONFIG');
@@ -100,6 +107,16 @@ function shiftedDate(value, days) {
     ? REDACTED
     : date.toISOString().slice(0, 10);
 }
+function masked(value, finding, transform) {
+  const chars = Array.from(value),
+    start = transform.keepStart ?? 0,
+    end = transform.keepEnd ?? 0;
+  return chars.length <
+    (transform.minLength ?? (isIdentityType(finding.type) ? 5 : 0)) ||
+    start + end >= chars.length
+    ? REDACTED
+    : `${chars.slice(0, start).join('')}${transform.marker ?? '*'.repeat(chars.length - start - end)}${end ? chars.slice(-end).join('') : ''}`;
+}
 function transformed(value, finding, transform) {
   if (!transform || transform.mode === 'redact') {
     return REDACTED;
@@ -114,12 +131,7 @@ function transformed(value, finding, transform) {
     return REDACTED;
   }
   if (transform.mode === 'mask') {
-    const chars = Array.from(value),
-      start = transform.keepStart ?? 0,
-      end = transform.keepEnd ?? 0;
-    return start + end >= chars.length
-      ? REDACTED
-      : `${chars.slice(0, start).join('')}${'*'.repeat(chars.length - start - end)}${end ? chars.slice(-end).join('') : ''}`;
+    return masked(value, finding, transform);
   }
   if (transform.mode === 'pseudonym') {
     return `[PSEUDONYM_${keyed(value, finding.type, transform.key).toString('hex').slice(0, 24)}]`;
@@ -139,7 +151,11 @@ function transformed(value, finding, transform) {
 }
 export function renderReplacement(text, finding, options, encodedSanitize) {
   const transform =
-    options.transformations?.[finding.type] ?? options.transformation;
+    options.transformations?.[finding.type] ??
+    options.transformation ??
+    (options.identityMask && isIdentityType(finding.type)
+      ? { mode: 'mask', keepStart: 2, keepEnd: 2, marker: '***', minLength: 5 }
+      : undefined);
   if (finding.type === 'ENCODED_SENSITIVE') {
     const raw = text.slice(finding.start, finding.end);
     const run = encodedValue(raw);

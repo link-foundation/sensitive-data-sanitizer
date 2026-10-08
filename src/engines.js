@@ -5,10 +5,17 @@ import {
   validateInput,
   sanitizeFinding,
   validatePublic,
+  inspectFindingsOnly,
+  markFake,
 } from './sanitizer.js';
 import { failure } from './detection.js';
 import { projectText } from './projection.js';
 import { decodedRuns } from './encoded.js';
+import {
+  structuredBatches,
+  mapStructuredFindings,
+  verifyStructured,
+} from './structured.js';
 
 let upstream;
 async function secretlintDetect(text) {
@@ -74,7 +81,15 @@ async function engineFindings(engine, projection, options, emit) {
     return;
   }
   for (const run of decodedRuns(projection.text)) {
-    const decoded = await detect(engine, projectText(run.text).text, limit);
+    if (run.limited) {
+      continue;
+    }
+    const view = projectText(run.text).text;
+    const decoded = markFake(
+      view,
+      await detect(engine, view, limit),
+      options
+    ).filter((f) => f.kept !== 'fake');
     if (!decoded.length) {
       continue;
     }
@@ -100,8 +115,30 @@ export function createSanitizer(options = {}) {
   const engines =
     options.secretlint === false ? [] : [{ detect: secretlintDetect }];
   engines.push(...(options.detectors ?? []));
-  async function analyze(text, initial = options.findings ?? []) {
+  async function analyze(
+    text,
+    initial = options.findings ?? [],
+    plain = false
+  ) {
     validateInput(text, options);
+    if (options.structured && !plain) {
+      const findings = [];
+      for (const batch of structuredBatches(text, options)) {
+        for (const finding of mapStructuredFindings(
+          batch,
+          await analyze(batch.text, [], true),
+          options
+        )) {
+          findings.push(finding);
+        }
+      }
+      // Native structured inspection validates, locates and reapplies the
+      // same fake-value/public policy to source offsets from all engines.
+      return inspectFindingsOnly(text, findings, {
+        ...options,
+        findings: initial,
+      });
+    }
     const findings = [];
     const emit = (finding) => {
       if (findings.length >= (options.maxFindings ?? 100000)) {
@@ -123,7 +160,11 @@ export function createSanitizer(options = {}) {
       }
       await engineFindings(engine, projection, options, emit);
     }
-    const detected = inspect(text, { ...options, findings });
+    const detected = inspect(text, {
+      ...options,
+      structured: undefined,
+      findings,
+    });
     return options.verifyPublic
       ? verifyFindings(text, detected, options.verifyPublic)
       : detected;
@@ -132,13 +173,21 @@ export function createSanitizer(options = {}) {
   return {
     inspect: analyze,
     sanitize: sanitizeText,
+    sanitizeJsonl: (text) =>
+      createSanitizer({ ...options, structured: 'jsonl' }).sanitize(text),
   };
-  async function sanitizeText(text, depth = 0, fullRedaction = false) {
-    const findings = await analyze(text);
+  async function sanitizeText(
+    text,
+    depth = 0,
+    fullRedaction = false,
+    plain = false
+  ) {
+    const findings = await analyze(text, options.findings ?? [], plain);
     const fullOptions = {
       ...options,
       transformation: undefined,
       transformations: undefined,
+      identityMask: false,
       preserveEncoding: false,
     };
     const result = await redactResultAsync(
@@ -147,7 +196,7 @@ export function createSanitizer(options = {}) {
       fullRedaction ? fullOptions : options,
       (decoded) =>
         depth < 2
-          ? sanitizeText(decoded, depth + 1, fullRedaction)
+          ? sanitizeText(decoded, depth + 1, fullRedaction, true)
           : Promise.resolve({ text: '[REDACTED]' })
     );
     const sanitized = fullRedaction
@@ -155,13 +204,16 @@ export function createSanitizer(options = {}) {
       : (
           await redactResultAsync(text, findings, fullOptions, (decoded) =>
             depth < 2
-              ? sanitizeText(decoded, depth + 1, true)
+              ? sanitizeText(decoded, depth + 1, true, true)
               : Promise.resolve({ text: '[REDACTED]' })
           )
         ).text;
     // Verification at the publication boundary runs every enabled engine.
-    if ((await analyze(sanitized, [])).length) {
+    if ((await analyze(sanitized, [], plain)).some((f) => f.kept !== 'fake')) {
       throw failure('ERR_RESIDUAL');
+    }
+    if (options.structured && !plain) {
+      verifyStructured(result.text, options);
     }
     return { ...result, findings };
   }
