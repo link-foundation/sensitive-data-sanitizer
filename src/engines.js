@@ -1,4 +1,6 @@
+import { actionable } from './confidence.js';
 import {
+  auditFaked,
   inspect,
   redactResultAsync,
   validateOptions,
@@ -89,7 +91,7 @@ async function engineFindings(engine, projection, options, emit) {
       view,
       await detect(engine, view, limit),
       options
-    ).filter((f) => f.kept !== 'fake');
+    ).filter((f) => actionable(f, options));
     if (!decoded.length) {
       continue;
     }
@@ -209,13 +211,15 @@ export function createSanitizer(options = {}) {
           )
         ).text;
     // Verification at the publication boundary runs every enabled engine.
-    if ((await analyze(sanitized, [], plain)).some((f) => f.kept !== 'fake')) {
+    if (
+      (await analyze(sanitized, [], plain)).some((f) => actionable(f, options))
+    ) {
       throw failure('ERR_RESIDUAL');
     }
     if (options.structured && !plain) {
       verifyStructured(result.text, options);
     }
-    return { ...result, findings };
+    return { ...result, findings: auditFaked(findings, options, result) };
   }
 }
 

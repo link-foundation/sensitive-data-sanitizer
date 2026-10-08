@@ -45,7 +45,7 @@ history rewrite SOURCE --output DIRECTORY [--apply]
 --json              Sanitize JSON strings and keys; preserve session metadata
 --jsonl             Sanitize JSONL records; combine with --stream for sessions
 --identity-mask     Opt-in first/last 2 identity mask with fixed *** marker
---max-record-bytes N Maximum held record bytes (default 1048576)
+--max-record-bytes N Maximum record bytes (JSONL: 8388608; text: 1048576)
 --hive-mask         Opt-in first/last 3 mask for values longer than 12 characters
 --preserve-encoding Re-encode sanitized encoded payloads with round-trip checks
 --gh-auth           Read local gh auth token and mask its exact value
@@ -137,7 +137,9 @@ function validateArgs(config) {
 }
 
 function validateFeatureArgs(config) {
-  config.maxRecordBytes = Number(config.maxRecordBytes ?? 1048576);
+  config.maxRecordBytes = Number(
+    config.maxRecordBytes ?? (config.jsonl ? 8388608 : 1048576)
+  );
   if (
     !Number.isSafeInteger(config.maxRecordBytes) ||
     config.maxRecordBytes <= 0 ||

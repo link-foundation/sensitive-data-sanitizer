@@ -17,8 +17,10 @@ export interface Finding {
   /** One-based line and UTF-16 column, populated by inspect. */
   line?: number;
   column?: number;
-  /** Explicit identity specimen/synthetic/allowlist exemption; never credentials. */
+  /** Reviewed/generated fake exemption; generated credentials require explicit opt-in. */
   kept?: 'fake';
+  /** Returned finding replaced with, or recognized as, a generated fake. */
+  faked?: true;
 }
 export interface PersonalValue {
   type: string;
@@ -57,6 +59,10 @@ export interface SanitizerOptions {
   structured?: 'json' | 'jsonl';
   /** Property names whose metadata heuristics may be suppressed. */
   structuralFields?: string[];
+  /** Personal replacement threshold, default 0.5. Inspect retains lower scores. */
+  minConfidence?: number;
+  /** Alias for minConfidence; specifying both requires equal values. */
+  threshold?: number;
   /** Explicit network/callback verification; credentials never qualify. */
   verifyPublic?: (candidate: {
     type: PublicEntity['type'];
@@ -204,6 +210,15 @@ export type Transformation =
       minLength?: number;
     }
   | { mode: 'pseudonym' | 'format-preserving'; key: string }
+  | {
+      mode: 'fake';
+      /** At least 16 UTF-8 bytes; keep this pseudonymisation key private. */
+      key: string;
+      /** Emit visibly invalid fake credentials; default is full redaction. */
+      credentials?: boolean;
+      /** Keep original MRZ issuer/nationality unless Utopia is requested. */
+      mrzCountry?: 'UTO';
+    }
   | { mode: 'date-shift'; days: number }
   | { mode: 'bucket'; size: number };
 export interface StreamOptions extends SanitizerOptions {
@@ -213,6 +228,8 @@ export interface StreamOptions extends SanitizerOptions {
   batchBytes?: number;
   maxTotalBytes?: number;
   worker?: boolean;
+  /** JSONL record workers, 1–16; default 2, or 1 for callbacks/Deno. */
+  workers?: number;
   workerHeapMb?: number;
   workerTimeoutMs?: number;
   replace?: boolean;

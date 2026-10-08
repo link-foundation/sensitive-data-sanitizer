@@ -76,7 +76,14 @@ describe('national checksum and identity policy boundaries', () => {
   for (const [type, value, label] of nationalIds) {
     it(`checks ${type} arithmetic and contextual confidence independently`, () => {
       expect(
-        inspect(value).some((f) => f.type === type && f.confidence === 0.99)
+        inspect(value).some(
+          (f) =>
+            f.type === type &&
+            f.confidence ===
+              (['KR_RRN', 'IT_FISCAL_CODE', 'SG_NRIC_FIN'].includes(type)
+                ? 0.99
+                : 0.35)
+        )
       ).toBe(true);
       const last = value.at(-1),
         changed =

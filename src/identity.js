@@ -106,7 +106,11 @@ function detectMrz(text, emit) {
   ];
   patterns.forEach((pattern, index) => {
     for (const match of text.matchAll(pattern)) {
-      const value = match[0].trimEnd(),
+      const value = (
+          /[a-z]/.test(text[match.index + match[0].length] ?? '')
+            ? match[0].replace(/(?:[ \t\r\n]+)[A-Z]{1,6}$/, '')
+            : match[0]
+        ).trimEnd(),
         compact = value.replace(/[ \t\r\n]/g, '');
       const validShape =
         index === 0
@@ -177,19 +181,27 @@ function detectPassports(text, emit) {
   });
 }
 const booking =
-  /(?<![\p{L}\p{N}_])(?:booking[ _-]+(?:reference|code)|reservation[ _-]+code|confirmation[ _-]+code|record[ _-]+locator|PNR|код брони|номер брони|бронирование)[ \t]*[:=：]?[ \t]*[`"']?([A-Z0-9]{5,8})(?![\p{L}\p{N}_])/giu;
+  /(?<![\p{L}\p{N}_])(?:booking(?:[ _-]+(?:reference|code))?|reservation(?:[ _-]+code)?|confirmation(?:[ _-]+code)?|бронь|record[ _-]+locator|PNR|код брони|номер брони|бронирование)[ \t]*[:=：]?[ \t]*[`"']?([A-Z0-9]{4,8})(?![\p{L}\p{N}_])/giu;
 const ticket =
   /(?<![\p{L}\p{N}_])(?:e[ -]?ticket|ticket[ _-]*(?:number|no)?|номер билета|электронный билет)[ \t]*[:=：]?[ \t]*[`"']?(\d{3}[ -]?\d{10})(?![\p{L}\p{N}_])/giu;
 const visa =
   /(?<![\p{L}\p{N}_])(?:e[ -]?visa|visa|номер визы|виза)(?:[ \t_-]+(?:registration|application|number|no|code|номер|код)){0,3}[ \t]*[:=：]?[ \t]*[`"']?([A-Z0-9][A-Z0-9-]{4,31})(?![\p{L}\p{N}_])/giu;
 const placeholder =
-  /^(?:NONE|UNKNOWN|NULL|UNDEFINED|REDACTED|EXAMPLE|SAMPLE|PENDING|BOOKING|REFERENCE|REGISTRATION|APPLICATION|NUMBER|CODE)$/i;
+  /^(?:NONE|UNKNOWN|NULL|UNDEFINED|REDACTED|EXAMPLE|SAMPLE|PENDING|HOTEL|BOOKING|REFERENCE|REGISTRATION|APPLICATION|NUMBER|CODE)$/i;
 function detectTravel(text, emit) {
   collectMatches(
     text,
     booking,
     emit,
     personal('BOOKING_REFERENCE', 'booking-context'),
+    1,
+    (v) => !placeholder.test(v) && (v === v.toUpperCase() || /\d/.test(v))
+  );
+  collectMatches(
+    text,
+    /(?:AirIndia|Air-?India|AirFrance|BritishAirways|Lufthansa|Emirates|Qatar|Delta|United|Ryanair|Aeroflot|Аэрофлот)[-_]([A-Z0-9]{5,8})(?=[-_.])/g,
+    emit,
+    personal('BOOKING_REFERENCE', 'booking-filename', 0.9),
     1,
     (v) => !placeholder.test(v)
   );
@@ -206,7 +218,7 @@ function detectTravel(text, emit) {
     emit,
     personal('VISA_NUMBER', 'visa-context'),
     1,
-    (v) => !placeholder.test(v)
+    (v) => !placeholder.test(v) && /\d/.test(v)
   );
 }
 
@@ -242,10 +254,12 @@ export function fakeIdentityValue(value, type, options) {
     const document = /^[PIACV][A-Z<][A-Z<]{3}/.test(compact)
       ? compact.slice(5, 14)
       : compact.slice(0, 9);
-    return syntheticDocument(document);
+    return (
+      /^(?:C01X00T47|T22000129)$/.test(document) || syntheticDocument(document)
+    );
   }
   return (
-    /^(?:L898902C3(?:6)?|D23145890(?:7)?)$/.test(compact) ||
+    /^(?:L898902C3(?:6)?|D23145890(?:7)?|C01X00T47|T22000129)$/.test(compact) ||
     syntheticDocument(compact)
   );
 }

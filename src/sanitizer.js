@@ -1,4 +1,8 @@
-import { failure, nativeDetect } from './detection.js';
+import { generatedValues } from './fake.js';
+import { actionable } from './confidence.js';
+import { propagate } from './propagation.js';
+import { fakeDocumentSpans } from './specimens.js';
+import { failure, nativeDetect, REDACTED } from './detection.js';
 import { projectText } from './projection.js';
 import { decodedRuns, encodeRun, encodedValue } from './encoded.js';
 import { URL } from 'node:url';
@@ -11,6 +15,7 @@ import {
   verifyStructured,
 } from './structured.js';
 
+const fakedResults = new WeakMap();
 const publicTypes = new Set(['PERSON', 'ORGANIZATION', 'EMAIL']);
 const optionNames = new Set([
   'knownSecrets',
@@ -34,6 +39,8 @@ const optionNames = new Set([
   'fakeValues',
   'structured',
   'structuralFields',
+  'minConfidence',
+  'threshold',
 ]);
 
 function validateCollections(options) {
@@ -119,6 +126,7 @@ export function validateOptions(options = {}) {
       throw failure('ERR_CONFIG');
     }
   }
+  validateConfidence(options);
   validatePolicy(options);
   if (
     options.verifyPublic !== undefined &&
@@ -133,6 +141,27 @@ export function validateOptions(options = {}) {
     validatePublic(entry);
   }
   return options;
+}
+
+function validateConfidence(options) {
+  for (const key of ['minConfidence', 'threshold']) {
+    if (
+      options[key] !== undefined &&
+      (typeof options[key] !== 'number' ||
+        !Number.isFinite(options[key]) ||
+        options[key] < 0 ||
+        options[key] > 1)
+    ) {
+      throw failure('ERR_CONFIG');
+    }
+  }
+  if (
+    options.minConfidence !== undefined &&
+    options.threshold !== undefined &&
+    options.minConfidence !== options.threshold
+  ) {
+    throw failure('ERR_CONFIG');
+  }
 }
 
 function validatePolicy(options) {
@@ -253,8 +282,8 @@ function encodedDetect(text, options, emit) {
     const found = [];
     const view = projectText(run.text).text;
     nativeDetect(view, options, (f) => found.push(f));
-    const sensitive = markFake(view, found, options).filter(
-      (f) => f.kept !== 'fake'
+    const sensitive = markFake(view, found, options).filter((f) =>
+      actionable(f, options)
     );
     if (sensitive.length) {
       emit({
@@ -356,7 +385,11 @@ export function inspect(text, options = {}) {
   }
   const result = locations(
     text,
-    markFake(text, [...unique.values()], options).sort(
+    markFake(
+      text,
+      propagate(text, markFake(text, [...unique.values()], options), options),
+      options
+    ).sort(
       (a, b) =>
         a.start - b.start || b.end - a.end || a.rule.localeCompare(b.rule)
     )
@@ -374,15 +407,54 @@ export function inspectFindingsOnly(text, findings, options) {
   }
   return locations(
     text,
-    markFake(text, all, options).sort(
-      (a, b) => a.start - b.start || b.end - a.end
-    )
+    markFake(
+      text,
+      propagate(text, markFake(text, all, options), options),
+      options
+    ).sort((a, b) => a.start - b.start || b.end - a.end)
   );
 }
 
 export function markFake(text, findings, options) {
-  if (!options.fakeIdentity && !options.fakeValues?.length) {
+  const generated = generatedValues(options);
+  if (
+    !options.fakeIdentity &&
+    !options.fakeValues?.length &&
+    !generated.length
+  ) {
     return findings.map((f) => ({ ...f, kept: undefined }));
+  }
+  const documents = fakeDocumentSpans(text, options);
+  const trusted = [];
+  for (const record of generated) {
+    for (const value of new Set([
+      record.value,
+      JSON.stringify(record.value).slice(1, -1),
+    ])) {
+      let start = text.indexOf(value);
+      while (start >= 0) {
+        trusted.push({
+          start,
+          end: start + value.length,
+          credential: record.credential,
+        });
+        start = text.indexOf(value, start + value.length);
+      }
+    }
+  }
+  const reviewed = [];
+  for (const value of options.fakeValues ?? []) {
+    let start = text.indexOf(value);
+    while (start >= 0) {
+      const end = start + value.length;
+      if (
+        !/[\p{L}\p{N}]/u.test(text[start - 1] ?? '') &&
+        !/[\p{L}\p{N}]/u.test(text[end] ?? '')
+      ) {
+        reviewed.push({ start, end });
+      }
+      start = text.indexOf(value, end);
+    }
   }
   const candidates = findings.filter(
     (f) =>
@@ -392,21 +464,35 @@ export function markFake(text, findings, options) {
   // Tolerant MRZ matches can cross a line boundary. An automatic specimen
   // exemption must never cover an overlapping real identity value. Exact
   // reviewed values authorize their full span, including contained fragments.
-  const safe = candidates.filter(
-    (candidate) =>
-      options.fakeValues?.includes(
-        text.slice(candidate.start, candidate.end)
-      ) ||
-      !findings.some(
-        (other) =>
-          isIdentityType(other.type) &&
-          other.type !== 'ID' &&
-          other.start < candidate.end &&
-          other.end > candidate.start &&
-          !candidates.includes(other)
-      )
-  );
+  const safe = [
+    ...documents,
+    ...reviewed,
+    ...candidates.filter(
+      (candidate) =>
+        options.fakeValues?.includes(
+          text.slice(candidate.start, candidate.end)
+        ) ||
+        !findings.some(
+          (other) =>
+            isIdentityType(other.type) &&
+            other.type !== 'ID' &&
+            other.start < candidate.end &&
+            other.end > candidate.start &&
+            !candidates.includes(other)
+        )
+    ),
+  ];
   return findings.map((f) => {
+    if (
+      trusted.some(
+        (span) =>
+          span.start <= f.start &&
+          span.end >= f.end &&
+          (f.category !== 'credential' || span.credential)
+      )
+    ) {
+      return { ...f, kept: 'fake', faked: true };
+    }
     const kept =
       f.category === 'personal' &&
       safe.some((span) => span.start <= f.start && span.end >= f.end) &&
@@ -433,7 +519,7 @@ function validatedSpans(text, findings, options) {
     .map((f) => sanitizeFinding(f, text.length))
     .map((f) => ({ ...f, kept: undefined }));
   const retained = markFake(text, sorted, options)
-    .filter((f) => f.kept !== 'fake')
+    .filter((f) => actionable(f, options))
     .sort((a, b) => a.start - b.start || b.end - a.end);
   const spans = [];
   for (const f of retained) {
@@ -454,6 +540,9 @@ function validatedSpans(text, findings, options) {
 }
 
 function preferredType(current, candidate, options) {
+  if (candidate === 'PHONE' && current !== 'PASSPORT_MRZ') {
+    return true;
+  }
   if (candidate === 'ENCODED_SENSITIVE') {
     return true;
   }
@@ -477,24 +566,35 @@ export function redactResult(
 ) {
   const spans = validatedSpans(text, findings, options);
   const parts = [];
+  const faked = [];
   let cursor = 0;
   for (const span of spans) {
-    parts.push(
-      text.slice(cursor, span.start),
+    const replacement =
       replacements.get(`${span.start}:${span.end}`) ??
-        renderReplacement(text, span, options, (decoded) =>
-          sanitize(decoded, {
-            ...options,
-            findings: [],
-            preserveEncoding: true,
-            structured: undefined,
-          })
-        )
-    );
+      renderReplacement(text, span, options, (decoded) =>
+        sanitize(decoded, {
+          ...options,
+          findings: [],
+          preserveEncoding: true,
+          structured: undefined,
+        })
+      );
+    parts.push(text.slice(cursor, span.start), replacement);
+    const transform =
+      options.transformations?.[span.type] ?? options.transformation;
+    if (
+      transform?.mode === 'fake' &&
+      replacement !== REDACTED &&
+      (span.category === 'personal' || transform.credentials)
+    ) {
+      faked.push(span);
+    }
     cursor = span.end;
   }
   parts.push(text.slice(cursor));
-  return { text: parts.join(''), redactions: spans.length };
+  const result = { text: parts.join(''), redactions: spans.length };
+  fakedResults.set(result, faked);
+  return result;
 }
 
 export async function redactResultAsync(
@@ -544,8 +644,8 @@ export function sanitize(text, options = {}) {
     preserveEncoding: false,
   }).text;
   if (
-    inspect(sanitized, { ...options, findings: [] }).some(
-      (f) => f.kept !== 'fake'
+    inspect(sanitized, { ...options, findings: [] }).some((f) =>
+      actionable(f, options)
     )
   ) {
     throw failure('ERR_RESIDUAL');
@@ -553,7 +653,7 @@ export function sanitize(text, options = {}) {
   if (options.structured) {
     verifyStructured(result.text, options);
   }
-  return { ...result, findings };
+  return { ...result, findings: auditFaked(findings, options, result) };
 }
 
 function validateLimits(options) {
@@ -568,4 +668,14 @@ function validateLimits(options) {
   if (options.debug !== undefined && typeof options.debug !== 'function') {
     throw failure('ERR_CONFIG');
   }
+}
+
+export function auditFaked(findings, options, result) {
+  const spans = fakedResults.get(result) ?? [];
+  return findings.map((f) =>
+    actionable(f, options) &&
+    spans.some((span) => span.start <= f.start && span.end >= f.end)
+      ? { ...f, faked: true }
+      : f
+  );
 }

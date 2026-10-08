@@ -11,9 +11,9 @@ const dates = new RegExp(
   'giu'
 );
 const phoneContext =
-  /(?<![\p{L}\p{N}_])(?:WhatsApp|Zalo|Viber|Telegram|Signal|WeChat|LINE|KakaoTalk|звоните|пишите|звонить|номер телефона|телефон|phone|call)(?![\p{L}\p{N}_])/iu;
+  /(?<![\p{L}\p{N}_])(?:WhatsApp|Zalo|Viber|Telegram|Signal|WeChat|LINE|KakaoTalk|звоните|пишите|звонить|номер телефона|телефон|phone|call|telp|telepon|HP|hubungi|โทร|เบอร์|gọi|SĐT|điện thoại)(?![\p{L}\p{N}_])/iu;
 const nationalPhone =
-  /(?<![\p{L}\p{N}_+])(?:8[ ()-]{0,3}9\d{2}[ )-]{0,3}\d{3}[ -]{0,2}\d{2}[ -]{0,2}\d{2}|\(?0[ ()-]{0,2}[35789]\d[ )-]{0,3}\d{3}[ -]{0,2}\d{4}|\(?0[ ()-]{0,2}\d[ )-]{0,3}\d{3}[ -]{0,2}\d{4}|\(?0[ ()-]{0,2}8\d{2}[ )-]{0,3}\d{4}[ -]{0,2}\d{4})(?![\p{L}\p{N}_])/gu;
+  /(?<![\p{L}\p{N}_+])(?:\(?08\d{2}[ )-]{0,3}\d{3,4}[ -]{0,2}\d{3,4}|8[ ()-]{0,3}9\d{2}[ )-]{0,3}\d{3}[ -]{0,2}\d{2}[ -]{0,2}\d{2}|\(?0[ ()-]{0,2}[35789]\d[ )-]{0,3}\d{3}[ -]{0,2}\d{4}|\(?0[ ()-]{0,2}\d[ )-]{0,3}\d{3}[ -]{0,2}\d{4}|\(?0[ ()-]{0,2}8\d{2}[ )-]{0,3}\d{4}[ -]{0,2}\d{4})(?![\p{L}\p{N}_])/gu;
 export function detectPersonalContext(text, emit) {
   for (const label of text.matchAll(birth)) {
     const start = label.index + label[0].length;
@@ -47,7 +47,10 @@ export function detectPersonalContext(text, emit) {
         .split(/[\r\n|;]/)
         .at(-1);
       return (
-        phoneContext.test(prefix) &&
+        (phoneContext.test(prefix) ||
+          /^\(?08/.test(value) ||
+          (/^0[689]/.test(value.replace(/\D/g, '')) &&
+            value.replace(/\D/g, '').length === 10)) &&
         !/\d[ ()-]*$/.test(prefix) &&
         !/^[ ()-]*\d/.test(
           text.slice(match.index + value.length, match.index + value.length + 4)

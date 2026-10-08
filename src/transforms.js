@@ -1,3 +1,4 @@
+import { realisticFake } from './fake.js';
 import { createHmac } from 'node:crypto';
 import { failure, REDACTED } from './detection.js';
 import { encodedValue, encodeRun } from './encoded.js';
@@ -5,6 +6,7 @@ import { isIdentityType } from './identity.js';
 
 const modes = new Set([
   'redact',
+  'fake',
   'hive-mask',
   'mask',
   'pseudonym',
@@ -42,6 +44,12 @@ function validateTransform(transform) {
     throw failure('ERR_CONFIG');
   }
   const checks = {
+    fake: () =>
+      typeof transform.key === 'string' &&
+      Buffer.byteLength(transform.key) >= 16 &&
+      (transform.credentials === undefined ||
+        typeof transform.credentials === 'boolean') &&
+      (transform.mrzCountry === undefined || transform.mrzCountry === 'UTO'),
     pseudonym: () =>
       typeof transform.key === 'string' &&
       Buffer.byteLength(transform.key) >= 16,
@@ -126,6 +134,9 @@ function transformed(value, finding, transform) {
     return chars.length > 12
       ? `${chars.slice(0, 3).join('')}…${chars.slice(-3).join('')}`
       : REDACTED;
+  }
+  if (transform.mode === 'fake') {
+    return realisticFake(value, finding, transform);
   }
   if (finding.category === 'credential') {
     return REDACTED;

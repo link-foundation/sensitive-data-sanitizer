@@ -103,6 +103,10 @@ export const labels = {
     'รหัสผ่าน',
   ],
   PERSON: [
+    'Applicant',
+    'Passenger',
+    'Traveller',
+    'Заявитель',
     'name',
     'full_name',
     'fullname',

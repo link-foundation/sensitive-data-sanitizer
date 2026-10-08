@@ -193,9 +193,9 @@ describe('national IDs and identity policies', () => {
   for (const [type, value] of nationalIds.filter(([type]) =>
     ['UK_NHS', 'RU_SNILS', 'RU_INN', 'ZA_ID_NUMBER'].includes(type)
   )) {
-    it(`detects checksum-valid bare ${type}`, () => {
+    it(`retains low-confidence checksum-valid bare ${type} for inspection`, () => {
       expect(
-        inspect(value).some((f) => f.type === type && f.confidence >= 0.9)
+        inspect(value).some((f) => f.type === type && f.confidence === 0.35)
       ).toBe(true);
     });
   }

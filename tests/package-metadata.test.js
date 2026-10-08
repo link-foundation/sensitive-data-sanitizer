@@ -116,6 +116,8 @@ describe('publishable package metadata', () => {
       'examples/combined-scanners.mjs',
       'examples/presidio-bridge.py',
       'examples/sanitize-session.mjs',
+      'examples/realistic-fakes.mjs',
+      'examples/stream-jsonl.mjs',
       'CHANGELOG.md',
       'LICENSE',
       'README.md',

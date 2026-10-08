@@ -8,11 +8,11 @@ export const firstNames = {
   de: 'Hans Klaus Wolfgang Jürgen Günter Dieter Karl Heinrich Wilhelm Friedrich Johann Alexander Lukas Leon Julia Hannah Emilia Lena Mia Sabine Ursula Ingrid Petra Monika Helga',
   pt: 'João José Antônio Francisco Paulo Pedro Lucas Gabriel Rafael Bruno Carlos Maria Ana Beatriz Camila Larissa Mariana Fernanda Juliana Aline Bruna',
   ruLatn:
-    'Ivan Petr Pyotr Sergey Sergei Aleksandr Alexander Alexey Aleksey Dmitry Dmitri Mikhail Nikolai Andrey Vladimir Pavel Viktor Oleg Boris Evgeny Vasily Yuri Anna Mariya Elena Olga Natalya Irina Svetlana Tatyana Ekaterina Anastasia Yulia',
+    'Ivan Petr Pyotr Sergey Sergei Aleksandr Alexander Alexey Aleksey Dmitry Dmitri Mikhail Nikolai Andrey Vladimir Pavel Viktor Oleg Boris Evgeny Vasily Yuri Marina Anna Mariya Elena Olga Natalya Irina Svetlana Tatyana Ekaterina Anastasia Yulia',
   jaLatn: 'Yamada Sato Suzuki Takahashi Tanaka Ito Watanabe Nakamura Kobayashi',
   zhLatn:
     'Zhang Wang Li Zhao Liu Chen Yang Huang Zhou Wu Xu Sun Hu Zhu Gao Lin',
-  ru: 'Иван Пётр Петр Сергей Александр Алексей Дмитрий Михаил Николай Андрей Владимир Павел Виктор Олег Борис Евгений Василий Юрий Анна Мария Елена Ольга Наталья Ирина Светлана Татьяна Екатерина Анастасия Юлия Ивану Ивана Иваном Сергея Сергею Александра Александру Анне Анну Елены',
+  ru: 'Иван Пётр Петр Сергей Александр Алексей Дмитрий Михаил Николай Андрей Владимир Павел Виктор Олег Борис Евгений Василий Юрий Марина Анна Мария Елена Ольга Наталья Ирина Светлана Татьяна Екатерина Анастасия Юлия Ивану Ивана Иваном Сергея Сергею Александра Александру Анне Анну Елены',
   ja: '山田 佐藤 鈴木 高橋 田中 伊藤 渡辺 渡邊 中村 小林 加藤 吉田 松本 山本 井上 木村 林 清水 斎藤 斉藤',
   zh: '张 王 李 赵 刘 陈 杨 黄 周 吴 徐 孙 胡 朱 高 林 何 郭 马 罗 張 趙 劉 陳 楊 黃 吳 孫 馬 羅',
   ko: '김 이 박 최 정 강 조 윤 장 임 한 오 서 신 권 황 안 송 전 홍 유 고 문 양 손 배 백',
