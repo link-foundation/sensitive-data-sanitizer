@@ -56,8 +56,8 @@ each country, Unicode masks, fake auditing, placeholders, JSON key collisions,
 escaped/nested JSON, metadata/credential overlap, bounded file workers and tiny
 stream batches. Suites use the existing 30-second test budget.
 
-Final local results: Node and Bun each passed 993 tests, including all 207 new
-regressions; Deno passed 848 under its existing read/environment permission
+Final local results: Node and Bun each passed 996 tests, including all 210 new
+regressions; Deno passed 851 under its existing read/environment permission
 policy. Process/file checks follow the repository's Deno guards and run on
 Node/Bun. Lint (including zero warnings on changed code), formatting,
 duplication, secrets, syntax, line limits, required docs and release guards pass.
@@ -65,6 +65,33 @@ The existing Bun CDN integration briefly timed out once; its isolated retry and
 subsequent complete suites passed. Deno's first run exposed missing permission
 guards in the new CLI/file tests; splitting the CLI check preserved in-memory
 stream/outbound coverage while matching the established test permissions.
+
+## Current-head security investigation
+
+The first published head (`6ac2a2b`, committed at 11:02:27 UTC on 2026-10-08)
+passed all workflow jobs but failed GitHub's separate CodeQL alert check.
+The Security run `37767481786` began at 11:02:50 UTC on that exact head.
+Downloaded logs are preserved in `ci-logs/security-37767481786.log`; lines
+4050–4060 show successful SARIF upload/processing, explaining why workflow
+success alone did not establish a passing code-scanning gate. The check's three
+annotations identified `js/polynomial-redos` in `src/structured.js` at original
+lines 10 and 171 and `src/credentials.js` at original lines 22–23.
+
+The [CodeQL query documentation](https://codeql.github.com/codeql-query-help/javascript/js-polynomial-redos/)
+recommends removing ambiguous matching or limiting input. A finite probe with
+2,000/4,000/8,000 escaped-quote repetitions reproduced the original JSON regex's
+quadratic restart behavior. Both lexical passes now share a deterministic
+character scanner. Malformed JSON remains blocked by parsing before scanning;
+the probe exercises the original pattern directly rather than claiming that
+malformed JSON previously bypassed API validation. New tests cover long escaped
+quotes, JSON punctuation inside strings and key-like text inside values.
+
+Netrc now reads the password capture from the original triplet match. This also
+fixes a reproduced logic bug: a machine named `password` caused the secondary
+extraction to mistake the hostname for the field and redact an environment
+placeholder. The regression failed before the capture change and passes after
+it. All three flagged expressions were removed without disabling queries or
+dismissing alerts.
 
 ```sh
 npm test
@@ -81,6 +108,7 @@ npm run check:secrets
 ```sh
 node --max-old-space-size=256 --stack-size=4096 experiments/issue-13/session-benchmark.mjs
 node --max-old-space-size=256 --stack-size=512 experiments/issue-13/wide-json.mjs
+node --max-old-space-size=128 --stack-size=512 experiments/issue-13/codeql-boundaries.mjs
 ```
 
 On the development Linux/Node 26.11 environment, the finite 300-record,

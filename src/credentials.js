@@ -14,16 +14,12 @@ const details = (rule) => ({
 export function detectCredentialFormats(text, emit) {
   collectMatches(
     text,
-    /(?<![\w])(?:machine[ \t]+[^\s"'<>]+|default)\s+login\s+[^\s"'<>]+\s+password\s+(?:"[^"\r\n]+"|'[^'\r\n]+'|[^\s"'<>]+)/g,
+    /(?<![\w])(?:machine[ \t]+[^\s"'<>]+|default)\s+login\s+[^\s"'<>]+\s+password\s+("[^"\r\n]+"|'[^'\r\n]+'|[^\s"'<>]+)/g,
     emit,
     details('netrc'),
     0,
-    (value) => {
-      const password = value
-        .match(/\bpassword\s+(.+)$/s)?.[1]
-        ?.replace(/^["']|["']$/g, '');
-      return password && !credentialPlaceholder(password);
-    }
+    (_value, match) =>
+      !credentialPlaceholder(match[1].replace(/^["']|["']$/g, ''))
   );
   collectMatches(
     text,

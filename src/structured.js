@@ -4,18 +4,43 @@ import { failure } from './detection.js';
 // fields. These names do not grant exemptions to provider/known credentials.
 export const sessionStructuralFields = ['id', 'type', 'name', 'description'];
 
+// Advance once through each character. A regexp string matcher can repeatedly
+// restart at escaped quotes in a damaged token and become quadratic.
+function* lexemes(text) {
+  for (let index = 0; index < text.length; index++) {
+    const char = text[index];
+    if (char === '"') {
+      const start = index;
+      index++;
+      while (index < text.length && text[index] !== '"') {
+        index += text[index] === '\\' ? 2 : 1;
+      }
+      if (index >= text.length) {
+        throw failure('ERR_JSON');
+      }
+      let next = index + 1;
+      while (next < text.length && /\s/.test(text[next])) {
+        next++;
+      }
+      yield {
+        raw: text.slice(start, index + 1),
+        index: start,
+        key: text[next] === ':',
+      };
+    } else if ('{}[],:'.includes(char)) {
+      yield { raw: char, index, key: false };
+    }
+  }
+}
+
 function tokens(text, offset = 0) {
   const strings = [];
   const stack = [{ field: '' }];
-  for (const match of text.matchAll(/"(?:\\[\s\S]|[^"\\])*"|[{}[\],:]/g)) {
-    const raw = match[0],
+  for (const match of lexemes(text)) {
+    const raw = match.raw,
       frame = stack.at(-1);
     if (raw[0] === '"') {
-      let next = match.index + raw.length;
-      while (/\s/.test(text[next] ?? '') && next < text.length) {
-        next++;
-      }
-      const key = text[next] === ':';
+      const key = match.key;
       const value = JSON.parse(raw);
       if (key) {
         frame.field = value;
@@ -168,15 +193,15 @@ export function verifyStructured(text, options) {
       : text.split('\n').filter((line) => line.trim());
   for (const record of records) {
     const stack = [];
-    for (const match of record.matchAll(/"(?:\\[\s\S]|[^"\\])*"|[{}[\]]/g)) {
-      if (match[0] === '{') {
+    for (const match of lexemes(record)) {
+      if (match.raw === '{') {
         stack.push(new Set());
-      } else if (match[0] === '[') {
+      } else if (match.raw === '[') {
         stack.push(undefined);
-      } else if (match[0] === '}' || match[0] === ']') {
+      } else if (match.raw === '}' || match.raw === ']') {
         stack.pop();
-      } else if (/^\s*:/.test(record.slice(match.index + match[0].length))) {
-        const key = JSON.parse(match[0]),
+      } else if (match.key) {
+        const key = JSON.parse(match.raw),
           keys = stack.at(-1);
         if (keys?.has(key)) {
           throw failure('ERR_JSON_COLLISION');

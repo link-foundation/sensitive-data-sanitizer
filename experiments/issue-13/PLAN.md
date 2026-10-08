@@ -25,4 +25,18 @@
 4. List latest CI runs with timestamp/head SHA; download failing logs, diagnose and fix until checks pass on current head.
 5. Mark PR 14 ready and report its URL with final results. The PR records the final published status.
 
+## CodeQL follow-up
+
+- [x] List recent runs and confirm the failed alert gate belongs to the latest timestamp/SHA.
+- [x] Download Security logs and fetch the separate failed check's annotations.
+- [x] Identify both JSON lexical regexes and the redundant netrc extraction.
+- [x] Keep a finite heap/stack-limited reproduction under experiments/.
+- [x] Reproduce the netrc hostname/placeholder logic bug with an automated failing test.
+- [x] Replace both JSON scans with a deterministic lexer and use the triplet's password capture.
+- [x] Pass all 210 focused regressions, including three new boundary tests.
+- [x] Complete the full runtime suites: 996 Node/Bun and 851 Deno tests pass.
+
+The publication protocol above also applies to this follow-up; the PR records
+the final current-head check and readiness status.
+
 No UI work is currently required. Do not stress unbounded inputs; finite fixtures and heap/stack limits apply to performance probes. No sub-agents are requested by repository guidance.

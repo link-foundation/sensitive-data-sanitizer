@@ -80,4 +80,11 @@ describe('native credential format regressions (#10)', () => {
       sanitize('password: ${PASS}', { knownSecrets: ['${PASS}'] }).text
     ).toBe('password: [REDACTED]');
   });
+  it('reads the password field when the netrc machine itself is named password', () => {
+    const placeholder = 'machine password login alice password ${PASS}';
+    expect(sanitize(placeholder).text).toBe(placeholder);
+    expect(
+      sanitize(`machine password login alice password ${secret}`).text
+    ).toBe('[REDACTED]');
+  });
 });

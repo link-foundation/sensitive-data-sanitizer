@@ -195,6 +195,20 @@ describe('structured integration', () => {
 });
 
 describe('structured publication boundaries', () => {
+  it('preserves repeated escaped quotes and JSON punctuation inside strings', () => {
+    const value = '\\"{},:[]'.repeat(512);
+    const input = JSON.stringify({ value, nested: [{ same: 'plain' }] });
+    expect(sanitize(input, { structured: 'json', decode: false }).text).toBe(
+      input
+    );
+  });
+  it('does not treat quoted key-like text inside a value as colliding keys', () => {
+    const input = JSON.stringify({
+      payload: '"same":1,"same":2',
+      same: 'plain',
+    });
+    expect(sanitize(input, { structured: 'json' }).text).toBe(input);
+  });
   it('preserves primitive JSON values, source escaping, offsets and original size limits', async () => {
     const input =
       '{"escaped":"DOB \\u0030\\u0032/03/1990","value":42,"ok":true,"empty":null}';
