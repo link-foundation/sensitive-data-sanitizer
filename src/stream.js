@@ -75,12 +75,45 @@ function opensQuote(char, previous) {
     char === '"' || (char === "'" && !/[\p{L}\p{N}]/u.test(previous ?? ''))
   );
 }
+function advanceCredentials(line, text, offset, state) {
+  if (/-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----/.test(line)) {
+    state.pem = true;
+  }
+  if (/-----END [A-Z0-9 ]*PRIVATE KEY-----/.test(line)) {
+    state.pem = false;
+  }
+  if (/^PuTTY-User-Key-File-[23]:/.test(line)) {
+    state.putty = true;
+  }
+  if (/^Private-MAC:[ \t]*[a-fA-F0-9]+/.test(line)) {
+    state.putty = false;
+  }
+  if (
+    state.netrcStart < 0 &&
+    /^\s*(?:machine\s+\S+|default)(?:\s|$)/.test(line)
+  ) {
+    state.netrcStart = offset;
+  }
+  if (
+    state.netrcStart >= 0 &&
+    /(?:machine\s+\S+|default)\s+login\s+\S+\s+password\s+\S+/.test(
+      text.slice(state.netrcStart, offset + line.length)
+    )
+  ) {
+    state.netrcStart = -1;
+  }
+}
 function releaseBoundary(text, final) {
   let offset = 0,
     boundary = 0,
-    pem = false,
     base64Start = -1;
-  const state = { quote: '', escaped: false };
+  const state = {
+    quote: '',
+    escaped: false,
+    pem: false,
+    putty: false,
+    netrcStart: -1,
+  };
   for (const match of text.matchAll(/[^\n]*\n|[^\n]+$/g)) {
     const line = match[0];
     const continuation = base64Start >= 0 ? 1 : 16;
@@ -93,15 +126,10 @@ function releaseBoundary(text, final) {
     if (!base64) {
       base64Start = -1;
     }
-    if (/-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----/.test(line)) {
-      pem = true;
-    }
+    advanceCredentials(line, text, offset, state);
     advanceQuotes(line, state);
-    if (/-----END [A-Z0-9 ]*PRIVATE KEY-----/.test(line)) {
-      pem = false;
-    }
     offset += line.length;
-    if (state.quote || pem) {
+    if (state.quote || state.pem || state.putty || state.netrcStart >= 0) {
       continue;
     }
     if (base64Start >= 0) {

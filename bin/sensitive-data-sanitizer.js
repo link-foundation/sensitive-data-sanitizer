@@ -15,6 +15,7 @@ import { rewriteGitHistory } from '../src/history-rewrite.js';
 import { knownSecretsFromGitHubAuth } from '../src/known.js';
 import { createWikidataVerifier } from '../src/public-verifier.js';
 import { streamCommand } from './stream.js';
+import { sessionStructuralFields } from '../src/structured.js';
 import {
   createGitleaksDetector,
   createTrufflehogDetector,
@@ -41,6 +42,9 @@ history rewrite SOURCE --output DIRECTORY [--apply]
 --model NAME        Installed model passed to the selected bridge
 --language CODE     Model language passed to the selected bridge
 --stream            Process bounded UTF-8 records; files use a bounded worker
+--json              Sanitize JSON strings and keys; preserve session metadata
+--jsonl             Sanitize JSONL records; combine with --stream for sessions
+--identity-mask     Opt-in first/last 2 identity mask with fixed *** marker
 --max-record-bytes N Maximum held record bytes (default 1048576)
 --hive-mask         Opt-in first/last 3 mask for values longer than 12 characters
 --preserve-encoding Re-encode sanitized encoded payloads with round-trip checks
@@ -67,6 +71,9 @@ function parseArgs(argv) {
     ['--gitleaks', 'gitleaks'],
     ['--trufflehog', 'trufflehog'],
     ['--stream', 'stream'],
+    ['--json', 'json'],
+    ['--jsonl', 'jsonl'],
+    ['--identity-mask', 'identityMask'],
     ['--hive-mask', 'hiveMask'],
     ['--preserve-encoding', 'preserveEncoding'],
     ['--gh-auth', 'ghAuth'],
@@ -139,6 +146,13 @@ function validateFeatureArgs(config) {
     (config.rewrite &&
       (!config.output || config.inPlace || config.path === '-'))
   ) {
+    throw failure('ERR_ARGUMENT');
+  }
+  validateStructuredArgs(config);
+}
+
+function validateStructuredArgs(config) {
+  if ((config.json && config.jsonl) || (config.stream && config.json)) {
     throw failure('ERR_ARGUMENT');
   }
 }
@@ -242,6 +256,13 @@ async function loadOptions(config) {
 }
 
 async function featureOptions(config, options) {
+  if (config.json || config.jsonl) {
+    options.structured = config.jsonl ? 'jsonl' : 'json';
+    options.structuralFields ??= sessionStructuralFields;
+  }
+  if (config.identityMask) {
+    options.identityMask = true;
+  }
   if (config.hiveMask) {
     options.transformation = { mode: 'hive-mask' };
   }

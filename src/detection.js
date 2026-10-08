@@ -4,6 +4,10 @@ import { detectContext } from './context.js';
 import { detectPersonal } from './personal.js';
 import { detectGitleaks } from './gitleaks.js';
 import { detectCatalog } from './entities.js';
+import { detectIdentity } from './identity.js';
+import { detectNational } from './national.js';
+import { detectPersonalContext } from './personal-context.js';
+import { detectCredentialFormats } from './credentials.js';
 
 export const REDACTED = '[REDACTED]';
 export const failure = (code = 'ERR_SANITIZATION') =>
@@ -100,6 +104,10 @@ export function nativeDetect(text, options, emit) {
   detectContext(text, emit);
   detectPersonal(text, emit);
   detectCatalog(text, emit);
+  detectIdentity(text, emit);
+  detectNational(text, emit);
+  detectPersonalContext(text, emit);
+  detectCredentialFormats(text, emit);
   // detect-secrets-style quoted entropy detection; bare commit hashes and
   // common tool identifiers remain outside this heuristic's scope.
   collectMatches(

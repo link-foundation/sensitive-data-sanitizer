@@ -1,5 +1,6 @@
 import { labels } from './rules.js';
 import { escapePattern, REDACTED } from './detection.js';
+import { credentialPlaceholder } from './credentials.js';
 
 // Bounded vocabularies are explicit so the short PASS/PW forms do not match
 // unrelated words such as passport. Verb forms cover the supported locales.
@@ -56,6 +57,9 @@ function emitValue(text, start, end, emit, details, keyName = '') {
   }
   const value = text.slice(start, end);
   if (!value || value.startsWith(REDACTED) || ignored.test(value)) {
+    return;
+  }
+  if (details.category === 'credential' && credentialPlaceholder(value)) {
     return;
   }
   if (

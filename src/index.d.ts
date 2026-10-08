@@ -17,6 +17,8 @@ export interface Finding {
   /** One-based line and UTF-16 column, populated by inspect. */
   line?: number;
   column?: number;
+  /** Explicit identity specimen/synthetic/allowlist exemption; never credentials. */
+  kept?: 'fake';
 }
 export interface PersonalValue {
   type: string;
@@ -45,6 +47,16 @@ export interface SanitizerOptions {
   transformation?: Transformation;
   transformations?: Record<string, Transformation>;
   preserveEncoding?: boolean;
+  /** First/last two characters and a fixed *** marker for identity values >=5. */
+  identityMask?: boolean;
+  /** Explicit opt-in. Words such as test/fake/example never grant exemptions. */
+  fakeIdentity?: false | 'specimen-and-synthetic';
+  /** Reviewed exact fake identity values, maintained outside published text. */
+  fakeValues?: string[];
+  /** Scan JSON string keys/values in bounded batches and preserve parseability. */
+  structured?: 'json' | 'jsonl';
+  /** Property names whose metadata heuristics may be suppressed. */
+  structuralFields?: string[];
   /** Explicit network/callback verification; credentials never qualify. */
   verifyPublic?: (candidate: {
     type: PublicEntity['type'];
@@ -71,6 +83,9 @@ export interface Sanitizer {
   inspect(text: string): Promise<Finding[]>;
   sanitize(text: string): Promise<SanitizedText>;
 }
+export interface JsonlSanitizer extends Sanitizer {
+  sanitizeJsonl(text: string): Promise<SanitizedText>;
+}
 export declare const REDACTED: '[REDACTED]';
 export declare function inspect(
   text: string,
@@ -86,7 +101,9 @@ export declare function redact(
   findings: Finding[],
   options?: SanitizerOptions
 ): string;
-export declare function createSanitizer(options?: SanitizerOptions): Sanitizer;
+export declare function createSanitizer(
+  options?: SanitizerOptions
+): JsonlSanitizer;
 export declare function entropy(value: string): number;
 export declare function luhn(value: string): boolean;
 export declare function codePointRange(
@@ -179,7 +196,13 @@ export declare function auditGitHistory(
 ): Promise<HistoryAudit>;
 export type Transformation =
   | { mode: 'redact' | 'hive-mask' }
-  | { mode: 'mask'; keepStart?: number; keepEnd?: number }
+  | {
+      mode: 'mask';
+      keepStart?: number;
+      keepEnd?: number;
+      marker?: string;
+      minLength?: number;
+    }
   | { mode: 'pseudonym' | 'format-preserving'; key: string }
   | { mode: 'date-shift'; days: number }
   | { mode: 'bucket'; size: number };
