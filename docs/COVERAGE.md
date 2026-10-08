@@ -56,8 +56,17 @@ Native country types: UK_NHS, KR_RRN, IT_FISCAL_CODE, SG_NRIC_FIN, PL_PESEL,
 SE_PERSONNUMMER, ZA_ID_NUMBER, AU_TFN, CA_SIN, RU_SNILS and RU_INN. Checks validate
 format arithmetic, not issuance; modern Korean RRNs may use randomized suffixes,
 so damaged/non-legacy checks still receive contextual or shape coverage. Bare
-checksum-only numeric formats necessarily admit some unrelated numbers.
+checksum-only numeric formats receive low confidence (usually 0.35) and are
+inspectable but unchanged under the default 0.5 personal threshold. Specific
+structures and identity/health context supply stronger evidence. Card detection
+requires a supported network prefix and length as well as Luhn; timestamp
+contexts and epoch-shaped numbers are negatives.
 Messenger/call context adds RU/VN/TH/ID national trunk-prefix phone shapes.
+
+Confirmed names and travel references propagate within a document, including
+filename/path occurrences. Russian patronymics, transliterated prose pairs and
+document filenames supplement the gazetteer. Whole-document JSON/JSONL scans
+propagate across structured fields; streaming operates on bounded batches.
 
 Credential rules add complete netrc triplets, NuGet oy2 keys, all eight WordPress
 key/salt constants and complete/truncated PuTTY v2/v3 private blocks. Streaming
@@ -85,6 +94,12 @@ An unchanged result is not proof that text contains no sensitive information. Th
 
 ## Entity catalogs and optional modes
 
-Documented Google/Azure/AWS catalog names (213/176/36) are recognized as explicit native labels, including canonical underscore and original camel-case forms. This vocabulary is distinct from automatic vendor NLP/image/cloud-service features. Typed transformations and confidence are described in [API.md](API.md); full redaction remains the default. Public Wikidata names, known role/domain emails and public resolver/documentation IPs use explicit offline knowledge and heuristics. Opt-in network lookup does not establish identity; private overrides and credential priority remain authoritative.
+Documented Google/Azure/AWS catalog names (213/176/36) are recognized as explicit native labels, including canonical underscore and original camel-case forms. Generic DATE is excluded so ordinary headers/calendar dates remain intact; personal birth-date context still qualifies. This vocabulary is distinct from automatic vendor NLP/image/cloud-service features. Typed transformations and confidence are described in [API.md](API.md); full redaction remains the default. Public Wikidata names, known role/domain emails and public resolver/documentation IPs use explicit offline knowledge and heuristics. Opt-in network lookup does not establish identity; private overrides and credential priority remain authoritative.
 
 Large UTF-8 logs use bounded record streaming and worker file publication. Whole-string default limits remain unchanged. The review corpus benchmark is a finite, synthetic regression comparison; [method, settings and results](../experiments/benchmark/README.md) explain its scope. It does not demonstrate general market-wide superiority.
+
+Structured JSONL streaming supports 8 MiB records and ordered record workers;
+[issue 24 evidence](case-studies/issue-24/README.md) records the 7 MiB regression
+and reproducible throughput measurement. Realistic fake mode preserves supported
+scripts/formats/checksums and uses reserved contact ranges where available.
+Generated identities are pseudonyms; valid arithmetic does not prove non-issuance.

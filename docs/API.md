@@ -31,6 +31,8 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 | `paranoid`         | `false`; entropy-based supplemental credential heuristic                                      |
 | `maxInputLength`   | 10,485,760 UTF-16 units                                                                       |
 | `maxFindings`      | 100,000 detector hits before deduplication                                                    |
+| `minConfidence`    | 0.5; personal findings below this score remain visible to inspect but are not replaced        |
+| `threshold`        | Alias for minConfidence; both options must agree when supplied                                |
 | `debug`            | Optional trusted callback for counts only                                                     |
 | `identityMask`     | `false`; identity types keep 2+2 Unicode characters with fixed `***`, or redact below five    |
 | `fakeIdentity`     | Off; `'specimen-and-synthetic'` retains explicitly fake identity values                       |
@@ -64,7 +66,9 @@ The native package does not send text to these services. An application that cho
 
 Findings also carry `confidence` (0–1) and `likelihood` (`VERY_UNLIKELY` through `VERY_LIKELY`). Native scores describe rule strength; they are not probabilities calibrated across engines. External detectors can supply their own validated scores.
 
-Full redaction remains the default. `transformation` selects a global mode; `transformations` maps finding types to overrides. Credentials always receive full redaction except when the caller explicitly chooses `hive-mask`:
+Bare checksum coincidences generally score 0.35. Identity labels raise confidence; specific national structures can supply stronger evidence independently. Timestamp/elapsed metadata and plausible epoch numbers are negative evidence. `minConfidence` defaults to 0.5, applies to personal findings in every detection/rendering/verification path, and never weakens credential protection. Set it to 0.3 to replace bare checksum matches. Generic calendar dates remain unchanged unless personal/birth context identifies them.
+
+Full redaction remains the default. `transformation` selects a global mode; `transformations` maps finding types to overrides. Credentials receive full redaction except for explicit `hive-mask` or `fake` with `credentials: true`:
 
 | Mode                | Configuration and behavior                                                                                             |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
@@ -73,10 +77,19 @@ Full redaction remains the default. `transformation` selects a global mode; `tra
 | `mask`              | Personal data only; `keepStart`/`keepEnd` reveal a bounded prefix/suffix and mask the rest                             |
 | `pseudonym`         | Personal data only; keyed HMAC-SHA256, type-separated deterministic opaque identifier                                  |
 | `format-preserving` | Personal data only; keyed deterministic character-class pseudonym, preserving punctuation and ASCII letter/digit shape |
+| `fake`              | Keyed realistic names, valid dates/MRZ/checksummed numbers and reserved contact destinations                           |
 | `date-shift`        | Personal ISO dates; finite integer `days`, UTC calendar arithmetic; invalid dates become opaque                        |
 | `bucket`            | Personal safe integers; positive integer `size`, inclusive numeric interval                                            |
 
-Both keyed modes require a key of at least 16 UTF-8 bytes. `format-preserving` is a non-reversible shape pseudonym, not NIST FF1 encryption; it does not preserve checksum validity, country-specific alphabets or guarantee uniqueness. Partial masks, date shifts and buckets intentionally retain information. Keep pseudonym keys outside logs. Residual verification checks the corresponding fully redacted representation; opted-in disclosures can remain recognizable in the transformed output. Use default redaction for publication that requires opaque output.
+All keyed modes require a key of at least 16 UTF-8 bytes. `format-preserving` is a non-reversible shape pseudonym, not NIST FF1 encryption; it does not preserve checksum validity, country-specific alphabets or guarantee uniqueness. Partial masks, date shifts and buckets intentionally retain information. Keep pseudonym keys outside logs. Residual verification checks the corresponding fully redacted representation; opted-in disclosures can remain recognizable in the transformed output. Use default redaction for publication that requires opaque output.
+
+`{mode: 'fake', key}` infers name locale, script and gender from the supported gazetteer/datasets and recognizable surname/patronymic endings. Independent HMAC-seeded Faker instances make results independent of processing order. Russian Cyrillic/transliterated spelling, name order and filename separators share component identities. Ambiguous names can use a fallback locale; this is not universal name/gender inference. Dates use one keyed backward offset of 1–365 days and preserve ISO, slash and dot formats. Complete TD1/TD2/TD3 MRZs regenerate individual/composite checks and match separately faked name/date fields. Issuer/nationality remain original unless `mrzCountry: 'UTO'` is supplied. Unsupported/damaged formats fall back to full redaction.
+
+Implemented national checksums, IBANs and payment-card Luhn checks remain valid. Phones retain calling code, length and separators; NANP uses 555-0100–0199 and UK mobile uses 07700 900000–900999. Email/domain outputs use example.com/.test. Other national identities and phone numbers have no universal reserved range: generated arithmetic does not prove that a value is unassigned.
+
+Generated replacements carry `faked: true`. A private bounded registry recognizes values produced by the same transformation context as `kept: 'fake'` during later inspection/verification. Caller-supplied flags and arbitrary FAKE-looking strings grant no exemption. A fresh sanitizer does not inherit that registry; reviewed persisted fake identity values can be configured through `fakeValues`. Credentials remain fully redacted unless `credentials: true` requests provider-shaped values containing FAKE and punctuation that violates token grammar. Generated personal values cannot exempt credential spans.
+
+Faking is pseudonymisation: a private key and retained ages, relations and structure can permit linking. Keep the key out of published data. See [the realistic fake example](../examples/realistic-fakes.mjs) and [the complete requirement/research record](case-studies/issue-24/REQUIREMENTS.md).
 
 `preserveEncoding: true` sanitizes decoded payloads with the same required engine union, re-encodes them and verifies decoding reproduces the sanitized content. Supported formats include base64/base64url, hex, percent, numeric HTML and UTF-8 byte escapes. Escaped JSON string content is sanitized and re-encoded even under default redaction so nested session JSON stays parseable. Malformed or unsupported encodings block opted-in preservation. Known encoding candidates and nesting are bounded.
 
@@ -124,9 +137,24 @@ large non-sensitive encoded outputs; its finding makes that decision auditable.
 
 ## Streaming and worker publication
 
-`sanitizeStream(source, options)` accepts iterable UTF-8 bytes/strings and yields sanitized records. It holds incomplete lines, quoted multiline values, PEM/PuTTY blocks, netrc triplets and wrapped base64 groups across chunks. Defaults: 1 MiB held record, 256 KiB batch and 1 GiB total input. A record exceeding `maxRecordBytes` fails; raising the total limit does not raise the record limit. The generator may have yielded earlier verified records when a later record fails. Use `sanitizeStreamToFile` for atomic publication of the whole stream.
+`sanitizeStream(source, options)` accepts iterable UTF-8 bytes/strings and yields sanitized records. It holds incomplete lines, quoted multiline values, PEM/PuTTY blocks, netrc triplets and wrapped base64 groups across chunks. Defaults: 1 MiB held plain-text record, 256 KiB batch and 1 GiB total input. A record exceeding `maxRecordBytes` fails; raising the total limit does not raise the record limit. The generator may have yielded earlier verified records when a later record fails. Use `sanitizeStreamToFile` for atomic publication of the whole stream.
 
-`sanitizeFileToFile` rejects source symlinks and writes private temporary output, publishing only after complete verification. `sanitizeFileBounded` additionally uses a worker with a 256 MiB old-generation heap, 4 MiB stack and 60-second deadline; `workerHeapMb` and `workerTimeoutMs` are configurable. Worker failure removes its private staging directory before returning. Limits bound package work, not arbitrary external detectors. Callbacks supplied through `sanitizer` run in process; set `worker: false` explicitly to disable isolation. Pass serializable options through `sanitizerOptions` for workers. Memory limits do not include all native/WASM allocation.
+For sessions above the whole-input limit, use `sanitizeStream(source, {structured: 'jsonl'})` alongside `engine.sanitizeJsonl(text)`. JSONL defaults to 8 MiB per record, supports arbitrary UTF-8 chunk boundaries and CRLF, and scans bounded record batches with two persistent workers in input order. `workers` selects 1–16; each worker has a 60-second job deadline. Node requests a 256 MiB old-generation heap and a 4 MiB stack; parent V8 sizing flags can override heap limits. Bun ignores worker resourceLimits, so its byte/queue limits and deadlines still apply but its worker heap is not capped. Worker failures and consumer cancellation terminate all workers. `workers: 1` runs in process; callbacks/custom sanitizers default to one and cannot be combined with parallel workers. Deno uses its in-process fallback because its Node compatibility lacks resource-limited worker threads. Document propagation is within a scanned batch; supply `knownPersonal` for identities that must be recognized across independent streamed batches.
+
+```js
+import { createReadStream } from 'node:fs';
+import { sanitizeStreamToFile } from '@link-foundation/sensitive-data-sanitizer';
+await sanitizeStreamToFile(
+  createReadStream('large-session.jsonl'),
+  'safe.jsonl',
+  {
+    structured: 'jsonl',
+    workers: 2,
+  }
+);
+```
+
+`sanitizeFileToFile` rejects source symlinks and writes private temporary output, publishing only after complete verification. `sanitizeFileBounded` additionally uses a worker with a 60-second deadline and requests a 256 MiB old-generation heap and 4 MiB stack on Node (Bun ignores those resourceLimits); `workerHeapMb` and `workerTimeoutMs` are configurable. Worker failure removes its private staging directory before returning. Limits bound package work, not arbitrary external detectors. Callbacks supplied through `sanitizer` run in process; set `worker: false` explicitly to disable isolation. Pass serializable options through `sanitizerOptions` for workers. Memory limits do not include all native/WASM allocation.
 
 ```js
 import { sanitizeFileBounded } from '@link-foundation/sensitive-data-sanitizer';
