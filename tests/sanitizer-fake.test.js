@@ -72,6 +72,15 @@ describe('realistic keyed fake transformations', () => {
       checks.shortLuhn(`80840${fake('1234567893', 'US_HEALTHCARE_NPI')}`)
     ).toBe(true);
   });
+  it('shares valid payment-card fakes across card catalog aliases', () => {
+    const value = '4111 1111 1111 1111';
+    for (const type of ['CREDIT_CARD_NUMBER', 'CREDIT_DEBIT_NUMBER']) {
+      const output = fake(value, type);
+      expect(output).toBe(fake(value, 'CREDIT_CARD'));
+      expect(checks.shortLuhn(output)).toBe(true);
+      expect(output.startsWith('4111 11')).toBe(true);
+    }
+  });
   for (const width of [30, 36]) {
     it(`generates independently valid ${width === 30 ? 'TD1' : 'TD2'} MRZ`, () => {
       const number = '583920471',

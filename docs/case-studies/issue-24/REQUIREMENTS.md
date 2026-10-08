@@ -11,7 +11,7 @@ Parent #24 requires all nine issues and all comments in one PR, individual closi
 5. Prefer `PHONE` over NHS/other accidental checks when phone vocabulary/trunk shape supplies evidence.
 6. Add a realistic generated log corpus for timestamps, order/run IDs, sizes, ports, PIDs and line:column, and assert a measured false-positive rate in automated tests.
 
-Alternatives: remove checksum detection, lower every checksum score, or combine context and thresholds. Choose the third: shared confidence policy affects native, encoded, external-engine, rendering and residual checks; keep high-confidence structurally specific formats. Card arithmetic remains separately exported; network recognition gates card detection.
+Alternatives: remove checksum detection, lower every checksum score, or combine context and thresholds. Choose the third: shared confidence policy affects native, encoded, external-engine, rendering and residual checks; keep high-confidence structurally specific formats. Card arithmetic remains separately exported; network recognition gates card detection. Match metadata keys at Unicode boundaries so suffixes in ordinary support/report/runtime labels cannot suppress real cards.
 
 ## #16 — Credential boundaries and generic dates
 

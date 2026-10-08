@@ -15,7 +15,7 @@ export function numericNoise(text, start) {
     .slice(Math.max(0, start - 80), start)
     .split(/[\r\n|;]/)
     .at(-1);
-  return /(?:timestamp|ts|time|created_at|updated_at|elapsed|duration|ms|epoch|order|run|size|bytes|port|pid|line|col)["']?[ :=_-]*$/i.test(
+  return /(?<![\p{L}\p{N}])(?:timestamp|ts|time|created_at|updated_at|elapsed|duration|ms|epoch|order|run|size|bytes|port|pid|line|col)["']?[ :=_-]*$/iu.test(
     before
   );
 }
@@ -27,6 +27,13 @@ export function epochNumber(value) {
     seconds >= 946684800 &&
     seconds < 4102444800
   );
+}
+export function cardEvidence(text, start, value) {
+  const identityContext =
+    /(?<![\p{L}\p{N}_])(?:card|visa|mastercard|amex|discover|jcb|unionpay|mir|diners|карта)(?![\p{L}\p{N}_])/iu.test(
+      text.slice(Math.max(0, start - 64), start + value.length + 32)
+    );
+  return identityContext || (!numericNoise(text, start) && !epochNumber(value));
 }
 export function cardNetwork(value) {
   const d = value.replace(/\D/g, ''),

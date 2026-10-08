@@ -49,6 +49,23 @@ describe('issue 24 session negatives', () => {
         .confidence >= 0.9
     ).toBe(true);
   });
+  it('protects card values when ordinary labels end in metadata key suffixes', () => {
+    const value = '4539148803436467';
+    for (const label of ['support', 'report', 'runtime']) {
+      const input = `${label}: ${value}`;
+      expect(inspect(input).some((f) => f.type === 'CREDIT_CARD')).toBe(true);
+      expect(sanitize(input).text.includes(value)).toBe(false);
+    }
+    expect(sanitize(`port: ${value}`).text).toBe(`port: ${value}`);
+  });
+  it('requires identity context for epoch-shaped card checks', () => {
+    const value = '4000000000006'; // Valid Visa/Luhn and a year-2096 epoch in ms.
+    expect(sanitize(value).text).toBe(value);
+    expect(sanitize(`Visa ${value}`).text).toBe('Visa [REDACTED]');
+    expect(sanitize(`CREDIT_CARD_NUMBER: ${value}`).text).toBe(
+      'CREDIT_CARD_NUMBER: [REDACTED]'
+    );
+  });
   it('measures false positives across realistic generated session metadata', () => {
     const corpus = Array.from(
       { length: 400 },

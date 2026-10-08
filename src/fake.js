@@ -136,6 +136,8 @@ function fakeId(value, type, key) {
       SOUTH_AFRICA_ID_NUMBER: 'ZA_ID_NUMBER',
       ITALY_FISCAL_CODE: 'IT_FISCAL_CODE',
       CANADA_SOCIAL_INSURANCE_NUMBER: 'CA_SIN',
+      CREDIT_CARD_NUMBER: 'CREDIT_CARD',
+      CREDIT_DEBIT_NUMBER: 'CREDIT_CARD',
     }[type] ?? type;
   const compact = value.replace(/[^A-Za-z0-9]/g, '');
   let candidate = patternFake(compact, key);
