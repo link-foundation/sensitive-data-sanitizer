@@ -21,6 +21,7 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 
 | Option             | Default / meaning                                                                             |
 | ------------------ | --------------------------------------------------------------------------------------------- |
+| `profile`          | Off; `'publication'` sets a 0.3 personal threshold, identity masking and strict fake policy   |
 | `knownSecrets`     | `[]`; exact literal credential values, regardless of length or format                         |
 | `knownPersonal`    | `[]`; `{type, value}` literals with Unicode case-insensitive matching                         |
 | `publicEntities`   | `[]`; exact PERSON/ORGANIZATION/EMAIL exception with HTTPS source and review date             |
@@ -68,7 +69,17 @@ Findings also carry `confidence` (0–1) and `likelihood` (`VERY_UNLIKELY` throu
 
 Bare checksum coincidences generally score 0.35. Identity labels raise confidence; specific national structures can supply stronger evidence independently. Timestamp/elapsed metadata and plausible epoch numbers are negative evidence. `minConfidence` defaults to 0.5, applies to personal findings in every detection/rendering/verification path, and never weakens credential protection. Set it to 0.3 to replace bare checksum matches. Generic calendar dates remain unchanged unless personal/birth context identifies them.
 
-Full redaction remains the default. `transformation` selects a global mode; `transformations` maps finding types to overrides. Credentials receive full redaction except for explicit `hive-mask` or `fake` with `credentials: true`:
+`profile: 'publication'` sets `minConfidence: 0.3`, `identityMask: true` and
+`fakeIdentity: false` unless explicitly overridden. It retains required engines,
+decoding, input limits and full-redaction residual verification. Both synchronous
+and async APIs accept it; CLI `redact` uses it by default. Set `identityMask: false`
+for complete identity replacement. A supplied `threshold` is honored, and
+conflicting threshold aliases still fail configuration validation. Formatted
+checksum-valid SNILS and 12-digit personal INN score 0.99 even without this
+profile; bare 10-digit organizational INN remains 0.35. See the effective
+[national-ID defaults](COVERAGE.md#national-id-defaults).
+
+Without a profile, full redaction is the library default. `transformation` selects a global mode; `transformations` maps finding types to overrides. Credentials receive full redaction except for explicit `hive-mask` or `fake` with `credentials: true`:
 
 | Mode                | Configuration and behavior                                                                                             |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
@@ -139,7 +150,21 @@ large non-sensitive encoded outputs; its finding makes that decision auditable.
 
 `sanitizeStream(source, options)` accepts iterable UTF-8 bytes/strings and yields sanitized records. It holds incomplete lines, quoted multiline values, PEM/PuTTY blocks, netrc triplets and wrapped base64 groups across chunks. Defaults: 1 MiB held plain-text record, 256 KiB batch and 1 GiB total input. A record exceeding `maxRecordBytes` fails; raising the total limit does not raise the record limit. The generator may have yielded earlier verified records when a later record fails. Use `sanitizeStreamToFile` for atomic publication of the whole stream.
 
-For sessions above the whole-input limit, use `sanitizeStream(source, {structured: 'jsonl'})` alongside `engine.sanitizeJsonl(text)`. JSONL defaults to 8 MiB per record, supports arbitrary UTF-8 chunk boundaries and CRLF, and scans bounded record batches with two persistent workers in input order. `workers` selects 1–16; each worker has a 60-second job deadline. Node requests a 256 MiB old-generation heap and a 4 MiB stack; parent V8 sizing flags can override heap limits. Bun ignores worker resourceLimits, so its byte/queue limits and deadlines still apply but its worker heap is not capped. Worker failures and consumer cancellation terminate all workers. `workers: 1` runs in process; callbacks/custom sanitizers default to one and cannot be combined with parallel workers. Deno uses its in-process fallback because its Node compatibility lacks resource-limited worker threads. Document propagation is within a scanned batch; supply `knownPersonal` for identities that must be recognized across independent streamed batches.
+For sessions above the whole-input limit, use `sanitizeStream(source, {structured: 'jsonl'})` alongside `engine.sanitizeJsonl(text)`. JSONL defaults to 8 MiB per record, supports arbitrary UTF-8 chunk boundaries and CRLF, and scans bounded record batches with two persistent workers in input order. `workers` selects 1–16; each worker has a 60-second job deadline. Node requests a 256 MiB old-generation heap and a 4 MiB stack; parent V8 sizing flags can override heap limits. Bun ignores worker resourceLimits, so its byte/queue limits and deadlines still apply but its worker heap is not capped. Worker failures and consumer cancellation terminate all workers. `workers: 1` runs in process; callbacks/custom sanitizers default to one and cannot be combined with parallel workers. Deno uses its in-process fallback because its Node compatibility lacks resource-limited worker threads.
+
+Each stream carries confirmed names, MRZ components and strong personal findings
+into later batches, including bounded Cyrillic/passport/GOST spelling aliases.
+Workers receive ordered private registry snapshots. `maxRegistryValues` defaults
+to 100,000 combined confirmed aliases and prior-token digests; exhaustion fails
+with `ERR_LIMIT`. Prior unredacted word tokens and weak inspected identity spans
+are retained as per-stream keyed HMAC digests, not plaintext history. Repeated
+tokens are deduplicated before hashing. A late confirmation matching this history
+fails with `ERR_LATE_PERSONAL`; this conservative component check can block
+ordinary words reused in a later personal name, username or address. Use `sanitizeStreamToFile` or CLI streaming for
+atomic publication: an unfinished generator can already have yielded earlier
+records and must not be published directly. Registries are never shared between
+streams. `knownPersonal` remains available for caller-confirmed private values;
+`confirmedPersonal` supplies boundary-matched initial values when needed.
 
 ```js
 import { createReadStream } from 'node:fs';
@@ -148,6 +173,7 @@ await sanitizeStreamToFile(
   createReadStream('large-session.jsonl'),
   'safe.jsonl',
   {
+    profile: 'publication',
     structured: 'jsonl',
     workers: 2,
   }
@@ -159,12 +185,13 @@ await sanitizeStreamToFile(
 ```js
 import { sanitizeFileBounded } from '@link-foundation/sensitive-data-sanitizer';
 await sanitizeFileBounded('session.jsonl', 'session.safe.jsonl', {
+  profile: 'publication',
   maxTotalBytes: 1024 * 1024 * 1024,
   maxRecordBytes: 1024 * 1024,
 });
 ```
 
-The CLI supports `redact FILE --stream --output NEWFILE` and stdin streaming. Stdout uses a private spool and receives nothing until the entire scan succeeds. `--max-record-bytes` controls held records; `--max-bytes` defaults to 1 GiB with `--stream`. `--json` / `--jsonl`, `--identity-mask`, `--hive-mask`, `--preserve-encoding` and `--gh-auth` are explicit opt-ins.
+The CLI supports `redact FILE --stream --output NEWFILE` and stdin streaming. Stdout uses a private spool and receives nothing until the entire scan succeeds. `--max-record-bytes` controls held records; `--max-bytes` defaults to 1 GiB with `--stream`. `--json` / `--jsonl`, `--hive-mask`, `--preserve-encoding` and `--gh-auth` are explicit opt-ins. CLI redact uses the publication profile and identity masking by default; configure `identityMask: false` for full redaction.
 
 ## Public verification and publication helpers
 

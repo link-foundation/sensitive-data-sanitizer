@@ -24,6 +24,35 @@ async function invoke(args, chunks) {
   return { status, output, errors };
 }
 describe('streaming publication CLI', () => {
+  it('uses the publication profile for bare identities and permits explicit full redaction', async () => {
+    const result = await invoke(
+      ['redact', '-', '--native-only'],
+      ['46 21 573918\n487-192-053 19\n771829456048']
+    );
+    expect(result.status).toBe(0);
+    expect(result.output.includes('573918')).toBe(false);
+    expect(result.output.includes('***')).toBe(true);
+    if (
+      typeof Deno !== 'undefined' &&
+      (await Deno.permissions.query({ name: 'write', path: tmpdir() }))
+        .state !== 'granted'
+    ) {
+      return;
+    }
+    const directory = await mkdtemp(join(tmpdir(), 'publication-options-'));
+    try {
+      const config = join(directory, 'policy.json');
+      const { writeFile } = await import('node:fs/promises');
+      await writeFile(config, JSON.stringify({ identityMask: false }));
+      const full = await invoke(
+        ['redact', '-', '--native-only', '--config', config],
+        ['46 21 573918']
+      );
+      expect(full.output).toBe('[REDACTED]');
+    } finally {
+      await rm(directory, { recursive: true, force: true });
+    }
+  });
   it('streams records and applies opt-in compatible masking', async () => {
     if (typeof Deno !== 'undefined') {
       return;

@@ -1,24 +1,14 @@
 import { describe, it, expect } from 'test-anywhere';
 import { sanitize } from '../src/index.js';
 import { nameExamples } from '../src/names.js';
-import { execFile } from 'node:child_process';
-import { promisify } from 'node:util';
+import { boundedProbe } from './bounded-probe.js';
 
 describe('context-specific complete spans', () => {
   it('handles a finite hostile whitespace run without polynomial matching', async () => {
     if (typeof Deno !== 'undefined') {
       return;
     }
-    const { stdout } = await promisify(execFile)(
-      'node',
-      [
-        '--max-old-space-size=128',
-        '--stack_size=1024',
-        'experiments/issue-1-prose-boundary.mjs',
-      ],
-      { timeout: 2000, maxBuffer: 4096, encoding: 'utf8' }
-    );
-    const probe = JSON.parse(stdout);
+    const probe = await boundedProbe('experiments/issue-1-prose-boundary.mjs');
     expect(probe.bytes > 128 * 1024).toBe(true);
     expect(probe.milliseconds < 1000).toBe(true);
   });

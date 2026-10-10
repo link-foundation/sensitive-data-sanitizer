@@ -1,5 +1,5 @@
 import { createHmac } from 'node:crypto';
-import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { parsePhoneNumberFromString } from 'libphonenumber-js/max';
 import { mrzCheck } from './identity.js';
 import { fakeName } from './fake-names.js';
 import * as checks from './national-checks.js';
@@ -286,6 +286,70 @@ function idChecks(compact, candidate, type) {
   }
   return candidate;
 }
+function ukDramaPhone(digits, code, suffix) {
+  const international = code === '44' && digits.length === 12;
+  const local = !code && digits.length === 11 && digits.startsWith('0');
+  if (!international && !local) {
+    return undefined;
+  }
+  const national = digits.slice(international ? 2 : 1);
+  let prefix;
+  if (/^7[1-57-9]/.test(national)) {
+    prefix = '7700900';
+  } else if (/^80[08]/.test(national)) {
+    prefix = '8081570';
+  } else if (national.startsWith('20')) {
+    prefix = '2079460';
+  } else if (/^[12]/.test(national)) {
+    prefix = '1632960';
+  } else if (national.startsWith('3')) {
+    prefix = '3069990';
+  }
+  return prefix ? `${international ? '44' : '0'}${prefix}${suffix}` : undefined;
+}
+function fictionalPhone(digits, code, bytes) {
+  const suffix = String(bytes.readUInt16BE(0) % 1000).padStart(3, '0');
+  const uk = ukDramaPhone(digits, code, suffix);
+  if (uk) {
+    return uk;
+  }
+  if (code === '1' && digits.length === 11) {
+    return `1${digits.slice(1, 4)}55501${String(bytes[0] % 100).padStart(2, '0')}`;
+  }
+  if (!code && digits.length === 10 && /^[2-9]\d{2}[2-9]/.test(digits)) {
+    return `${digits.slice(0, 3)}55501${String(bytes[0] % 100).padStart(2, '0')}`;
+  }
+  return undefined;
+}
+function plausiblePhone(value, digits, code, key, parsed) {
+  if (!parsed?.isValid()) {
+    return undefined;
+  }
+  // Retain the national destination prefix when no fictional range exists.
+  const prefix = digits.slice(0, code.length + 3);
+  for (let attempt = 0; attempt < 32; attempt++) {
+    const next =
+      prefix +
+      patternFake(digits, `${key}:phone:${attempt}`).slice(prefix.length);
+    const check = parsePhoneNumberFromString(
+      `${value.startsWith('+') ? '+' : ''}${next}`
+    );
+    if (
+      next !== digits &&
+      check?.isValid() &&
+      check.getType() === parsed.getType()
+    ) {
+      return next;
+    }
+  }
+  return undefined;
+}
+function russianMobile(digits, code) {
+  return (
+    (code === '7' && /^79\d{9}$/.test(digits)) ||
+    (!code && /^89\d{9}$/.test(digits))
+  );
+}
 function fakePhone(value, key) {
   const digits = value.replace(/\D/g, '');
   const parsed = parsePhoneNumberFromString(value);
@@ -295,20 +359,25 @@ function fakePhone(value, key) {
   if (code === undefined) {
     return REDACTED;
   }
-  let number = patternFake(digits, key);
-  number = code + number.slice(code.length);
   const bytes = digest(digits, key, 'phone');
-  if (code === '1' && digits.length === 11) {
-    number = `1${digits.slice(1, 4)}55501${String(bytes[0] % 100).padStart(
-      2,
-      '0'
-    )}`;
-  } else if (code === '44' && digits.length === 12) {
-    number = `447700900${String(bytes.readUInt16BE(0) % 1000).padStart(3, '0')}`;
-  } else if (!code && digits.length === 11 && digits.startsWith('07')) {
-    number = `07700900${String(bytes.readUInt16BE(0) % 1000).padStart(3, '0')}`;
-  } else if (!code && digits[0] === '0') {
-    number = `0${number.slice(1)}`;
+  let number = fictionalPhone(digits, code, bytes);
+  if (!number) {
+    if (russianMobile(digits, code)) {
+      number = digits.slice(0, 4) + patternFake(digits, key).slice(4);
+    } else if (parsed?.isValid()) {
+      number = plausiblePhone(value, digits, code, key, parsed);
+      if (!number) {
+        return REDACTED;
+      }
+    } else {
+      number = code + patternFake(digits, key).slice(code.length);
+      if (!code && digits.startsWith('0')) {
+        number = `0${number.slice(1)}`;
+      }
+    }
+  }
+  if (number === digits) {
+    number = number.slice(0, -1) + String((Number(number.at(-1)) + 1) % 10);
   }
   return replaceDigits(value, number);
 }

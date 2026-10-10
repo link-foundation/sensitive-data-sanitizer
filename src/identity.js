@@ -54,7 +54,7 @@ const personal = (type, rule, confidence = 0.85) => ({
   confidence,
 });
 const passportContext =
-  /(?<![\p{L}\p{N}_])(?:passports?|паспорт[\p{L}]*|загран[\p{L}]*|серия|номер|pasaporte|Reisepass|passeport|passaporto|护照|パスポート)(?![\p{L}\p{N}_])/iu;
+  /(?<![\p{L}\p{N}_])(?:passports?|series and number|document number|паспорт[\p{L}]*|загран[\p{L}]*|серия|номер|pasaporte|Reisepass|passeport|passaporto|护照|パスポート)(?![\p{L}\p{N}_])/iu;
 
 export function mrzCheck(value) {
   let sum = 0;
@@ -187,7 +187,7 @@ const ticket =
 const visa =
   /(?<![\p{L}\p{N}_])(?:e[ -]?visa|visa|номер визы|виза)(?:[ \t_-]+(?:registration|application|number|no|code|номер|код)){0,3}[ \t]*[:=：]?[ \t]*[`"']?([A-Z0-9][A-Z0-9-]{4,31})(?![\p{L}\p{N}_])/giu;
 const placeholder =
-  /^(?:NONE|UNKNOWN|NULL|UNDEFINED|REDACTED|EXAMPLE|SAMPLE|PENDING|HOTEL|BOOKING|REFERENCE|REGISTRATION|APPLICATION|NUMBER|CODE)$/i;
+  /^(?:NONE|UNKNOWN|NULL|UNDEFINED|REDACTED|EXAMPLE|SAMPLE|PENDING|HOTEL|BOOKING|REFERENCE|REGISTRATION|APPLICATION|NUMBER|CODE|FAILED|ERROR|HTTP|OK|CANCELLED|CONFIRMED|SUCCESS|READY|ACTIVE|CLOSED)$/i;
 function detectTravel(text, emit) {
   collectMatches(
     text,

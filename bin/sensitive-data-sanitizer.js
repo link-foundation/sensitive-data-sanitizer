@@ -44,7 +44,8 @@ history rewrite SOURCE --output DIRECTORY [--apply]
 --stream            Process bounded UTF-8 records; files use a bounded worker
 --json              Sanitize JSON strings and keys; preserve session metadata
 --jsonl             Sanitize JSONL records; combine with --stream for sessions
---identity-mask     Opt-in first/last 2 identity mask with fixed *** marker
+--identity-mask     First/last 2 identity mask (publication profile default)
+--profile NAME      Publication profile (redact default; config can override)
 --max-record-bytes N Maximum record bytes (JSONL: 8388608; text: 1048576)
 --hive-mask         Opt-in first/last 3 mask for values longer than 12 characters
 --preserve-encoding Re-encode sanitized encoded payloads with round-trip checks
@@ -90,6 +91,7 @@ function parseArgs(argv) {
     ['--language', 'language'],
     ['--max-record-bytes', 'maxRecordBytes'],
     ['--filter-repo', 'filterRepo'],
+    ['--profile', 'profile'],
   ]);
   let hasPath = false;
   for (let i = rewrite ? 2 : 1; i < argv.length; i++) {
@@ -242,6 +244,10 @@ async function loadOptions(config) {
   if (!options || typeof options !== 'object' || Array.isArray(options)) {
     throw failure('ERR_CONFIG');
   }
+  options.profile =
+    config.profile ??
+    options.profile ??
+    (config.command === 'redact' ? 'publication' : undefined);
   if (config.nativeOnly) {
     options.secretlint = false;
   }

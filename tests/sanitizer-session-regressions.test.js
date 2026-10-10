@@ -86,7 +86,7 @@ describe('issue 24 value spans and missing identities', () => {
     const input =
       'Applicant: Zorina Velenska\nFile: /cache/VELENSKA_ZORINA_photo.pdf';
     expect(sanitize(input).text).toBe(
-      'Applicant: [REDACTED]\nFile: /cache/[REDACTED]_[REDACTED]_photo.pdf'
+      'Applicant: [REDACTED]\nFile: /cache/[REDACTED]_photo.pdf'
     );
     const document = JSON.stringify({
       person: 'Applicant: Zorina Velenska',

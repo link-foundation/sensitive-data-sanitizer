@@ -3,6 +3,8 @@ import { Worker } from 'node:worker_threads';
 import { URL } from 'node:url';
 import { failure } from './detection.js';
 import { workerExecArgv } from './worker-options.js';
+import { prepareStreamEngine } from './engines.js';
+import { inspect } from './sanitizer.js';
 
 async function* records(source, { maxRecordBytes, maxTotalBytes }) {
   const decoder = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true });
@@ -97,7 +99,7 @@ function workerSlot(options, heap, timeout) {
     settle({ error: 'ERR_WORKER' });
   });
   return {
-    run(text) {
+    run(text, confirmedPersonal, nativeFindings) {
       if (failed) {
         return Promise.resolve({ error: 'ERR_WORKER' });
       }
@@ -106,7 +108,7 @@ function workerSlot(options, heap, timeout) {
           resolve,
           timer: setTimeout(() => settle({ error: 'ERR_WORKER' }), timeout),
         };
-        worker.postMessage(text);
+        worker.postMessage({ text, confirmedPersonal, nativeFindings });
       });
     },
     async close() {
@@ -138,6 +140,10 @@ export async function* sanitizeJsonlStream(source, options, config) {
   const count = workerCount(options, config);
   if (count === 1) {
     for await (const batch of batches(source, config)) {
+      config.identity.prepare(
+        batch,
+        await prepareStreamEngine(config.engine, batch)
+      );
       yield (await config.engine.sanitize(batch)).text;
     }
     return;
@@ -167,7 +173,11 @@ export async function* sanitizeJsonlStream(source, options, config) {
       slots.push(workerSlot(config.sanitizerOptions, heap, timeout));
     }
     for await (const batch of batches(source, config)) {
-      queue.push(slots[sequence++ % count].run(batch));
+      const nativeFindings = inspect(batch, config.sanitizerOptions);
+      const confirmedPersonal = config.identity.prepare(batch, nativeFindings);
+      queue.push(
+        slots[sequence++ % count].run(batch, confirmedPersonal, nativeFindings)
+      );
       if (queue.length === count) {
         yield await next();
       }

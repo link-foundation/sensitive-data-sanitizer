@@ -9,6 +9,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'scripts/update-preview-images.mjs'
+      - 'scripts/check-pages.mjs'
       - '.github/workflows/example-app.yml'
   push:
     branches:
@@ -19,6 +20,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'scripts/update-preview-images.mjs'
+      - 'scripts/check-pages.mjs'
       - '.github/workflows/example-app.yml'
   workflow_dispatch:
 
@@ -37,6 +39,11 @@ jobs:
     name: Build web app
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: read
+    outputs:
+      pages_enabled: ${{ steps.pages.outputs.pages_enabled }}
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-web-build
       cancel-in-progress: true
@@ -52,8 +59,15 @@ jobs:
           cache: npm
           cache-dependency-path: examples/universal-app/package-lock.json
 
-      - name: Configure GitHub Pages
+      - name: Check GitHub Pages configuration
+        id: pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/check-pages.mjs
+
+      - name: Configure GitHub Pages
+        if: steps.pages.outputs.pages_enabled == 'true'
         uses: actions/configure-pages@v6
 
       - name: Install app dependencies
@@ -62,7 +76,7 @@ jobs:
       - name: Build app
         run: npm run example:web:build
         env:
-          GITHUB_PAGES: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          GITHUB_PAGES: ${{ steps.pages.outputs.pages_enabled == 'true' }}
           VITE_REPOSITORY_URL: https://github.com/${{ github.repository }}
 
       - name: Upload web build artifact
@@ -73,7 +87,7 @@ jobs:
           if-no-files-found: error
 
       - name: Upload GitHub Pages artifact
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: steps.pages.outputs.pages_enabled == 'true'
         uses: actions/upload-pages-artifact@v5
         with:
           path: examples/universal-app/dist
@@ -84,7 +98,7 @@ jobs:
   pages-deploy:
     name: Deploy GitHub Pages
     needs: [web-build]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: needs.web-build.outputs.pages_enabled == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     concurrency:

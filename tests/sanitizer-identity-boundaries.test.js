@@ -80,7 +80,10 @@ describe('national checksum and identity policy boundaries', () => {
           (f) =>
             f.type === type &&
             f.confidence ===
-              (['KR_RRN', 'IT_FISCAL_CODE', 'SG_NRIC_FIN'].includes(type)
+              (['KR_RRN', 'IT_FISCAL_CODE', 'SG_NRIC_FIN', 'RU_SNILS'].includes(
+                type
+              ) ||
+              (type === 'RU_INN' && value.length === 12)
                 ? 0.99
                 : 0.35)
         )

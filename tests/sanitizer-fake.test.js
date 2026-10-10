@@ -213,6 +213,19 @@ describe('national date century consistency', () => {
   }
 });
 describe('fake contact values and provenance', () => {
+  it('uses Ofcom fixed-line ranges and retains valid Russian mobile prefixes', () => {
+    for (const [input, pattern] of [
+      ['+44 20 7123 4567', /^442079460\d{3}$/],
+      ['+44 161 123 4567', /^441632960\d{3}$/],
+      ['+44 800 123 4567', /^448081570\d{3}$/],
+      ['+7 912 555-01-42', /^7912\d{7}$/],
+    ]) {
+      const output = fake(input, 'PHONE');
+      expect(pattern.test(output.replace(/\D/g, ''))).toBe(true);
+      expect(output.length).toBe(input.length);
+      expect(output).not.toBe(input);
+    }
+  });
   it('keeps country code and separators and uses reserved NANP/UK ranges', () => {
     for (const value of [
       '+7 912 555-01-42',

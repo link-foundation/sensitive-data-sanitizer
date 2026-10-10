@@ -40,6 +40,8 @@ export interface Detector {
   detect(text: string): Finding[] | Promise<Finding[]>;
 }
 export interface SanitizerOptions {
+  profile?: 'publication';
+  confirmedPersonal?: Array<{ value: string; type: string }>;
   knownSecrets?: string[];
   knownPersonal?: PersonalValue[];
   publicEntities?: PublicEntity[];
@@ -222,6 +224,7 @@ export type Transformation =
   | { mode: 'date-shift'; days: number }
   | { mode: 'bucket'; size: number };
 export interface StreamOptions extends SanitizerOptions {
+  maxRegistryValues?: number;
   sanitizerOptions?: SanitizerOptions;
   sanitizer?: Sanitizer;
   maxRecordBytes?: number;

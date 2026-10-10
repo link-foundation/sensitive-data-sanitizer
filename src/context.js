@@ -118,6 +118,40 @@ export function valueRange(text, start, mode = 'token') {
   return { start, end: Math.min(end, outerQuoteEnd(text, start) ?? end) };
 }
 
+// Shared by native labels and the vendor catalogs. Code expressions and
+// line escapes are not personal field values, even when a key is familiar.
+export function personalValueAllowed(text, range, type, labelStart) {
+  const value = text.slice(range.start, range.end);
+  if (/^(?:\\[nrt]|[\r\n])/.test(value)) {
+    return false;
+  }
+  if (
+    ['ADDRESS', 'STATE', 'US_STATE', 'CITY', 'REGION', 'PROVINCE'].includes(
+      type
+    )
+  ) {
+    if (!/\p{L}{2}|\d{4,}/u.test(value)) {
+      return false;
+    }
+  }
+  if (
+    ['PERSON', 'USERNAME'].includes(type) &&
+    !/["']/.test(text[range.start - 1] ?? '')
+  ) {
+    const before = text
+      .slice(Math.max(0, labelStart - 100), labelStart)
+      .split(/[\r\n]/)
+      .at(-1);
+    if (
+      /\b(?:const|let|var)\s+$/.test(before) ||
+      /\b[\p{L}_$][\p{L}\p{N}_$]*(?:\s*\(|\.[\p{L}_$])/u.test(value)
+    ) {
+      return false;
+    }
+  }
+  return true;
+}
+
 // Prose labels inside JSON strings stop at the enclosing quote.
 function outerQuoteEnd(text, start) {
   let opening = start - 1;
@@ -211,7 +245,7 @@ function detectPersonalLabels(text, emit) {
         match.index + match[0].length + suffix.length,
         identity ? 'token' : 'line'
       );
-      if (range) {
+      if (range && personalValueAllowed(text, range, type, match.index)) {
         if (type === 'PERSON') {
           const delimiter = text.slice(range.start, range.end).search(/[,;\d]/);
           if (delimiter >= 0) {
