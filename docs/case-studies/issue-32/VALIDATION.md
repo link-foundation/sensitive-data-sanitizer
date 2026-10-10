@@ -14,6 +14,13 @@ threshold consistency, reverse GOST diacritics, and initial confirmation registr
 regression caught an encoding wrapper being promoted to an identity seed; wrapper
 exclusion fixes that failure while preserving decoded-name propagation.
 
+Fresh hosted CodeQL first detected a polynomial filename-label guard despite
+passing runtime jobs. A new 128 KiB tab-suffix regression failed at its bounded
+two-second work deadline before the fix and completed in 290 ms afterward.
+The repeated whitespace groups are now separated by a required quote, retaining
+field-label semantics. The complete suites were rerun after this final fix;
+CodeQL and all exact-head checks are verified separately in PR 33.
+
 The coordinator-finding reuse tests use a required custom detector to show that
 input detection and final residual verification both run. A detector that first
 reports a secret during residual verification still raises `ERR_RESIDUAL`.
@@ -28,9 +35,9 @@ existing suites retain all earlier delivered capabilities.
 
 | Runtime      | Command                                                                 | Result                              | Wall time |
 | ------------ | ----------------------------------------------------------------------- | ----------------------------------- | --------- |
-| Node 26.11.0 | `node --test --test-timeout=30000 --test-concurrency=2 tests/*.test.js` | 1,207 passed, 0 failed/cancelled    | 85.47 s   |
-| Bun 1.4.2    | `bun test --timeout 30000`                                              | 1,207 passed, 0 failed              | 123.51 s  |
-| Deno 2.9.6   | `deno test --allow-read --allow-env`                                    | 1,062 passed plus 8 steps, 0 failed | 72 s      |
+| Node 26.11.0 | `node --test --test-timeout=30000 --test-concurrency=2 tests/*.test.js` | 1,208 passed, 0 failed/cancelled    | 123.41 s  |
+| Bun 1.4.2    | `bun test --timeout 30000`                                              | 1,208 passed, 0 failed              | 144.07 s  |
+| Deno 2.9.6   | `deno test --allow-read --allow-env`                                    | 1,063 passed plus 8 steps, 0 failed | 74.53 s   |
 
 Node uses two concurrent test files on this six-core shared workspace, retaining
 the original 30-second per-test deadline. An earlier default-concurrency run
@@ -53,7 +60,7 @@ publication and staging cleanup; no filesystem assertion was removed.
 
 `npm run check` passes lint, Prettier and the repository duplication budget.
 Changed JavaScript also passes ESLint with zero warnings. `npm run check:secrets`,
-49-script syntax validation, the 310-file line guard, required documentation,
+49-script syntax validation, the 312-file line guard, required documentation,
 workflow pin/policy checks and the no-manual-version guard pass. `git diff --check`
 passes. The normal PR Changeset guard confirms one added minor fragment after
 committing; existing main fragments are preserved.

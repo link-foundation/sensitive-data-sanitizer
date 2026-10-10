@@ -1,55 +1,14 @@
 import { describe, it, expect } from 'test-anywhere';
 import { sanitize } from '../src/index.js';
 import { nameExamples } from '../src/names.js';
-import { fork } from 'node:child_process';
+import { boundedProbe } from './bounded-probe.js';
 
 describe('context-specific complete spans', () => {
   it('handles a finite hostile whitespace run without polynomial matching', async () => {
     if (typeof Deno !== 'undefined') {
       return;
     }
-    const stdout = await new Promise((resolve, reject) => {
-      const child = fork('experiments/issue-1-prose-boundary.mjs', [], {
-        execPath: 'node',
-        execArgv: ['--max-old-space-size=128', '--stack_size=1024'],
-        silent: true,
-      });
-      let problem,
-        output = '',
-        timer = setTimeout(
-          () => fail(new Error('Probe startup exceeded 15 seconds')),
-          15000
-        );
-      function fail(error) {
-        problem ??= error;
-        clearTimeout(timer);
-        child.kill();
-      }
-      child.on('error', fail);
-      child.on('message', () => {
-        clearTimeout(timer);
-        timer = setTimeout(
-          () => fail(new Error('Matching exceeded two seconds')),
-          2000
-        );
-      });
-      child.stdout.on('data', (chunk) => {
-        output += chunk;
-        if (output.length > 4096) {
-          fail(new Error('Probe output limit'));
-        }
-      });
-      child.stderr.resume();
-      child.on('close', (code) => {
-        clearTimeout(timer);
-        problem
-          ? reject(problem)
-          : code === 0
-            ? resolve(output)
-            : reject(new Error(`Probe exited ${code}`));
-      });
-    });
-    const probe = JSON.parse(stdout);
+    const probe = await boundedProbe('experiments/issue-1-prose-boundary.mjs');
     expect(probe.bytes > 128 * 1024).toBe(true);
     expect(probe.milliseconds < 1000).toBe(true);
   });

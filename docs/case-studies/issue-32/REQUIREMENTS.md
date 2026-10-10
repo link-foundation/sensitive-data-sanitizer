@@ -95,6 +95,18 @@ it deliberately fails conservatively if a component was already emitted. GOST di
 before scoring confirmations, so an already protected bare passport does not
 cause a false late-confirmation failure when its label appears later.
 
+Fresh PR CI at `127c504` passed all nine runtime jobs but generated a separate
+[CodeQL check failure](https://github.com/link-foundation/sensitive-data-sanitizer/runs/114175193303)
+at 2026-10-10T08:44:57Z: `js/polynomial-redos`, high severity, `src/personal.js:111`.
+The field-label guard had two whitespace repetitions separated by an optional
+quote, allowing quadratic partitions when the quote was absent. A 128 KiB tab
+suffix first exceeded a bounded two-second child deadline. Grouping the quote
+with the second whitespace repetition removes that ambiguity and preserves
+quoted/unquoted field-label exclusions. The reusable filename probe then
+completed in 290 ms; Node/Bun tests retain sub-second matching and a two-second
+child work deadline with a 128 MiB heap/1024 KiB stack. The existing prose probe
+shares the same test harness. Full annotation metadata is archived in `data/`.
+
 ## Primary-source research and existing components
 
 | Component/source                                                                                                                                                                            | Relevant capability                                                                                           | Decision                                                                                                                                                  |
@@ -112,6 +124,11 @@ cause a false late-confirmation failure when its label appears later.
 | [GitHub Pages REST API](https://docs.github.com/en/rest/pages/pages#get-a-github-pages-site)                                                                                                | Site configuration reports workflow/legacy source and absent-site 404; fine-grained tokens require Pages read | Explicit read permission and conditional deployment; keep permission/server failures visible.                                                             |
 | [npm trusted publishers](https://docs.npmjs.com/trusted-publishers/)                                                                                                                        | Repository/workflow-bound OIDC authentication                                                                 | Requires owner setup and supported Node/npm; cannot be established from this workspace.                                                                   |
 | [npm staged first publication](https://github.blog/changelog/2026-10-02-npm-staged-publishing-now-supports-creating-new-packages/)                                                          | New packages can now be created by staged publish and owner approval                                          | Corrects the assumption that only an old automation token can bootstrap a package; owner approval is still required.                                      |
+
+[CodeQL's primary query guidance](https://codeql.github.com/codeql-query-help/javascript/js-polynomial-redos/)
+explains ambiguous repetitions and recommends removing the ambiguity or bounding
+inputs. The filename guard removes the ambiguity; its regression uses finite
+input and process limits without suppressing the alert.
 
 Public catalog additions link their Wikidata entities in `src/public.js`:
 Sergey Brin [Q92764](https://www.wikidata.org/wiki/Q92764), Pavel Durov

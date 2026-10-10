@@ -1,0 +1,14 @@
+[
+  {
+    "path": "src/personal.js",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/127c504ec890eb6731387062b1428449308f0ad9/src/personal.js",
+    "start_line": 111,
+    "start_column": 7,
+    "end_line": 111,
+    "end_column": 80,
+    "annotation_level": "failure",
+    "title": "Polynomial regular expression used on uncontrolled data",
+    "message": "This [regular expression](1) that depends on [library input](2) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](3) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](4) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](5) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](6) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](7) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](8) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](9) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](10) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](11) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](12) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](13) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](14) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](15) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](16) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](17) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](18) may run slow on strings with many repetitions of '\\t'.\nThis [regular expression](1) that depends on [library input](19) may run slow on strings with many repetitions of '\\t'.",
+    "raw_details": null
+  }
+]

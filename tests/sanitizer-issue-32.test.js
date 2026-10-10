@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'test-anywhere';
+import { boundedProbe } from './bounded-probe.js';
 import {
   createSanitizer,
   inspect,
@@ -43,6 +44,16 @@ async function stream(input, options) {
   return output;
 }
 describe('issue 32 name and identity regressions', () => {
+  it('bounds document-name guards on a finite hostile tab suffix', async () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
+    const probe = await boundedProbe(
+      'experiments/issue-32/document-whitespace.mjs'
+    );
+    expect(probe.bytes > 128 * 1024).toBe(true);
+    expect(probe.milliseconds < 1000).toBe(true);
+  });
   for (const input of [...filenames, ...pairs]) {
     it(`protects ${input}`, async () => {
       expect(sanitize(input).redactions > 0).toBe(true);

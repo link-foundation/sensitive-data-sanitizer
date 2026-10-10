@@ -108,7 +108,9 @@ function detectDocumentNames(text, emit) {
   )) {
     // Field names such as NATIONAL_ID identify the label, not its value.
     if (
-      /^[ \t]*["']?[ \t]*[:=：]/.test(text.slice(match.index + match[0].length))
+      /^[ \t]*(?:["'][ \t]*)?[:=：]/.test(
+        text.slice(match.index + match[0].length)
+      )
     ) {
       continue;
     }
