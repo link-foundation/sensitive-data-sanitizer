@@ -8,6 +8,7 @@ if (!source || !target) {
   );
 }
 await sanitizeStreamToFile(createReadStream(source), target, {
+  profile: 'publication',
   structured: 'jsonl',
   workers: 2,
 });

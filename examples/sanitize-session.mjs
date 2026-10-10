@@ -2,6 +2,7 @@ import { createSanitizer } from '../src/index.js';
 
 // Synthetic data: supply real knownSecrets from your secret store in memory.
 const sanitizer = createSanitizer({
+  profile: 'publication',
   structured: 'jsonl',
   structuralFields: ['id', 'type', 'name', 'description'],
   knownSecrets: ['an-opaque-synthetic-secret'],

@@ -57,9 +57,20 @@ const rules = [
     /\bSIN\b|social insurance/iu,
     shortLuhn,
   ],
-  ['RU_SNILS', /\d{3}-\d{3}-\d{3}[ -]\d{2}/g, /\bSNILS\b|снилс/iu, snils],
+  [
+    'RU_SNILS',
+    /\d{3}[- ]\d{3}[- ]\d{3}[ -]\d{2}|\d{11}/g,
+    /\bSNILS\b|снилс|пенсионное|страховое свидетельство|страховой номер/iu,
+    snils,
+  ],
   ['RU_INN', /\d{12}|\d{10}/g, /\bINN\b|инн/iu, inn],
 ];
+function distinctiveShape(type, value) {
+  return (
+    (type === 'RU_SNILS' && /^\d{3}([- ])\d{3}\1\d{3} \d{2}$/.test(value)) ||
+    (type === 'RU_INN' && value.length === 12)
+  );
+}
 export function detectNational(text, emit) {
   for (const [type, pattern, context, checksum, plausible] of rules) {
     for (const match of text.matchAll(pattern)) {
@@ -88,7 +99,8 @@ export function detectNational(text, emit) {
           confidence: nationalConfidence(
             hasContext,
             checked,
-            plausible?.(match[0])
+            plausible?.(match[0]) ||
+              (checked && distinctiveShape(type, match[0]))
           ),
         });
       }

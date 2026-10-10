@@ -2,7 +2,14 @@
 
 An offline JavaScript library, detector framework, and CLI for redacting credentials and personal data from UTF-8 logs, AI sessions, and text files. It combines required Secretlint and 221 bundled Gitleaks text rules with contextual credentials, default multilingual name/PII recognition, known values and bounded encoding detection. Optional local Gitleaks, TruffleHog, and Presidio detectors extend the union.
 
-By default every actionable finding is replaced completely with `[REDACTED]`. Personal findings below the default confidence threshold of 0.5 remain inspectable without replacing ordinary log numbers; credentials always qualify. Publication methods verify full redaction and block output if a required detector fails or finds a residual. Optional typed transformations, compatible partial masks and encoding preservation are described in the API. Findings contain offsets and rule metadata; they omit matched values and source excerpts.
+Library calls without a profile replace every actionable finding completely with `[REDACTED]`. Personal findings below the default confidence threshold of 0.5 remain inspectable without replacing ordinary log numbers; credentials always qualify. Publication methods verify full redaction and block output if a required detector fails or finds a residual. Optional typed transformations, compatible partial masks and encoding preservation are described in the API. Findings contain offsets and rule metadata; they omit matched values and source excerpts.
+
+For publishing sessions, use `createSanitizer({profile: 'publication'})`:
+the personal threshold is 0.3, identity values use the fixed first/last-two
+`***` mask, and fake-identity exemptions remain disabled. CLI `redact` defaults
+to this profile. Explicit configuration such as `identityMask: false` selects
+complete redaction. Credentials always receive complete redaction unless an
+explicit credential transformation is selected.
 
 Detection has limits: the default 17-locale name gazetteer has finite vocabulary; unfamiliar names need an additional NER model or known-personal dictionary. New token formats, unsupported encodings, and unconfigured languages can escape detection. Successful verification means the enabled detectors found no residual, not that the input is universally anonymous. See [coverage and limits](docs/COVERAGE.md) and the [issue #1 case study](docs/case-studies/issue-1/README.md).
 
@@ -19,6 +26,9 @@ node bin/sensitive-data-sanitizer.js history ./repository
 
 The npm package is `@link-foundation/sensitive-data-sanitizer`; the installed executable is `sensitive-data-sanitizer`. This PR prepares its release through Changesets.
 
+First npm publication currently requires owner setup; see the
+[verified release blockers and exact setup steps](docs/case-studies/issue-32/REQUIREMENTS.md#exact-npm-owner-steps).
+
 ```js
 import {
   createSanitizer,
@@ -26,6 +36,7 @@ import {
 } from '@link-foundation/sensitive-data-sanitizer';
 
 const sanitizer = createSanitizer({
+  profile: 'publication',
   knownSecrets: knownSecretsFromEnv(), // Explicitly include local credentials.
 });
 const result = await sanitizer.sanitize('password=short person@example.org');
@@ -68,13 +79,13 @@ The library provides `structured: 'json' | 'jsonl'` and
 `engine.sanitizeJsonl(text)` with an empty structural policy by default.
 
 For input above the whole-text limit, pass an iterable to
-`sanitizeStream(source, {structured: 'jsonl'})` or use `sanitizeStreamToFile` for
+`sanitizeStream(source, {structured: 'jsonl', profile: 'publication'})` or use `sanitizeStreamToFile` for
 atomic output. JSONL defaults to two ordered record workers. See [the streaming
 example](examples/stream-jsonl.mjs).
 
 Native coverage includes tolerant passport MRZ fragments, country passport
 formats, PNR/ticket/visa identifiers, contextual birth dates, national IDs and
-messenger phone numbers. Opt-in `identityMask: true` / `--identity-mask` uses
+messenger phone numbers. `identityMask: true` (the publication/CLI redact default) uses
 2+2 characters with a fixed `***` marker. Opt-in fake identity policies retain
 audited specimen/synthetic values while credentials remain protected.
 See [the API](docs/API.md) and [all issue 13 requirements and research](docs/case-studies/repository-issue-13/REQUIREMENTS.md).

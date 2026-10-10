@@ -48,7 +48,7 @@ Native MRZ extraction covers TD1/TD2/TD3 and MRV-A/MRV-B, including standalone
 name/data fragments and bounded whitespace reflow. Check digits raise confidence;
 invalid checks do not allow MRZ through. Country passport shapes include Russian
 domestic/international, US/UK, German, Indian, Korean and Italian documents.
-Ambiguous bare nine-digit values receive lower confidence and still redact.
+Ambiguous bare nine-digit values receive lower confidence and redact under the publication profile.
 Travel labels protect PNR/booking references, 13-digit tickets and visa numbers.
 Birth-date vocabulary supports numeric and English/Russian month-name dates.
 
@@ -63,10 +63,41 @@ requires a supported network prefix and length as well as Luhn; timestamp
 contexts and epoch-shaped numbers are negatives.
 Messenger/call context adds RU/VN/TH/ID national trunk-prefix phone shapes.
 
-Confirmed names and travel references propagate within a document, including
-filename/path occurrences. Russian patronymics, transliterated prose pairs and
-document filenames supplement the gazetteer. Whole-document JSON/JSONL scans
-propagate across structured fields; streaming operates on bounded batches.
+Confirmed names and strong personal values propagate within a document and
+across later streaming batches, including filename/path occurrences and bounded
+Cyrillic/ICAO/GOST/common spelling aliases. Russian patronymics, capitalized or
+all-caps Slavic surname pairs in either order, and two/three-part names adjacent
+to document filename words supplement the gazetteer. Late confirmations and
+registry exhaustion block completed stream publication; see [API.md](API.md).
+
+### National-ID defaults
+
+Scores below apply to valid reported shapes outside timestamp/order metadata.
+Default API personal threshold is 0.5; publication profile/CLI redact use 0.3.
+Identity/health labels generally raise checksum-valid scores to 0.99 and damaged
+checks to 0.9. These scores indicate rule strength, not issuance or probability.
+
+| Type/shape                                    | Bare score | API default  | Publication profile |
+| --------------------------------------------- | ---------- | ------------ | ------------------- |
+| UK_NHS, spaced or compact                     | 0.35       | Inspect only | Replace/mask        |
+| KR_RRN, plausible date and checksum           | 0.99       | Replace      | Replace/mask        |
+| IT_FISCAL_CODE, alphanumeric structure        | 0.99       | Replace      | Replace/mask        |
+| SG_NRIC_FIN, prefix and check letter          | 0.99       | Replace      | Replace/mask        |
+| PL_PESEL, valid checksum                      | 0.35       | Inspect only | Replace/mask        |
+| SE_PERSONNUMMER, valid formatted checksum     | 0.35       | Inspect only | Replace/mask        |
+| ZA_ID_NUMBER, valid checksum                  | 0.35       | Inspect only | Replace/mask        |
+| AU_TFN, valid spaced/compact checksum         | 0.35       | Inspect only | Replace/mask        |
+| CA_SIN, valid spaced/compact checksum         | 0.35       | Inspect only | Replace/mask        |
+| RU_SNILS, `ddd-ddd-ddd dd` / `ddd ddd ddd dd` | 0.99       | Replace      | Replace/mask        |
+| RU_SNILS, compact checksum only               | 0.35       | Inspect only | Replace/mask        |
+| RU_INN, 12 digits/two checks                  | 0.99       | Replace      | Replace/mask        |
+| RU_INN, 10 digits/one check                   | 0.35       | Inspect only | Replace/mask        |
+
+Russian SNILS contexts include СНИЛС, пенсионное, страховое свидетельство and
+страховой номер. English passport contexts include series and number, passport
+series and document number. Unlabelled Russian passport shapes retain their
+0.4 score and are protected by the publication profile. Numeric-noise exclusions
+continue to preserve timestamps, order IDs and routine tool identifiers.
 
 Credential rules add complete netrc triplets, NuGet oy2 keys, all eight WordPress
 key/salt constants and complete/truncated PuTTY v2/v3 private blocks. Streaming

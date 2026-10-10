@@ -13,10 +13,15 @@ import { URL } from 'node:url';
 import { dirname, resolve, join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { Worker } from 'node:worker_threads';
-import { createSanitizer } from './engines.js';
+import {
+  createSanitizer,
+  sanitizerConfiguration,
+  prepareStreamEngine,
+} from './engines.js';
 import { failure } from './detection.js';
 import { sanitizeJsonlStream } from './jsonl-stream.js';
 import { workerExecArgv } from './worker-options.js';
+import { streamIdentity } from './stream-identity.js';
 
 const streamKeys = new Set([
   'sanitizer',
@@ -29,10 +34,14 @@ const streamKeys = new Set([
   'workerHeapMb',
   'workerTimeoutMs',
   'replace',
+  'maxRegistryValues',
 ]);
 function configuration(options) {
+  const suppliedOptions = sanitizerConfiguration(options.sanitizer);
   const jsonl =
-    (options.sanitizerOptions?.structured ?? options.structured) === 'jsonl';
+    (options.sanitizerOptions?.structured ??
+      suppliedOptions?.structured ??
+      options.structured) === 'jsonl';
   const maxRecordBytes =
     options.maxRecordBytes ?? (jsonl ? 8 : 1) * 1024 * 1024;
   const batchBytes = options.batchBytes ?? 256 * 1024;
@@ -42,20 +51,35 @@ function configuration(options) {
       throw failure('ERR_CONFIG');
     }
   }
-  const sanitizerOptions = {
-    ...(options.sanitizerOptions ??
-      Object.fromEntries(
-        Object.entries(options).filter(([k]) => !streamKeys.has(k))
-      )),
-    maxInputLength: Math.max(maxRecordBytes, batchBytes) + 1,
-  };
+  const identity = streamIdentity(
+    {
+      ...suppliedOptions,
+      ...(options.sanitizerOptions ??
+        Object.fromEntries(
+          Object.entries(options).filter(([k]) => !streamKeys.has(k))
+        )),
+      maxInputLength: Math.max(maxRecordBytes, batchBytes) + 1,
+    },
+    options.maxRegistryValues
+  );
+  const sanitizerOptions = identity.options;
+  const engine = createSanitizer(sanitizerOptions);
   return {
     maxRecordBytes,
     batchBytes,
     maxTotalBytes,
     sanitizerOptions,
     jsonl,
-    engine: options.sanitizer ?? createSanitizer(sanitizerOptions),
+    identity,
+    engine:
+      !options.sanitizer || suppliedOptions
+        ? engine
+        : {
+            async sanitize(text) {
+              const result = await options.sanitizer.sanitize(text);
+              return engine.sanitize(result.text);
+            },
+          },
   };
 }
 // Hold an incomplete record, multiline quotes, PEM blocks and wrapped base64.
@@ -175,6 +199,7 @@ export async function* sanitizeStream(source, options = {}) {
     ) {
       const text = pending.slice(0, boundary);
       pending = pending.slice(boundary);
+      config.identity.prepare(text, await prepareStreamEngine(engine, text));
       yield (await engine.sanitize(text)).text;
     }
   }

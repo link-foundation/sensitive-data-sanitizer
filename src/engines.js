@@ -8,7 +8,9 @@ import {
   sanitizeFinding,
   validatePublic,
   inspectFindingsOnly,
+  reviewFindings,
   markFake,
+  applyProfile,
 } from './sanitizer.js';
 import { failure } from './detection.js';
 import { projectText } from './projection.js';
@@ -20,6 +22,11 @@ import {
 } from './structured.js';
 
 let upstream;
+const configurations = new WeakMap();
+const streamPreparers = new WeakMap();
+export const sanitizerConfiguration = (engine) => configurations.get(engine);
+export const prepareStreamEngine = (engine, text, nativeFindings) =>
+  streamPreparers.get(engine)?.(text, nativeFindings);
 async function secretlintDetect(text) {
   upstream ??= Promise.all([
     import('@secretlint/core'),
@@ -107,7 +114,39 @@ async function engineFindings(engine, projection, options, emit) {
   }
 }
 
+async function analyzeStructured(
+  text,
+  initial,
+  options,
+  nativeFindings,
+  analyze
+) {
+  const findings = [];
+  for (const batch of structuredBatches(text, options)) {
+    for (const finding of mapStructuredFindings(
+      batch,
+      await analyze(
+        batch.text,
+        [],
+        true,
+        options,
+        nativeFindings === undefined ? undefined : []
+      ),
+      options
+    )) {
+      findings.push(finding);
+    }
+  }
+  // Native structured inspection validates, locates and reapplies the
+  // same fake-value/public policy to source offsets from all engines.
+  return inspectFindingsOnly(text, [...findings, ...(nativeFindings ?? [])], {
+    ...options,
+    findings: initial,
+  });
+}
+
 export function createSanitizer(options = {}) {
+  options = applyProfile(options);
   validateOptions(options);
   for (const detector of options.detectors ?? []) {
     if (!detector || typeof detector.detect !== 'function') {
@@ -117,29 +156,18 @@ export function createSanitizer(options = {}) {
   const engines =
     options.secretlint === false ? [] : [{ detect: secretlintDetect }];
   engines.push(...(options.detectors ?? []));
+  let prepared;
   async function analyze(
     text,
     initial = options.findings ?? [],
-    plain = false
+    plain = false,
+    scopedOptions = options,
+    nativeFindings
   ) {
+    const options = scopedOptions;
     validateInput(text, options);
     if (options.structured && !plain) {
-      const findings = [];
-      for (const batch of structuredBatches(text, options)) {
-        for (const finding of mapStructuredFindings(
-          batch,
-          await analyze(batch.text, [], true),
-          options
-        )) {
-          findings.push(finding);
-        }
-      }
-      // Native structured inspection validates, locates and reapplies the
-      // same fake-value/public policy to source offsets from all engines.
-      return inspectFindingsOnly(text, findings, {
-        ...options,
-        findings: initial,
-      });
+      return analyzeStructured(text, initial, options, nativeFindings, analyze);
     }
     const findings = [];
     const emit = (finding) => {
@@ -162,29 +190,49 @@ export function createSanitizer(options = {}) {
       }
       await engineFindings(engine, projection, options, emit);
     }
-    const detected = inspect(text, {
-      ...options,
-      structured: undefined,
-      findings,
-    });
+    const detected =
+      nativeFindings === undefined
+        ? inspect(text, { ...options, structured: undefined, findings })
+        : reviewFindings(text, [...nativeFindings, ...findings], options);
     return options.verifyPublic
       ? verifyFindings(text, detected, options.verifyPublic)
       : detected;
   }
 
-  return {
+  const sanitizer = {
     inspect: analyze,
     sanitize: sanitizeText,
     sanitizeJsonl: (text) =>
       createSanitizer({ ...options, structured: 'jsonl' }).sanitize(text),
   };
+  configurations.set(sanitizer, options);
+  streamPreparers.set(sanitizer, async (text, nativeFindings) => {
+    const findings = await analyze(
+      text,
+      nativeFindings === undefined ? (options.findings ?? []) : [],
+      false,
+      options,
+      nativeFindings
+    );
+    prepared = { text, findings };
+    return findings;
+  });
+  return sanitizer;
   async function sanitizeText(
     text,
     depth = 0,
     fullRedaction = false,
-    plain = false
+    plain = false,
+    scopedOptions = options
   ) {
-    const findings = await analyze(text, options.findings ?? [], plain);
+    const options = scopedOptions;
+    const findings =
+      depth === 0 && prepared?.text === text
+        ? prepared.findings
+        : await analyze(text, options.findings ?? [], plain, options);
+    if (depth === 0) {
+      prepared = undefined;
+    }
     const fullOptions = {
       ...options,
       transformation: undefined,
@@ -196,23 +244,35 @@ export function createSanitizer(options = {}) {
       text,
       findings,
       fullRedaction ? fullOptions : options,
-      (decoded) =>
+      (decoded, recursiveOptions) =>
         depth < 2
-          ? sanitizeText(decoded, depth + 1, fullRedaction, true)
+          ? sanitizeText(
+              decoded,
+              depth + 1,
+              fullRedaction,
+              true,
+              recursiveOptions
+            )
           : Promise.resolve({ text: '[REDACTED]' })
     );
     const sanitized = fullRedaction
       ? result.text
       : (
-          await redactResultAsync(text, findings, fullOptions, (decoded) =>
-            depth < 2
-              ? sanitizeText(decoded, depth + 1, true, true)
-              : Promise.resolve({ text: '[REDACTED]' })
+          await redactResultAsync(
+            text,
+            findings,
+            fullOptions,
+            (decoded, recursiveOptions) =>
+              depth < 2
+                ? sanitizeText(decoded, depth + 1, true, true, recursiveOptions)
+                : Promise.resolve({ text: '[REDACTED]' })
           )
         ).text;
     // Verification at the publication boundary runs every enabled engine.
     if (
-      (await analyze(sanitized, [], plain)).some((f) => actionable(f, options))
+      (await analyze(sanitized, [], plain, options)).some((f) =>
+        actionable(f, options)
+      )
     ) {
       throw failure('ERR_RESIDUAL');
     }

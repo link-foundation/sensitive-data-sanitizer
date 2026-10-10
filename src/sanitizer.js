@@ -1,6 +1,7 @@
 import { generatedValues } from './fake.js';
+import { alignEscapes } from './escape-spans.js';
 import { actionable } from './confidence.js';
-import { propagate } from './propagation.js';
+import { propagate, confirmationOptions } from './propagation.js';
 import { fakeDocumentSpans } from './specimens.js';
 import { failure, nativeDetect, REDACTED } from './detection.js';
 import { projectText } from './projection.js';
@@ -20,6 +21,7 @@ const publicTypes = new Set(['PERSON', 'ORGANIZATION', 'EMAIL']);
 const optionNames = new Set([
   'knownSecrets',
   'knownPersonal',
+  'confirmedPersonal',
   'publicEntities',
   'findings',
   'paranoid',
@@ -41,12 +43,25 @@ const optionNames = new Set([
   'structuralFields',
   'minConfidence',
   'threshold',
+  'profile',
 ]);
+
+export function applyProfile(options = {}) {
+  return options?.profile === 'publication'
+    ? {
+        ...options,
+        minConfidence: options.minConfidence ?? options.threshold ?? 0.3,
+        identityMask: options.identityMask ?? true,
+        fakeIdentity: options.fakeIdentity ?? false,
+      }
+    : options;
+}
 
 function validateCollections(options) {
   for (const key of [
     'knownSecrets',
     'knownPersonal',
+    'confirmedPersonal',
     'publicEntities',
     'findings',
     'detectors',
@@ -64,7 +79,10 @@ function validateCollections(options) {
       throw failure('ERR_CONFIG');
     }
   }
-  for (const entry of options.knownPersonal ?? []) {
+  for (const entry of [
+    ...(options.knownPersonal ?? []),
+    ...(options.confirmedPersonal ?? []),
+  ]) {
     if (
       !entry ||
       typeof entry.value !== 'string' ||
@@ -168,6 +186,7 @@ function validatePolicy(options) {
   for (const [key, values] of [
     ['fakeIdentity', [false, 'specimen-and-synthetic']],
     ['structured', ['json', 'jsonl']],
+    ['profile', ['publication']],
   ]) {
     if (options[key] !== undefined && !values.includes(options[key])) {
       throw failure('ERR_CONFIG');
@@ -322,6 +341,7 @@ function locations(text, findings) {
 }
 
 export function inspect(text, options = {}) {
+  options = applyProfile(options);
   validateOptions(options);
   validateInput(text, options);
   if (options.structured) {
@@ -355,6 +375,10 @@ export function inspect(text, options = {}) {
       ...entry,
       value: projectText(entry.value).text,
     })),
+    confirmedPersonal: (options.confirmedPersonal ?? []).map((entry) => ({
+      ...entry,
+      value: projectText(entry.value).text,
+    })),
   };
   const mapped = (f) =>
     emit(
@@ -373,6 +397,14 @@ export function inspect(text, options = {}) {
   encodedDetect(projection.text, nativeOptions, mapped);
   for (const f of options.findings ?? []) {
     emit(f);
+  }
+  return reviewFindings(text, findings, options);
+}
+
+// Reapply policy to the native/required-engine union without rescanning text.
+export function reviewFindings(text, findings, options) {
+  if (findings.length > (options.maxFindings ?? 100000)) {
+    throw failure('ERR_LIMIT');
   }
   const unique = new Map();
   for (const f of findings) {
@@ -515,7 +547,7 @@ function validatedSpans(text, findings, options) {
   ) {
     throw failure('ERR_FINDING');
   }
-  const sorted = findings
+  const sorted = alignEscapes(text, findings)
     .map((f) => sanitizeFinding(f, text.length))
     .map((f) => ({ ...f, kept: undefined }));
   const retained = markFake(text, sorted, options)
@@ -564,6 +596,7 @@ export function redactResult(
   options = {},
   replacements = new Map()
 ) {
+  options = applyProfile(options);
   const spans = validatedSpans(text, findings, options);
   const parts = [];
   const faked = [];
@@ -573,7 +606,7 @@ export function redactResult(
       replacements.get(`${span.start}:${span.end}`) ??
       renderReplacement(text, span, options, (decoded) =>
         sanitize(decoded, {
-          ...options,
+          ...confirmationOptions(text, findings, options),
           findings: [],
           preserveEncoding: true,
           structured: undefined,
@@ -619,7 +652,10 @@ export async function redactResultAsync(
       if (!options.preserveEncoding && run.encoding !== 'json-content') {
         continue;
       }
-      const result = await sanitizeDecoded(run.text);
+      const result = await sanitizeDecoded(
+        run.text,
+        confirmationOptions(text, findings, options)
+      );
       replacements.set(
         `${span.start}:${span.end}`,
         encodeRun(run, result.text)
@@ -634,6 +670,7 @@ export function redact(text, findings, options = {}) {
 }
 
 export function sanitize(text, options = {}) {
+  options = applyProfile(options);
   const findings = inspect(text, options);
   const result = redactResult(text, findings, options);
   const sanitized = redactResult(text, findings, {

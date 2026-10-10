@@ -3,7 +3,7 @@ import azure from './vendor/entities/azure.json' with { type: 'json' };
 import aws from './vendor/entities/aws.json' with { type: 'json' };
 import { escapePattern, collectMatches } from './detection.js';
 import { numericNoise, epochNumber } from './confidence.js';
-import { valueRange } from './context.js';
+import { valueRange, personalValueAllowed } from './context.js';
 export const entityCatalogs = { google, azure, aws };
 const canonical = (name) =>
   name.replace(/([a-z])([A-Z])/g, '$1_$2').toUpperCase();
@@ -39,7 +39,7 @@ for (const [vendor, catalog] of Object.entries(entityCatalogs)) {
 // All documented names are native labelled recognizers; automatic format
 // recognizers are separate and do not claim the vendors' model behavior.
 const prefix = new RegExp(
-  `(?<![\\p{L}\\p{N}_])(?:["'])?(${[...entries.keys()].map(escapePattern).join('|')})(?:["'])?\\s*[:=：]\\s*`,
+  `(?<![\\p{L}\\p{N}_])(?:["'])?(${[...entries.keys()].map(escapePattern).join('|')})(?:["'])?[ \\t]*[:=：][ \\t]*`,
   'giu'
 );
 export function detectCatalog(text, emit) {
@@ -56,6 +56,8 @@ export function detectCatalog(text, emit) {
     const range = valueRange(text, match.index + match[0].length, mode);
     if (
       range &&
+      (entry.category === 'credential' ||
+        personalValueAllowed(text, range, entry.type, match.index)) &&
       text.slice(range.start, range.end).trim() &&
       !text.slice(range.start, range.end).startsWith('[REDACTED]')
     ) {

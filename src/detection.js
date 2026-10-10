@@ -102,6 +102,18 @@ export function nativeDetect(text, options, emit) {
       rule: 'known-personal',
     });
   }
+  for (const entry of options.confirmedPersonal ?? []) {
+    const pattern = new RegExp(
+      `(?<![\\p{L}\\p{N}])${escapePattern(entry.value).replace(/[ _-]+/g, '[ \\t_-]+')}(?![\\p{L}\\p{N}])`,
+      'giu'
+    );
+    collectMatches(text, pattern, emit, {
+      type: entry.type,
+      category: 'personal',
+      rule: 'known-personal',
+      confidence: 0.9,
+    });
+  }
   detectContext(text, emit);
   detectPersonal(text, emit);
   detectCatalog(text, emit);

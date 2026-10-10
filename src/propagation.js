@@ -1,15 +1,49 @@
 import { escapePattern, failure } from './detection.js';
 import { actionable } from './confidence.js';
+import { nameAliases } from './transliteration.js';
+
+function mrzSeeds(value, finding, seeds) {
+  for (const match of value.matchAll(
+    /(?:[PIACV][A-Z<][A-Z<]{3})?([A-Z]{2,30})<<([A-Z]+(?:<[A-Z]+)*)/g
+  )) {
+    const surname =
+      match.index > 0 && /[PIACV][A-Z<]$/.test(value.slice(0, match.index))
+        ? match[1].slice(3)
+        : match[1];
+    for (const name of [surname, ...match[2].split('<')]) {
+      seeds.set(name, { ...finding, type: 'PERSON' });
+    }
+  }
+  const number = /(?:^|[\r\n])([A-Z0-9]{9})[\d<][A-Z<]{3}\d{6}/.exec(value);
+  if (number) {
+    seeds.set(number[1], { ...finding, type: 'PASSPORT_NUMBER' });
+  }
+}
+function decodedValue(value) {
+  if (value.includes('\\')) {
+    try {
+      return JSON.parse(`"${value}"`);
+    } catch {
+      /* Plain paths are not JSON. */
+    }
+  }
+  return value;
+}
 
 // Only confirmed values seed propagation. A low-score numeric coincidence
 // must never turn every log occurrence into a high-score identity.
-function confirmedSeeds(text, findings, options) {
+export function confirmedSeeds(text, findings, options) {
   const seeds = new Map();
   for (const finding of findings) {
-    if (finding.category !== 'personal' || !actionable(finding, options)) {
+    if (
+      finding.category !== 'personal' ||
+      finding.type === 'ENCODED_SENSITIVE' ||
+      !actionable(finding, options)
+    ) {
       continue;
     }
     if (
+      finding.confidence < 0.85 &&
       ![
         'PERSON',
         'PASSPORT_NUMBER',
@@ -21,24 +55,10 @@ function confirmedSeeds(text, findings, options) {
     ) {
       continue;
     }
-    const value = text.slice(finding.start, finding.end);
+    const value = decodedValue(text.slice(finding.start, finding.end));
     if (finding.type === 'PASSPORT_MRZ') {
-      for (const match of value.matchAll(
-        /(?:[PIACV][A-Z<][A-Z<]{3})?([A-Z]{2,30})<<([A-Z]+(?:<[A-Z]+)*)/g
-      )) {
-        const surname =
-          match.index > 0 && /[PIACV][A-Z<]$/.test(value.slice(0, match.index))
-            ? match[1].slice(3)
-            : match[1];
-        for (const name of [surname, ...match[2].split('<')]) {
-          seeds.set(name, { ...finding, type: 'PERSON' });
-        }
-      }
-      const number = /(?:^|[\r\n])([A-Z0-9]{9})[\d<][A-Z<]{3}\d{6}/.exec(value);
-      if (number) {
-        seeds.set(number[1], { ...finding, type: 'PASSPORT_NUMBER' });
-      }
-    } else if (value.length >= 4) {
+      mrzSeeds(value, finding, seeds);
+    } else if (value.length >= 2) {
       seeds.set(value, finding);
       if (finding.type === 'PERSON') {
         for (const name of value.match(/\p{L}{2,}/gu) ?? []) {
@@ -47,7 +67,26 @@ function confirmedSeeds(text, findings, options) {
       }
     }
   }
+  for (const [value, finding] of [...seeds]) {
+    if (finding.type === 'PERSON') {
+      for (const alias of nameAliases(value)) {
+        seeds.set(alias, finding);
+      }
+    }
+  }
   return seeds;
+}
+export function confirmationOptions(text, findings, options) {
+  const values = new Map(
+    (options.confirmedPersonal ?? []).map((entry) => [entry.value, entry])
+  );
+  for (const [value, finding] of confirmedSeeds(text, findings, options)) {
+    values.set(value, { value, type: finding.type });
+    if (values.size > (options.maxFindings ?? 100000)) {
+      throw failure('ERR_LIMIT');
+    }
+  }
+  return { ...options, confirmedPersonal: [...values.values()] };
 }
 export function propagate(text, findings, options) {
   const result = [...findings];

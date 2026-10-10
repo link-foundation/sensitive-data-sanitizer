@@ -1,6 +1,7 @@
 import { collectMatches, escapePattern } from './detection.js';
 import { firstNames } from './names.js';
 import { labels } from './rules.js';
+import { transliteratedGivenNames } from './transliteration.js';
 const labelWords = new Set(Object.values(labels).flat());
 
 const details = (type, rule, confidence = 0.85) => ({
@@ -78,6 +79,7 @@ const latinGiven = Object.entries(firstNames)
     ['en', 'es', 'fr', 'de', 'pt', 'ruLatn', 'tr'].includes(locale)
   )
   .flatMap(([, list]) => list.split(' '))
+  .concat(transliteratedGivenNames)
   .map(escapePattern)
   .join('|');
 const slavicSurname =
@@ -86,19 +88,73 @@ const latinPairs = new RegExp(
   `(?<![\\p{L}\\p{M}])(?:${latinGiven})[ \\t]+(?:${slavicSurname}|Smith|Jones|Brown|Roe|Doe)(?![\\p{L}\\p{M}])`,
   'giu'
 );
-const documentPairs = new RegExp(
-  `(?<![\\p{L}\\p{N}])(?:(?:${latinGiven})[-_][\\p{L}]{2,32}|[\\p{L}]{2,32}[-_](?:${latinGiven}))(?=[-_](?:PASSPORT|VISA|ID|PHOTO|SCAN|ПАСПОРТ)(?:[._-]|$))`,
-  'giu'
+const shapedName = '[\\p{Lu}][\\p{L}\\p{M}]{1,31}';
+const suffixes =
+  'ova eva ov ev in ina enko sky ski skaya ова ева ов ев ин ина енко ский ская'
+    .split(' ')
+    .map((s) => [...s].map((c) => `[${c}${c.toUpperCase()}]`).join(''))
+    .join('|');
+const shapedSurname = `[\\p{Lu}][\\p{L}]{1,28}(?:${suffixes})`;
+const slavicPairs = new RegExp(
+  `(?<![\\p{L}\\p{M}])(?:${shapedName}[ \\t]+${shapedSurname}|${shapedSurname}[ \\t]+${shapedName})(?![\\p{L}\\p{M}])`,
+  'gu'
 );
+const documentWord =
+  /^(?:PASSPORT|VISA|ID|PHOTO|SCAN|ПАСПОРТ|ВИЗА|СКАН|ФОТО)$/iu;
+const placeWord = /^(?:Bay|Sands|Hotel|Street|Road|Avenue)$/iu;
+function detectDocumentNames(text, emit) {
+  for (const match of text.matchAll(
+    /(?<![\p{L}\p{N}_-])[\p{L}]{2,32}(?:[_-][\p{L}]{2,32}){1,12}(?![\p{L}\p{N}_-])/gu
+  )) {
+    // Field names such as NATIONAL_ID identify the label, not its value.
+    if (
+      /^[ \t]*["']?[ \t]*[:=：]/.test(text.slice(match.index + match[0].length))
+    ) {
+      continue;
+    }
+    const tokens = [...match[0].matchAll(/\p{L}+/gu)];
+    for (let i = 0; i < tokens.length; i++) {
+      if (!documentWord.test(tokens[i][0])) {
+        continue;
+      }
+      for (const step of [-1, 1]) {
+        const candidates = [];
+        for (
+          let j = i + step;
+          j >= 0 && j < tokens.length && candidates.length < 4;
+          j += step
+        ) {
+          if (documentWord.test(tokens[j][0])) {
+            break;
+          }
+          candidates.push(tokens[j]);
+        }
+        if (candidates.length < 2 || candidates.length > 3) {
+          continue;
+        }
+        candidates.sort((a, b) => a.index - b.index);
+        emit({
+          start: match.index + candidates[0].index,
+          end:
+            match.index + candidates.at(-1).index + candidates.at(-1)[0].length,
+          ...details('PERSON', 'name-document', 0.9),
+        });
+      }
+    }
+  }
+}
 const russianFull =
   /(?<![\p{L}])(?:[А-ЯЁ][а-яё]{2,30}[ \t]+){2}[А-ЯЁ][а-яё]{2,30}(?:вич|вна|ична)|(?<![\p{L}])(?:[А-ЯЁ][а-яё]{2,30}[ \t]+){2}(?:оглы|кызы)(?![\p{L}])/gu;
 export function detectPersonal(text, emit) {
-  for (const pattern of [latinPairs, documentPairs, russianFull]) {
+  detectDocumentNames(text, emit);
+  for (const pattern of [latinPairs, slavicPairs, russianFull]) {
     collectMatches(
       text,
       pattern,
       emit,
-      details('PERSON', 'name-identity', 0.9)
+      details('PERSON', 'name-identity', 0.9),
+      0,
+      (value) => !placeWord.test(value.split(/[ \t]+/).at(-1))
     );
   }
   for (const pattern of names) {
@@ -108,7 +164,8 @@ export function detectPersonal(text, emit) {
       emit,
       details('PERSON', 'name-gazetteer', 0.7),
       0,
-      (value) => !labelWords.has(value)
+      (value) =>
+        !labelWords.has(value) && !placeWord.test(value.split(/[ \t]+/).at(-1))
     );
   }
   collectMatches(

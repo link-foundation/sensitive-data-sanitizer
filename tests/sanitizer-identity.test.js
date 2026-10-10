@@ -190,8 +190,10 @@ describe('national IDs and identity policies', () => {
       );
     });
   }
-  for (const [type, value] of nationalIds.filter(([type]) =>
-    ['UK_NHS', 'RU_SNILS', 'RU_INN', 'ZA_ID_NUMBER'].includes(type)
+  for (const [type, value] of nationalIds.filter(
+    ([type, value]) =>
+      ['UK_NHS', 'ZA_ID_NUMBER'].includes(type) ||
+      (type === 'RU_INN' && value.length === 10)
   )) {
     it(`retains low-confidence checksum-valid bare ${type} for inspection`, () => {
       expect(
