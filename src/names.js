@@ -44,3 +44,22 @@ export const nameExamples = [
   ['vi', 'Nguyễn Văn An'],
   ['th', 'สมชาย ใจดี'],
 ];
+
+const givenNames = new Set(
+  Object.values(firstNames).flatMap((list) => list.toLowerCase().split(' '))
+);
+// A familiar label is evidence only when its value also has a name shape.
+// Single unfamiliar Latin words are commonly tool names or code identifiers.
+export function plausiblePerson(value) {
+  if (!/^[\p{L}\p{M}][\p{L}\p{M}’' -]{1,127}$/u.test(value)) {
+    return false;
+  }
+  const words = value.split(/[ \t]+/);
+  if (words.some((word) => givenNames.has(word.toLowerCase()))) {
+    return true;
+  }
+  if (words.length >= 2 && words.length <= 4) {
+    return words.every((word) => /^\p{Lu}[\p{L}\p{M}’'-]+$/u.test(word));
+  }
+  return /^[\p{L}\p{M}]{2,32}$/u.test(value) && !/[\p{Lu}\p{Ll}]/u.test(value);
+}

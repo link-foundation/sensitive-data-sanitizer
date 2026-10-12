@@ -33,6 +33,7 @@ try {
         records.length
       );
       assert(!/qazvela|zorveta|zoe@private\.invalid/i.test(output));
+      assert(!/84812345678|028 12 345 678|fixture-private/.test(output));
       assert(output.includes('compute(936)'));
       assert(output.includes('test_runner'));
       assert(output.includes('standalone validator'));
@@ -43,7 +44,26 @@ try {
       if (session.name === 'codex') {
         assert(output.includes('The user does not command execution outputs.'));
         assert(output.includes('User-requested deletion'));
+        const parsed = output.trim().split('\n').map(JSON.parse);
+        assert.equal(
+          parsed.find((record) => record.type === 'turn_context').payload
+            .collaboration_mode.settings.developer_instructions,
+          null
+        );
+        assert.equal(
+          parsed.find((record) => record.payload?.rate_limits).payload
+            .rate_limits.limit_name,
+          null
+        );
+        assert(output.includes('codec::'));
+        assert(output.includes('nom::{'));
+      } else {
+        assert(output.includes('name:Claude'));
+        assert(output.includes('Claude...'));
+        assert(output.includes('Authorization:'));
       }
+      assert(output.includes('Elon Musk'));
+      assert(output.includes('state:.[0].status'));
       const residuals = await verifier.inspect(output);
       assert.equal(residuals.length, 0);
       console.log(

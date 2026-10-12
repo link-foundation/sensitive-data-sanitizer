@@ -11,10 +11,34 @@ const dates = new RegExp(
   'giu'
 );
 const phoneContext =
-  /(?<![\p{L}\p{N}_])(?:WhatsApp|Zalo|Viber|Telegram|Signal|WeChat|LINE|KakaoTalk|звоните|пишите|звонить|номер телефона|телефон|phone|call|telp|telepon|HP|hubungi|โทร|เบอร์|gọi|SĐT|điện thoại)(?![\p{L}\p{N}_])/iu;
+  /(?<![\p{L}\p{N}_])(?:WhatsApp|Zalo|Viber|Telegram|Signal|WeChat|LINE|KakaoTalk|звоните|пишите|звонить|номер телефона|телефон|phone|fax|call|telp|telepon|HP|hubungi|โทร|เบอร์|gọi|SĐT|ĐT|điện thoại)(?![\p{L}\p{N}_])/iu;
 const nationalPhone =
   /(?<![\p{L}\p{N}_+])(?:\(?08\d{2}[ )-]{0,3}\d{3,4}[ -]{0,2}\d{3,4}|8[ ()-]{0,3}9\d{2}[ )-]{0,3}\d{3}[ -]{0,2}\d{2}[ -]{0,2}\d{2}|\(?0[ ()-]{0,2}[35789]\d[ )-]{0,3}\d{3}[ -]{0,2}\d{4}|\(?0[ ()-]{0,2}\d[ )-]{0,3}\d{3}[ -]{0,2}\d{4}|\(?0[ ()-]{0,2}8\d{2}[ )-]{0,3}\d{4}[ -]{0,2}\d{4})(?![\p{L}\p{N}_])/gu;
 export function detectPersonalContext(text, emit) {
+  const phone = {
+    type: 'PHONE',
+    category: 'personal',
+    rule: 'phone-context',
+    confidence: 0.9,
+  };
+  collectMatches(
+    text,
+    /(?<![\p{L}\p{N}_])tel:[ \t]*(\+?\d[\d(). -]{0,38}\d|\d)(?![\p{L}\p{N}_])/giu,
+    emit,
+    { ...phone, rule: 'tel-uri' },
+    1
+  );
+  collectMatches(
+    text,
+    /(?<![\p{L}\p{N}_])(?:phone|fax|ĐT|điện thoại)(?:[ \t]*[:：][ \t]*|[ \t]+)(\+?\(?\d[\d() .-]{5,38}\d)(?![\p{L}\p{N}_])/giu,
+    emit,
+    phone,
+    1,
+    (value) => {
+      const digits = value.replace(/\D/g, '').length;
+      return digits >= 7 && digits <= 15;
+    }
+  );
   for (const label of text.matchAll(birth)) {
     const start = label.index + label[0].length;
     const window = text.slice(start, start + 80).split(/[\r\n|;]/)[0];

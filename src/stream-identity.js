@@ -7,8 +7,14 @@ import { structuredBatches } from './structured.js';
 import { actionable } from './confidence.js';
 
 // Per-stream values remain private. Prior unredacted tokens are represented
-// only by keyed digests; a later confirmation blocks completion/publication.
-export function streamIdentity(options, limit = 100000, collecting = false) {
+// only by keyed digests; a later confirmation blocks one-pass publication.
+// A complete registry from discovery needs no prior-token history in pass 2.
+export function streamIdentity(
+  options,
+  limit = 100000,
+  collecting = false,
+  complete = false
+) {
   options = applyProfile(options);
   validateOptions(options);
   if (!Number.isSafeInteger(limit) || limit < 1) {
@@ -21,15 +27,18 @@ export function streamIdentity(options, limit = 100000, collecting = false) {
     seen = new Set(),
     values = new Map(
       (options.confirmedPersonal ?? []).map((entry) => [
-        entry.value.normalize('NFC').toLowerCase(),
+        entry.value.trim().normalize('NFC').toLowerCase(),
         entry.type,
       ])
     );
-  const personal = [...(options.confirmedPersonal ?? [])];
+  const personal = (options.confirmedPersonal ?? []).map((entry) => ({
+    ...entry,
+    value: entry.value.trim(),
+  }));
   const configuration = { ...options, confirmedPersonal: personal };
   function fingerprint(value) {
     return createHmac('sha256', key)
-      .update(value.normalize('NFC').toLowerCase())
+      .update(value.trim().normalize('NFC').toLowerCase())
       .digest('base64');
   }
   function checkLimit() {
@@ -49,12 +58,15 @@ export function streamIdentity(options, limit = 100000, collecting = false) {
       findings,
       configuration
     )) {
-      const normalized = value.normalize('NFC').toLowerCase();
+      const normalized = value.trim().normalize('NFC').toLowerCase();
       if (values.has(normalized)) {
         continue;
       }
-      if (!collecting && appearedEarlier(normalized)) {
+      if (!collecting && !complete && appearedEarlier(normalized)) {
         throw failure('ERR_LATE_PERSONAL');
+      }
+      if (complete) {
+        options.debug?.({ event: 'two-pass-confirmation', type: finding.type });
       }
       values.set(normalized, finding.type);
       personal.push({ value: normalized, type: finding.type });
@@ -66,7 +78,7 @@ export function streamIdentity(options, limit = 100000, collecting = false) {
     options: configuration,
     prepare(text, findings = inspect(text, configuration)) {
       confirm(text, findings);
-      if (collecting) {
+      if (collecting || complete) {
         return [...personal];
       }
       const unredacted = redact(text, findings, {

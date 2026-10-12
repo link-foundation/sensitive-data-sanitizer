@@ -58,7 +58,11 @@ describe('contextual fields in every supported language', () => {
           ? 'private@unknown.example'
           : /^(?:PHONE|PHONE_NUMBER)$/.test(field)
             ? '+1 202 555 0198'
-            : 'private-value';
+            : /^(?:NAME|PERSON|PERSON_NAME)$/.test(field)
+              ? 'Qazvela Zorveta'
+              : /^(?:STATE|US_STATE|CITY|REGION|PROVINCE)$/.test(field)
+                ? 'California'
+                : 'private-value';
         expect(sanitize(`${field}: ${value}`).text).toBe(
           `${field}: ${field === 'DATE' ? value : '[REDACTED]'}`
         );

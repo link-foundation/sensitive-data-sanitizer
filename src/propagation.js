@@ -34,6 +34,7 @@ function eligibleSeed(finding, options) {
   return (
     finding.category === 'personal' &&
     finding.type !== 'ENCODED_SENSITIVE' &&
+    !['confirmed-personal', 'document-propagation'].includes(finding.rule) &&
     actionable(finding, options) &&
     (finding.confidence >= 0.85 ||
       [
@@ -65,7 +66,7 @@ export function confirmedSeeds(text, findings, options) {
       });
       continue;
     }
-    const value = decodedValue(text.slice(finding.start, finding.end));
+    const value = decodedValue(text.slice(finding.start, finding.end)).trim();
     if (finding.type === 'PASSPORT_MRZ') {
       mrzSeeds(value, finding, seeds);
     } else if (value.length >= 2) {
@@ -98,12 +99,33 @@ export function confirmationOptions(text, findings, options) {
   }
   return { ...options, confirmedPersonal: [...values.values()] };
 }
-export function propagate(text, findings, options) {
+function rangeFilter(ranges) {
+  let index = 0;
+  return (match) => {
+    if (!ranges) {
+      return true;
+    }
+    while (index < ranges.length && ranges[index].end <= match.index) {
+      index++;
+    }
+    const range = ranges[index];
+    return (
+      !!range &&
+      match.index >= range.start &&
+      match.index + match[0].length <= range.end
+    );
+  };
+}
+export function propagate(text, findings, options, ranges) {
   const result = [...findings];
   const seen = new Set(findings.map((f) => `${f.start}:${f.end}:${f.type}`));
   for (const [value, seed] of confirmedSeeds(text, findings, options)) {
     const pattern = new RegExp(personalPattern(value), 'giu');
+    const withinRange = rangeFilter(ranges);
     for (const match of text.matchAll(pattern)) {
+      if (!withinRange(match)) {
+        continue;
+      }
       if (
         /[\p{L}\p{N}]/u.test(text[match.index - 1] ?? '') ||
         /[\p{L}\p{N}]/u.test(text[match.index + match[0].length] ?? '')
