@@ -96,6 +96,12 @@ passed 238 tests. All four Codex/Claude one/four-worker corpus publications had
 valid JSON and zero residual findings. Lint, formatting, duplication, secrets,
 syntax, file limits, required documentation, and the version guard passed.
 
+Hosted CI passed on implementation head `eb6aae9`: [Checks and release](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/38300251805),
+[Security](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/38300251923),
+[Example app](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/38300252534),
+and [Broken Link Checker](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/38300251788).
+The runtime matrix covered Node, Bun, and Deno on Ubuntu, macOS, and Windows.
+
 ## CI corpus and limits
 
 The existing publication corpus now contains Codex `turn_context` and

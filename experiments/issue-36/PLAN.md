@@ -16,13 +16,13 @@
 - [x] Run focused tests, all locally available runtime suites, corpus, lint,
       format, duplication, secrets, syntax, line limits, and release guards.
       Keep lengthy logs in dev/log/issue-36; run memory-heavy commands serially.
-- [ ] Commit atomic changes, merge the latest default branch, and push only to
+- [x] Commit atomic changes, include the latest default branch, and push only to
       issue-36-581486aaaa3f; update existing PR 37 with final scope and evidence.
-- [ ] Inspect the complete PR diff for regressions and removed behavior.
-- [ ] List CI runs with timestamps and SHA; download unsuccessful completed
+- [x] Inspect the complete PR diff for regressions and removed behavior.
+- [x] List CI runs with timestamps and SHA; download unsuccessful completed
       runs into ci-logs, read logs in chunks of at most 1500 lines, fix actual
       failures, and verify checks on the final commit.
-- [ ] Mark PR 37 ready, confirm all work is committed and the tree is clean,
+- [x] Mark PR 37 ready, confirm all work is committed and the tree is clean,
       and report the result with the PR URL.
 
 Experiments use finite fixtures and a 512 MiB V8 heap. No private session files
@@ -32,3 +32,11 @@ Local evidence: the initial 63-test regression run had 56 failures. Final full
 suites passed 1,319 Node tests, 1,319 Bun tests, and 1,174 Deno tests plus eight
 steps. Focused checks passed 238 tests, and all four extended corpus publications
 had zero residual findings. Logs are retained in dev/log/issue-36.
+
+Hosted validation on implementation head eb6aae9 passed all four workflows:
+Checks and release (38300251805), Security (38300251923), Example app
+(38300252534), and Broken Link Checker (38300251788). These runs started after
+the commit on 2026-10-12 at 19:50 UTC; no failing runs needed log investigation.
+The runtime matrix passed Node, Bun, and Deno on Ubuntu, macOS, and Windows.
+PR 37 is ready for review. The final documentation-only commit receives its own
+CI verification before handoff.
