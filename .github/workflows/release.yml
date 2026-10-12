@@ -137,6 +137,35 @@ jobs:
       - name: Check file line limits
         run: bash scripts/check-file-line-limits.sh
 
+  session-publication:
+    name: Session Publication Corpus
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    concurrency:
+      group: check-${{ github.workflow }}-${{ github.ref }}-session-publication
+      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+    needs: [detect-changes]
+    if: |
+      needs.detect-changes.outputs.any-code-changed == 'true' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.release_mode == 'instant')
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Simulate fresh merge with base branch (PR only)
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: bash scripts/simulate-fresh-merge.sh
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.x'
+      - name: Install corpus dependencies
+        run: npm ci
+      - name: Publish Codex and Claude session corpus with zero residuals
+        run: bash scripts/run-with-budget-warning.sh 120 "Session publication corpus" node --max-old-space-size=512 experiments/issue-34/session-corpus.mjs
+
   # === VERSION CHANGE CHECK ===
   # Prohibit manual version changes in package.json - versions should only be changed by CI/CD
   version-check:
@@ -512,6 +541,7 @@ jobs:
         changeset-check,
         lint,
         test,
+        session-publication,
         docker-build,
         validate-docs,
         release-preflight,
@@ -661,6 +691,7 @@ jobs:
         changeset-check,
         lint,
         test,
+        session-publication,
         docker-build,
         validate-docs,
         release-preflight,
@@ -1038,6 +1069,7 @@ jobs:
       - changeset-check
       - lint
       - test
+      - session-publication
       - docker-build
       - docker-publish-config
       - docker-publish-build

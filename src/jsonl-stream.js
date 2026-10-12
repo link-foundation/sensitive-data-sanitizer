@@ -2,6 +2,7 @@ import { TextDecoder } from 'node:util';
 import { Worker } from 'node:worker_threads';
 import { URL } from 'node:url';
 import { failure } from './detection.js';
+import { encodingFailure } from './utf8.js';
 import { workerExecArgv } from './worker-options.js';
 import { prepareStreamEngine } from './engines.js';
 import { inspect } from './sanitizer.js';
@@ -10,12 +11,14 @@ async function* records(source, { maxRecordBytes, maxTotalBytes }) {
   const decoder = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true });
   let parts = [],
     length = 0,
-    total = 0;
+    total = 0,
+    record = 1,
+    offset = 0;
   function decode() {
     try {
       return decoder.decode(Buffer.concat(parts, length));
     } catch {
-      throw failure('ERR_ENCODING');
+      throw encodingFailure(Buffer.concat(parts, length), record, offset);
     }
   }
   for await (const chunk of source) {
@@ -36,6 +39,8 @@ async function* records(source, { maxRecordBytes, maxTotalBytes }) {
       parts.push(Buffer.from(bytes.subarray(start, end)));
       if (newline >= 0) {
         yield decode();
+        record++;
+        offset += length;
         parts = [];
         length = 0;
       }
@@ -137,14 +142,16 @@ function workerCount(options, config) {
   return typeof Deno !== 'undefined' ? 1 : count;
 }
 export async function* sanitizeJsonlStream(source, options, config) {
-  const count = workerCount(options, config);
+  const count = config.collecting ? 1 : workerCount(options, config);
   if (count === 1) {
     for await (const batch of batches(source, config)) {
       config.identity.prepare(
         batch,
         await prepareStreamEngine(config.engine, batch)
       );
-      yield (await config.engine.sanitize(batch)).text;
+      if (!config.collecting) {
+        yield (await config.engine.sanitize(batch)).text;
+      }
     }
     return;
   }
@@ -164,7 +171,7 @@ export async function* sanitizeJsonlStream(source, options, config) {
   async function next() {
     const result = await queue.shift();
     if (result.error) {
-      throw failure(result.error);
+      throw failure(result.error, result);
     }
     return result.value;
   }

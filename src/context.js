@@ -1,6 +1,7 @@
 import { labels } from './rules.js';
 import { escapePattern, REDACTED } from './detection.js';
 import { credentialPlaceholder } from './credentials.js';
+import { servicePath } from './public.js';
 
 // Bounded vocabularies are explicit so the short PASS/PW forms do not match
 // unrelated words such as passport. Verb forms cover the supported locales.
@@ -50,7 +51,7 @@ const key = `(?:[\\p{L}\\p{N}]+[_.-])*(?:auth|authorization)(?:[_.-][\\p{L}\\p{N
     '|'
   )})[\\p{L}\\p{N}_.-]{0,32}|(?:[\\p{L}\\p{N}_.-]{1,32}[_-])?(?:pass|pw)(?:[_-][\\p{L}\\p{N}_.-]{1,32})?`;
 const credentialPrefix = new RegExp(
-  `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(${key})(?:\\\\*["'])?(?:[ \\t]+(?:от|для|к|for|de|du|del)[^:=\\r\\n]{1,64})?[ \\t]*([:=：]|(?:${verbs})(?![\\p{L}\\p{N}_]))[ \\t]*`,
+  `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(${key})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?(?:[ \\t]+(?:от|для|к|for|de|du|del)[^:=\\r\\n]{1,64})?[ \\t]*([:=：]|(?:${verbs})(?![\\p{L}\\p{N}_]))[ \\t]*`,
   'giu'
 );
 const ignored =
@@ -81,47 +82,75 @@ function emitValue(text, start, end, emit, details, keyName = '') {
 // Opening quotes support the escape depth of an outer AI-session string.
 // Only a quote at the same escape depth closes it; embedded quotes belong to
 // the value. Offsets cover escape bytes as well as the decoded characters.
-export function valueRange(text, start, mode = 'token') {
+export function valueRange(text, start, mode = 'token', maxLength = Infinity) {
   const opening = text.slice(start).match(/^(\\*)(["'])/);
   if (opening) {
-    const depth = opening[1].length,
-      quote = opening[2];
-    const valueStart = start + opening[0].length;
-    for (let i = valueStart; i < text.length; i++) {
-      if (text[i] !== quote) {
-        continue;
-      }
-      let slashes = 0;
-      for (let j = i - 1; j >= valueStart && text[j] === '\\'; j--) {
-        slashes++;
-      }
-      if (slashes === depth) {
-        return { start: valueStart, end: i - depth };
-      }
-    }
-    return { start: valueStart, end: text.length };
+    return quotedRange(text, start, opening, maxLength);
   }
   if (/^[{[]/.test(text.slice(start, start + 1))) {
     return undefined;
   }
-  const tail = text.slice(start);
+  const tail = text.slice(start, start + maxLength);
   const terminator =
     mode === 'query'
       ? /[\s&#"'<>]/
       : mode === 'line'
-        ? /[\r\n<>]/
+        ? /[\r\n<>"]|\\+[nrt"']/
         : mode === 'prose'
-          ? /[\r\n<>]|(?<![ \t])[ \t]+(?:for the|for my|для|pour|para|für|لـ)(?:[ \t]|$)/iu
-          : /[\s,;}\]"'<>]/;
+          ? /[\r\n<>]|\\+[nrt"']|(?<![ \t])[ \t]+(?:for the|for my|для|pour|para|für|لـ)(?:[ \t]|$)/iu
+          : /[\s,;}\]"'<>]|\\+[nrt"']/;
   const stop = tail.search(terminator);
-  const end = stop < 0 ? text.length : start + stop;
-  return { start, end: Math.min(end, outerQuoteEnd(text, start) ?? end) };
+  const end = stop < 0 ? start + tail.length : start + stop;
+  return { start, end: Math.min(end, outerQuoteEnd(text, start, end) ?? end) };
+}
+function quotedRange(text, start, opening, maxLength) {
+  const depth = opening[1].length,
+    quote = opening[2];
+  const valueStart = start + opening[0].length;
+  for (
+    let i = valueStart;
+    i < Math.min(text.length, valueStart + maxLength);
+    i++
+  ) {
+    if (
+      Number.isFinite(maxLength) &&
+      /^(?:[\r\n]|\\+[nrt])/.test(text.slice(i, i + 8))
+    ) {
+      return { start: valueStart, end: i };
+    }
+    if (text[i] !== quote) {
+      continue;
+    }
+    let slashes = 0;
+    for (let j = i - 1; j >= valueStart && text[j] === '\\'; j--) {
+      slashes++;
+    }
+    if (slashes === depth) {
+      return { start: valueStart, end: i - depth };
+    }
+  }
+  return {
+    start: valueStart,
+    end: Math.min(text.length, valueStart + maxLength),
+  };
 }
 
 // Shared by native labels and the vendor catalogs. Code expressions and
 // line escapes are not personal field values, even when a key is familiar.
 export function personalValueAllowed(text, range, type, labelStart) {
-  const value = text.slice(range.start, range.end);
+  const value = text.slice(range.start, range.end).trim();
+  if (['LOCATION', 'ADDRESS'].includes(type) && servicePath(value)) {
+    return false;
+  }
+  if (type === 'PHONE') {
+    return (
+      /^\+?[\d () .-]{7,40}$/.test(value) &&
+      /\d{3}/.test(value.replace(/\D/g, ''))
+    );
+  }
+  if (type === 'EMAIL') {
+    return /^[^\s@]+@[^\s@]+\.[\p{L}]{2,63}$/u.test(value);
+  }
   if (/^(?:\\[nrt]|[\r\n])/.test(value)) {
     return false;
   }
@@ -153,7 +182,7 @@ export function personalValueAllowed(text, range, type, labelStart) {
 }
 
 // Prose labels inside JSON strings stop at the enclosing quote.
-function outerQuoteEnd(text, start) {
+function outerQuoteEnd(text, start, end) {
   let opening = start - 1;
   while (opening >= Math.max(0, start - 8192)) {
     opening = text.lastIndexOf('"', opening);
@@ -171,7 +200,7 @@ function outerQuoteEnd(text, start) {
   ) {
     return undefined;
   }
-  for (let i = start; i < text.length; i++) {
+  for (let i = start; i < end; i++) {
     if (text[i] === '"' && backslashes(text, i) % 2 === 0) {
       return i;
     }
@@ -243,7 +272,8 @@ function detectPersonalLabels(text, emit) {
       const range = valueRange(
         text,
         match.index + match[0].length + suffix.length,
-        identity ? 'token' : 'line'
+        identity ? 'token' : 'line',
+        512
       );
       if (range && personalValueAllowed(text, range, type, match.index)) {
         if (type === 'PERSON') {

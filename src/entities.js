@@ -53,7 +53,12 @@ export function detectCatalog(text, emit) {
       : match[0].includes('=') || /["']\s*[:：]/.test(match[0])
         ? 'token'
         : 'line';
-    const range = valueRange(text, match.index + match[0].length, mode);
+    const range = valueRange(
+      text,
+      match.index + match[0].length,
+      mode,
+      entry.category === 'personal' ? 512 : Infinity
+    );
     if (
       range &&
       (entry.category === 'credential' ||

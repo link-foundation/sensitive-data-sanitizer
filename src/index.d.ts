@@ -224,6 +224,8 @@ export type Transformation =
   | { mode: 'date-shift'; days: number }
   | { mode: 'bucket'; size: number };
 export interface StreamOptions extends SanitizerOptions {
+  /** Atomic file APIs only: spool input privately, collect, then redact. */
+  twoPass?: boolean;
   maxRegistryValues?: number;
   sanitizerOptions?: SanitizerOptions;
   sanitizer?: Sanitizer;

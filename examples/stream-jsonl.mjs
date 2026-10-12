@@ -10,6 +10,8 @@ if (!source || !target) {
 await sanitizeStreamToFile(createReadStream(source), target, {
   profile: 'publication',
   structured: 'jsonl',
+  // Collect identities before redacting earlier unlabelled occurrences.
+  twoPass: true,
   workers: 2,
 });
 console.log('Verified session written:', target);

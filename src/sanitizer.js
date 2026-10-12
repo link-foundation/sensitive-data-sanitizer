@@ -3,7 +3,12 @@ import { alignEscapes } from './escape-spans.js';
 import { actionable } from './confidence.js';
 import { propagate, confirmationOptions } from './propagation.js';
 import { fakeDocumentSpans } from './specimens.js';
-import { failure, nativeDetect, REDACTED } from './detection.js';
+import {
+  failure,
+  internalFailure,
+  nativeDetect,
+  REDACTED,
+} from './detection.js';
 import { projectText } from './projection.js';
 import { decodedRuns, encodeRun, encodedValue } from './encoded.js';
 import { URL } from 'node:url';
@@ -13,6 +18,7 @@ import { fakeIdentityValue, isIdentityType } from './identity.js';
 import {
   structuredBatches,
   mapStructuredFindings,
+  preserveIdentifierKeys,
   verifyStructured,
 } from './structured.js';
 
@@ -341,6 +347,13 @@ function locations(text, findings) {
 }
 
 export function inspect(text, options = {}) {
+  try {
+    return inspectText(text, options);
+  } catch (error) {
+    throw internalFailure(error);
+  }
+}
+function inspectText(text, options = {}) {
   options = applyProfile(options);
   validateOptions(options);
   validateInput(text, options);
@@ -441,7 +454,11 @@ export function inspectFindingsOnly(text, findings, options) {
     text,
     markFake(
       text,
-      propagate(text, markFake(text, all, options), options),
+      preserveIdentifierKeys(
+        text,
+        propagate(text, markFake(text, all, options), options),
+        options
+      ),
       options
     ).sort((a, b) => a.start - b.start || b.end - a.end)
   );
@@ -572,6 +589,9 @@ function validatedSpans(text, findings, options) {
 }
 
 function preferredType(current, candidate, options) {
+  if (current === 'ENCODED_SENSITIVE') {
+    return false;
+  }
   if (candidate === 'PHONE' && current !== 'PASSPORT_MRZ') {
     return true;
   }
@@ -670,6 +690,13 @@ export function redact(text, findings, options = {}) {
 }
 
 export function sanitize(text, options = {}) {
+  try {
+    return sanitizeText(text, options);
+  } catch (error) {
+    throw internalFailure(error);
+  }
+}
+function sanitizeText(text, options = {}) {
   options = applyProfile(options);
   const findings = inspect(text, options);
   const result = redactResult(text, findings, options);

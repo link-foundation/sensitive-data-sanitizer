@@ -8,7 +8,7 @@ import { actionable } from './confidence.js';
 
 // Per-stream values remain private. Prior unredacted tokens are represented
 // only by keyed digests; a later confirmation blocks completion/publication.
-export function streamIdentity(options, limit = 100000) {
+export function streamIdentity(options, limit = 100000, collecting = false) {
   options = applyProfile(options);
   validateOptions(options);
   if (!Number.isSafeInteger(limit) || limit < 1) {
@@ -43,25 +43,31 @@ export function streamIdentity(options, limit = 100000) {
     const components = value.match(/[\p{L}\p{N}]{2,128}/gu) ?? [];
     return [value, ...components].some((part) => seen.has(fingerprint(part)));
   }
+  function confirm(text, findings) {
+    for (const [value, finding] of confirmedSeeds(
+      text,
+      findings,
+      configuration
+    )) {
+      const normalized = value.normalize('NFC').toLowerCase();
+      if (values.has(normalized)) {
+        continue;
+      }
+      if (!collecting && appearedEarlier(normalized)) {
+        throw failure('ERR_LATE_PERSONAL');
+      }
+      values.set(normalized, finding.type);
+      personal.push({ value: normalized, type: finding.type });
+      checkLimit();
+    }
+  }
   checkLimit();
   return {
     options: configuration,
     prepare(text, findings = inspect(text, configuration)) {
-      for (const [value, finding] of confirmedSeeds(
-        text,
-        findings,
-        configuration
-      )) {
-        const normalized = value.normalize('NFC').toLowerCase();
-        if (values.has(normalized)) {
-          continue;
-        }
-        if (appearedEarlier(normalized)) {
-          throw failure('ERR_LATE_PERSONAL');
-        }
-        values.set(normalized, finding.type);
-        personal.push({ value: normalized, type: finding.type });
-        checkLimit();
+      confirm(text, findings);
+      if (collecting) {
+        return [...personal];
       }
       const unredacted = redact(text, findings, {
         ...configuration,

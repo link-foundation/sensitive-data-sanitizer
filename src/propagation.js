@@ -1,4 +1,4 @@
-import { escapePattern, failure } from './detection.js';
+import { personalPattern, maxPropagationLength, failure } from './detection.js';
 import { actionable } from './confidence.js';
 import { nameAliases } from './transliteration.js';
 
@@ -30,29 +30,39 @@ function decodedValue(value) {
   return value;
 }
 
-// Only confirmed values seed propagation. A low-score numeric coincidence
-// must never turn every log occurrence into a high-score identity.
-export function confirmedSeeds(text, findings, options) {
-  const seeds = new Map();
-  for (const finding of findings) {
-    if (
-      finding.category !== 'personal' ||
-      finding.type === 'ENCODED_SENSITIVE' ||
-      !actionable(finding, options)
-    ) {
-      continue;
-    }
-    if (
-      finding.confidence < 0.85 &&
-      ![
+function eligibleSeed(finding, options) {
+  return (
+    finding.category === 'personal' &&
+    finding.type !== 'ENCODED_SENSITIVE' &&
+    actionable(finding, options) &&
+    (finding.confidence >= 0.85 ||
+      [
         'PERSON',
         'PASSPORT_NUMBER',
         'BOOKING_REFERENCE',
         'VISA_NUMBER',
         'TICKET_NUMBER',
         'PASSPORT_MRZ',
-      ].includes(finding.type)
+      ].includes(finding.type))
+  );
+}
+// Only confirmed values seed propagation. A low-score numeric coincidence
+// must never turn every log occurrence into a high-score identity.
+export function confirmedSeeds(text, findings, options) {
+  const seeds = new Map();
+  for (const finding of findings) {
+    if (!eligibleSeed(finding, options)) {
+      continue;
+    }
+    if (
+      finding.end - finding.start > maxPropagationLength &&
+      finding.type !== 'PASSPORT_MRZ'
     ) {
+      options.debug?.({
+        event: 'propagation-skipped',
+        reason: 'length',
+        type: finding.type,
+      });
       continue;
     }
     const value = decodedValue(text.slice(finding.start, finding.end));
@@ -92,10 +102,7 @@ export function propagate(text, findings, options) {
   const result = [...findings];
   const seen = new Set(findings.map((f) => `${f.start}:${f.end}:${f.type}`));
   for (const [value, seed] of confirmedSeeds(text, findings, options)) {
-    const pattern = new RegExp(
-      escapePattern(value).replace(/[ _-]+/g, '[ \\t_-]+'),
-      'giu'
-    );
+    const pattern = new RegExp(personalPattern(value), 'giu');
     for (const match of text.matchAll(pattern)) {
       if (
         /[\p{L}\p{N}]/u.test(text[match.index - 1] ?? '') ||

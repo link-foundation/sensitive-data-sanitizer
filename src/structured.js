@@ -138,6 +138,53 @@ function weakStructuralFinding(finding, entry, batchText) {
   }
   return false;
 }
+function ordinaryPersonalKey(entry, finding) {
+  return (
+    entry.key &&
+    /^[A-Za-z_$][\w$]*$/.test(JSON.parse(entry.raw)) &&
+    finding.category === 'personal' &&
+    finding.rule !== 'known-personal'
+  );
+}
+// Propagation runs again at source offsets. Apply the same key policy after it
+// so a name confirmed in a value cannot rename an ordinary identifier key.
+export function preserveIdentifierKeys(text, findings, options) {
+  if (!options.structured) {
+    return findings;
+  }
+  const keys = structuredBatches(text, options).flatMap((batch) =>
+    batch.entries
+      .filter((entry) => ordinaryPersonalKey(entry, { category: 'personal' }))
+      .map((entry) => ({
+        start: entry.start,
+        end: entry.start + entry.raw.length,
+      }))
+  );
+  return findings.filter((finding) => {
+    if (finding.category !== 'personal' || finding.rule === 'known-personal') {
+      return true;
+    }
+    let low = 0,
+      high = keys.length;
+    while (low < high) {
+      const mid = (low + high) >>> 1;
+      if (keys[mid].end <= finding.start) {
+        low = mid + 1;
+      } else {
+        high = mid;
+      }
+    }
+    return low === keys.length || keys[low].start >= finding.end;
+  });
+}
+function preserveStructuredEntry(entry, finding, text, options) {
+  return (
+    ordinaryPersonalKey(entry, finding) ||
+    (!entry.key &&
+      options.structuralFields?.includes(entry.field) &&
+      weakStructuralFinding(finding, entry, text))
+  );
+}
 export function mapStructuredFindings(batch, findings, options) {
   const result = [];
   for (const finding of findings) {
@@ -162,9 +209,7 @@ export function mapStructuredFindings(batch, findings, options) {
       if (finding.end <= lo || finding.start >= hi) {
         continue;
       }
-      const structural =
-        !entry.key && options.structuralFields?.includes(entry.field);
-      if (structural && weakStructuralFinding(finding, entry, batch.text)) {
+      if (preserveStructuredEntry(entry, finding, batch.text, options)) {
         continue;
       }
       const start = Math.max(lo, finding.start),
