@@ -1,5 +1,6 @@
 import { URL } from 'node:url';
 import { readFile } from 'node:fs/promises';
+import { issue36Cases } from './issue-36-sessions.mjs';
 
 // Public Codex policy excerpt from issue 34; finite policy tails approximate
 // real vendor prompt sizes. No private user sessions are embedded here.
@@ -50,6 +51,24 @@ export async function sessionCorpus() {
             output: 'emoji 😀 lone \ud83d and \udc00; quoted "text"\ncomplete',
           },
         },
+        {
+          type: 'turn_context',
+          payload: {
+            collaboration_mode: { settings: { developer_instructions: null } },
+          },
+        },
+        {
+          type: 'event_msg',
+          payload: { rate_limits: { limit_id: '', limit_name: null } },
+        },
+        ...issue36Cases
+          .filter(
+            (fixture) =>
+              !['Claude tool schemas', 'empty authorization'].includes(
+                fixture.name
+              )
+          )
+          .flatMap((fixture) => fixture.records),
       ],
     },
     {
@@ -106,6 +125,24 @@ export async function sessionCorpus() {
             content: [
               { type: 'tool_result', content: '\ud83d 😀 \udc00\nfinished' },
             ],
+          },
+        },
+        ...issue36Cases
+          .filter((fixture) =>
+            [
+              'Claude tool schemas',
+              'empty authorization',
+              'escaped public figure',
+              'jq state expression',
+              'tel and fax HTML',
+            ].includes(fixture.name)
+          )
+          .flatMap((fixture) => fixture.records),
+        {
+          wireToolInputs: {
+            toolu_01PRIVATE: {
+              command: 'curl -H "Cookie: sid=fixture-private" done',
+            },
           },
         },
       ],
