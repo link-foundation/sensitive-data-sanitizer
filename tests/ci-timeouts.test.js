@@ -272,6 +272,7 @@ describe('CI timeout policy', () => {
       'detect-changes': 5,
       'test-compilation': 5,
       'check-file-line-limits': 5,
+      'session-publication': 5,
       'version-check': 5,
       'changeset-check': 10,
       lint: 10,
@@ -358,6 +359,7 @@ describe('CI execution budgets', () => {
       'docker-publish-config',
       'instant-release',
       'release',
+      'session-publication',
       'test',
     ]);
 

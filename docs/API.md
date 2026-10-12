@@ -208,3 +208,48 @@ The optional ESLint plugin exports `require-sanitized-output` from the package's
 ## Native documented entity catalogs
 
 `entityCatalogs` exposes source URLs, source-page SHA256 and documented names for Google (213), Azure (176) and AWS (36). Their canonical uppercase underscore labels are recognized natively, with complete value spans, independent of cloud services. The package also implements selected automatic formats and checksum algorithms. Catalog vocabulary support does not reproduce proprietary NER, image/document inspection, regional identity validators, cloud risk analysis or their accuracy. See the coverage table for that distinction.
+
+## Two-pass session publication
+
+Pass `twoPass: true` to `sanitizeStreamToFile`, `sanitizeFileToFile` or
+`sanitizeFileBounded` when personal values may be confirmed after their first
+appearance. Pass 1 reads the source once into a private temporary input file and
+collects confirmed values with every configured detector. Pass 2 reads that
+snapshot and redacts with the complete registry, including in parallel JSONL
+workers. Publication is atomic; success and failure remove the input spool and
+unfinished output. Existing targets remain intact on failure. Raw input is
+stored with mode `0600`; budget disk space for both input and sanitized output.
+
+```js
+await sanitizeStreamToFile(createReadStream('session.jsonl'), 'safe.jsonl', {
+  structured: 'jsonl',
+  profile: 'publication',
+  twoPass: true,
+  workers: 4,
+});
+```
+
+The default remains one pass. `twoPass` is supported only by atomic file APIs;
+`sanitizeStream` rejects it with `ERR_CONFIG`. The CLI equivalent is
+`redact session.jsonl --stream --jsonl --two-pass --output safe.jsonl`, including
+stdin and `--in-place`. Record, input-byte and registry bounds still apply;
+discovery retains confirmed values only and does not retain prior-token history.
+Required detectors run during collection and final publication verification.
+
+Personal label values stop at escaped line breaks and quotes and are capped at
+512 UTF-16 units. Phone and email labels require matching value shapes. Inferred
+propagation seeds are capped at 256 units; longer detected spans are still
+redacted but do not enter the propagation registry. `debug` reports a
+`propagation-skipped` event containing only the type and reason when this happens.
+Ordinary identifier keys retain their spelling unless explicitly configured as
+private. Document names require a filename extension or path plus name-shaped
+words or a known given name. Known CI service accounts in home paths and the
+GitHub runner workspace are preserved; caller-confirmed private values retain
+precedence.
+
+Valid JSON lone surrogate escapes (such as `\ud83d`) remain escaped and round-trip
+through redaction alongside emoji. Malformed UTF-8 bytes still block publication
+with `ERR_ENCODING`. For JSONL streams, the error includes a one-based `record`,
+a zero-based absolute byte `offset`, and a zero-based `recordOffset`, identifying
+the start of the malformed sequence without exposing its contents. These
+positions survive bounded file workers and appear in CLI diagnostics.

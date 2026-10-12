@@ -13,6 +13,13 @@ explicit credential transformation is selected.
 
 Detection has limits: the default 17-locale name gazetteer has finite vocabulary; unfamiliar names need an additional NER model or known-personal dictionary. New token formats, unsupported encodings, and unconfigured languages can escape detection. Successful verification means the enabled detectors found no residual, not that the input is universally anonymous. See [coverage and limits](docs/COVERAGE.md) and the [issue #1 case study](docs/case-studies/issue-1/README.md).
 
+For real session files whose personal values are confirmed later, use atomic
+two-pass publication:
+
+```sh
+sensitive-data-sanitizer redact session.jsonl --stream --jsonl --two-pass --output safe.jsonl
+```
+
 ## Quick Start
 
 Sanitizer APIs require Node.js 22.13 or later. Template arithmetic utilities are available under `@link-foundation/sensitive-data-sanitizer/legacy`; the existing universal example uses that browser-compatible entry. From this checkout:
