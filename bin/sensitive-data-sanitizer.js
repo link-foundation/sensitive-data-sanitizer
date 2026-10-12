@@ -42,6 +42,7 @@ history rewrite SOURCE --output DIRECTORY [--apply]
 --model NAME        Installed model passed to the selected bridge
 --language CODE     Model language passed to the selected bridge
 --stream            Process bounded UTF-8 records; files use a bounded worker
+--two-pass          Collect identities first, then publish the complete stream
 --json              Sanitize JSON strings and keys; preserve session metadata
 --jsonl             Sanitize JSONL records; combine with --stream for sessions
 --identity-mask     First/last 2 identity mask (publication profile default)
@@ -72,6 +73,7 @@ function parseArgs(argv) {
     ['--gitleaks', 'gitleaks'],
     ['--trufflehog', 'trufflehog'],
     ['--stream', 'stream'],
+    ['--two-pass', 'twoPass'],
     ['--json', 'json'],
     ['--jsonl', 'jsonl'],
     ['--identity-mask', 'identityMask'],
@@ -156,6 +158,9 @@ function validateFeatureArgs(config) {
 }
 
 function validateStructuredArgs(config) {
+  if (config.twoPass && !config.stream) {
+    throw failure('ERR_ARGUMENT');
+  }
   if ((config.json && config.jsonl) || (config.stream && config.json)) {
     throw failure('ERR_ARGUMENT');
   }
@@ -225,8 +230,12 @@ export async function runCli(
     }
     return await scanCommand(config, engine, context);
   } catch (error) {
+    const location =
+      Number.isSafeInteger(error.record) && Number.isSafeInteger(error.offset)
+        ? `; record ${error.record}, byte ${error.offset}`
+        : '';
     stderr.write(
-      `Sanitization failed; output was blocked (${/^ERR_[A-Z_]+$/.test(error.code) ? error.code : 'ERR_SANITIZATION'}).\n`
+      `Sanitization failed; output was blocked (${/^ERR_[A-Z_]+$/.test(error.code) ? error.code : 'ERR_SANITIZATION'}${location}).\n`
     );
     return 2;
   }

@@ -11,6 +11,9 @@ parentPort.on(
     } catch (error) {
       parentPort.postMessage({
         error: /^ERR_[A-Z_]+$/.test(error.code) ? error.code : 'ERR_WORKER',
+        record: error.record,
+        offset: error.offset,
+        recordOffset: error.recordOffset,
       });
     }
   }

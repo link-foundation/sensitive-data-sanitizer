@@ -75,6 +75,21 @@ export const organizationDomains = new Set([
   'mozilla.org',
   'cloudflare.com',
 ]);
+export const serviceAccounts = new Set([
+  'runner',
+  'ubuntu',
+  'vsts',
+  'circleci',
+  'node',
+  'root',
+]);
+export function servicePath(value) {
+  const account = /^\/home\/([^/]+)\//.exec(value)?.[1];
+  return (
+    serviceAccounts.has(account) ||
+    /^\/github\/(?:workspace|runner_temp)\//.test(value)
+  );
+}
 const roles =
   /^(?:press|media|support|info|contact|security|abuse|privacy|sales|noreply|no-reply)$/i;
 

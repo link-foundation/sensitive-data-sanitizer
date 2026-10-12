@@ -54,8 +54,13 @@ describe('contextual fields in every supported language', () => {
     it(`detects the complete ${vendor} documented field-name catalog natively`, () => {
       for (const name of catalog.names) {
         const field = name.replace(/([a-z])([A-Z])/g, '$1_$2').toUpperCase();
-        expect(sanitize(`${field}: private-value`).text).toBe(
-          `${field}: ${field === 'DATE' ? 'private-value' : '[REDACTED]'}`
+        const value = /^(?:EMAIL|EMAIL_ADDRESS)$/.test(field)
+          ? 'private@unknown.example'
+          : /^(?:PHONE|PHONE_NUMBER)$/.test(field)
+            ? '+1 202 555 0198'
+            : 'private-value';
+        expect(sanitize(`${field}: ${value}`).text).toBe(
+          `${field}: ${field === 'DATE' ? value : '[REDACTED]'}`
         );
       }
     });

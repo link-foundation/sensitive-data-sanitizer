@@ -11,10 +11,32 @@ import { detectPersonalContext } from './personal-context.js';
 import { detectCredentialFormats } from './credentials.js';
 
 export const REDACTED = '[REDACTED]';
-export const failure = (code = 'ERR_SANITIZATION') =>
+export const failure = (code = 'ERR_SANITIZATION', location = {}) =>
   Object.assign(new Error('Sanitization failed; output was blocked.'), {
     code,
+    ...Object.fromEntries(
+      ['record', 'offset', 'recordOffset']
+        .filter(
+          (key) => Number.isSafeInteger(location[key]) && location[key] >= 0
+        )
+        .map((key) => [key, location[key]])
+    ),
   });
+export function internalFailure(error) {
+  return /^ERR_[A-Z_]+$/.test(error?.code) ? error : failure();
+}
+export const maxPropagationLength = 256;
+export function personalPattern(value) {
+  if (value.length > maxPropagationLength) {
+    throw failure('ERR_LIMIT');
+  }
+  // Split before escaping: replacing hyphens in an escaped pattern can turn
+  // a preceding literal backslash into regexp syntax.
+  return value
+    .split(/[ _-]+/)
+    .map(escapePattern)
+    .join('[ \\t_-]+');
+}
 export function escapePattern(text) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -104,7 +126,7 @@ export function nativeDetect(text, options, emit) {
   }
   for (const entry of options.confirmedPersonal ?? []) {
     const pattern = new RegExp(
-      `(?<![\\p{L}\\p{N}])${escapePattern(entry.value).replace(/[ _-]+/g, '[ \\t_-]+')}(?![\\p{L}\\p{N}])`,
+      `(?<![\\p{L}\\p{N}])${personalPattern(entry.value)}(?![\\p{L}\\p{N}])`,
       'giu'
     );
     collectMatches(text, pattern, emit, {

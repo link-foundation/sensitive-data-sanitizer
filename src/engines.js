@@ -12,7 +12,7 @@ import {
   markFake,
   applyProfile,
 } from './sanitizer.js';
-import { failure } from './detection.js';
+import { failure, internalFailure } from './detection.js';
 import { projectText } from './projection.js';
 import { decodedRuns } from './encoded.js';
 import {
@@ -200,8 +200,20 @@ export function createSanitizer(options = {}) {
   }
 
   const sanitizer = {
-    inspect: analyze,
-    sanitize: sanitizeText,
+    inspect: async (...args) => {
+      try {
+        return await analyze(...args);
+      } catch (error) {
+        throw internalFailure(error);
+      }
+    },
+    sanitize: async (...args) => {
+      try {
+        return await sanitizeText(...args);
+      } catch (error) {
+        throw internalFailure(error);
+      }
+    },
     sanitizeJsonl: (text) =>
       createSanitizer({ ...options, structured: 'jsonl' }).sanitize(text),
   };

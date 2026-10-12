@@ -1,5 +1,5 @@
 import { TextDecoder } from 'node:util';
-import { constants } from 'node:fs';
+import { constants, createReadStream } from 'node:fs';
 import {
   open,
   lstat,
@@ -18,7 +18,7 @@ import {
   sanitizerConfiguration,
   prepareStreamEngine,
 } from './engines.js';
-import { failure } from './detection.js';
+import { failure, internalFailure } from './detection.js';
 import { sanitizeJsonlStream } from './jsonl-stream.js';
 import { workerExecArgv } from './worker-options.js';
 import { streamIdentity } from './stream-identity.js';
@@ -35,8 +35,10 @@ const streamKeys = new Set([
   'workerTimeoutMs',
   'replace',
   'maxRegistryValues',
+  'twoPass',
 ]);
-function configuration(options) {
+function configuration(options, collecting = false) {
+  validatePass(options);
   const suppliedOptions = sanitizerConfiguration(options.sanitizer);
   const jsonl =
     (options.sanitizerOptions?.structured ??
@@ -52,15 +54,9 @@ function configuration(options) {
     }
   }
   const identity = streamIdentity(
-    {
-      ...suppliedOptions,
-      ...(options.sanitizerOptions ??
-        Object.fromEntries(
-          Object.entries(options).filter(([k]) => !streamKeys.has(k))
-        )),
-      maxInputLength: Math.max(maxRecordBytes, batchBytes) + 1,
-    },
-    options.maxRegistryValues
+    identityConfiguration(options, suppliedOptions, maxRecordBytes, batchBytes),
+    options.maxRegistryValues,
+    collecting
   );
   const sanitizerOptions = identity.options;
   const engine = createSanitizer(sanitizerOptions);
@@ -71,6 +67,7 @@ function configuration(options) {
     sanitizerOptions,
     jsonl,
     identity,
+    collecting,
     engine:
       !options.sanitizer || suppliedOptions
         ? engine
@@ -80,6 +77,26 @@ function configuration(options) {
               return engine.sanitize(result.text);
             },
           },
+  };
+}
+function validatePass(options) {
+  if (options.twoPass !== undefined && typeof options.twoPass !== 'boolean') {
+    throw failure('ERR_CONFIG');
+  }
+}
+function identityConfiguration(
+  options,
+  suppliedOptions,
+  maxRecordBytes,
+  batchBytes
+) {
+  return {
+    ...suppliedOptions,
+    ...(options.sanitizerOptions ??
+      Object.fromEntries(
+        Object.entries(options).filter(([k]) => !streamKeys.has(k))
+      )),
+    maxInputLength: Math.max(maxRecordBytes, batchBytes) + 1,
   };
 }
 // Hold an incomplete record, multiline quotes, PEM blocks and wrapped base64.
@@ -174,7 +191,16 @@ function releaseBoundary(text, final) {
   return final ? text.length : boundary;
 }
 export async function* sanitizeStream(source, options = {}) {
-  const config = configuration(options);
+  if (options.twoPass) {
+    throw failure('ERR_CONFIG');
+  }
+  try {
+    yield* streamWithConfiguration(source, options, configuration(options));
+  } catch (error) {
+    throw internalFailure(error);
+  }
+}
+async function* streamWithConfiguration(source, options, config) {
   if (config.jsonl) {
     yield* sanitizeJsonlStream(source, options, config);
     return;
@@ -200,7 +226,9 @@ export async function* sanitizeStream(source, options = {}) {
       const text = pending.slice(0, boundary);
       pending = pending.slice(boundary);
       config.identity.prepare(text, await prepareStreamEngine(engine, text));
-      yield (await engine.sanitize(text)).text;
+      if (!config.collecting) {
+        yield (await engine.sanitize(text)).text;
+      }
     }
   }
   for await (const chunk of source) {
@@ -243,7 +271,10 @@ export async function sanitizeStreamToFile(source, path, options = {}) {
   try {
     await validateTarget(target, options.replace);
     handle = await open(temporary, 'wx', 0o600);
-    for await (const chunk of sanitizeStream(source, options)) {
+    const stream = options.twoPass
+      ? twoPassStream(source, temporary, options)
+      : sanitizeStream(source, options);
+    for await (const chunk of stream) {
       outputBytes += Buffer.byteLength(chunk);
       await handle.writeFile(chunk, 'utf8');
     }
@@ -258,10 +289,50 @@ export async function sanitizeStreamToFile(source, path, options = {}) {
     }
     return { outputBytes };
   } catch (error) {
-    throw failure(/^ERR_[A-Z_]+$/.test(error.code) ? error.code : 'ERR_OUTPUT');
+    throw /^ERR_[A-Z_]+$/.test(error?.code) ? error : failure('ERR_OUTPUT');
   } finally {
     await handle?.close();
     await unlink(temporary).catch(() => {});
+  }
+}
+async function* twoPassStream(source, temporary, options) {
+  const spool = `${temporary}.input`;
+  let input;
+  try {
+    const discovery = configuration(options, true);
+    input = await open(spool, 'wx', 0o600);
+    async function* capture() {
+      let total = 0;
+      for await (const chunk of source) {
+        const bytes = Buffer.from(chunk);
+        total += bytes.length;
+        if (total > discovery.maxTotalBytes) {
+          throw failure('ERR_LIMIT');
+        }
+        await input.writeFile(bytes);
+        yield bytes;
+      }
+    }
+    for await (const chunk of streamWithConfiguration(
+      capture(),
+      options,
+      discovery
+    )) {
+      void chunk;
+    }
+    await input.close();
+    input = undefined;
+    const complete = {
+      ...options,
+      twoPass: false,
+      sanitizerOptions: discovery.sanitizerOptions,
+    };
+    yield* sanitizeStream(createReadStream(spool), complete);
+  } catch (error) {
+    throw internalFailure(error);
+  } finally {
+    await input?.close();
+    await unlink(spool).catch(() => {});
   }
 }
 async function validateTarget(target, replace) {
@@ -294,7 +365,7 @@ export async function sanitizeFileToFile(source, target, options = {}) {
     );
     return { ...result, inputBytes: info.size };
   } catch (error) {
-    throw failure(/^ERR_[A-Z_]+$/.test(error.code) ? error.code : 'ERR_FILE');
+    throw /^ERR_[A-Z_]+$/.test(error?.code) ? error : failure('ERR_FILE');
   } finally {
     await handle?.close();
   }
@@ -349,7 +420,9 @@ function workerResult(worker, timeoutMs) {
     };
     worker.once('message', (result) => {
       clearTimeout(timer);
-      result.error ? reject(failure(result.error)) : accept(result.value);
+      result.error
+        ? reject(failure(result.error, result))
+        : accept(result.value);
     });
     worker.once('error', fail);
     worker.once('exit', fail);

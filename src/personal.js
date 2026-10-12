@@ -2,6 +2,7 @@ import { collectMatches, escapePattern } from './detection.js';
 import { firstNames } from './names.js';
 import { labels } from './rules.js';
 import { transliteratedGivenNames } from './transliteration.js';
+import { serviceAccounts } from './public.js';
 const labelWords = new Set(Object.values(labels).flat());
 
 const details = (type, rule, confidence = 0.85) => ({
@@ -102,10 +103,36 @@ const slavicPairs = new RegExp(
 const documentWord =
   /^(?:PASSPORT|VISA|ID|PHOTO|SCAN|ПАСПОРТ|ВИЗА|СКАН|ФОТО)$/iu;
 const placeWord = /^(?:Bay|Sands|Hotel|Street|Road|Avenue)$/iu;
+const givenWords = new Set(
+  Object.values(firstNames)
+    .flatMap((list) => list.toLowerCase().split(' '))
+    .concat(transliteratedGivenNames.map((name) => name.toLowerCase()))
+);
+function nameShaped(candidates) {
+  return (
+    candidates.some((token) => givenWords.has(token[0].toLowerCase())) ||
+    candidates.every((token) =>
+      /^(?:\p{Lu}\p{Ll}[\p{L}\p{M}]*|\p{Lu}{2,32})$/u.test(token[0])
+    )
+  );
+}
+function documentReference(text, match) {
+  const following = text.slice(
+    match.index + match[0].length,
+    match.index + match[0].length + 16
+  );
+  return (
+    /^\.[a-z\d]{1,10}(?![\p{L}\p{N}_])/iu.test(following) ||
+    /[/\\]/.test(text[match.index - 1] ?? '')
+  );
+}
 function detectDocumentNames(text, emit) {
   for (const match of text.matchAll(
     /(?<![\p{L}\p{N}_-])[\p{L}]{2,32}(?:[_-][\p{L}]{2,32}){1,12}(?![\p{L}\p{N}_-])/gu
   )) {
+    if (!documentReference(text, match)) {
+      continue;
+    }
     // Field names such as NATIONAL_ID identify the label, not its value.
     if (
       /^[ \t]*(?:["'][ \t]*)?[:=：]/.test(
@@ -135,6 +162,9 @@ function detectDocumentNames(text, emit) {
           continue;
         }
         candidates.sort((a, b) => a.index - b.index);
+        if (!nameShaped(candidates)) {
+          continue;
+        }
         emit({
           start: match.index + candidates[0].index,
           end:
@@ -206,7 +236,8 @@ export function detectPersonal(text, emit) {
     /(?:\/Users\/|\/home\/|[A-Za-z]:\\Users\\)([^/\\\s"'<>[\]]+)/g,
     emit,
     details('USERNAME', 'home-path', 0.95),
-    1
+    1,
+    (value) => !serviceAccounts.has(value.toLowerCase())
   );
   detectIban(text, emit);
 }

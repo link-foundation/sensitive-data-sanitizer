@@ -23,6 +23,7 @@ export async function streamCommand(
       maxRecordBytes: config.maxRecordBytes,
       maxTotalBytes: config.maxBytes,
       replace: Boolean(config.inPlace),
+      twoPass: Boolean(config.twoPass),
     };
     if (config.path === '-') {
       await sanitizeStreamToFile(stdin, target, {
