@@ -19,6 +19,7 @@ import {
   structuredBatches,
   mapStructuredFindings,
   preserveIdentifierKeys,
+  structuredValueRanges,
   verifyStructured,
 } from './structured.js';
 
@@ -276,7 +277,7 @@ function likelihood(confidence) {
 function allowed(text, finding, policy) {
   if (
     finding.category === 'credential' ||
-    finding.rule === 'known-personal' ||
+    ['known-personal', 'confirmed-personal'].includes(finding.rule) ||
     !publicTypes.has(finding.type)
   ) {
     return false;
@@ -307,7 +308,7 @@ function encodedDetect(text, options, emit) {
     const found = [];
     const view = projectText(run.text).text;
     nativeDetect(view, options, (f) => found.push(f));
-    const sensitive = markFake(view, found, options).filter((f) =>
+    const sensitive = reviewFindings(view, found, options).filter((f) =>
       actionable(f, options)
     );
     if (sensitive.length) {
@@ -456,7 +457,12 @@ export function inspectFindingsOnly(text, findings, options) {
       text,
       preserveIdentifierKeys(
         text,
-        propagate(text, markFake(text, all, options), options),
+        propagate(
+          text,
+          markFake(text, all, options),
+          options,
+          options.structured ? structuredValueRanges(text, options) : undefined
+        ),
         options
       ),
       options

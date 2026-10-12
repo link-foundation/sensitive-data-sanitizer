@@ -298,11 +298,12 @@ export function createSanitizer(options = {}) {
 function eligiblePublic(text, finding, findings) {
   return (
     finding.category !== 'credential' &&
-    finding.rule !== 'known-personal' &&
+    !['known-personal', 'confirmed-personal'].includes(finding.rule) &&
     ['PERSON', 'ORGANIZATION', 'EMAIL'].includes(finding.type) &&
     !findings.some(
       (f) =>
-        (f.category === 'credential' || f.rule === 'known-personal') &&
+        (f.category === 'credential' ||
+          ['known-personal', 'confirmed-personal'].includes(f.rule)) &&
         f.start < finding.end &&
         f.end > finding.start
     ) &&

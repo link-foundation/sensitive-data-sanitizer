@@ -113,8 +113,23 @@ export function structuredBatches(text, options) {
   return batches;
 }
 
+export function structuredValueRanges(text, options) {
+  return structuredBatches(text, options).flatMap((batch) =>
+    batch.entries
+      .filter((entry) => !entry.key)
+      .map((entry) => ({
+        start: entry.start + 1,
+        end: entry.start + entry.raw.length - 1,
+      }))
+  );
+}
+
 function weakStructuralFinding(finding, entry, batchText) {
-  if (finding.rule === 'known-secret' || finding.rule === 'known-personal') {
+  if (
+    ['known-secret', 'known-personal', 'confirmed-personal'].includes(
+      finding.rule
+    )
+  ) {
     return false;
   }
   if (finding.category === 'personal') {
@@ -179,6 +194,8 @@ export function preserveIdentifierKeys(text, findings, options) {
 }
 function preserveStructuredEntry(entry, finding, text, options) {
   return (
+    (entry.key &&
+      ['confirmed-personal', 'document-propagation'].includes(finding.rule)) ||
     ordinaryPersonalKey(entry, finding) ||
     (!entry.key &&
       options.structuralFields?.includes(entry.field) &&
@@ -214,6 +231,9 @@ export function mapStructuredFindings(batch, findings, options) {
       }
       const start = Math.max(lo, finding.start),
         end = Math.min(hi, finding.end);
+      if (end <= start) {
+        continue;
+      }
       // A detector that crosses a token boundary cannot safely describe a
       // partial string. Redact that string's complete content instead.
       const crosses = finding.start < lo || finding.end > hi;

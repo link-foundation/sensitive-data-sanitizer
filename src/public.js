@@ -97,7 +97,7 @@ export function isPublic(text, finding, options) {
   if (
     options.publicKnowledge === false ||
     finding.category === 'credential' ||
-    finding.rule === 'known-personal'
+    ['known-personal', 'confirmed-personal'].includes(finding.rule)
   ) {
     return false;
   }

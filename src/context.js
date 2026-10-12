@@ -2,6 +2,7 @@ import { labels } from './rules.js';
 import { escapePattern, REDACTED } from './detection.js';
 import { credentialPlaceholder } from './credentials.js';
 import { servicePath } from './public.js';
+import { plausiblePerson } from './names.js';
 
 // Bounded vocabularies are explicit so the short PASS/PW forms do not match
 // unrelated words such as passport. Verb forms cover the supported locales.
@@ -128,6 +129,10 @@ function quotedRange(text, start, opening, maxLength) {
     if (slashes === depth) {
       return { start: valueStart, end: i - depth };
     }
+    // A containing JSON string can close before an unfinished inner quote.
+    if (quote === '"' && slashes < depth && slashes % 2 === 0) {
+      return { start: valueStart, end: Math.max(valueStart, i) };
+    }
   }
   return {
     start: valueStart,
@@ -135,10 +140,26 @@ function quotedRange(text, start, opening, maxLength) {
   };
 }
 
+function plausibleLabel(value, type) {
+  if (type === 'PERSON') {
+    return plausiblePerson(value.replace(/[,;\d].*$/s, '').trim());
+  }
+  if (['STATE', 'US_STATE', 'CITY', 'REGION', 'PROVINCE'].includes(type)) {
+    return (
+      /^[\p{L}\p{M}][\p{L}\p{M} .’'-]{1,79}$/u.test(value) &&
+      (!/\p{Ll}/u.test(value) || /\p{Lu}/u.test(value))
+    );
+  }
+  return true;
+}
+
 // Shared by native labels and the vendor catalogs. Code expressions and
 // line escapes are not personal field values, even when a key is familiar.
 export function personalValueAllowed(text, range, type, labelStart) {
   const value = text.slice(range.start, range.end).trim();
+  if (!plausibleLabel(value, type)) {
+    return false;
+  }
   if (['LOCATION', 'ADDRESS'].includes(type) && servicePath(value)) {
     return false;
   }

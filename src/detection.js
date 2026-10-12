@@ -1,7 +1,7 @@
 import { cardNetwork, cardEvidence } from './confidence.js';
 import { isIP } from 'node:net';
 import { serviceRules } from './rules.js';
-import { detectContext } from './context.js';
+import { detectContext, valueRange } from './context.js';
 import { detectPersonal } from './personal.js';
 import { detectGitleaks } from './gitleaks.js';
 import { detectCatalog } from './entities.js';
@@ -105,6 +105,24 @@ export function luhn(value) {
   return total % 10 === 0;
 }
 
+function detectCookies(text, emit) {
+  for (const match of text.matchAll(/(?:Set-)?Cookie[ \t]*:[ \t]*/gi)) {
+    const range = valueRange(text, match.index + match[0].length, 'line');
+    if (
+      range &&
+      range.end > range.start &&
+      text.slice(range.start, range.end) !== REDACTED
+    ) {
+      emit({
+        ...range,
+        type: 'SECRET',
+        category: 'credential',
+        rule: 'cookie',
+      });
+    }
+  }
+}
+
 export function nativeDetect(text, options, emit) {
   const credential = { type: 'SECRET', category: 'credential' };
   detectGitleaks(text, emit);
@@ -132,7 +150,7 @@ export function nativeDetect(text, options, emit) {
     collectMatches(text, pattern, emit, {
       type: entry.type,
       category: 'personal',
-      rule: 'known-personal',
+      rule: 'confirmed-personal',
       confidence: 0.9,
     });
   }
@@ -166,13 +184,7 @@ export function nativeDetect(text, options, emit) {
     { ...credential, rule: 'authorization' },
     1
   );
-  collectMatches(
-    text,
-    /(?:Set-)?Cookie[ \t]*:[ \t]*([^\r\n]+)/gi,
-    emit,
-    { ...credential, rule: 'cookie' },
-    1
-  );
+  detectCookies(text, emit);
   collectMatches(
     text,
     /(?<![a-z0-9+.-])[a-z][a-z0-9+.-]*:\/\/([^\s/@]+)@/gi,
@@ -237,7 +249,13 @@ export function nativeDetect(text, options, emit) {
     emit,
     { type: 'IP_ADDRESS', category: 'personal', rule: 'ipv6' },
     0,
-    (v) => isIP(v) === 6
+    // Rust paths such as a::b and namespace prefixes are valid IPv6 syntax,
+    // but carry no useful address evidence in coding-session text.
+    (v) =>
+      isIP(v) === 6 &&
+      v !== '::' &&
+      !/^[a-fA-F0-9]{0,4}::$/.test(v) &&
+      (v.split(':').filter(Boolean).length >= 3 || /\d/.test(v))
   );
   if (options.paranoid) {
     collectMatches(

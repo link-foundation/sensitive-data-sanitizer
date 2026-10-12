@@ -37,7 +37,7 @@ const streamKeys = new Set([
   'maxRegistryValues',
   'twoPass',
 ]);
-function configuration(options, collecting = false) {
+function configuration(options, collecting = false, complete) {
   validatePass(options);
   const suppliedOptions = sanitizerConfiguration(options.sanitizer);
   const jsonl =
@@ -56,7 +56,8 @@ function configuration(options, collecting = false) {
   const identity = streamIdentity(
     identityConfiguration(options, suppliedOptions, maxRecordBytes, batchBytes),
     options.maxRegistryValues,
-    collecting
+    collecting,
+    complete
   );
   const sanitizerOptions = identity.options;
   const engine = createSanitizer(sanitizerOptions);
@@ -327,7 +328,11 @@ async function* twoPassStream(source, temporary, options) {
       twoPass: false,
       sanitizerOptions: discovery.sanitizerOptions,
     };
-    yield* sanitizeStream(createReadStream(spool), complete);
+    yield* streamWithConfiguration(
+      createReadStream(spool),
+      complete,
+      configuration(complete, false, true)
+    );
   } catch (error) {
     throw internalFailure(error);
   } finally {

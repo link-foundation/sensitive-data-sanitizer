@@ -140,6 +140,14 @@ remain protected in declared fields. Custom required detectors still run.
 Escaped nested JSON retains encoding. Invalid JSON and key collisions block
 publication with `ERR_JSON` / `ERR_JSON_COLLISION`.
 
+Inferred personal values propagate only inside JSON string values. They never
+rewrite keys, numbers, booleans, null or structural punctuation. Direct findings
+on sensitive non-identifier keys and explicitly known private keys remain
+protected. Personal name labels require plausible name words; lowercase code
+identifiers, product/tool words and punctuation do not establish a person.
+Place labels require natural place text rather than code expressions or lowercase
+status identifiers. Explicit `knownPersonal` values override these heuristics.
+
 Oversized encoded runs receive a conservative complete-run `ENCODED_LIMIT`
 redaction rather than aborting the record. Decoding probes are capped at 4,096
 characters; full decoding stays capped at 8,192 characters. Whole-input,
@@ -235,6 +243,14 @@ The default remains one pass. `twoPass` is supported only by atomic file APIs;
 stdin and `--in-place`. Record, input-byte and registry bounds still apply;
 discovery retains confirmed values only and does not retain prior-token history.
 Required detectors run during collection and final publication verification.
+
+Confirmation values are trimmed before normalization in both passes. Registry
+matches use the `confirmed-personal` finding rule and do not seed new values
+from their matched spans. Pass 2 redacts any additional confirmation without
+raising `ERR_LATE_PERSONAL`; it still enforces registry limits and residual
+verification. Optional `debug` reports a `two-pass-confirmation` event containing
+only the entity type when that happens. One-pass streaming retains its late
+confirmation guard.
 
 Personal label values stop at escaped line breaks and quotes and are capped at
 512 UTF-16 units. Phone and email labels require matching value shapes. Inferred
