@@ -61,7 +61,7 @@ describe('prepared stream findings and verification', () => {
         {
           detect(text) {
             const start = text.indexOf('ordinary');
-            return ++calls === 1
+            return ++calls === 1 || start < 0
               ? []
               : [
                   {
@@ -77,13 +77,11 @@ describe('prepared stream findings and verification', () => {
       ],
     });
     await prepareStreamEngine(engine, input, []);
-    let code;
-    try {
-      await engine.sanitize(input);
-    } catch (error) {
-      code = error.code;
-    }
-    expect(code).toBe('ERR_RESIDUAL');
+    // Fresh verification finds the late value, and the fixed-point round
+    // redacts it although the coordinator prepared no findings.
+    const output = (await engine.sanitize(input)).text;
+    expect(JSON.parse(output).text).toBe('[REDACTED]');
+    expect(calls > 2).toBe(true);
   });
 });
 describe('private stream confirmations and publication', () => {

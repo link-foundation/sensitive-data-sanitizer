@@ -51,10 +51,32 @@ const key = `(?:[\\p{L}\\p{N}]+[_.-])*(?:auth|authorization)(?:[_.-][\\p{L}\\p{N
   .join(
     '|'
   )})[\\p{L}\\p{N}_.-]{0,32}|(?:[\\p{L}\\p{N}_.-]{1,32}[_-])?(?:pass|pw)(?:[_-][\\p{L}\\p{N}_.-]{1,32})?`;
+// A qualifier such as "for staging" stays on one logical line: it never
+// crosses an escaped line break, an escape sequence or an enclosing quote.
+// Verbs are whole words, so "request" does not end in the verb "est".
 const credentialPrefix = new RegExp(
-  `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(${key})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?(?:[ \\t]+(?:от|для|к|for|de|du|del)[^:=\\r\\n]{1,64})?[ \\t]*([:=：]|(?:${verbs})(?![\\p{L}\\p{N}_]))[ \\t]*`,
+  `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(${key})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?(?:[ \\t]+(?:от|для|к|for|de|du|del)[ \\t]+[^:=\\r\\n"\\\\]{1,64})?[ \\t]*([:=：]|(?<![\\p{L}\\p{N}_])(?:${verbs})(?![\\p{L}\\p{N}_]))[ \\t]*`,
   'giu'
 );
+// Bare generic labels are common English nouns. After a verb they need a
+// value that looks generated; "the token is valid" is prose, not a secret.
+const genericLabel =
+  /^(?:token|sig|sas|secret|auth|authorization|cookie|секрет|токен)$/iu;
+function generatedWord(text, range) {
+  const word = /^[^\s]+/u
+    .exec(text.slice(range.start, range.end))?.[0]
+    .replace(/[.,;:!?)]+$/u, '');
+  if (
+    !word ||
+    !(
+      (word.length >= 6 && /\p{L}/u.test(word) && /\d/.test(word)) ||
+      /^[\w+/=.-]{20,}$/.test(word)
+    )
+  ) {
+    return undefined;
+  }
+  return { start: range.start, end: range.start + word.length };
+}
 const ignored =
   /^(?:true|false|null|undefined|await|async|function|none|nil)$/i;
 
@@ -86,7 +108,9 @@ function emitValue(text, start, end, emit, details, keyName = '') {
 export function valueRange(text, start, mode = 'token', maxLength = Infinity) {
   const opening = text.slice(start).match(/^(\\*)(["'])/);
   if (opening) {
-    return quotedRange(text, start, opening, maxLength);
+    const range = quotedRange(text, start, opening, maxLength);
+    const outer = outerQuoteEnd(text, range.start, range.end);
+    return outer === undefined ? range : { ...range, end: outer };
   }
   if (/^[{[]/.test(text.slice(start, start + 1))) {
     return undefined;
@@ -215,9 +239,13 @@ function outerQuoteEnd(text, start, end) {
     }
     opening--;
   }
+  // Structured batches put each JSON string on its own line, after an
+  // optional field prefix; values never continue into the next token.
   if (
     opening < 0 ||
-    !/:\s*$/.test(text.slice(Math.max(0, opening - 8), opening))
+    (opening > 0 &&
+      text[opening - 1] !== '\n' &&
+      !/:\s*$/.test(text.slice(Math.max(0, opening - 8), opening)))
   ) {
     return undefined;
   }
@@ -251,7 +279,10 @@ function detectCredentials(text, emit) {
         : /[:：]/.test(match[2])
           ? 'line'
           : 'prose';
-    const range = valueRange(text, start, mode);
+    let range = valueRange(text, start, mode);
+    if (range && mode === 'prose' && genericLabel.test(match[1])) {
+      range = generatedWord(text, range);
+    }
     if (range) {
       emitValue(text, range.start, range.end, emit, details, match[1]);
     }
