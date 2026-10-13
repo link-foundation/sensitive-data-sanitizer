@@ -1,6 +1,7 @@
 import { URL } from 'node:url';
 import { readFile } from 'node:fs/promises';
 import { issue36Cases } from './issue-36-sessions.mjs';
+import { issue38Cases } from './issue-38-sessions.mjs';
 
 // Public Codex policy excerpt from issue 34; finite policy tails approximate
 // real vendor prompt sizes. No private user sessions are embedded here.
@@ -69,6 +70,9 @@ export async function sessionCorpus() {
               )
           )
           .flatMap((fixture) => fixture.records),
+        ...issue38Cases
+          .flatMap((fixture) => fixture.records)
+          .filter((record) => record.payload),
       ],
     },
     {
@@ -138,6 +142,9 @@ export async function sessionCorpus() {
             ].includes(fixture.name)
           )
           .flatMap((fixture) => fixture.records),
+        ...issue38Cases
+          .flatMap((fixture) => fixture.records)
+          .filter((record) => record.toolUseResult),
         {
           wireToolInputs: {
             toolu_01PRIVATE: {

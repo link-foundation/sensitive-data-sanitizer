@@ -57,10 +57,15 @@ try {
         );
         assert(output.includes('codec::'));
         assert(output.includes('nom::{'));
+        assert(output.includes('{"text":"sig:\' "}'));
+        assert(output.includes('request-log write lock'));
+        assert(!output.includes('private_key:9'));
       } else {
         assert(output.includes('name:Claude'));
         assert(output.includes('Claude...'));
         assert(output.includes('Authorization:'));
+        assert(output.includes('token for ES.\\nes u'));
+        assert(output.includes('SIG for\\n:sig is d'));
       }
       assert(output.includes('Elon Musk'));
       assert(output.includes('state:.[0].status'));
