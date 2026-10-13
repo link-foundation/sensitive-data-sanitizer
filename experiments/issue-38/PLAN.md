@@ -17,7 +17,7 @@
       keep logs in dev/log/issue-38.
 - [x] Commit atomic changes, push only to issue-38-bc8becdd8d18, and update
       PR 39.
-- [ ] Verify CI on the final commit, then mark PR 39 ready.
+- [x] Verify CI on the final commit, then mark PR 39 ready.
 
 Experiments use finite inputs. No private session files were supplied;
 validation uses the public issue examples and the repository corpus.
