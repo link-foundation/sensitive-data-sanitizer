@@ -1,6 +1,7 @@
 import { actionable } from './confidence.js';
 import {
   auditFaked,
+  redactAgain,
   inspect,
   redactResultAsync,
   validateOptions,
@@ -233,9 +234,10 @@ export function createSanitizer(options = {}) {
   async function sanitizeText(
     text,
     depth = 0,
-    fullRedaction = false,
-    plain = false,
-    scopedOptions = options
+    fullRedaction,
+    plain,
+    scopedOptions = options,
+    round = 0
   ) {
     const options = scopedOptions;
     const findings =
@@ -286,7 +288,9 @@ export function createSanitizer(options = {}) {
         actionable(f, options)
       )
     ) {
-      throw failure('ERR_RESIDUAL');
+      return redactAgain(result, findings, options, round, (next, nextRound) =>
+        sanitizeText(result.text, depth, fullRedaction, plain, next, nextRound)
+      );
     }
     if (options.structured && !plain) {
       verifyStructured(result.text, options);

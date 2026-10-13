@@ -26,6 +26,9 @@ export function internalFailure(error) {
   return /^ERR_[A-Z_]+$/.test(error?.code) ? error : failure();
 }
 export const maxPropagationLength = 256;
+// Verification redacts values found again after a replacement, up to this many
+// extra rounds, before publication fails closed with ERR_RESIDUAL.
+export const residualRounds = 3;
 export function personalPattern(value) {
   if (value.length > maxPropagationLength) {
     throw failure('ERR_LIMIT');

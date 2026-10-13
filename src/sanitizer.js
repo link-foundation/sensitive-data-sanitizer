@@ -8,6 +8,7 @@ import {
   internalFailure,
   nativeDetect,
   REDACTED,
+  residualRounds,
 } from './detection.js';
 import { projectText } from './projection.js';
 import { decodedRuns, encodeRun, encodedValue } from './encoded.js';
@@ -580,11 +581,25 @@ function validatedSpans(text, findings, options) {
   for (const f of retained) {
     const last = spans.at(-1);
     if (last && f.start < last.end) {
+      // A credential value covering a whole escaped JSON run is the secret
+      // itself; re-encoding its sanitized content would leave part of that
+      // value. Self-contained payloads such as base64 are still re-encoded.
+      const covered = (outer, inner) =>
+        outer.category === 'credential' &&
+        outer.type !== 'ENCODED_SENSITIVE' &&
+        inner.type === 'ENCODED_SENSITIVE' &&
+        outer.start <= inner.start &&
+        outer.end >= inner.end &&
+        encodedValue(text.slice(inner.start, inner.end))?.encoding ===
+          'json-content';
+      const credentialRun = covered(last, f) || covered(f, last);
       last.end = Math.max(last.end, f.end);
       if (f.category === 'credential') {
         last.category = 'credential';
       }
-      if (preferredType(last.type, f.type, options)) {
+      if (credentialRun) {
+        last.type = 'SECRET';
+      } else if (preferredType(last.type, f.type, options)) {
         last.type = f.type;
       }
     } else {
@@ -702,7 +717,7 @@ export function sanitize(text, options = {}) {
     throw internalFailure(error);
   }
 }
-function sanitizeText(text, options = {}) {
+function sanitizeText(text, options = {}, round = 0) {
   options = applyProfile(options);
   const findings = inspect(text, options);
   const result = redactResult(text, findings, options);
@@ -718,7 +733,9 @@ function sanitizeText(text, options = {}) {
       actionable(f, options)
     )
   ) {
-    throw failure('ERR_RESIDUAL');
+    return redactAgain(result, findings, options, round, (next, nextRound) =>
+      sanitizeText(result.text, next, nextRound)
+    );
   }
   if (options.structured) {
     verifyStructured(result.text, options);
@@ -738,6 +755,23 @@ function validateLimits(options) {
   if (options.debug !== undefined && typeof options.debug !== 'function') {
     throw failure('ERR_CONFIG');
   }
+}
+
+// A value found again after redaction, for example when raw and decoded
+// layers disagree about a span, is redacted in another round. Only a run that
+// does not converge within residualRounds fails closed.
+export function redactAgain(result, findings, options, round, rerun) {
+  if (round >= residualRounds) {
+    throw failure('ERR_RESIDUAL');
+  }
+  options.debug?.({ event: 'residual-redaction', round: round + 1 });
+  const merge = (next) => ({
+    ...next,
+    redactions: result.redactions + next.redactions,
+    findings: auditFaked(findings, options, result),
+  });
+  const next = rerun({ ...options, findings: [] }, round + 1);
+  return next instanceof Promise ? next.then(merge) : merge(next);
 }
 
 export function auditFaked(findings, options, result) {

@@ -257,6 +257,21 @@ Personal label values stop at escaped line breaks and quotes and are capped at
 propagation seeds are capped at 256 units; longer detected spans are still
 redacted but do not enter the propagation registry. `debug` reports a
 `propagation-skipped` event containing only the type and reason when this happens.
+
+Credential label values stay inside their logical line and enclosing JSON
+string: they stop at escaped line breaks, escape sequences and the closing quote,
+and never continue into the next JSON key. A qualifier such as `token for
+staging:` needs a separator on the same line, verbs such as `is` must be whole
+words, and generic labels such as `token`, `sig` or `secret` followed by a verb
+need a generated-looking value, so prose such as `the token is valid` remains
+text. A credential covering a whole escaped JSON run is redacted as one value.
+
+Residual verification redacts the fully masked output again when any engine
+still finds an actionable value, for example when raw and decoded layers
+disagree about a span. Up to three additional rounds run; each reports a
+`residual-redaction` debug event containing only the round number. Output that
+does not converge, or whose structure becomes invalid, still fails closed with
+`ERR_RESIDUAL` or the matching structured error.
 Ordinary identifier keys retain their spelling unless explicitly configured as
 private. Document names require a filename extension or path plus name-shaped
 words or a known given name. Known CI service accounts in home paths and the
