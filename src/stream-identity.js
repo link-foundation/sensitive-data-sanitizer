@@ -77,6 +77,9 @@ export function streamIdentity(
   return {
     options: configuration,
     prepare(text, findings = inspect(text, configuration)) {
+      if (configuration.credentialsOnly) {
+        return [];
+      }
       confirm(text, findings);
       if (collecting || complete) {
         return [...personal];

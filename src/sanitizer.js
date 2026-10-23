@@ -27,6 +27,7 @@ import {
 const fakedResults = new WeakMap();
 const publicTypes = new Set(['PERSON', 'ORGANIZATION', 'EMAIL']);
 const optionNames = new Set([
+  'credentialsOnly',
   'knownSecrets',
   'knownPersonal',
   'confirmedPersonal',
@@ -143,6 +144,7 @@ export function validateOptions(options = {}) {
   }
   for (const key of [
     'paranoid',
+    'credentialsOnly',
     'decode',
     'secretlint',
     'publicKnowledge',
@@ -210,7 +212,7 @@ export function validateInput(text, options) {
   if (typeof text !== 'string') {
     throw failure('ERR_INPUT');
   }
-  if (text.length > (options.maxInputLength ?? 10 * 1024 * 1024)) {
+  if (text.length > (options.maxInputLength ?? 32 * 1024 * 1024)) {
     throw failure('ERR_LIMIT');
   }
 }
@@ -471,7 +473,14 @@ export function inspectFindingsOnly(text, findings, options) {
   );
 }
 
+function selectedFindings(findings, credentialsOnly) {
+  return credentialsOnly
+    ? findings.filter((finding) => finding.category === 'credential')
+    : findings;
+}
+
 export function markFake(text, findings, options) {
+  findings = selectedFindings(findings, options.credentialsOnly);
   const generated = generatedValues(options);
   if (
     !options.fakeIdentity &&

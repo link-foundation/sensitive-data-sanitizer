@@ -1,30 +1,86 @@
 import { failure } from './detection.js';
+import { readTextFile } from './files.js';
 
-/** Opt-in literal values from explicitly selected credential environment keys. */
-export function knownSecretsFromEnv(
-  env = process.env,
-  names = [
-    'GH_TOKEN',
-    'GITHUB_TOKEN',
-    'GITHUB_PAT',
-    'OPENAI_API_KEY',
-    'CODEX_API_KEY',
-    'ANTHROPIC_API_KEY',
-    'CLAUDE_API_KEY',
-    'CLAUDE_CODE_OAUTH_TOKEN',
-    'GEMINI_API_KEY',
-    'GOOGLE_API_KEY',
-    'QWEN_API_KEY',
-    'DASHSCOPE_API_KEY',
-    'HF_TOKEN',
-    'HUGGINGFACE_TOKEN',
-    'TELEGRAM_BOT_TOKEN',
-    'AWS_SECRET_ACCESS_KEY',
-    'AWS_SESSION_TOKEN',
-    'NPM_TOKEN',
-    'SLACK_BOT_TOKEN',
-  ]
-) {
+/** Explicitly load every host/account token from gh's local YAML config. */
+export async function knownSecretsFromGitHubConfig({ path } = {}) {
+  if (path !== undefined && (typeof path !== 'string' || !path)) {
+    throw failure('ERR_CONFIG');
+  }
+  const { lstat } = await import('node:fs/promises');
+  path ??= await gitHubConfigPath();
+  try {
+    await lstat(path);
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      return [];
+    }
+    throw failure('ERR_AUTH');
+  }
+  try {
+    const { parseDocument } = await import('yaml');
+    const document = parseDocument(await readTextFile(path, 1024 * 1024), {
+      logLevel: 'silent',
+      prettyErrors: false,
+    });
+    if (document.errors.length) {
+      throw failure('ERR_AUTH');
+    }
+    return configTokens(document.toJS({ maxAliasCount: 0 }));
+  } catch {
+    throw failure('ERR_AUTH');
+  }
+}
+
+async function gitHubConfigPath() {
+  const { join } = await import('node:path');
+  const { homedir } = await import('node:os');
+  const directory =
+    process.env.GH_CONFIG_DIR ||
+    (process.env.XDG_CONFIG_HOME
+      ? join(process.env.XDG_CONFIG_HOME, 'gh')
+      : process.platform === 'win32' && process.env.AppData
+        ? join(process.env.AppData, 'GitHub CLI')
+        : join(homedir(), '.config', 'gh'));
+  return join(directory, 'hosts.yml');
+}
+
+function configTokens(config) {
+  const values = new Set(),
+    pending = [config];
+  let count = 0;
+  while (pending.length) {
+    const entry = pending.pop();
+    if (!entry || typeof entry !== 'object') {
+      continue;
+    }
+    if (++count > 10000) {
+      throw failure('ERR_LIMIT');
+    }
+    for (const [key, value] of Object.entries(entry)) {
+      if (
+        ['oauth_token', 'api_token'].includes(key) &&
+        typeof value === 'string' &&
+        value.trim()
+      ) {
+        values.add(value);
+      } else if (value && typeof value === 'object') {
+        pending.push(value);
+      }
+    }
+  }
+  return [...values];
+}
+
+const secretEnvName =
+  /(?:^|_)(?:TOKEN|(?:API|ACCESS|PRIVATE)?KEY|SECRET|PASSWORD|PASSWD|CREDENTIALS?|AUTH|PAT)(?:_|$)/i;
+/** Opt-in literal values from credential-named keys, or an explicit selection. */
+export function knownSecretsFromEnv(env = process.env, names) {
+  if (names === undefined) {
+    names =
+      env && typeof env === 'object'
+        ? Object.keys(env).filter((name) => secretEnvName.test(name))
+        : [];
+  }
   if (
     !env ||
     typeof env !== 'object' ||

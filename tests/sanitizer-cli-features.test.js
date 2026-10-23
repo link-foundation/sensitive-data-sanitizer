@@ -64,7 +64,7 @@ describe('streaming publication CLI', () => {
     expect(result.status).toBe(0);
     expect(result.output).toBe('password: abc…nop\nname: [REDACTED]\n');
   });
-  it('publishes nothing after late malformed input and cleans private spool files', async () => {
+  it('publishes nothing after late binary input and cleans private spool files', async () => {
     if (typeof Deno !== 'undefined') {
       return;
     }
@@ -73,7 +73,7 @@ describe('streaming publication CLI', () => {
       const output = join(directory, 'result');
       const result = await invoke(
         ['redact', '-', '--stream', '--native-only', '--output', output],
-        ['ordinary\n'.repeat(40000), Buffer.from([0xc3, 0x28])]
+        ['ordinary\n'.repeat(40000), Buffer.from([0])]
       );
       expect(result.status).toBe(2);
       expect(result.output).toBe('');

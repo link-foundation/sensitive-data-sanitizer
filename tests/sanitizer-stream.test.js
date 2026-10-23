@@ -71,7 +71,7 @@ describe('bounded publication sanitization', () => {
       await rm(directory, { recursive: true, force: true });
     }
   });
-  it('blocks publication on a late invalid UTF-8 record and cleans temporary files', async () => {
+  it('blocks publication on a late invalid UTF-8 JSONL record and cleans temporary files', async () => {
     if (typeof Deno !== 'undefined') {
       return;
     }
@@ -81,11 +81,11 @@ describe('bounded publication sanitization', () => {
         output = join(directory, 'output.txt');
       await writeFile(
         input,
-        Buffer.concat([Buffer.from('ok\n'), Buffer.from([0xff])])
+        Buffer.concat([Buffer.from('{}\n'), Buffer.from([0xff])])
       );
       let blocked = false;
       try {
-        await sanitizeFileBounded(input, output);
+        await sanitizeFileBounded(input, output, { structured: 'jsonl' });
       } catch {
         blocked = true;
       }

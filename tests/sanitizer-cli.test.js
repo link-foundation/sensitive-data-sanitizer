@@ -94,7 +94,7 @@ describe('sanitizer CLI publication', () => {
     }
     for (const [args, input] of [
       [['redact', '-', '--max-bytes', '4'], 'password=secret'],
-      [['redact', '-'], Buffer.from([0xc3, 0x28])],
+      [['redact', '-', '--jsonl'], Buffer.from([0xc3, 0x28])],
     ]) {
       const result = invoke(args, input);
       expect(result.status).toBe(2);
@@ -254,4 +254,71 @@ it('audits removed historical blobs and author metadata without rewriting any re
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
+});
+
+describe('shared tool-log CLI options', () => {
+  it('keeps invalid bytes and public account details in whole, streaming and two-pass output', async () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
+    const input = Buffer.concat([
+      Buffer.from('email: public@account.example\n'),
+      Buffer.from([0xff, 0xc3, 0x28]),
+      Buffer.from('\npassword: hunter2\n'),
+    ]);
+    const expected = Buffer.concat([
+      Buffer.from('email: public@account.example\n'),
+      Buffer.from([0xff, 0xc3, 0x28]),
+      Buffer.from('\npassword: [REDACTED]\n'),
+    ]);
+    for (const flags of [[], ['--stream'], ['--stream', '--two-pass']]) {
+      const chunks = [];
+      const code = await runCli(
+        ['redact', '-', '--credentials-only', '--native-only', ...flags],
+        {
+          stdin: [input],
+          stdout: { write: (chunk) => chunks.push(Buffer.from(chunk)) },
+          stderr: { write() {} },
+        }
+      );
+      expect(code).toBe(0);
+      expect([...Buffer.concat(chunks)]).toEqual([...expected]);
+    }
+  });
+  it('collects exact environment and gh config values only when requested', () => {
+    if (typeof Deno !== 'undefined') {
+      return;
+    }
+    workspace((root) => {
+      writeFileSync(
+        join(root, 'hosts.yml'),
+        'github.com:\n  oauth_token: opaque-config-value\n'
+      );
+      const result = spawnSync(
+        process.execPath,
+        [
+          cli,
+          'redact',
+          '-',
+          '--env-secrets',
+          '--gh-config',
+          '--credentials-only',
+          '--native-only',
+        ],
+        {
+          input: 'opaque-env-value opaque-config-value public@account.example',
+          env: {
+            ...process.env,
+            GH_CONFIG_DIR: root,
+            MY_SERVICE_TOKEN: 'opaque-env-value',
+          },
+          encoding: 'utf8',
+        }
+      );
+      expect(result.status).toBe(0);
+      expect(result.stdout).toBe(
+        '[REDACTED] [REDACTED] public@account.example'
+      );
+    });
+  });
 });

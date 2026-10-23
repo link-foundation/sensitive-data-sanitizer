@@ -1,7 +1,16 @@
 import { collectMatches } from './detection.js';
 
 export function credentialPlaceholder(value) {
-  return /^(?:\$\{[A-Za-z_][A-Za-z0-9_]*\}|\$[A-Za-z_][A-Za-z0-9_]*|<[^<>]+>|\[REDACTED\])$/.test(
+  return (
+    /^(?:\$\{[A-Za-z_][A-Za-z0-9_]*\}|\$[A-Za-z_][A-Za-z0-9_]*|<[^<>]+>|\[REDACTED\])$/.test(
+      value
+    ) || referencePrefix(value)?.[0] === value
+  );
+}
+// Only variable references and the documented gh lookup are exempt. Arbitrary
+// shell commands and Actions expressions can contain literal credentials.
+export function referencePrefix(value) {
+  return /^(?:(?:token|Bearer|Basic)\s+)?(?:\$\{\{\s*(?:secrets|env|vars|github|inputs)\.[A-Za-z_][A-Za-z0-9_.]*\s*\}\}|\$\(gh\s+auth\s+token(?:\s+--hostname\s+[a-z0-9.-]+)?\))(?=$|[\s"',;])/i.exec(
     value
   );
 }

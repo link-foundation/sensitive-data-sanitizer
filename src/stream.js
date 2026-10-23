@@ -1,4 +1,4 @@
-import { TextDecoder } from 'node:util';
+import { LogDecoder, encodeLogText } from './log-bytes.js';
 import { constants, createReadStream } from 'node:fs';
 import {
   open,
@@ -44,10 +44,10 @@ function configuration(options, collecting = false, complete) {
     (options.sanitizerOptions?.structured ??
       suppliedOptions?.structured ??
       options.structured) === 'jsonl';
-  const maxRecordBytes =
-    options.maxRecordBytes ?? (jsonl ? 8 : 1) * 1024 * 1024;
   const batchBytes = options.batchBytes ?? 256 * 1024;
   const maxTotalBytes = options.maxTotalBytes ?? 1024 * 1024 * 1024;
+  const maxRecordBytes =
+    options.maxRecordBytes ?? (jsonl ? 8 * 1024 * 1024 : maxTotalBytes);
   for (const limit of [maxRecordBytes, batchBytes, maxTotalBytes]) {
     if (!Number.isSafeInteger(limit) || limit <= 0) {
       throw failure('ERR_CONFIG');
@@ -207,16 +207,18 @@ async function* streamWithConfiguration(source, options, config) {
     return;
   }
   const { engine, maxRecordBytes, batchBytes, maxTotalBytes } = config;
-  const decoder = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true });
+  const decoder = new LogDecoder();
   let pending = '',
-    total = 0;
+    total = 0,
+    pendingBytes = 0,
+    nextScan = Math.min(batchBytes, maxRecordBytes / 2);
   async function* process(final) {
-    if (Buffer.byteLength(pending) > maxRecordBytes) {
+    if (pendingBytes > maxRecordBytes) {
       throw failure('ERR_LIMIT');
     }
     // Until a batch can be released, rescanning every partial chunk only
     // repeats work. The byte bound above still applies on every chunk.
-    if (!final && pending.length < Math.min(batchBytes, maxRecordBytes / 2)) {
+    if (!final && pending.length < nextScan) {
       return;
     }
     const boundary = releaseBoundary(pending, final);
@@ -226,11 +228,18 @@ async function* streamWithConfiguration(source, options, config) {
     ) {
       const text = pending.slice(0, boundary);
       pending = pending.slice(boundary);
+      pendingBytes -= encodeLogText(text).length;
       config.identity.prepare(text, await prepareStreamEngine(engine, text));
       if (!config.collecting) {
         yield (await engine.sanitize(text)).text;
       }
     }
+    // An incomplete logical record is rescanned at geometrically increasing
+    // sizes, so arbitrary chunking cannot turn one long line quadratic.
+    nextScan = Math.max(
+      Math.min(batchBytes, maxRecordBytes / 2),
+      pending.length * 2
+    );
   }
   for await (const chunk of source) {
     const bytes = Buffer.from(chunk);
@@ -244,13 +253,15 @@ async function* streamWithConfiguration(source, options, config) {
       i += Math.min(65536, Math.max(1, maxRecordBytes / 4))
     ) {
       try {
-        pending += decoder.decode(
+        const decoded = decoder.decode(
           bytes.subarray(
             i,
             i + Math.min(65536, Math.max(1, maxRecordBytes / 4))
           ),
           { stream: true }
         );
+        pending += decoded;
+        pendingBytes += encodeLogText(decoded).length;
       } catch {
         throw failure('ERR_ENCODING');
       }
@@ -258,7 +269,9 @@ async function* streamWithConfiguration(source, options, config) {
     }
   }
   try {
-    pending += decoder.decode();
+    const decoded = decoder.decode();
+    pending += decoded;
+    pendingBytes += encodeLogText(decoded).length;
   } catch {
     throw failure('ERR_ENCODING');
   }
@@ -276,8 +289,9 @@ export async function sanitizeStreamToFile(source, path, options = {}) {
       ? twoPassStream(source, temporary, options)
       : sanitizeStream(source, options);
     for await (const chunk of stream) {
-      outputBytes += Buffer.byteLength(chunk);
-      await handle.writeFile(chunk, 'utf8');
+      const bytes = encodeLogText(chunk);
+      outputBytes += bytes.length;
+      await handle.writeFile(bytes);
     }
     await handle.sync();
     await handle.close();
