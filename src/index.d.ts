@@ -40,6 +40,8 @@ export interface Detector {
   detect(text: string): Finding[] | Promise<Finding[]>;
 }
 export interface SanitizerOptions {
+  /** Preserve all personal/account data; credential findings still redact. */
+  credentialsOnly?: boolean;
   profile?: 'publication';
   confirmedPersonal?: Array<{ value: string; type: string }>;
   knownSecrets?: string[];
@@ -166,6 +168,13 @@ export declare function knownSecretsFromEnv(
   env?: Record<string, string | undefined>,
   names?: string[]
 ): string[];
+/** Reversible UTF-8 view: invalid bytes use unpaired U+DC80..U+DCFF. */
+export declare function decodeLogBytes(bytes: Uint8Array): string;
+/** Encode sanitized text while restoring surrogate-escaped invalid bytes. */
+export declare function encodeLogText(text: string): Uint8Array;
+export declare function knownSecretsFromGitHubConfig(options?: {
+  path?: string;
+}): Promise<string[]>;
 export declare function personalVariants(
   entries: PersonalValue[]
 ): PersonalValue[];

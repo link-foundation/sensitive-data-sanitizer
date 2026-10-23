@@ -30,7 +30,7 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 | `secretlint`       | `true` in the asynchronous engine                                                             |
 | `decode`           | `true`; bounded base64/base64url, hex and percent decoding                                    |
 | `paranoid`         | `false`; entropy-based supplemental credential heuristic                                      |
-| `maxInputLength`   | 10,485,760 UTF-16 units                                                                       |
+| `maxInputLength`   | 33,554,432 UTF-16 units                                                                       |
 | `maxFindings`      | 100,000 detector hits before deduplication                                                    |
 | `minConfidence`    | 0.5; personal findings below this score remain visible to inspect but are not replaced        |
 | `threshold`        | Alias for minConfidence; both options must agree when supplied                                |
@@ -41,7 +41,7 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 | `structured`       | Off; `'json'` or `'jsonl'` validates and sanitizes string keys/values separately              |
 | `structuralFields` | `[]`; declared property names suppress weak name/ID/entropy heuristics in their string values |
 
-Unknown options and invalid limits are errors. `knownSecretsFromEnv(env, names)` explicitly selects common credential variables, deduplicating nonempty values. It never invokes shell commands or reads auth files. `personalVariants(entries)` generates numeric and ISO/day-first date spellings; name case variants are already handled by detection. Neither helper invents transliterations.
+Unknown options and invalid limits are errors. `knownSecretsFromEnv(env, names?)` discovers credential-named variables when names are omitted, or uses an explicit selection, deduplicating nonempty values. It never invokes shell commands or reads auth files. `personalVariants(entries)` generates numeric and ISO/day-first date spellings; name case variants are already handled by detection. Neither helper invents transliterations.
 
 ## Required detectors
 
@@ -156,7 +156,7 @@ large non-sensitive encoded outputs; its finding makes that decision auditable.
 
 ## Streaming and worker publication
 
-`sanitizeStream(source, options)` accepts iterable UTF-8 bytes/strings and yields sanitized records. It holds incomplete lines, quoted multiline values, PEM/PuTTY blocks, netrc triplets and wrapped base64 groups across chunks. Defaults: 1 MiB held plain-text record, 256 KiB batch and 1 GiB total input. A record exceeding `maxRecordBytes` fails; raising the total limit does not raise the record limit. The generator may have yielded earlier verified records when a later record fails. Use `sanitizeStreamToFile` for atomic publication of the whole stream.
+`sanitizeStream(source, options)` accepts iterable bytes/strings and yields sanitized records. It holds incomplete lines, quoted multiline values, PEM/PuTTY blocks, netrc triplets and wrapped base64 groups across chunks. Defaults: 256 KiB batch and 1 GiB total input. Plain-text records inherit the total input limit unless `maxRecordBytes` is set explicitly; JSONL retains its 8 MiB record default. A record exceeding an explicit `maxRecordBytes` fails. Incomplete records are held whole, so memory grows with the largest held record. Boundary scans occur at geometrically increasing sizes to avoid repeated scans of long lines. The generator may have yielded earlier verified records when a later record fails. Use `sanitizeStreamToFile` for atomic publication of the whole stream.
 
 For sessions above the whole-input limit, use `sanitizeStream(source, {structured: 'jsonl'})` alongside `engine.sanitizeJsonl(text)`. JSONL defaults to 8 MiB per record, supports arbitrary UTF-8 chunk boundaries and CRLF, and scans bounded record batches with two persistent workers in input order. `workers` selects 1–16; each worker has a 60-second job deadline. Node requests a 256 MiB old-generation heap and a 4 MiB stack; parent V8 sizing flags can override heap limits. Bun ignores worker resourceLimits, so its byte/queue limits and deadlines still apply but its worker heap is not capped. Worker failures and consumer cancellation terminate all workers. `workers: 1` runs in process; callbacks/custom sanitizers default to one and cannot be combined with parallel workers. Deno uses its in-process fallback because its Node compatibility lacks resource-limited worker threads.
 
@@ -207,7 +207,7 @@ Built-in Wikidata names/organizations, resolver/documentation IPs and role email
 
 `createWikidataVerifier(options)` provides optional asynchronous `verifyPublic`; the CLI enables it only with `--verify-public`. It sends eligible PERSON/ORGANIZATION names to Wikidata, requires an exact label and a public-role description, caches bounded results, and blocks output on network failure. Name collisions remain possible: this is a public-name heuristic, not proof of a person's identity. Explicit private literals and sensitive relationship contexts prevent automatic exemptions. Offline mode makes no network requests.
 
-`knownSecretsFromGitHubAuth({command, hostname, timeoutMs})` explicitly invokes local `gh auth token` and returns its nonempty exact value without diagnostics. It is never called automatically; failed authentication blocks opted-in scans. `knownSecretsFromEnv` remains separate and reads only explicitly selected environment variables.
+`knownSecretsFromGitHubAuth({command, hostname, timeoutMs})` explicitly invokes local `gh auth token` and returns its nonempty exact value without diagnostics. It is never called automatically; failed authentication blocks opted-in scans. `knownSecretsFromEnv` remains separate and reads credential-named environment values or an explicit name selection.
 
 `sanitizePayload(payload, {sanitizer})` sanitizes JSON payload values with the required union while retaining JSON structure. `createSentryBeforeSend(options)` returns a Sentry hook that drops the event (`null`) if sanitization fails. `createOutboundSanitizer(send, options)` calls the supplied transport only after successful sanitization. These helpers do not send data themselves.
 
@@ -279,8 +279,58 @@ GitHub runner workspace are preserved; caller-confirmed private values retain
 precedence.
 
 Valid JSON lone surrogate escapes (such as `\ud83d`) remain escaped and round-trip
-through redaction alongside emoji. Malformed UTF-8 bytes still block publication
+through redaction alongside emoji. Malformed UTF-8 bytes in structured JSONL still block publication
 with `ERR_ENCODING`. For JSONL streams, the error includes a one-based `record`,
 a zero-based absolute byte `offset`, and a zero-based `recordOffset`, identifying
 the start of the malformed sequence without exposing its contents. These
 positions survive bounded file workers and appear in CLI diagnostics.
+
+## Shared tool logs and byte preservation
+
+`credentialsOnly: true` filters all personal findings, including supplied,
+known, inferred, decoded, external-detector and structured findings. Credential
+findings retain the normal engine union, confidence rules and verification.
+This keeps EMAIL/account-ID values without per-value `publicEntities` entries.
+The default policy continues to protect personal data.
+
+`knownSecretsFromEnv(env = process.env, names?)` discovers nonempty exact values
+when `names` is omitted, using
+`/(?:^|_)(?:TOKEN|(?:API|ACCESS|PRIVATE)?KEY|SECRET|PASSWORD|PASSWD|CREDENTIALS?|AUTH|PAT)(?:_|$)/i`.
+This covers `MY_SERVICE_TOKEN`, `CLAUDE_CODE_OAUTH_TOKEN`, `CODEX_API_KEY`,
+`OPENCODE_API_KEY`, `DASHSCOPE_API_KEY`, `HF_TOKEN` and `TELEGRAM_BOT_TOKEN`.
+An explicit array keeps the previous selection behavior; `[]` selects nothing.
+These values are loaded only when the helper or CLI `--env-secrets` is requested.
+
+`await knownSecretsFromGitHubConfig({path?})` reads `oauth_token` and `api_token`
+strings from every host/account in a local YAML file. The default follows gh's
+`GH_CONFIG_DIR`, `XDG_CONFIG_HOME`, Windows `AppData`, then `~/.config/gh`
+precedence and appends `hosts.yml`. A missing file returns `[]`; malformed YAML,
+symlinks, aliases, files above 1 MiB and read failures produce value-free
+`ERR_AUTH`. YAML quoting is parsed with the `yaml` package, with alias expansion
+disabled. CLI `--gh-config` adds these exact values to `knownSecrets`.
+`knownSecretsFromGitHubAuth` / `--gh-auth` remain available independently.
+
+Plain log streams and CLI file/stdin/output/in-place paths preserve invalid
+UTF-8 bytes exactly. Valid Unicode keeps its normal meaning for detection.
+String APIs can use a reversible view:
+
+```js
+const view = decodeLogBytes(inputBytes);
+const result = await createSanitizer({ credentialsOnly: true }).sanitize(view);
+const outputBytes = encodeLogText(result.text);
+```
+
+`decodeLogBytes(Uint8Array)` represents each invalid byte with an unpaired
+U+DC80–U+DCFF surrogate; `encodeLogText(string)` restores those bytes. Use the
+encoder when collecting `sanitizeStream` string output containing such bytes.
+Ordinary UTF-8 string encoding would replace them and lose information.
+`sanitizeStreamToFile` and `sanitizeFileBounded` perform the encoding themselves,
+including workers and both passes. NUL bytes still identify binary input and
+block publication. JSON/JSONL, scanner protocol files and configuration retain
+strict UTF-8 validation; malformed bytes cannot represent valid JSON text.
+
+Default detection keeps RFC 1918, loopback, link-local and IPv6 local addresses,
+recognized auth-mode metadata, npm dependency version declarations, Actions
+permission values and literal credential references. `publicKnowledge: false`
+restores IP detection; explicit `knownSecrets` and `knownPersonal` retain
+priority. No shell command or workflow expression is executed.

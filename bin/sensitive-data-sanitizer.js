@@ -12,7 +12,12 @@ import {
 } from '../src/files.js';
 import { auditGitHistory } from '../src/history.js';
 import { rewriteGitHistory } from '../src/history-rewrite.js';
-import { knownSecretsFromGitHubAuth } from '../src/known.js';
+import {
+  knownSecretsFromGitHubAuth,
+  knownSecretsFromEnv,
+  knownSecretsFromGitHubConfig,
+} from '../src/known.js';
+import { encodeLogText } from '../src/log-bytes.js';
 import { createWikidataVerifier } from '../src/public-verifier.js';
 import { streamCommand } from './stream.js';
 import { sessionStructuralFields } from '../src/structured.js';
@@ -24,7 +29,7 @@ import {
 
 const help = `Usage: sensitive-data-sanitizer <redact|scan|history> [path|-] [options]
 
-redact    Sanitize one UTF-8 file or stdin; publish only after verification
+redact    Sanitize one text log or stdin; publish only after verification
 scan      Report metadata for a file, directory, or stdin (never source text)
 history   Audit local reachable Git blobs, commit/tag metadata, and reflogs
 history rewrite SOURCE --output DIRECTORY [--apply]
@@ -34,6 +39,9 @@ history rewrite SOURCE --output DIRECTORY [--apply]
 --output PATH       Write a new private output file atomically (redact only)
 --in-place          Atomically replace the input file (redact only)
 --native-only       Disable Secretlint; selected local detectors remain required
+--credentials-only  Preserve personal/account details; redact credentials only
+--env-secrets       Include values of all credential-named environment variables
+--gh-config         Include tokens from the local gh hosts.yml credential file
 --paranoid          Add entropy detection (can redact innocent identifiers)
 --gitleaks          Require locally installed Gitleaks in the detector union
 --trufflehog        Require local TruffleHog with verification/updates disabled
@@ -41,20 +49,20 @@ history rewrite SOURCE --output DIRECTORY [--apply]
 --python COMMAND    Python executable for the bridge (default python3)
 --model NAME        Installed model passed to the selected bridge
 --language CODE     Model language passed to the selected bridge
---stream            Process bounded UTF-8 records; files use a bounded worker
+--stream            Process text records; files use a bounded worker
 --two-pass          Collect identities first, then publish the complete stream
 --json              Sanitize JSON strings and keys; preserve session metadata
 --jsonl             Sanitize JSONL records; combine with --stream for sessions
 --identity-mask     First/last 2 identity mask (publication profile default)
 --profile NAME      Publication profile (redact default; config can override)
---max-record-bytes N Maximum record bytes (JSONL: 8388608; text: 1048576)
+--max-record-bytes N Maximum record bytes (text: total limit; JSONL: 8388608)
 --hive-mask         Opt-in first/last 3 mask for values longer than 12 characters
 --preserve-encoding Re-encode sanitized encoded payloads with round-trip checks
 --gh-auth           Read local gh auth token and mask its exact value
 --verify-public     Opt-in Wikidata name lookup (sends candidate public names)
 --apply             Apply history rewrite to the fresh clone, then audit it
 --filter-repo PATH  git-filter-repo executable for history rewrite
---max-bytes NUMBER  Input byte limit (default 10485760)
+--max-bytes NUMBER  Input byte limit (default 33554432; stream: 1073741824)
 --help              Show help
 --version           Show package version
 
@@ -69,6 +77,9 @@ function parseArgs(argv) {
   const boolean = new Map([
     ['--in-place', 'inPlace'],
     ['--native-only', 'nativeOnly'],
+    ['--credentials-only', 'credentialsOnly'],
+    ['--env-secrets', 'envSecrets'],
+    ['--gh-config', 'ghConfig'],
     ['--paranoid', 'paranoid'],
     ['--gitleaks', 'gitleaks'],
     ['--trufflehog', 'trufflehog'],
@@ -142,7 +153,7 @@ function validateArgs(config) {
 
 function validateFeatureArgs(config) {
   config.maxRecordBytes = Number(
-    config.maxRecordBytes ?? (config.jsonl ? 8388608 : 1048576)
+    config.maxRecordBytes ?? (config.jsonl ? 8388608 : config.maxBytes)
   );
   if (
     !Number.isSafeInteger(config.maxRecordBytes) ||
@@ -182,7 +193,7 @@ function validateOutput(config) {
   }
 }
 
-async function stdinText(stream, maxBytes) {
+async function stdinText(stream, maxBytes, options) {
   const chunks = [];
   let size = 0;
   for await (const chunk of stream) {
@@ -193,7 +204,7 @@ async function stdinText(stream, maxBytes) {
     }
     chunks.push(buffer);
   }
-  return decodeText(Buffer.concat(chunks));
+  return decodeText(Buffer.concat(chunks), options);
 }
 
 export async function runCli(
@@ -217,6 +228,7 @@ export async function runCli(
     }
     const config = parseArgs(argv);
     const options = await loadOptions(config);
+    config.lossless = !options.structured;
     const engine = createSanitizer(options);
     const context = { stdin, stdout };
     if (config.command === 'history') {
@@ -273,6 +285,10 @@ async function loadOptions(config) {
 }
 
 async function featureOptions(config, options) {
+  await localCredentials(config, options);
+  if (config.credentialsOnly) {
+    options.credentialsOnly = true;
+  }
   if (config.json || config.jsonl) {
     options.structured = config.jsonl ? 'jsonl' : 'json';
     options.structuralFields ??= sessionStructuralFields;
@@ -286,14 +302,23 @@ async function featureOptions(config, options) {
   if (config.preserveEncoding) {
     options.preserveEncoding = true;
   }
-  if (config.ghAuth) {
-    options.knownSecrets = [
-      ...(options.knownSecrets ?? []),
-      ...(await knownSecretsFromGitHubAuth()),
-    ];
-  }
   if (config.verifyPublic) {
     options.verifyPublic = createWikidataVerifier();
+  }
+}
+
+async function localCredentials(config, options) {
+  for (const [flag, load] of [
+    ['envSecrets', knownSecretsFromEnv],
+    ['ghConfig', knownSecretsFromGitHubConfig],
+    ['ghAuth', knownSecretsFromGitHubAuth],
+  ]) {
+    if (config[flag]) {
+      options.knownSecrets = [
+        ...(options.knownSecrets ?? []),
+        ...(await load()),
+      ];
+    }
   }
 }
 
@@ -325,9 +350,10 @@ function selectedDetectors(config, detectors = []) {
 }
 
 function inputText(path, config, stdin) {
+  const options = { lossless: config.lossless };
   return path === '-'
-    ? stdinText(stdin, config.maxBytes)
-    : readTextFile(path, config.maxBytes);
+    ? stdinText(stdin, config.maxBytes, options)
+    : readTextFile(path, config.maxBytes, options);
 }
 
 async function redactCommand(config, engine, { stdin, stdout }) {
@@ -335,11 +361,15 @@ async function redactCommand(config, engine, { stdin, stdout }) {
     await inputText(config.path, config, stdin)
   );
   if (config.output || config.inPlace) {
-    await atomicWrite(config.output ?? config.path, result.text, {
-      replace: Boolean(config.inPlace),
-    });
+    await atomicWrite(
+      config.output ?? config.path,
+      encodeLogText(result.text),
+      {
+        replace: Boolean(config.inPlace),
+      }
+    );
   } else {
-    stdout.write(result.text);
+    stdout.write(encodeLogText(result.text));
   }
   return 0;
 }
@@ -396,5 +426,5 @@ if (
 }
 
 function defaultByteLimit(config) {
-  return config.stream ? 1073741824 : 10485760;
+  return config.stream ? 1073741824 : 33554432;
 }

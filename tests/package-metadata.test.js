@@ -121,6 +121,7 @@ describe('publishable package metadata', () => {
       'CHANGELOG.md',
       'LICENSE',
       'README.md',
+      'examples/shared-tool-logs.mjs',
     ]);
   });
 });

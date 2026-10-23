@@ -1,6 +1,6 @@
 import { labels } from './rules.js';
 import { escapePattern, REDACTED } from './detection.js';
-import { credentialPlaceholder } from './credentials.js';
+import { credentialPlaceholder, referencePrefix } from './credentials.js';
 import { servicePath } from './public.js';
 import { plausiblePerson } from './names.js';
 
@@ -91,6 +91,9 @@ function emitValue(text, start, end, emit, details, keyName = '') {
   if (details.category === 'credential' && credentialPlaceholder(value)) {
     return;
   }
+  if (details.category === 'credential' && credentialMetadata(keyName, value)) {
+    return;
+  }
   if (
     /tokens$|token(?:count|limit|usage|budget)$|(?:password|passphrase)(?:length|count|size)$/.test(
       keyName.replace(/[^\p{L}\p{N}]/gu, '').toLowerCase()
@@ -102,10 +105,29 @@ function emitValue(text, start, end, emit, details, keyName = '') {
   emit({ start, end, ...details });
 }
 
+function credentialMetadata(keyName, value) {
+  return (
+    (/(?:^|[_.-])auth[_.-](?:mode|method|type)$/i.test(keyName) &&
+      /^(?:chatgpt|oauth2?|apikey|api_key|bearer|basic|none)$/i.test(value)) ||
+    (keyName === 'id-token' && /^(?:write|read|none)$/.test(value)) ||
+    // Package/version metadata cannot exempt exact credential labels.
+    (!labels.credential.includes(keyName.toLowerCase()) &&
+      /^(?:@[a-z0-9_.-]+\/)?[a-z0-9][a-z0-9_.-]*$/.test(keyName) &&
+      value.length <= 128 &&
+      /^[~^<>=* ]*v?\d+(?:\.[\dx*]+){0,2}(?:-[\w.-]+)?(?:\s*\|\|\s*[~^<>=* ]*v?\d+(?:\.[\dx*]+){0,2}(?:-[\w.-]+)?)*$/i.test(
+        value
+      ))
+  );
+}
+
 // Opening quotes support the escape depth of an outer AI-session string.
 // Only a quote at the same escape depth closes it; embedded quotes belong to
 // the value. Offsets cover escape bytes as well as the decoded characters.
 export function valueRange(text, start, mode = 'token', maxLength = Infinity) {
+  const reference = referencePrefix(text.slice(start, start + 512));
+  if (reference) {
+    return { start, end: start + reference[0].length };
+  }
   const opening = text.slice(start).match(/^(\\*)(["'])/);
   if (opening) {
     const range = quotedRange(text, start, opening, maxLength);
@@ -393,8 +415,10 @@ function detectCommandPasswords(text, emit) {
   }
 }
 
-export function detectContext(text, emit) {
+export function detectContext(text, emit, credentialsOnly = false) {
   detectCredentials(text, emit);
-  detectPersonalLabels(text, emit);
+  if (!credentialsOnly) {
+    detectPersonalLabels(text, emit);
+  }
   detectCommandPasswords(text, emit);
 }

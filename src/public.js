@@ -1,3 +1,5 @@
+import { isIP } from 'node:net';
+
 // Exact public knowledge and narrowly scoped role-mail heuristics. A role name
 // alone is never an exemption on an unknown/personal domain. Credentials and
 // caller-specified private values always outrank these automatic exceptions.
@@ -122,9 +124,30 @@ export function isPublic(text, finding, options) {
   }
   if (finding.type === 'IP_ADDRESS') {
     return (
+      localAddress(value) ||
       /^(?:192\.0\.2\.|198\.51\.100\.|203\.0\.113\.)\d{1,3}$/.test(value) ||
       /^2001:db8:/i.test(value)
     );
   }
   return false;
+}
+
+export function localAddress(value) {
+  if (isIP(value) === 6) {
+    return (
+      /^(?:::1|0:0:0:0:0:0:0:1)$/i.test(value) ||
+      /^(?:f[cd][\da-f]{2}:|fe[89ab][\da-f]:)/i.test(value)
+    );
+  }
+  if (isIP(value) !== 4) {
+    return false;
+  }
+  const [a, b] = value.split('.').map(Number);
+  return (
+    a === 127 ||
+    a === 10 ||
+    (a === 172 && b >= 16 && b <= 31) ||
+    (a === 192 && b === 168) ||
+    (a === 169 && b === 254)
+  );
 }

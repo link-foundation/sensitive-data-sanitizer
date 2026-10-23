@@ -4,10 +4,14 @@ import { dirname, join, resolve } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { TextDecoder } from 'node:util';
 import { failure } from './detection.js';
+import { decodeLogBytes } from './log-bytes.js';
 
-export function decodeText(bytes) {
+export function decodeText(bytes, { lossless = false } = {}) {
   if (bytes.includes(0)) {
     throw failure('ERR_BINARY');
+  }
+  if (lossless) {
+    return decodeLogBytes(bytes);
   }
   try {
     return new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(
@@ -18,7 +22,7 @@ export function decodeText(bytes) {
   }
 }
 
-export async function readTextFile(path, maxBytes = 10 * 1024 * 1024) {
+export async function readTextFile(path, maxBytes = 10 * 1024 * 1024, options) {
   let handle;
   try {
     const info = await lstat(path);
@@ -42,7 +46,7 @@ export async function readTextFile(path, maxBytes = 10 * 1024 * 1024) {
     if (read > maxBytes || read > opened.size) {
       throw failure('ERR_LIMIT');
     }
-    return decodeText(bytes.subarray(0, read));
+    return decodeText(bytes.subarray(0, read), options);
   } catch (error) {
     if (error.code?.startsWith('ERR_')) {
       throw error;

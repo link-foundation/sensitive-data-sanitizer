@@ -8,7 +8,11 @@ import { detectCatalog } from './entities.js';
 import { detectIdentity } from './identity.js';
 import { detectNational } from './national.js';
 import { detectPersonalContext } from './personal-context.js';
-import { detectCredentialFormats } from './credentials.js';
+import {
+  detectCredentialFormats,
+  credentialPlaceholder,
+} from './credentials.js';
+import { localAddress } from './public.js';
 
 export const REDACTED = '[REDACTED]';
 export const failure = (code = 'ERR_SANITIZATION', location = {}) =>
@@ -157,12 +161,14 @@ export function nativeDetect(text, options, emit) {
       confidence: 0.9,
     });
   }
-  detectContext(text, emit);
-  detectPersonal(text, emit);
-  detectCatalog(text, emit);
-  detectIdentity(text, emit);
-  detectNational(text, emit);
-  detectPersonalContext(text, emit);
+  detectContext(text, emit, options.credentialsOnly);
+  if (!options.credentialsOnly) {
+    detectPersonal(text, emit);
+    detectCatalog(text, emit);
+    detectIdentity(text, emit);
+    detectNational(text, emit);
+    detectPersonalContext(text, emit);
+  }
   detectCredentialFormats(text, emit);
   // detect-secrets-style quoted entropy detection; bare commit hashes and
   // common tool identifiers remain outside this heuristic's scope.
@@ -185,7 +191,8 @@ export function nativeDetect(text, options, emit) {
     /(?:Proxy-)?Authorization[ \t]*:[ \t]*(?:Bearer|Basic|Digest)[ \t]+([^\r\n"',]+)/gi,
     emit,
     { ...credential, rule: 'authorization' },
-    1
+    1,
+    (value) => !credentialPlaceholder(value.trim())
   );
   detectCookies(text, emit);
   collectMatches(
@@ -202,9 +209,30 @@ export function nativeDetect(text, options, emit) {
     { ...credential, rule: 'webhook' },
     1
   );
+  if (options.credentialsOnly && !options.paranoid) {
+    return;
+  }
+  detectPersonalFormats(text, options, emit);
+  if (options.paranoid) {
+    collectMatches(
+      text,
+      /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{20,256}={0,2}(?![A-Za-z0-9_+/-])/g,
+      emit,
+      { ...credential, rule: 'entropy' },
+      0,
+      (v) =>
+        !(
+          /^[a-f0-9]{7,64}$/i.test(v) ||
+          /^mcp__|^browser_|^\[REDACTED\]$/.test(v)
+        ) && entropy(v) >= 4.2
+    );
+  }
+}
+
+function detectPersonalFormats(text, options, emit) {
   collectMatches(
     text,
-    /(?<![\p{L}\p{N}_.+-])[\p{L}\p{N}_.!#$%&'*+/?^`{|}~-]+@[\p{L}\p{N}](?:[\p{L}\p{N}.-]{0,252})\.[\p{L}]{2,63}(?![\p{L}\p{N}_-])/gu,
+    /(?<![\p{L}\p{N}_.!#$%&'*+/?^`{|}~-])[\p{L}\p{N}_.!#$%&'*+/?^`{|}~-]+@[\p{L}\p{N}](?:[\p{L}\p{N}.-]{0,252})\.[\p{L}]{2,63}(?![\p{L}\p{N}_-])/gu,
     emit,
     { type: 'EMAIL', category: 'personal', rule: 'email' }
   );
@@ -244,7 +272,8 @@ export function nativeDetect(text, options, emit) {
     emit,
     { type: 'IP_ADDRESS', category: 'personal', rule: 'ipv4' },
     0,
-    (v) => isIP(v) === 4
+    (v) =>
+      isIP(v) === 4 && (options.publicKnowledge === false || !localAddress(v))
   );
   collectMatches(
     text,
@@ -256,22 +285,9 @@ export function nativeDetect(text, options, emit) {
     // but carry no useful address evidence in coding-session text.
     (v) =>
       isIP(v) === 6 &&
+      (options.publicKnowledge === false || !localAddress(v)) &&
       v !== '::' &&
       !/^[a-fA-F0-9]{0,4}::$/.test(v) &&
       (v.split(':').filter(Boolean).length >= 3 || /\d/.test(v))
   );
-  if (options.paranoid) {
-    collectMatches(
-      text,
-      /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{20,256}={0,2}(?![A-Za-z0-9_+/-])/g,
-      emit,
-      { ...credential, rule: 'entropy' },
-      0,
-      (v) =>
-        !(
-          /^[a-f0-9]{7,64}$/i.test(v) ||
-          /^mcp__|^browser_|^\[REDACTED\]$/.test(v)
-        ) && entropy(v) >= 4.2
-    );
-  }
 }

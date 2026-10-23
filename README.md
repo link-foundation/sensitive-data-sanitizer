@@ -1,6 +1,6 @@
 # Sensitive Data Sanitizer
 
-An offline JavaScript library, detector framework, and CLI for redacting credentials and personal data from UTF-8 logs, AI sessions, and text files. It combines required Secretlint and 221 bundled Gitleaks text rules with contextual credentials, default multilingual name/PII recognition, known values and bounded encoding detection. Optional local Gitleaks, TruffleHog, and Presidio detectors extend the union.
+An offline JavaScript library, detector framework, and CLI for redacting credentials and personal data from logs, AI sessions, and text files, including logs with invalid UTF-8 bytes. It combines required Secretlint and 221 bundled Gitleaks text rules with contextual credentials, default multilingual name/PII recognition, known values and bounded encoding detection. Optional local Gitleaks, TruffleHog, and Presidio detectors extend the union.
 
 Library calls without a profile replace every actionable finding completely with `[REDACTED]`. Personal findings below the default confidence threshold of 0.5 remain inspectable without replacing ordinary log numbers; credentials always qualify. Publication methods verify full redaction and block output if a required detector fails or finds a residual. Optional typed transformations, compatible partial masks and encoding preservation are described in the API. Findings contain offsets and rule metadata; they omit matched values and source excerpts.
 
@@ -65,7 +65,7 @@ sensitive-data-sanitizer history rewrite ./repository --output ./private-preview
 sensitive-data-sanitizer --help
 ```
 
-`--output` creates a new file without clobbering an existing one. `--in-place` replaces the input atomically after verification. Intermediate and output files use mode `0600` on POSIX. Symlinks, malformed UTF-8, and binary input are refused. Directory scans omit `.git` and `node_modules`; skipped binary/invalid/oversized files make the report incomplete. Stdout is written after the complete operation succeeds.
+`--output` creates a new file without clobbering an existing one. `--in-place` replaces the input atomically after verification. Intermediate and output files use mode `0600` on POSIX. Symlinks and NUL-containing binary input are refused. Plain logs preserve invalid UTF-8 bytes exactly; JSON/JSONL and configuration files require valid UTF-8. Directory scans omit `.git` and `node_modules`; skipped binary/malformed-structured/oversized files make the report incomplete. Stdout is written after the complete operation succeeds.
 
 | Exit | Meaning                                                                  |
 | ---- | ------------------------------------------------------------------------ |
@@ -73,7 +73,7 @@ sensitive-data-sanitizer --help
 | 1    | A complete scan/history audit found sensitive data                       |
 | 2    | Error, detector failure, or incomplete scan; redaction output is blocked |
 
-Defaults: 10 MiB whole-text input bytes, 100,000 findings and 10,000 files. `--stream` permits 1 GiB total with 1 MiB plain-text records or 8 MiB JSONL records, bounded workers and atomic publication. `--max-bytes` sets the byte limit; JSON config sets the other sanitizer limits. `--paranoid` adds entropy heuristics and increases false positives. `--native-only` explicitly disables Secretlint.
+Defaults: 32 MiB whole-text input bytes, 100,000 findings and 10,000 files. `--stream` permits 1 GiB total with plain-text records up to the total input limit or 8 MiB JSONL records, bounded workers and atomic publication. `--max-bytes` sets the byte limit; JSON config sets the other sanitizer limits. `--paranoid` adds entropy heuristics and increases false positives. `--native-only` explicitly disables Secretlint.
 
 ## Configuration
 
@@ -165,6 +165,20 @@ See [contributing](docs/CONTRIBUTING.md). `add`, `multiply` and `delay` live in 
 ### Auto-regenerated preview screenshots
 
 The universal app's preview images regenerate on pushes to the default branch. Run `npm run example:web:preview-images` to regenerate them locally; see [the template guide](docs/TEMPLATE-PIPELINE.md) for setup.
+
+For shared tool logs, `--credentials-only --env-secrets --gh-config` preserves
+public account details while redacting credential patterns and exact local
+secret values. Environment discovery matches credential-related variable names,
+including AI-provider keys; `--gh-config` reads every host/account token from the
+local GitHub CLI `hosts.yml`. Both local sources are opt-in. Literal references
+such as `${{ secrets.NPM_TOKEN }}` and `$(gh auth token)` remain readable; actual
+credential values are still redacted.
+
+Long plain-text records are held until a safe boundary, including credentials
+longer than a 64 KiB input chunk. Memory grows with the largest held record;
+set `--max-record-bytes` for a smaller deployment budget. Crossing an explicit
+record or total limit blocks atomic publication. See [the tool-log integration
+example](examples/shared-tool-logs.mjs) and [API byte handling](docs/API.md).
 
 ## License
 

@@ -82,7 +82,9 @@ export function codePointRange(text, start, end) {
 }
 
 function projectionWriter(inputLength) {
-  const maxLength = 10 * 1024 * 1024;
+  // Input length has already been checked by the caller. Unicode NFKC can
+  // expand a single scalar to at most 18 scalars; retain a finite bound.
+  const maxLength = Math.max(inputLength * 18, 16);
   let capacity = Math.min(Math.max(inputLength, 16), maxLength);
   let starts = new Uint32Array(capacity),
     ends = new Uint32Array(capacity);

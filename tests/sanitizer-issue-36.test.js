@@ -259,7 +259,7 @@ describe('issue 36 propagation and encoding boundaries', () => {
       'a::b:1234',
     ]) {
       expect(
-        inspect(value, { profile: 'publication' }).some(
+        inspect(value, { profile: 'publication', publicKnowledge: false }).some(
           (f) => f.rule === 'ipv6'
         )
       ).toBe(true);

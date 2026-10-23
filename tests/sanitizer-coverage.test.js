@@ -213,7 +213,10 @@ describe('languages and representations', () => {
   it('validates card numbers and IP addresses and preserves invalid numbers', () => {
     expect(sanitize('4111 1111 1111 1111').text).toBe('[REDACTED]');
     expect(sanitize('4111 1111 1111 1112').text).toBe('4111 1111 1111 1112');
-    expect(sanitize('192.168.1.2').text).toBe('[REDACTED]');
+    expect(sanitize('192.168.1.2').text).toBe('192.168.1.2');
+    expect(sanitize('192.168.1.2', { publicKnowledge: false }).text).toBe(
+      '[REDACTED]'
+    );
     expect(sanitize('999.999.999.999').text).toBe('999.999.999.999');
   });
   it('enforces finite input and finding limits and strict configuration', () => {

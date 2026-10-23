@@ -41,9 +41,7 @@ export async function streamCommand(
       });
     }
     if (spool) {
-      for await (const chunk of createReadStream(target, {
-        encoding: 'utf8',
-      })) {
+      for await (const chunk of createReadStream(target)) {
         if (stdout.write(chunk) === false) {
           await once(stdout, 'drain');
         }

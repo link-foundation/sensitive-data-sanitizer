@@ -397,6 +397,13 @@ jobs:
         with:
           deno-version: v2.x
 
+      - name: Prepare Deno dependencies
+        if: matrix.runtime == 'deno'
+        shell: bash
+        # Cold npm downloads previously consumed the test execution budget.
+        # Bound dependency preparation separately, as for Node and Bun installs.
+        run: bash scripts/run-with-budget-warning.sh 120 "Deno dependency preparation" deno cache tests/*.test.js
+
       - name: Run tests (Deno)
         if: matrix.runtime == 'deno'
         shell: bash

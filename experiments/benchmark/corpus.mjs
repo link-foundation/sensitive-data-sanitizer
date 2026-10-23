@@ -73,7 +73,7 @@ export const corpus = [
   annotated('ssn', 'SSN [[123-45-6789]]'),
   annotated('credit-card', 'Card [[4111 1111 1111 1111]]'),
   annotated('phone-international', 'Call [[+44 20 7946 0958]]'),
-  annotated('ip-private', 'Client [[10.27.18.95]]'),
+  annotated('ip-global', 'Client [[12.27.18.95]]'),
   annotated('ipv6', 'Client [[2001:4860:dead:beef::1234]]'),
   annotated(
     'doppler',
@@ -119,6 +119,7 @@ export const corpus = [
     ['public-org', 'Microsoft and Google published docs.'],
     ['public-resolver', 'DNS 1.1.1.1 and 8.8.4.4'],
     ['documentation-ip', 'Examples use 192.0.2.1 and 203.0.113.42.'],
+    ['local-ip', 'Client 10.27.18.95'],
     ['commit', 'commit 9b2c5d0e8f7a1346f0d28e7a4b69c531'],
     ['mysql-port', 'mysql -P 3306; psql -p 5432'],
     ['empty', ''],

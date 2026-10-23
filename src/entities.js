@@ -43,6 +43,14 @@ const prefix = new RegExp(
   'giu'
 );
 export function detectCatalog(text, emit) {
+  // Every catalog label requires one of these separators. Avoid running the
+  // large Unicode label alternation across ordinary unlabelled log records.
+  if (/[:=：]/.test(text)) {
+    detectCatalogLabels(text, emit);
+  }
+  detectFormats(text, emit);
+}
+function detectCatalogLabels(text, emit) {
   for (const match of text.matchAll(prefix)) {
     const entry = entries.get(match[1].toUpperCase());
     if (entry.type === 'DATE') {
@@ -69,6 +77,8 @@ export function detectCatalog(text, emit) {
       emit({ ...range, ...entry, confidence: 0.95 });
     }
   }
+}
+function detectFormats(text, emit) {
   for (const [type, pattern, accept] of formatRules) {
     collectMatches(
       text,

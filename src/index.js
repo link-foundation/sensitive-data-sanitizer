@@ -35,4 +35,6 @@ export {
   createOutboundSanitizer,
 } from './outbound.js';
 export { knownSecretsFromGitHubAuth } from './known.js';
+export { knownSecretsFromGitHubConfig } from './known.js';
+export { decodeLogBytes, encodeLogText } from './log-bytes.js';
 export { rewriteGitHistory } from './history-rewrite.js';

@@ -229,7 +229,12 @@ export function detectPersonal(text, emit) {
     text,
     /(?<![\p{L}\p{N}_.\]])@[\p{L}\p{N}_]{2,32}(?![\p{L}\p{N}_.])/gu,
     emit,
-    details('USERNAME', 'messenger-handle', 0.65)
+    details('USERNAME', 'messenger-handle', 0.65),
+    0,
+    (_value, match) =>
+      !/^\/[a-z0-9][a-z0-9_.-]*/i.test(
+        text.slice(match.index + match[0].length)
+      )
   );
   collectMatches(
     text,

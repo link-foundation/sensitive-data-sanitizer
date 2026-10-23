@@ -1,6 +1,6 @@
 import { failure } from './detection.js';
 
-function sequenceWidth(first) {
+export function sequenceWidth(first) {
   if (first < 0x80) {
     return 1;
   }
@@ -25,7 +25,7 @@ function secondByteAllowed(first, byte) {
   const [low, high] = limits[first] ?? [0x80, 0xbf];
   return byte >= low && byte <= high;
 }
-function validSequence(bytes, index, width) {
+export function validSequence(bytes, index, width) {
   if (!width || index + width > bytes.length) {
     return false;
   }
