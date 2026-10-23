@@ -219,7 +219,7 @@ async function main() {
         return;
       } else {
         console.log('Rebasing on remote main to incorporate changes...');
-        await $`git rebase origin/main`;
+        await $`git rebase --autostash origin/main`;
       }
     }
 
