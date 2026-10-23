@@ -14,9 +14,9 @@ Objective: implement issues 40, 41 and 42 in PR 44, preserving all existing feat
 - [x] Add credentials-only selection across all APIs, CLI, workers and nested encodings; preserve strong credential detection.
 - [x] Investigate npm E404 and release history; make publication checks actionable, validate packed install/API/CLI; publish if authorized credentials permit, otherwise document exact external blocker.
 - [x] Add one minor Changeset, API/README guidance, upstream integration example and complete requirement/evidence matrix.
-- [ ] Run local CI checks and full runtime suites sequentially within container memory limits; commit atomic verified steps.
-- [ ] Fetch and include current main, push only prepared branch, update PR title/body with Fixes #43, Fixes #40, Fixes #41 and Fixes #42.
-- [ ] Inspect recent CI timestamps/SHAs; save failed-run logs to ci-logs, read actual errors, fix and verify all checks on final head.
-- [ ] Review complete PR diff for regressions and scope; confirm clean tree, ready PR 44 and report remaining blocked criteria explicitly.
+- [x] Run local CI checks and full runtime suites sequentially within container memory limits; commit atomic verified steps.
+- [x] Fetch and include current main, push only prepared branch, update PR title/body with Fixes #43, Fixes #40, Fixes #41 and Fixes #42.
+- [x] Inspect recent CI timestamps/SHAs; save failed-run logs to ci-logs, read actual errors, fix and verify all checks on final head.
+- [x] Review complete PR diff for regressions and scope; confirm clean tree, ready PR 44 and report remaining blocked criteria explicitly.
 
 - [ ] REQUIRED, externally blocked: actual npm publication and registry installation; owner credential / trusted-publisher configuration is absent. Keep PR unmerged.

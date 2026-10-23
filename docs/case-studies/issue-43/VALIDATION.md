@@ -56,6 +56,38 @@ The random corpus intentionally remains subject to credential rules; suspicious
 substrings are redacted rather than exempting images from inspection. These are
 container measurements, not a hard latency guarantee on all hardware.
 
+A final 3.6 MB probe also exercises the normal WASM engine below its fallback
+threshold: repeated A completed in 2.643 seconds, seeded random base64 in
+11.138 seconds and zero-filled base64 in 2.540 seconds, without heap exhaustion.
+The final focused Node run passes 91 CLI, context, policy, YAML and vendored-rule
+tests after the review refactors. The final clean tarball installation passes
+again with 78 files and both CLI entry points.
+
+## Pull request CI
+
+Implementation head `6d7994b836d5b7b8056ee3f19b42bc140987307e`, runs created
+2026-10-23 17:56:32 UTC: **38 successful checks, 10 conditional skips, no failures**.
+All nine Node/Bun/Deno jobs on Ubuntu, macOS and Windows pass. Deno's unchanged
+100-second test execution budget passes on all three systems after dependency
+preparation was separated from test execution.
+
+- [Checks and release](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/39999201490):
+  runtime matrix, history rewrite integration, Docker build, session publication,
+  lint/format, syntax, Changeset/version, file limits and documentation pass.
+- [Security](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/39999201395):
+  both dependency audits, dependency review and JavaScript/Actions CodeQL pass.
+- [Workflows](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/39999201412):
+  actionlint, zizmor and status-gate coverage pass.
+- [Example app](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/39999201409):
+  web and all three desktop builds pass.
+- [Broken Link Checker](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/39999201451):
+  links and pipeline gate pass.
+
+These checks do not publish the package. PR preflight is advisory; actual npm
+publication remains blocked as documented in `ANALYSIS.md`. PR 44 is ready for
+review and remains unmerged. The final evidence-only commit is checked again
+before handoff; its current statuses are linked from the PR.
+
 ## Existing CI failures investigated
 
 Prepared head 6f723c6, Security Checks run
