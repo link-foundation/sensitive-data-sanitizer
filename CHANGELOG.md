@@ -1,5 +1,53 @@
 # Changelog
 
+## 0.12.0
+
+### Minor Changes
+
+- Keep credential label values inside their JSON string and logical line, treat
+  prose such as "token for ES." as text, redact credential values covering escaped
+  JSON runs as a whole, and redact values found again after redaction in bounded
+  fixed-point rounds before failing closed with ERR_RESIDUAL.
+
+  Detect passport MRZ fragments, country document formats, travel identifiers,
+  contextual birth dates, national identifiers and national messenger phones.
+  Add fixed identity masks and audited specimen/synthetic identity exemptions.
+  Support batched JSON/JSONL sanitization with explicit structural fields and
+  bounded, audited fallback for oversized encoded runs. Protect netrc, NuGet,
+  WordPress and PuTTY v3 credentials across text and streamed records.
+
+  Bound escaped label values and propagation seeds, preserve ordinary session keys and CI service paths, retain Unicode surrogate escapes, and add two-pass atomic publication with encoding record/offset diagnostics.
+
+  Format changesets with Prettier so the release job no longer needs Deno, and autostash merged changesets when a release re-run rebases onto an advanced main.
+
+  Make version and changeset validation fail on unavailable Git comparisons, verify npm trusted publishing with a package-specific OIDC exchange, repair release badge detection and commit quoting, and recover missing GitHub releases without another version bump. Correct process survivor reporting, remove a busy-looping test fixture, pin CI scanners and hosted runner images, and exclude experimental and example code from CodeQL.
+
+  Introduce an offline sensitive-text library and CLI with required Secretlint and 221 bundled Gitleaks RE2 rules, complete contextual credential spans, default multilingual names/PII, checksum/format validators, Unicode/encoded detection and external scanner adapters. Publish under the repository's package name and require Node.js 22.
+
+  Add bounded streaming/workers, typed cloud catalog labels and confidence, keyed transformations, encoding preservation, opt-in public verification/local GitHub auth, outbound/Sentry helpers and an ESLint publication guard. Explicit private values and credential findings override public exemptions. Atomic publication and full-redaction verification block incomplete results; prose boundaries handle long whitespace in linear time.
+
+  Provide fresh-clone Git-history preview/rewrite with private plans and a required clean post-rewrite audit. Move template arithmetic, its CLI and historical documents to explicit legacy entries while preserving their behavior.
+
+  Fix session false positives and identity spans, propagate confirmed travel references and names, generate deterministic realistic fake values with valid dates and checksums, and process large JSONL sessions with bounded ordered workers.
+
+  Require Node.js 22.13 or later for the supported Faker runtime.
+
+  Protect structural document names and cross-script identities across bounded
+  streams, fail closed on late confirmations, and add a publication profile used
+  by CLI redact. Restore formatted SNILS and personal INN coverage, preserve JSON
+  escape boundaries, reduce code/place/booking false positives, and keep fake
+  phones in plausible or fictional ranges. Handle disabled Pages deployments and
+  separate bounded regex timing from child-process startup in cross-runtime CI.
+
+  Require plausible name and place label values, confine inferred JSON propagation
+  to string values, and preserve coding-session tokens and metadata. Align decoded
+  public-name policy and credential quote boundaries, canonicalize two-pass
+  confirmations, and detect national tel URIs, fax, and Vietnamese phone labels.
+
+  Support shared tool-log sanitization with credentials-only policy, automatic environment-value discovery and GitHub CLI config credentials. Preserve invalid log bytes losslessly, accept long text records within the total input limit, remove quadratic scanning and retain benign auth metadata, dependency names, local addresses and credential references. Raise the whole-text default to 32 MiB for image-bearing rollout lines.
+
+  Retry transient HTTP link failures with bounded backoff and authenticated GitHub contents fallback, and pin the Bun CI runtime to the supported 1.x line. Refresh vulnerable development dependencies so pipeline security checks can pass.
+
 ## 0.11.31
 
 ### Patch Changes
