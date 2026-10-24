@@ -13,10 +13,10 @@ Objective: implement issues 50 and 51 completely in PR 53, preserving the full d
 - [x] Add correctness, throughput and deterministic complexity regressions; keep reusable experiments here.
 - [x] Add patch changeset as the repository's release trigger.
 - [x] Run focused tests, complete Node/Bun/Deno suites sequentially with bounded heaps and concurrency, local lint/format/duplication/secrets/syntax/docs/version/changeset checks. Save large outputs under ci-logs.
-- [ ] Commit useful atomic steps after checks; push only issue-52-5379832e5bd4.
-- [ ] Review gh pr diff and verify no feature loss, requirement coverage, main ancestry and clean working tree.
-- [ ] Rewrite PR title/body with reproduction, evidence and independent closing references for 50, 51, 52.
-- [ ] List recent CI runs with timestamps and SHA. For every failed current-head run, download ci-logs/{workflow}-{run-id}.log, read actual errors in <=1500-line chunks, fix and verify.
-- [ ] Wait for all current-head checks; re-read feedback; mark PR 53 ready once all criteria pass. Do not merge.
+- [x] Commit useful atomic steps after checks; push only issue-52-5379832e5bd4.
+- [x] Review gh pr diff and verify no feature loss, requirement coverage, main ancestry and clean working tree.
+- [x] Rewrite PR title/body with reproduction, evidence and independent closing references for 50, 51, 52.
+- [x] List recent CI runs with timestamps and SHA. For every failed current-head run, download ci-logs/{workflow}-{run-id}.log, read actual errors in <=1500-line chunks, fix and verify.
+- [x] Wait for all current-head checks; re-read feedback; mark PR 53 ready once all criteria pass. Do not merge.
 
 Resource limits: run memory-heavy commands sequentially; Node suites use --max-old-space-size=256 and --test-concurrency=1. Experiments use finite input sizes and a bounded V8 heap/stack; never repeat an OOM build without changing the approach.
