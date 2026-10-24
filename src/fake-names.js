@@ -97,21 +97,29 @@ export function latinName(value) {
     .replace(/[а-яё]/g, (c) => transliteration[c]);
 }
 const given = new Map();
-for (const [locale, list] of Object.entries(firstNames)) {
-  for (const name of list.split(' ')) {
-    given.set(latinName(name), locale);
-  }
-}
 const surnames = new Map(),
   female = new Set();
-for (const [locale, data] of Object.entries(locales)) {
-  for (const name of data.person?.first_name?.female ?? []) {
-    female.add(latinName(name));
+let indexed = false;
+function indexNames() {
+  if (indexed) {
+    return;
   }
-  for (const names of Object.values(data.person?.last_name ?? {})) {
-    for (const name of names) {
-      if (!surnames.has(latinName(name))) {
-        surnames.set(latinName(name), locale);
+  indexed = true;
+  for (const [locale, list] of Object.entries(firstNames)) {
+    for (const name of list.split(' ')) {
+      given.set(latinName(name), locale);
+    }
+  }
+  for (const [locale, data] of Object.entries(locales)) {
+    for (const name of data.person?.first_name?.female ?? []) {
+      female.add(latinName(name));
+    }
+    for (const names of Object.values(data.person?.last_name ?? {})) {
+      for (const name of names) {
+        const canonical = latinName(name);
+        if (!surnames.has(canonical)) {
+          surnames.set(canonical, locale);
+        }
       }
     }
   }
@@ -137,6 +145,7 @@ function scriptLocale(value) {
   return undefined;
 }
 export function fakeName(value, key) {
+  indexNames();
   return value.replace(/[\p{L}\p{M}]+/gu, (word) => {
     for (const locale of ['ja', 'zh', 'ko']) {
       const family = firstNames[locale]

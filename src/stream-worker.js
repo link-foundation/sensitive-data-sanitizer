@@ -5,7 +5,8 @@ try {
     value: await sanitizeFileToFile(
       workerData.source,
       workerData.target,
-      workerData.options
+      workerData.options,
+      () => parentPort.postMessage({ progress: true })
     ),
   });
 } catch (error) {

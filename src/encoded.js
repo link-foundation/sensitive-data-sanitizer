@@ -1,6 +1,7 @@
 import { TextDecoder } from 'node:util';
 import { Buffer } from 'node:buffer';
 import { failure } from './detection.js';
+import { jsonStringRuns } from './json-string-runs.js';
 
 export function* decodedRuns(text, depth = 0) {
   if (depth >= 2) {
@@ -12,7 +13,7 @@ export function* decodedRuns(text, depth = 0) {
     /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{16,128}(?:\r?\n[A-Za-z0-9_+/-]{1,128})+={0,2}(?![A-Za-z0-9_+/-])/g,
     /(?:&#(?:x[\da-fA-F]{1,6}|\d{1,7});|&(?:amp|lt|gt|quot|apos|nbsp);){2,2048}/g,
     /(?:\\x[\da-fA-F]{2}){2,2048}/g,
-    /"(?:[^"\\\r\n]|\\[^\r\n]){1,8192}"/g,
+    undefined, // JSON candidates use a linear scanner below.
   ];
   const seen = new Set();
   let count = 0;
@@ -21,7 +22,7 @@ export function* decodedRuns(text, depth = 0) {
     if (marker && !text.includes(marker)) {
       continue;
     }
-    for (const match of text.matchAll(pattern)) {
+    for (const match of candidateMatches(text, pattern)) {
       const raw = match[0];
       if (raw.length > 8192) {
         if (isLimitedTextRun(raw)) {
@@ -60,6 +61,10 @@ export function* decodedRuns(text, depth = 0) {
       }
     }
   }
+}
+
+function candidateMatches(text, pattern) {
+  return pattern ? text.matchAll(pattern) : jsonStringRuns(text);
 }
 
 function decodedText(raw, decoded) {

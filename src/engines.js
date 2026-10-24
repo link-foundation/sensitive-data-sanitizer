@@ -180,7 +180,9 @@ export function createSanitizer(options = {}) {
     for (const finding of initial) {
       emit(finding);
     }
-    const projection = projectText(text);
+    // Native inspection performs its own normalization. Additional views are
+    // needed here only when a required external engine is enabled.
+    const projection = engines.length ? projectText(text) : undefined;
     for (const engine of engines) {
       for (const finding of await detect(
         engine,

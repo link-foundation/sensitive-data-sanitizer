@@ -24,6 +24,8 @@ export async function streamCommand(
       maxTotalBytes: config.maxBytes,
       replace: Boolean(config.inPlace),
       twoPass: Boolean(config.twoPass),
+      allowBinary: Boolean(config.allowBinary),
+      workerTimeoutMs: config.workerTimeoutMs,
     };
     if (config.path === '-') {
       await sanitizeStreamToFile(stdin, target, {

@@ -65,7 +65,7 @@ sensitive-data-sanitizer history rewrite ./repository --output ./private-preview
 sensitive-data-sanitizer --help
 ```
 
-`--output` creates a new file without clobbering an existing one. `--in-place` replaces the input atomically after verification. Intermediate and output files use mode `0600` on POSIX. Symlinks and NUL-containing binary input are refused. Plain logs preserve invalid UTF-8 bytes exactly; JSON/JSONL and configuration files require valid UTF-8. Directory scans omit `.git` and `node_modules`; skipped binary/malformed-structured/oversized files make the report incomplete. Stdout is written after the complete operation succeeds.
+`--output` creates a new file without clobbering an existing one. `--in-place` replaces the input atomically after verification. Intermediate and output files use mode `0600` on POSIX. Symlinks are refused. NUL-containing input is refused by default; `--allow-binary` explicitly preserves NUL bytes in plain logs while credentials are still sanitized. JSON/JSONL remain strict. Plain logs preserve invalid UTF-8 bytes exactly; JSON/JSONL and configuration files require valid UTF-8. Directory scans omit `.git` and `node_modules`; skipped binary/malformed-structured/oversized files make the report incomplete. Stdout is written after the complete operation succeeds.
 
 | Exit | Meaning                                                                  |
 | ---- | ------------------------------------------------------------------------ |
@@ -73,7 +73,7 @@ sensitive-data-sanitizer --help
 | 1    | A complete scan/history audit found sensitive data                       |
 | 2    | Error, detector failure, or incomplete scan; redaction output is blocked |
 
-Defaults: 32 MiB whole-text input bytes, 100,000 findings and 10,000 files. `--stream` permits 1 GiB total with plain-text records up to the total input limit or 8 MiB JSONL records, bounded workers and atomic publication. `--max-bytes` sets the byte limit; JSON config sets the other sanitizer limits. `--paranoid` adds entropy heuristics and increases false positives. `--native-only` explicitly disables Secretlint.
+Defaults: 32 MiB whole-text input bytes, 100,000 findings and 10,000 files. `--stream` permits 1 GiB total with plain-text records up to the total input limit or 8 MiB JSONL records, bounded workers and atomic publication. `--worker-timeout-ms N` sets the worker inactivity/per-batch deadline (default 60000 ms); verified file progress resets the deadline, so large files can run longer overall. `--max-bytes` sets the byte limit; JSON config sets the other sanitizer limits. `--paranoid` adds entropy heuristics and increases false positives. `--native-only` explicitly disables Secretlint.
 
 ## Configuration
 
@@ -165,6 +165,8 @@ See [contributing](docs/CONTRIBUTING.md). `add`, `multiply` and `delay` live in 
 ### Auto-regenerated preview screenshots
 
 The universal app's preview images regenerate on pushes to the default branch. Run `npm run example:web:preview-images` to regenerate them locally; see [the template guide](docs/TEMPLATE-PIPELINE.md) for setup.
+
+Automatic `--env-secrets` discovery skips authentication configuration names such as `GIT_AUTH_TRANSPORT`, `AUTH_MODE` and `AUTH_METHOD`. Explicit `knownSecretsFromEnv(env, names)` selections still include their exact values.
 
 For shared tool logs, `--credentials-only --env-secrets --gh-config` preserves
 public account details while redacting credential patterns and exact local

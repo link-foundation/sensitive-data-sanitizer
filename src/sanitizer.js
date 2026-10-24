@@ -329,6 +329,9 @@ function encodedDetect(text, options, emit) {
 }
 
 function locations(text, findings) {
+  if (!findings.length) {
+    return findings;
+  }
   const starts = [0];
   for (let i = 0; i < text.length; i++) {
     if (text[i] === '\n') {

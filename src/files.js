@@ -6,8 +6,14 @@ import { TextDecoder } from 'node:util';
 import { failure } from './detection.js';
 import { decodeLogBytes } from './log-bytes.js';
 
-export function decodeText(bytes, { lossless = false } = {}) {
-  if (bytes.includes(0)) {
+export function decodeText(
+  bytes,
+  { lossless = false, allowBinary = false } = {}
+) {
+  if (typeof allowBinary !== 'boolean') {
+    throw failure('ERR_CONFIG');
+  }
+  if (!allowBinary && bytes.includes(0)) {
     throw failure('ERR_BINARY');
   }
   if (lossless) {

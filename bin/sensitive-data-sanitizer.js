@@ -50,6 +50,8 @@ history rewrite SOURCE --output DIRECTORY [--apply]
 --model NAME        Installed model passed to the selected bridge
 --language CODE     Model language passed to the selected bridge
 --stream            Process text records; files use a bounded worker
+--allow-binary      Treat NUL as a log byte (plain text only)
+--worker-timeout-ms N Stream worker inactivity/per-batch limit (default 60000)
 --two-pass          Collect identities first, then publish the complete stream
 --json              Sanitize JSON strings and keys; preserve session metadata
 --jsonl             Sanitize JSONL records; combine with --stream for sessions
@@ -84,6 +86,7 @@ function parseArgs(argv) {
     ['--gitleaks', 'gitleaks'],
     ['--trufflehog', 'trufflehog'],
     ['--stream', 'stream'],
+    ['--allow-binary', 'allowBinary'],
     ['--two-pass', 'twoPass'],
     ['--json', 'json'],
     ['--jsonl', 'jsonl'],
@@ -103,6 +106,7 @@ function parseArgs(argv) {
     ['--model', 'model'],
     ['--language', 'language'],
     ['--max-record-bytes', 'maxRecordBytes'],
+    ['--worker-timeout-ms', 'workerTimeoutMs'],
     ['--filter-repo', 'filterRepo'],
     ['--profile', 'profile'],
   ]);
@@ -169,10 +173,31 @@ function validateFeatureArgs(config) {
 }
 
 function validateStructuredArgs(config) {
+  validateStreamArgs(config);
   if (config.twoPass && !config.stream) {
     throw failure('ERR_ARGUMENT');
   }
   if ((config.json && config.jsonl) || (config.stream && config.json)) {
+    throw failure('ERR_ARGUMENT');
+  }
+}
+
+function validateStreamArgs(config) {
+  if (config.workerTimeoutMs !== undefined) {
+    config.workerTimeoutMs = Number(config.workerTimeoutMs);
+    if (
+      !config.stream ||
+      !Number.isSafeInteger(config.workerTimeoutMs) ||
+      config.workerTimeoutMs <= 0 ||
+      config.workerTimeoutMs > 2147483647
+    ) {
+      throw failure('ERR_ARGUMENT');
+    }
+  }
+  if (
+    config.allowBinary &&
+    (config.json || config.jsonl || config.command === 'history')
+  ) {
     throw failure('ERR_ARGUMENT');
   }
 }
@@ -228,7 +253,6 @@ export async function runCli(
     }
     const config = parseArgs(argv);
     const options = await loadOptions(config);
-    config.lossless = !options.structured;
     const engine = createSanitizer(options);
     const context = { stdin, stdout };
     if (config.command === 'history') {
@@ -281,6 +305,10 @@ async function loadOptions(config) {
     options.maxInputLength ?? config.maxBytes,
     config.maxBytes
   );
+  config.lossless = !options.structured;
+  if (config.allowBinary && !config.lossless) {
+    throw failure('ERR_CONFIG');
+  }
   return options;
 }
 
@@ -350,7 +378,10 @@ function selectedDetectors(config, detectors = []) {
 }
 
 function inputText(path, config, stdin) {
-  const options = { lossless: config.lossless };
+  const options = {
+    lossless: config.lossless,
+    allowBinary: Boolean(config.allowBinary),
+  };
   return path === '-'
     ? stdinText(stdin, config.maxBytes, options)
     : readTextFile(path, config.maxBytes, options);

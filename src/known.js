@@ -73,12 +73,19 @@ function configTokens(config) {
 
 const secretEnvName =
   /(?:^|_)(?:TOKEN|(?:API|ACCESS|PRIVATE)?KEY|SECRET|PASSWORD|PASSWD|CREDENTIALS?|AUTH|PAT)(?:_|$)/i;
+// Configuration suffixes describe how authentication works. Explicit names
+// bypass this filter; credential suffixes such as AUTH_MODE_TOKEN still win.
+const authConfigurationName =
+  /(?:^|_)AUTH_(?:TRANSPORT|MODE|METHOD|TYPE|URL|URI|HOST|HOSTNAME|PATH|ENABLED|DISABLED|PORT|PROTOCOL|SCHEME)$/i;
 /** Opt-in literal values from credential-named keys, or an explicit selection. */
 export function knownSecretsFromEnv(env = process.env, names) {
   if (names === undefined) {
     names =
       env && typeof env === 'object'
-        ? Object.keys(env).filter((name) => secretEnvName.test(name))
+        ? Object.keys(env).filter(
+            (name) =>
+              secretEnvName.test(name) && !authConfigurationName.test(name)
+          )
         : [];
   }
   if (
