@@ -10,6 +10,8 @@
 - [x] Preserve finite memory/stack/input sizes for experiments; retain reusable scripts under experiments or examples; save large logs and run memory-heavy tasks sequentially.
 - [x] Investigate existing failing CI: list timestamp/SHA, preserve logs in ci-logs, identify exact errors, fix, validate.
 - [x] Add Changesets release fragment, documentation, requirement-to-evidence map, and remove task placeholder .gitkeep.
-- [ ] Run focused tests then full local tests and contributing checks; inspect PR diff for regressions and lost features; commit useful atomic changes with clear messages.
-- [ ] Fetch/merge default branch as needed, push only prepared branch, update PR 49 title/body with reproduction, validation and Fixes #45/#46/#47/#48.
-- [ ] Verify latest-SHA CI (download/analyze each failed run), resolve all failures, verify clean worktree, mark PR ready and complete native goal only when every criterion is met.
+- [x] Run focused tests then full local tests and contributing checks; inspect PR diff for regressions and lost features; commit useful atomic changes with clear messages.
+- [x] Fetch/merge default branch as needed, push only prepared branch, update PR 49 title/body with reproduction, validation and Fixes #45/#46/#47/#48.
+- [x] Verify implementation-SHA CI (download/analyze each failed run), resolve all failures, and record evidence. All four workflows passed for e54098be33c6ceb5cd8a56e1b12db0d2ae95d5c3.
+
+Final readiness is verified live after this evidence update is committed: check latest-head CI, confirm a clean worktree and current main, mark PR 49 ready, and complete the native goal only after every criterion is met.
