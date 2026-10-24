@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.2
+
+### Patch Changes
+
+- 704c4b7: Preserve Authorization placeholders, matching brackets and control-byte boundaries. Bound repeated WASM input copies when scanning dense credentials by continuing with the existing RE2JS engine.
+
 ## 0.12.1
 
 ### Patch Changes
