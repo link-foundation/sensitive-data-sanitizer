@@ -1,7 +1,7 @@
 import { cardNetwork, cardEvidence } from './confidence.js';
 import { isIP } from 'node:net';
 import { serviceRules } from './rules.js';
-import { detectContext, valueRange } from './context.js';
+import { detectContext, valueRange, authorizationRange } from './context.js';
 import { detectPersonal } from './personal.js';
 import { detectGitleaks } from './gitleaks.js';
 import { detectCatalog } from './entities.js';
@@ -132,7 +132,13 @@ function detectCookies(text, emit) {
 
 export function nativeDetect(text, options, emit) {
   const credential = { type: 'SECRET', category: 'credential' };
-  detectGitleaks(text, emit);
+  detectGitleaks(
+    text,
+    emit,
+    options.debug
+      ? (details) => options.debug({ event: 'gitleaks-rule', ...details })
+      : undefined
+  );
   for (const [rule, pattern] of serviceRules) {
     collectMatches(text, pattern, emit, { ...credential, rule });
   }
@@ -186,14 +192,7 @@ export function nativeDetect(text, options, emit) {
     emit,
     { ...credential, rule: 'private-key' }
   );
-  collectMatches(
-    text,
-    /(?:Proxy-)?Authorization[ \t]*:[ \t]*(?:Bearer|Basic|Digest)[ \t]+([^\r\n"',]+)/gi,
-    emit,
-    { ...credential, rule: 'authorization' },
-    1,
-    (value) => !credentialPlaceholder(value.trim())
-  );
+  detectAuthorization(text, emit, credential);
   detectCookies(text, emit);
   collectMatches(
     text,
@@ -226,6 +225,17 @@ export function nativeDetect(text, options, emit) {
           /^mcp__|^browser_|^\[REDACTED\]$/.test(v)
         ) && entropy(v) >= 4.2
     );
+  }
+}
+
+function detectAuthorization(text, emit, credential) {
+  for (const match of text.matchAll(
+    /(?:Proxy-)?Authorization[ \t]*:[ \t]*/gi
+  )) {
+    const range = authorizationRange(text, match.index + match[0].length);
+    if (range && !credentialPlaceholder(text.slice(range.start, range.end))) {
+      emit({ ...range, ...credential, rule: 'authorization' });
+    }
   }
 }
 

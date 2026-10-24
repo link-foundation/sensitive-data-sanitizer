@@ -79,6 +79,10 @@ function generatedWord(text, range) {
 }
 const ignored =
   /^(?:true|false|null|undefined|await|async|function|none|nil)$/i;
+const credentialHint = new RegExp(
+  [...labels.credential, 'pass', 'pw'].map(escapePattern).join('|'),
+  'iu'
+);
 
 function emitValue(text, start, end, emit, details, keyName = '') {
   while (end > start && /[ \t\r]/.test(text[end - 1])) {
@@ -149,6 +153,23 @@ export function valueRange(text, start, mode = 'token', maxLength = Infinity) {
   const stop = tail.search(terminator);
   const end = stop < 0 ? start + tail.length : start + stop;
   return { start, end: Math.min(end, outerQuoteEnd(text, start, end) ?? end) };
+}
+// Header credentials occupy a scheme and one token even inside shell/JSON
+// strings. A closing quote or escape belongs to the surrounding log record.
+export function authorizationRange(text, start) {
+  const opening = /^(\\*)(["'])/.exec(text.slice(start));
+  start += opening?.[0].length ?? 0;
+  const reference = referencePrefix(text.slice(start, start + 512));
+  if (reference) {
+    return { start, end: start + reference[0].length };
+  }
+  if (text.startsWith(REDACTED, start)) {
+    return undefined;
+  }
+  const match = /^(?:[a-z][a-z0-9_-]*[ \t]+)?[^\s"'\\,<>}\]]+/i.exec(
+    text.slice(start)
+  );
+  return match ? { start, end: start + match[0].length } : undefined;
 }
 function quotedRange(text, start, opening, maxLength) {
   const depth = opening[1].length,
@@ -301,7 +322,9 @@ function detectCredentials(text, emit) {
         : /[:：]/.test(match[2])
           ? 'line'
           : 'prose';
-    let range = valueRange(text, start, mode);
+    let range = /^(?:proxy-)?authorization$/i.test(match[1])
+      ? authorizationRange(text, start)
+      : valueRange(text, start, mode);
     if (range && mode === 'prose' && genericLabel.test(match[1])) {
       range = generatedWord(text, range);
     }
@@ -416,7 +439,9 @@ function detectCommandPasswords(text, emit) {
 }
 
 export function detectContext(text, emit, credentialsOnly = false) {
-  detectCredentials(text, emit);
+  if (credentialHint.test(text)) {
+    detectCredentials(text, emit);
+  }
   if (!credentialsOnly) {
     detectPersonalLabels(text, emit);
   }

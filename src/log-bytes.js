@@ -31,6 +31,9 @@ export function decodeLogBytes(input) {
 }
 
 export function encodeLogText(text) {
+  if (!/[\uDC80-\uDCFF]/.test(text)) {
+    return Buffer.from(text);
+  }
   const parts = [];
   let start = 0;
   for (let i = 0; i < text.length; i++) {

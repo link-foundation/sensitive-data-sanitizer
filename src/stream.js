@@ -22,6 +22,7 @@ import { failure, internalFailure } from './detection.js';
 import { sanitizeJsonlStream } from './jsonl-stream.js';
 import { workerExecArgv } from './worker-options.js';
 import { streamIdentity } from './stream-identity.js';
+import { workerResult } from './file-worker-result.js';
 
 const streamKeys = new Set([
   'sanitizer',
@@ -36,14 +37,17 @@ const streamKeys = new Set([
   'replace',
   'maxRegistryValues',
   'twoPass',
+  'allowBinary',
 ]);
 function configuration(options, collecting = false, complete) {
   validatePass(options);
   const suppliedOptions = sanitizerConfiguration(options.sanitizer);
-  const jsonl =
-    (options.sanitizerOptions?.structured ??
-      suppliedOptions?.structured ??
-      options.structured) === 'jsonl';
+  const structured =
+    options.sanitizerOptions?.structured ??
+    suppliedOptions?.structured ??
+    options.structured;
+  const jsonl = structured === 'jsonl';
+  validateBinary(options, structured);
   const batchBytes = options.batchBytes ?? 256 * 1024;
   const maxTotalBytes = options.maxTotalBytes ?? 1024 * 1024 * 1024;
   const maxRecordBytes =
@@ -79,6 +83,15 @@ function configuration(options, collecting = false, complete) {
             },
           },
   };
+}
+function validateBinary(options, structured) {
+  if (
+    (options.allowBinary !== undefined &&
+      typeof options.allowBinary !== 'boolean') ||
+    (options.allowBinary && structured)
+  ) {
+    throw failure('ERR_CONFIG');
+  }
 }
 function validatePass(options) {
   if (options.twoPass !== undefined && typeof options.twoPass !== 'boolean') {
@@ -230,6 +243,9 @@ async function* streamWithConfiguration(source, options, config) {
       pending = pending.slice(boundary);
       pendingBytes -= encodeLogText(text).length;
       config.identity.prepare(text, await prepareStreamEngine(engine, text));
+      if (config.collecting) {
+        config.onProgress?.();
+      }
       if (!config.collecting) {
         yield (await engine.sanitize(text)).text;
       }
@@ -244,8 +260,11 @@ async function* streamWithConfiguration(source, options, config) {
   for await (const chunk of source) {
     const bytes = Buffer.from(chunk);
     total += bytes.length;
-    if (total > maxTotalBytes || bytes.includes(0)) {
-      throw failure(bytes.includes(0) ? 'ERR_BINARY' : 'ERR_LIMIT');
+    if (total > maxTotalBytes) {
+      throw failure('ERR_LIMIT');
+    }
+    if (!options.allowBinary && bytes.includes(0)) {
+      throw failure('ERR_BINARY');
     }
     for (
       let i = 0;
@@ -277,7 +296,12 @@ async function* streamWithConfiguration(source, options, config) {
   }
   yield* process(true);
 }
-export async function sanitizeStreamToFile(source, path, options = {}) {
+export async function sanitizeStreamToFile(
+  source,
+  path,
+  options = {},
+  onProgress
+) {
   const target = resolve(path),
     temporary = join(dirname(target), `.sanitizer-${randomUUID()}.tmp`);
   let handle,
@@ -286,12 +310,13 @@ export async function sanitizeStreamToFile(source, path, options = {}) {
     await validateTarget(target, options.replace);
     handle = await open(temporary, 'wx', 0o600);
     const stream = options.twoPass
-      ? twoPassStream(source, temporary, options)
+      ? twoPassStream(source, temporary, options, onProgress)
       : sanitizeStream(source, options);
     for await (const chunk of stream) {
       const bytes = encodeLogText(chunk);
       outputBytes += bytes.length;
       await handle.writeFile(bytes);
+      onProgress?.();
     }
     await handle.sync();
     await handle.close();
@@ -310,11 +335,12 @@ export async function sanitizeStreamToFile(source, path, options = {}) {
     await unlink(temporary).catch(() => {});
   }
 }
-async function* twoPassStream(source, temporary, options) {
+async function* twoPassStream(source, temporary, options, onProgress) {
   const spool = `${temporary}.input`;
   let input;
   try {
     const discovery = configuration(options, true);
+    discovery.onProgress = onProgress;
     input = await open(spool, 'wx', 0o600);
     async function* capture() {
       let total = 0;
@@ -366,7 +392,12 @@ async function validateTarget(target, replace) {
     }
   }
 }
-export async function sanitizeFileToFile(source, target, options = {}) {
+export async function sanitizeFileToFile(
+  source,
+  target,
+  options = {},
+  onProgress
+) {
   let handle;
   try {
     handle = await open(
@@ -380,7 +411,8 @@ export async function sanitizeFileToFile(source, target, options = {}) {
     const result = await sanitizeStreamToFile(
       handle.createReadStream({ highWaterMark: 65536, autoClose: false }),
       target,
-      options
+      options,
+      onProgress
     );
     return { ...result, inputBytes: info.size };
   } catch (error) {
@@ -399,7 +431,8 @@ export async function sanitizeFileBounded(source, target, options = {}) {
     !Number.isSafeInteger(workerHeapMb) ||
     workerHeapMb < 32 ||
     !Number.isSafeInteger(workerTimeoutMs) ||
-    workerTimeoutMs <= 0
+    workerTimeoutMs <= 0 ||
+    workerTimeoutMs > 2147483647
   ) {
     throw failure('ERR_CONFIG');
   }
@@ -429,21 +462,4 @@ export async function sanitizeFileBounded(source, target, options = {}) {
     await worker?.terminate();
     await rm(staging, { recursive: true, force: true });
   }
-}
-function workerResult(worker, timeoutMs) {
-  return new Promise((accept, reject) => {
-    const timer = setTimeout(() => reject(failure('ERR_WORKER')), timeoutMs);
-    const fail = () => {
-      clearTimeout(timer);
-      reject(failure('ERR_WORKER'));
-    };
-    worker.once('message', (result) => {
-      clearTimeout(timer);
-      result.error
-        ? reject(failure(result.error, result))
-        : accept(result.value);
-    });
-    worker.once('error', fail);
-    worker.once('exit', fail);
-  });
 }

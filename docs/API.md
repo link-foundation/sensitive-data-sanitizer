@@ -15,7 +15,7 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 | `redact(text, findings, options)`      | Apply validated ranges without automatic detection/verification                                              |
 | `auditGitHistory(repository, options)` | Read-only audit of local reachable text objects                                                              |
 
-`redactions` counts merged replacement spans. `findings` can contain several detector hits for one replacement. Findings have `{start, end, type, category, rule, line, column}`; no text, quote, match, entropy score, provider details, or raw diagnostic is copied. Debugging is off by default; `debug(event)` receives only `{event: 'detected', count}`.
+`redactions` counts merged replacement spans. `findings` can contain several detector hits for one replacement. Findings have `{start, end, type, category, rule, line, column}`; no text, quote, match, entropy score, provider details, or raw diagnostic is copied. Debugging is off by default; `debug(event)` receives value-free counts, rule timings, residual rounds and registry event metadata (see `DebugEvent` in the TypeScript declarations).
 
 ## Options
 
@@ -34,14 +34,14 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 | `maxFindings`      | 100,000 detector hits before deduplication                                                    |
 | `minConfidence`    | 0.5; personal findings below this score remain visible to inspect but are not replaced        |
 | `threshold`        | Alias for minConfidence; both options must agree when supplied                                |
-| `debug`            | Optional trusted callback for counts only                                                     |
+| `debug`            | Optional trusted callback for value-free counts, timing and event metadata                    |
 | `identityMask`     | `false`; identity types keep 2+2 Unicode characters with fixed `***`, or redact below five    |
 | `fakeIdentity`     | Off; `'specimen-and-synthetic'` retains explicitly fake identity values                       |
 | `fakeValues`       | `[]`; exact caller-reviewed identity values to retain, regardless of fakeIdentity             |
 | `structured`       | Off; `'json'` or `'jsonl'` validates and sanitizes string keys/values separately              |
 | `structuralFields` | `[]`; declared property names suppress weak name/ID/entropy heuristics in their string values |
 
-Unknown options and invalid limits are errors. `knownSecretsFromEnv(env, names?)` discovers credential-named variables when names are omitted, or uses an explicit selection, deduplicating nonempty values. It never invokes shell commands or reads auth files. `personalVariants(entries)` generates numeric and ISO/day-first date spellings; name case variants are already handled by detection. Neither helper invents transliterations.
+Unknown options and invalid limits are errors. `knownSecretsFromEnv(env, names?)` discovers credential-named variables (excluding auth configuration names) when names are omitted, or uses an explicit selection, deduplicating nonempty values. It never invokes shell commands or reads auth files. `personalVariants(entries)` generates numeric and ISO/day-first date spellings; name case variants are already handled by detection. Neither helper invents transliterations.
 
 ## Required detectors
 
@@ -188,7 +188,7 @@ await sanitizeStreamToFile(
 );
 ```
 
-`sanitizeFileToFile` rejects source symlinks and writes private temporary output, publishing only after complete verification. `sanitizeFileBounded` additionally uses a worker with a 60-second deadline and requests a 256 MiB old-generation heap and 4 MiB stack on Node (Bun ignores those resourceLimits); `workerHeapMb` and `workerTimeoutMs` are configurable. Worker failure removes its private staging directory before returning. Limits bound package work, not arbitrary external detectors. Callbacks supplied through `sanitizer` run in process; set `worker: false` explicitly to disable isolation. Pass serializable options through `sanitizerOptions` for workers. Memory limits do not include all native/WASM allocation.
+`sanitizeFileToFile` rejects source symlinks and writes private temporary output, publishing only after complete verification. `sanitizeFileBounded` additionally uses a worker with a 60-second inactivity deadline that resets after each verified batch (including discovery in two-pass mode) and requests a 256 MiB old-generation heap and 4 MiB stack on Node (Bun ignores those resourceLimits); `workerHeapMb` and `workerTimeoutMs` are configurable. `workerTimeoutMs` accepts integers from 1 to 2147483647; the CLI exposes it as `--worker-timeout-ms N`. A progressing file may take longer than that overall. One large record must finish within that interval; increase it for unusually costly records. JSONL record workers retain a per-batch deadline. In-process stdin/plain streams have no worker deadline. Worker failure removes its private staging directory before returning. Limits bound package work, not arbitrary external detectors. Callbacks supplied through `sanitizer` run in process; set `worker: false` explicitly to disable isolation. Pass serializable options through `sanitizerOptions` for workers. Memory limits do not include all native/WASM allocation.
 
 ```js
 import { sanitizeFileBounded } from '@link-foundation/sensitive-data-sanitizer';
@@ -298,7 +298,7 @@ when `names` is omitted, using
 `/(?:^|_)(?:TOKEN|(?:API|ACCESS|PRIVATE)?KEY|SECRET|PASSWORD|PASSWD|CREDENTIALS?|AUTH|PAT)(?:_|$)/i`.
 This covers `MY_SERVICE_TOKEN`, `CLAUDE_CODE_OAUTH_TOKEN`, `CODEX_API_KEY`,
 `OPENCODE_API_KEY`, `DASHSCOPE_API_KEY`, `HF_TOKEN` and `TELEGRAM_BOT_TOKEN`.
-An explicit array keeps the previous selection behavior; `[]` selects nothing.
+Automatic discovery excludes names ending in `AUTH_TRANSPORT`, `AUTH_MODE`, `AUTH_METHOD`, `AUTH_TYPE`, `AUTH_URL`, `AUTH_URI`, `AUTH_HOST`, `AUTH_HOSTNAME`, `AUTH_PATH`, `AUTH_ENABLED`, `AUTH_DISABLED`, `AUTH_PORT`, `AUTH_PROTOCOL` or `AUTH_SCHEME` (including prefixed forms such as `HIVE_MIND_GIT_AUTH_TRANSPORT`). Credential names such as `AUTH_TOKEN` still contribute their exact values, including short/low-entropy values; no value-shape filter can reliably distinguish passwords from configuration. An explicit array bypasses the name exclusions; `[]` selects nothing.
 These values are loaded only when the helper or CLI `--env-secrets` is requested.
 
 `await knownSecretsFromGitHubConfig({path?})` reads `oauth_token` and `api_token`
@@ -325,8 +325,7 @@ U+DC80–U+DCFF surrogate; `encodeLogText(string)` restores those bytes. Use the
 encoder when collecting `sanitizeStream` string output containing such bytes.
 Ordinary UTF-8 string encoding would replace them and lose information.
 `sanitizeStreamToFile` and `sanitizeFileBounded` perform the encoding themselves,
-including workers and both passes. NUL bytes still identify binary input and
-block publication. JSON/JSONL, scanner protocol files and configuration retain
+including workers and both passes. NUL bytes identify binary input and block publication by default. Plain streams accept `allowBinary: true`, and CLI file/stdin/scan/output/in-place paths accept `--allow-binary`, to preserve NUL as an ordinary byte while continuing credential detection. The opt-in is rejected for JSON/JSONL and history; it does not relax configuration/scanner validation. JSON/JSONL, scanner protocol files and configuration retain
 strict UTF-8 validation; malformed bytes cannot represent valid JSON text.
 
 Default detection keeps RFC 1918, loopback, link-local and IPv6 local addresses,
@@ -334,3 +333,5 @@ recognized auth-mode metadata, npm dependency version declarations, Actions
 permission values and literal credential references. `publicKnowledge: false`
 restores IP detection; explicit `knownSecrets` and `knownPersonal` retain
 priority. No shell command or workflow expression is executed.
+
+Authorization headers (including Proxy-Authorization) redact the scheme and one credential token. Whitespace, quotes, backslashes and commas end the value, preserving subsequent log text in shell and escaped JSON prompts. Known credential references remain exempt. The debug callback receives value-free `gitleaks-rule` events with rule ID, input length and elapsed milliseconds; tracing is off by default.

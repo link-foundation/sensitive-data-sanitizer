@@ -141,6 +141,20 @@ function workerCount(options, config) {
   // Deno's Node compatibility does not implement resource-limited workers.
   return typeof Deno !== 'undefined' ? 1 : count;
 }
+function workerLimits(options) {
+  const heap = options.workerHeapMb ?? 256,
+    timeout = options.workerTimeoutMs ?? 60000;
+  if (
+    !Number.isSafeInteger(heap) ||
+    heap < 32 ||
+    !Number.isSafeInteger(timeout) ||
+    timeout <= 0 ||
+    timeout > 2147483647
+  ) {
+    throw failure('ERR_CONFIG');
+  }
+  return { heap, timeout };
+}
 export async function* sanitizeJsonlStream(source, options, config) {
   const count = config.collecting ? 1 : workerCount(options, config);
   if (count === 1) {
@@ -149,22 +163,16 @@ export async function* sanitizeJsonlStream(source, options, config) {
         batch,
         await prepareStreamEngine(config.engine, batch)
       );
+      if (config.collecting) {
+        config.onProgress?.();
+      }
       if (!config.collecting) {
         yield (await config.engine.sanitize(batch)).text;
       }
     }
     return;
   }
-  const heap = options.workerHeapMb ?? 256,
-    timeout = options.workerTimeoutMs ?? 60000;
-  if (
-    !Number.isSafeInteger(heap) ||
-    heap < 32 ||
-    !Number.isSafeInteger(timeout) ||
-    timeout <= 0
-  ) {
-    throw failure('ERR_CONFIG');
-  }
+  const { heap, timeout } = workerLimits(options);
   const slots = [],
     queue = [];
   let sequence = 0;

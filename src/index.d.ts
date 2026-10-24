@@ -77,12 +77,19 @@ export interface SanitizerOptions {
   decode?: boolean;
   maxInputLength?: number;
   maxFindings?: number;
-  debug?: (event: { event: 'detected'; count: number }) => void;
+  debug?: (event: DebugEvent) => void;
   /** Used by createSanitizer; synchronous functions use native rules only. */
   detectors?: Detector[];
   /** Required by default in createSanitizer. */
   secretlint?: boolean;
 }
+/** Value-free diagnostics; enabled only when a debug callback is supplied. */
+export type DebugEvent =
+  | { event: 'detected'; count: number }
+  | { event: 'residual-redaction'; round: number }
+  | { event: 'two-pass-confirmation'; type: string }
+  | { event: 'propagation-skipped'; reason: 'length'; type: string }
+  | { event: 'gitleaks-rule'; rule: string; length: number; ms: number };
 export interface SanitizedText {
   text: string;
   findings: Finding[];
@@ -233,6 +240,8 @@ export type Transformation =
   | { mode: 'date-shift'; days: number }
   | { mode: 'bucket'; size: number };
 export interface StreamOptions extends SanitizerOptions {
+  /** Treat NUL as a log byte; default false. Incompatible with JSON/JSONL. */
+  allowBinary?: boolean;
   /** Atomic file APIs only: spool input privately, collect, then redact. */
   twoPass?: boolean;
   maxRegistryValues?: number;
@@ -245,6 +254,7 @@ export interface StreamOptions extends SanitizerOptions {
   /** JSONL record workers, 1–16; default 2, or 1 for callbacks/Deno. */
   workers?: number;
   workerHeapMb?: number;
+  /** 1–2147483647 ms; file inactivity / JSONL per-batch deadline; default 60000. */
   workerTimeoutMs?: number;
   replace?: boolean;
 }
