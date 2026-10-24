@@ -163,13 +163,29 @@ export function authorizationRange(text, start) {
   if (reference) {
     return { start, end: start + reference[0].length };
   }
-  if (text.startsWith(REDACTED, start)) {
-    return undefined;
+  const scheme = /^[a-z][a-z0-9_-]*[ \t]+/i.exec(text.slice(start));
+  const tokenStart = start + (scheme?.[0].length ?? 0);
+  const brackets = [];
+  let end = tokenStart;
+  for (; end < text.length; end++) {
+    const char = text[end];
+    const code = text.charCodeAt(end);
+    if (code < 32 || code === 127 || /[\s"'\\,]/.test(char)) {
+      break;
+    }
+    if (char === '<' && end !== tokenStart && !brackets.length) {
+      break;
+    }
+    const closing = { '{': '}', '[': ']', '<': '>' }[char];
+    if (closing) {
+      brackets.push(closing);
+    } else if (/[}\]>]/.test(char) && char !== brackets.pop()) {
+      // An unmatched closer belongs to the enclosing log structure.
+      break;
+    }
   }
-  const match = /^(?:[a-z][a-z0-9_-]*[ \t]+)?[^\s"'\\,<>}\]]+/i.exec(
-    text.slice(start)
-  );
-  return match ? { start, end: start + match[0].length } : undefined;
+  const token = text.slice(tokenStart, end);
+  return !token || credentialPlaceholder(token) ? undefined : { start, end };
 }
 function quotedRange(text, start, opening, maxLength) {
   const depth = opening[1].length,
