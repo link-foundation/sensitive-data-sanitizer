@@ -12,7 +12,7 @@ import { keywordMatcher } from './keywords.js';
 
 export const gitleaksRules = [...r0, ...r1, ...r2, ...r3, ...r4, ...r5];
 const compiled = new Map();
-const largePatterns = new Map();
+const linearPatterns = new Map();
 const keywordIndex = keywordMatcher(
   gitleaksRules.flatMap((r) =>
     (r.keywords ?? []).map((word) => word.toLowerCase())
@@ -119,17 +119,6 @@ function* boundedViews(text, prefix, id) {
 }
 
 function scanRule(text, base, rule, emit, large) {
-  // re2-wasm 1.0.2 returns codepoint indices despite its RegExp-like API.
-  // Convert once per view, and keep its search cursor in codepoints too.
-  let offsets;
-  if (!large && /[\uD800-\uDBFF]/.test(text)) {
-    offsets = [0];
-    let offset = 0;
-    for (const char of text) {
-      offset += char.length;
-      offsets.push(offset);
-    }
-  }
   for (const match of ruleMatches(text, rule, large)) {
     const secret = capturedSecret(rule, match);
     if (!secret) {
@@ -140,12 +129,8 @@ function scanRule(text, base, rule, emit, large) {
     const offset = match[0].indexOf(secret),
       last = match[0].lastIndexOf(secret);
     emit({
-      start: base + (offsets ? offsets[match.index] : match.index) + offset,
-      end:
-        base +
-        (offsets ? offsets[match.index] : match.index) +
-        last +
-        secret.length,
+      start: base + match.index + offset,
+      end: base + match.index + last + secret.length,
       type: 'SECRET',
       category: 'credential',
       rule: `gitleaks/${rule.id}`,
@@ -158,15 +143,19 @@ function* ruleMatches(text, rule, large) {
   if (large) {
     // re2-wasm has a fixed 16 MiB heap. RE2JS implements the same linear-time
     // syntax without copying the input into WASM. Its indices are UTF-16.
-    let linear = largePatterns.get(rule.id);
-    if (!linear) {
-      linear = RE2JS.compile(rule.regex);
-      largePatterns.set(rule.id, linear);
-    }
-    if (linear.test(text)) {
-      yield* linear.matchAll(text);
-    }
+    yield* linearMatches(text, rule);
     return;
+  }
+  // re2-wasm 1.0.2 returns codepoint indices despite its RegExp-like API.
+  // Normalize matches here so switching engines never changes public offsets.
+  let offsets;
+  if (/[\uD800-\uDBFF]/.test(text)) {
+    offsets = [0];
+    let offset = 0;
+    for (const char of text) {
+      offset += char.length;
+      offsets.push(offset);
+    }
   }
   let pattern = compiled.get(rule.id);
   if (!pattern) {
@@ -174,11 +163,36 @@ function* ruleMatches(text, rule, large) {
     compiled.set(rule.id, pattern);
   }
   pattern.lastIndex = 0;
-  let match;
-  while ((match = pattern.exec(text)) !== null) {
-    pattern.lastIndex =
-      match.index + Array.from(match[0]).length || pattern.lastIndex + 1;
+  for (let attempts = 0; attempts < 8; attempts++) {
+    const match = pattern.exec(text);
+    if (!match) {
+      return;
+    }
+    pattern.lastIndex = match.index + Math.max(1, Array.from(match[0]).length);
+    match.index = offsets ? offsets[match.index] : match.index;
     yield match;
+  }
+  // Every exec recopies the whole view into WASM. Bound those copies even
+  // for dense inputs, then replay at most eight matches in the JS engine.
+  // Keep the original subject: slicing would change anchors and boundaries.
+  const resume = offsets ? offsets[pattern.lastIndex] : pattern.lastIndex;
+  if (resume !== undefined && resume <= text.length) {
+    yield* linearMatches(text, rule, resume);
+  }
+}
+
+function* linearMatches(text, rule, resume = 0) {
+  let linear = linearPatterns.get(rule.id);
+  if (!linear) {
+    linear = RE2JS.compile(rule.regex);
+    linearPatterns.set(rule.id, linear);
+  }
+  if (linear.test(text)) {
+    for (const match of linear.matchAll(text)) {
+      if (match.index >= resume) {
+        yield match;
+      }
+    }
   }
 }
 
