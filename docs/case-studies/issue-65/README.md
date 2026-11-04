@@ -47,3 +47,17 @@ The final original runs used head `5811119b` (committed 16:03:10 UTC), and both 
 The workflows now pin `macos-26`, a [generally available Apple Silicon image](https://github.blog/changelog/2026-02-26-macos-26-is-now-generally-available-for-github-hosted-runners/), for the runtime matrix, desktop package and opt-in iOS build. This tries the newer supported image while preserving native ARM64 execution and the ARM64 Electron artifact. No platform/runtime coverage or pipeline failure handling is removed. Runner acquisition remains a GitHub service dependency; a newer image cannot guarantee capacity during an outage. Current-head CI must execute and pass before completion.
 
 Restart verification: all 75 issue regression checks passed locally. `origin/main` remains `ee7b51c` and is already an ancestor of the PR branch. Every issue body, all issue comments, native sub-issues, PR conversation comments, inline comments and reviews were checked again; there are no new product requirements.
+
+### Second restart: supported Intel pool
+
+Fresh gate logs for head `0ff4d0f` again report `Failing jobs: test` at line 264 of `release-gate-fresh.log` and `Failing jobs: desktop-package` at line 215 of `example-gate-fresh.log`. The failed desktop check's annotations explicitly cite hosted runner acquisition failure and macOS ARM64 capacity constraints. Every macOS job has zero executed steps; full-run log retrieval fails with `log not found` for those unassigned jobs. Logs and API job metadata are preserved locally under ignored `ci-logs/`. GitHub's unresolved-incidents API returned no incidents at 17:06 UTC, so the earlier incident is no longer evidence of an ongoing general outage.
+
+The new approach uses [`macos-26-intel`, GitHub's supported standard x64 image](https://github.blog/changelog/2026-02-26-macos-26-is-now-generally-available-for-github-hosted-runners/), consistently for runtime tests, desktop packaging and opt-in iOS builds. This differs from the earlier macOS 15 Intel trial during the general incident. Electron explicitly targets `--arm64`, preserving the previous Apple Silicon artifact. All three runtimes still execute on macOS; native ARM64 runtime execution is replaced by native x64 execution. Both pipeline gates remain mandatory on PRs and main. No secret, manual configuration action, skipped required job or new runtime dependency is involved.
+
+Verification checklist for this restart:
+
+- [x] Read the complete umbrella issue, all seven sub-issues and comments, and all PR conversation/inline comments and reviews; retain the requirement mapping above.
+- [x] Fetch latest main and merge it into the working branch (already up to date at `ee7b51c`).
+- [x] Re-read fresh failure logs and runner annotations rather than retrying the same ARM64 labels.
+- [x] Run focused regression/workflow tests: 120 checks pass, including all 75 product regressions; workflow policy and changed-file formatting pass.
+- [ ] Verify every CI check on the final commit, review the final PR diff, update the PR description and mark ready only after all checks pass.

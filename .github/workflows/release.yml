@@ -332,7 +332,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, macos-26, windows-2025]
+        # Use the Intel pool while hosted macOS ARM64 capacity is constrained.
+        os: [ubuntu-24.04, macos-26-intel, windows-2025]
         runtime: [node, bun, deno]
     steps:
       - uses: actions/checkout@v6
