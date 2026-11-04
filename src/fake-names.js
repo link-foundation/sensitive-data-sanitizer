@@ -213,7 +213,8 @@ export function fakeName(value, key) {
     return fakeWord(word, key, roles.get(word), undefined, nameSex);
   });
 }
-function wordProfile(word, forcedRole, forcedLocale) {
+export function wordProfile(word, forcedRole, forcedLocale) {
+  indexNames();
   const canonical = latinName(word);
   const patronymic = /(?:vich|vna|ichna|ogly|kyzy)$/.test(canonical);
   const slavic = /(?:ova|eva|ov|ev|in|ina|enko|sky|ski|skaya)$/.test(canonical);
@@ -240,7 +241,7 @@ function wordProfile(word, forcedRole, forcedLocale) {
         : 'lastName');
   return { canonical, locale, sex, role };
 }
-function fakeWord(word, key, forcedRole, forcedLocale, forcedSex) {
+export function fakeWord(word, key, forcedRole, forcedLocale, forcedSex) {
   const {
     canonical,
     locale,

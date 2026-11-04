@@ -242,7 +242,9 @@ export function detectPersonal(text, emit) {
     0,
     (_value, match) => {
       const rest = text.slice(match.index + match[0].length);
-      return !/^\/[a-z0-9][a-z0-9_.-]*/i.test(rest) || mentionedEmail.test(rest);
+      return (
+        !/^\/[a-z0-9][a-z0-9_.-]*/i.test(rest) || mentionedEmail.test(rest)
+      );
     }
   );
   collectMatches(

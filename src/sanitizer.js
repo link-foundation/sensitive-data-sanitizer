@@ -1,4 +1,5 @@
 import { generatedValues } from './fake.js';
+import { prepareFakeText } from './fake-entities.js';
 import { alignEscapes } from './escape-spans.js';
 import { actionable } from './confidence.js';
 import { propagate, confirmationOptions } from './propagation.js';
@@ -692,7 +693,7 @@ export function redactResult(
 ) {
   options = applyProfile(options);
   const spans = validatedSpans(text, findings, options);
-  options = initializePlaceholders(options);
+  options = prepareFakeText(text, findings, initializePlaceholders(options));
   preparePlaceholderText(text, findings, options);
   const parts = [];
   const faked = [];

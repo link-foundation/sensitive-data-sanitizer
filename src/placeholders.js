@@ -265,7 +265,7 @@ function namespaceCollision(text, pattern) {
   return false;
 }
 
-function canonicalPerson(value, people) {
+export function canonicalPerson(value, people) {
   // Resolve components only when there is a unique compatible full name.
   const matches = people.filter((person) => {
     const words = person.match(/\p{L}+/gu) ?? [];
@@ -287,8 +287,11 @@ function canonicalKnown(value, type, options, state) {
   const known = (options.knownPersonal ?? []).filter(
     (e) => e.type === type && samePersonal(value, e.value, type)
   );
-  if (known.length === 1) {
-    return known[0].value;
+  // `Петров Данил` and `Петров Данил Сергеевич` are one person: the fullest wins.
+  const longest = Math.max(0, ...known.map((e) => e.value.length));
+  const fullest = known.filter((e) => e.value.length === longest);
+  if (fullest.length === 1) {
+    return fullest[0].value;
   }
   return type === 'PERSON' ? canonicalPerson(value, state.people ?? []) : value;
 }

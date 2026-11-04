@@ -59,7 +59,7 @@ function cyrillicPattern(word, type) {
   }
   return escapePattern(word);
 }
-function wordPattern(word, type) {
+export function wordPattern(word, type) {
   return foldYo(
     word
       .split('-')
