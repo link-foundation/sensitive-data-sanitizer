@@ -1,6 +1,6 @@
 // Finite scan comparison. Run with node --max-old-space-size=512.
 import { performance } from 'node:perf_hooks';
-import { createSanitizer } from '../../src/index.js';
+import { createSanitizer, sanitizeStream } from '../../src/index.js';
 import { detectGitleaks } from '../../src/gitleaks.js';
 const mode = process.argv[2] ?? 'gitleaks';
 const start = performance.now();
@@ -13,6 +13,16 @@ if (mode === 'gitleaks') {
     (event) => trace.push(event)
   );
   console.log(trace.sort((a, b) => b.ms - a.ms).slice(0, 6));
+} else if (mode === 'jsonl') {
+  const record = `${JSON.stringify({ stdout: `ordinary ${' '.repeat(7 * 1024 * 1024)}`, password: 'short-private' })}\n`;
+  for await (const chunk of sanitizeStream([record, record], {
+    structured: 'jsonl',
+    workers: 2,
+  })) {
+    if (chunk.includes('short-private')) {
+      throw new Error('Credential leaked');
+    }
+  }
 } else {
   const input = JSON.stringify({
     stdout: `ordinary ${' '.repeat(7 * 1024 * 1024)}`,

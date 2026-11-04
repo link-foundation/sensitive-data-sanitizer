@@ -54,9 +54,10 @@ describe('ordered bounded JSONL streaming', () => {
     ).toBe(expected);
   });
   it('accepts a seven-megabyte record followed by records above the whole-input limit', async () => {
-    const record = `${JSON.stringify({
-      // Exercise record size and worker transport without millions of redundant words.
-      stdout: `ordinary ${' '.repeat(7 * 1024 * 1024)}`,
+    // JSON whitespace contributes to record/transport limits without forcing
+    // each detector to rescan seven million copies of the same character.
+    const record = `${' '.repeat(7 * 1024 * 1024)}${JSON.stringify({
+      stdout: 'ordinary output',
       password: 'short-private',
     })}\n`;
     expect(Buffer.byteLength(record) > 7 * 1024 * 1024).toBe(true);
