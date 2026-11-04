@@ -77,4 +77,22 @@ describe('placeholder residual safety', () => {
       expect(restore(text, map)).toBe(input);
     }
   });
+
+  it('gives a repeated bare name one token next to its numbered form', () => {
+    const map = createRestoreMap();
+    const run = (input) => {
+      const { text } = sanitize(input, documents(map));
+      expect(restore(text, map)).toBe(input);
+      return text;
+    };
+    expect(run('Работал в компании Вектор.')).toBe(
+      'Работал в компании Organization-1.'
+    );
+    expect(run('Работал в компании Вектор-99, потом Вектор.')).toBe(
+      'Работал в компании Organization-2, потом Organization-1.'
+    );
+    expect(run('Работал в компании Вектор и Вектор-99.')).toBe(
+      'Работал в компании Organization-1 и Organization-2.'
+    );
+  });
 });
