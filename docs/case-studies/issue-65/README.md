@@ -24,7 +24,7 @@ Implementation order: shared known-value boundaries/morphology and selection; pl
 
 ## Reproduction and validation
 
-Run `node --test --test-timeout=30000 tests/sanitizer-issue-65.test.js` for the reported examples and API/CLI/stream checks. The regression suite contains 73 checks. Running the initial 72-check draft against `origin/main` (`ee7b51c`) in a detached worktree produced 59 failures across all seven issue groups; the completed suite passes with these changes.
+Run `node --test --test-timeout=30000 tests/sanitizer-issue-65.test.js` for the reported examples and API/CLI/stream checks. The regression suite contains 75 checks. Running the initial 72-check draft against `origin/main` (`ee7b51c`) in a detached worktree produced 59 failures across all seven issue groups; the completed suite passes with these changes.
 
 Focused compatibility runs also passed: 163 checks covering credential context/formats and earlier issue regressions; 187 checks covering rules, placeholders, CLI, escaping, documents and fake values; and a final placeholder/regression run of 95 checks. Lint, formatting, duplication and secret scans passed locally. Full platform/runtime suites run in the existing PR CI matrix rather than duplicating those workloads locally.
 

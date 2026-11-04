@@ -37,7 +37,11 @@ for (const [vendor, catalog] of Object.entries(entityCatalogs)) {
   }
 }
 export const catalogTypes = () => [
-  ...new Set([...entries.values()].map((entry) => entry.type)),
+  ...new Set(
+    [...entries.values()]
+      .filter((entry) => entry.category === 'personal')
+      .map((entry) => (entry.type === 'DATE_OF_BIRTH' ? 'DATE' : entry.type))
+  ),
 ];
 // All documented names are native labelled recognizers; automatic format
 // recognizers are separate and do not claim the vendors' model behavior.

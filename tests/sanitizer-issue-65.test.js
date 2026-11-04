@@ -34,6 +34,7 @@ describe('placeholder namespace for technical prose', () => {
     'S-300',
     'xPerson-1y',
     'Person-1a',
+    'Password-1',
   ]) {
     it(`preserves ${token} and restores exactly`, () => {
       expect(mapped(`Jane Doe knows ${token}.`).text).toBe(
@@ -111,6 +112,14 @@ const knownPersonal = [
   { type: 'ORGANIZATION', value: 'ООО «Северная торговая компания»' },
 ];
 describe('known entity forms and Unicode boundaries', () => {
+  it('keeps empty or short organization cores literal', () => {
+    expect(
+      mapped('Example prose', {
+        knownOnly: true,
+        knownPersonal: [{ type: 'ORGANIZATION', value: 'ООО «»' }],
+      }).text
+    ).toBe('Example prose');
+  });
   it('links inflected and reordered whole surfaces to a reused map entry', () => {
     const map = createRestoreMap();
     const options = {

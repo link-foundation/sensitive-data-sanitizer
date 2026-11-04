@@ -43,7 +43,10 @@ export function personalPatterns(value, type) {
   }
   const values = new Set([value]);
   if (type === 'ORGANIZATION') {
-    values.add(organizationCore(value));
+    const core = organizationCore(value);
+    if (core.length >= 3) {
+      values.add(core);
+    }
   }
   const patterns = new Set();
   for (const surface of values) {
