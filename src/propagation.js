@@ -1,5 +1,6 @@
 import { personalPattern, maxPropagationLength, failure } from './detection.js';
 import { actionable } from './confidence.js';
+import { organizationCore } from './personal-variants.js';
 import { nameAliases } from './transliteration.js';
 
 function mrzSeeds(value, finding, seeds) {
@@ -32,11 +33,13 @@ function decodedValue(value) {
 
 function eligibleSeed(finding, options) {
   return (
+    !options.knownOnly &&
     finding.category === 'personal' &&
     finding.type !== 'ENCODED_SENSITIVE' &&
     !['confirmed-personal', 'document-propagation'].includes(finding.rule) &&
     actionable(finding, options) &&
-    (finding.confidence >= 0.85 ||
+    ((options.documentEntities && finding.type === 'ORGANIZATION') ||
+      finding.confidence >= 0.85 ||
       [
         'PERSON',
         'PASSPORT_NUMBER',
@@ -46,6 +49,14 @@ function eligibleSeed(finding, options) {
         'PASSPORT_MRZ',
       ].includes(finding.type))
   );
+}
+function organizationSeed(value, finding, seeds, options) {
+  if (options.documentEntities && finding.type === 'ORGANIZATION') {
+    const core = organizationCore(value);
+    if (core.length >= 3) {
+      seeds.set(core, finding);
+    }
+  }
 }
 // Only confirmed values seed propagation. A low-score numeric coincidence
 // must never turn every log occurrence into a high-score identity.
@@ -71,6 +82,7 @@ export function confirmedSeeds(text, findings, options) {
       mrzSeeds(value, finding, seeds);
     } else if (value.length >= 2) {
       seeds.set(value, finding);
+      organizationSeed(value, finding, seeds, options);
       if (finding.type === 'PERSON') {
         for (const name of value.match(/\p{L}{2,}/gu) ?? []) {
           seeds.set(name, finding);

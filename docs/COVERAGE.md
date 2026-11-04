@@ -29,6 +29,15 @@ remains available under those profiles.
 | `LOCATION`     | Exact city/region entries from a bounded offline vocabulary                                                                           | 0.60       |
 | `LOCATION`     | Bounded proper names after location labels, including based in, located in, relocated from, г., город and locale equivalents          | 0.75       |
 
+Russian document rules also accept legal-form quoted names with lowercase words,
+digits and hyphens (up to 160 characters), organization Group/Групп/Holding/Холдинг
+markers, adjectival institution names with lowercase connectors and optional
+`имени` tails, education acronyms in context, residence labels and city/country
+phrasing. A known given name after `Меня зовут` or `С уважением` scores 0.70.
+Detected organization cores propagate within a document and across confirmed
+stream records. Russian regional cities include Ярославль and Кострома; the
+vocabulary remains finite. Default profiles do not enable these document rules.
+
 These confidence values indicate heuristic strength, not calibrated
 probabilities. `minConfidence` still controls replacement. Findings retain
 their confidence even below threshold. `publicEntities` supports exact reviewed
@@ -41,7 +50,7 @@ Spanish, French, German, Portuguese, Russian, Japanese, Simplified/Traditional
 Chinese, Korean, Arabic, Hebrew, Hindi, Turkish, Indonesian, Vietnamese and
 Thai each have list-form employer, school and city fixtures. Proper-name
 rules are finite (up to six capitalized words, or four words in scripts without
-case); they do not implement grammatical parsing. Common lowercase connectors,
+case); they do not implement grammatical parsing. Other lowercase connectors,
 unusual typography, unsupported legal forms and unfamiliar institutions can be
 missed. Legal-form words and uncased scripts can also yield false positives.
 

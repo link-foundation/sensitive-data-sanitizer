@@ -13,6 +13,7 @@ import {
   credentialPlaceholder,
 } from './credentials.js';
 import { localAddress } from './public.js';
+import { detectKnownPersonal } from './personal-variants.js';
 import { detectDocumentEntities } from './document-entities.js';
 
 export const REDACTED = '[REDACTED]';
@@ -133,6 +134,29 @@ function detectCookies(text, emit) {
 
 export function nativeDetect(text, options, emit) {
   const credential = { type: 'SECRET', category: 'credential' };
+  for (const value of options.knownSecrets ?? []) {
+    collectMatches(text, new RegExp(escapePattern(value), 'g'), emit, {
+      ...credential,
+      rule: 'known-secret',
+    });
+  }
+  detectKnownPersonal(
+    text,
+    options.knownPersonal,
+    'known-personal',
+    emit,
+    options
+  );
+  detectKnownPersonal(
+    text,
+    options.confirmedPersonal,
+    'confirmed-personal',
+    emit,
+    options
+  );
+  if (options.knownOnly) {
+    return;
+  }
   detectGitleaks(
     text,
     emit,
@@ -142,31 +166,6 @@ export function nativeDetect(text, options, emit) {
   );
   for (const [rule, pattern] of serviceRules) {
     collectMatches(text, pattern, emit, { ...credential, rule });
-  }
-  for (const value of options.knownSecrets ?? []) {
-    collectMatches(text, new RegExp(escapePattern(value), 'g'), emit, {
-      ...credential,
-      rule: 'known-secret',
-    });
-  }
-  for (const entry of options.knownPersonal ?? []) {
-    collectMatches(text, new RegExp(escapePattern(entry.value), 'giu'), emit, {
-      type: entry.type,
-      category: 'personal',
-      rule: 'known-personal',
-    });
-  }
-  for (const entry of options.confirmedPersonal ?? []) {
-    const pattern = new RegExp(
-      `(?<![\\p{L}\\p{N}])${personalPattern(entry.value)}(?![\\p{L}\\p{N}])`,
-      'giu'
-    );
-    collectMatches(text, pattern, emit, {
-      type: entry.type,
-      category: 'personal',
-      rule: 'confirmed-personal',
-      confidence: 0.9,
-    });
   }
   detectContext(text, emit, options.credentialsOnly);
   if (!options.credentialsOnly) {

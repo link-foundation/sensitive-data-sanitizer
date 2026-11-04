@@ -42,6 +42,7 @@ history rewrite SOURCE --output DIRECTORY [--apply]
 --in-place          Atomically replace the input file (redact only)
 --native-only       Disable Secretlint; selected local detectors remain required
 --credentials-only  Preserve personal/account details; redact credentials only
+--known-only        Replace only knownPersonal/knownSecrets and reused map values
 --env-secrets       Include values of all credential-named environment variables
 --gh-config         Include tokens from the local gh hosts.yml credential file
 --paranoid          Add entropy detection (can redact innocent identifiers)
@@ -88,6 +89,7 @@ function parseArgs(argv) {
     ['--in-place', 'inPlace'],
     ['--native-only', 'nativeOnly'],
     ['--credentials-only', 'credentialsOnly'],
+    ['--known-only', 'knownOnly'],
     ['--env-secrets', 'envSecrets'],
     ['--gh-config', 'ghConfig'],
     ['--paranoid', 'paranoid'],
@@ -339,6 +341,9 @@ async function loadOptions(config) {
 
 async function featureOptions(config, options) {
   await localCredentials(config, options);
+  if (config.knownOnly) {
+    options.knownOnly = true;
+  }
   if (config.credentialsOnly) {
     options.credentialsOnly = true;
   }

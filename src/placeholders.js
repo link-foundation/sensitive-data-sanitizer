@@ -1,4 +1,6 @@
 import { failure, REDACTED, escapePattern } from './detection.js';
+import { reservedPlaceholderTypes } from './placeholder-types.js';
+import { samePersonal } from './personal-variants.js';
 import { nameAliases } from './transliteration.js';
 import { createHash } from 'node:crypto';
 import { jsonStringLiterals } from './json-string-runs.js';
@@ -106,6 +108,13 @@ function aliases(value, type) {
   ];
 }
 function related(value, entry) {
+  if (
+    (entry.values ?? []).some((original) =>
+      samePersonal(value, original, entry.type)
+    )
+  ) {
+    return true;
+  }
   const candidates = aliases(value, entry.type);
   if (candidates.some((alias) => entry.aliases.includes(alias))) {
     return true;
@@ -139,7 +148,7 @@ function related(value, entry) {
   return false;
 }
 export function placeholderNameFindings(text, findings, options) {
-  if (!hasPlaceholders(options)) {
+  if (!hasPlaceholders(options) || options.knownOnly) {
     return findings;
   }
   const people = [
@@ -199,12 +208,23 @@ export function preparePlaceholderText(text, findings, options) {
   if (!state || !hasPlaceholders(options)) {
     return;
   }
-  // Reserve the entire namespace, not only the numbers about to be allocated.
-  const template = state.map.format;
+  const types = new Set([
+    ...reservedPlaceholderTypes(),
+    ...findings.map((f) =>
+      f.category === 'credential' ? 'CREDENTIAL' : f.type
+    ),
+    ...(options.knownPersonal ?? []).map((e) => e.type),
+    ...state.map.entries.map((e) => e.type),
+  ]);
+  const [before, after] = state.map.format.split('{n}');
+  const tokens = [...types].map(
+    (type) =>
+      `${escapePattern(
+        placeholderToken(type, 1, before)
+      )}[1-9][0-9]*${escapePattern(placeholderToken(type, 1, after))}`
+  );
   const pattern = new RegExp(
-    escapePattern(template)
-      .replace(/\\\{(?:Type|TYPE|type)\\\}/, '[A-Za-z][A-Za-z0-9_]*')
-      .replace('\\{n\\}', '[1-9][0-9]*'),
+    `(?<![\\p{L}\\p{M}\\p{N}_])(?:${tokens.join('|')})(?![\\p{L}\\p{M}\\p{N}_])`,
     'u'
   );
   if (namespaceCollision(text, pattern)) {
@@ -255,6 +275,15 @@ function canonicalPerson(value, people) {
   );
   return distinct.size === 1 ? [...distinct.values()][0] : value;
 }
+function canonicalKnown(value, type, options, state) {
+  const known = (options.knownPersonal ?? []).filter(
+    (e) => e.type === type && samePersonal(value, e.value, type)
+  );
+  if (known.length === 1) {
+    return known[0].value;
+  }
+  return type === 'PERSON' ? canonicalPerson(value, state.people ?? []) : value;
+}
 export function placeholderReplacement(value, finding, transform, options) {
   if (finding.category === 'credential' && !transform.credentials) {
     return REDACTED;
@@ -270,8 +299,7 @@ export function placeholderReplacement(value, finding, transform, options) {
       : finding.type === 'DATE_OF_BIRTH'
         ? 'DATE'
         : finding.type;
-  const canonical =
-    type === 'PERSON' ? canonicalPerson(value, state.people ?? []) : value;
+  const canonical = canonicalKnown(value, type, options, state);
   const candidates = map.entries.filter(
     (entry) => entry.type === type && related(canonical, entry)
   );

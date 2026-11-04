@@ -146,6 +146,58 @@ function scriptLocale(value) {
 }
 export function fakeName(value, key) {
   indexNames();
+  const words = value.match(/[\p{L}\p{M}]+/gu) ?? [];
+  const roles = new Map();
+  let nameSex;
+  if (
+    /\p{Script=Cyrillic}/u.test(value) &&
+    words.length >= 2 &&
+    words.length <= 3
+  ) {
+    const middle = words.findIndex((w) =>
+      /(?:ович|евич|ична|овна|евна)$/iu.test(w)
+    );
+    const surname = words.findIndex(
+      (w, i) =>
+        i !== middle &&
+        /(?:ов|ев|ин|ский|ова|ева|ина|ская)$/iu.test(w) &&
+        !given.has(latinName(w))
+    );
+    const genderWord = words[middle >= 0 ? middle : surname];
+    if (genderWord) {
+      nameSex = /(?:ова|ева|ина|ская|овна|евна|ична)$/iu.test(genderWord)
+        ? 'female'
+        : 'male';
+    }
+    if (middle > 0) {
+      words.forEach((w, i) =>
+        roles.set(
+          w,
+          i === middle
+            ? 'middleName'
+            : i === middle - 1
+              ? 'firstName'
+              : 'lastName'
+        )
+      );
+    } else if (surname >= 0) {
+      words.forEach((w, i) =>
+        roles.set(w, i === surname ? 'lastName' : 'firstName')
+      );
+    } else {
+      // Ambiguous spans receive a complete name with the same token count.
+      words.forEach((w, i) =>
+        roles.set(
+          w,
+          i === 0
+            ? 'firstName'
+            : i === words.length - 1
+              ? 'lastName'
+              : 'middleName'
+        )
+      );
+    }
+  }
   return value.replace(/[\p{L}\p{M}]+/gu, (word) => {
     for (const locale of ['ja', 'zh', 'ko']) {
       const family = firstNames[locale]
@@ -158,7 +210,7 @@ export function fakeName(value, key) {
         );
       }
     }
-    return fakeWord(word, key);
+    return fakeWord(word, key, roles.get(word), undefined, nameSex);
   });
 }
 function wordProfile(word, forcedRole, forcedLocale) {
@@ -188,12 +240,14 @@ function wordProfile(word, forcedRole, forcedLocale) {
         : 'lastName');
   return { canonical, locale, sex, role };
 }
-function fakeWord(word, key, forcedRole, forcedLocale) {
-  const { canonical, locale, sex, role } = wordProfile(
-    word,
-    forcedRole,
-    forcedLocale
-  );
+function fakeWord(word, key, forcedRole, forcedLocale, forcedSex) {
+  const {
+    canonical,
+    locale,
+    sex: detectedSex,
+    role,
+  } = wordProfile(word, forcedRole, forcedLocale);
+  const sex = forcedSex ?? detectedSex;
   const faker = new Faker({ locale: [locales[locale] ?? en, en] });
   faker.seed(
     createHmac('sha256', key)

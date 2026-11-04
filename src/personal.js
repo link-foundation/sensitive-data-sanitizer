@@ -179,7 +179,12 @@ const russianFull =
   /(?<![\p{L}])(?:[А-ЯЁ][а-яё]{2,30}[ \t]+){2}[А-ЯЁ][а-яё]{2,30}(?:вич|вна|ична)|(?<![\p{L}])(?:[А-ЯЁ][а-яё]{2,30}[ \t]+){2}(?:оглы|кызы)(?![\p{L}])/gu;
 export function detectPersonal(text, emit) {
   detectDocumentNames(text, emit);
-  for (const pattern of [latinPairs, slavicPairs, russianFull]) {
+  for (const pattern of [
+    latinPairs,
+    slavicPairs,
+    russianFull,
+    /(?<![\p{L}])(?:[А-ЯЁ][а-яё]{2,30}[ \t]+)[А-ЯЁ][а-яё]{2,30}(?:вич|вна|ична)[ \t]+[А-ЯЁ][а-яё]{2,30}(?![\p{L}])/gu,
+  ]) {
     collectMatches(
       text,
       pattern,
