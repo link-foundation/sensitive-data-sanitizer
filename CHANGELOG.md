@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.0
+
+### Minor Changes
+
+- 818f198: Add reversible typed placeholders with private JSON and Links Notation maps, map reuse and restoration, a no-map anonymization mode, and opt-in multilingual document entity detection for employers, schools, cities and regions.
+
 ## 0.12.2
 
 ### Patch Changes
