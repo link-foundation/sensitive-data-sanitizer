@@ -60,6 +60,15 @@ describe('known Russian names', () => {
     );
   });
 
+  it('uses one token for a name listed with its parts', () => {
+    expect(
+      person(
+        ['Данил Сергеевич', 'Петров Данил Сергеевич', 'Петров'],
+        'Данил Сергеевич; Петрову Данилу Сергеевичу; Петрову'
+      )
+    ).toBe('Person-1; Person-1; Person-1');
+  });
+
   it('does not match a part unless that part is listed', () => {
     expect(person('Петров Данил Сергеевич', 'Петров подписал.')).toBe(
       'Петров подписал.'

@@ -43,7 +43,9 @@ probabilities. `minConfidence` still controls replacement. Findings retain
 their confidence even below threshold. `publicEntities` supports exact reviewed
 exceptions for all three types; `knownPersonal` always forces removal of a
 listed private value. All types support placeholder mode; fake mode uses stable,
-visibly synthetic organization/school/location labels.
+plausible organization/school/location names from an authored vocabulary or
+caller-supplied `pools`, declined to match Russian source mentions. These names
+are plausible and can coincide with real entities that the text does not mention.
 
 `src/document-vocabulary.js` is the complete authored vocabulary: English,
 Spanish, French, German, Portuguese, Russian, Japanese, Simplified/Traditional
@@ -53,6 +55,16 @@ rules are finite (up to six capitalized words, or four words in scripts without
 case); they do not implement grammatical parsing. Other lowercase connectors,
 unusual typography, unsupported legal forms and unfamiliar institutions can be
 missed. Legal-form words and uncased scripts can also yield false positives.
+
+The `documents` profile also reads employers from CV experience lines anchored on
+a date range: `Title, Employer (2019-05 – 2021-03)`, `Title — Employer, 2019–2021`
+and `Title (Employer), 2019–2021`. Ranges use years, `YYYY-MM`, `MM.YYYY`, full
+dates or `month YYYY`, with `по настоящее время`, `н.в.`, `present` and similar
+open ends. Confidence is 0.60, and the employer then propagates through the
+document like other organizations. The default profile ignores these lines. Lines
+with more fields (`Title, Employer, City (dates)`) and titles containing a comma
+are not targeted and can leave the employer in place; date-anchored prose with
+the same shape can be flagged.
 
 The gazetteer has only the cities/regions explicitly listed in that module,
 including Springfield and Riverton. It is not a worldwide geocoder. Location

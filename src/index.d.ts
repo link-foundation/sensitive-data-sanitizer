@@ -250,6 +250,10 @@ export type Transformation =
       credentials?: boolean;
       /** Keep original MRZ issuer/nationality unless Utopia is requested. */
       mrzCountry?: 'UTO';
+      /** Caller-reviewed names that replace the generated entity vocabulary. */
+      pools?: Partial<
+        Record<'ORGANIZATION' | 'LOCATION' | 'EDUCATION', string[]>
+      >;
     }
   | { mode: 'date-shift'; days: number }
   | { mode: 'bucket'; size: number };

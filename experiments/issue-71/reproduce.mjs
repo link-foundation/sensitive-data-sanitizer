@@ -24,11 +24,17 @@ for (const [value, text] of [
   ['Петров Данил Сергеевич', 'о Петрове Даниле Сергеевиче.'],
   ['Смирнова Алина Игоревна', 'со Смирновой Алиной Игоревной'],
   ['Петров Данил', 'с Петровым Данилом.'],
-  ['Петров Данил Сергеевич', 'Данил Сергеевич Петров пришёл; Данилу Сергеевичу Петрову.'],
+  [
+    'Петров Данил Сергеевич',
+    'Данил Сергеевич Петров пришёл; Данилу Сергеевичу Петрову.',
+  ],
   ['Петров Данил Сергеевич', 'с Петровым Данилом.'],
   ['Семёнов Пётр', 'Семенов Петр'],
   ['Семенов Петр', 'Семёнов Пётр'],
-  ['Петров Данил Сергеевич', 'Петров Д. С.; Петров Д.С.; Д. С. Петров; Петрову Д. С.'],
+  [
+    'Петров Данил Сергеевич',
+    'Петров Д. С.; Петров Д.С.; Д. С. Петров; Петрову Д. С.',
+  ],
   ['Петров Данил Сергеевич', 'ПЕТРОВ ДАНИЛ СЕРГЕЕВИЧ'],
 ]) {
   console.log(`[${value}] ${text} => ${attempt(text, person(value))}`);
@@ -40,10 +46,26 @@ const fake = (type, value) => ({
   transformation: { mode: 'fake', key },
 });
 for (const [type, value, text] of [
-  ['PERSON', 'Петров', 'Петров пришёл. Позвонили Петрову. Нет Петрова. С Петровым.'],
-  ['PERSON', 'Смирнова Алина', 'Смирнова Алина. Смирновой Алине. Алину Смирнову.'],
-  ['PERSON', 'Петров Данил Сергеевич', 'Петров Данил Сергеевич. Петрову Данилу Сергеевичу. Данила Сергеевича Петрова.'],
-  ['ORGANIZATION', 'Ромашка', 'Работал в ООО «Ромашка», затем снова в Ромашке.'],
+  [
+    'PERSON',
+    'Петров',
+    'Петров пришёл. Позвонили Петрову. Нет Петрова. С Петровым.',
+  ],
+  [
+    'PERSON',
+    'Смирнова Алина',
+    'Смирнова Алина. Смирновой Алине. Алину Смирнову.',
+  ],
+  [
+    'PERSON',
+    'Петров Данил Сергеевич',
+    'Петров Данил Сергеевич. Петрову Данилу Сергеевичу. Данила Сергеевича Петрова.',
+  ],
+  [
+    'ORGANIZATION',
+    'Ромашка',
+    'Работал в ООО «Ромашка», затем снова в Ромашке.',
+  ],
   ['LOCATION', 'Кострома', 'Живу в Костроме, родом из Костромы.'],
 ]) {
   console.log(`[${value}] ${text}\n  => ${attempt(text, fake(type, value))}`);
@@ -58,13 +80,26 @@ for (const text of [
   'в компании Альфа-1',
   'Работал в компании Вектор-1, затем Вектор-2.',
 ]) {
-  console.log(`${text}\n  => ${attempt(text, { transformation: { mode: 'placeholder' } })}`);
-  console.log(`  documents => ${attempt(text, { profile: 'documents', transformation: { mode: 'placeholder', map: createRestoreMap() } })}`);
+  console.log(
+    `${text}\n  => ${attempt(text, { transformation: { mode: 'placeholder' } })}`
+  );
+  console.log(
+    `  documents => ${attempt(text, { profile: 'documents', transformation: { mode: 'placeholder', map: createRestoreMap() } })}`
+  );
   console.log(`  default => ${attempt(text, {})}`);
 }
 const map = createRestoreMap();
-for (const text of ['Работал в компании Вектор-1.', 'Работал в компании Вектор-2.', 'Вектор и Вектор-1.', 'Опыт в компании Вектор-99, отдел продаж', 'Telegram: @Janedoe2024/jane_doe@example.com']) {
-  const output = attempt(text, { profile: 'documents', transformation: { mode: 'placeholder', map } });
+for (const text of [
+  'Работал в компании Вектор-1.',
+  'Работал в компании Вектор-2.',
+  'Вектор и Вектор-1.',
+  'Опыт в компании Вектор-99, отдел продаж',
+  'Telegram: @Janedoe2024/jane_doe@example.com',
+]) {
+  const output = attempt(text, {
+    profile: 'documents',
+    transformation: { mode: 'placeholder', map },
+  });
   console.log(`shared ${text} => ${output}`);
   if (!output.startsWith('THROW')) {
     console.log(`  restored: ${restore(output, map) === text}`);
@@ -81,5 +116,7 @@ for (const text of [
   'Менеджер (Северная торговая компания), 2019–2021',
   'Руководитель отдела, ООО Ромашка (2018-01 – 2020-12)',
 ]) {
-  console.log(`${text}\n  => ${attempt(text, { profile: 'documents', transformation: { mode: 'placeholder', format: '[{TYPE}_{n}]', map: false } })}`);
+  console.log(
+    `${text}\n  => ${attempt(text, { profile: 'documents', transformation: { mode: 'placeholder', format: '[{TYPE}_{n}]', map: false } })}`
+  );
 }
