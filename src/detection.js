@@ -13,6 +13,7 @@ import {
   credentialPlaceholder,
 } from './credentials.js';
 import { localAddress } from './public.js';
+import { detectDocumentEntities } from './document-entities.js';
 
 export const REDACTED = '[REDACTED]';
 export const failure = (code = 'ERR_SANITIZATION', location = {}) =>
@@ -170,6 +171,7 @@ export function nativeDetect(text, options, emit) {
   detectContext(text, emit, options.credentialsOnly);
   if (!options.credentialsOnly) {
     detectPersonal(text, emit);
+    detectDocumentEntities(text, emit, options);
     detectCatalog(text, emit);
     detectIdentity(text, emit);
     detectNational(text, emit);

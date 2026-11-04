@@ -23,6 +23,11 @@ import { sanitizeJsonlStream } from './jsonl-stream.js';
 import { workerExecArgv } from './worker-options.js';
 import { streamIdentity } from './stream-identity.js';
 import { workerResult } from './file-worker-result.js';
+import {
+  hasPlaceholders,
+  initializePlaceholders,
+  beginPlaceholderStream,
+} from './placeholders.js';
 
 const streamKeys = new Set([
   'sanitizer',
@@ -63,7 +68,7 @@ function configuration(options, collecting = false, complete) {
     collecting,
     complete
   );
-  const sanitizerOptions = identity.options;
+  const sanitizerOptions = initializePlaceholders(identity.options);
   const engine = createSanitizer(sanitizerOptions);
   return {
     maxRecordBytes,
@@ -215,6 +220,18 @@ export async function* sanitizeStream(source, options = {}) {
   }
 }
 async function* streamWithConfiguration(source, options, config) {
+  const finish = config.collecting
+    ? () => {}
+    : beginPlaceholderStream(config.sanitizerOptions);
+  let complete = false;
+  try {
+    yield* streamBatches(source, options, config);
+    complete = true;
+  } finally {
+    finish(complete);
+  }
+}
+async function* streamBatches(source, options, config) {
   if (config.jsonl) {
     yield* sanitizeJsonlStream(source, options, config);
     return;
@@ -422,7 +439,11 @@ export async function sanitizeFileToFile(
   }
 }
 export async function sanitizeFileBounded(source, target, options = {}) {
-  if (options.worker === false || options.sanitizer) {
+  if (
+    options.worker === false ||
+    options.sanitizer ||
+    hasPlaceholders(options.sanitizerOptions ?? options)
+  ) {
     return sanitizeFileToFile(source, target, options);
   }
   const workerHeapMb = options.workerHeapMb ?? 256,

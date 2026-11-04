@@ -22,6 +22,45 @@ sensitive-data-sanitizer redact session.jsonl --stream --jsonl --two-pass --outp
 
 ## Quick Start
 
+### Readable placeholders and document profiles
+
+Use the opt-in `documents` profile for CVs and similar prose. It adds bounded
+employer, school, city and region detection across the existing 17 locales.
+Default and publication log profiles keep their existing detection behavior.
+
+```js
+import { sanitize, restore } from '@link-foundation/sensitive-data-sanitizer';
+
+const result = sanitize('Jane Doe worked at Acme Ltd in Springfield.', {
+  profile: 'documents',
+  transformation: { mode: 'placeholder' },
+});
+// result.text: Person-1 worked at Organization-1 in Location-1.
+// Keep result.map private. Share only result.text.
+restore(result.text, result.map); // exact original document
+restore('Ask Person-1 about Organization-1.', result.map); // derived answer
+```
+
+The restore map **is personal data**. It contains original spellings and private
+occurrence metadata; never commit it, send it to a model, or publish the whole
+result object. The CLI writes maps separately with mode `0600`, and publication
+checks reject serialized restore maps. Reuse `result.map` in the next
+`transformation.map` to keep IDs stable across files. JSON and Links Notation
+serializations carry the same versioned map. Credentials stay fully redacted
+and out of the map unless explicitly opted in.
+
+```sh
+sensitive-data-sanitizer redact cv.txt --profile documents --placeholder --map private.lino --output safe.txt
+sensitive-data-sanitizer restore safe.txt --map private.lino --output restored.txt
+sensitive-data-sanitizer redact cv.txt --profile documents --placeholder --no-map
+```
+
+For irreversible output, choose `transformation: { mode: 'placeholder', map:
+false }`: no restore map is returned or written. Detection limits still apply
+in either mode. See the [placeholder API](docs/API.md#reversible-placeholders),
+[coverage](docs/COVERAGE.md#document-entities), and
+[runnable example](examples/reversible-placeholders.mjs).
+
 Sanitizer APIs require Node.js 22.13 or later. Template arithmetic utilities are available under `@link-foundation/sensitive-data-sanitizer/legacy`; the existing universal example uses that browser-compatible entry. From this checkout:
 
 ```sh

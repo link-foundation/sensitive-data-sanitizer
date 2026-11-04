@@ -12,6 +12,7 @@
     "npm:husky@^9.1.7": "9.1.7",
     "npm:jscpd@^5.4.0": "5.4.0",
     "npm:libphonenumber-js@1.13.14": "1.13.14",
+    "npm:links-notation@0.30.0": "0.30.0",
     "npm:lint-staged@^16.4.0": "16.4.0",
     "npm:mrz@^5.0.2": "5.0.2",
     "npm:prettier@^3.6.2": "3.8.4",
@@ -937,6 +938,9 @@
     "libphonenumber-js@1.13.14": {
       "integrity": "sha512-llihgCcx0BFLksecLP+x1J+6JDE1GsXS1RN/LoPF6qcwpeQcnjj0lcvZxY8AzbEpYwyZWPZW/nDuqkqzm3amiw=="
     },
+    "links-notation@0.30.0": {
+      "integrity": "sha512-ecegoarOL13MShCB5l6HbLvNuN9/s+M2q0STmp4XUh62+CuC7tpD5XJBPB/kFFv4zswjt4n+9criDxSyNMLuEQ=="
+    },
     "lint-staged@16.4.0": {
       "integrity": "sha512-lBWt8hujh/Cjysw5GYVmZpFHXDCgZzhrOm8vbcUdobADZNOK/bRshr2kM3DfgrrtR1DQhfupW9gnIXOfiFi+bw==",
       "dependencies": [
@@ -1401,6 +1405,7 @@
         "npm:husky@^9.1.7",
         "npm:jscpd@^5.4.0",
         "npm:libphonenumber-js@1.13.14",
+        "npm:links-notation@0.30.0",
         "npm:lint-staged@^16.4.0",
         "npm:mrz@^5.0.2",
         "npm:prettier@^3.6.2",

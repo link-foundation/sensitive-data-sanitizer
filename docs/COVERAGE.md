@@ -14,6 +14,47 @@ Broader unquoted entropy scanning is opt-in (`paranoid: true`), uses Shannon ent
 
 ## Personal data and languages
 
+### Document entities
+
+`profile: 'documents'` (or `documentEntities: true`) opts into the following
+additional rules. They are off under the existing default and publication
+profiles, preserving credential/log fixture behavior and avoiding extra company
+name redactions in stack traces. Existing contextual organization detection
+remains available under those profiles.
+
+| Type           | Coverage                                                                                                                              | Confidence |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| `ORGANIZATION` | Proper names next to legal forms in either order, optionally quoted: Inc, LLC, Ltd, GmbH, AG, S.A., ООО, АО, ПАО, ИП and locale forms | 0.70       |
+| `EDUCATION`    | Proper names next to University, College, Institute, school and locale equivalents, in either order                                   | 0.65       |
+| `LOCATION`     | Exact city/region entries from a bounded offline vocabulary                                                                           | 0.60       |
+| `LOCATION`     | Bounded proper names after location labels, including based in, located in, relocated from, г., город and locale equivalents          | 0.75       |
+
+These confidence values indicate heuristic strength, not calibrated
+probabilities. `minConfidence` still controls replacement. Findings retain
+their confidence even below threshold. `publicEntities` supports exact reviewed
+exceptions for all three types; `knownPersonal` always forces removal of a
+listed private value. All types support placeholder mode; fake mode uses stable,
+visibly synthetic organization/school/location labels.
+
+`src/document-vocabulary.js` is the complete authored vocabulary: English,
+Spanish, French, German, Portuguese, Russian, Japanese, Simplified/Traditional
+Chinese, Korean, Arabic, Hebrew, Hindi, Turkish, Indonesian, Vietnamese and
+Thai each have list-form employer, school and city fixtures. Proper-name
+rules are finite (up to six capitalized words, or four words in scripts without
+case); they do not implement grammatical parsing. Common lowercase connectors,
+unusual typography, unsupported legal forms and unfamiliar institutions can be
+missed. Legal-form words and uncased scripts can also yield false positives.
+
+The gazetteer has only the cities/regions explicitly listed in that module,
+including Springfield and Riverton. It is not a worldwide geocoder. Location
+labels can find unlisted proper names; unlabelled places outside the vocabulary
+need `knownPersonal` or an additional detector such as the Presidio bridge.
+Name linking is also heuristic, especially for shared surnames, transliterations
+and inflected forms. Employers, schools, locations, dates and other
+quasi-identifiers can re-identify a person when detection misses them. Neither
+placeholder mode nor no-map mode promises universal anonymity. A restore map
+contains personal data and must remain private; see [API.md](API.md#reversible-placeholders).
+
 Native rules cover international/Unicode emails, international and selected national-format phones, Luhn-valid payment cards, US SSNs, IPv4/IPv6, checksum-validated IBAN/CPF/Spanish DNI/US NPI, Indian PAN, UK NI, wallet shapes, MACs, messenger handles, home usernames, labelled PII and selected postal address grammars. A bundled 17-locale name gazetteer supplies default free-text detection, including selected inflections/transliterations. Each locale has credential prose and eight labelled PII fixtures. This finite dictionary/grammar is not unrestricted statistical NER; unfamiliar names and unsupported national formats require known values or additional recognizers.
 
 Credential labels have fixtures for 17 language variants:

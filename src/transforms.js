@@ -3,6 +3,7 @@ import { createHmac } from 'node:crypto';
 import { failure, REDACTED } from './detection.js';
 import { encodedValue, encodeRun } from './encoded.js';
 import { isIdentityType } from './identity.js';
+import { validatePlaceholder, placeholderReplacement } from './placeholders.js';
 
 const modes = new Set([
   'redact',
@@ -13,6 +14,7 @@ const modes = new Set([
   'format-preserving',
   'date-shift',
   'bucket',
+  'placeholder',
 ]);
 export function validateTransforms(options) {
   if (
@@ -42,6 +44,9 @@ function positiveInteger(value) {
 function validateTransform(transform) {
   if (!transform || !modes.has(transform.mode)) {
     throw failure('ERR_CONFIG');
+  }
+  if (transform.mode === 'placeholder') {
+    validatePlaceholder(transform);
   }
   const checks = {
     fake: () =>
@@ -177,6 +182,9 @@ export function renderReplacement(text, finding, options, encodedSanitize) {
       throw failure('ERR_ENCODING');
     }
   }
+  return renderValue(text, finding, transform, options);
+}
+function renderValue(text, finding, transform, options) {
   let raw = text.slice(finding.start, finding.end);
   const jsonQuoted =
     text[finding.start - 1] === '"' && text[finding.end] === '"';
@@ -187,6 +195,9 @@ export function renderReplacement(text, finding, options, encodedSanitize) {
       return REDACTED;
     }
   }
-  const result = transformed(raw, finding, transform);
+  const result =
+    transform?.mode === 'placeholder'
+      ? placeholderReplacement(raw, finding, transform, options)
+      : transformed(raw, finding, transform);
   return jsonQuoted ? JSON.stringify(result).slice(1, -1) : result;
 }

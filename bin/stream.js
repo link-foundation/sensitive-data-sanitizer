@@ -9,7 +9,7 @@ export async function streamCommand(
   config,
   engine,
   options,
-  { stdin, stdout }
+  { stdin, stdout, beforePublish }
 ) {
   let spool;
   try {
@@ -42,6 +42,7 @@ export async function streamCommand(
           : { sanitizer: engine, sanitizerOptions: options }),
       });
     }
+    await beforePublish?.();
     if (spool) {
       for await (const chunk of createReadStream(target)) {
         if (stdout.write(chunk) === false) {

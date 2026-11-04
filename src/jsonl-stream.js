@@ -6,6 +6,7 @@ import { encodingFailure } from './utf8.js';
 import { workerExecArgv } from './worker-options.js';
 import { prepareStreamEngine } from './engines.js';
 import { inspect } from './sanitizer.js';
+import { hasPlaceholders } from './placeholders.js';
 
 async function* records(source, { maxRecordBytes, maxTotalBytes }) {
   const decoder = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true });
@@ -123,6 +124,10 @@ function workerSlot(options, heap, timeout) {
   };
 }
 function workerCount(options, config) {
+  // Stateful numbering must run in the coordinator, in source order.
+  if (hasPlaceholders(config.sanitizerOptions)) {
+    return 1;
+  }
   const callbacks =
     options.sanitizer ||
     config.sanitizerOptions.debug ||

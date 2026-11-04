@@ -16,6 +16,17 @@ import { URL } from 'node:url';
 import { isPublic } from './public.js';
 import { validateTransforms, renderReplacement } from './transforms.js';
 import { fakeIdentityValue, isIdentityType } from './identity.js';
+import { rejectRestoreMap } from './restore-map.js';
+import {
+  initializePlaceholders,
+  placeholderKnown,
+  preparePlaceholderText,
+  finishPlaceholders,
+  hasPlaceholders,
+  placeholderValues,
+  placeholderNameFindings,
+  nestedPlaceholderOptions,
+} from './placeholders.js';
 import {
   structuredBatches,
   mapStructuredFindings,
@@ -25,7 +36,13 @@ import {
 } from './structured.js';
 
 const fakedResults = new WeakMap();
-const publicTypes = new Set(['PERSON', 'ORGANIZATION', 'EMAIL']);
+const publicTypes = new Set([
+  'PERSON',
+  'ORGANIZATION',
+  'EDUCATION',
+  'LOCATION',
+  'EMAIL',
+]);
 const optionNames = new Set([
   'credentialsOnly',
   'knownSecrets',
@@ -53,9 +70,13 @@ const optionNames = new Set([
   'minConfidence',
   'threshold',
   'profile',
+  'documentEntities',
 ]);
 
 export function applyProfile(options = {}) {
+  if (options?.profile === 'documents') {
+    return { ...options, documentEntities: options.documentEntities ?? true };
+  }
   return options?.profile === 'publication'
     ? {
         ...options,
@@ -149,6 +170,7 @@ export function validateOptions(options = {}) {
     'secretlint',
     'publicKnowledge',
     'identityMask',
+    'documentEntities',
   ]) {
     if (options[key] !== undefined && typeof options[key] !== 'boolean') {
       throw failure('ERR_CONFIG');
@@ -196,7 +218,7 @@ function validatePolicy(options) {
   for (const [key, values] of [
     ['fakeIdentity', [false, 'specimen-and-synthetic']],
     ['structured', ['json', 'jsonl']],
-    ['profile', ['publication']],
+    ['profile', ['publication', 'documents']],
   ]) {
     if (options[key] !== undefined && !values.includes(options[key])) {
       throw failure('ERR_CONFIG');
@@ -212,6 +234,7 @@ export function validateInput(text, options) {
   if (typeof text !== 'string') {
     throw failure('ERR_INPUT');
   }
+  rejectRestoreMap(text);
   if (text.length > (options.maxInputLength ?? 32 * 1024 * 1024)) {
     throw failure('ERR_LIMIT');
   }
@@ -423,15 +446,16 @@ function inspectText(text, options = {}) {
 
 // Reapply policy to the native/required-engine union without rescanning text.
 export function reviewFindings(text, findings, options) {
+  findings = placeholderNameFindings(text, findings, options);
   if (findings.length > (options.maxFindings ?? 100000)) {
     throw failure('ERR_LIMIT');
   }
   const unique = new Map();
+  const exempt = findings.filter((f) =>
+    allowed(text, f, options.publicEntities ?? [])
+  );
   for (const f of findings) {
-    if (
-      !allowed(text, f, options.publicEntities ?? []) &&
-      !isPublic(text, f, options)
-    ) {
+    if (!coveredByPublic(f, exempt) && !isPublic(text, f, options)) {
       unique.set(`${f.start}:${f.end}:${f.category}:${f.type}:${f.rule}`, f);
     }
   }
@@ -448,6 +472,18 @@ export function reviewFindings(text, findings, options) {
   );
   options.debug?.({ event: 'detected', count: result.length });
   return result;
+}
+function coveredByPublic(finding, exempt) {
+  return (
+    finding.category === 'personal' &&
+    !['known-personal', 'confirmed-personal'].includes(finding.rule) &&
+    exempt.some(
+      (span) =>
+        span.type === finding.type &&
+        span.start <= finding.start &&
+        span.end >= finding.end
+    )
+  );
 }
 
 export function inspectFindingsOnly(text, findings, options) {
@@ -484,7 +520,10 @@ function selectedFindings(findings, credentialsOnly) {
 
 export function markFake(text, findings, options) {
   findings = selectedFindings(findings, options.credentialsOnly);
-  const generated = generatedValues(options);
+  const generated = [
+    ...generatedValues(options),
+    ...placeholderValues(options),
+  ];
   if (
     !options.fakeIdentity &&
     !options.fakeValues?.length &&
@@ -651,36 +690,60 @@ export function redactResult(
 ) {
   options = applyProfile(options);
   const spans = validatedSpans(text, findings, options);
+  options = initializePlaceholders(options);
+  preparePlaceholderText(text, findings, options);
   const parts = [];
   const faked = [];
+  const occurrences = [];
+  let outputLength = 0;
   let cursor = 0;
   for (const span of spans) {
     const replacement =
       replacements.get(`${span.start}:${span.end}`) ??
       renderReplacement(text, span, options, (decoded) =>
-        sanitize(decoded, {
-          ...confirmationOptions(text, findings, options),
-          findings: [],
-          preserveEncoding: true,
-          structured: undefined,
-        })
+        sanitize(
+          decoded,
+          nestedPlaceholderOptions({
+            ...confirmationOptions(text, findings, options),
+            findings: [],
+            preserveEncoding: true,
+            structured: undefined,
+          })
+        )
       );
     parts.push(text.slice(cursor, span.start), replacement);
+    outputLength += span.start - cursor;
     const transform =
       options.transformations?.[span.type] ?? options.transformation;
-    if (
-      transform?.mode === 'fake' &&
-      replacement !== REDACTED &&
-      (span.category === 'personal' || transform.credentials)
-    ) {
+    if (retainedReplacement(transform, 'placeholder', span, replacement)) {
+      occurrences.push({
+        start: outputLength,
+        end: outputLength + replacement.length,
+        token: replacement,
+        raw: text.slice(span.start, span.end),
+      });
+    }
+    outputLength += replacement.length;
+    if (retainedReplacement(transform, 'fake', span, replacement)) {
       faked.push(span);
     }
     cursor = span.end;
   }
   parts.push(text.slice(cursor));
-  const result = { text: parts.join(''), redactions: spans.length };
+  const result = finishPlaceholders(
+    { text: parts.join(''), redactions: spans.length },
+    occurrences,
+    options
+  );
   fakedResults.set(result, faked);
   return result;
+}
+function retainedReplacement(transform, mode, span, replacement) {
+  return (
+    transform?.mode === mode &&
+    replacement !== REDACTED &&
+    (span.category === 'personal' || transform.credentials)
+  );
 }
 
 export async function redactResultAsync(
@@ -689,10 +752,18 @@ export async function redactResultAsync(
   options,
   sanitizeDecoded
 ) {
+  options = initializePlaceholders(options);
+  preparePlaceholderText(text, findings, options);
   const replacements = new Map();
   {
     for (const span of validatedSpans(text, findings, options)) {
       if (span.type !== 'ENCODED_SENSITIVE') {
+        if (hasPlaceholders(options)) {
+          replacements.set(
+            `${span.start}:${span.end}`,
+            renderReplacement(text, span, options)
+          );
+        }
         continue;
       }
       const run = encodedValue(text.slice(span.start, span.end));
@@ -707,7 +778,7 @@ export async function redactResultAsync(
       }
       const result = await sanitizeDecoded(
         run.text,
-        confirmationOptions(text, findings, options)
+        nestedPlaceholderOptions(confirmationOptions(text, findings, options))
       );
       replacements.set(
         `${span.start}:${span.end}`,
@@ -731,6 +802,8 @@ export function sanitize(text, options = {}) {
 }
 function sanitizeText(text, options = {}, round = 0) {
   options = applyProfile(options);
+  validateOptions(options);
+  options = placeholderKnown(initializePlaceholders(options));
   const findings = inspect(text, options);
   const result = redactResult(text, findings, options);
   const sanitized = redactResult(text, findings, {
@@ -751,6 +824,14 @@ function sanitizeText(text, options = {}, round = 0) {
   }
   if (options.structured) {
     verifyStructured(result.text, options);
+  }
+  if (
+    hasPlaceholders(options) &&
+    inspect(result.text, { ...options, findings: [] }).some((f) =>
+      actionable(f, options)
+    )
+  ) {
+    throw failure('ERR_RESIDUAL');
   }
   return { ...result, findings: auditFaked(findings, options, result) };
 }

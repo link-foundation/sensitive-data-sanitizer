@@ -19,27 +19,108 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 
 ## Options
 
-| Option             | Default / meaning                                                                             |
-| ------------------ | --------------------------------------------------------------------------------------------- |
-| `profile`          | Off; `'publication'` sets a 0.3 personal threshold, identity masking and strict fake policy   |
-| `knownSecrets`     | `[]`; exact literal credential values, regardless of length or format                         |
-| `knownPersonal`    | `[]`; `{type, value}` literals with Unicode case-insensitive matching                         |
-| `publicEntities`   | `[]`; exact PERSON/ORGANIZATION/EMAIL exception with HTTPS source and review date             |
-| `findings`         | `[]`; validated detections for the original input, supplied by the caller                     |
-| `detectors`        | `[]`; additional required callbacks in the asynchronous engine                                |
-| `secretlint`       | `true` in the asynchronous engine                                                             |
-| `decode`           | `true`; bounded base64/base64url, hex and percent decoding                                    |
-| `paranoid`         | `false`; entropy-based supplemental credential heuristic                                      |
-| `maxInputLength`   | 33,554,432 UTF-16 units                                                                       |
-| `maxFindings`      | 100,000 detector hits before deduplication                                                    |
-| `minConfidence`    | 0.5; personal findings below this score remain visible to inspect but are not replaced        |
-| `threshold`        | Alias for minConfidence; both options must agree when supplied                                |
-| `debug`            | Optional trusted callback for value-free counts, timing and event metadata                    |
-| `identityMask`     | `false`; identity types keep 2+2 Unicode characters with fixed `***`, or redact below five    |
-| `fakeIdentity`     | Off; `'specimen-and-synthetic'` retains explicitly fake identity values                       |
-| `fakeValues`       | `[]`; exact caller-reviewed identity values to retain, regardless of fakeIdentity             |
-| `structured`       | Off; `'json'` or `'jsonl'` validates and sanitizes string keys/values separately              |
-| `structuralFields` | `[]`; declared property names suppress weak name/ID/entropy heuristics in their string values |
+### Reversible placeholders
+
+`transformation: {mode: 'placeholder'}` emits typed tokens such as `Person-1`,
+`Email-1`, `Phone-1`, `Organization-1`, `Education-1`, `Location-1` and `Date-1`.
+Numbers start at one per type and follow the first occurrence in the input.
+`DATE_OF_BIRTH` uses the `Date` label; other detector types retain their type
+name in title case. Per-type `transformations` also support placeholder mode;
+all placeholder transformations in an operation must share one map and format.
+
+The result has a private `map` alongside `text`, `findings` and `redactions`.
+The map holds token entries, every original surface form, name aliases, and
+replacement positions indexed by the SHA-256 digest of the sanitized document.
+It does not store the original full document. `restore(text, map)` restores
+the exact bytes represented by the original JavaScript string, including JSON
+escaping and whitespace, when the document digest matches. A derived response
+that quotes tokens uses the entry's canonical original spelling instead.
+Restoration uses a single pass so restored originals are never interpreted as
+more tokens. Unknown tokens and larger words containing token-like fragments
+are left alone.
+
+`format` is a template with exactly one type field (`{Type}`, `{TYPE}` or
+`{type}`) and one `{n}` field. Examples: `{Type}-{n}`, `[{TYPE}_{n}]`,
+`{{{type}_{n}}}`. Sanitization refuses input containing any token in the chosen
+namespace, including numbers not allocated yet. The map's format cannot change
+on reuse. A malformed map or ambiguous exact restoration blocks output.
+
+`createRestoreMap({format?})` creates an empty reusable map. Pass a map as
+`transformation.map` to continue a corpus; the operation updates that same
+object. A `createSanitizer()` engine also keeps its registry across calls.
+Callers must serialize access to a shared engine/map; parallel independent
+registries cannot assign consistent first-appearance numbers. For streams,
+pass an explicit map object and keep it outside the output stream. Placeholder
+JSONL uses the coordinator in source order, even if several workers were
+requested. File APIs also keep this registry in the caller process.
+
+`serializeRestoreMap(map, 'json' | 'lino')` and `parseRestoreMap(text)` round
+trip the same schema. Lino uses the upstream `links-notation` parser and
+formatter: a named `sensitive-data-restore-map` link carries the escaped JSON
+schema as a reference, preserving all metadata and unusual original strings.
+`readRestoreMap(path)` and `writeRestoreMap(path, map, {format?, replace?})`
+use bounded file reads and the existing atomic `0600` writer. The default
+serialization is JSON, or Lino for a `.lino` output path. Existing files require
+`replace: true`; symlinks are refused. `inspect`, `sanitize`, scanner union and
+CLI publication paths reject marked map content with `ERR_PRIVATE_MAP`.
+Keep maps out of Git, logs, model requests and publication directories. The map
+is plaintext personal data, not encrypted storage; protect it as the original.
+
+`credentials: true` explicitly opts credentials into `Credential-n` entries.
+Otherwise they remain `[REDACTED]` and cannot be recovered, including through
+occurrence metadata. `map: false` returns only the anonymized text and ordinary
+value-free finding metadata. The temporary numbering registry is discarded
+after an operation (or the complete stream); no map file is created. Residual verification
+still runs, including every required engine for `createSanitizer`.
+
+Name components, unique initial-plus-surname forms, existing transliteration
+aliases and selected Russian `-ов`/`-ев` inflections share an entity token.
+This is conservative heuristic identity linking, not general coreference:
+ambiguous surnames/initials and unrelated people are not intentionally merged.
+Every replaced occurrence retains its exact original surface privately. With
+one identical token, a derived answer cannot encode the original grammatical
+case; it receives the canonical spelling. Two distinct originals that produce
+the same entire sanitized document cannot both be distinguished by that text
+and a shared map; such conflicting occurrence metadata is refused. Choose
+separate maps for those documents if exact independent restoration is needed.
+
+JSON/JSONL keys and values participate equally in placeholder mode, including
+ordinary identifier keys and declared structural fields. Parseability and
+duplicate-key checks remain enforced. Plain redact/fake policies retain their
+existing metadata/key behavior. Use `structured` for valid structured input.
+The normal encoding limits and credential redaction policy continue to apply.
+
+CLI: `redact FILE --placeholder --map private.json` creates or continues a map;
+`--no-map` explicitly discards it. A CLI placeholder operation requires one of
+these choices, to avoid losing a map silently. `--placeholder-format`,
+`--map-format json|lino` and `--map-credentials` configure the transformation.
+`restore safe.txt --map private.lino [--output restored.txt]` also works on a
+derived model answer. Input, output and map paths must be separate. Maps are
+saved separately before stdout publication. `--profile documents` enables the
+new document recognizers; `documentEntities: false` turns them off explicitly.
+
+| Option             | Default / meaning                                                                                       |
+| ------------------ | ------------------------------------------------------------------------------------------------------- |
+| `documentEntities` | Off; bounded organization, education and location rules; enabled by the documents profile               |
+| `profile`          | Off; `'publication'` sets a 0.3 threshold and identity masking; `'documents'` enables document entities |
+| `knownSecrets`     | `[]`; exact literal credential values, regardless of length or format                                   |
+| `knownPersonal`    | `[]`; `{type, value}` literals with Unicode case-insensitive matching                                   |
+| `publicEntities`   | `[]`; exact PERSON/ORGANIZATION/EDUCATION/LOCATION/EMAIL exception with HTTPS evidence and review date  |
+| `findings`         | `[]`; validated detections for the original input, supplied by the caller                               |
+| `detectors`        | `[]`; additional required callbacks in the asynchronous engine                                          |
+| `secretlint`       | `true` in the asynchronous engine                                                                       |
+| `decode`           | `true`; bounded base64/base64url, hex and percent decoding                                              |
+| `paranoid`         | `false`; entropy-based supplemental credential heuristic                                                |
+| `maxInputLength`   | 33,554,432 UTF-16 units                                                                                 |
+| `maxFindings`      | 100,000 detector hits before deduplication                                                              |
+| `minConfidence`    | 0.5; personal findings below this score remain visible to inspect but are not replaced                  |
+| `threshold`        | Alias for minConfidence; both options must agree when supplied                                          |
+| `debug`            | Optional trusted callback for value-free counts, timing and event metadata                              |
+| `identityMask`     | `false`; identity types keep 2+2 Unicode characters with fixed `***`, or redact below five              |
+| `fakeIdentity`     | Off; `'specimen-and-synthetic'` retains explicitly fake identity values                                 |
+| `fakeValues`       | `[]`; exact caller-reviewed identity values to retain, regardless of fakeIdentity                       |
+| `structured`       | Off; `'json'` or `'jsonl'` validates and sanitizes string keys/values separately                        |
+| `structuralFields` | `[]`; declared property names suppress weak name/ID/entropy heuristics in their string values           |
 
 Unknown options and invalid limits are errors. `knownSecretsFromEnv(env, names?)` discovers credential-named variables (excluding auth configuration names) when names are omitted, or uses an explicit selection, deduplicating nonempty values. It never invokes shell commands or reads auth files. `personalVariants(entries)` generates numeric and ISO/day-first date spellings; name case variants are already handled by detection. Neither helper invents transliterations.
 

@@ -27,7 +27,7 @@ export interface PersonalValue {
   value: string;
 }
 export interface PublicEntity {
-  type: 'PERSON' | 'ORGANIZATION' | 'EMAIL';
+  type: 'PERSON' | 'ORGANIZATION' | 'EDUCATION' | 'LOCATION' | 'EMAIL';
   value: string;
   /** Organization-controlled HTTPS evidence, reviewed by the policy author. */
   source: string;
@@ -42,7 +42,9 @@ export interface Detector {
 export interface SanitizerOptions {
   /** Preserve all personal/account data; credential findings still redact. */
   credentialsOnly?: boolean;
-  profile?: 'publication';
+  profile?: 'publication' | 'documents';
+  /** Opt in to bounded employer, school, city/region heuristics. */
+  documentEntities?: boolean;
   confirmedPersonal?: Array<{ value: string; type: string }>;
   knownSecrets?: string[];
   knownPersonal?: PersonalValue[];
@@ -95,6 +97,8 @@ export interface SanitizedText {
   findings: Finding[];
   /** Number of disjoint replacements after overlapping detections are merged. */
   redactions: number;
+  /** Private personal data. Absent for map:false and non-placeholder modes. */
+  map?: RestoreMap;
 }
 export interface Sanitizer {
   inspect(text: string): Promise<Finding[]>;
@@ -221,6 +225,12 @@ export declare function auditGitHistory(
 export type Transformation =
   | { mode: 'redact' | 'hive-mask' }
   | {
+      mode: 'placeholder';
+      map?: RestoreMap | false;
+      format?: string;
+      credentials?: boolean;
+    }
+  | {
       mode: 'mask';
       keepStart?: number;
       keepEnd?: number;
@@ -239,6 +249,45 @@ export type Transformation =
     }
   | { mode: 'date-shift'; days: number }
   | { mode: 'bucket'; size: number };
+
+/** Contains original personal data; never publish this object or its files. */
+export interface RestoreMap {
+  kind: 'sensitive-data-restore-map';
+  version: 1;
+  format: string;
+  entries: Array<{
+    token: string;
+    type: string;
+    number: number;
+    values: string[];
+    aliases: string[];
+  }>;
+  documents: Array<{
+    digest: string;
+    occurrences: Array<{
+      start: number;
+      end: number;
+      token: string;
+      raw: string;
+    }>;
+  }>;
+}
+export declare function createRestoreMap(options?: {
+  format?: string;
+}): RestoreMap;
+export declare function serializeRestoreMap(
+  map: RestoreMap,
+  format?: 'json' | 'lino'
+): string;
+export declare function parseRestoreMap(text: string): RestoreMap;
+export declare function readRestoreMap(path: string): Promise<RestoreMap>;
+export declare function writeRestoreMap(
+  path: string,
+  map: RestoreMap,
+  options?: { format?: 'json' | 'lino'; replace?: boolean }
+): Promise<void>;
+/** Exact original-document restoration; derived text uses canonical surfaces. */
+export declare function restore(text: string, map: RestoreMap): string;
 export interface StreamOptions extends SanitizerOptions {
   /** Treat NUL as a log byte; default false. Incompatible with JSON/JSONL. */
   allowBinary?: boolean;
