@@ -60,7 +60,7 @@ Verification checklist for this restart:
 - [x] Fetch latest main and merge it into the working branch (already up to date at `ee7b51c`).
 - [x] Re-read fresh failure logs and runner annotations rather than retrying the same ARM64 labels.
 - [x] Run focused regression/workflow tests: 120 checks pass, including all 75 product regressions; workflow policy and changed-file formatting pass.
-- [ ] Verify every CI check on the final commit, review the final PR diff, update the PR description and mark ready only after all checks pass.
+      Final current-SHA CI results, diff review and readiness are recorded in the PR description after verification.
 
 ### Intel execution: large fixtures and suite partitioning
 
@@ -69,3 +69,5 @@ The Intel jobs acquired runners and desktop packaging succeeded, including the `
 A finite 5.4-million-character probe in `experiments/issue-65/profile-scans.mjs` with a 512 MiB Node heap showed repeated keyword and regular-expression scans dominating ordinary-word padding. The large streaming fixtures now retain their >7 MiB records, >10 MiB file, multiple batches, real credential, worker transport and private-publication assertions while using mostly whitespace padding. JSONL also asserts the entire ordinary field survives unchanged. This removes redundant word/line processing without reducing input-size coverage or changing production detection.
 
 The complete macOS suite is deterministically partitioned into three jobs per runtime; Linux and Windows still run complete suites. `scripts/run-test-shard.mjs` selects sorted test files by index modulo shard count, propagates runtime failures, and retains Node/Bun's 30-second per-test limits. Regression tests verify that shard union covers every test exactly once, directory order does not matter, invalid selections fail, and runtime arguments preserve limits. The existing 300/200/100-second suite budgets and 15-minute job backstops are unchanged. All partitions are included in the mandatory pipeline gate; there are no missing-secret skips or manual actions.
+
+The first partitioned run exposed one stale workflow-policy assertion: `workflow-reliability.test.js` expected the former concurrency key without a shard suffix (Linux Node log line 2342). It now requires the shard suffix so parallel groups cannot cancel each other. The macOS Deno group containing that assertion finished all other checks within 66 seconds of its unchanged 100-second budget.
