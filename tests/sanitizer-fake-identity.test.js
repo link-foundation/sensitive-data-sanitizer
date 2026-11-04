@@ -167,6 +167,14 @@ describe('natural fake organizations and places', () => {
     ).toBe('Заря, Заря-2');
   });
 
+  it('takes the case of a conjunct from its preposition', () => {
+    expect(
+      fake('ORGANIZATION', ['Ромашка', 'Лютик'], 'В Лютике и Ромашке', {
+        pools: { ORGANIZATION: ['Заря', 'Импульс'] },
+      })
+    ).toMatch(/^В (?:Заре и Импульсе|Импульсе и Заре)$/u);
+  });
+
   it('rejects malformed pools', () => {
     for (const pools of [null, [], { ORGANIZATION: [] }, { PERSON: ['A'] }]) {
       expect(() =>

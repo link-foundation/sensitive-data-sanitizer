@@ -136,8 +136,14 @@ const governed = [
   [/^(?:у|от|до|из|без|для|около|после|кроме|вокруг|против)$/u, [1]],
 ];
 const lastWord = /(?<![\p{L}\p{M}\p{N}_-])(\p{L}{1,7})[ \t\u00a0]+([«“"]?)$/u;
+// `в Лютике и Ромашке`: a conjunct takes the case of the word before it.
+const conjunct =
+  /[\p{L}\p{M}-]{1,32}[»”"]?(?:,|[ \t\u00a0]+(?:и|или))[ \t\u00a0]+[«“"]?$/u;
 export function governedCases(text, start) {
-  const match = lastWord.exec(text.slice(Math.max(0, start - 12), start));
+  const before = text.slice(Math.max(0, start - 64), start);
+  const conjunction = conjunct.exec(before);
+  const source = conjunction ? before.slice(0, conjunction.index) : before;
+  const match = lastWord.exec(source.slice(-12));
   if (!match) {
     return { cases: [] };
   }
