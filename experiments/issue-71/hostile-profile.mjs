@@ -1,5 +1,6 @@
 // Times the hostile test payload at growing sizes, with and without documents.
 // Run from the repository root: node experiments/issue-71/hostile-profile.mjs
+import { performance } from 'node:perf_hooks';
 import { inspect, sanitize } from '../../src/index.js';
 
 const line = `${'слово '.repeat(2000)}, ${'Имя '.repeat(2000)}(2019`;

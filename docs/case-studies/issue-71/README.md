@@ -50,4 +50,4 @@ Issue 71 asks for its four native sub-issues to be solved in one pull request. A
 
 ## Reproduction and validation
 
-`node experiments/issue-71/reproduce.mjs` prints every row reported in #67–#70. The regression tests are in the four test files named above, for example `node --test --test-timeout=30000 tests/sanitizer-known-forms.test.js`. Full platform and runtime suites run in the PR's CI matrix.
+`node experiments/issue-71/reproduce.mjs` prints every row reported in #67–#70. The regression tests are in the four test files named above, for example `node --test --test-timeout=30000 tests/sanitizer-known-forms.test.js`. `experiments/issue-71/hostile-timing.mjs` and `hostile-profile.mjs` show that hostile lines scale linearly: `sanitize` on the 400 KB payload took 1289 ms on this branch and 1286 ms on `main`. Full platform and runtime suites run in the PR's CI matrix.

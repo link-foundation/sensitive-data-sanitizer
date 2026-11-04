@@ -1,5 +1,6 @@
 // Measures whether detection of hostile CV-like lines scales linearly.
 // Run from the repository root: node experiments/issue-71/hostile-timing.mjs
+import { performance } from 'node:perf_hooks';
 import { inspect } from '../../src/index.js';
 
 const shapes = {
