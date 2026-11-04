@@ -328,7 +328,10 @@ function backslashes(text, index) {
 }
 
 function sourceReference(label, tail) {
-  return /\.[a-z]{1,10}$/iu.test(label) && /^\d+(?:[):]|\b)/u.test(tail);
+  return (
+    /\.(?:[cm]?[jt]sx?|py|go|rs|c|cpp|h|java|cs|rb|sh)$/iu.test(label) &&
+    /^\d+(?:[):]|\b)/u.test(tail)
+  );
 }
 
 function detectCredentials(text, emit) {

@@ -197,6 +197,7 @@ describe('credential prose and irreversible replacements', () => {
     it(`preserves ${text}`, () => expect(mapped(text).text).toBe(text));
   }
   it('redacts genuine secrets and reports lost restorability in both APIs', async () => {
+    expect(sanitize('db.pass: 1234!secret').text).toBe('db.pass: [REDACTED]');
     const text = 'password is hunter2-Xy9!q';
     for (const result of [
       sanitize(text, placeholder()),

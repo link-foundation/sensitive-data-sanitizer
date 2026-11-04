@@ -28,6 +28,8 @@ Run `node --test --test-timeout=30000 tests/sanitizer-issue-65.test.js` for the 
 
 Focused compatibility runs also passed: 163 checks covering credential context/formats and earlier issue regressions; 187 checks covering rules, placeholders, CLI, escaping, documents and fake values; and a final placeholder/regression run of 95 checks. Lint, formatting, duplication and secret scans passed locally. Full platform/runtime suites run in the existing PR CI matrix rather than duplicating those workloads locally.
 
+Final credential review added `db.pass: 1234!secret` to prevent the file-reference exemption from hiding numeric-prefixed secrets under dotted credential keys. This assertion fails before narrowing the exemption to source-file extensions and passes afterward, together with all 130 focused credential/regression checks.
+
 The morphology rules are finite alternatives for explicitly known or confirmed identities, not a general Russian parser. The document vocabulary is offline and bounded; ambiguous unlabelled prose still requires caller-provided known values. These limits preserve the existing conservative detection model while covering every reported example.
 
 ## CI runner investigation
