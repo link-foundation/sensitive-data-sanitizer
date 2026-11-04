@@ -39,9 +39,9 @@ the initial read on 2026-11-04. All three PR comment endpoints were empty.
 - [x] Research reusable components and record root causes/alternatives.
 - [x] Capture baseline reproduction with a finite experiment.
 - [x] Draft implementations, tests, public API/types, CLI, docs and changeset.
-- [ ] Run focused regression and adjacent checks; correct failures.
-- [ ] Commit and push atomic changes; review PR diff and current-head CI.
-- [ ] Recheck feedback, clean tree, base merge and PR readiness.
+- [x] Run focused regression and adjacent checks; correct failures.
+- [x] Commit and push atomic changes; review PR diff and current-head CI.
+- [x] Recheck feedback, clean tree, base merge and PR readiness.
 
 ## Design decisions
 
@@ -54,3 +54,42 @@ is stored. A map is personal data, not an anonymized artifact.
 
 Existing template case study docs/case-studies/issue-56 refers to a different
 repository; preserve it and put this investigation in issue-56-placeholders.
+
+## Implementation and evidence index
+
+- P1–P4, P7, P10: `src/placeholders.js`, `src/transforms.js` and
+  `tests/sanitizer-placeholders.test.js` cover numbering, shared identities,
+  formats, reused maps, Russian forms and transliterations.
+  `tests/sanitizer-placeholder-escaping.test.js` additionally covers complete
+  JSON namespace checks, a bounded adversarial string and custom type collisions.
+- P5, P6, P8, P11, P12: `src/restore-map.js`, `bin/placeholders.js`, structured
+  projection and the placeholder/CLI suites cover both map formats, exact and
+  derived restoration, private writes, publication rejection, credential policy,
+  structured keys, caller-owned file maps and complete multi-batch streams.
+- P9: the placeholder suite verifies discarded state in sync/async no-map
+  operations and an external detector that rejects a residual in the real output.
+  Existing stream cleanup also discards the no-map registry after completion.
+- D1–D7: `src/document-entities.js`, `src/document-vocabulary.js`, policy/fake
+  integration and `tests/sanitizer-document-entities.test.js` cover every locale,
+  both legal-form orders, city/region and label detection, confidence/off switches,
+  public exemptions and private overrides. Existing credential/log suites and
+  session publication CI cover default behavior.
+- P13, D8, W1: README, API and COVERAGE document map sensitivity and finite
+  detection/linking limits; `src/index.js`/`src/index.d.ts`, the packaged runnable
+  example and minor changeset cover public integration and release preparation.
+
+All 55 new focused checks pass in Node, Bun and Deno. Node/Bun exercise private
+filesystem cases; Deno uses the existing write-permission gate. Six package
+metadata checks, 85 adjacent transformation/fake/credential/JSONL checks and 21
+public-policy/JSON/residual checks pass. `npm pack --dry-run --json` confirms the
+new runtime modules and example are published. Full CI evidence and final branch
+checks are recorded in the linked investigation and PR.
+
+The implementation at `298706e` passed the complete nine-job runtime matrix in
+[run 41811037940](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/41811037940).
+Security (including both CodeQL analyses), example app and link workflows also
+passed. CodeQL alert 7 reports the JSON scanner finding as fixed. The latest main
+is already an ancestor; all issue/PR comment endpoints and both child-issue lists
+were checked again, with no additional requirements. PR 57 is ready for review.
+This final documentation update records the evidence without changing runtime
+code; its current-head checks are verified separately before handoff.

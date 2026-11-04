@@ -96,3 +96,21 @@ unfinished-string regression and a collision after a 16 KiB JSON literal cover
 both linear scanning and the complete input beyond the encoded-detector window.
 Custom detector types additionally retain safe token allocation when underscores
 normalize to the same readable label.
+
+The corrected implementation at `298706e` passed all nine jobs in
+[run 41811037940](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/41811037940).
+Node and Bun on Linux/macOS each passed 1551 checks; Windows Node passed 1510
+and Windows Bun 1514, reflecting existing platform-specific test selection.
+Deno passed 1406 checks plus eight steps on each platform. No runtime job failed.
+The same head passed [Security](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/41811038144),
+[Example app](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/41811037916),
+and [Broken Link Checker](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/41811038022).
+CodeQL reports alert 7 as fixed. All 55 new focused tests also passed locally
+in Node, Bun and Deno, with the existing Deno filesystem-permission convention.
+
+Final review found no additional native child issues, issue comments or human PR
+feedback. The current main is already an ancestor of the prepared branch. The
+PR includes a minor changeset, retains all existing transformations and defaults,
+closes all three required issues, and is marked ready for review. The last
+documentation-only commit records this evidence; current-head checks are verified
+before final handoff.
