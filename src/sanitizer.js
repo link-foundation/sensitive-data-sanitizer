@@ -1,4 +1,5 @@
 import { generatedValues } from './fake.js';
+import { prepareFakeText } from './fake-entities.js';
 import { alignEscapes } from './escape-spans.js';
 import { actionable } from './confidence.js';
 import { propagate, confirmationOptions } from './propagation.js';
@@ -692,7 +693,7 @@ export function redactResult(
 ) {
   options = applyProfile(options);
   const spans = validatedSpans(text, findings, options);
-  options = initializePlaceholders(options);
+  options = prepareFakeText(text, findings, initializePlaceholders(options));
   preparePlaceholderText(text, findings, options);
   const parts = [];
   const faked = [];
@@ -719,6 +720,11 @@ export function redactResult(
     const transform =
       options.transformations?.[span.type] ?? options.transformation;
     if (retainedReplacement(transform, 'placeholder', span, replacement)) {
+      // `Organization-1` followed by `99` would read as a token that does not
+      // exist, so a span that ends there fails the run instead.
+      if (/\d$/.test(replacement) && /\d/.test(text[span.end] ?? '')) {
+        throw failure('ERR_RESIDUAL');
+      }
       occurrences.push({
         start: outputLength,
         end: outputLength + replacement.length,

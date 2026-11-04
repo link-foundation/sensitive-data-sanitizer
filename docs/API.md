@@ -104,6 +104,16 @@ in reverse order, and organization cores without legal forms/quotes. Inflected
 forms consume whole Unicode words; minimum stem lengths limit overmatching.
 This is conservative heuristic identity linking, not general coreference:
 ambiguous surnames/initials and unrelated people are not intentionally merged.
+
+A listed Russian PERSON value also matches all six grammatical cases, including
+the instrumental (`Петровым Данилом Сергеевичем`), every word order, `ё`/`е`
+spelling differences in either direction, upper case, and initials with or
+without spaces in both positions and all cases (`Петрову Д. С.`, `Д.С. Петрова`).
+The contiguous name parts of a listed three-part name match together
+(`Петров Данил`, `Данил Сергеевич`, `с Петровым Данилом`). A part on its own does
+not: a bare `Данил` or `Сергеевич` is too ambiguous to imply from a longer value,
+so list each part you want matched alone as its own `knownPersonal` entry. Listing
+parts next to the full name keeps one token and one fake identity.
 Every replaced occurrence retains its exact original surface privately. With
 one identical token, a derived answer cannot encode the original grammatical
 case; it receives the canonical spelling. Two distinct originals that produce
@@ -132,7 +142,7 @@ new document recognizers; `documentEntities: false` turns them off explicitly.
 | `profile`          | Off; `'publication'` sets a 0.3 threshold and identity masking; `'documents'` enables document entities                                                     |
 | `knownOnly`        | `false`; disable all automatic detection (including credentials, Secretlint and custom detectors); use only explicit known values and reused map identities |
 | `knownSecrets`     | `[]`; exact literal credential values, regardless of length or format                                                                                       |
-| `knownPersonal`    | `[]`; `{type, value}` values with whole-word Unicode case-insensitive matching and bounded Russian case forms                                               |
+| `knownPersonal`    | `[]`; `{type, value}` values with whole-word Unicode case-insensitive matching and bounded Russian forms; list parts to match them alone                    |
 | `publicEntities`   | `[]`; exact PERSON/ORGANIZATION/EDUCATION/LOCATION/EMAIL exception with HTTPS evidence and review date                                                      |
 | `findings`         | `[]`; validated detections for the original input, supplied by the caller                                                                                   |
 | `detectors`        | `[]`; additional required callbacks in the asynchronous engine                                                                                              |
@@ -204,6 +214,8 @@ Without a profile, full redaction is the library default. `transformation` selec
 All keyed modes require a key of at least 16 UTF-8 bytes. `format-preserving` is a non-reversible shape pseudonym, not NIST FF1 encryption; it does not preserve checksum validity, country-specific alphabets or guarantee uniqueness. Partial masks, date shifts and buckets intentionally retain information. Keep pseudonym keys outside logs. Residual verification checks the corresponding fully redacted representation; opted-in disclosures can remain recognizable in the transformed output. Use default redaction for publication that requires opaque output.
 
 `{mode: 'fake', key}` infers name locale, script and gender from the supported gazetteer/datasets and recognizable surname/patronymic endings. Independent HMAC-seeded Faker instances make results independent of processing order. Russian Cyrillic/transliterated spelling, name order and filename separators share component identities. Ambiguous names can use a fallback locale; this is not universal name/gender inference. Dates use one keyed backward offset of 1–365 days and preserve ISO, slash and dot formats. Complete TD1/TD2/TD3 MRZs regenerate individual/composite checks and match separately faked name/date fields. Issuer/nationality remain original unless `mrzCountry: 'UTO'` is supplied. Unsupported/damaged formats fall back to full redaction.
+
+Russian mentions of one person, organization, school or location share one fake identity. The fake follows the source word order, initials, capitalization, grammatical case and, for people, sex: `Петров пришёл. Позвонили Петрову. С Петровым.` becomes `Баранов пришёл. Позвонили Баранову. С Барановым.`, and `ООО «Ромашка» … в Ромашке` becomes `ООО «Импульс» … в Импульсе`. Declension uses finite offline rules for the generated vocabulary. The grammatical case comes from the source surface and the preceding preposition, so a source preposition stays as written even where the fake would call for another spelling (`о Осипове`). Organizations, schools and locations draw from an authored Russian or Latin vocabulary according to the script of the original, skip any name that is itself private in the text, and take a numeric suffix (`Заря-2`) once the vocabulary is exhausted. Each transformation object remembers its entity names so that two entities never share one, which makes a name depend on first appearance when two entities start on the same vocabulary entry; reuse the transformation object across documents to keep names stable, and note that this memory is not shared across worker threads or processes. `pools: {ORGANIZATION: [...], LOCATION: [...], EDUCATION: [...]}` on the fake transformation replaces a vocabulary with caller-reviewed non-empty names. Autodetected mentions are linked as in placeholder mode: a mention that appears only in oblique forms can remain a separate entity unless the value is listed in `knownPersonal`.
 
 Implemented national checksums, IBANs and payment-card Luhn checks remain valid. Phones retain calling code, length and separators; NANP uses 555-0100–0199 and UK mobile uses 07700 900000–900999. Email/domain outputs use example.com/.test. Other national identities and phone numbers have no universal reserved range: generated arithmetic does not prove that a value is unassigned.
 

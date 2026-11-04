@@ -2,7 +2,7 @@ import { collectMatches } from './detection.js';
 
 const birth =
   /(?<![\p{L}\p{N}_])(?:born|birth[ _-]?date|date[ _-]of[ _-]birth|DOB|дата рождения|д\.р\.|родился|родилась|Geburtsdatum|fecha de nacimiento|date de naissance)(?![\p{L}\p{N}_])/giu;
-const months =
+export const months =
   'January February March April May June July August September October November December Jan Feb Mar Apr Jun Jul Aug Sep Sept Oct Nov Dec января февраля марта апреля мая июня июля августа сентября октября ноября декабря январь февраль март апрель май июнь июль август сентябрь октябрь ноябрь декабрь'
     .split(' ')
     .join('|');

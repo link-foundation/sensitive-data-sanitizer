@@ -41,6 +41,22 @@ export function validateTransforms(options) {
 function positiveInteger(value) {
   return Number.isSafeInteger(value) && value > 0;
 }
+const poolTypes = new Set(['ORGANIZATION', 'LOCATION', 'EDUCATION']);
+function validPools(pools) {
+  return (
+    pools === undefined ||
+    (Boolean(pools) &&
+      typeof pools === 'object' &&
+      !Array.isArray(pools) &&
+      Object.entries(pools).every(
+        ([type, names]) =>
+          poolTypes.has(type) &&
+          Array.isArray(names) &&
+          names.length > 0 &&
+          names.every((name) => typeof name === 'string' && name.trim())
+      ))
+  );
+}
 function validateTransform(transform) {
   if (!transform || !modes.has(transform.mode)) {
     throw failure('ERR_CONFIG');
@@ -54,7 +70,8 @@ function validateTransform(transform) {
       Buffer.byteLength(transform.key) >= 16 &&
       (transform.credentials === undefined ||
         typeof transform.credentials === 'boolean') &&
-      (transform.mrzCountry === undefined || transform.mrzCountry === 'UTO'),
+      (transform.mrzCountry === undefined || transform.mrzCountry === 'UTO') &&
+      validPools(transform.pools),
     pseudonym: () =>
       typeof transform.key === 'string' &&
       Buffer.byteLength(transform.key) >= 16,
@@ -130,7 +147,7 @@ function masked(value, finding, transform) {
     ? REDACTED
     : `${chars.slice(0, start).join('')}${transform.marker ?? '*'.repeat(chars.length - start - end)}${end ? chars.slice(-end).join('') : ''}`;
 }
-function transformed(value, finding, transform) {
+function transformed(value, finding, transform, options) {
   if (!transform || transform.mode === 'redact') {
     return REDACTED;
   }
@@ -141,7 +158,7 @@ function transformed(value, finding, transform) {
       : REDACTED;
   }
   if (transform.mode === 'fake') {
-    return realisticFake(value, finding, transform);
+    return realisticFake(value, finding, transform, options);
   }
   if (finding.category === 'credential') {
     return REDACTED;
@@ -198,6 +215,6 @@ function renderValue(text, finding, transform, options) {
   const result =
     transform?.mode === 'placeholder'
       ? placeholderReplacement(raw, finding, transform, options)
-      : transformed(raw, finding, transform);
+      : transformed(raw, finding, transform, options);
   return jsonQuoted ? JSON.stringify(result).slice(1, -1) : result;
 }

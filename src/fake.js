@@ -1,3 +1,4 @@
+import { fakeEntity, fakePerson } from './fake-entities.js';
 import { createHmac } from 'node:crypto';
 import { parsePhoneNumberFromString } from 'libphonenumber-js/max';
 import { mrzCheck } from './identity.js';
@@ -487,7 +488,7 @@ function fakeTd1(parts, transform) {
     .padEnd(30, '<');
   return parts.join('');
 }
-export function realisticFake(value, finding, transform) {
+export function realisticFake(value, finding, transform, options = {}) {
   let output;
   if (finding.category === 'credential') {
     if (!transform.credentials) {
@@ -500,14 +501,9 @@ export function realisticFake(value, finding, transform) {
       .toString('hex')
       .slice(0, 8)}!`;
   } else if (finding.type === 'PERSON') {
-    output = fakeName(value, transform.key);
+    output = fakePerson(value, finding, transform, options);
   } else if (['ORGANIZATION', 'EDUCATION', 'LOCATION'].includes(finding.type)) {
-    const label = {
-      ORGANIZATION: 'Organization',
-      EDUCATION: 'School',
-      LOCATION: 'Location',
-    }[finding.type];
-    output = `Example ${label} ${digest(value, transform.key, finding.type).readUInt32BE(0)}`;
+    output = fakeEntity(value, finding, transform, options);
   } else if (/DATE|BIRTH/.test(finding.type)) {
     output = fakeDate(value, transform.key);
   } else if (finding.type === 'PASSPORT_MRZ') {

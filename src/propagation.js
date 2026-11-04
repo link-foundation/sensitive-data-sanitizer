@@ -1,6 +1,6 @@
 import { personalPattern, maxPropagationLength, failure } from './detection.js';
 import { actionable } from './confidence.js';
-import { organizationCore } from './personal-variants.js';
+import { organizationCore, organizationFamily } from './personal-variants.js';
 import { nameAliases } from './transliteration.js';
 
 function mrzSeeds(value, finding, seeds) {
@@ -50,11 +50,15 @@ function eligibleSeed(finding, options) {
       ].includes(finding.type))
   );
 }
-function organizationSeed(value, finding, seeds, options) {
+function organizationSeed(text, value, finding, seeds, options) {
   if (options.documentEntities && finding.type === 'ORGANIZATION') {
     const core = organizationCore(value);
     if (core.length >= 3) {
       seeds.set(core, finding);
+    }
+    const family = organizationFamily(core);
+    for (const match of family ? text.matchAll(family.pattern) : []) {
+      seeds.set(match[0], finding);
     }
   }
 }
@@ -82,7 +86,7 @@ export function confirmedSeeds(text, findings, options) {
       mrzSeeds(value, finding, seeds);
     } else if (value.length >= 2) {
       seeds.set(value, finding);
-      organizationSeed(value, finding, seeds, options);
+      organizationSeed(text, value, finding, seeds, options);
       if (finding.type === 'PERSON') {
         for (const name of value.match(/\p{L}{2,}/gu) ?? []) {
           seeds.set(name, finding);

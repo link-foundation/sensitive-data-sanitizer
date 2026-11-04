@@ -240,11 +240,29 @@ function detectAuthorization(text, emit, credential) {
   }
 }
 
+// `/` and `|` are valid local-part characters, so `@handle/jane@example.com`
+// reads as one address that starts after `@`. A mention keeps its own finding;
+// any other leading `@` joins the address so that it cannot survive as a handle.
+function emailAfterMention(text, finding) {
+  if (
+    text[finding.start - 1] !== '@' ||
+    /[\p{L}\p{N}_.\]]/u.test(text[finding.start - 2] ?? '')
+  ) {
+    return finding;
+  }
+  const handle = /^[\p{L}\p{N}_]{2,32}[/|]/u.exec(
+    text.slice(finding.start, finding.end)
+  );
+  return handle
+    ? { ...finding, start: finding.start + handle[0].length }
+    : { ...finding, start: finding.start - 1 };
+}
+
 function detectPersonalFormats(text, options, emit) {
   collectMatches(
     text,
     /(?<![\p{L}\p{N}_.!#$%&'*+/?^`{|}~-])[\p{L}\p{N}_.!#$%&'*+/?^`{|}~-]+@[\p{L}\p{N}](?:[\p{L}\p{N}.-]{0,252})\.[\p{L}]{2,63}(?![\p{L}\p{N}_-])/gu,
-    emit,
+    (finding) => emit(emailAfterMention(text, finding)),
     { type: 'EMAIL', category: 'personal', rule: 'email' }
   );
   collectMatches(

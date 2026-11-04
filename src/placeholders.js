@@ -107,6 +107,14 @@ function aliases(value, type) {
     ),
   ];
 }
+// A bare name is the same entity as its numbered form, including maps saved
+// when the span stopped at the hyphen of `Вектор-99`.
+function numberedOrganization(value, entry) {
+  return (entry.values ?? []).some((original) => {
+    const base = original.replace(/-\d*$/u, '');
+    return base !== original && samePersonal(value, base, entry.type);
+  });
+}
 function related(value, entry) {
   if (
     (entry.values ?? []).some((original) =>
@@ -118,6 +126,9 @@ function related(value, entry) {
   const candidates = aliases(value, entry.type);
   if (candidates.some((alias) => entry.aliases.includes(alias))) {
     return true;
+  }
+  if (entry.type === 'ORGANIZATION') {
+    return numberedOrganization(value, entry);
   }
   if (entry.type !== 'PERSON') {
     return false;
@@ -257,7 +268,7 @@ function namespaceCollision(text, pattern) {
   return false;
 }
 
-function canonicalPerson(value, people) {
+export function canonicalPerson(value, people) {
   // Resolve components only when there is a unique compatible full name.
   const matches = people.filter((person) => {
     const words = person.match(/\p{L}+/gu) ?? [];
@@ -279,8 +290,11 @@ function canonicalKnown(value, type, options, state) {
   const known = (options.knownPersonal ?? []).filter(
     (e) => e.type === type && samePersonal(value, e.value, type)
   );
-  if (known.length === 1) {
-    return known[0].value;
+  // `Петров Данил` and `Петров Данил Сергеевич` are one person: the fullest wins.
+  const longest = Math.max(0, ...known.map((e) => e.value.length));
+  const fullest = known.filter((e) => e.value.length === longest);
+  if (fullest.length === 1) {
+    return fullest[0].value;
   }
   return type === 'PERSON' ? canonicalPerson(value, state.people ?? []) : value;
 }
@@ -303,7 +317,12 @@ export function placeholderReplacement(value, finding, transform, options) {
   const candidates = map.entries.filter(
     (entry) => entry.type === type && related(canonical, entry)
   );
-  let entry = candidates.length === 1 ? candidates[0] : undefined;
+  // Several related entities are ambiguous, unless one holds this exact value.
+  const exact = candidates.filter((entry) =>
+    entry.values.some((original) => samePersonal(canonical, original, type))
+  );
+  const matches = candidates.length === 1 ? candidates : exact;
+  let entry = matches.length === 1 ? matches[0] : undefined;
   if (!entry) {
     if (map.entries.length >= (options.maxFindings ?? 100000)) {
       throw failure('ERR_LIMIT');

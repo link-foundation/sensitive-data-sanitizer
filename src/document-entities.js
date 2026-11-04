@@ -2,6 +2,7 @@ import { collectMatches, escapePattern } from './detection.js';
 import { firstNames } from './names.js';
 import { organizationCore, personalRegex } from './personal-variants.js';
 import { documentVocabulary } from './document-vocabulary.js';
+import { months } from './personal-context.js';
 
 const words = (column) =>
   [...new Set(documentVocabulary.flatMap((row) => row[column].split('|')))]
@@ -52,6 +53,32 @@ const groupOrganization = new RegExp(
   `(?<!${boundary})${latinName}[ \t]+(?:Групп|Group|Холдинг|Holding)(?!${boundary})`,
   'gu'
 );
+// CV experience lines: the date range anchors the employer slot, so prose with
+// a comma is untouched. Titles are not required to be lowercase because English
+// ones are often title case (`Senior QA Engineer`).
+const capitalized = (word) => word[0].toUpperCase() + word.slice(1);
+const month = [
+  ...new Set(months.split('|').flatMap((word) => [word, capitalized(word)])),
+].join('|');
+const rangeStart = `(?:(?:19|20)\\d{2}(?:-\\d{2}){0,2}|\\d{2}[./](?:\\d{2}\\.)?\\d{4}|(?:${month})\\.?[ \\t]+(?:19|20)\\d{2})`;
+const rangeOpen = ['по настоящее время', 'настоящее время', 'сейчас', 'н.в.']
+  .concat(['н/в', 'present', 'now', 'current'])
+  .flatMap((word) => [word, capitalized(word)])
+  .map(escapePattern)
+  .join('|');
+const range = `${rangeStart}(?:[ \\t]*[-–—][ \\t]*|[ \\t]+(?:по|to)[ \\t]+)(?:${rangeStart}|${rangeOpen})(?!${boundary})`;
+const titleWord = '[\\p{L}\\p{N}][\\p{L}\\p{N}/+#.&-]{0,39}';
+const lineTitle = `^[ \\t]*(?:[-–—•*·][ \\t]+|\\d{1,2}[.)][ \\t]+)?${titleWord}(?:[ \\t]+${titleWord}){0,5}`;
+const employerWord = "[\\p{L}\\p{M}\\p{N}&'’.+-]{1,40}";
+const employer = `«[^«»\\r\\n]{1,160}»|"[^"\\r\\n]{1,160}"|“[^“”\\r\\n]{1,160}”|(?:\\p{Lu}|\\d{1,4}-?\\p{L})${employerWord}?(?:[ \\t]+${employerWord}){0,5}`;
+const experienceLine = new RegExp(
+  `${lineTitle}(?:,[ \\t]+|[ \\t]+[-–—][ \\t]+)(${employer})(?:[ \\t]*\\(${range}\\)|[ \\t]*[,–—-][ \\t]*${range})`,
+  'gmu'
+);
+const experienceParenthesis = new RegExp(
+  `${lineTitle}[ \\t]*\\((${employer})\\)(?:,?[ \\t]*${range}|[ \\t]*\\(${range}\\))`,
+  'gmu'
+);
 
 export function detectDocumentEntities(text, emit, options) {
   if (!options.documentEntities) {
@@ -71,6 +98,8 @@ export function detectDocumentEntities(text, emit, options) {
     ['EDUCATION', 'education-type', schools, 0, 0.65],
     ['LOCATION', 'location-gazetteer', places, 0, 0.6],
     ['LOCATION', 'location-label', labelledPlace, 1, 0.75],
+    ['ORGANIZATION', 'organization-experience', experienceLine, 1, 0.6],
+    ['ORGANIZATION', 'organization-experience', experienceParenthesis, 1, 0.6],
   ]) {
     collectMatches(
       text,

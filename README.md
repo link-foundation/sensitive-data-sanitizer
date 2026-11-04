@@ -60,6 +60,10 @@ sensitive-data-sanitizer redact cv.txt --profile documents --placeholder --no-ma
 Placeholder results report `irreversibleRedactions`; a nonzero count means some
 replacements, such as credentials excluded from the map, cannot be restored.
 
+Known Russian names match in all six cases and in any word order, with `ё`/`е`
+spelling variants and initials (`с Петровым Данилом Сергеевичем`, `Петров Д. С.`).
+A part of a longer name is matched alone only when it is listed itself.
+
 For irreversible output, choose `transformation: { mode: 'placeholder', map:
 false }`: no restore map is returned or written. Detection limits still apply
 in either mode. See the [placeholder API](docs/API.md#reversible-placeholders),
@@ -144,7 +148,9 @@ See [the API](docs/API.md) and [all issue 13 requirements and research](docs/cas
 `transformation: {mode: 'fake', key}` generates deterministic names, valid
 dates/MRZs/checksummed IDs and reserved email/domain destinations. Credentials
 remain fully redacted by default. Keep the key private: this preserves relations
-and structure and is pseudonymisation. See [realistic fakes](examples/realistic-fakes.mjs)
+and structure and is pseudonymisation. Russian mentions of one known person or
+entity share one fake identity declined to match the source (`Петров … С Петровым`
+becomes `Баранов … С Барановым`), and `pools` overrides the entity names. See [realistic fakes](examples/realistic-fakes.mjs)
 and [the complete issue 24 requirements, research and solution plans](docs/case-studies/issue-24/REQUIREMENTS.md).
 
 Keep policies containing real private values outside Git. Built-in exact public knowledge and narrowly scoped role/domain heuristics are enabled offline. Explicit private literals override public exemptions. Keep custom public policies reviewed against evidence; `--verify-public` separately opts into Wikidata name lookup:
