@@ -1,4 +1,5 @@
 import { failure } from './detection.js';
+import { hasPlaceholders } from './placeholders.js';
 
 // Session metadata is opt-in at the CLI; library callers choose their own
 // fields. These names do not grant exemptions to provider/known credentials.
@@ -164,7 +165,7 @@ function ordinaryPersonalKey(entry, finding) {
 // Propagation runs again at source offsets. Apply the same key policy after it
 // so a name confirmed in a value cannot rename an ordinary identifier key.
 export function preserveIdentifierKeys(text, findings, options) {
-  if (!options.structured) {
+  if (!options.structured || hasPlaceholders(options)) {
     return findings;
   }
   const keys = structuredBatches(text, options).flatMap((batch) =>
@@ -193,6 +194,9 @@ export function preserveIdentifierKeys(text, findings, options) {
   });
 }
 function preserveStructuredEntry(entry, finding, text, options) {
+  if (hasPlaceholders(options)) {
+    return false;
+  }
   return (
     (entry.key &&
       ['confirmed-personal', 'document-propagation'].includes(finding.rule)) ||

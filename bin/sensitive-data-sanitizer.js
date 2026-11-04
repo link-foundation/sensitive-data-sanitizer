@@ -21,16 +21,18 @@ import { encodeLogText } from '../src/log-bytes.js';
 import { createWikidataVerifier } from '../src/public-verifier.js';
 import { streamCommand } from './stream.js';
 import { sessionStructuralFields } from '../src/structured.js';
+import { placeholderOptions, saveMap, restoreCommand } from './placeholders.js';
 import {
   createGitleaksDetector,
   createTrufflehogDetector,
   createPresidioDetector,
 } from '../src/external.js';
 
-const help = `Usage: sensitive-data-sanitizer <redact|scan|history> [path|-] [options]
+const help = `Usage: sensitive-data-sanitizer <redact|scan|restore|history> [path|-] [options]
 
 redact    Sanitize one text log or stdin; publish only after verification
 scan      Report metadata for a file, directory, or stdin (never source text)
+restore   Restore placeholders in a file using --map PATH (private output)
 history   Audit local reachable Git blobs, commit/tag metadata, and reflogs
 history rewrite SOURCE --output DIRECTORY [--apply]
           Preview a fresh mirror clone; --apply rewrites only that clone
@@ -56,7 +58,13 @@ history rewrite SOURCE --output DIRECTORY [--apply]
 --json              Sanitize JSON strings and keys; preserve session metadata
 --jsonl             Sanitize JSONL records; combine with --stream for sessions
 --identity-mask     First/last 2 identity mask (publication profile default)
---profile NAME      Publication profile (redact default; config can override)
+--profile NAME      publication (redact default) or documents (CV/entity rules)
+--placeholder       Typed numbered placeholders; requires --map or --no-map
+--map PATH          Private JSON/.lino restore map; reuse it across files/runs
+--no-map            Discard placeholder mapping after full anonymization
+--placeholder-format TEMPLATE  Default {Type}-{n}; also [{TYPE}_{n}]
+--map-format FORMAT json or lino (otherwise inferred from .lino extension)
+--map-credentials   Explicitly keep credentials in the private restore map
 --max-record-bytes N Maximum record bytes (text: total limit; JSONL: 8388608)
 --hive-mask         Opt-in first/last 3 mask for values longer than 12 characters
 --preserve-encoding Re-encode sanitized encoded payloads with round-trip checks
@@ -96,6 +104,9 @@ function parseArgs(argv) {
     ['--gh-auth', 'ghAuth'],
     ['--verify-public', 'verifyPublic'],
     ['--apply', 'apply'],
+    ['--placeholder', 'placeholder'],
+    ['--no-map', 'noMap'],
+    ['--map-credentials', 'mapCredentials'],
   ]);
   const valued = new Map([
     ['--config', 'config'],
@@ -109,6 +120,9 @@ function parseArgs(argv) {
     ['--worker-timeout-ms', 'workerTimeoutMs'],
     ['--filter-repo', 'filterRepo'],
     ['--profile', 'profile'],
+    ['--map', 'map'],
+    ['--map-format', 'mapFormat'],
+    ['--placeholder-format', 'placeholderFormat'],
   ]);
   let hasPath = false;
   for (let i = rewrite ? 2 : 1; i < argv.length; i++) {
@@ -134,7 +148,7 @@ function parseArgs(argv) {
 function validateArgs(config) {
   config.maxBytes = Number(config.maxBytes ?? defaultByteLimit(config));
   if (
-    !['redact', 'scan', 'history'].includes(config.command) ||
+    !['redact', 'scan', 'restore', 'history'].includes(config.command) ||
     !Number.isSafeInteger(config.maxBytes) ||
     config.maxBytes <= 0
   ) {
@@ -143,7 +157,7 @@ function validateArgs(config) {
   if (
     (config.output && config.inPlace) ||
     ((config.output || config.inPlace) &&
-      config.command !== 'redact' &&
+      !['redact', 'restore'].includes(config.command) &&
       !config.rewrite) ||
     (config.inPlace && config.path === '-') ||
     (config.command === 'history' && config.path === '-')
@@ -252,19 +266,8 @@ export async function runCli(
       return 0;
     }
     const config = parseArgs(argv);
-    const options = await loadOptions(config);
-    const engine = createSanitizer(options);
     const context = { stdin, stdout };
-    if (config.command === 'history') {
-      return await historyCommand(config, engine, context);
-    }
-    if (config.stream) {
-      return await streamCommand(config, engine, options, context);
-    }
-    if (config.command === 'redact') {
-      return await redactCommand(config, engine, context);
-    }
-    return await scanCommand(config, engine, context);
+    return await dispatchCommand(config, context);
   } catch (error) {
     const location =
       Number.isSafeInteger(error.record) && Number.isSafeInteger(error.offset)
@@ -275,6 +278,27 @@ export async function runCli(
     );
     return 2;
   }
+}
+
+async function dispatchCommand(config, context) {
+  if (config.command === 'restore') {
+    return await restoreCommand(config, context);
+  }
+  const options = await loadOptions(config);
+  const engine = createSanitizer(options);
+  if (config.command === 'history') {
+    return await historyCommand(config, engine, context);
+  }
+  if (config.stream) {
+    return await streamCommand(config, engine, options, {
+      ...context,
+      beforePublish: () => saveMap(config),
+    });
+  }
+  if (config.command === 'redact') {
+    return await redactCommand(config, engine, context);
+  }
+  return await scanCommand(config, engine, context);
 }
 
 async function loadOptions(config) {
@@ -300,6 +324,7 @@ async function loadOptions(config) {
     options.paranoid = true;
   }
   await featureOptions(config, options);
+  await placeholderOptions(config, options);
   options.detectors = selectedDetectors(config, options.detectors);
   options.maxInputLength = Math.min(
     options.maxInputLength ?? config.maxBytes,
@@ -391,6 +416,7 @@ async function redactCommand(config, engine, { stdin, stdout }) {
   const result = await engine.sanitize(
     await inputText(config.path, config, stdin)
   );
+  await saveMap(config);
   if (config.output || config.inPlace) {
     await atomicWrite(
       config.output ?? config.path,

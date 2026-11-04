@@ -501,6 +501,13 @@ export function realisticFake(value, finding, transform) {
       .slice(0, 8)}!`;
   } else if (finding.type === 'PERSON') {
     output = fakeName(value, transform.key);
+  } else if (['ORGANIZATION', 'EDUCATION', 'LOCATION'].includes(finding.type)) {
+    const label = {
+      ORGANIZATION: 'Organization',
+      EDUCATION: 'School',
+      LOCATION: 'Location',
+    }[finding.type];
+    output = `Example ${label} ${digest(value, transform.key, finding.type).readUInt32BE(0)}`;
   } else if (/DATE|BIRTH/.test(finding.type)) {
     output = fakeDate(value, transform.key);
   } else if (finding.type === 'PASSPORT_MRZ') {

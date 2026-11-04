@@ -122,6 +122,7 @@ describe('publishable package metadata', () => {
       'LICENSE',
       'README.md',
       'examples/shared-tool-logs.mjs',
+      'examples/reversible-placeholders.mjs',
     ]);
   });
 });

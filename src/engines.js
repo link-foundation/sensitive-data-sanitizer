@@ -17,6 +17,12 @@ import { failure, internalFailure } from './detection.js';
 import { projectText } from './projection.js';
 import { decodedRuns } from './encoded.js';
 import {
+  initializePlaceholders,
+  placeholderKnown,
+  hasPlaceholders,
+  discardPlaceholderState,
+} from './placeholders.js';
+import {
   structuredBatches,
   mapStructuredFindings,
   verifyStructured,
@@ -149,6 +155,7 @@ async function analyzeStructured(
 export function createSanitizer(options = {}) {
   options = applyProfile(options);
   validateOptions(options);
+  options = initializePlaceholders(options);
   for (const detector of options.detectors ?? []) {
     if (!detector || typeof detector.detect !== 'function') {
       throw failure('ERR_CONFIG');
@@ -165,7 +172,7 @@ export function createSanitizer(options = {}) {
     scopedOptions = options,
     nativeFindings
   ) {
-    const options = scopedOptions;
+    const options = placeholderKnown(scopedOptions);
     validateInput(text, options);
     if (options.structured && !plain) {
       return analyzeStructured(text, initial, options, nativeFindings, analyze);
@@ -203,20 +210,8 @@ export function createSanitizer(options = {}) {
   }
 
   const sanitizer = {
-    inspect: async (...args) => {
-      try {
-        return await analyze(...args);
-      } catch (error) {
-        throw internalFailure(error);
-      }
-    },
-    sanitize: async (...args) => {
-      try {
-        return await sanitizeText(...args);
-      } catch (error) {
-        throw internalFailure(error);
-      }
-    },
+    inspect: guarded(analyze),
+    sanitize: guarded(sanitizeText, () => discardPlaceholderState(options)),
     sanitizeJsonl: (text) =>
       createSanitizer({ ...options, structured: 'jsonl' }).sanitize(text),
   };
@@ -297,15 +292,40 @@ export function createSanitizer(options = {}) {
     if (options.structured && !plain) {
       verifyStructured(result.text, options);
     }
+    if (await placeholderResidual(result.text, options, plain, analyze)) {
+      throw failure('ERR_RESIDUAL');
+    }
     return { ...result, findings: auditFaked(findings, options, result) };
   }
+}
+
+function guarded(callback, cleanup = () => {}) {
+  return async (...args) => {
+    try {
+      return await callback(...args);
+    } catch (error) {
+      throw internalFailure(error);
+    } finally {
+      cleanup();
+    }
+  };
+}
+async function placeholderResidual(text, options, plain, analyze) {
+  return (
+    hasPlaceholders(options) &&
+    (await analyze(text, [], plain, options)).some((f) =>
+      actionable(f, options)
+    )
+  );
 }
 
 function eligiblePublic(text, finding, findings) {
   return (
     finding.category !== 'credential' &&
     !['known-personal', 'confirmed-personal'].includes(finding.rule) &&
-    ['PERSON', 'ORGANIZATION', 'EMAIL'].includes(finding.type) &&
+    ['PERSON', 'ORGANIZATION', 'EDUCATION', 'LOCATION', 'EMAIL'].includes(
+      finding.type
+    ) &&
     !findings.some(
       (f) =>
         (f.category === 'credential' ||

@@ -40,3 +40,21 @@ export function* jsonStringRuns(text) {
     }
   }
 }
+
+// Complete JSON literals for callers whose input already has an outer bound.
+// Skip escaped characters once, including escaped quotes, with constant state.
+export function* jsonStringLiterals(text) {
+  let start = -1;
+  for (let i = 0; i < text.length; i++) {
+    if (start < 0) {
+      if (text[i] === '"') {
+        start = i;
+      }
+    } else if (text[i] === '\\') {
+      i++;
+    } else if (text[i] === '"') {
+      yield text.slice(start, i + 1);
+      start = -1;
+    }
+  }
+}

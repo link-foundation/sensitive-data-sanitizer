@@ -38,3 +38,11 @@ export { knownSecretsFromGitHubAuth } from './known.js';
 export { knownSecretsFromGitHubConfig } from './known.js';
 export { decodeLogBytes, encodeLogText } from './log-bytes.js';
 export { rewriteGitHistory } from './history-rewrite.js';
+export {
+  restore,
+  createRestoreMap,
+  serializeRestoreMap,
+  parseRestoreMap,
+  readRestoreMap,
+  writeRestoreMap,
+} from './restore-map.js';
