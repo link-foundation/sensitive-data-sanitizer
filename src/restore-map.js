@@ -31,6 +31,7 @@ export function placeholderToken(type, number, format = defaultFormat) {
   const title = type
     .toLowerCase()
     .split('_')
+    .filter(Boolean)
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join('');
   return format.replace(

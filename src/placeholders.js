@@ -1,6 +1,7 @@
 import { failure, REDACTED, escapePattern } from './detection.js';
 import { nameAliases } from './transliteration.js';
 import { createHash } from 'node:crypto';
+import { jsonStringLiterals } from './json-string-runs.js';
 import {
   createRestoreMap,
   validateRestoreMap,
@@ -224,9 +225,9 @@ function namespaceCollision(text, pattern) {
     return true;
   }
   // JSON escape spellings must not conceal existing tokens in keys or values.
-  for (const match of text.matchAll(/"(?:[^"\\]|\\.)*"/g)) {
+  for (const literal of jsonStringLiterals(text)) {
     try {
-      if (pattern.test(JSON.parse(match[0]))) {
+      if (pattern.test(JSON.parse(literal))) {
         return true;
       }
     } catch {
@@ -285,10 +286,17 @@ export function placeholderReplacement(value, finding, transform, options) {
         (n, e) => (e.type === type ? Math.max(n, e.number) : n),
         0
       );
+    const token = placeholderToken(type, number, map.format);
+    if (
+      !Number.isSafeInteger(number) ||
+      map.entries.some((e) => e.token === token)
+    ) {
+      throw failure('ERR_PLACEHOLDER_COLLISION');
+    }
     entry = {
       type,
       number,
-      token: placeholderToken(type, number, map.format),
+      token,
       values: [canonical],
       aliases: aliases(canonical, type),
     };
