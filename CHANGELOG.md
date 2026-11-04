@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.0
+
+### Minor Changes
+
+- d5b2aac: Add known-only reversible sanitization, Unicode known-value boundaries and bounded Russian entity case matching. Correct placeholder namespace collisions, Russian document entities and fake-name roles, and credential prose false positives. Report irreversible replacements in placeholder results.
+
 ## 0.13.0
 
 ### Minor Changes
