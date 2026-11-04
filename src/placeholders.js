@@ -119,6 +119,14 @@ function related(value, entry) {
   if (candidates.some((alias) => entry.aliases.includes(alias))) {
     return true;
   }
+  if (entry.type === 'ORGANIZATION') {
+    // A bare name is the same entity as its numbered form, including maps
+    // saved when the span stopped at the hyphen of `Вектор-99`.
+    return (entry.values ?? []).some((original) => {
+      const base = original.replace(/-\d*$/u, '');
+      return base !== original && samePersonal(value, base, entry.type);
+    });
+  }
   if (entry.type !== 'PERSON') {
     return false;
   }

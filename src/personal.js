@@ -29,6 +29,9 @@ const ibanLengths = Object.fromEntries(
     .map((entry) => [entry.slice(0, 2), Number(entry.slice(2))])
 );
 
+// `@handle/jane@example.com` is a mention and an address, not a package path.
+const mentionedEmail =
+  /^\/[\p{L}\p{N}_.!#$%&'*+?^`{|}~-]+@[\p{L}\p{N}][\p{L}\p{N}.-]{0,252}\.\p{L}{2,63}(?![\p{L}\p{N}_-])/u;
 export function iban(value) {
   const compact = value.replace(/\s/g, '').toUpperCase();
   if (
@@ -207,10 +210,11 @@ export function detectPersonal(text, emit) {
   }
   collectMatches(
     text,
-    /(?:компании|организации|company|organization|société|empresa|Firma)[ \t]+([\p{Lu}][\p{L}\p{M}&'-]{1,80})/gu,
+    /(?:компании|организации|company|organization|société|empresa|Firma)[ \t]+([\p{Lu}][\p{L}\p{M}&']{0,80}(?:-[\p{L}\p{M}\p{N}&']{1,40}){0,4})/gu,
     emit,
     details('ORGANIZATION', 'organization-context', 0.7),
-    1
+    1,
+    (value) => value.length >= 2
   );
   collectMatches(
     text,
@@ -236,10 +240,10 @@ export function detectPersonal(text, emit) {
     emit,
     details('USERNAME', 'messenger-handle', 0.65),
     0,
-    (_value, match) =>
-      !/^\/[a-z0-9][a-z0-9_.-]*/i.test(
-        text.slice(match.index + match[0].length)
-      )
+    (_value, match) => {
+      const rest = text.slice(match.index + match[0].length);
+      return !/^\/[a-z0-9][a-z0-9_.-]*/i.test(rest) || mentionedEmail.test(rest);
+    }
   );
   collectMatches(
     text,

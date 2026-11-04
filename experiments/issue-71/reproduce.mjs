@@ -59,11 +59,12 @@ for (const text of [
   'Работал в компании Вектор-1, затем Вектор-2.',
 ]) {
   console.log(`${text}\n  => ${attempt(text, { transformation: { mode: 'placeholder' } })}`);
+  console.log(`  documents => ${attempt(text, { profile: 'documents', transformation: { mode: 'placeholder', map: createRestoreMap() } })}`);
   console.log(`  default => ${attempt(text, {})}`);
 }
 const map = createRestoreMap();
-for (const text of ['Работал в компании Вектор-1.', 'Работал в компании Вектор-2.', 'Вектор и Вектор-1.']) {
-  const output = attempt(text, { transformation: { mode: 'placeholder', map } });
+for (const text of ['Работал в компании Вектор-1.', 'Работал в компании Вектор-2.', 'Вектор и Вектор-1.', 'Опыт в компании Вектор-99, отдел продаж', 'Telegram: @Janedoe2024/jane_doe@example.com']) {
+  const output = attempt(text, { profile: 'documents', transformation: { mode: 'placeholder', map } });
   console.log(`shared ${text} => ${output}`);
   if (!output.startsWith('THROW')) {
     console.log(`  restored: ${restore(output, map) === text}`);

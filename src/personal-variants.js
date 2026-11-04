@@ -8,6 +8,19 @@ export function organizationCore(value) {
     .replace(/^[«“"]|[»”"]$/gu, '')
     .trim();
 }
+// `Вектор-1` also identifies its base name and numbered siblings like `Вектор-2`.
+export function organizationFamily(core) {
+  const base = /^(.{3,})-\d{1,9}$/u.exec(core)?.[1];
+  return base
+    ? {
+        base,
+        pattern: new RegExp(
+          `(?<!${boundary})${escapePattern(base)}(?:-\\d{1,9})?(?!${boundary}|-\\d)`,
+          'giu'
+        ),
+      }
+    : undefined;
+}
 // ё and е are one letter in ordinary Russian writing; the i flag covers Ё and Е.
 const foldYo = (pattern) => pattern.replace(/[еёЕЁ]/gu, '[её]');
 const fleeting = { павел: 'Павл', лев: 'Льв' };
@@ -143,18 +156,29 @@ export function samePersonal(value, original, type) {
 export function detectKnownPersonal(text, entries, rule, emit, options) {
   let count = 0;
   for (const entry of entries ?? []) {
-    for (const match of text.matchAll(personalRegex(entry.value, entry.type))) {
-      if (++count > (options.maxFindings ?? 100000)) {
-        throw failure('ERR_LIMIT');
+    const family =
+      rule === 'confirmed-personal' &&
+      options.documentEntities &&
+      !options.knownOnly &&
+      entry.type === 'ORGANIZATION' &&
+      organizationFamily(organizationCore(entry.value));
+    for (const pattern of [
+      personalRegex(entry.value, entry.type),
+      ...(family ? [family.pattern] : []),
+    ]) {
+      for (const match of text.matchAll(pattern)) {
+        if (++count > (options.maxFindings ?? 100000)) {
+          throw failure('ERR_LIMIT');
+        }
+        emit({
+          start: match.index,
+          end: match.index + match[0].length,
+          type: entry.type,
+          category: 'personal',
+          rule,
+          confidence: rule === 'known-personal' ? 0.85 : 0.9,
+        });
       }
-      emit({
-        start: match.index,
-        end: match.index + match[0].length,
-        type: entry.type,
-        category: 'personal',
-        rule,
-        confidence: rule === 'known-personal' ? 0.85 : 0.9,
-      });
     }
   }
 }
