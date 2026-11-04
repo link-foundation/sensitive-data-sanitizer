@@ -27,8 +27,12 @@ export function projectText(input) {
     !/\x1b\[|\\u[\da-fA-F]{4}|[\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]/u.test(
       input
     ) &&
-    input.normalize('NFKC') === input &&
-    !/[^0-9]/.test(input.replace(/[^\p{Nd}]/gu, ''))
+    // ASCII already has normalized letters and digits. Avoid constructing a
+    // second multi-megabyte string just to check its decimal characters.
+    // eslint-disable-next-line no-control-regex -- Check the ASCII range.
+    (!/[^\x00-\x7f]/.test(input) ||
+      (input.normalize('NFKC') === input &&
+        !/[^0-9]/.test(input.replace(/[^\p{Nd}]/gu, ''))))
   ) {
     return { text: input, changed: false };
   }

@@ -29,3 +29,29 @@ it('matches includes semantics for overlapping keywords and the full vendored di
     );
   }
 });
+
+it('skips irrelevant padding without losing overlaps or literal Unicode starters', () => {
+  const words = [
+    'ab',
+    'abc',
+    'bc',
+    'private key',
+    '[x]',
+    '\\x',
+    '-x',
+    '^x',
+    '🙂key',
+    'ключ',
+  ];
+  const match = keywordMatcher(words);
+  for (const text of [
+    `${' '.repeat(200000)}abc [x] \\x -x ^x 🙂key ключ private key`,
+    'a   bc ababc private   key',
+    ' '.repeat(200000),
+    words.join(''),
+  ]) {
+    expect([...match(text)].sort()).toEqual(
+      words.filter((word) => text.includes(word)).sort()
+    );
+  }
+});
