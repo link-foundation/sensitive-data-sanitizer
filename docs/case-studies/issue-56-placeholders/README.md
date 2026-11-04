@@ -80,3 +80,19 @@ every locale in `localeVocabulary`, both legal-form orders and public/private
 policy overrides. Existing transformations, fake output, credentials and JSONL
 stream tests supply adjacent regression coverage. PR CI provides the full
 Node/Bun/Deno and operating-system matrix.
+
+The first implementation run, [41810210350](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/41810210350),
+failed the same package metadata assertion in all nine runtime jobs: the manifest
+correctly included the new runnable example, but the test's explicit publication
+allowlist had not been updated. In the downloaded log, lines 14801–14814 show
+1546 passing Node/Ubuntu tests and this sole failure. Update the allowlist rather
+than remove the example or weaken the package-surface assertion.
+
+[CodeQL review](https://github.com/link-foundation/sensitive-data-sanitizer/pull/57#discussion_r4466093659)
+also identified repeated regular-expression scanning of unfinished JSON strings
+with escaped quotes in the placeholder namespace check. Replace that expression
+with a single-pass scanner that skips escaped characters once. A finite 64 KiB
+unfinished-string regression and a collision after a 16 KiB JSON literal cover
+both linear scanning and the complete input beyond the encoded-detector window.
+Custom detector types additionally retain safe token allocation when underscores
+normalize to the same readable label.
