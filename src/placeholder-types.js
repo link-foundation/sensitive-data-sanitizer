@@ -1,0 +1,33 @@
+import { catalogTypes } from './entities.js';
+
+// Native unlabelled types supplement the shared vendor-label catalog.
+export const reservedPlaceholderTypes = () => [
+  ...catalogTypes(),
+  'ADDRESS',
+  'AU_TFN',
+  'BRAZIL_CPF_NUMBER',
+  'CREDENTIAL',
+  'CREDIT_CARD',
+  'DATE',
+  'EDUCATION',
+  'EMAIL',
+  'ENCODED_SENSITIVE',
+  'IBAN',
+  'ID',
+  'IP_ADDRESS',
+  'KR_RRN',
+  'LOCATION',
+  'MAC_ADDRESS',
+  'ORGANIZATION',
+  'PASSPORT_MRZ',
+  'PASSPORT_NUMBER',
+  'PERSON',
+  'PHONE',
+  'PL_PESEL',
+  'RU_INN',
+  'RU_SNILS',
+  'SG_NRIC_FIN',
+  'STATE',
+  'USERNAME',
+  'US_HEALTHCARE_NPI',
+];

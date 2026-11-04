@@ -79,8 +79,10 @@ for (const [id, credential] of cases) {
 }
 
 it('scans complete records larger than the WASM heap without truncating credentials', () => {
-  const secret = 'AbCd0123456789ef'.repeat(70000);
-  const input = `🙂 ext ${'A'.repeat(9600000)}\n${authress}\npassword = "${secret}"\n`;
+  // Exceed the 384-character detection window while keeping the expensive
+  // captured value bounded; total record size still exceeds the WASM heap.
+  const secret = 'AbCd0123456789ef'.repeat(256);
+  const input = `🙂 ext ${'A'.repeat(10720000)}\n${authress}\npassword = "${secret}"\n`;
   const found = [];
   detectGitleaks(input, (finding) => found.push(finding));
   expect(

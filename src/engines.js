@@ -162,8 +162,12 @@ export function createSanitizer(options = {}) {
     }
   }
   const engines =
-    options.secretlint === false ? [] : [{ detect: secretlintDetect }];
-  engines.push(...(options.detectors ?? []));
+    options.secretlint === false || options.knownOnly
+      ? []
+      : [{ detect: secretlintDetect }];
+  if (!options.knownOnly) {
+    engines.push(...(options.detectors ?? []));
+  }
   let prepared;
   async function analyze(
     text,

@@ -45,6 +45,7 @@ const publicTypes = new Set([
 ]);
 const optionNames = new Set([
   'credentialsOnly',
+  'knownOnly',
   'knownSecrets',
   'knownPersonal',
   'confirmedPersonal',
@@ -166,6 +167,7 @@ export function validateOptions(options = {}) {
   for (const key of [
     'paranoid',
     'credentialsOnly',
+    'knownOnly',
     'decode',
     'secretlint',
     'publicKnowledge',
@@ -695,6 +697,7 @@ export function redactResult(
   const parts = [];
   const faked = [];
   const occurrences = [];
+  let irreversibleRedactions = 0;
   let outputLength = 0;
   let cursor = 0;
   for (const span of spans) {
@@ -723,6 +726,12 @@ export function redactResult(
         raw: text.slice(span.start, span.end),
       });
     }
+    if (
+      hasPlaceholders(options) &&
+      !retainedReplacement(transform, 'placeholder', span, replacement)
+    ) {
+      irreversibleRedactions++;
+    }
     outputLength += replacement.length;
     if (retainedReplacement(transform, 'fake', span, replacement)) {
       faked.push(span);
@@ -731,7 +740,11 @@ export function redactResult(
   }
   parts.push(text.slice(cursor));
   const result = finishPlaceholders(
-    { text: parts.join(''), redactions: spans.length },
+    {
+      text: parts.join(''),
+      redactions: spans.length,
+      ...(hasPlaceholders(options) ? { irreversibleRedactions } : {}),
+    },
     occurrences,
     options
   );
@@ -861,6 +874,13 @@ export function redactAgain(result, findings, options, round, rerun) {
   const merge = (next) => ({
     ...next,
     redactions: result.redactions + next.redactions,
+    ...(hasPlaceholders(options)
+      ? {
+          irreversibleRedactions:
+            (result.irreversibleRedactions ?? 0) +
+            (next.irreversibleRedactions ?? 0),
+        }
+      : {}),
     findings: auditFaked(findings, options, result),
   });
   const next = rerun({ ...options, findings: [] }, round + 1);

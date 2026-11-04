@@ -27,10 +27,27 @@ export function keywordMatcher(words) {
       queue.push(child);
     }
   }
+  // At the root, characters that cannot start any keyword need no state
+  // transitions. A native search skips large padding runs without Map work
+  // per character. Escape UTF-16 units so metacharacters retain literal meaning.
+  const starters = new RegExp(
+    `[${[...nodes[0].next.keys()]
+      .map((char) => `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`)
+      .join('')}]`,
+    'g'
+  );
   return (text) => {
     const found = new Set();
     let state = 0;
     for (let i = 0; i < text.length; i++) {
+      if (!state && !nodes[0].output.length && !nodes[0].next.has(text[i])) {
+        starters.lastIndex = i + 1;
+        const next = starters.exec(text);
+        if (!next) {
+          break;
+        }
+        i = next.index;
+      }
       const char = text[i];
       while (state && !nodes[state].next.has(char)) {
         state = nodes[state].fail;

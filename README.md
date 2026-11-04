@@ -55,6 +55,11 @@ sensitive-data-sanitizer restore safe.txt --map private.lino --output restored.t
 sensitive-data-sanitizer redact cv.txt --profile documents --placeholder --no-map
 ```
 
+`knownOnly: true` (CLI `--known-only`) limits replacement to `knownPersonal`,
+`knownSecrets` and reused map identities, preserving fictional examples.
+Placeholder results report `irreversibleRedactions`; a nonzero count means some
+replacements, such as credentials excluded from the map, cannot be restored.
+
 For irreversible output, choose `transformation: { mode: 'placeholder', map:
 false }`: no restore map is returned or written. Detection limits still apply
 in either mode. See the [placeholder API](docs/API.md#reversible-placeholders),

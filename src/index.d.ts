@@ -42,6 +42,8 @@ export interface Detector {
 export interface SanitizerOptions {
   /** Preserve all personal/account data; credential findings still redact. */
   credentialsOnly?: boolean;
+  /** Replace only knownPersonal/knownSecrets and reused map values; skip automatic detectors. */
+  knownOnly?: boolean;
   profile?: 'publication' | 'documents';
   /** Opt in to bounded employer, school, city/region heuristics. */
   documentEntities?: boolean;
@@ -97,6 +99,8 @@ export interface SanitizedText {
   findings: Finding[];
   /** Number of disjoint replacements after overlapping detections are merged. */
   redactions: number;
+  /** Placeholder-mode replacements absent from the restore map (e.g. credentials). */
+  irreversibleRedactions?: number;
   /** Private personal data. Absent for map:false and non-placeholder modes. */
   map?: RestoreMap;
 }

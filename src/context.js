@@ -8,6 +8,7 @@ import { plausiblePerson } from './names.js';
 // unrelated words such as passport. Verb forms cover the supported locales.
 export const credentialVerbs = [
   'is',
+  'are',
   'was',
   'equals',
   'es',
@@ -45,12 +46,11 @@ export const credentialVerbs = [
   'คือ',
 ];
 const verbs = credentialVerbs.map(escapePattern).join('|');
-const key = `(?:[\\p{L}\\p{N}]+[_.-])*(?:auth|authorization)(?:[_.-][\\p{L}\\p{N}]+)*|[\\p{L}\\p{N}_.-]{0,32}(?:${labels.credential
+const label = labels.credential
   .filter((word) => !['auth', 'authorization'].includes(word))
   .map(escapePattern)
-  .join(
-    '|'
-  )})[\\p{L}\\p{N}_.-]{0,32}|(?:[\\p{L}\\p{N}_.-]{1,32}[_-])?(?:pass|pw)(?:[_-][\\p{L}\\p{N}_.-]{1,32})?`;
+  .join('|');
+const key = `(?:[\\p{L}\\p{N}]+[_.-])*(?:auth|authorization|PGPASSWORD|${label}|pass|pw)(?:[_.-][\\p{L}\\p{N}]+)*`;
 // A qualifier such as "for staging" stays on one logical line: it never
 // crosses an escaped line break, an escape sequence or an enclosing quote.
 // Verbs are whole words, so "request" does not end in the verb "est".
@@ -60,8 +60,6 @@ const credentialPrefix = new RegExp(
 );
 // Bare generic labels are common English nouns. After a verb they need a
 // value that looks generated; "the token is valid" is prose, not a secret.
-const genericLabel =
-  /^(?:token|sig|sas|secret|auth|authorization|cookie|секрет|токен)$/iu;
 function generatedWord(text, range) {
   const word = /^[^\s]+/u
     .exec(text.slice(range.start, range.end))?.[0]
@@ -170,7 +168,7 @@ export function authorizationRange(text, start) {
   for (; end < text.length; end++) {
     const char = text[end];
     const code = text.charCodeAt(end);
-    if (code < 32 || code === 127 || /[\s"'\\,]/.test(char)) {
+    if (authorizationDelimiter(char, code)) {
       break;
     }
     if (char === '<' && end !== tokenStart && !brackets.length) {
@@ -185,7 +183,13 @@ export function authorizationRange(text, start) {
     }
   }
   const token = text.slice(tokenStart, end);
-  return !token || credentialPlaceholder(token) ? undefined : { start, end };
+  return usableAuthorization(token) ? { start, end } : undefined;
+}
+function usableAuthorization(token) {
+  return Boolean(token) && !credentialPlaceholder(token);
+}
+function authorizationDelimiter(char, code) {
+  return code < 32 || code === 127 || /[\s"'\\,]/.test(char);
 }
 function quotedRange(text, start, opening, maxLength) {
   const depth = opening[1].length,
@@ -323,6 +327,13 @@ function backslashes(text, index) {
   return count;
 }
 
+function sourceReference(label, tail) {
+  return (
+    /\.(?:[cm]?[jt]sx?|py|go|rs|c|cpp|h|java|cs|rb|sh)$/iu.test(label) &&
+    /^\d+(?:[):]|\b)/u.test(tail)
+  );
+}
+
 function detectCredentials(text, emit) {
   const details = { category: 'credential', type: 'SECRET', rule: 'context' };
   for (const match of text.matchAll(credentialPrefix)) {
@@ -341,8 +352,11 @@ function detectCredentials(text, emit) {
     let range = /^(?:proxy-)?authorization$/i.test(match[1])
       ? authorizationRange(text, start)
       : valueRange(text, start, mode);
-    if (range && mode === 'prose' && genericLabel.test(match[1])) {
+    if (range && mode === 'prose') {
       range = generatedWord(text, range);
+    }
+    if (sourceReference(match[1], text.slice(start))) {
+      continue;
     }
     if (range) {
       emitValue(text, range.start, range.end, emit, details, match[1]);

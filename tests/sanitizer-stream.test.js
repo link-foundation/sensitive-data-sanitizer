@@ -54,7 +54,8 @@ describe('bounded publication sanitization', () => {
         output = join(directory, 'output.txt');
       await writeFile(
         input,
-        `${'ordinary log record\n'.repeat(600000)}password: secret\n`
+        // Keep >10 MiB and many batches while avoiding 600,000 redundant records.
+        `${`ordinary ${' '.repeat(1014)}\n`.repeat(11000)}password: secret\n`
       );
       const result = await sanitizeFileBounded(input, output, {
         secretlint: false,

@@ -54,8 +54,10 @@ describe('ordered bounded JSONL streaming', () => {
     ).toBe(expected);
   });
   it('accepts a seven-megabyte record followed by records above the whole-input limit', async () => {
-    const record = `${JSON.stringify({
-      stdout: 'ordinary '.repeat(820000),
+    // JSON whitespace contributes to record/transport limits without forcing
+    // each detector to rescan seven million copies of the same character.
+    const record = `${' '.repeat(7 * 1024 * 1024)}${JSON.stringify({
+      stdout: 'ordinary output',
       password: 'short-private',
     })}\n`;
     expect(Buffer.byteLength(record) > 7 * 1024 * 1024).toBe(true);
@@ -64,7 +66,11 @@ describe('ordered bounded JSONL streaming', () => {
       workers: 2,
     });
     expect(output.includes('short-private')).toBe(false);
-    expect(output.split('\n').filter(Boolean).map(JSON.parse).length).toBe(2);
+    const parsed = output.split('\n').filter(Boolean).map(JSON.parse);
+    expect(parsed.length).toBe(2);
+    for (const item of parsed) {
+      expect(item.stdout).toBe(JSON.parse(record).stdout);
+    }
   });
   it('retains deterministic keyed fakes regardless of scheduling', async () => {
     const input = Array.from({ length: 6 }, (_, i) =>
