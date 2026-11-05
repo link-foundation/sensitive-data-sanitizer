@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.16.2
+
+### Patch Changes
+
+- Make CI security and validation gates fail on incomplete evidence, recover transient release push failures, preserve validated release dependencies, and prevent quadratic scanning of PuTTY headers, travel identifiers and postal-address whitespace.
+
+  Preserve durations, stack frames, empty document fields and local bind addresses; protect personal URL paths and additional document forms. Reduce repeated label-pattern construction and document structured JSON per-call costs.
+
 ## 0.16.1
 
 ### Patch Changes
