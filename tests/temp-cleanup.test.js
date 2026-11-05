@@ -14,6 +14,20 @@ import { describe, it } from 'test-anywhere';
 import remove from '../examples/universal-app/compat/temp-rimraf/index.cjs';
 
 describe('temp cleanup native adapter', () => {
+  it('keeps local override metadata complete for npm ci in container jobs', async () => {
+    const root = 'examples/universal-app/';
+    const lock = JSON.parse(await readFile(`${root}package-lock.json`, 'utf8'));
+    const manifest = JSON.parse(
+      await readFile(`${root}compat/temp-rimraf/package.json`, 'utf8')
+    );
+    const entry = lock.packages['compat/temp-rimraf'];
+    assert.equal(entry.name, manifest.name);
+    assert.equal(entry.version, manifest.version);
+    const link = lock.packages['node_modules/temp/node_modules/rimraf'];
+    assert.equal(link.link, true);
+    assert.equal(link.resolved, 'compat/temp-rimraf');
+  });
+
   it('supports callback and synchronous recursive cleanup of literal paths', async () => {
     const root = await mkdtemp(join(tmpdir(), 'temp-cleanup-'));
     try {

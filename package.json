@@ -77,7 +77,9 @@
   "license": "Unlicense",
   "devEngines": {
     "packageManager": {
-      "name": "npm"
+      "name": "npm",
+      "version": ">=12.2.2",
+      "onFail": "error"
     }
   },
   "publishConfig": {
@@ -92,19 +94,22 @@
   },
   "devDependencies": {
     "@changesets/cli": "^3.0.3",
-    "eslint": "^10.13.0",
+    "eslint": "^10.14.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-prettier": "^5.5.7",
     "husky": "^9.1.7",
-    "jscpd": "^5.4.0",
+    "jscpd": "^5.4.2",
     "lint-staged": "^17.6.0",
     "mrz": "^5.0.2",
-    "prettier": "^3.6.2",
+    "prettier": "^3.9.10",
     "secretlint": "13.1.0",
     "test-anywhere": "^0.9.1",
     "@eslint/js": "^10.0.1",
     "command-stream": "2.6.0",
-    "lino-arguments": "0.4.0"
+    "lino-arguments": "0.4.0",
+    "semver": "^7.8.6",
+    "browser-commander": "0.34.1",
+    "playwright": "1.65.0"
   },
   "lint-staged": {
     "*.{js,mjs,cjs}": [
@@ -120,9 +125,9 @@
       "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
     ],
     "*.py": [
-      "pipx run --spec ruff==0.17.3 ruff check --fix --force-exclude",
-      "pipx run --spec ruff==0.17.3 ruff format --force-exclude",
-      "pipx run --spec ruff==0.17.3 ruff format --check --force-exclude"
+      "pipx run --spec ruff==0.17.4 ruff check --fix --force-exclude",
+      "pipx run --spec ruff==0.17.4 ruff format --force-exclude",
+      "pipx run --spec ruff==0.17.4 ruff format --check --force-exclude"
     ],
     ".husky/*": [
       "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
@@ -134,9 +139,9 @@
     "@secretlint/profiler": "13.1.0",
     "@secretlint/secretlint-rule-preset-recommend": "13.1.0",
     "libphonenumber-js": "1.13.15",
-    "links-notation": "0.30.0",
+    "links-notation": "0.31.0",
     "re2-wasm": "1.0.2",
-    "re2js": "^2.9.0",
+    "re2js": "^2.9.1",
     "yaml": "^2.9.1"
   },
   "allowScripts": {

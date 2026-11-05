@@ -97,8 +97,7 @@ describe('Deno lock and npm install script policies', () => {
       expect(typeof pkg.allowScripts?.[name]).toBe('boolean');
     }
     expect(pkg.allowScripts).toEqual({
-      'electron-winstaller@5.4.0': true,
-      'esbuild@0.25.12': true,
+      'electron-winstaller@5.4.4': true,
       'fsevents@2.3.3': true,
     });
   });

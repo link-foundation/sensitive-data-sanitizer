@@ -1,5 +1,5 @@
 # Check maintained helpers without rewriting immutable downloaded evidence.
-target-version = "py311"
+target-version = "py315"
 extend-exclude = ["dev/log", "docs/case-studies"]
 
 [lint]

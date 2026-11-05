@@ -1,0 +1,32 @@
+name: Set up reviewed Node.js and npm
+description: Use the repository's Node.js release and npm lockfile tooling consistently.
+inputs:
+  cache:
+    description: Optional setup-node package manager cache
+  cache-dependency-path:
+    description: Optional lockfile paths used by the cache
+  registry-url:
+    description: Optional registry for publishing authentication
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v7.1.0
+      with:
+        node-version-file: .nvmrc
+        # Cache discovery runs npm before setup-node returns. The bundled
+        # npm cannot satisfy devEngines yet (actions/setup-node#1553).
+        package-manager-cache: false
+        registry-url: ${{ inputs.registry-url }}
+    # setup-node selects Node's bundled npm, which currently predates npm 12.
+    # npm ships its own bundled dependency tree; this exact reviewed release
+    # also disables lifecycle scripts. Keep this exception on this install only.
+    - name: Install reviewed npm
+      shell: bash
+      run: npm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund # zizmor: ignore[adhoc-packages]
+    - name: Restore requested package cache with current npm
+      if: inputs.cache != ''
+      uses: actions/setup-node@v7.1.0
+      with:
+        node-version-file: .nvmrc
+        cache: ${{ inputs.cache }}
+        cache-dependency-path: ${{ inputs.cache-dependency-path }}

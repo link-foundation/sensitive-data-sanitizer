@@ -2,7 +2,7 @@
 
 ## Development Workflow
 
-Use Node.js 24 with npm 10.9 or newer for development and release tooling.
+Use Node.js 26.13.0 with npm 12.2.2 for development and release tooling.
 Changesets 3 requires a supported Node.js 22.11, 24, or 26+ runtime.
 
 1. **Fork the repository** and clone your fork
@@ -42,10 +42,10 @@ Ruff lint and formatting checks. Use Python 3.11 or newer; importing optional
 benchmark or example dependencies is not required for these static checks:
 
 ```bash
-pipx run --spec ruff==0.17.3 ruff check .
-pipx run --spec ruff==0.17.3 ruff format --check .
+pipx run --spec ruff==0.17.4 ruff check .
+pipx run --spec ruff==0.17.4 ruff format --check .
 # Apply formatting locally
-pipx run --spec ruff==0.17.3 ruff format .
+pipx run --spec ruff==0.17.4 ruff format .
 ```
 
 Immutable downloaded evidence under `dev/log/` and `docs/case-studies/` is

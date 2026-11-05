@@ -108,7 +108,7 @@ describe('workflow linting job', () => {
     const versions = [...workflowsWorkflow.matchAll(/--spec ruff==(\S+)/g)].map(
       (match) => match[1]
     );
-    expect(versions).toEqual(['0.17.3', '0.17.3']);
+    expect(versions).toEqual(['0.17.4', '0.17.4']);
     const config = readFileSync('ruff.toml', 'utf8');
     expect(config).toContain('"E4", "E7", "E9", "F", "I"');
     expect(config).toContain('"dev/log"');
@@ -116,7 +116,7 @@ describe('workflow linting job', () => {
       'lint-staged'
     ];
     expect(hooks['*.py']).toContain(
-      'pipx run --spec ruff==0.17.3 ruff check --fix --force-exclude'
+      'pipx run --spec ruff==0.17.4 ruff check --fix --force-exclude'
     );
   });
 });
@@ -243,7 +243,10 @@ describe('reproducible workflow tooling and runner policy', () => {
     const preset = releaseWorkflow.match(
       /-p @secretlint\/secretlint-rule-preset-recommend@(\d+\.\d+\.\d+)/
     )?.[1];
-    expect(cli).toBe('13.0.7');
+    expect(cli).toBe(
+      JSON.parse(readFileSync('package.json', 'utf8')).devDependencies
+        .secretlint
+    );
     expect(preset).toBe(cli);
   });
   it('pins every hosted OS image in every workflow', () => {

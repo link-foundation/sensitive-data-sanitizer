@@ -5,8 +5,8 @@ import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 // Verified against the action tag's support/versions table, without network in CI:
-// https://github.com/zizmorcore/zizmor-action/blob/v0.8.0/support/locks/zizmor-1.30.1.txt
-const supportedZizmor = { 'v0.8.0': '1.30.1' };
+// https://github.com/zizmorcore/zizmor-action/blob/v0.8.1/support/locks/zizmor-1.32.0.txt
+const supportedZizmor = { 'v0.8.1': '1.32.0' };
 
 export function checkWorkflowPolicy(text) {
   const errors = [];

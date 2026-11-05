@@ -39,21 +39,21 @@ jobs:
       matrix:
         language: [javascript-typescript, actions, python]
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
+        uses: github/codeql-action/init@v4.39.3
         with:
           languages: ${{ matrix.language }}
           config-file: ./.github/codeql/codeql-config.yml
 
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v4
+        uses: github/codeql-action/autobuild@v4.39.3
 
       - name: Analyze
-        uses: github/codeql-action/analyze@v4
+        uses: github/codeql-action/analyze@v4.39.3
         with:
           output: codeql-results
 
@@ -79,7 +79,7 @@ jobs:
     outputs:
       enabled: ${{ steps.graph.outputs.enabled }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
       - name: Check dependency graph availability
@@ -108,12 +108,12 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Review dependency changes
-        uses: actions/dependency-review-action@v5
+        uses: actions/dependency-review-action@v5.0.0
         with:
           # Same level as the npm-audit gate; npm-audit annotates the lower
           # severities this accepts.
@@ -137,13 +137,11 @@ jobs:
         directory:
           ['.', examples/universal-app, .github/actions/artifact-transport]
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
+      - uses: ./.github/actions/setup-node
 
       # Every advisory is annotated and listed in the step summary; only
       # `high` and above fail pull requests, so a moderate advisory with no
@@ -166,18 +164,25 @@ jobs:
       group: check-${{ github.workflow }}-${{ github.ref }}-python-audit
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@v7.1.0
         with:
-          python-version: '3.13'
+          python-version-file: .python-version
       - name: Install pinned metadata resolver and auditor
         run: |
           pipx install uv==0.13.7
           pipx install pip-audit==2.10.1
       - name: Audit every tracked Python requirements file
         run: python scripts/audit-python-dependencies.py
+      # PyYAML 6.0.3 has no cp315 wheel yet; its source build is required.
+      # The hashes cover the complete graph, including that source archive.
+      - name: Verify locked benchmark dependencies on current Python
+        run: |
+          uv pip install --system --require-hashes -r experiments/benchmark/requirements.txt -r experiments/benchmark/requirements.lock
+          uv pip check --system
+          python -c 'import detect_secrets, presidio_analyzer, scrubadub, spacy'
 
   # Terminal status gate: runs even when the jobs above fail or are
   # cancelled, and turns a `timeout-minutes` kill (reported as cancelled)
@@ -207,14 +212,12 @@ jobs:
       actions: read
       contents: read
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: '24.x'
+        uses: ./.github/actions/setup-node
 
       - name: Fail the run when a required job was cancelled or failed
         env:

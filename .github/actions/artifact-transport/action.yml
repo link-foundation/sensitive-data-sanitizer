@@ -29,6 +29,7 @@ outputs:
 runs:
   using: composite
   steps:
+    - uses: ./.github/actions/setup-node
     - name: Install pinned artifact SDK
       shell: bash
       env:

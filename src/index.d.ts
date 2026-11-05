@@ -9,11 +9,7 @@ export interface Finding {
   /** Detector confidence, not a cross-engine probability calibration. */
   confidence?: number;
   likelihood?:
-    | 'VERY_UNLIKELY'
-    | 'UNLIKELY'
-    | 'POSSIBLE'
-    | 'LIKELY'
-    | 'VERY_LIKELY';
+    'VERY_UNLIKELY' | 'UNLIKELY' | 'POSSIBLE' | 'LIKELY' | 'VERY_LIKELY';
   /** One-based line and UTF-16 column, populated by inspect. */
   line?: number;
   column?: number;

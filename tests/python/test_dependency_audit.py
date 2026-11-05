@@ -88,6 +88,20 @@ class DependencyAuditTests(unittest.TestCase):
                 with patch.object(audit.subprocess, "run", side_effect=results):
                     self.assertEqual(audit.audit(["requirements.txt"]), 1)
 
+    def test_audits_committed_transitive_lock_without_building_source_metadata(self):
+        with (
+            patch.object(audit.Path, "is_file", return_value=True),
+            patch.object(
+                audit.subprocess, "run", return_value=subprocess.CompletedProcess([], 0)
+            ) as run,
+        ):
+            self.assertEqual(audit.audit(["requirements.txt"]), 0)
+        self.assertEqual(run.call_count, 1)
+        command = run.call_args.args[0]
+        self.assertEqual(command[0], "pip-audit")
+        self.assertIn("--require-hashes", command)
+        self.assertEqual(command[-1], "requirements.lock")
+
 
 if __name__ == "__main__":
     unittest.main()

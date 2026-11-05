@@ -14,7 +14,7 @@ from presidio_analyzer.nlp_engine import NlpEngineProvider
 
 for package, version in {
     "detect-secrets": "1.5.0",
-    "presidio-analyzer": "2.2.364",
+    "presidio-analyzer": "2.2.366",
     "scrubadub": "2.0.1",
     "spacy": "3.8.16",
     "en-core-web-sm": "3.8.0",

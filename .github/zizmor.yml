@@ -30,3 +30,4 @@ rules:
       - links.yml
       - security.yml
       - workflows.yml
+      - rerun-unacquired.yml

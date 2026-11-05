@@ -27,7 +27,7 @@ function occurrences(text, value) {
 }
 try {
   verifyVersion(gitleaks, ['version'], '8.30.1');
-  verifyVersion(trufflehog, ['--version'], '3.99.0');
+  verifyVersion(trufflehog, ['--version'], '3.99.8');
   const foreign = JSON.parse(
     execFileSync(python, ['experiments/benchmark/python-bridge.py'], {
       input: JSON.stringify(corpus),
@@ -178,10 +178,10 @@ try {
         versions: {
           sanitizer: 'review implementation',
           gitleaks: '8.30.1',
-          trufflehog: '3.99.0',
+          trufflehog: '3.99.8',
           'detect-secrets': '1.5.0',
-          presidio: '2.2.364',
-          spacy: '3.8.16 / en_core_web_sm 3.8.0',
+          presidio: '2.2.366',
+          spacy: '3.8.18 / en_core_web_sm 3.8.0',
           scrubadub: '2.0.1',
         },
         metrics,

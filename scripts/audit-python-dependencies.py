@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Audit every tracked Python requirements file without installing its packages.
 
-uv resolves transitive dependencies from wheel metadata; --no-build prevents
-executing package build hooks. pip-audit reads the complete hashed resolution,
+Committed locks are audited directly. For unlocked manifests uv resolves wheel
+metadata; --no-build prevents executing package build hooks. pip-audit reads the complete hashed resolution,
 so its own environment (including pip) is not mistaken for project dependencies.
 Set CI_SCRIPTS_DEBUG=1 to print the commands and discovered dependency surfaces.
 """
@@ -39,21 +39,28 @@ def audit(manifests):
         for index, manifest in enumerate(manifests):
             print(f"Auditing resolved Python dependencies: {manifest}", flush=True)
             resolved = str(Path(directory) / f"resolved-{index}.txt")
-            commands = [
-                [
-                    "uv",
-                    "pip",
-                    "compile",
-                    "--no-build",
-                    "--python-version",
-                    "3.13",
-                    "--generate-hashes",
-                    "--no-annotate",
-                    "--quiet",
-                    manifest,
-                    "--output-file",
-                    resolved,
-                ],
+            lock = Path(manifest).with_suffix(".lock")
+            commands = (
+                []
+                if lock.is_file()
+                else [
+                    [
+                        "uv",
+                        "pip",
+                        "compile",
+                        "--no-build",
+                        "--python-version",
+                        "3.15",
+                        "--generate-hashes",
+                        "--no-annotate",
+                        "--quiet",
+                        manifest,
+                        "--output-file",
+                        resolved,
+                    ],
+                ]
+            )
+            commands.append(
                 [
                     "pip-audit",
                     "--disable-pip",
@@ -61,9 +68,9 @@ def audit(manifests):
                     "--progress-spinner",
                     "off",
                     "--requirement",
-                    resolved,
-                ],
-            ]
+                    str(lock) if lock.is_file() else resolved,
+                ]
+            )
             for command in commands:
                 if os.environ.get("CI_SCRIPTS_DEBUG") == "1":
                     print(f"[python-audit] {command!r}", flush=True)

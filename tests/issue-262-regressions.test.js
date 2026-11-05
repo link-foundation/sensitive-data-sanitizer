@@ -18,7 +18,7 @@ describe('issue 262 repository regressions', () => {
     const workflow = readFileSync('.github/workflows/release.yml', 'utf8');
     const lint = workflow.split('\n  lint:')[1].split('\n  test:')[0];
     const scan = lint.indexOf('secretlint "**/*"');
-    assert.ok(scan > lint.indexOf('uses: actions/setup-node@'));
+    assert.ok(scan > lint.indexOf('uses: ./.github/actions/setup-node'));
     assert.ok(scan < lint.indexOf('- name: Install dependencies'));
   });
 
@@ -74,7 +74,10 @@ describe('issue 262 repository regressions', () => {
       );
     }
     const workflow = readFileSync('.github/workflows/release.yml', 'utf8');
-    assert.doesNotMatch(workflow, /\bnpm install\b|\bbun install\b/);
+    assert.doesNotMatch(
+      workflow,
+      /\bnpm install\b(?![^\n]*--global)|\bbun install\b/
+    );
   });
 
   itUnless(sandboxed)(
