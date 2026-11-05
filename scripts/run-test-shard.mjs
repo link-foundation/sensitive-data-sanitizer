@@ -18,6 +18,9 @@ export function selectTests(files, shard) {
     'pr-guards.test.js',
     'release-api-integrity.test.js',
     'detect-code-changes.test.js',
+    'run-with-budget-warning.test.js',
+    'release-preflight.test.js',
+    'sanitizer-jsonl-stream.test.js',
   ];
   const tests = files.filter((file) => file.endsWith('.test.js')).sort();
   const ordered = [

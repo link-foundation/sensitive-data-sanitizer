@@ -56,6 +56,9 @@ it('covers every runtime and OS once while distributing Windows Bun and Deno fix
           'pr-guards.test.js',
           'release-api-integrity.test.js',
           'detect-code-changes.test.js',
+          'run-with-budget-warning.test.js',
+          'release-preflight.test.js',
+          'sanitizer-jsonl-stream.test.js',
         ];
         expect(
           shards.every(
@@ -83,8 +86,11 @@ it('keeps measured expensive suites apart as unrelated files are added', () => {
     'pr-guards.test.js',
     'release-api-integrity.test.js',
     'detect-code-changes.test.js',
+    'run-with-budget-warning.test.js',
+    'release-preflight.test.js',
+    'sanitizer-jsonl-stream.test.js',
   ];
-  for (const count of [3, 4]) {
+  for (const count of [3, 4, 6]) {
     for (let extra = 0; extra <= 12; extra++) {
       const files = [
         ...expensive,
@@ -98,7 +104,8 @@ it('keeps measured expensive suites apart as unrelated files are added', () => {
       );
       for (const shard of shards) {
         expect(
-          shard.filter((file) => expensive.includes(file.slice(6))).length <= 1
+          shard.filter((file) => expensive.includes(file.slice(6))).length <=
+            Math.ceil(expensive.length / count)
         ).toBe(true);
       }
     }
