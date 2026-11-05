@@ -1,0 +1,943 @@
+[
+  {
+    "total_count": 10,
+    "jobs": [
+      {
+        "id": 127468072293,
+        "run_id": 42090827092,
+        "workflow_name": "Security",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrbBtZQ",
+        "head_sha": "76d5c2b82e82457e0f14c2e29d6251ca68cbe748",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127468072293",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092/job/127468072293",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T19:07:20Z",
+        "started_at": "2026-11-05T19:07:22Z",
+        "completed_at": "2026-11-05T19:07:29Z",
+        "name": "Dependency Graph Prerequisite",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T19:07:23Z",
+            "completed_at": "2026-11-05T19:07:23Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T19:07:23Z",
+            "completed_at": "2026-11-05T19:07:25Z"
+          },
+          {
+            "name": "Check dependency graph availability",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T19:07:25Z",
+            "completed_at": "2026-11-05T19:07:26Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T19:07:26Z",
+            "completed_at": "2026-11-05T19:07:27Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T19:07:27Z",
+            "completed_at": "2026-11-05T19:07:27Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127468072293",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000199341,
+        "runner_name": "GitHub Actions 1000199341",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127468072572,
+        "run_id": 42090827092,
+        "workflow_name": "Security",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrbBufA",
+        "head_sha": "76d5c2b82e82457e0f14c2e29d6251ca68cbe748",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127468072572",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092/job/127468072572",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T19:07:20Z",
+        "started_at": "2026-11-05T19:07:22Z",
+        "completed_at": "2026-11-05T19:08:25Z",
+        "name": "CodeQL (python)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T19:07:22Z",
+            "completed_at": "2026-11-05T19:07:23Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T19:07:23Z",
+            "completed_at": "2026-11-05T19:07:25Z"
+          },
+          {
+            "name": "Initialize CodeQL",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T19:07:25Z",
+            "completed_at": "2026-11-05T19:07:45Z"
+          },
+          {
+            "name": "Autobuild",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T19:07:45Z",
+            "completed_at": "2026-11-05T19:07:48Z"
+          },
+          {
+            "name": "Analyze",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T19:07:48Z",
+            "completed_at": "2026-11-05T19:08:16Z"
+          },
+          {
+            "name": "Require clean CodeQL results",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T19:08:16Z",
+            "completed_at": "2026-11-05T19:08:16Z"
+          },
+          {
+            "name": "Preserve CodeQL reports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T19:08:16Z",
+            "completed_at": "2026-11-05T19:08:22Z"
+          },
+          {
+            "name": "Post Preserve CodeQL reports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T19:08:22Z",
+            "completed_at": "2026-11-05T19:08:22Z"
+          },
+          {
+            "name": "Post Analyze",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T19:08:22Z",
+            "completed_at": "2026-11-05T19:08:22Z"
+          },
+          {
+            "name": "Post Initialize CodeQL",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T19:08:22Z",
+            "completed_at": "2026-11-05T19:08:23Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-05T19:08:23Z",
+            "completed_at": "2026-11-05T19:08:23Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-05T19:08:23Z",
+            "completed_at": "2026-11-05T19:08:24Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127468072572",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000199343,
+        "runner_name": "GitHub Actions 1000199343",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127468072627,
+        "run_id": 42090827092,
+        "workflow_name": "Security",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrbBusw",
+        "head_sha": "76d5c2b82e82457e0f14c2e29d6251ca68cbe748",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127468072627",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092/job/127468072627",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T19:07:20Z",
+        "started_at": "2026-11-05T19:07:21Z",
+        "completed_at": "2026-11-05T19:08:19Z",
+        "name": "CodeQL (actions)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T19:07:22Z",
+            "completed_at": "2026-11-05T19:07:23Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T19:07:23Z",
+            "completed_at": "2026-11-05T19:07:25Z"
+          },
+          {
+            "name": "Initialize CodeQL",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T19:07:25Z",
+            "completed_at": "2026-11-05T19:07:46Z"
+          },
+          {
+            "name": "Autobuild",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T19:07:46Z",
+            "completed_at": "2026-11-05T19:07:48Z"
+          },
+          {
+            "name": "Analyze",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T19:07:48Z",
+            "completed_at": "2026-11-05T19:08:08Z"
+          },
+          {
+            "name": "Require clean CodeQL results",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T19:08:08Z",
+            "completed_at": "2026-11-05T19:08:09Z"
+          },
+          {
+            "name": "Preserve CodeQL reports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T19:08:09Z",
+            "completed_at": "2026-11-05T19:08:14Z"
+          },
+          {
+            "name": "Post Preserve CodeQL reports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T19:08:14Z",
+            "completed_at": "2026-11-05T19:08:14Z"
+          },
+          {
+            "name": "Post Analyze",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T19:08:14Z",
+            "completed_at": "2026-11-05T19:08:14Z"
+          },
+          {
+            "name": "Post Initialize CodeQL",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T19:08:14Z",
+            "completed_at": "2026-11-05T19:08:15Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-05T19:08:15Z",
+            "completed_at": "2026-11-05T19:08:16Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-05T19:08:16Z",
+            "completed_at": "2026-11-05T19:08:16Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127468072627",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000199342,
+        "runner_name": "GitHub Actions 1000199342",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127468072760,
+        "run_id": 42090827092,
+        "workflow_name": "Security",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrbBvOA",
+        "head_sha": "76d5c2b82e82457e0f14c2e29d6251ca68cbe748",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127468072760",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092/job/127468072760",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T19:07:20Z",
+        "started_at": "2026-11-05T19:07:21Z",
+        "completed_at": "2026-11-05T19:08:48Z",
+        "name": "CodeQL (javascript-typescript)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T19:07:22Z",
+            "completed_at": "2026-11-05T19:07:23Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T19:07:23Z",
+            "completed_at": "2026-11-05T19:07:26Z"
+          },
+          {
+            "name": "Initialize CodeQL",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T19:07:26Z",
+            "completed_at": "2026-11-05T19:07:46Z"
+          },
+          {
+            "name": "Autobuild",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T19:07:46Z",
+            "completed_at": "2026-11-05T19:07:49Z"
+          },
+          {
+            "name": "Analyze",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T19:07:49Z",
+            "completed_at": "2026-11-05T19:08:37Z"
+          },
+          {
+            "name": "Require clean CodeQL results",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T19:08:37Z",
+            "completed_at": "2026-11-05T19:08:37Z"
+          },
+          {
+            "name": "Preserve CodeQL reports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T19:08:37Z",
+            "completed_at": "2026-11-05T19:08:44Z"
+          },
+          {
+            "name": "Post Preserve CodeQL reports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T19:08:44Z",
+            "completed_at": "2026-11-05T19:08:44Z"
+          },
+          {
+            "name": "Post Analyze",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T19:08:44Z",
+            "completed_at": "2026-11-05T19:08:44Z"
+          },
+          {
+            "name": "Post Initialize CodeQL",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T19:08:44Z",
+            "completed_at": "2026-11-05T19:08:45Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-05T19:08:45Z",
+            "completed_at": "2026-11-05T19:08:45Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-05T19:08:45Z",
+            "completed_at": "2026-11-05T19:08:45Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127468072760",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000199344,
+        "runner_name": "GitHub Actions 1000199344",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127468072770,
+        "run_id": 42090827092,
+        "workflow_name": "Security",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrbBvQg",
+        "head_sha": "76d5c2b82e82457e0f14c2e29d6251ca68cbe748",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127468072770",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092/job/127468072770",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T19:07:20Z",
+        "started_at": "2026-11-05T19:07:34Z",
+        "completed_at": "2026-11-05T19:07:47Z",
+        "name": "Audit resolved Python requirements",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T19:07:35Z",
+            "completed_at": "2026-11-05T19:07:36Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T19:07:36Z",
+            "completed_at": "2026-11-05T19:07:38Z"
+          },
+          {
+            "name": "Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T19:07:38Z",
+            "completed_at": "2026-11-05T19:07:38Z"
+          },
+          {
+            "name": "Install pinned metadata resolver and auditor",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T19:07:38Z",
+            "completed_at": "2026-11-05T19:07:42Z"
+          },
+          {
+            "name": "Audit every tracked Python requirements file",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T19:07:42Z",
+            "completed_at": "2026-11-05T19:07:45Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T19:07:45Z",
+            "completed_at": "2026-11-05T19:07:45Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T19:07:45Z",
+            "completed_at": "2026-11-05T19:07:45Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T19:07:45Z",
+            "completed_at": "2026-11-05T19:07:45Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127468072770",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000199350,
+        "runner_name": "GitHub Actions 1000199350",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127468072873,
+        "run_id": 42090827092,
+        "workflow_name": "Security",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrbBvqQ",
+        "head_sha": "76d5c2b82e82457e0f14c2e29d6251ca68cbe748",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127468072873",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092/job/127468072873",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T19:07:20Z",
+        "started_at": "2026-11-05T19:07:23Z",
+        "completed_at": "2026-11-05T19:07:32Z",
+        "name": "Audit npm lock (examples/universal-app)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T19:07:24Z",
+            "completed_at": "2026-11-05T19:07:24Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T19:07:24Z",
+            "completed_at": "2026-11-05T19:07:27Z"
+          },
+          {
+            "name": "Run actions/setup-node@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T19:07:27Z",
+            "completed_at": "2026-11-05T19:07:28Z"
+          },
+          {
+            "name": "Audit current lock",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T19:07:28Z",
+            "completed_at": "2026-11-05T19:07:29Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T19:07:29Z",
+            "completed_at": "2026-11-05T19:07:29Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T19:07:29Z",
+            "completed_at": "2026-11-05T19:07:29Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T19:07:29Z",
+            "completed_at": "2026-11-05T19:07:29Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127468072873",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000199345,
+        "runner_name": "GitHub Actions 1000199345",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127468072897,
+        "run_id": 42090827092,
+        "workflow_name": "Security",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrbBvwQ",
+        "head_sha": "76d5c2b82e82457e0f14c2e29d6251ca68cbe748",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127468072897",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092/job/127468072897",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T19:07:20Z",
+        "started_at": "2026-11-05T19:07:49Z",
+        "completed_at": "2026-11-05T19:08:02Z",
+        "name": "Audit npm lock (.github/actions/artifact-transport)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T19:07:49Z",
+            "completed_at": "2026-11-05T19:07:50Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T19:07:50Z",
+            "completed_at": "2026-11-05T19:07:55Z"
+          },
+          {
+            "name": "Run actions/setup-node@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T19:07:55Z",
+            "completed_at": "2026-11-05T19:07:58Z"
+          },
+          {
+            "name": "Audit current lock",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T19:07:58Z",
+            "completed_at": "2026-11-05T19:08:00Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T19:08:00Z",
+            "completed_at": "2026-11-05T19:08:00Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T19:08:00Z",
+            "completed_at": "2026-11-05T19:08:00Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T19:08:00Z",
+            "completed_at": "2026-11-05T19:08:00Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127468072897",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000199357,
+        "runner_name": "GitHub Actions 1000199357",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127468072917,
+        "run_id": 42090827092,
+        "workflow_name": "Security",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrbBv1Q",
+        "head_sha": "76d5c2b82e82457e0f14c2e29d6251ca68cbe748",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127468072917",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092/job/127468072917",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T19:07:20Z",
+        "started_at": "2026-11-05T19:07:50Z",
+        "completed_at": "2026-11-05T19:07:58Z",
+        "name": "Audit npm lock (.)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T19:07:51Z",
+            "completed_at": "2026-11-05T19:07:51Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T19:07:51Z",
+            "completed_at": "2026-11-05T19:07:54Z"
+          },
+          {
+            "name": "Run actions/setup-node@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T19:07:54Z",
+            "completed_at": "2026-11-05T19:07:55Z"
+          },
+          {
+            "name": "Audit current lock",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T19:07:55Z",
+            "completed_at": "2026-11-05T19:07:56Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T19:07:56Z",
+            "completed_at": "2026-11-05T19:07:56Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T19:07:56Z",
+            "completed_at": "2026-11-05T19:07:56Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T19:07:56Z",
+            "completed_at": "2026-11-05T19:07:56Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127468072917",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000199358,
+        "runner_name": "GitHub Actions 1000199358",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127468157888,
+        "run_id": 42090827092,
+        "workflow_name": "Security",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrbG7wA",
+        "head_sha": "76d5c2b82e82457e0f14c2e29d6251ca68cbe748",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127468157888",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092/job/127468157888",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T19:07:29Z",
+        "started_at": "2026-11-05T19:08:00Z",
+        "completed_at": "2026-11-05T19:08:07Z",
+        "name": "Dependency Review",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T19:08:00Z",
+            "completed_at": "2026-11-05T19:08:01Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T19:08:01Z",
+            "completed_at": "2026-11-05T19:08:04Z"
+          },
+          {
+            "name": "Review dependency changes",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T19:08:04Z",
+            "completed_at": "2026-11-05T19:08:05Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T19:08:05Z",
+            "completed_at": "2026-11-05T19:08:05Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T19:08:05Z",
+            "completed_at": "2026-11-05T19:08:05Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127468157888",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000199361,
+        "runner_name": "GitHub Actions 1000199361",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127468903491,
+        "run_id": 42090827092,
+        "workflow_name": "Security",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrb0cQw",
+        "head_sha": "76d5c2b82e82457e0f14c2e29d6251ca68cbe748",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127468903491",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42090827092/job/127468903491",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T19:08:48Z",
+        "started_at": "2026-11-05T19:08:50Z",
+        "completed_at": "2026-11-05T19:08:59Z",
+        "name": "Pipeline Status",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T19:08:51Z",
+            "completed_at": "2026-11-05T19:08:52Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T19:08:52Z",
+            "completed_at": "2026-11-05T19:08:54Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T19:08:54Z",
+            "completed_at": "2026-11-05T19:08:55Z"
+          },
+          {
+            "name": "Fail the run when a required job was cancelled or failed",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T19:08:55Z",
+            "completed_at": "2026-11-05T19:08:55Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T19:08:55Z",
+            "completed_at": "2026-11-05T19:08:55Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T19:08:55Z",
+            "completed_at": "2026-11-05T19:08:56Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T19:08:56Z",
+            "completed_at": "2026-11-05T19:08:56Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127468903491",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000199385,
+        "runner_name": "GitHub Actions 1000199385",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ]
+  }
+]

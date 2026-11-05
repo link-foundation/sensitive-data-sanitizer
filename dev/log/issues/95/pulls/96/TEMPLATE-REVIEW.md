@@ -7,7 +7,7 @@ The comparison uses the full immutable repository trees, not selected workflow s
 | JavaScript | `7877a27980664bc6453e80262f8391d1c2562ab1` | 532 | 187 identical; 62 different; 283 template only; 280 local only |
 | Python | `78f2fdf5e085871387555bc066071f0aedd24479` | 155 | 2 identical; 18 different; 135 template only; 509 local only |
 
-`templates/*-tree.json` records the full recursive GitHub trees; `*.tar.gz` retains all source bytes, including action bundles and lockfiles. `*-comparison.json` inventories **every path in the union** with this repository at the investigation baseline, excluding immutable historical evidence. These inventories intentionally retain their pre-fix state. `*-ci.diff` retains all differing workflow/action/script text; JSON and generated dist bytes are compared by the full archives/inventory rather than rendered as a huge textual diff. `python-shell.diff` is the focused comparison of all eight shared shell helpers. All CI paths have an individual disposition in `TEMPLATE-PATHS.md`.
+`templates/*-tree.json` records the full recursive GitHub trees; `*.tar.gz` retains all source bytes, including action bundles and lockfiles. `*-comparison.json` inventories **every path in the union** with this repository at the investigation baseline, excluding immutable historical evidence. These inventories intentionally retain their pre-fix state. `*-ci.diff` retains all differing workflow/action/script text; JSON and generated dist bytes are compared by the full archives/inventory rather than rendered as a huge textual diff. `python-shell.diff` is the focused comparison of all seven shared shell helpers. All CI paths have an individual disposition in `TEMPLATE-PATHS.md`.
 
 ## Related recent work reviewed
 
