@@ -5,11 +5,10 @@ All Git operations are confined to temporary repositories and bounded to 5s.
 """
 
 import json
-from pathlib import Path
 import subprocess
 import sys
 import tempfile
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 mode = sys.argv[1]
@@ -19,8 +18,12 @@ with tempfile.TemporaryDirectory(prefix="issue-92-publish-") as temporary:
 
     def git(*args):
         return subprocess.run(
-            ["git", *args], cwd=cwd, text=True, capture_output=True,
-            check=True, timeout=5,
+            ["git", *args],
+            cwd=cwd,
+            text=True,
+            capture_output=True,
+            check=True,
+            timeout=5,
         ).stdout.strip()
 
     git("init", "-q", "--initial-branch=main")
@@ -48,7 +51,9 @@ with tempfile.TemporaryDirectory(prefix="issue-92-publish-") as temporary:
         )
         subprocess.run(
             ["node", "--input-type=module", "-e", program],
-            cwd=cwd, check=True, timeout=5,
+            cwd=cwd,
+            check=True,
+            timeout=5,
         )
     actual = git("rev-parse", "HEAD")
     print(f"{mode}: validated={validated}, publication={actual}", flush=True)

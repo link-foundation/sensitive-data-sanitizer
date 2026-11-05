@@ -119,6 +119,11 @@
     "*.sh": [
       "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
     ],
+    "*.py": [
+      "pipx run --spec ruff==0.17.3 ruff check --fix --force-exclude",
+      "pipx run --spec ruff==0.17.3 ruff format --force-exclude",
+      "pipx run --spec ruff==0.17.3 ruff format --check --force-exclude"
+    ],
     ".husky/*": [
       "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
     ]

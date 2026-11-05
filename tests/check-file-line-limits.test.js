@@ -52,7 +52,7 @@ describe('check-file-line-limits.sh scope', () => {
 
     expect(script).toContain('LIMIT=1500');
     expect(script).toContain('WARN_THRESHOLD=1350');
-    expect(script).toContain("EXTENSIONS='js|mjs|cjs|md|yml|yaml'");
+    expect(script).toContain("EXTENSIONS='js|mjs|cjs|py|md|yml|yaml'");
     expect(script).toContain('git ls-files -z');
     expect(script).toContain('git rev-parse --show-toplevel');
     expect(script).toContain('this check verified nothing');
@@ -63,6 +63,21 @@ describe('check-file-line-limits.sh scope', () => {
     expect(script).toContain('WARNINGS=');
     expect(script).toContain('::warning file=');
   });
+  itUnless(sandboxed, noPosixShell)(
+    'fails Python helpers over the hard limit',
+    () => {
+      const root = createFixture({ 'scripts/large.py': 1501 });
+      try {
+        const result = runLineLimitCheck(root);
+        expect(result.status).toBe(1);
+        expect(result.stdout).toContain(
+          'ERROR: scripts/large.py has 1501 lines'
+        );
+      } finally {
+        rmSync(root, { recursive: true, force: true });
+      }
+    }
+  );
 });
 
 describe('check-file-line-limits.sh', () => {

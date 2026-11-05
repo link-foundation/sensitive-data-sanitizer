@@ -1,0 +1,6 @@
+# Check maintained helpers without rewriting immutable downloaded evidence.
+target-version = "py311"
+extend-exclude = ["dev/log", "docs/case-studies"]
+
+[lint]
+select = ["E4", "E7", "E9", "F", "I"]

@@ -2,7 +2,7 @@
 # check-file-line-limits.sh
 #
 # Enforces the documented 1500-line architecture limit on every tracked
-# JavaScript (.js, .mjs, .cjs), Markdown (.md), and YAML (.yml, .yaml)
+# JavaScript (.js, .mjs, .cjs), Python (.py), Markdown (.md), and YAML (.yml, .yaml)
 # file.
 #
 # This shell gate complements the ESLint `max-lines` rule: ESLint only
@@ -29,7 +29,7 @@ set -euo pipefail
 
 LIMIT=1500
 WARN_THRESHOLD=1350
-EXTENSIONS='js|mjs|cjs|md|yml|yaml'
+EXTENSIONS='js|mjs|cjs|py|md|yml|yaml'
 CHECKED=0
 # String accumulators, not arrays: bash 3.2 -- what macOS still ships --
 # treats ${#empty[@]} under set -u as an unbound variable.
@@ -79,11 +79,11 @@ REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || {
 }
 cd "$REPO_ROOT"
 
-echo "Checking that JavaScript, Markdown, and workflow files are under ${LIMIT} lines..."
+echo "Checking that JavaScript, Python, Markdown, and workflow files are under ${LIMIT} lines..."
 
 while IFS= read -r -d '' file; do
   case "$file" in
-    *.js|*.mjs|*.cjs|*.md|*.yml|*.yaml) ;;
+    *.js|*.mjs|*.cjs|*.py|*.md|*.yml|*.yaml) ;;
     *) continue ;;
   esac
   is_exempt "$file" && continue
