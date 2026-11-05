@@ -3,6 +3,7 @@ import { firstNames } from './names.js';
 import { organizationCore, personalRegex } from './personal-variants.js';
 import { documentVocabulary } from './document-vocabulary.js';
 import { months } from './personal-context.js';
+import { detectDocumentExtras } from './document-extras.js';
 import { detectDocumentPatterns } from './document-patterns.js';
 
 const words = (column) =>
@@ -47,7 +48,7 @@ const ruAcronym =
 const ruResidence =
   /(?:[Гг]ород|[Пп]роживаю|[Пп]роживание|[Мм]есто жительства)[ \t]*:[ \t]*([А-ЯЁ][а-яё-]{2,47})|([А-ЯЁ][а-яё-]{2,47})(?=,[ \t]*(?:готов[а]?[ \t]+к[ \t]+переезду|Россия|Беларусь|Казахстан|Украина))/gu;
 const ruIntroduction = new RegExp(
-  `(?:[Мм]еня зовут|[Сс] уважением)[, \t]+(${firstNames.ru.split(' ').join('|')})(?!${boundary})`,
+  `(?:[Мм]еня зовут|[Сс] уважением)[, \t\r\n]+(${firstNames.ru.split(' ').join('|')})(?!${boundary})`,
   'gu'
 );
 const groupOrganization = new RegExp(
@@ -67,7 +68,7 @@ const rangeOpen = ['по настоящее время', 'настоящее в�
   .flatMap((word) => [word, capitalized(word)])
   .map(escapePattern)
   .join('|');
-const range = `${rangeStart}(?:[ \\t]*[-–—][ \\t]*|[ \\t]+(?:по|to)[ \\t]+)(?:${rangeStart}|${rangeOpen})(?!${boundary})`;
+const range = `${rangeStart}(?:[ \\t]*[-–—][ \\t]*|[ \\t]+(?:по|to)[ \\t]+)(?:${rangeStart}|${rangeOpen}|null|(?=\\)))(?!${boundary})`;
 const titleWord = '[\\p{L}\\p{N}][\\p{L}\\p{N}/+#.&-]{0,39}';
 // A segment starts a line or follows `|`. `Опыт:` or `Опыт -` before the title
 // reads like a list marker: the date range remains the anchor of the rule.
@@ -89,6 +90,7 @@ export function detectDocumentEntities(text, emit, options) {
     return;
   }
   detectDocumentPatterns(text, emit);
+  detectDocumentExtras(text, emit, range);
   const found = [];
   const capture = (finding) => {
     found.push(finding);

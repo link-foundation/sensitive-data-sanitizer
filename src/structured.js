@@ -1,4 +1,5 @@
 import { failure } from './detection.js';
+import { documentFieldType } from './document-fields.js';
 import { hasPlaceholders } from './placeholders.js';
 
 // Session metadata is opt-in at the CLI; library callers choose their own
@@ -112,6 +113,33 @@ export function structuredBatches(text, options) {
     batches.push({ text: parts.join('').slice(0, -1), entries });
   }
   return batches;
+}
+
+// Schema declarations take priority over metadata/public/fake heuristics.
+export function structuredFieldFindings(batch, options) {
+  return batch.entries.flatMap((entry) => {
+    const type = options.documentEntities
+      ? documentFieldType(entry.field)
+      : undefined;
+    if (
+      entry.key ||
+      !type ||
+      entry.raw.length <= 2 ||
+      JSON.parse(entry.raw) === '[REDACTED]'
+    ) {
+      return [];
+    }
+    return [
+      {
+        start: entry.start + 1,
+        end: entry.start + entry.raw.length - 1,
+        type,
+        category: 'personal',
+        rule: 'known-personal',
+        confidence: 1,
+      },
+    ];
+  });
 }
 
 export function structuredValueRanges(text, options) {
@@ -363,4 +391,71 @@ function stringOffsets(raw) {
     ends.push(i);
   }
   return { starts, ends };
+}
+
+// A caller-declared property replaces its entire JSON value, including containers
+// and primitives. Source token offsets preserve the surrounding record.
+export function declaredFieldFindings(text, options) {
+  if (!options.sensitiveFields?.length) {
+    return [];
+  }
+  const fields = new Set(options.sensitiveFields);
+  const findings = [];
+  for (const token of lexemes(text)) {
+    if (
+      token.index < (findings.at(-1)?.end ?? 0) ||
+      !token.key ||
+      !fields.has(JSON.parse(token.raw))
+    ) {
+      continue;
+    }
+    let start = token.index + token.raw.length;
+    while (/[\s:]/.test(text[start] ?? '') && start < text.length) {
+      start++;
+    }
+    const end = jsonValueEnd(text, start);
+    if (text.slice(start, end) === '"[REDACTED]"') {
+      continue;
+    }
+    findings.push({
+      start,
+      end,
+      type: 'JSON_VALUE',
+      category: 'personal',
+      rule: 'known-personal',
+      confidence: 1,
+    });
+  }
+  return findings;
+}
+function jsonValueEnd(text, start) {
+  let depth = 0,
+    quoted = false;
+  for (let i = start; i < text.length; i++) {
+    const char = text[i];
+    if (quoted) {
+      if (char === '\\') {
+        i++;
+      } else if (char === '"') {
+        quoted = false;
+        if (!depth) {
+          return i + 1;
+        }
+      }
+    } else if (char === '"') {
+      quoted = true;
+    } else if (char === '[' || char === '{') {
+      depth++;
+    } else if (char === ']' || char === '}') {
+      if (!depth) {
+        return i;
+      }
+      if (!--depth) {
+        return i + 1;
+      }
+    } else if (!depth && /[\s,]/.test(char)) {
+      return i;
+    }
+  }
+  return text.length;
 }

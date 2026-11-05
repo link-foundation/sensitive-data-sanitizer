@@ -273,7 +273,19 @@ function detectPersonalFormats(text, options, emit) {
   collectMatches(
     text,
     /(?<!\d)\+\d[\d ()-]{6,24}\d(?!\d)/g,
-    emit,
+    (finding) => {
+      if (
+        /[?&]phone=$/i.test(
+          text.slice(Math.max(0, finding.start - 8), finding.start)
+        )
+      ) {
+        const token = /^[^\s&#]+/.exec(
+          text.slice(finding.start, finding.end)
+        )[0];
+        finding.end = finding.start + token.length;
+      }
+      emit(finding);
+    },
     { type: 'PHONE', category: 'personal', rule: 'international-phone' },
     0,
     (v) => {

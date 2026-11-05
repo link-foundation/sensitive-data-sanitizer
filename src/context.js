@@ -421,7 +421,11 @@ function detectPersonalLabels(text, emit) {
       const range = valueRange(
         text,
         match.index + match[0].length + suffix.length,
-        identity ? 'token' : 'line',
+        /[?&]$/.test(text.slice(0, match.index))
+          ? 'query'
+          : identity
+            ? 'token'
+            : 'line',
         512
       );
       if (range && personalValueAllowed(text, range, type, match.index)) {

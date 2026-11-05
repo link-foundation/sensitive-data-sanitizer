@@ -176,6 +176,7 @@ new document recognizers; `documentEntities: false` turns them off explicitly.
 | `fakeIdentity`     | Off; `'specimen-and-synthetic'` retains explicitly fake identity values                                                                                     |
 | `fakeValues`       | `[]`; exact caller-reviewed identity values to retain, regardless of fakeIdentity                                                                           |
 | `structured`       | Off; `'json'` or `'jsonl'` validates and sanitizes string keys/values separately                                                                            |
+| `sensitiveFields`  | `[]`; exact JSON/JSONL property names whose complete values become a redaction string; supports synchronous calls                                           |
 | `structuralFields` | `[]`; declared property names suppress weak name/ID/entropy heuristics in their string values                                                               |
 
 Unknown options and invalid limits are errors. `knownSecretsFromEnv(env, names?)` discovers credential-named variables (excluding auth configuration names) when names are omitted, or uses an explicit selection, deduplicating nonempty values. It never invokes shell commands or reads auth files. `personalVariants(entries)` generates numeric and ISO/day-first date spellings; name case variants are already handled by detection. Neither helper invents transliterations.
@@ -474,3 +475,33 @@ restores IP detection; explicit `knownSecrets` and `knownPersonal` retain
 priority. No shell command or workflow expression is executed.
 
 Authorization headers (including Proxy-Authorization) redact the scheme and one credential token. Whitespace, C0 controls (including NUL), DEL, quotes, backslashes and commas end the value, preserving subsequent log text in shell and escaped JSON prompts. Matching brackets opened within a token are included in its redaction; unmatched closing brackets remain part of the surrounding log. Already-redacted tokens and known credential references remain exempt after an optional scheme, including `<token>` placeholders. The debug callback receives value-free `gitleaks-rule` events with rule ID, input length and elapsed milliseconds; tracing is off by default.
+
+## Caller-declared sensitive fields
+
+In structured JSON/JSONL, `sensitiveFields: string[]` matches exact,
+case-sensitive property names at any depth. The complete property value becomes
+`"[REDACTED]"`, including empty strings, numbers, booleans, null, arrays and
+objects. This deliberate schema policy can change value types. It takes
+priority over `structuralFields` and transformations, preserves property names
+and surrounding whitespace, and works in both `sanitize` and `createSanitizer`.
+It has no effect without `structured`. The personal-data switch
+`credentialsOnly` still suppresses personal findings.
+
+```js
+sanitize('{"privateNote":"arbitrary free text","count":2}', {
+  structured: 'json',
+  sensitiveFields: ['privateNote'],
+}).text;
+// {"privateNote":"[REDACTED]","count":2}
+
+sanitize('Lyutik работал', {
+  profile: 'documents',
+  knownPersonal: [{ type: 'ORGANIZATION', value: 'Lyutik' }],
+}).text;
+// [REDACTED] работал
+```
+
+`knownPersonal` is the synchronous custom-value list, including names without
+context. For computed synchronous detection, callers can supply validated
+`findings` for the exact input. `detectors` remains an asynchronous-engine
+option; `sanitize` does not invoke these callbacks.

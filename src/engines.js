@@ -24,6 +24,8 @@ import {
 } from './placeholders.js';
 import {
   structuredBatches,
+  structuredFieldFindings,
+  declaredFieldFindings,
   structuredValueViews,
   mapStructuredFindings,
   verifyStructured,
@@ -131,6 +133,7 @@ async function analyzeStructured(
 ) {
   const findings = [];
   for (const batch of structuredBatches(text, options)) {
+    findings.push(...structuredFieldFindings(batch, options));
     for (const finding of mapStructuredFindings(
       batch,
       await analyze(
@@ -162,10 +165,18 @@ async function analyzeStructured(
   }
   // Native structured inspection validates, locates and reapplies the
   // same fake-value/public policy to source offsets from all engines.
-  return inspectFindingsOnly(text, [...findings, ...(nativeFindings ?? [])], {
-    ...options,
-    findings: initial,
-  });
+  return inspectFindingsOnly(
+    text,
+    [
+      ...findings,
+      ...declaredFieldFindings(text, options),
+      ...(nativeFindings ?? []),
+    ],
+    {
+      ...options,
+      findings: initial,
+    }
+  );
 }
 
 export function createSanitizer(options = {}) {

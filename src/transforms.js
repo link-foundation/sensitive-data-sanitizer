@@ -183,6 +183,9 @@ function transformed(value, finding, transform, options) {
   return `${lower}–${lower + transform.size - 1}`;
 }
 export function renderReplacement(text, finding, options, encodedSanitize) {
+  if (finding.type === 'JSON_VALUE') {
+    return JSON.stringify(REDACTED);
+  }
   const transform =
     options.transformations?.[finding.type] ??
     options.transformation ??
@@ -193,7 +196,10 @@ export function renderReplacement(text, finding, options, encodedSanitize) {
     const raw = text.slice(finding.start, finding.end);
     const run = encodedValue(raw);
     if (run && (options.preserveEncoding || run.encoding === 'json-content')) {
-      return encodeRun(run, encodedSanitize(run.text).text);
+      const sanitized = encodedSanitize(run.text).text;
+      // Mapped escaped fragments can lose their detecting context on decode.
+      // Redact the fragment if recursive scanning makes no progress.
+      return encodeRun(run, sanitized === run.text ? REDACTED : sanitized);
     }
     if (options.preserveEncoding) {
       throw failure('ERR_ENCODING');
