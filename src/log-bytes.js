@@ -13,7 +13,7 @@ export function decodeLogBytes(input) {
   } catch {
     const parts = [];
     let start = 0;
-    for (let i = 0; i < bytes.length; ) {
+    for (let i = 0; i < bytes.length;) {
       const width = sequenceWidth(bytes[i]);
       if (validSequence(bytes, i, width)) {
         i += width;

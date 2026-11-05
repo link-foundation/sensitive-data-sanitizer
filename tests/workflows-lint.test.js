@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'test-anywhere';
+import { checkWorkflowPolicy } from '../scripts/check-ci-workflows.mjs';
 
 function readWorkflow(filePath) {
   return readFileSync(filePath, 'utf8').replaceAll('\r\n', '\n');
@@ -235,8 +236,7 @@ describe('reproducible workflow tooling and runner policy', () => {
     );
     expect(versions.length).toBe(2);
     expect(versions).toEqual([version, version]);
-    expect(workflowsWorkflow).toContain('zizmorcore/zizmor-action@v0.6.4');
-    expect(['1.30.0', '1.30.1']).toContain(version);
+    expect(checkWorkflowPolicy(workflowsWorkflow)).toEqual([]);
   });
   it('pins both secretlint packages to the same exact version', () => {
     const cli = releaseWorkflow.match(/-p secretlint@(\d+\.\d+\.\d+)/)?.[1];

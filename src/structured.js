@@ -384,7 +384,7 @@ function stringOffsets(raw) {
   }
   const starts = [],
     ends = [];
-  for (let i = 1; i < raw.length - 1; ) {
+  for (let i = 1; i < raw.length - 1;) {
     const start = i;
     i += raw[i] === '\\' ? (raw[i + 1] === 'u' ? 6 : 2) : 1;
     starts.push(start);
