@@ -236,4 +236,3 @@ Comparison states are from the pre-fix baseline. Semantic decisions and translat
 | `scripts/version-lock.mjs` | local only | Repository-specific safeguard/helper; retained and included in local checks. |
 | `scripts/version_and_commit.py` | template only | Translated counterpart explicitly mapped in TEMPLATE-REVIEW.md; package-only behavior marked inapplicable. |
 | `scripts/wait-for-npm.mjs` | local only | Repository-specific safeguard/helper; retained and included in local checks. |
-

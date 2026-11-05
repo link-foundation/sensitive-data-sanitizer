@@ -1,0 +1,28 @@
+[
+  {
+    "job": "Test runtimes (macos-26-intel, deno, 2/4)",
+    "path": ".github",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/cb7a935ae84fc8b8a1f4bd93dcdd50ed332148fb/.github",
+    "start_line": 1035,
+    "start_column": null,
+    "end_line": 1035,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Deno test suite is approaching its execution budget",
+    "message": "Deno test suite has run for 70s of its 100s budget.",
+    "raw_details": ""
+  },
+  {
+    "job": "Test runtimes (macos-26-intel, deno, 3/4)",
+    "path": ".github",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/cb7a935ae84fc8b8a1f4bd93dcdd50ed332148fb/.github",
+    "start_line": 456,
+    "start_column": null,
+    "end_line": 456,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Deno test suite is approaching its execution budget",
+    "message": "Deno test suite has run for 71s of its 100s budget.",
+    "raw_details": ""
+  }
+]

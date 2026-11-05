@@ -1,0 +1,1 @@
+Seven original runs, all gzip/ZIP archives, and both full template trees verified.
