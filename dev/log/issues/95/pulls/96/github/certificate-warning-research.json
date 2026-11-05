@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-05",
+  "run": 37679381132,
+  "warningLine": 64,
+  "sources": [
+    {
+      "url": "https://docs.openssl.org/3.0/man1/openssl-rehash/",
+      "finding": "Hash-directory rehash warns for PEM files containing multiple certificate/CRL objects."
+    },
+    {
+      "url": "https://manpages.debian.org/trixie/ca-certificates/update-ca-certificates.8.en.html",
+      "finding": "update-ca-certificates generates ca-certificates.crt as a concatenated bundle, alongside individual certificates."
+    }
+  ],
+  "conclusion": "Expected combined-bundle handling in the generated updater; certificate update and HTTPS graph submission subsequently succeed."
+}

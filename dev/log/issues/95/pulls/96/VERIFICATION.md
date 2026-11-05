@@ -16,6 +16,10 @@ All 54 diagnostic candidates in the runtime log are passing `Error: boom` / `Err
 
 The first security log download returned Azure HTTP 503 (`Egress is over the account limit`) and only 183 lines. That partial attempt and stderr are preserved explicitly as such. Retrying recovered the complete original ZIP and 8,443-line merged log, verified against all ten successful jobs. The collector's candidate count alone is not evidence of completeness.
 
+The first evidence-only head `8d1af03989cf8a4d0f13a85ce7c2e87c2f27e268` also passed all five workflows: **30 successful checks and 18 expected skips**, without warning/error annotations. Its complete logs and `github/checks-evidence-8d1af03.json` are preserved. The change detector compares the already-validated `4d31a49` to `8d1af03` (run 42094776446, merged log lines 379–429) and finds only evidence files, so it skips repeating the unchanged runtime matrix and other source gates. The complete source matrix above supplies the required source verification; skips alone do not.
+
+A subsequent classification-only evidence update documents the historical OpenSSL bundle message found by a broader scan. It changes no source. Its current-head checks and readiness are verified live using the same final gate.
+
 The final evidence commit contains only investigation data/docs. After it is pushed, verify its exact current-head checks, main ancestry, clean working tree and PR readiness live. Those checks are recorded by GitHub, avoiding a recursive commit of the evidence commit's own CI logs. This source snapshot proves all source changes independently; no failure is waived by an evidence-only commit.
 
 # Earlier implementation verification
