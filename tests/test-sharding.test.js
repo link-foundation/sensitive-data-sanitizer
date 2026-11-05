@@ -17,7 +17,7 @@ it('partitions every test file exactly once, independent of directory order', ()
   ).toBe(true);
 });
 
-it('covers every runtime and OS once while distributing Windows Bun fixtures', () => {
+it('covers every runtime and OS once while distributing Windows Bun and Deno fixtures', () => {
   const workflow = parse(readFileSync('.github/workflows/release.yml', 'utf8'));
   const matrix = workflow.jobs.test.strategy.matrix;
   const legs = matrix.os.flatMap((os) =>
@@ -42,7 +42,7 @@ it('covers every runtime and OS once while distributing Windows Bun fixtures', (
       const covered = shards.flatMap(({ shard }) => selectTests(files, shard));
       expect(covered.sort()).toEqual(whole);
       expect(new Set(covered).size).toBe(whole.length);
-      if (os === 'windows-2025' && runtime === 'bun') {
+      if (os === 'windows-2025' && ['bun', 'deno'].includes(runtime)) {
         expect(
           shards.every(
             ({ shard }) => selectTests(files, shard).length < whole.length / 2
