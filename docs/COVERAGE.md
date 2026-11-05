@@ -59,9 +59,15 @@ missed. Legal-form words and uncased scripts can also yield false positives.
 The `documents` profile also reads employers from CV experience lines anchored on
 a date range: `Title, Employer (2019-05 – 2021-03)`, `Title — Employer, 2019–2021`
 and `Title (Employer), 2019–2021`. Ranges use years, `YYYY-MM`, `MM.YYYY`, full
-dates or `month YYYY`, with `по настоящее время`, `н.в.`, `present` and similar
-open ends. Confidence is 0.60, and the employer then propagates through the
-document like other organizations. The default profile ignores these lines. Lines
+dates or `month YYYY`, with `по настоящее время`, `н.в.`, `по н.в.`, `present` and
+similar open ends. Titles have one to nine words. A label of one or two words
+before the title (`Опыт: `, `Опыт работы - `, `Опыт — `) is read like a list marker,
+and a segment after `|` is read like a line start, so
+`Должность: Менеджер | Опыт: Аналитик, Ромашка (2018 – 2020)` also yields the
+employer. The date range stays the anchor and the employer must still start with a
+capital letter, a digit or a quote. Confidence is 0.60, and the employer then
+propagates through the document like other organizations. The default profile
+ignores these lines. Lines
 with more fields (`Title, Employer, City (dates)`) and titles containing a comma
 are not targeted and can leave the employer in place; date-anchored prose with
 the same shape can be flagged.

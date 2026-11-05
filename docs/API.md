@@ -105,6 +105,24 @@ forms consume whole Unicode words; minimum stem lengths limit overmatching.
 This is conservative heuristic identity linking, not general coreference:
 ambiguous surnames/initials and unrelated people are not intentionally merged.
 
+A PERSON entry of a reused map matches the same forms as an explicit
+`knownPersonal` value: the full value and its contiguous parts together, all
+cases, both orders and initials. A bare part does not match in the next document
+unless it is stored as its own value, so `Петров Данил` from one CV leaves
+`петров день` and `Петров пришёл.` in the next one untouched. A single stored word
+(`Мороз`) matches its capitalized and upper-case forms but not lower-case text
+(`сильный мороз`); a multi-word value also matches in lower case (`петров данил`).
+A part listed in `knownPersonal` is kept in the entry's `standalone` list once it
+has been replaced, and bare surfaces recorded by earlier versions are ignored on
+reuse. The evidence of the current document is separate: when its text names
+`Петров Данил`, a bare `Петров` or `петрову` in that document, including its stream
+batches and decoded values, links to that person exactly as with a fresh map.
+
+When a bare part matches, the span in placeholder mode takes the capitalized
+given name or patronymic next to it on the same line, so `Алина Мороз` becomes one
+new token instead of `Алина Person-1`. Given names come from a bounded list with
+Russian case endings, so an unlisted name can still stay beside the placeholder.
+
 A listed Russian PERSON value also matches all six grammatical cases, including
 the instrumental (`Петровым Данилом Сергеевичем`), every word order, `ё`/`е`
 spelling differences in either direction, upper case, and initials with or
