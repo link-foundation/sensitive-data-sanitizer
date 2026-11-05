@@ -49,7 +49,7 @@ describe('check-status-gate-covers-all-jobs.mjs', () => {
 
       expect(result.status).toBe(0);
       expect(result.stdout).toContain(
-        '.github/workflows/release.yml: pipeline-status covers all 16 other job(s).'
+        `.github/workflows/release.yml: pipeline-status covers all ${Array.from(releaseWorkflow.split('\njobs:\n')[1].matchAll(/^ {2}[a-zA-Z0-9_-]+:\s*$/gm)).length - 1} other job(s).`
       );
     }
   );

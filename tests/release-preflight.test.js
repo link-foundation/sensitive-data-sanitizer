@@ -175,7 +175,7 @@ describe('release-preflight probe behaviour (offline, curl stub)', () => {
         'audience=npm%3Aregistry.npmjs.org'
       );
       expect(readFileSync(join(fixtures, 'requests'), 'utf8')).toContain(
-        '/exchange/package/%40link-foundation%2Fexample-package-name'
+        '/exchange/package/%40link-foundation%2Fsensitive-data-sanitizer'
       );
       expect(stdout).not.toContain('private-fixture');
     }
@@ -422,16 +422,16 @@ describe('npm OIDC package exchange regression', () => {
     [
       404,
       [
-        'npm has no package @link-foundation/example-package-name yet',
+        'npm has no package @link-foundation/sensitive-data-sanitizer yet',
         'Add an NPM_TOKEN repository secret',
         'https://github.com/acme/widget/settings/secrets/actions',
-        'add a trusted publisher for acme/widget, workflow release.yml, at https://www.npmjs.com/package/@link-foundation/example-package-name/access',
+        'add a trusted publisher for acme/widget, workflow release.yml, at https://www.npmjs.com/package/@link-foundation/sensitive-data-sanitizer/access',
       ],
     ],
     [
       200,
       [
-        'npm rejected the OIDC exchange for @link-foundation/example-package-name (404): add a trusted publisher for acme/widget',
+        'npm rejected the OIDC exchange for @link-foundation/sensitive-data-sanitizer (404): add a trusted publisher for acme/widget',
       ],
     ],
     ['000', ['the package lookup answered 000']],
@@ -455,7 +455,7 @@ describe('npm OIDC package exchange regression', () => {
         }
         expect(stdout).toContain('::error::release-preflight: npm ');
         expect(readFileSync(join(fixtures, 'requests'), 'utf8')).toContain(
-          'https://registry.npmjs.org/%40link-foundation%2Fexample-package-name'
+          'https://registry.npmjs.org/%40link-foundation%2Fsensitive-data-sanitizer'
         );
       }
     );

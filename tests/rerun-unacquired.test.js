@@ -253,7 +253,6 @@ describe('rerun-unacquired workflow', () => {
       'security.yml',
       'links.yml',
       'workflows.yml',
-      'javascript-first-example.yml',
     ]) {
       const name = readFileSync(`.github/workflows/${file}`, 'utf8').match(
         /^name: (.+)$/m

@@ -56,6 +56,7 @@ describe('publication uses validated code', () => {
         git('init', '-q');
         git('config', 'user.email', 'test@example.com');
         git('config', 'user.name', 'Test');
+        git('config', 'core.autocrlf', 'false');
         git('init', '--bare', '-q', 'origin.git');
         git('remote', 'add', 'origin', join(cwd, 'origin.git'));
         writeVersion('1.0.0');

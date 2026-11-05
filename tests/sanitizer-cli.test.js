@@ -146,19 +146,20 @@ describe('sanitizer CLI reports and validation', () => {
       });
     }
   );
-  itUnless(nodeCliUnavailable)(
-    'rejects symlinks and leaves destinations intact',
-    () => {
-      workspace((root) => {
-        const source = join(root, 'source.txt'),
-          alias = join(root, 'alias.txt');
-        writeFileSync(source, 'password=short');
-        symlinkSync(source, alias);
-        expect(invoke(['redact', alias, '--in-place']).status).toBe(2);
-        expect(readFileSync(source, 'utf8')).toBe('password=short');
-      });
-    }
-  );
+  itUnless(
+    nodeCliUnavailable,
+    process.platform === 'win32' &&
+      'symlink fixture needs Windows developer mode'
+  )('rejects symlinks and leaves destinations intact', () => {
+    workspace((root) => {
+      const source = join(root, 'source.txt'),
+        alias = join(root, 'alias.txt');
+      writeFileSync(source, 'password=short');
+      symlinkSync(source, alias);
+      expect(invoke(['redact', alias, '--in-place']).status).toBe(2);
+      expect(readFileSync(source, 'utf8')).toBe('password=short');
+    });
+  });
   itUnless(nodeCliUnavailable)(
     'validates config before creating output and hides malformed raw content',
     () => {

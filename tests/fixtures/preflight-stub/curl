@@ -4,6 +4,7 @@
 # Answers per-URL so the probe script runs without network access; the
 # statuses it returns come from files in $PREFLIGHT_FIXTURE_DIR:
 #
+#   package_status -- HTTP status of the npm package-document lookup
 #   whoami_status  -- HTTP status the npm whoami probe receives
 #   whoami.json    -- body of the whoami 200 response
 #   token.json     -- body of the Docker Hub token-endpoint response
@@ -56,6 +57,11 @@ case "$url" in
     else
       printf '\n%s' "$code"
     fi
+    exit 0
+    ;;
+  *registry.npmjs.org/*)
+    printf '%s\n' "${@: -1}" >> "$FIX/requests"
+    printf '{}\n%s' "$(cat "$FIX/package_status")"
     exit 0
     ;;
 esac

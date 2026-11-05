@@ -32,6 +32,9 @@ function skipGuard(node, source) {
   if (!/Deno|Bun|canWrite/.test(condition)) {
     return null;
   }
+  if (/\|\||&&|process\.platform/.test(condition)) {
+    throw new Error(`Review compound runtime guard manually: ${condition}`);
+  }
   return /canWrite|permissions/.test(condition)
     ? 'sandboxed'
     : 'nodeCliUnavailable';

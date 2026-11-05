@@ -198,11 +198,18 @@ describe('pipeline status gate', () => {
     );
   });
 
-  it('does not cancel superseded jobs on main', () => {
-    expect(workflow).not.toContain('      cancel-in-progress: true');
-    expect(workflow).toContain(
-      "      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}"
-    );
+  it('cancels obsolete readers and queues main writers', () => {
+    expect(getJobBlock(workflow, 'lint')).toContain('cancel-in-progress: true');
+    for (const name of [
+      'release',
+      'instant-release',
+      'docker-publish',
+      'changeset-pr',
+    ]) {
+      const block = getJobBlock(workflow, name);
+      expect(block).toContain('cancel-in-progress: false');
+      expect(block).toContain('queue: max');
+    }
   });
 
   itUnless(sandboxed, noPosixShell)(
@@ -480,14 +487,29 @@ describe('pipeline status supersede detection', () => {
   itUnless(sandboxed, noPosixShell)(
     'fails closed when cancel-in-progress is an expression',
     () => {
-      const result = runGate(cancelled, {
-        RUN_SHA: 'aaa111',
-        BRANCH_HEAD_SHA: 'bbb222',
-        WORKFLOW_FILE: '.github/workflows/release.yml',
-      });
-
-      expect(result.status).toBe(1);
-      expect(result.stdout).toContain('expression or otherwise unreadable');
+      const dir = mkdtempSync(path.join(tmpdir(), 'gate-expression-'));
+      try {
+        const file = path.join(dir, 'workflow.yml');
+        writeFileSync(
+          file,
+          [
+            'jobs:',
+            '  lint:',
+            '    concurrency:',
+            "      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}",
+            '',
+          ].join('\n')
+        );
+        const result = runGate(cancelled, {
+          RUN_SHA: 'aaa111',
+          BRANCH_HEAD_SHA: 'bbb222',
+          WORKFLOW_FILE: file,
+        });
+        expect(result.status).toBe(1);
+        expect(result.stdout).toContain('expression or otherwise unreadable');
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
     }
   );
 

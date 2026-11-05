@@ -25,8 +25,8 @@ describe('exact release commit message', () => {
           git('config', 'user.name', 'Fixture');
           git('config', 'user.email', 'fixture@example.invalid');
           const block = script.match(
-            / {6}\/\/ Commit with version number as message\r?\n([\s\S]*?)\r?\n {6}\/\/ Push directly/
-          )[1];
+            /await runStrict\('git', \['commit', '-m', newVersion\]\);/
+          )[0];
           // Create a staged file so git commit uses its normal production flags.
           git('config', 'core.hooksPath', join(cwd, 'no-hooks'));
           writeFileSync(join(cwd, 'file'), 'fixture');

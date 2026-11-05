@@ -111,20 +111,21 @@ describe('explicit public verification and outbound helpers', () => {
       expect(blocked).toBe(true);
     }
   );
-  itUnless(nodeCliUnavailable)(
-    'detects the exact synthetic value returned by local auth',
-    async () => {
-      const knownSecrets = await knownSecretsFromGitHubAuth({
-        command: resolve('experiments/mock-gh-auth.mjs'),
-        hostname: 'github.com',
-      });
-      expect(
-        (
-          await createSanitizer({ knownSecrets }).sanitize(
-            'Value: synthetic-local-auth-fixture'
-          )
-        ).text
-      ).toBe('Value: [REDACTED]');
-    }
-  );
+  itUnless(
+    nodeCliUnavailable,
+    process.platform === 'win32' &&
+      'fixture requires an executable POSIX shebang'
+  )('detects the exact synthetic value returned by local auth', async () => {
+    const knownSecrets = await knownSecretsFromGitHubAuth({
+      command: resolve('experiments/mock-gh-auth.mjs'),
+      hostname: 'github.com',
+    });
+    expect(
+      (
+        await createSanitizer({ knownSecrets }).sanitize(
+          'Value: synthetic-local-auth-fixture'
+        )
+      ).text
+    ).toBe('Value: [REDACTED]');
+  });
 });
