@@ -158,6 +158,7 @@ function wordsMatchAlias(words, full, parts) {
     return parts && words[0].length > 1 && full.includes(words[0]);
   }
   return (
+    words.length > 1 &&
     words.length === full.length &&
     words.every(
       (part, i) =>
