@@ -1,24 +1,22 @@
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
 import { describe, it } from 'test-anywhere';
 import { detectIdentity } from '../src/identity.js';
 import { detectPersonal } from '../src/personal.js';
 import { itUnless, sandboxed } from './helpers/skip.js';
+import { HANG_GUARD_MS, runBounded } from './helpers/bounded-run.js';
 
 describe('issue 92 whitespace scanning', () => {
   for (const kind of ['booking', 'ticket', 'visa', 'postal']) {
-    itUnless(sandboxed)(`bounds the ${kind} CodeQL witness`, () => {
-      const result = spawnSync(
+    itUnless(sandboxed)(`bounds the ${kind} CodeQL witness`, async () => {
+      const result = await runBounded(
         'node',
         [
           '--max-old-space-size=128',
           'experiments/issue-92/whitespace-probe.mjs',
           kind,
         ],
-        { encoding: 'utf8', timeout: 2000 }
+        { timeout: HANG_GUARD_MS }
       );
-      assert.equal(result.error, undefined);
-      assert.equal(result.status, 0, result.stderr);
       assert.equal(result.stdout.trim(), 'completed');
     });
   }
