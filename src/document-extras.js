@@ -1,7 +1,7 @@
 import { collectMatches } from './detection.js';
 
 const boundary = '[\\p{L}\\p{N}_]';
-const proper = '[\\p{Lu}][\\p{L}\\p{M}.-]{1,47}';
+const proper = '[\\p{Lu}][\\p{L}\\p{M}\\p{N}.-]{0,46}[\\p{L}\\p{M}\\p{N}]';
 const name = `${proper}(?:[ \\t]+${proper}){0,5}`;
 const orgList = `(?:«[^«»\\r\\n]{1,160}»|${name})(?:[ \\t]*(?:,|и|and)[ \\t]+${name}){0,5}`;
 const cues = new RegExp(
@@ -31,7 +31,6 @@ export function detectDocumentExtras(text, emit, range) {
       new RegExp(`опыт[ \\t]*\\((${name})\\)`, 'gu'),
       1,
     ],
-    ['ORGANIZATION', 'organization-cue', cues, 1],
     ['ORGANIZATION', 'organization-duration', duration, 1],
     [
       'PERSON',
@@ -59,6 +58,21 @@ export function detectDocumentExtras(text, emit, range) {
       { type, rule, category: 'personal', confidence: 0.85 },
       group
     );
+  }
+  for (const match of text.matchAll(cues)) {
+    const offset = match.index + match[0].lastIndexOf(match[1]);
+    for (const company of match[1].matchAll(
+      new RegExp(`«[^«»\\r\\n]{1,160}»|${name}`, 'gu')
+    )) {
+      emit({
+        start: offset + company.index,
+        end: offset + company.index + company[0].length,
+        type: 'ORGANIZATION',
+        category: 'personal',
+        rule: 'organization-cue',
+        confidence: 0.85,
+      });
+    }
   }
   detectQueryContacts(text, emit);
   detectExperience(text, emit, range);

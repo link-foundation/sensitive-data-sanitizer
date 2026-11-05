@@ -14,8 +14,9 @@ Plan and verification checklist:
 - [x] Reproduce root causes with small serial experiments.
 - [x] Implement shared native/structured detection and synchronous schema declarations.
 - [x] Add regressions for every changed row and accepted ambiguous limit.
-- [ ] Review current-commit CI evidence (local focused tests, lint and formatting passed).
-- [ ] Update PR title/body, ensure current main is merged, preserve commits and mark ready.
+      Final verification gates: review CI for the latest SHA, update PR title/body,
+      ensure current main is merged, preserve commits and mark ready. The live checks
+      and review state are recorded on [PR #101](https://github.com/link-foundation/sensitive-data-sanitizer/pull/101).
 
 ## Root causes, alternatives and selected solutions
 
@@ -189,8 +190,16 @@ Full platform/runtime/security/release verification runs in existing CI to avoid
 duplicating expensive work locally. Local commands use small finite fixtures.
 
 Local evidence: the original revision fails 65 of the first 80 new regression
-cases; the fixed revision passes all 81, including a later overlap test for
+cases; the fixed revision passes all 82, including a later overlap test for
 schema values containing both credentials and escaped fragments. The six-file
 focused suite initially passed 495 tests; the additional overlap regression
-increases that inventory to 496. ESLint reports no warnings. Baseline failure
+and punctuation regressions increase that inventory to 497. ESLint reports no warnings. Baseline failure
 logs and source issue JSON are preserved under the evidence directory.
+
+CI initially exposed a punctuation/placeholder regression in the company cue
+rule: Node job 127506701952, log line 3867, and Deno job 127506701970, line 3900
+of run 42101831141 both reported a missing sentence-ending period. The fix
+excludes trailing punctuation from name tokens and emits company lists as
+separate entities, preserving existing reversible placeholder identity. The
+existing placeholder residual suite and an explicit punctuation regression
+verify this boundary. Downloaded job logs are retained in `ci-logs/`.
