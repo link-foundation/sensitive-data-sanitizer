@@ -1,6 +1,26 @@
-# Implementation verification snapshot
+# Final source verification
 
-All five workflows below succeeded at implementation/evidence commit `cb7a935ae84fc8b8a1f4bd93dcdd50ed332148fb`. GitHub reported 57 successful checks and 10 intentionally skipped jobs. This proves the complete matrix and app builds, but two genuine macOS Deno budget warnings still required a follow-up. The six-shard repair and test-discovery follow-up are verified separately on the live PR before readiness.
+All five workflows succeeded at `4d31a49b8f38114366447f69ab9f28e78869da90`, created **2026-11-05 19:19:25 UTC**, after the last source fix `cdd99fc`. GitHub reports **59 successful checks and 10 expected skips**, with **zero warning/error annotations**. Every successful job with steps is represented in the complete downloaded logs; `github/final-source-evidence-summary.json` records that check.
+
+| Workflow | Result | Full log lines | Run |
+| --- | --- | --- | --- |
+| Checks and release | success | 47,088 | https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42092767310 |
+| Example app | success | 1,930 | https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42092767273 |
+| Security | success | 8,443 | https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42092767280 |
+| Workflows | success | 1,770 | https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42092767768 |
+| Broken Link Checker | success | 567 | https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42092767377 |
+
+The six macOS Deno shards finished in **54, 22, 35, 38, 33 and 31 seconds** (shard order), all below the unchanged 70-second warning threshold. See `budget-profile-42092767310.json`. The delayed-start PuTTY regression passed in all nine runtime/OS combinations; Windows Bun completed it in 2,314 ms (merged log line 36265), including the deliberate 2.1-second preload. All four whitespace probes pass too. The two-second scan assertions and finite heap/input bounds remain enforced.
+
+All 54 diagnostic candidates in the runtime log are passing `Error: boom` / `Error: connect ECONNREFUSED` preservation fixtures. Security's three candidates echo `expect-error: false`; the app's three candidates echo a successful packaging script's error branch. The link checker emits one informational summary-link notice. There are no unclassified warnings or errors.
+
+The first security log download returned Azure HTTP 503 (`Egress is over the account limit`) and only 183 lines. That partial attempt and stderr are preserved explicitly as such. Retrying recovered the complete original ZIP and 8,443-line merged log, verified against all ten successful jobs. The collector's candidate count alone is not evidence of completeness.
+
+The final evidence commit contains only investigation data/docs. After it is pushed, verify its exact current-head checks, main ancestry, clean working tree and PR readiness live. Those checks are recorded by GitHub, avoiding a recursive commit of the evidence commit's own CI logs. This source snapshot proves all source changes independently; no failure is waived by an evidence-only commit.
+
+# Earlier implementation verification
+
+All five workflows below succeeded at implementation/evidence commit `cb7a935ae84fc8b8a1f4bd93dcdd50ed332148fb`. GitHub reported 57 successful checks and 10 intentionally skipped jobs. This proves the complete matrix and app builds, but two genuine macOS Deno budget warnings still required a follow-up. The final source verification above supersedes this earlier snapshot.
 
 | Workflow | Created (UTC) | Result | Run |
 | --- | --- | --- | --- |
@@ -35,4 +55,4 @@ Archive integrity is reproducible with `python3 experiments/issue-95/verify-evid
 
 At `76d5c2b82e82457e0f14c2e29d6251ca68cbe748`, the four app/security/workflow/link runs succeeded. Checks-and-release run [42090826860](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42090826860) failed exactly one Windows Bun PuTTY probe: its whole-process two-second deadline included cold Node/module initialization. All six macOS Deno shards succeeded in 41, 41, 52, 25, 49 and 23 seconds (shard order), with **zero budget warnings**. Full logs, annotations and `budget-profile-42090826860.json` preserve both outcomes.
 
-The startup repair keeps the two-second scan assertion, separates initialization, and applies the same correction to all whitespace probes using the existing 25-second process-tree hang guard and 128 MiB child heap cap. The finite delayed-start regression and 15 tests pass locally under both Node and Bun. Final CI validation of this follow-up is pending at this snapshot; earlier green results are not substituted for it.
+The startup repair keeps the two-second scan assertion, separates initialization, and applies the same correction to all whitespace probes using the existing 25-second process-tree hang guard and 128 MiB child heap cap. The finite delayed-start regression and 15 tests pass locally under both Node and Bun. The final source verification above confirms this follow-up across the complete runtime matrix; earlier green results were not substituted for it.

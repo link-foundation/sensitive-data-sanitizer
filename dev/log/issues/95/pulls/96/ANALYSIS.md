@@ -44,6 +44,8 @@ The issue body, all comment endpoints, and sub-issue endpoint were read. At init
 | 18:14:24 | Issue 95 opened. |
 | 18:14:57 / 18:15:09 | Prepared task commit `725e686` and draft PR 96 created. Their successful checks are baseline evidence only. |
 | 18:38:33 | First implementation CI started against `2a17882`; subsequent branch pushes are distinguished by exact SHA in the final CI snapshots. |
+| 18:48:40 | The first entirely green matrix at `cb7a935` still emitted two genuine Deno budget warnings; green status was insufficient. |
+| 19:19:25–19:28:10 | The final source matrix at `4d31a49`, including six balanced Deno shards and startup-aware scanner probes, completed successfully with no warning/error annotations. |
 
 ## Seven-run diagnostic triage
 
@@ -107,9 +109,11 @@ Run 42090826860 at `76d5c2b` eliminated the Deno warnings but failed one Windows
 
 The historical failure lacks phase markers, so it cannot independently prove how much time was spent initializing versus scanning. A bounded reproduction in `verify-probe-startup.mjs` adds a finite 2.1-second Node preload: the old whole-process deadline reliably returns `ETIMEDOUT`, while the actual scanner completes in about 2 ms. `probe-startup-reproduction.json` records separate startup and scan measurements. This establishes the false-positive mechanism; optional phase diagnostics make future failures distinguishable.
 
-Options: shrink the adversarial witness (weakens regression coverage), simply enlarge the performance deadline (hides slow scans), or measure scanner execution after initialization while retaining an independent hang guard. Implemented the latter for **both** PuTTY and all four whitespace witnesses. Their two-second scan limit is now asserted inside each probe, after imports; the parent reuses the established 25-second process-tree hang guard beneath the existing 30-second per-test limit. Finite inputs and the 128 MiB child heap limit remain. The production scanner is unchanged. `CI_SCRIPTS_DEBUG=1` prints initialization/scan timings as captured JSON; it defaults off. The PuTTY test deliberately reproduces slow initialization and checks both timings. Fifteen focused tests pass under Node and Bun; full current-head CI is required before readiness.
+Options: shrink the adversarial witness (weakens regression coverage), simply enlarge the performance deadline (hides slow scans), or measure scanner execution after initialization while retaining an independent hang guard. Implemented the latter for **both** PuTTY and all four whitespace witnesses. Their two-second scan limit is now asserted inside each probe, after imports; the parent reuses the established 25-second process-tree hang guard beneath the existing 30-second per-test limit. Finite inputs and the 128 MiB child heap limit remain. The production scanner is unchanged. `CI_SCRIPTS_DEBUG=1` prints initialization/scan timings as captured JSON; it defaults off. The PuTTY test deliberately reproduces slow initialization and checks both timings. Fifteen focused tests pass under Node and Bun. Final source run 42092767310 passes the full matrix: the delayed-start PuTTY test succeeds in all nine runtime/OS combinations, including Windows Bun (merged log line 36265). All four whitespace probes pass as well.
 
 ## Verification and resource use
+
+Final source/evidence head `4d31a49` has 59 passing checks and ten expected skips across five successful workflows, with no warning/error annotations. All six macOS Deno shards finish in 22–54 seconds, below the unchanged warning threshold. `VERIFICATION.md`, `github/final-source-evidence-summary.json` and the complete logs preserve exact SHA, timestamps, diagnostic classifications and successful-job completeness checks. The recovered security-download attempt is explicitly distinguished from its complete retry. The final evidence-only commit is checked live before PR readiness.
 
 - `verify-regression.py` substitutes the issue baseline's three workflows and line-limit script, runs the targeted tests, and restores files in `finally`: seven failures before the fix (34 other tests pass), including missing PR environment gate, Python security coverage and a real oversized-Python fixture.
 - The repaired focused Node suite passed 90 tests; the additional dependency-update manifest-scope test passed independently. Existing full cross-runtime/cross-OS matrices, app packaging, workflow linting, artifact roundtrip, CodeQL, and security checks run in CI rather than being duplicated locally.
@@ -129,6 +133,7 @@ All research used official project sources. Immutable snapshots and release meta
 - [CodeQL language matrix](https://docs.github.com/en/code-security/reference/code-scanning/workflow-configuration-options): Python language coverage.
 - [uv requirements compilation](https://docs.astral.sh/uv/pip/compile/) and [pip-audit](https://github.com/pypa/pip-audit): metadata resolution, hashed input and auditing without installation. PyPI release metadata for pinned tools is saved.
 - [Dependabot options](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference) and [cooldown release policy](https://github.blog/changelog/2026-07-14-dependabot-version-updates-introduce-default-package-cooldown/): weekly groups and explicit cooldown; security updates are distinct.
+- [Node performance measurements](https://nodejs.org/docs/latest-v24.x/api/perf_hooks.html#performancenow) and [ECMAScript preloading](https://nodejs.org/api/cli.html#--importmodule): separate process initialization from scanner execution and reproduce slow initialization with a finite preload.
 - [GitHub concurrency queue limits](https://docs.github.com/en/actions/reference/limits): preserve existing supported `queue: max` writer serialization rather than remove it to satisfy an older actionlint schema.
 
 ## Evidence index and reproducibility

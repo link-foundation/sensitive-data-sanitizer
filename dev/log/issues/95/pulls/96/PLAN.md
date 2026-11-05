@@ -10,9 +10,11 @@ Objective: implement and verify every issue requirement in this PR, without merg
 - [x] Implement fixes consistently across all affected paths, add minimal failing regression cases and opt-in diagnostics wherever evidence is insufficient.
 - [x] Add a release changeset, commit useful atomic steps, and push only issue-95-5445009fe5d0.
 - [x] Run focused local checks within the container memory budget; use CI for full matrices and builds.
-- [ ] Inspect the final source diff, verify main is integrated, update the PR description, and verify complete current-head CI including budget warnings (see VERIFICATION.md).
-- [ ] Refresh comments/requirements and preserve evidence; execute final current-head/clean-tree/readiness checks against the live PR.
+- [x] Inspect the final source diff, verify main is integrated, update the PR description, and verify complete source-head CI including budget warnings (see VERIFICATION.md).
+- [x] Refresh comments/requirements, preserve complete evidence, and prepare the final evidence-commit/current-head/clean-tree/readiness gate below.
 
 Evidence and acceptance mapping will be maintained in ANALYSIS.md and the files below this directory. Raw downloaded logs are retained separately from authored analysis. Skipped jobs are evaluated for their actual trigger/condition; a green aggregate alone is insufficient evidence.
 
-The measured six-shard repair is verified: all six macOS Deno jobs completed in 23–52 seconds without warnings. That matrix exposed a separate Windows probe startup deadline; the repair and finite delayed-start regression pass 15 tests under Node and Bun. Full CI validation of this last follow-up remains pending at this snapshot. Readiness requires passing current-head CI with warnings reviewed and the tree clean. The live PR records that final condition without creating a recursive commit of its own CI results.
+Final source head `4d31a49` passes all five workflows: 59 passing checks, ten expected release/optional skips, and no warning/error annotations. Six Deno shards finish in 22–54 seconds and every runtime/OS passes the startup regression. All successful jobs have complete logs. Main `c92be73` is integrated; all comment endpoints were refreshed and add no requirements.
+
+Final live gate after the evidence-only commit: push only the prepared branch; wait for its exact-head checks; review any annotations; confirm main ancestry and a clean tree; mark PR 96 ready. The live PR records this final condition without creating a recursive commit of its own CI results. The native issue-completion goal remains active until that gate is complete.

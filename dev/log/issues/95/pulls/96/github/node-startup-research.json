@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-05",
+  "sources": [
+    {
+      "url": "https://nodejs.org/docs/latest-v24.x/api/perf_hooks.html#performancenow",
+      "finding": "performance.now() measures milliseconds from Node process startup; subtracting measurements isolates scan execution."
+    },
+    {
+      "url": "https://nodejs.org/api/cli.html#--importmodule",
+      "finding": "Node --import runs an ECMAScript preload before the entry module. A finite asynchronous preload reproduces slow initialization."
+    }
+  ],
+  "reproduction": "experiments/issue-95/verify-probe-startup.mjs"
+}

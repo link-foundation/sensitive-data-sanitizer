@@ -1,0 +1,215 @@
+[
+  {
+    "total_count": 2,
+    "jobs": [
+      {
+        "id": 127474864125,
+        "run_id": 42092767377,
+        "workflow_name": "Broken Link Checker",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42092767377",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrhgP_Q",
+        "head_sha": "4d31a49b8f38114366447f69ab9f28e78869da90",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127474864125",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42092767377/job/127474864125",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T19:19:26Z",
+        "started_at": "2026-11-05T19:19:49Z",
+        "completed_at": "2026-11-05T19:19:59Z",
+        "name": "Check Links",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T19:19:50Z",
+            "completed_at": "2026-11-05T19:19:51Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T19:19:51Z",
+            "completed_at": "2026-11-05T19:19:54Z"
+          },
+          {
+            "name": "Name today's link cache",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T19:19:54Z",
+            "completed_at": "2026-11-05T19:19:54Z"
+          },
+          {
+            "name": "Restore link cache",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T19:19:54Z",
+            "completed_at": "2026-11-05T19:19:55Z"
+          },
+          {
+            "name": "Check links with lychee",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T19:19:55Z",
+            "completed_at": "2026-11-05T19:19:56Z"
+          },
+          {
+            "name": "Re-check transient link failures",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6,
+            "started_at": "2026-11-05T19:19:56Z",
+            "completed_at": "2026-11-05T19:19:56Z"
+          },
+          {
+            "name": "Check broken links against Web Archive",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T19:19:56Z",
+            "completed_at": "2026-11-05T19:19:56Z"
+          },
+          {
+            "name": "Upload broken-link diagnostics",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8,
+            "started_at": "2026-11-05T19:19:56Z",
+            "completed_at": "2026-11-05T19:19:56Z"
+          },
+          {
+            "name": "Fail if broken links were found",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-11-05T19:19:56Z",
+            "completed_at": "2026-11-05T19:19:56Z"
+          },
+          {
+            "name": "Post Restore link cache",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-11-05T19:19:56Z",
+            "completed_at": "2026-11-05T19:19:57Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-11-05T19:19:57Z",
+            "completed_at": "2026-11-05T19:19:57Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-11-05T19:19:57Z",
+            "completed_at": "2026-11-05T19:19:57Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127474864125",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000199463,
+        "runner_name": "GitHub Actions 1000199463",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127475173239,
+        "run_id": 42092767377,
+        "workflow_name": "Broken Link Checker",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42092767377",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrhzHdw",
+        "head_sha": "4d31a49b8f38114366447f69ab9f28e78869da90",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127475173239",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42092767377/job/127475173239",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T19:19:59Z",
+        "started_at": "2026-11-05T19:21:19Z",
+        "completed_at": "2026-11-05T19:21:27Z",
+        "name": "Pipeline Status",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T19:21:19Z",
+            "completed_at": "2026-11-05T19:21:20Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T19:21:20Z",
+            "completed_at": "2026-11-05T19:21:24Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T19:21:24Z",
+            "completed_at": "2026-11-05T19:21:25Z"
+          },
+          {
+            "name": "Fail the run when a required job was cancelled or failed",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T19:21:25Z",
+            "completed_at": "2026-11-05T19:21:25Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T19:21:25Z",
+            "completed_at": "2026-11-05T19:21:25Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T19:21:25Z",
+            "completed_at": "2026-11-05T19:21:25Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T19:21:25Z",
+            "completed_at": "2026-11-05T19:21:25Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127475173239",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000199496,
+        "runner_name": "GitHub Actions 1000199496",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ]
+  }
+]

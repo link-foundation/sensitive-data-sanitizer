@@ -1,0 +1,75 @@
+{
+  "collectedAt": "2026-11-05T19:29:52.438510+00:00",
+  "runs": [
+    {
+      "run": 42092767273,
+      "workflow": "Example app",
+      "headSha": "4d31a49b8f38114366447f69ab9f28e78869da90",
+      "createdAt": "2026-11-05T19:19:25Z",
+      "conclusion": "success",
+      "logLines": 1930,
+      "jobs": {
+        "success": 6,
+        "skipped": 4
+      },
+      "annotations": {},
+      "successfulJobsMissingFromLog": []
+    },
+    {
+      "run": 42092767280,
+      "workflow": "Security",
+      "headSha": "4d31a49b8f38114366447f69ab9f28e78869da90",
+      "createdAt": "2026-11-05T19:19:25Z",
+      "conclusion": "success",
+      "logLines": 8443,
+      "jobs": {
+        "success": 10
+      },
+      "annotations": {},
+      "successfulJobsMissingFromLog": []
+    },
+    {
+      "run": 42092767310,
+      "workflow": "Checks and release",
+      "headSha": "4d31a49b8f38114366447f69ab9f28e78869da90",
+      "createdAt": "2026-11-05T19:19:25Z",
+      "conclusion": "success",
+      "logLines": 47088,
+      "jobs": {
+        "success": 33,
+        "skipped": 6
+      },
+      "annotations": {},
+      "successfulJobsMissingFromLog": []
+    },
+    {
+      "run": 42092767377,
+      "workflow": "Broken Link Checker",
+      "headSha": "4d31a49b8f38114366447f69ab9f28e78869da90",
+      "createdAt": "2026-11-05T19:19:25Z",
+      "conclusion": "success",
+      "logLines": 567,
+      "jobs": {
+        "success": 2
+      },
+      "annotations": {
+        "notice": 1
+      },
+      "successfulJobsMissingFromLog": []
+    },
+    {
+      "run": 42092767768,
+      "workflow": "Workflows",
+      "headSha": "4d31a49b8f38114366447f69ab9f28e78869da90",
+      "createdAt": "2026-11-05T19:19:25Z",
+      "conclusion": "success",
+      "logLines": 1770,
+      "jobs": {
+        "success": 7
+      },
+      "annotations": {},
+      "successfulJobsMissingFromLog": []
+    }
+  ],
+  "securityDownload": "Initial gh log fetch returned Azure HTTP 503 egress error with a partial log. Retried successfully: complete original ZIP, 8443-line merged log, and failed attempt retained."
+}
