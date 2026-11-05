@@ -1,6 +1,7 @@
 import { failure, REDACTED, escapePattern } from './detection.js';
 import { reservedPlaceholderTypes } from './placeholder-types.js';
 import { samePersonal } from './personal-variants.js';
+import { isNameForm } from './russian-names.js';
 import { nameAliases } from './transliteration.js';
 import { createHash } from 'node:crypto';
 import { jsonStringLiterals } from './json-string-runs.js';
@@ -85,12 +86,49 @@ export function placeholderKnown(options) {
       ...map.entries
         .filter((entry) => entry.type !== 'CREDENTIAL')
         .flatMap((entry) =>
-          entry.values
+          (entry.type === 'PERSON' ? reusablePersonValues(entry) : entry.values)
             .filter((value) => value.length <= 256)
-            .map((value) => ({ type: entry.type, value }))
+            .map((value) => ({
+              type: entry.type,
+              value,
+              ...(entry.type === 'PERSON' && properCaseWord(value)
+                ? { properCase: true }
+                : {}),
+            }))
         ),
     ],
   };
+}
+const singleWord = (value) => !/\s/u.test(value.trim());
+const properCaseWord = (value) =>
+  singleWord(value) && /^\p{Lu}/u.test(value.trim());
+// A bare part recorded while replacing a fuller name in its own document is not
+// evidence on its own in the next one, so a reused map offers only the full
+// values, parts listed by the caller and values that were stored alone.
+function reusablePersonValues(entry) {
+  const longer = entry.values.filter((value) => !singleWord(value));
+  return [
+    ...new Set([
+      ...entry.values.filter(
+        (value) =>
+          !singleWord(value) ||
+          !longer.some((full) => partOfPerson(value, full))
+      ),
+      ...(entry.standalone ?? []),
+    ]),
+  ];
+}
+function partOfPerson(value, full) {
+  return (
+    related(
+      value,
+      { type: 'PERSON', aliases: aliases(full, 'PERSON') },
+      true
+    ) ||
+    full
+      .split(/\s+/u)
+      .some((word) => word && samePersonal(value, word, 'PERSON'))
+  );
 }
 const stem = (word) =>
   word.replace(
@@ -115,7 +153,21 @@ function numberedOrganization(value, entry) {
     return base !== original && samePersonal(value, base, entry.type);
   });
 }
-function related(value, entry) {
+function wordsMatchAlias(words, full, parts) {
+  if (words.length === 1) {
+    return parts && words[0].length > 1 && full.includes(words[0]);
+  }
+  return (
+    words.length === full.length &&
+    words.every(
+      (part, i) =>
+        part === full[i] || (part.length === 1 && full[i].startsWith(part))
+    )
+  );
+}
+// `parts` links a bare word to a fuller alias. Only callers that hold evidence
+// from the current document may ask for it; a stored entry alone is not enough.
+function related(value, entry, parts = false) {
   if (
     (entry.values ?? []).some((original) =>
       samePersonal(value, original, entry.type)
@@ -133,46 +185,35 @@ function related(value, entry) {
   if (entry.type !== 'PERSON') {
     return false;
   }
-  for (const candidate of candidates) {
-    const parts = candidate.match(/[\p{L}\p{M}]+/gu) ?? [];
-    for (const alias of entry.aliases) {
-      const full = alias.match(/[\p{L}\p{M}]+/gu) ?? [];
-      if (
-        parts.length === 1 &&
-        parts[0].length > 1 &&
-        full.includes(parts[0])
-      ) {
-        return true;
-      }
-      if (
-        parts.length === full.length &&
-        parts.length > 1 &&
-        parts.every(
-          (part, i) =>
-            part === full[i] || (part.length === 1 && full[i].startsWith(part))
-        )
-      ) {
-        return true;
-      }
-    }
-  }
-  return false;
+  return candidates.some((candidate) => {
+    const words = candidate.match(/[\p{L}\p{M}]+/gu) ?? [];
+    return entry.aliases.some((alias) =>
+      wordsMatchAlias(words, alias.match(/[\p{L}\p{M}]+/gu) ?? [], parts)
+    );
+  });
 }
 export function placeholderNameFindings(text, findings, options) {
   if (!hasPlaceholders(options) || options.knownOnly) {
     return findings;
   }
-  const people = [
+  const state = options[placeholderState];
+  const patterns = new Set();
+  // Bare surname forms need the full name in this document. A stored person
+  // keeps only the initial form, which is itself a full mention.
+  for (const person of [
     ...findings
       .filter((f) => f.type === 'PERSON')
       .map((f) => text.slice(f.start, f.end)),
-    ...(options[placeholderState]?.map.entries ?? [])
-      .filter((e) => e.type === 'PERSON')
-      .flatMap((e) => e.values),
-  ];
-  const patterns = new Set();
-  for (const person of people) {
-    addNamePatterns(person, patterns);
+    ...earlierPeople(options),
+  ]) {
+    addNamePatterns(person, patterns, true);
+  }
+  for (const entry of state?.map.entries ?? []) {
+    if (entry.type === 'PERSON') {
+      for (const person of entry.values) {
+        addNamePatterns(person, patterns, false);
+      }
+    }
   }
   const result = [...findings];
   for (const pattern of patterns) {
@@ -194,7 +235,56 @@ export function placeholderNameFindings(text, findings, options) {
   }
   return result;
 }
-function addNamePatterns(person, patterns) {
+// Stream batches and decoded layers are pieces of the document being replaced.
+function earlierPeople(options) {
+  const state = options[placeholderState];
+  return state?.stream || options[placeholderNested]
+    ? (state?.people ?? [])
+    : [];
+}
+const nameNeighbour = "\\p{Lu}[\\p{L}\\p{M}'’-]{1,31}";
+const nameBefore = new RegExp(
+  `(?<![\\p{L}\\p{M}\\p{N}_-])(${nameNeighbour})[ \\t]+$`,
+  'u'
+);
+const nameAfter = new RegExp(
+  `^[ \\t]+(${nameNeighbour})(?![\\p{L}\\p{M}\\p{N}_])`,
+  'u'
+);
+const neighbourWindow = 64;
+// `Алина` beside a bare `петрову` is the rest of that mention: replacing only the
+// surname would leave that given name beside the token of the surname's owner.
+export function coverAdjacentNames(text, findings, options) {
+  if (!hasPlaceholders(options)) {
+    return findings;
+  }
+  return findings.map((finding) => {
+    if (
+      finding.type !== 'PERSON' ||
+      !singleWord(text.slice(finding.start, finding.end))
+    ) {
+      return finding;
+    }
+    let { start, end } = finding;
+    // A given name and a patronymic can both stand on one side of a surname.
+    for (let step = 0; step < 2; step++) {
+      const before = nameBefore.exec(
+        text.slice(Math.max(0, start - neighbourWindow), start)
+      );
+      if (before && isNameForm(before[1])) {
+        start -= before[0].length;
+      }
+      const after = nameAfter.exec(text.slice(end, end + neighbourWindow));
+      if (after && isNameForm(after[1])) {
+        end += after[0].length;
+      }
+    }
+    return start === finding.start && end === finding.end
+      ? finding
+      : { ...finding, start, end, rule: 'name-variant' };
+  });
+}
+function addNamePatterns(person, patterns, bareForms) {
   const words = person.match(/[\p{L}\p{M}]+/gu) ?? [];
   if (words.length < 2 || words.some((word) => word.length < 2)) {
     return;
@@ -207,7 +297,7 @@ function addNamePatterns(person, patterns) {
     patterns.add(
       `${escapePattern(parts[0][0])}\\.[ \\t]+${parts.slice(1).map(escapePattern).join('[ \\t]+')}`
     );
-    for (const word of parts) {
+    for (const word of bareForms ? parts : []) {
       if (/^[а-яё]+(?:ов|ев)$/u.test(word)) {
         patterns.add(`${escapePattern(word)}(?:ым|ой|а|у|е|ы|ых|ами)?`);
       }
@@ -241,14 +331,16 @@ export function preparePlaceholderText(text, findings, options) {
   if (namespaceCollision(text, pattern)) {
     throw failure('ERR_PLACEHOLDER_COLLISION');
   }
-  const people = findings
-    .filter((f) => f.type === 'PERSON')
-    .map((f) => text.slice(f.start, f.end));
   state.people = [
-    ...people,
-    ...state.map.entries
-      .filter((e) => e.type === 'PERSON')
-      .flatMap((e) => e.values),
+    ...new Set([
+      ...earlierPeople(options),
+      ...findings
+        .filter((f) => f.type === 'PERSON')
+        .map((f) => text.slice(f.start, f.end)),
+      ...(options.knownPersonal ?? [])
+        .filter((e) => e.type === 'PERSON')
+        .map((e) => e.value),
+    ]),
   ];
 }
 function namespaceCollision(text, pattern) {
@@ -275,7 +367,11 @@ export function canonicalPerson(value, people) {
     return (
       words.length > 1 &&
       words.every((word) => word.length > 1) &&
-      related(value, { type: 'PERSON', aliases: aliases(person, 'PERSON') })
+      related(
+        value,
+        { type: 'PERSON', aliases: aliases(person, 'PERSON') },
+        true
+      )
     );
   });
   const distinct = new Map(
@@ -293,10 +389,33 @@ function canonicalKnown(value, type, options, state) {
   // `Петров Данил` and `Петров Данил Сергеевич` are one person: the fullest wins.
   const longest = Math.max(0, ...known.map((e) => e.value.length));
   const fullest = known.filter((e) => e.value.length === longest);
-  if (fullest.length === 1) {
-    return fullest[0].value;
+  const listed = fullest.length === 1 ? fullest[0].value : value;
+  if (type !== 'PERSON') {
+    return listed;
   }
-  return type === 'PERSON' ? canonicalPerson(value, state.people ?? []) : value;
+  // The caller's list names each person once, while the document may hold the
+  // same full name in several cases, so the list settles a listed part first.
+  const named = canonicalPerson(
+    listed,
+    (options.knownPersonal ?? [])
+      .filter((e) => e.type === 'PERSON')
+      .map((e) => e.value)
+  );
+  return named === listed ? canonicalPerson(listed, state.people ?? []) : named;
+}
+// A part the caller listed is stored as its own value, unlike a part that was
+// only recorded as a surface of a longer name.
+function rememberListedParts(entry, value, options) {
+  for (const known of options.knownPersonal ?? []) {
+    if (
+      known.type === 'PERSON' &&
+      singleWord(known.value) &&
+      samePersonal(value, known.value, 'PERSON') &&
+      !entry.standalone?.includes(known.value)
+    ) {
+      (entry.standalone ??= []).push(known.value);
+    }
+  }
 }
 export function placeholderReplacement(value, finding, transform, options) {
   if (finding.category === 'credential' && !transform.credentials) {
@@ -351,6 +470,9 @@ export function placeholderReplacement(value, finding, transform, options) {
   }
   if (!entry.values.includes(value)) {
     entry.values.push(value);
+  }
+  if (type === 'PERSON') {
+    rememberListedParts(entry, value, options);
   }
   return entry.token;
 }

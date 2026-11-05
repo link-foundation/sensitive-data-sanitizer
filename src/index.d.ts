@@ -269,6 +269,8 @@ export interface RestoreMap {
     number: number;
     values: string[];
     aliases: string[];
+    /** PERSON parts listed by the caller, which also match alone on reuse. */
+    standalone?: string[];
   }>;
   documents: Array<{
     digest: string;
