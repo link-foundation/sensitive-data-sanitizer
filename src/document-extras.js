@@ -135,14 +135,15 @@ function detectExperience(text, emit, range) {
     const content = prefix
       .replace(/^.*\(\d[^)]*\)[, \t]*/, '')
       .replace(/^[, \t]+/, '');
-    const parts = content.split(/,[ \t]*/);
+    const chunks = [...content.matchAll(/[^,]+/g)];
+    const parts = chunks.map((part) => part[0].trim());
     let value;
     if (parts.length > 1 && role.test(parts[0])) {
       let index = 1;
       while (index < parts.length - 1 && /^[\p{Ll}]/u.test(parts[index])) {
         index++;
       }
-      value = parts.slice(index).join(', ').trim();
+      value = content.slice(chunks[index].index).trim();
     } else if (parts.length === 2 && role.test(parts[1])) {
       value = parts[0].trim();
     }

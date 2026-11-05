@@ -190,10 +190,10 @@ Full platform/runtime/security/release verification runs in existing CI to avoid
 duplicating expensive work locally. Local commands use small finite fixtures.
 
 Local evidence: the original revision fails 65 of the first 80 new regression
-cases; the fixed revision passes all 82, including a later overlap test for
+cases; the fixed revision passes all 84, including a later overlap test for
 schema values containing both credentials and escaped fragments. The six-file
 focused suite initially passed 495 tests; the additional overlap regression
-and punctuation regressions increase that inventory to 497. ESLint reports no warnings. Baseline failure
+and punctuation regressions increase that inventory to 499. ESLint reports no warnings. Baseline failure
 logs and source issue JSON are preserved under the evidence directory.
 
 CI initially exposed a punctuation/placeholder regression in the company cue
@@ -203,3 +203,7 @@ excludes trailing punctuation from name tokens and emits company lists as
 separate entities, preserving existing reversible placeholder identity. The
 existing placeholder residual suite and an explicit punctuation regression
 verify this boundary. Downloaded job logs are retained in `ci-logs/`.
+
+Dated employer spans retain original comma spacing, including adjacent commas
+and multiple spaces, rather than reconstructing normalized substrings. Two
+additional regression cases protect those source offsets.
