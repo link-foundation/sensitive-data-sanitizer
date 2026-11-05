@@ -62,6 +62,7 @@ describe('issue 92 release push recovery', () => {
 
   it('fails permanent release rules without creating an automated PR', async () => {
     const commands = [];
+    const messages = [];
     const parent = 'a'.repeat(40);
     await assert.rejects(
       pushWithRecovery({
@@ -79,11 +80,15 @@ describe('issue 92 release push recovery', () => {
           }
           return failed('GH013: Repository rule violations');
         },
-        logger,
+        logger: { log: (message) => messages.push(message) },
       }),
       /Configure the rule/
     );
     assert.equal(commands.filter((args) => args[0] === 'push').length, 1);
+    assert.equal(
+      messages.some((message) => message.includes('landing the commit')),
+      false
+    );
     assert.equal(
       commands.some((args) => args[0] === 'pr'),
       false

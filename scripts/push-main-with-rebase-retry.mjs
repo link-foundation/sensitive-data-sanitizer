@@ -162,7 +162,7 @@ export async function pushWithRecovery({
 
   if (isBlockedByRepositoryRule(first)) {
     logger.log(
-      `::notice::Push to ${branch} was declined by a repository rule; landing the commit through a pull request.`
+      `::notice::Push to ${branch} was declined by a repository rule.`
     );
     return fallback('pull-request');
   }
@@ -190,7 +190,7 @@ export async function pushWithRecovery({
   // A rule can also appear between the two attempts (a ruleset added mid-run).
   if (isBlockedByRepositoryRule(second)) {
     logger.log(
-      `::notice::Push to ${branch} was declined by a repository rule; landing the commit through a pull request.`
+      `::notice::Push to ${branch} was declined by a repository rule.`
     );
     return fallback('pull-request');
   }
