@@ -1,0 +1,4 @@
+
+> @link-foundation/sensitive-data-sanitizer@0.16.1 lint:all
+> eslint . --max-warnings 0
+

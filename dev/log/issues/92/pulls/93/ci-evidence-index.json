@@ -1,0 +1,5001 @@
+[
+  {
+    "run": 37679381132,
+    "name": "Graph Update: pip in /experiments/benchmark #1615905095",
+    "sha": "5f06c7debd80376460729bfec4476894bc2a53ca",
+    "created_at": "2026-10-07T20:05:22Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/37679381132",
+    "log": "ci-logs/run-37679381132.log.gz",
+    "lines": 188,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "update-pip-graph",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 41883360342,
+    "name": "Workflows",
+    "sha": "822ea334d0b3340ced5ebd344f6bb477d8731d1a",
+    "created_at": "2026-11-04T18:04:14Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/41883360342",
+    "log": "ci-logs/run-41883360342.log.gz",
+    "lines": 866,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "actionlint",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "zizmor",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Status Gate Coverage",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42049631225,
+    "name": "Checks and release",
+    "sha": "bab2943410fdf2ffe92b68ac70b8077fe0767ec8",
+    "created_at": "2026-11-05T14:54:52Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42049631225",
+    "log": "ci-logs/run-42049631225.log.gz",
+    "lines": 30033,
+    "annotations": [
+      {
+        "line": 29234,
+        "text": "Release\tUNKNOWN STEP\t2026-11-05T15:06:13.6076905Z ##[warning]lockfile(s) for another package manager at the repository root: deno.lock. The npm declaration outranks them, but any tool embedding the same lockfile table without reading the declaration will pick the wrong agent."
+      }
+    ],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Release Preflight",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Detect Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Manual Version Changes",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Session Publication Corpus",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check File Line Limits",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Validate Documentation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Lint and Format Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test Compilation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Changesets",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Docker Image Build Check",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Test (deno on macos-26-intel, shard 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (bun on macos-26-intel, shard 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (node on ubuntu-24.04, shard 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (node on macos-26-intel, shard 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (node on macos-26-intel, shard 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (bun on ubuntu-24.04, shard 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (bun on windows-2025, shard 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (node on windows-2025, shard 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (deno on macos-26-intel, shard 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (deno on ubuntu-24.04, shard 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (bun on macos-26-intel, shard 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (deno on macos-26-intel, shard 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (node on macos-26-intel, shard 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (deno on windows-2025, shard 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (bun on macos-26-intel, shard 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Create Changeset PR",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Release",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Instant Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Configure Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build Docker Image (${{ matrix.platform }})",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Optional Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  {
+    "run": 42049631256,
+    "name": "Security",
+    "sha": "bab2943410fdf2ffe92b68ac70b8077fe0767ec8",
+    "created_at": "2026-11-05T14:54:52Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42049631256",
+    "log": "ci-logs/run-42049631256.log.gz",
+    "lines": 4807,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "CodeQL (actions)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (examples/universal-app)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Review",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42049631320,
+    "name": "Broken Link Checker",
+    "sha": "bab2943410fdf2ffe92b68ac70b8077fe0767ec8",
+    "created_at": "2026-11-05T14:54:52Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42049631320",
+    "log": "ci-logs/run-42049631320.log.gz",
+    "lines": 515,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Check Links",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42049631412,
+    "name": "Example app",
+    "sha": "bab2943410fdf2ffe92b68ac70b8077fe0767ec8",
+    "created_at": "2026-11-05T14:54:52Z",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42049631412",
+    "log": "ci-logs/run-42049631412.log.gz",
+    "lines": 2049,
+    "annotations": [
+      {
+        "line": 1822,
+        "text": "Deploy GitHub Pages\tUNKNOWN STEP\t2026-11-05T15:06:01.0149197Z ##[error]The operation was canceled."
+      },
+      {
+        "line": 2032,
+        "text": "Pipeline Status\tUNKNOWN STEP\t2026-11-05T15:06:16.2291976Z ##[error]pages-deploy. No supersede accounts for these cancellations; timeout-minutes would otherwise leave the run grey."
+      },
+      {
+        "line": 2033,
+        "text": "Pipeline Status\tUNKNOWN STEP\t2026-11-05T15:06:16.2304024Z ##[error]Process completed with exit code 1."
+      }
+    ],
+    "dependency_or_eol_warnings": [
+      {
+        "line": 225,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:32.0944907Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 226,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:32.1239804Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 227,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:32.6784475Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 228,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:32.7666598Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 241,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:41.6355911Z npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options."
+      },
+      {
+        "line": 254,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:43.5830166Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 255,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:43.6133851Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 256,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:43.6567821Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 257,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:43.8131757Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 533,
+        "text": "Package desktop app (windows-2025)\tUNKNOWN STEP\t2026-11-05T14:55:17.7936020Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 534,
+        "text": "Package desktop app (windows-2025)\tUNKNOWN STEP\t2026-11-05T14:55:18.0934478Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 535,
+        "text": "Package desktop app (windows-2025)\tUNKNOWN STEP\t2026-11-05T14:55:18.6356522Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 536,
+        "text": "Package desktop app (windows-2025)\tUNKNOWN STEP\t2026-11-05T14:55:19.4313611Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 873,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:13.5644490Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 874,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:13.6640760Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 875,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:13.8159410Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 876,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:14.7256960Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 1211,
+        "text": "Package desktop app (ubuntu-24.04)\tUNKNOWN STEP\t2026-11-05T14:55:08.8725718Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 1212,
+        "text": "Package desktop app (ubuntu-24.04)\tUNKNOWN STEP\t2026-11-05T14:55:08.9189354Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 1213,
+        "text": "Package desktop app (ubuntu-24.04)\tUNKNOWN STEP\t2026-11-05T14:55:08.9717499Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 1214,
+        "text": "Package desktop app (ubuntu-24.04)\tUNKNOWN STEP\t2026-11-05T14:55:09.2074237Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 1560,
+        "text": "Build web app\tUNKNOWN STEP\t2026-11-05T14:55:05.8939835Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 1561,
+        "text": "Build web app\tUNKNOWN STEP\t2026-11-05T14:55:05.9279673Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 1562,
+        "text": "Build web app\tUNKNOWN STEP\t2026-11-05T14:55:05.9802568Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 1563,
+        "text": "Build web app\tUNKNOWN STEP\t2026-11-05T14:55:06.1464292Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      }
+    ],
+    "jobs": [
+      {
+        "name": "Regenerate Preview Images",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (windows-2025)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (macos-26-intel)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build web app",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build iOS app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build Android app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Deploy GitHub Pages",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "failure"
+      }
+    ]
+  },
+  {
+    "run": 42060440016,
+    "name": "Checks and release",
+    "sha": "c5b61aa68a3507927237cd2f348205650d1e9442",
+    "created_at": "2026-11-05T15:58:52Z",
+    "status": "completed",
+    "conclusion": "failure",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42060440016",
+    "log": "ci-logs/run-42060440016.log.gz",
+    "lines": 31547,
+    "annotations": [
+      {
+        "line": 29765,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T16:02:17.3446780Z ##[warning]Deno test suite has run for 70s of its 100s budget."
+      },
+      {
+        "line": 31083,
+        "text": "Release\tCheck package manager declaration and lockfiles\t2026-11-05T16:03:28.4635109Z ##[warning]lockfile(s) for another package manager at the repository root: deno.lock. The npm declaration outranks them, but any tool embedding the same lockfile table without reading the declaration will pick the wrong agent."
+      },
+      {
+        "line": 31245,
+        "text": "Release\tVersion packages and commit to main\t2026-11-05T16:03:47.9683329Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 31530,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T16:03:57.5230654Z ##[error]Failing jobs: release"
+      },
+      {
+        "line": 31531,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T16:03:57.5243184Z ##[error]Process completed with exit code 1."
+      }
+    ],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Release Preflight",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Detect Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Manual Version Changes",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Check File Line Limits",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test Compilation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Session Publication Corpus",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Validate Documentation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Lint and Format Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Docker Image Build Check",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Check for Changesets",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Test (node on windows-2025, shard 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (bun on macos-26-intel, shard 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (deno on macos-26-intel, shard 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (bun on macos-26-intel, shard 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (bun on ubuntu-24.04, shard 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (node on macos-26-intel, shard 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (bun on windows-2025, shard 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Create Changeset PR",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Test (node on ubuntu-24.04, shard 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (deno on ubuntu-24.04, shard 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (bun on macos-26-intel, shard 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (deno on macos-26-intel, shard 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (deno on windows-2025, shard 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (node on macos-26-intel, shard 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (deno on macos-26-intel, shard 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test (node on macos-26-intel, shard 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Instant Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Release",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Configure Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build Docker Image (${{ matrix.platform }})",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Optional Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  {
+    "run": 42060440544,
+    "name": "Security",
+    "sha": "c5b61aa68a3507927237cd2f348205650d1e9442",
+    "created_at": "2026-11-05T15:58:52Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42060440544",
+    "log": "ci-logs/run-42060440544.log.gz",
+    "lines": 4813,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "CodeQL (actions)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (examples/universal-app)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Review",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42060441049,
+    "name": "Broken Link Checker",
+    "sha": "c5b61aa68a3507927237cd2f348205650d1e9442",
+    "created_at": "2026-11-05T15:58:53Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42060441049",
+    "log": "ci-logs/run-42060441049.log.gz",
+    "lines": 515,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Check Links",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42060441559,
+    "name": "Example app",
+    "sha": "c5b61aa68a3507927237cd2f348205650d1e9442",
+    "created_at": "2026-11-05T15:58:53Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42060441559",
+    "log": "ci-logs/run-42060441559.log.gz",
+    "lines": 2010,
+    "annotations": [],
+    "dependency_or_eol_warnings": [
+      {
+        "line": 200,
+        "text": "Build web app\tInstall app dependencies\t2026-11-05T15:59:05.4719471Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 201,
+        "text": "Build web app\tInstall app dependencies\t2026-11-05T15:59:05.5035540Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 202,
+        "text": "Build web app\tInstall app dependencies\t2026-11-05T15:59:05.5418879Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 203,
+        "text": "Build web app\tInstall app dependencies\t2026-11-05T15:59:05.7001595Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 588,
+        "text": "Regenerate Preview Images\tInstall example app dependencies\t2026-11-05T15:59:28.2336780Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 589,
+        "text": "Regenerate Preview Images\tInstall example app dependencies\t2026-11-05T15:59:28.2730756Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 590,
+        "text": "Regenerate Preview Images\tInstall example app dependencies\t2026-11-05T15:59:28.9710369Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 591,
+        "text": "Regenerate Preview Images\tInstall example app dependencies\t2026-11-05T15:59:29.0368506Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 604,
+        "text": "Regenerate Preview Images\tInstall browser automation dependencies\t2026-11-05T15:59:39.9079441Z npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options."
+      },
+      {
+        "line": 617,
+        "text": "Regenerate Preview Images\tRegenerate preview images\t2026-11-05T15:59:42.6487516Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 618,
+        "text": "Regenerate Preview Images\tRegenerate preview images\t2026-11-05T15:59:42.6962299Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 619,
+        "text": "Regenerate Preview Images\tRegenerate preview images\t2026-11-05T15:59:42.7543849Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 620,
+        "text": "Regenerate Preview Images\tRegenerate preview images\t2026-11-05T15:59:43.0060574Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 897,
+        "text": "Package desktop app (ubuntu-24.04)\tInstall app dependencies\t2026-11-05T15:59:03.1669517Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 898,
+        "text": "Package desktop app (ubuntu-24.04)\tInstall app dependencies\t2026-11-05T15:59:03.2001215Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 899,
+        "text": "Package desktop app (ubuntu-24.04)\tInstall app dependencies\t2026-11-05T15:59:03.2351225Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 900,
+        "text": "Package desktop app (ubuntu-24.04)\tInstall app dependencies\t2026-11-05T15:59:03.3897990Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 1221,
+        "text": "Package desktop app (windows-2025)\tInstall app dependencies\t2026-11-05T15:59:19.0278931Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 1222,
+        "text": "Package desktop app (windows-2025)\tInstall app dependencies\t2026-11-05T15:59:19.4235363Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 1223,
+        "text": "Package desktop app (windows-2025)\tInstall app dependencies\t2026-11-05T15:59:19.4998599Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 1224,
+        "text": "Package desktop app (windows-2025)\tInstall app dependencies\t2026-11-05T15:59:20.2762230Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 1563,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:18.3582020Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 1564,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:18.4593190Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 1565,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:18.6176720Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 1566,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:19.4716810Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      }
+    ],
+    "jobs": [
+      {
+        "name": "Build web app",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Regenerate Preview Images",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (windows-2025)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (macos-26-intel)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build Android app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build iOS app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Deploy GitHub Pages",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42061941635,
+    "name": "Security",
+    "sha": "87a18c0755bd71c878d9e9a02f2fbd98319894c2",
+    "created_at": "2026-11-05T16:11:16Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42061941635",
+    "log": "ci-logs/run-42061941635.log.gz",
+    "lines": 4279,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Dependency Review",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (examples/universal-app)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (actions)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42061941885,
+    "name": "Checks and release",
+    "sha": "87a18c0755bd71c878d9e9a02f2fbd98319894c2",
+    "created_at": "2026-11-05T16:11:16Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42061941885",
+    "log": "ci-logs/run-42061941885.log.gz",
+    "lines": 895,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Detect Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Release Preflight",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Lint and Format Check",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Docker Image Build Check",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Session Publication Corpus",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Validate Documentation",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Check for Changesets",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Test Compilation",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Test (${{ matrix.runtime }} on ${{ matrix.os }}, shard ${{ matrix.shard }})",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Check for Manual Version Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check File Line Limits",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Instant Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Configure Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Optional Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build Docker Image (${{ matrix.platform }})",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Create Changeset PR",
+        "status": "completed",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  {
+    "run": 42067846815,
+    "name": "Workflows",
+    "sha": "6e01cd5bcb15b88042ad01b34efd7a5310592b36",
+    "created_at": "2026-11-05T16:46:13Z",
+    "status": "completed",
+    "conclusion": "failure",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42067846815",
+    "log": "ci-logs/run-42067846815.log.gz",
+    "lines": 1560,
+    "annotations": [
+      {
+        "line": 272,
+        "text": "zizmor\tRun zizmorcore/zizmor-action@v0.6.4\t2026-11-05T16:46:23.1731049Z ##[warning]links.yml:146: use GitHub's dedicated self-repository syntax: use '$/...' instead of './...'"
+      },
+      {
+        "line": 273,
+        "text": "zizmor\tRun zizmorcore/zizmor-action@v0.6.4\t2026-11-05T16:46:23.1733966Z ##[warning]security.yml:66: use GitHub's dedicated self-repository syntax: use '$/...' instead of './...'"
+      },
+      {
+        "line": 274,
+        "text": "zizmor\tRun zizmorcore/zizmor-action@v0.6.4\t2026-11-05T16:46:23.1735965Z ##[warning]workflows.yml:202: use GitHub's dedicated self-repository syntax: use '$/...' instead of './...'"
+      },
+      {
+        "line": 275,
+        "text": "zizmor\tRun zizmorcore/zizmor-action@v0.6.4\t2026-11-05T16:46:23.1738121Z ##[warning]workflows.yml:209: use GitHub's dedicated self-repository syntax: use '$/...' instead of './...'"
+      },
+      {
+        "line": 276,
+        "text": "zizmor\tRun zizmorcore/zizmor-action@v0.6.4\t2026-11-05T16:46:23.1740340Z ##[warning]workflows.yml:221: use GitHub's dedicated self-repository syntax: use '$/...' instead of './...'"
+      },
+      {
+        "line": 277,
+        "text": "zizmor\tRun zizmorcore/zizmor-action@v0.6.4\t2026-11-05T16:46:23.1741952Z ##[warning]workflows.yml:229: use GitHub's dedicated self-repository syntax: use '$/...' instead of './...'"
+      },
+      {
+        "line": 278,
+        "text": "zizmor\tRun zizmorcore/zizmor-action@v0.6.4\t2026-11-05T16:46:23.2366041Z ##[error]Process completed with exit code 12."
+      },
+      {
+        "line": 860,
+        "text": "ShellCheck\tCheck standalone shell scripts and hooks\t2026-11-05T16:46:22.7750204Z ##[error]Process completed with exit code 123."
+      },
+      {
+        "line": 1543,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T16:46:58.5731923Z ##[error]Failing jobs: zizmor, shellcheck"
+      },
+      {
+        "line": 1544,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T16:46:59.0852783Z ##[error]Process completed with exit code 1."
+      }
+    ],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "zizmor",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Status Gate Coverage",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "actionlint",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "ShellCheck",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Artifact Transport Regression",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "failure"
+      }
+    ]
+  },
+  {
+    "run": 42067846852,
+    "name": "Checks and release",
+    "sha": "6e01cd5bcb15b88042ad01b34efd7a5310592b36",
+    "created_at": "2026-11-05T16:46:13Z",
+    "status": "completed",
+    "conclusion": "failure",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42067846852",
+    "log": "ci-logs/run-42067846852.log.gz",
+    "lines": 3882,
+    "annotations": [
+      {
+        "line": 2701,
+        "text": "Lint and Format Check\tRun ESLint\t2026-11-05T16:46:57.8274960Z ##[error]  11:14  error  Expected { after 'if' condition  curly"
+      },
+      {
+        "line": 2702,
+        "text": "Lint and Format Check\tRun ESLint\t2026-11-05T16:46:57.8285072Z ##[error]  12:14  error  Unexpected string concatenation  prefer-template"
+      },
+      {
+        "line": 2707,
+        "text": "Lint and Format Check\tRun ESLint\t2026-11-05T16:46:57.8972694Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 3865,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T16:47:09.1195965Z ##[error]Failing jobs: lint"
+      },
+      {
+        "line": 3866,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T16:47:09.9613497Z ##[error]Process completed with exit code 1."
+      }
+    ],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Release Preflight",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Manual Version Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Detect Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Changesets",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test Compilation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Session Publication Corpus",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Docker Image Build Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Lint and Format Check",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Check File Line Limits",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Validate Documentation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Create Changeset PR",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Instant Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Optional Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build Docker Image",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Configure Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  {
+    "run": 42067847210,
+    "name": "Broken Link Checker",
+    "sha": "6e01cd5bcb15b88042ad01b34efd7a5310592b36",
+    "created_at": "2026-11-05T16:46:13Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42067847210",
+    "log": "ci-logs/run-42067847210.log.gz",
+    "lines": 568,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Check Links",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42067847293,
+    "name": "Example app",
+    "sha": "6e01cd5bcb15b88042ad01b34efd7a5310592b36",
+    "created_at": "2026-11-05T16:46:13Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42067847293",
+    "log": "ci-logs/run-42067847293.log.gz",
+    "lines": 1607,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Build web app",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (windows-2025)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (macos-26-intel)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build Android app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Regenerate Preview Images",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build iOS app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Deploy GitHub Pages",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42067847790,
+    "name": "Security",
+    "sha": "6e01cd5bcb15b88042ad01b34efd7a5310592b36",
+    "created_at": "2026-11-05T16:46:13Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42067847790",
+    "log": "ci-logs/run-42067847790.log.gz",
+    "lines": 6898,
+    "annotations": [
+      {
+        "line": 5120,
+        "text": "Audit npm lock (.github/actions/artifact-transport)\tUNKNOWN STEP\t2026-11-05T16:46:28.5343475Z ##[warning]GHSA-g3hv-75wg-m249 [moderate] minimatch has potential denial of service via globparts amplification in minimatch@>=7.0.0 <11.0.1; no non-breaking fix available; accepted, this job fails at high. https://github.com/advisories/GHSA-g3hv-75wg-m249"
+      },
+      {
+        "line": 5330,
+        "text": "Audit npm lock (.)\tAudit current lock\t2026-11-05T16:46:27.9605373Z ##[warning]GHSA-g3hv-75wg-m249 [moderate] minimatch has potential denial of service via globparts amplification in minimatch@>=7.0.0 <11.0.1; no non-breaking fix available; accepted, this job fails at high. https://github.com/advisories/GHSA-g3hv-75wg-m249"
+      },
+      {
+        "line": 5729,
+        "text": "Audit npm lock (examples/universal-app)\tUNKNOWN STEP\t2026-11-05T16:46:33.7219136Z ##[warning]GHSA-3g3m-2fjr-6pw4 [moderate] Glob: AbortSignal cancellation bypass allows post-timeout filesystem traversal in glob@>=9.0.0 <=14.0.1; npm audit fix resolves it; accepted, this job fails at high. https://github.com/advisories/GHSA-3g3m-2fjr-6pw4"
+      },
+      {
+        "line": 5730,
+        "text": "Audit npm lock (examples/universal-app)\tUNKNOWN STEP\t2026-11-05T16:46:33.7228613Z ##[warning]GHSA-g3hv-75wg-m249 [moderate] minimatch has potential denial of service via globparts amplification in minimatch@>=7.0.0 <11.0.1; no non-breaking fix available; accepted, this job fails at high. https://github.com/advisories/GHSA-g3hv-75wg-m249"
+      },
+      {
+        "line": 6262,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5049591Z ##[warning]npm/abort-controller has an OpenSSF Scorecard of 2.1, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6263,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5059217Z ##[warning]npm/base64-js has an OpenSSF Scorecard of 2.1, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6264,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5060982Z ##[warning]npm/bottleneck has an OpenSSF Scorecard of 2.1, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6265,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5063233Z ##[warning]npm/crc-32 has an OpenSSF Scorecard of 2.8, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6266,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5066139Z ##[warning]npm/debug has an OpenSSF Scorecard of 2.6, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6267,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5068791Z ##[warning]npm/ieee754 has an OpenSSF Scorecard of 2.4, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6268,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5071903Z ##[warning]npm/lazystream has an OpenSSF Scorecard of 2, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6269,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5075710Z ##[warning]npm/normalize-path has an OpenSSF Scorecard of 2, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6270,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5078424Z ##[warning]npm/process has an OpenSSF Scorecard of 2.1, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6271,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5081209Z ##[warning]npm/process-nextick-args has an OpenSSF Scorecard of 2.3, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6272,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5084229Z ##[warning]npm/safe-buffer has an OpenSSF Scorecard of 2.5, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6273,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5087308Z ##[warning]npm/safe-buffer has an OpenSSF Scorecard of 2.5, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6274,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5090170Z ##[warning]npm/teex has an OpenSSF Scorecard of 2.1, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6275,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5093158Z ##[warning]npm/tunnel has an OpenSSF Scorecard of 2.1, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6276,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5096040Z ##[warning]npm/unzip-stream has an OpenSSF Scorecard of 2.3, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6277,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5098948Z ##[warning]npm/util-deprecate has an OpenSSF Scorecard of 2.3, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6278,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5101981Z ##[warning]npm/escalade has an OpenSSF Scorecard of 2.9, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6279,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5104880Z ##[warning]npm/get-caller-file has an OpenSSF Scorecard of 2.1, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6280,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5107883Z ##[warning]npm/gifenc has an OpenSSF Scorecard of 2.5, which is less than this repository's threshold of 3."
+      },
+      {
+        "line": 6281,
+        "text": "Dependency Review\tReview dependency changes\t2026-11-05T16:46:51.5110831Z ##[warning]npm/human-signals has an OpenSSF Scorecard of 2.8, which is less than this repository's threshold of 3."
+      }
+    ],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "CodeQL (actions)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.github/actions/artifact-transport)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Graph Prerequisite",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (examples/universal-app)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Review",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42069172557,
+    "name": "Workflows",
+    "sha": "7adc4d0dce7f510a546ae9006d0c1e5c9221f6a4",
+    "created_at": "2026-11-05T16:53:53Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42069172557",
+    "log": "ci-logs/run-42069172557.log.gz",
+    "lines": 1557,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "zizmor",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Artifact Transport Regression",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Status Gate Coverage",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "ShellCheck",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "actionlint",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42069172572,
+    "name": "Security",
+    "sha": "7adc4d0dce7f510a546ae9006d0c1e5c9221f6a4",
+    "created_at": "2026-11-05T16:53:53Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42069172572",
+    "log": "ci-logs/run-42069172572.log.gz",
+    "lines": 6863,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Dependency Graph Prerequisite",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.github/actions/artifact-transport)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Review",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (examples/universal-app)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (actions)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42069172589,
+    "name": "Example app",
+    "sha": "7adc4d0dce7f510a546ae9006d0c1e5c9221f6a4",
+    "created_at": "2026-11-05T16:53:53Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42069172589",
+    "log": "ci-logs/run-42069172589.log.gz",
+    "lines": 1606,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Build web app",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (macos-26-intel)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (windows-2025)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build iOS app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build Android app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Regenerate Preview Images",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Deploy GitHub Pages",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42069172725,
+    "name": "Checks and release",
+    "sha": "7adc4d0dce7f510a546ae9006d0c1e5c9221f6a4",
+    "created_at": "2026-11-05T16:53:53Z",
+    "status": "completed",
+    "conclusion": "failure",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42069172725",
+    "log": "ci-logs/run-42069172725.log.gz",
+    "lines": 3879,
+    "annotations": [
+      {
+        "line": 2428,
+        "text": "Test Compilation\tCheck JavaScript syntax\t2026-11-05T16:54:18.3998576Z ##[error]JavaScript syntax check failed"
+      },
+      {
+        "line": 2542,
+        "text": "Test Compilation\tCheck JavaScript syntax\t2026-11-05T16:54:21.5935633Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 3399,
+        "text": "Lint and Format Check\tRun ESLint\t2026-11-05T16:54:32.0005217Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 3862,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T16:54:42.1683442Z ##[error]Failing jobs: test-compilation, lint"
+      },
+      {
+        "line": 3863,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T16:54:43.3096417Z ##[error]Process completed with exit code 1."
+      }
+    ],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Release Preflight",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Detect Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Manual Version Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Validate Documentation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check File Line Limits",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test Compilation",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Session Publication Corpus",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Changesets",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Lint and Format Check",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Docker Image Build Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Create Changeset PR",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Test runtimes",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Instant Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Configure Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Optional Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build Docker Image",
+        "status": "completed",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  {
+    "run": 42069172745,
+    "name": "Broken Link Checker",
+    "sha": "7adc4d0dce7f510a546ae9006d0c1e5c9221f6a4",
+    "created_at": "2026-11-05T16:53:53Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42069172745",
+    "log": "ci-logs/run-42069172745.log.gz",
+    "lines": 567,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Check Links",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42070462881,
+    "name": "Workflows",
+    "sha": "254eb4bb5f629f93b81ba6a5bfb82e19ccd82777",
+    "created_at": "2026-11-05T17:01:25Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42070462881",
+    "log": "ci-logs/run-42070462881.log.gz",
+    "lines": 1558,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "actionlint",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Artifact Transport Regression",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Status Gate Coverage",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "ShellCheck",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "zizmor",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42070463001,
+    "name": "Security",
+    "sha": "254eb4bb5f629f93b81ba6a5bfb82e19ccd82777",
+    "created_at": "2026-11-05T17:01:25Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42070463001",
+    "log": "ci-logs/run-42070463001.log.gz",
+    "lines": 6869,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "CodeQL (actions)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Graph Prerequisite",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (examples/universal-app)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.github/actions/artifact-transport)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Review",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42070463102,
+    "name": "Example app",
+    "sha": "254eb4bb5f629f93b81ba6a5bfb82e19ccd82777",
+    "created_at": "2026-11-05T17:01:25Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42070463102",
+    "log": "ci-logs/run-42070463102.log.gz",
+    "lines": 1620,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Build web app",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (macos-26-intel)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (windows-2025)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build Android app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build iOS app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Regenerate Preview Images",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Deploy GitHub Pages",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42070463227,
+    "name": "Broken Link Checker",
+    "sha": "254eb4bb5f629f93b81ba6a5bfb82e19ccd82777",
+    "created_at": "2026-11-05T17:01:25Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42070463227",
+    "log": "ci-logs/run-42070463227.log.gz",
+    "lines": 567,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Check Links",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42070463276,
+    "name": "Checks and release",
+    "sha": "254eb4bb5f629f93b81ba6a5bfb82e19ccd82777",
+    "created_at": "2026-11-05T17:01:25Z",
+    "status": "completed",
+    "conclusion": "failure",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42070463276",
+    "log": "ci-logs/run-42070463276.log.gz",
+    "lines": 45392,
+    "annotations": [
+      {
+        "line": 6390,
+        "text": "Test runtimes (macos-26-intel, deno, 1/3)\tUNKNOWN STEP\t2026-11-05T17:05:15.6443880Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 10489,
+        "text": "Test runtimes (windows-2025, node, 1/1)\tUNKNOWN STEP\t2026-11-05T17:04:15.0792731Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 10875,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:48.8271515Z ##[error]"
+      },
+      {
+        "line": 10919,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:48.8317740Z ##[error]node:internal/modules/cjs/loader:1568"
+      },
+      {
+        "line": 11107,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:51.1191592Z ##[error]"
+      },
+      {
+        "line": 11120,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:51.1200807Z ##[error]"
+      },
+      {
+        "line": 11490,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:14.5451871Z ##[error]"
+      },
+      {
+        "line": 11526,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:14.5837843Z ##[error]"
+      },
+      {
+        "line": 11725,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:31.1934717Z ##[error]          ^"
+      },
+      {
+        "line": 11802,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:32.3484539Z ##[error]          ^"
+      },
+      {
+        "line": 11856,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:32.3502102Z ##[error]"
+      },
+      {
+        "line": 11872,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:32.3510517Z ##[error]"
+      },
+      {
+        "line": 11887,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:32.3521896Z ##[error]"
+      },
+      {
+        "line": 11902,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:32.3533472Z ##[error]"
+      },
+      {
+        "line": 11917,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:32.3541602Z ##[error]"
+      },
+      {
+        "line": 11932,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:32.3550933Z ##[error]"
+      },
+      {
+        "line": 11947,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:32.3561325Z ##[error]"
+      },
+      {
+        "line": 11962,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:32.3569290Z ##[error]"
+      },
+      {
+        "line": 12048,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:33.4658521Z ##[error]"
+      },
+      {
+        "line": 12084,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:44.6257536Z ##[error]"
+      },
+      {
+        "line": 12099,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:45.7272840Z ##[error]"
+      },
+      {
+        "line": 12114,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:45.7287055Z ##[error]"
+      },
+      {
+        "line": 12149,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:46.8685222Z ##[error]"
+      },
+      {
+        "line": 12196,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:46.8720796Z ##[error]"
+      },
+      {
+        "line": 13626,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:04:13.1991470Z ##[error]"
+      },
+      {
+        "line": 14086,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:04:26.6282279Z ##[error]"
+      },
+      {
+        "line": 14150,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:04:27.7768808Z ##[error]"
+      },
+      {
+        "line": 14895,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:04:41.0191768Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 16950,
+        "text": "Test runtimes (macos-26-intel, node, 2/3)\tUNKNOWN STEP\t2026-11-05T17:05:48.5085430Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 18156,
+        "text": "Test runtimes (macos-26-intel, node, 3/3)\tUNKNOWN STEP\t2026-11-05T17:04:11.2845370Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 21184,
+        "text": "Test runtimes (windows-2025, deno, 1/1)\tUNKNOWN STEP\t2026-11-05T17:04:04.0293964Z ##[warning]Deno test suite has run for 71s of its 100s budget."
+      },
+      {
+        "line": 22216,
+        "text": "Test runtimes (windows-2025, deno, 1/1)\tUNKNOWN STEP\t2026-11-05T17:04:16.3885633Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 23821,
+        "text": "Test runtimes (macos-26-intel, deno, 3/3)\tUNKNOWN STEP\t2026-11-05T17:03:28.1108320Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 24410,
+        "text": "Test runtimes (macos-26-intel, bun, 1/3)\tUNKNOWN STEP\t2026-11-05T17:03:27.3932810Z ##[error]"
+      },
+      {
+        "line": 24583,
+        "text": "Test runtimes (macos-26-intel, bun, 1/3)\tUNKNOWN STEP\t2026-11-05T17:03:50.1492600Z ##[error]"
+      },
+      {
+        "line": 24600,
+        "text": "Test runtimes (macos-26-intel, bun, 1/3)\tUNKNOWN STEP\t2026-11-05T17:03:50.2283110Z ##[error]"
+      },
+      {
+        "line": 25184,
+        "text": "Test runtimes (macos-26-intel, bun, 1/3)\tUNKNOWN STEP\t2026-11-05T17:04:30.5956530Z ##[error]          ^"
+      },
+      {
+        "line": 25255,
+        "text": "Test runtimes (macos-26-intel, bun, 1/3)\tUNKNOWN STEP\t2026-11-05T17:04:30.6222180Z ##[error]          ^"
+      },
+      {
+        "line": 25310,
+        "text": "Test runtimes (macos-26-intel, bun, 1/3)\tUNKNOWN STEP\t2026-11-05T17:04:31.5014770Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 25960,
+        "text": "Test runtimes (macos-26-intel, bun, 3/3)\tUNKNOWN STEP\t2026-11-05T17:05:06.0471950Z ##[error]"
+      },
+      {
+        "line": 25990,
+        "text": "Test runtimes (macos-26-intel, bun, 3/3)\tUNKNOWN STEP\t2026-11-05T17:05:09.8053000Z ##[error]"
+      },
+      {
+        "line": 26238,
+        "text": "Test runtimes (macos-26-intel, bun, 3/3)\tUNKNOWN STEP\t2026-11-05T17:05:47.5816070Z ##[error]"
+      },
+      {
+        "line": 26545,
+        "text": "Test runtimes (macos-26-intel, bun, 3/3)\tUNKNOWN STEP\t2026-11-05T17:06:02.3540790Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 27922,
+        "text": "Test runtimes (macos-26-intel, node, 1/3)\tUNKNOWN STEP\t2026-11-05T17:04:38.3040100Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 30335,
+        "text": "Test runtimes (macos-26-intel, deno, 2/3)\tUNKNOWN STEP\t2026-11-05T17:03:56.7246480Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 34450,
+        "text": "Test runtimes (ubuntu-24.04, deno, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:12.6262714Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 38580,
+        "text": "Test runtimes (ubuntu-24.04, node, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:32.1589493Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 38901,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:25.2105095Z ##[error]"
+      },
+      {
+        "line": 39490,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:28.4040779Z ##[error]"
+      },
+      {
+        "line": 39583,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:33.5369908Z ##[error]"
+      },
+      {
+        "line": 39747,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:33.5613331Z ##[error]"
+      },
+      {
+        "line": 39763,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:33.5631943Z ##[error]"
+      },
+      {
+        "line": 39778,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:33.5650216Z ##[error]"
+      },
+      {
+        "line": 39793,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:33.5668406Z ##[error]"
+      },
+      {
+        "line": 39808,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:33.5688325Z ##[error]"
+      },
+      {
+        "line": 39823,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:33.5707251Z ##[error]"
+      },
+      {
+        "line": 39838,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:33.5725672Z ##[error]"
+      },
+      {
+        "line": 39853,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:33.5743747Z ##[error]"
+      },
+      {
+        "line": 39953,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:34.4859376Z ##[error]"
+      },
+      {
+        "line": 39966,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:34.4876979Z ##[error]"
+      },
+      {
+        "line": 40081,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:35.5176067Z ##[error]"
+      },
+      {
+        "line": 40098,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:35.5207546Z ##[error]"
+      },
+      {
+        "line": 41380,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:15.3430915Z ##[error]"
+      },
+      {
+        "line": 41424,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:15.3461173Z ##[error]node:internal/modules/cjs/loader:1568"
+      },
+      {
+        "line": 41899,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:25.6020171Z ##[error]"
+      },
+      {
+        "line": 41929,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:26.5961308Z ##[error]"
+      },
+      {
+        "line": 42106,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:29.6678724Z ##[error]          ^"
+      },
+      {
+        "line": 42177,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:29.6720059Z ##[error]          ^"
+      },
+      {
+        "line": 42236,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:29.6746771Z ##[error]"
+      },
+      {
+        "line": 42516,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:46.9732519Z ##[error]"
+      },
+      {
+        "line": 42552,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:49.0094596Z ##[error]"
+      },
+      {
+        "line": 42568,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:50.0293177Z ##[error]"
+      },
+      {
+        "line": 42583,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:50.0315043Z ##[error]"
+      },
+      {
+        "line": 42927,
+        "text": "Test runtimes (ubuntu-24.04, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:03:53.0891190Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 43259,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:39.4461060Z ##[error]"
+      },
+      {
+        "line": 43272,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:39.6146060Z ##[error]"
+      },
+      {
+        "line": 43369,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:46.5290880Z ##[error]"
+      },
+      {
+        "line": 43405,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:47.0922820Z ##[error]"
+      },
+      {
+        "line": 43453,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:47.8322260Z ##[error]"
+      },
+      {
+        "line": 43497,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:47.8826370Z ##[error]node:internal/modules/cjs/loader:1520"
+      },
+      {
+        "line": 43827,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:53.2053850Z ##[error]"
+      },
+      {
+        "line": 43843,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:53.2080240Z ##[error]"
+      },
+      {
+        "line": 43858,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:53.2107190Z ##[error]"
+      },
+      {
+        "line": 43873,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:53.2135580Z ##[error]"
+      },
+      {
+        "line": 43888,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:53.2162570Z ##[error]"
+      },
+      {
+        "line": 43903,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:53.2193240Z ##[error]"
+      },
+      {
+        "line": 43918,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:53.2221470Z ##[error]"
+      },
+      {
+        "line": 43933,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:53.2249210Z ##[error]"
+      },
+      {
+        "line": 44589,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:02:59.1356260Z ##[error]"
+      },
+      {
+        "line": 44625,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:03:04.7841200Z ##[error]"
+      },
+      {
+        "line": 44640,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:03:05.9534600Z ##[error]"
+      },
+      {
+        "line": 44655,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:03:05.9563390Z ##[error]"
+      },
+      {
+        "line": 45093,
+        "text": "Test runtimes (macos-26-intel, bun, 2/3)\tUNKNOWN STEP\t2026-11-05T17:03:08.2352590Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 45375,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T17:06:18.0557075Z ##[error]Failing jobs: test"
+      },
+      {
+        "line": 45376,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T17:06:19.4345574Z ##[error]Process completed with exit code 1."
+      }
+    ],
+    "dependency_or_eol_warnings": [
+      {
+        "line": 6666,
+        "text": "Test runtimes (windows-2025, node, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:47.7084335Z warning: in the working copy of 'dev/log/reference/sample.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 6667,
+        "text": "Test runtimes (windows-2025, node, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:47.7085657Z warning: in the working copy of 'src/maintained.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 10793,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:45.4887825Z warning: in the working copy of 'dev/log/reference/sample.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 10794,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:45.4888456Z warning: in the working copy of 'src/maintained.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 19084,
+        "text": "Test runtimes (windows-2025, deno, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:56.0302385Z warning: in the working copy of 'dev/log/reference/sample.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 19085,
+        "text": "Test runtimes (windows-2025, deno, 1/1)\tUNKNOWN STEP\t2026-11-05T17:02:56.0305748Z warning: in the working copy of 'src/maintained.js', LF will be replaced by CRLF the next time Git touches it"
+      }
+    ],
+    "jobs": [
+      {
+        "name": "Release Preflight",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Detect Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Manual Version Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check File Line Limits",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Docker Image Build Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Lint and Format Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test Compilation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Session Publication Corpus",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Validate Documentation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Changesets",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 1/3)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (windows-2025, node, 1/1)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 1/1)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 2/3)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 3/3)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (windows-2025, deno, 1/1)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 3/3)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 1/3)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 3/3)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 1/3)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 2/3)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, deno, 1/1)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, node, 1/1)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Create Changeset PR",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, bun, 1/1)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 2/3)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Instant Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Configure Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build Docker Image",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Optional Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  {
+    "run": 42072807179,
+    "name": "Workflows",
+    "sha": "c2f9defca453dafdfe9c3f2615adbad9f4bf80e5",
+    "created_at": "2026-11-05T17:15:20Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42072807179",
+    "log": "ci-logs/run-42072807179.log.gz",
+    "lines": 1561,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "ShellCheck",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Artifact Transport Regression",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Status Gate Coverage",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "zizmor",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "actionlint",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42072807193,
+    "name": "Example app",
+    "sha": "c2f9defca453dafdfe9c3f2615adbad9f4bf80e5",
+    "created_at": "2026-11-05T17:15:20Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42072807193",
+    "log": "ci-logs/run-42072807193.log.gz",
+    "lines": 1619,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Build web app",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (windows-2025)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (macos-26-intel)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build Android app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Regenerate Preview Images",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build iOS app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Deploy GitHub Pages",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42072807194,
+    "name": "Security",
+    "sha": "c2f9defca453dafdfe9c3f2615adbad9f4bf80e5",
+    "created_at": "2026-11-05T17:15:20Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42072807194",
+    "log": "ci-logs/run-42072807194.log.gz",
+    "lines": 6869,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Dependency Graph Prerequisite",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (examples/universal-app)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (actions)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.github/actions/artifact-transport)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Review",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42072807243,
+    "name": "Broken Link Checker",
+    "sha": "c2f9defca453dafdfe9c3f2615adbad9f4bf80e5",
+    "created_at": "2026-11-05T17:15:20Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42072807243",
+    "log": "ci-logs/run-42072807243.log.gz",
+    "lines": 567,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Check Links",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42072807448,
+    "name": "Checks and release",
+    "sha": "c2f9defca453dafdfe9c3f2615adbad9f4bf80e5",
+    "created_at": "2026-11-05T17:15:20Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42072807448",
+    "log": "ci-logs/run-42072807448.log.gz",
+    "lines": 42052,
+    "annotations": [
+      {
+        "line": 20010,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:19:19.5356979Z ##[warning]Bun test suite has run for 140s of its 200s budget."
+      }
+    ],
+    "dependency_or_eol_warnings": [
+      {
+        "line": 17359,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:17:00.7086950Z warning: in the working copy of 'dev/log/reference/sample.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 17360,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:17:00.7087770Z warning: in the working copy of 'src/maintained.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 31298,
+        "text": "Test runtimes (windows-2025, deno, 1/1)\tUNKNOWN STEP\t2026-11-05T17:16:49.5925235Z warning: in the working copy of 'dev/log/reference/sample.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 31299,
+        "text": "Test runtimes (windows-2025, deno, 1/1)\tUNKNOWN STEP\t2026-11-05T17:16:49.5927529Z warning: in the working copy of 'src/maintained.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 34473,
+        "text": "Test runtimes (windows-2025, node, 1/1)\tUNKNOWN STEP\t2026-11-05T17:16:42.7603270Z warning: in the working copy of 'dev/log/reference/sample.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 34474,
+        "text": "Test runtimes (windows-2025, node, 1/1)\tUNKNOWN STEP\t2026-11-05T17:16:42.7604730Z warning: in the working copy of 'src/maintained.js', LF will be replaced by CRLF the next time Git touches it"
+      }
+    ],
+    "jobs": [
+      {
+        "name": "Release Preflight",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Manual Version Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Detect Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Docker Image Build Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Session Publication Corpus",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test Compilation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Lint and Format Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check File Line Limits",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Changesets",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Validate Documentation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Create Changeset PR",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, deno, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, node, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, deno, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, node, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, bun, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Instant Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Configure Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build Docker Image",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Optional Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  {
+    "run": 42074164452,
+    "name": "Broken Link Checker",
+    "sha": "b8b66f524f3e0686814e03a455ed704a9d090fb0",
+    "created_at": "2026-11-05T17:23:34Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074164452",
+    "log": "ci-logs/run-42074164452.log.gz",
+    "lines": 567,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Check Links",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42074164511,
+    "name": "Security",
+    "sha": "b8b66f524f3e0686814e03a455ed704a9d090fb0",
+    "created_at": "2026-11-05T17:23:34Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074164511",
+    "log": "ci-logs/run-42074164511.log.gz",
+    "lines": 6869,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "CodeQL (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (examples/universal-app)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Graph Prerequisite",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (actions)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.github/actions/artifact-transport)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Review",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42074164518,
+    "name": "Checks and release",
+    "sha": "b8b66f524f3e0686814e03a455ed704a9d090fb0",
+    "created_at": "2026-11-05T17:23:34Z",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074164518",
+    "log": "ci-logs/run-42074164518.log.gz",
+    "lines": 39540,
+    "annotations": [
+      {
+        "line": 14017,
+        "text": "Test runtimes (macos-26-intel, node, 2/3)\tUNKNOWN STEP\t2026-11-05T17:27:49.4125280Z ##[error]The operation was canceled."
+      },
+      {
+        "line": 25771,
+        "text": "Test runtimes (macos-26-intel, node, 3/3)\tUNKNOWN STEP\t2026-11-05T17:28:30.4209960Z ##[error]The operation was canceled."
+      },
+      {
+        "line": 30486,
+        "text": "Test runtimes (macos-26-intel, deno, 1/3)\tUNKNOWN STEP\t2026-11-05T17:28:27.7611240Z ##[error]The operation was canceled."
+      },
+      {
+        "line": 39521,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T17:28:53.4773483Z ##[warning]test. This run is no longer the head of main, and these jobs cancel in progress."
+      }
+    ],
+    "dependency_or_eol_warnings": [
+      {
+        "line": 14938,
+        "text": "Test runtimes (windows-2025, deno, 1/1)\tUNKNOWN STEP\t2026-11-05T17:25:17.1803639Z warning: in the working copy of 'dev/log/reference/sample.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 14939,
+        "text": "Test runtimes (windows-2025, deno, 1/1)\tUNKNOWN STEP\t2026-11-05T17:25:17.1804578Z warning: in the working copy of 'src/maintained.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 21033,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:24:53.9782439Z warning: in the working copy of 'dev/log/reference/sample.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 21034,
+        "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:24:53.9783092Z warning: in the working copy of 'src/maintained.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 30768,
+        "text": "Test runtimes (windows-2025, node, 1/1)\tUNKNOWN STEP\t2026-11-05T17:25:05.6784820Z warning: in the working copy of 'dev/log/reference/sample.js', LF will be replaced by CRLF the next time Git touches it"
+      },
+      {
+        "line": 30769,
+        "text": "Test runtimes (windows-2025, node, 1/1)\tUNKNOWN STEP\t2026-11-05T17:25:05.6800171Z warning: in the working copy of 'src/maintained.js', LF will be replaced by CRLF the next time Git touches it"
+      }
+    ],
+    "jobs": [
+      {
+        "name": "Release Preflight",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Manual Version Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Detect Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Changesets",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check File Line Limits",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Session Publication Corpus",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Docker Image Build Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test Compilation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Validate Documentation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Lint and Format Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, bun, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 2/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (windows-2025, deno, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 1/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 3/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, deno, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 1/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (windows-2025, node, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, node, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 3/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Create Changeset PR",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Instant Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build Docker Image",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Configure Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Optional Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  {
+    "run": 42074164520,
+    "name": "Workflows",
+    "sha": "b8b66f524f3e0686814e03a455ed704a9d090fb0",
+    "created_at": "2026-11-05T17:23:34Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074164520",
+    "log": "ci-logs/run-42074164520.log.gz",
+    "lines": 1561,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "ShellCheck",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Status Gate Coverage",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Artifact Transport Regression",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "zizmor",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "actionlint",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42074164542,
+    "name": "Example app",
+    "sha": "b8b66f524f3e0686814e03a455ed704a9d090fb0",
+    "created_at": "2026-11-05T17:23:34Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074164542",
+    "log": "ci-logs/run-42074164542.log.gz",
+    "lines": 1618,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Build web app",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (macos-26-intel)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (windows-2025)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build iOS app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build Android app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Regenerate Preview Images",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Deploy GitHub Pages",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42074652510,
+    "name": "Broken Link Checker",
+    "sha": "f5bc7477eb8e1a31048df79327c9ffb522a80843",
+    "created_at": "2026-11-05T17:26:34Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074652510",
+    "log": "ci-logs/run-42074652510.log.gz",
+    "lines": 567,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Check Links",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42074652518,
+    "name": "Checks and release",
+    "sha": "f5bc7477eb8e1a31048df79327c9ffb522a80843",
+    "created_at": "2026-11-05T17:26:34Z",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074652518",
+    "log": "ci-logs/run-42074652518.archive.zip",
+    "lines": 33339,
+    "annotations": [
+      {
+        "line": 267,
+        "text": "2026-11-05T17:30:31.6016118Z ##[warning]test. This run is no longer the head of main, and these jobs cancel in progress.",
+        "archive_member": "0_Pipeline Status.txt"
+      },
+      {
+        "line": 268,
+        "text": "2026-11-05T17:30:32.9143559Z ##[error]Test runtimes (macos-26-intel, node, 3/3), Test runtimes (macos-26-intel, deno, 1/3), Test runtimes (macos-26-intel, bun, 3/3), Test runtimes (macos-26-intel, bun, 1/3), Test runtimes (macos-26-intel, node, 2/3). GitHub could not provide a runner, so no code ran. rerun-unacquired.yml reruns them automatically (at most twice); otherwise use Re-run failed jobs.",
+        "archive_member": "0_Pipeline Status.txt"
+      },
+      {
+        "line": 547,
+        "text": "2026-11-05T17:30:15.3395630Z ##[error]The operation was canceled.",
+        "archive_member": "6_Test runtimes (macos-26-intel, node, 1_3).txt"
+      },
+      {
+        "line": 2226,
+        "text": "2026-11-05T17:29:59.8587220Z ##[error]The operation was canceled.",
+        "archive_member": "7_Test runtimes (macos-26-intel, deno, 2_3).txt"
+      },
+      {
+        "line": 1185,
+        "text": "2026-11-05T17:29:44.9607860Z ##[error]The operation was canceled.",
+        "archive_member": "9_Test runtimes (macos-26-intel, deno, 3_3).txt"
+      },
+      {
+        "line": 2956,
+        "text": "2026-11-05T17:29:43.4355026Z ##[warning]Deno test suite has run for 70s of its 100s budget.",
+        "archive_member": "14_Test runtimes (windows-2025, deno, 1_1).txt"
+      },
+      {
+        "line": 3802,
+        "text": "2026-11-05T17:29:58.0656205Z ##[error]The operation was canceled.",
+        "archive_member": "14_Test runtimes (windows-2025, deno, 1_1).txt"
+      },
+      {
+        "line": 871,
+        "text": "2026-11-05T17:29:39.7861500Z ##[error]The operation was canceled.",
+        "archive_member": "21_Test runtimes (macos-26-intel, bun, 2_3).txt"
+      }
+    ],
+    "dependency_or_eol_warnings": [
+      {
+        "line": 908,
+        "text": "2026-11-05T17:28:36.4384013Z warning: in the working copy of 'dev/log/reference/sample.js', LF will be replaced by CRLF the next time Git touches it",
+        "archive_member": "14_Test runtimes (windows-2025, deno, 1_1).txt"
+      },
+      {
+        "line": 909,
+        "text": "2026-11-05T17:28:36.4462688Z warning: in the working copy of 'src/maintained.js', LF will be replaced by CRLF the next time Git touches it",
+        "archive_member": "14_Test runtimes (windows-2025, deno, 1_1).txt"
+      },
+      {
+        "line": 288,
+        "text": "2026-11-05T17:28:14.0282089Z warning: in the working copy of 'dev/log/reference/sample.js', LF will be replaced by CRLF the next time Git touches it",
+        "archive_member": "15_Test runtimes (windows-2025, bun, 2_3).txt"
+      },
+      {
+        "line": 289,
+        "text": "2026-11-05T17:28:14.0283932Z warning: in the working copy of 'src/maintained.js', LF will be replaced by CRLF the next time Git touches it",
+        "archive_member": "15_Test runtimes (windows-2025, bun, 2_3).txt"
+      },
+      {
+        "line": 262,
+        "text": "2026-11-05T17:27:55.4973847Z warning: in the working copy of 'dev/log/reference/sample.js', LF will be replaced by CRLF the next time Git touches it",
+        "archive_member": "22_Test runtimes (windows-2025, node, 1_1).txt"
+      },
+      {
+        "line": 263,
+        "text": "2026-11-05T17:27:55.4988255Z warning: in the working copy of 'src/maintained.js', LF will be replaced by CRLF the next time Git touches it",
+        "archive_member": "22_Test runtimes (windows-2025, node, 1_1).txt"
+      }
+    ],
+    "jobs": [
+      {
+        "name": "Release Preflight",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Manual Version Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Detect Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Session Publication Corpus",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test Compilation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Validate Documentation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check File Line Limits",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Lint and Format Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Docker Image Build Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Changesets",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, deno, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, deno, 1/1)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, node, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 2/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (windows-2025, node, 1/1)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 1/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 1/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Create Changeset PR",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 3/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 1/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 2/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 3/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 3/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, bun, 1/1)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 1/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 2/3)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Instant Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Configure Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build Docker Image",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Optional Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  {
+    "run": 42074652544,
+    "name": "Workflows",
+    "sha": "f5bc7477eb8e1a31048df79327c9ffb522a80843",
+    "created_at": "2026-11-05T17:26:34Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074652544",
+    "log": "ci-logs/run-42074652544.log.gz",
+    "lines": 1560,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Status Gate Coverage",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Artifact Transport Regression",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "ShellCheck",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "zizmor",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "actionlint",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42074652613,
+    "name": "Security",
+    "sha": "f5bc7477eb8e1a31048df79327c9ffb522a80843",
+    "created_at": "2026-11-05T17:26:34Z",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074652613",
+    "log": "ci-logs/run-42074652613.log.gz",
+    "lines": 6834,
+    "annotations": [
+      {
+        "line": 5060,
+        "text": "CodeQL (javascript-typescript)\tPreserve CodeQL reports\t2026-11-05T17:27:56.3102959Z ##[error]The operation was canceled."
+      },
+      {
+        "line": 6815,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T17:28:28.4604267Z ##[warning]codeql. This run is no longer the head of main, and these jobs cancel in progress."
+      }
+    ],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Dependency Graph Prerequisite",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (actions)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Audit npm lock (.github/actions/artifact-transport)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (examples/universal-app)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Review",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42074652662,
+    "name": "Example app",
+    "sha": "f5bc7477eb8e1a31048df79327c9ffb522a80843",
+    "created_at": "2026-11-05T17:26:34Z",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074652662",
+    "log": "ci-logs/run-42074652662.log.gz",
+    "lines": 1585,
+    "annotations": [
+      {
+        "line": 605,
+        "text": "Package desktop app (macos-26-intel)\tUpload desktop package\t2026-11-05T17:28:56.6867330Z ##[error]The operation was canceled."
+      },
+      {
+        "line": 1566,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T17:29:07.6390791Z ##[warning]desktop-package. This run is no longer the head of main, and these jobs cancel in progress."
+      }
+    ],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Build web app",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (macos-26-intel)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Package desktop app (windows-2025)",
+        "status": "completed",
+        "conclusion": "cancelled"
+      },
+      {
+        "name": "Package desktop app (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build Android app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Regenerate Preview Images",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build iOS app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Deploy GitHub Pages",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42074842186,
+    "name": "Checks and release",
+    "sha": "2884895b7f2355aea15debd03d7a5ed8d208a101",
+    "created_at": "2026-11-05T17:27:45Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074842186",
+    "log": "ci-logs/run-42074842186.log.gz",
+    "lines": 42813,
+    "annotations": [
+      {
+        "line": 24488,
+        "text": "Test runtimes (windows-2025, deno, 1/1)\tUNKNOWN STEP\t2026-11-05T17:31:59.3584829Z ##[warning]Deno test suite has run for 71s of its 100s budget."
+      }
+    ],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Release Preflight",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Manual Version Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Detect Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Lint and Format Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test Compilation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Session Publication Corpus",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Validate Documentation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Changesets",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check File Line Limits",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Docker Image Build Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Create Changeset PR",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, node, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, deno, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, bun, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, deno, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, node, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Instant Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build Docker Image",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Configure Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Optional Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  {
+    "run": 42074842192,
+    "name": "Example app",
+    "sha": "2884895b7f2355aea15debd03d7a5ed8d208a101",
+    "created_at": "2026-11-05T17:27:45Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074842192",
+    "log": "ci-logs/run-42074842192.log.gz",
+    "lines": 1682,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Build web app",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (windows-2025)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (macos-26-intel)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Regenerate Preview Images",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build iOS app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build Android app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Deploy GitHub Pages",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42074842204,
+    "name": "Broken Link Checker",
+    "sha": "2884895b7f2355aea15debd03d7a5ed8d208a101",
+    "created_at": "2026-11-05T17:27:45Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074842204",
+    "log": "ci-logs/run-42074842204.log.gz",
+    "lines": 567,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Check Links",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42074842229,
+    "name": "Workflows",
+    "sha": "2884895b7f2355aea15debd03d7a5ed8d208a101",
+    "created_at": "2026-11-05T17:27:45Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074842229",
+    "log": "ci-logs/run-42074842229.log.gz",
+    "lines": 1561,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "ShellCheck",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "zizmor",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Status Gate Coverage",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "actionlint",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Artifact Transport Regression",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42074842268,
+    "name": "Security",
+    "sha": "2884895b7f2355aea15debd03d7a5ed8d208a101",
+    "created_at": "2026-11-05T17:27:45Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42074842268",
+    "log": "ci-logs/run-42074842268.log.gz",
+    "lines": 6869,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "CodeQL (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Graph Prerequisite",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (actions)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (examples/universal-app)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.github/actions/artifact-transport)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Review",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42076521561,
+    "name": "Workflows",
+    "sha": "a3ff7a57b9ddc76252f08f2a2dd899e01997b134",
+    "created_at": "2026-11-05T17:37:59Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42076521561",
+    "log": "ci-logs/run-42076521561.log.gz",
+    "lines": 1563,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Status Gate Coverage",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "zizmor",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "ShellCheck",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Artifact Transport Regression",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "actionlint",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42076521600,
+    "name": "Broken Link Checker",
+    "sha": "a3ff7a57b9ddc76252f08f2a2dd899e01997b134",
+    "created_at": "2026-11-05T17:37:59Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42076521600",
+    "log": "ci-logs/run-42076521600.log.gz",
+    "lines": 567,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Check Links",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42076521604,
+    "name": "Security",
+    "sha": "a3ff7a57b9ddc76252f08f2a2dd899e01997b134",
+    "created_at": "2026-11-05T17:37:59Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42076521604",
+    "log": "ci-logs/run-42076521604.log.gz",
+    "lines": 6869,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Dependency Graph Prerequisite",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (examples/universal-app)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (actions)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.github/actions/artifact-transport)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Review",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42076521629,
+    "name": "Example app",
+    "sha": "a3ff7a57b9ddc76252f08f2a2dd899e01997b134",
+    "created_at": "2026-11-05T17:37:59Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42076521629",
+    "log": "ci-logs/run-42076521629.log.gz",
+    "lines": 1619,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Build web app",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (windows-2025)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (macos-26-intel)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build Android app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Regenerate Preview Images",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build iOS app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Deploy GitHub Pages",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42076521762,
+    "name": "Checks and release",
+    "sha": "a3ff7a57b9ddc76252f08f2a2dd899e01997b134",
+    "created_at": "2026-11-05T17:37:59Z",
+    "status": "completed",
+    "conclusion": "failure",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42076521762",
+    "log": "ci-logs/run-42076521762.log.gz",
+    "lines": 43475,
+    "annotations": [
+      {
+        "line": 28871,
+        "text": "Test runtimes (macos-26-intel, deno, 1/3)\tUNKNOWN STEP\t2026-11-05T17:40:44.7889850Z ##[warning]Deno test suite has run for 71s of its 100s budget."
+      },
+      {
+        "line": 29107,
+        "text": "Test runtimes (macos-26-intel, deno, 1/3)\tUNKNOWN STEP\t2026-11-05T17:41:14.4674690Z ##[error]Deno test suite did not finish within its 100s budget, so termination was requested. Shorten the step or raise its budget (keeping it below the job's timeout-minutes backstop)."
+      },
+      {
+        "line": 29115,
+        "text": "Test runtimes (macos-26-intel, deno, 1/3)\tUNKNOWN STEP\t2026-11-05T17:41:15.4278350Z ##[error]Process completed with exit code 124."
+      },
+      {
+        "line": 36357,
+        "text": "Test runtimes (macos-26-intel, deno, 3/3)\tUNKNOWN STEP\t2026-11-05T17:41:56.9174590Z ##[warning]Deno test suite has run for 70s of its 100s budget."
+      },
+      {
+        "line": 43458,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T17:43:08.2288982Z ##[error]Failing jobs: test"
+      },
+      {
+        "line": 43459,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T17:43:09.6183650Z ##[error]Process completed with exit code 1."
+      }
+    ],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Release Preflight",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Detect Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Manual Version Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Changesets",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Docker Image Build Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test Compilation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check File Line Limits",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Session Publication Corpus",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Lint and Format Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Validate Documentation",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, deno, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, deno, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, node, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, deno, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 1/3)",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, node, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Create Changeset PR",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, deno, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, bun, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Instant Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Configure Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Optional Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build Docker Image",
+        "status": "completed",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  {
+    "run": 42077850614,
+    "name": "Example app",
+    "sha": "b43e7b41d4d18062bc26b9a047c492467e8cd2bb",
+    "created_at": "2026-11-05T17:46:16Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42077850614",
+    "log": "ci-logs/run-42077850614.log.gz",
+    "lines": 1619,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Build web app",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (windows-2025)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Package desktop app (macos-26-intel)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build iOS app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Build Android app",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Regenerate Preview Images",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Deploy GitHub Pages",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42077850632,
+    "name": "Workflows",
+    "sha": "b43e7b41d4d18062bc26b9a047c492467e8cd2bb",
+    "created_at": "2026-11-05T17:46:16Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42077850632",
+    "log": "ci-logs/run-42077850632.log.gz",
+    "lines": 1561,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "zizmor",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Artifact Transport Regression",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "actionlint",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Status Gate Coverage",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "ShellCheck",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42077850639,
+    "name": "Broken Link Checker",
+    "sha": "b43e7b41d4d18062bc26b9a047c492467e8cd2bb",
+    "created_at": "2026-11-05T17:46:16Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42077850639",
+    "log": "ci-logs/run-42077850639.log.gz",
+    "lines": 567,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Check Links",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "run": 42077850652,
+    "name": "Checks and release",
+    "sha": "b43e7b41d4d18062bc26b9a047c492467e8cd2bb",
+    "created_at": "2026-11-05T17:46:16Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42077850652",
+    "log": "ci-logs/run-42077850652.log.gz",
+    "lines": 45264,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Release Preflight",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Manual Version Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Detect Changes",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test Compilation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check File Line Limits",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check for Changesets",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Lint and Format Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Session Publication Corpus",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Docker Image Build Check",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Validate Documentation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 1/4)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 4/4)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, deno, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, node, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 2/4)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, bun, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, deno, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, deno, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Create Changeset PR",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, node, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, bun, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (windows-2025, deno, 2/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 1/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, node, 3/3)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (ubuntu-24.04, bun, 1/1)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Test runtimes (macos-26-intel, deno, 3/4)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Instant Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Release",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Configure Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build Docker Image",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Optional Docker Hub Publish",
+        "status": "completed",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  {
+    "run": 42077850708,
+    "name": "Security",
+    "sha": "b43e7b41d4d18062bc26b9a047c492467e8cd2bb",
+    "created_at": "2026-11-05T17:46:16Z",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42077850708",
+    "log": "ci-logs/run-42077850708.log.gz",
+    "lines": 6869,
+    "annotations": [],
+    "dependency_or_eol_warnings": [],
+    "jobs": [
+      {
+        "name": "Dependency Graph Prerequisite",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "CodeQL (actions)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (examples/universal-app)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Audit npm lock (.github/actions/artifact-transport)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Dependency Review",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Pipeline Status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  }
+]

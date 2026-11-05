@@ -1,0 +1,2188 @@
+{
+  "42072807448": {
+    "files": [
+      {
+        "file": "detect-code-changes.test.js",
+        "ms": 37565,
+        "count": 40
+      },
+      {
+        "file": "pr-guards.test.js",
+        "ms": 33819,
+        "count": 28
+      },
+      {
+        "file": "release-api-integrity.test.js",
+        "ms": 30820,
+        "count": 27
+      },
+      {
+        "file": "run-with-budget-warning.test.js",
+        "ms": 21025,
+        "count": 15
+      },
+      {
+        "file": "release-preflight.test.js",
+        "ms": 17686,
+        "count": 31
+      },
+      {
+        "file": "sanitizer-stream-identity.test.js",
+        "ms": 13556,
+        "count": 10
+      },
+      {
+        "file": "sanitizer-jsonl-stream.test.js",
+        "ms": 13555,
+        "count": 6
+      },
+      {
+        "file": "wayback-cli.test.js",
+        "ms": 8000,
+        "count": 2
+      },
+      {
+        "file": "version-lock-integrity.test.js",
+        "ms": 8000,
+        "count": 4
+      },
+      {
+        "file": "sanitizer-gitleaks-windows.test.js",
+        "ms": 7047,
+        "count": 10
+      },
+      {
+        "file": "sanitizer-issue-51.test.js",
+        "ms": 6870,
+        "count": 6
+      },
+      {
+        "file": "pipeline-status.test.js",
+        "ms": 6854,
+        "count": 24
+      },
+      {
+        "file": "sanitizer-log-bytes.test.js",
+        "ms": 6185,
+        "count": 3
+      },
+      {
+        "file": "push-main-with-rebase-retry.test.js",
+        "ms": 6000,
+        "count": 3
+      },
+      {
+        "file": "check-release-needed.test.js",
+        "ms": 5979,
+        "count": 11
+      },
+      {
+        "file": "sanitizer-rules.test.js",
+        "ms": 5659,
+        "count": 6
+      },
+      {
+        "file": "changeset-config.test.js",
+        "ms": 5008,
+        "count": 4
+      },
+      {
+        "file": "sanitizer-experience-lines.test.js",
+        "ms": 4274,
+        "count": 37
+      },
+      {
+        "file": "create-github-release.test.js",
+        "ms": 4059,
+        "count": 12
+      },
+      {
+        "file": "sanitizer-long-logs.test.js",
+        "ms": 4029,
+        "count": 5
+      },
+      {
+        "file": "sanitizer-json-string-runs.test.js",
+        "ms": 4000,
+        "count": 1
+      },
+      {
+        "file": "sanitizer-issue-65.test.js",
+        "ms": 3549,
+        "count": 75
+      },
+      {
+        "file": "bounded-run.test.js",
+        "ms": 3422,
+        "count": 9
+      },
+      {
+        "file": "sanitizer-issue-36.test.js",
+        "ms": 3325,
+        "count": 68
+      },
+      {
+        "file": "sanitizer-issue-89.test.js",
+        "ms": 3253,
+        "count": 195
+      },
+      {
+        "file": "sanitizer-issue-84.test.js",
+        "ms": 3147,
+        "count": 159
+      },
+      {
+        "file": "setup-buildx-resilient.test.js",
+        "ms": 3121,
+        "count": 5
+      },
+      {
+        "file": "sanitizer-benchmark.test.js",
+        "ms": 3000,
+        "count": 1
+      },
+      {
+        "file": "sanitizer-issue-38.test.js",
+        "ms": 2614,
+        "count": 36
+      },
+      {
+        "file": "sanitizer-reused-map-parts.test.js",
+        "ms": 2545,
+        "count": 37
+      },
+      {
+        "file": "issue-92-whitespace.test.js",
+        "ms": 2390,
+        "count": 11
+      },
+      {
+        "file": "sanitizer-coverage.test.js",
+        "ms": 2304,
+        "count": 82
+      },
+      {
+        "file": "archive-and-discovery.test.js",
+        "ms": 2240,
+        "count": 9
+      },
+      {
+        "file": "sanitizer-locales.test.js",
+        "ms": 2073,
+        "count": 22
+      },
+      {
+        "file": "sanitizer-placeholders.test.js",
+        "ms": 2056,
+        "count": 22
+      },
+      {
+        "file": "sanitizer-stream.test.js",
+        "ms": 2001,
+        "count": 5
+      },
+      {
+        "file": "check-staged-formatting.test.js",
+        "ms": 2000,
+        "count": 1
+      },
+      {
+        "file": "sanitizer-tool-logs.test.js",
+        "ms": 1993,
+        "count": 24
+      },
+      {
+        "file": "sanitizer-issue-34.test.js",
+        "ms": 1782,
+        "count": 32
+      },
+      {
+        "file": "ci-audit-regressions.test.js",
+        "ms": 1769,
+        "count": 12
+      },
+      {
+        "file": "sanitizer-document-entities.test.js",
+        "ms": 1762,
+        "count": 23
+      },
+      {
+        "file": "sanitizer-escape-integrity.test.js",
+        "ms": 1739,
+        "count": 7
+      },
+      {
+        "file": "codeql-results.test.js",
+        "ms": 1728,
+        "count": 13
+      },
+      {
+        "file": "sanitizer-session-regressions.test.js",
+        "ms": 1707,
+        "count": 55
+      },
+      {
+        "file": "sanitizer-session-identity.test.js",
+        "ms": 1607,
+        "count": 76
+      },
+      {
+        "file": "sanitizer-context.test.js",
+        "ms": 1579,
+        "count": 38
+      },
+      {
+        "file": "package-manager.test.js",
+        "ms": 1503,
+        "count": 11
+      },
+      {
+        "file": "status-gate-coverage.test.js",
+        "ms": 1502,
+        "count": 8
+      },
+      {
+        "file": "sanitizer-issue-32.test.js",
+        "ms": 1483,
+        "count": 76
+      },
+      {
+        "file": "check-file-line-limits.test.js",
+        "ms": 1482,
+        "count": 11
+      },
+      {
+        "file": "sanitizer.test.js",
+        "ms": 1399,
+        "count": 7
+      },
+      {
+        "file": "sanitizer-placeholder-residual.test.js",
+        "ms": 1390,
+        "count": 9
+      },
+      {
+        "file": "sanitizer-identity.test.js",
+        "ms": 1365,
+        "count": 84
+      },
+      {
+        "file": "merge-changesets.test.js",
+        "ms": 1355,
+        "count": 2
+      },
+      {
+        "file": "sanitizer-placeholder-cli.test.js",
+        "ms": 1350,
+        "count": 6
+      },
+      {
+        "file": "sanitizer-credential-formats.test.js",
+        "ms": 1341,
+        "count": 17
+      },
+      {
+        "file": "sanitizer-issue-47.test.js",
+        "ms": 1256,
+        "count": 7
+      },
+      {
+        "file": "sanitizer-issue-50.test.js",
+        "ms": 1250,
+        "count": 21
+      },
+      {
+        "file": "release-notes-integration.test.js",
+        "ms": 1234,
+        "count": 2
+      },
+      {
+        "file": "check-changesets.test.js",
+        "ms": 1220,
+        "count": 3
+      },
+      {
+        "file": "container-jobs.test.js",
+        "ms": 1213,
+        "count": 7
+      },
+      {
+        "file": "dependency-graph.test.js",
+        "ms": 1205,
+        "count": 3
+      },
+      {
+        "file": "sanitizer-review.test.js",
+        "ms": 1204,
+        "count": 26
+      },
+      {
+        "file": "sanitizer-identity-boundaries.test.js",
+        "ms": 1095,
+        "count": 31
+      },
+      {
+        "file": "no-changelog-comments.test.js",
+        "ms": 1053,
+        "count": 4
+      },
+      {
+        "file": "check-web-archive.test.js",
+        "ms": 1012,
+        "count": 13
+      },
+      {
+        "file": "use-module-integration.test.js",
+        "ms": 1007,
+        "count": 2
+      },
+      {
+        "file": "release-publication.test.js",
+        "ms": 1000,
+        "count": 1
+      },
+      {
+        "file": "recheck-broken-links.test.js",
+        "ms": 945,
+        "count": 21
+      },
+      {
+        "file": "sanitizer-gh-config.test.js",
+        "ms": 876,
+        "count": 1
+      },
+      {
+        "file": "sanitizer-fake-identity.test.js",
+        "ms": 845,
+        "count": 15
+      },
+      {
+        "file": "sanitizer-fake.test.js",
+        "ms": 824,
+        "count": 54
+      },
+      {
+        "file": "sanitizer-issue-45-46.test.js",
+        "ms": 804,
+        "count": 62
+      },
+      {
+        "file": "check-pages.test.js",
+        "ms": 769,
+        "count": 6
+      },
+      {
+        "file": "commit-message.test.js",
+        "ms": 707,
+        "count": 2
+      },
+      {
+        "file": "issue-262-regressions.test.js",
+        "ms": 669,
+        "count": 4
+      },
+      {
+        "file": "release-metadata.test.js",
+        "ms": 650,
+        "count": 1
+      },
+      {
+        "file": "sanitizer-transforms.test.js",
+        "ms": 650,
+        "count": 8
+      },
+      {
+        "file": "sanitizer-placeholder-escaping.test.js",
+        "ms": 644,
+        "count": 4
+      },
+      {
+        "file": "sanitizer-outbound.test.js",
+        "ms": 643,
+        "count": 6
+      },
+      {
+        "file": "issue-228-regressions.test.js",
+        "ms": 640,
+        "count": 12
+      },
+      {
+        "file": "required-docs.test.js",
+        "ms": 510,
+        "count": 7
+      },
+      {
+        "file": "sanitizer-eslint.test.js",
+        "ms": 461,
+        "count": 3
+      },
+      {
+        "file": "issue-92-putty.test.js",
+        "ms": 445,
+        "count": 4
+      },
+      {
+        "file": "sanitizer-cli-features.test.js",
+        "ms": 392,
+        "count": 4
+      },
+      {
+        "file": "simulate-fresh-merge.test.js",
+        "ms": 373,
+        "count": 4
+      },
+      {
+        "file": "install-git-hooks.test.js",
+        "ms": 339,
+        "count": 8
+      },
+      {
+        "file": "sanitizer-known-forms.test.js",
+        "ms": 248,
+        "count": 16
+      },
+      {
+        "file": "artifact-files.test.js",
+        "ms": 162,
+        "count": 3
+      },
+      {
+        "file": "visible-skips.test.js",
+        "ms": 153,
+        "count": 449
+      },
+      {
+        "file": "deprecated-packages.test.js",
+        "ms": 149,
+        "count": 4
+      },
+      {
+        "file": "pages-configuration.test.js",
+        "ms": 103,
+        "count": 3
+      },
+      {
+        "file": "version-lock-validation.test.js",
+        "ms": 101,
+        "count": 8
+      },
+      {
+        "file": "scripts-use-module-adoption.test.js",
+        "ms": 86,
+        "count": 4
+      },
+      {
+        "file": "wayback-retry.test.js",
+        "ms": 85,
+        "count": 11
+      },
+      {
+        "file": "pipeline-requirements.test.js",
+        "ms": 81,
+        "count": 10
+      },
+      {
+        "file": "temp-cleanup.test.js",
+        "ms": 73,
+        "count": 3
+      },
+      {
+        "file": "land-via-pull-request.test.js",
+        "ms": 57,
+        "count": 15
+      },
+      {
+        "file": "ci-timeouts.test.js",
+        "ms": 55,
+        "count": 13
+      },
+      {
+        "file": "use-module.test.js",
+        "ms": 53,
+        "count": 13
+      },
+      {
+        "file": "bot-commit-attribution.test.js",
+        "ms": 48,
+        "count": 3
+      },
+      {
+        "file": "sanitizer-keywords.test.js",
+        "ms": 48,
+        "count": 2
+      },
+      {
+        "file": "workflow-permissions.test.js",
+        "ms": 38,
+        "count": 4
+      },
+      {
+        "file": "artifact-transport.test.js",
+        "ms": 37,
+        "count": 18
+      },
+      {
+        "file": "universal-app.test.js",
+        "ms": 34,
+        "count": 6
+      },
+      {
+        "file": "security-workflow.test.js",
+        "ms": 33,
+        "count": 7
+      },
+      {
+        "file": "workflows-lint.test.js",
+        "ms": 31,
+        "count": 16
+      },
+      {
+        "file": "links-workflow.test.js",
+        "ms": 30,
+        "count": 7
+      },
+      {
+        "file": "wait-for-npm.test.js",
+        "ms": 26,
+        "count": 20
+      },
+      {
+        "file": "sanitizer-cli.test.js",
+        "ms": 23,
+        "count": 14
+      },
+      {
+        "file": "publish-failure-classifier.test.js",
+        "ms": 22,
+        "count": 7
+      },
+      {
+        "file": "publish-retry.test.js",
+        "ms": 21,
+        "count": 16
+      },
+      {
+        "file": "deploy-pages.test.js",
+        "ms": 20,
+        "count": 17
+      },
+      {
+        "file": "workflow-reliability.test.js",
+        "ms": 20,
+        "count": 29
+      },
+      {
+        "file": "rerun-unacquired.test.js",
+        "ms": 19,
+        "count": 18
+      },
+      {
+        "file": "bootstrap-dependencies.test.js",
+        "ms": 18,
+        "count": 9
+      },
+      {
+        "file": "sanitizer-two-pass.test.js",
+        "ms": 16,
+        "count": 11
+      },
+      {
+        "file": "release-naming.test.js",
+        "ms": 15,
+        "count": 27
+      },
+      {
+        "file": "checkout-credentials.test.js",
+        "ms": 14,
+        "count": 2
+      },
+      {
+        "file": "test-sharding.test.js",
+        "ms": 13,
+        "count": 3
+      },
+      {
+        "file": "version-and-commit.test.js",
+        "ms": 13,
+        "count": 5
+      },
+      {
+        "file": "release-badge.test.js",
+        "ms": 10,
+        "count": 17
+      },
+      {
+        "file": "npm-audit-report.test.js",
+        "ms": 10,
+        "count": 7
+      },
+      {
+        "file": "action-versions.test.js",
+        "ms": 10,
+        "count": 1
+      },
+      {
+        "file": "release-integrity.test.js",
+        "ms": 9,
+        "count": 5
+      },
+      {
+        "file": "transient-links.test.js",
+        "ms": 9,
+        "count": 7
+      },
+      {
+        "file": "docker-publish.test.js",
+        "ms": 9,
+        "count": 8
+      },
+      {
+        "file": "smoke-test-package.test.js",
+        "ms": 8,
+        "count": 11
+      },
+      {
+        "file": "lint-changed-lines.test.js",
+        "ms": 7,
+        "count": 11
+      },
+      {
+        "file": "issue-92-push.test.js",
+        "ms": 6,
+        "count": 4
+      },
+      {
+        "file": "docker-build.test.js",
+        "ms": 5,
+        "count": 7
+      },
+      {
+        "file": "release-notes-description.test.js",
+        "ms": 5,
+        "count": 5
+      },
+      {
+        "file": "setup-npm.test.js",
+        "ms": 5,
+        "count": 6
+      },
+      {
+        "file": "debug-print.test.js",
+        "ms": 5,
+        "count": 7
+      },
+      {
+        "file": "push-failure-classifier.test.js",
+        "ms": 4,
+        "count": 7
+      },
+      {
+        "file": "package-info.test.js",
+        "ms": 4,
+        "count": 6
+      },
+      {
+        "file": "ci-workflow-policy.test.js",
+        "ms": 3,
+        "count": 11
+      },
+      {
+        "file": "github-actions-log.test.js",
+        "ms": 3,
+        "count": 4
+      },
+      {
+        "file": "network-skip-reason.test.js",
+        "ms": 3,
+        "count": 5
+      },
+      {
+        "file": "npm-registry.test.js",
+        "ms": 3,
+        "count": 6
+      },
+      {
+        "file": "index.test.js",
+        "ms": 3,
+        "count": 6
+      },
+      {
+        "file": "sanitize-npm-userconfig.test.js",
+        "ms": 3,
+        "count": 3
+      },
+      {
+        "file": "package-metadata.test.js",
+        "ms": 2,
+        "count": 6
+      },
+      {
+        "file": "tag-prefix.test.js",
+        "ms": 2,
+        "count": 6
+      },
+      {
+        "file": "sanitizer-external.test.js",
+        "ms": 0,
+        "count": 5
+      },
+      {
+        "file": "sanitizer-rewrite.test.js",
+        "ms": 0,
+        "count": 2
+      }
+    ],
+    "budgets": [
+      {
+        "line": 7526,
+        "text": "Test runtimes (macos-26-intel, deno, 1/3)\tUNKNOWN STEP\t2026-11-05T17:18:07.9532170Z Deno test suite finished in 66s of its 100s budget (exit 0)."
+      },
+      {
+        "line": 10493,
+        "text": "Test runtimes (macos-26-intel, deno, 3/3)\tUNKNOWN STEP\t2026-11-05T17:19:37.3619540Z Deno test suite finished in 59s of its 100s budget (exit 0)."
+      },
+      {
+        "line": 12739,
+        "text": "Test runtimes (macos-26-intel, deno, 2/3)\tUNKNOWN STEP\t2026-11-05T17:19:45.9078440Z Deno test suite finished in 47s of its 100s budget (exit 0)."
+      }
+    ]
+  },
+  "42074842186": {
+    "files": [
+      {
+        "file": "detect-code-changes.test.js",
+        "ms": 38015,
+        "count": 40
+      },
+      {
+        "file": "pr-guards.test.js",
+        "ms": 30833,
+        "count": 28
+      },
+      {
+        "file": "release-api-integrity.test.js",
+        "ms": 29000,
+        "count": 27
+      },
+      {
+        "file": "run-with-budget-warning.test.js",
+        "ms": 24488,
+        "count": 15
+      },
+      {
+        "file": "release-preflight.test.js",
+        "ms": 20274,
+        "count": 31
+      },
+      {
+        "file": "sanitizer-log-bytes.test.js",
+        "ms": 16105,
+        "count": 3
+      },
+      {
+        "file": "sanitizer-stream-identity.test.js",
+        "ms": 14646,
+        "count": 10
+      },
+      {
+        "file": "sanitizer-jsonl-stream.test.js",
+        "ms": 13642,
+        "count": 6
+      },
+      {
+        "file": "push-main-with-rebase-retry.test.js",
+        "ms": 9000,
+        "count": 3
+      },
+      {
+        "file": "wayback-cli.test.js",
+        "ms": 8000,
+        "count": 2
+      },
+      {
+        "file": "pipeline-status.test.js",
+        "ms": 7756,
+        "count": 24
+      },
+      {
+        "file": "check-release-needed.test.js",
+        "ms": 7673,
+        "count": 11
+      },
+      {
+        "file": "sanitizer-rules.test.js",
+        "ms": 7151,
+        "count": 6
+      },
+      {
+        "file": "version-lock-integrity.test.js",
+        "ms": 6734,
+        "count": 4
+      },
+      {
+        "file": "changeset-config.test.js",
+        "ms": 6146,
+        "count": 4
+      },
+      {
+        "file": "sanitizer-issue-89.test.js",
+        "ms": 6125,
+        "count": 195
+      },
+      {
+        "file": "sanitizer-issue-51.test.js",
+        "ms": 5949,
+        "count": 6
+      },
+      {
+        "file": "sanitizer-gitleaks-windows.test.js",
+        "ms": 4827,
+        "count": 10
+      },
+      {
+        "file": "sanitizer-placeholders.test.js",
+        "ms": 4735,
+        "count": 22
+      },
+      {
+        "file": "sanitizer-experience-lines.test.js",
+        "ms": 4514,
+        "count": 37
+      },
+      {
+        "file": "sanitizer-long-logs.test.js",
+        "ms": 4114,
+        "count": 5
+      },
+      {
+        "file": "create-github-release.test.js",
+        "ms": 4067,
+        "count": 12
+      },
+      {
+        "file": "sanitizer-stream.test.js",
+        "ms": 4032,
+        "count": 5
+      },
+      {
+        "file": "sanitizer-issue-65.test.js",
+        "ms": 3587,
+        "count": 75
+      },
+      {
+        "file": "sanitizer-session-regressions.test.js",
+        "ms": 3286,
+        "count": 55
+      },
+      {
+        "file": "bounded-run.test.js",
+        "ms": 3266,
+        "count": 9
+      },
+      {
+        "file": "sanitizer-coverage.test.js",
+        "ms": 3147,
+        "count": 82
+      },
+      {
+        "file": "setup-buildx-resilient.test.js",
+        "ms": 3115,
+        "count": 5
+      },
+      {
+        "file": "sanitizer-benchmark.test.js",
+        "ms": 3000,
+        "count": 1
+      },
+      {
+        "file": "sanitizer-tool-logs.test.js",
+        "ms": 2980,
+        "count": 24
+      },
+      {
+        "file": "sanitizer-locales.test.js",
+        "ms": 2949,
+        "count": 22
+      },
+      {
+        "file": "sanitizer-reused-map-parts.test.js",
+        "ms": 2896,
+        "count": 37
+      },
+      {
+        "file": "sanitizer-issue-84.test.js",
+        "ms": 2802,
+        "count": 159
+      },
+      {
+        "file": "sanitizer-issue-34.test.js",
+        "ms": 2726,
+        "count": 32
+      },
+      {
+        "file": "archive-and-discovery.test.js",
+        "ms": 2601,
+        "count": 9
+      },
+      {
+        "file": "sanitizer-issue-36.test.js",
+        "ms": 2592,
+        "count": 68
+      },
+      {
+        "file": "sanitizer-document-entities.test.js",
+        "ms": 2410,
+        "count": 23
+      },
+      {
+        "file": "sanitizer-escape-integrity.test.js",
+        "ms": 2253,
+        "count": 7
+      },
+      {
+        "file": "package-manager.test.js",
+        "ms": 2234,
+        "count": 11
+      },
+      {
+        "file": "sanitizer-placeholder-cli.test.js",
+        "ms": 2217,
+        "count": 6
+      },
+      {
+        "file": "issue-92-whitespace.test.js",
+        "ms": 2196,
+        "count": 11
+      },
+      {
+        "file": "sanitizer-fake.test.js",
+        "ms": 2158,
+        "count": 54
+      },
+      {
+        "file": "check-changesets.test.js",
+        "ms": 2157,
+        "count": 3
+      },
+      {
+        "file": "sanitizer.test.js",
+        "ms": 2091,
+        "count": 7
+      },
+      {
+        "file": "sanitizer-issue-38.test.js",
+        "ms": 2085,
+        "count": 36
+      },
+      {
+        "file": "sanitizer-context.test.js",
+        "ms": 2025,
+        "count": 38
+      },
+      {
+        "file": "release-publication.test.js",
+        "ms": 2000,
+        "count": 1
+      },
+      {
+        "file": "sanitizer-json-string-runs.test.js",
+        "ms": 2000,
+        "count": 1
+      },
+      {
+        "file": "check-staged-formatting.test.js",
+        "ms": 2000,
+        "count": 1
+      },
+      {
+        "file": "sanitizer-session-identity.test.js",
+        "ms": 1971,
+        "count": 76
+      },
+      {
+        "file": "status-gate-coverage.test.js",
+        "ms": 1866,
+        "count": 8
+      },
+      {
+        "file": "codeql-results.test.js",
+        "ms": 1770,
+        "count": 13
+      },
+      {
+        "file": "ci-audit-regressions.test.js",
+        "ms": 1752,
+        "count": 12
+      },
+      {
+        "file": "merge-changesets.test.js",
+        "ms": 1742,
+        "count": 2
+      },
+      {
+        "file": "check-file-line-limits.test.js",
+        "ms": 1397,
+        "count": 11
+      },
+      {
+        "file": "sanitizer-issue-50.test.js",
+        "ms": 1395,
+        "count": 21
+      },
+      {
+        "file": "recheck-broken-links.test.js",
+        "ms": 1344,
+        "count": 21
+      },
+      {
+        "file": "sanitizer-placeholder-residual.test.js",
+        "ms": 1303,
+        "count": 9
+      },
+      {
+        "file": "sanitizer-issue-32.test.js",
+        "ms": 1300,
+        "count": 76
+      },
+      {
+        "file": "sanitizer-issue-45-46.test.js",
+        "ms": 1239,
+        "count": 62
+      },
+      {
+        "file": "sanitizer-identity-boundaries.test.js",
+        "ms": 1226,
+        "count": 31
+      },
+      {
+        "file": "container-jobs.test.js",
+        "ms": 1223,
+        "count": 7
+      },
+      {
+        "file": "dependency-graph.test.js",
+        "ms": 1197,
+        "count": 3
+      },
+      {
+        "file": "sanitizer-review.test.js",
+        "ms": 1097,
+        "count": 26
+      },
+      {
+        "file": "sanitizer-transforms.test.js",
+        "ms": 1089,
+        "count": 8
+      },
+      {
+        "file": "no-changelog-comments.test.js",
+        "ms": 1080,
+        "count": 4
+      },
+      {
+        "file": "sanitizer-credential-formats.test.js",
+        "ms": 1073,
+        "count": 17
+      },
+      {
+        "file": "check-web-archive.test.js",
+        "ms": 1043,
+        "count": 13
+      },
+      {
+        "file": "use-module-integration.test.js",
+        "ms": 1003,
+        "count": 2
+      },
+      {
+        "file": "check-pages.test.js",
+        "ms": 963,
+        "count": 6
+      },
+      {
+        "file": "sanitizer-identity.test.js",
+        "ms": 916,
+        "count": 84
+      },
+      {
+        "file": "issue-262-regressions.test.js",
+        "ms": 901,
+        "count": 4
+      },
+      {
+        "file": "sanitizer-fake-identity.test.js",
+        "ms": 877,
+        "count": 15
+      },
+      {
+        "file": "sanitizer-issue-47.test.js",
+        "ms": 834,
+        "count": 7
+      },
+      {
+        "file": "sanitizer-placeholder-escaping.test.js",
+        "ms": 824,
+        "count": 4
+      },
+      {
+        "file": "release-notes-integration.test.js",
+        "ms": 808,
+        "count": 2
+      },
+      {
+        "file": "install-git-hooks.test.js",
+        "ms": 799,
+        "count": 8
+      },
+      {
+        "file": "commit-message.test.js",
+        "ms": 678,
+        "count": 2
+      },
+      {
+        "file": "simulate-fresh-merge.test.js",
+        "ms": 669,
+        "count": 4
+      },
+      {
+        "file": "required-docs.test.js",
+        "ms": 628,
+        "count": 7
+      },
+      {
+        "file": "sanitizer-outbound.test.js",
+        "ms": 618,
+        "count": 6
+      },
+      {
+        "file": "release-metadata.test.js",
+        "ms": 555,
+        "count": 1
+      },
+      {
+        "file": "issue-228-regressions.test.js",
+        "ms": 547,
+        "count": 12
+      },
+      {
+        "file": "issue-92-putty.test.js",
+        "ms": 418,
+        "count": 4
+      },
+      {
+        "file": "sanitizer-eslint.test.js",
+        "ms": 378,
+        "count": 3
+      },
+      {
+        "file": "sanitizer-gh-config.test.js",
+        "ms": 354,
+        "count": 1
+      },
+      {
+        "file": "sanitizer-known-forms.test.js",
+        "ms": 346,
+        "count": 16
+      },
+      {
+        "file": "sanitizer-cli-features.test.js",
+        "ms": 278,
+        "count": 4
+      },
+      {
+        "file": "pages-configuration.test.js",
+        "ms": 272,
+        "count": 3
+      },
+      {
+        "file": "temp-cleanup.test.js",
+        "ms": 271,
+        "count": 3
+      },
+      {
+        "file": "wayback-retry.test.js",
+        "ms": 228,
+        "count": 11
+      },
+      {
+        "file": "test-sharding.test.js",
+        "ms": 216,
+        "count": 4
+      },
+      {
+        "file": "visible-skips.test.js",
+        "ms": 178,
+        "count": 449
+      },
+      {
+        "file": "use-module.test.js",
+        "ms": 161,
+        "count": 13
+      },
+      {
+        "file": "scripts-use-module-adoption.test.js",
+        "ms": 109,
+        "count": 4
+      },
+      {
+        "file": "artifact-files.test.js",
+        "ms": 100,
+        "count": 3
+      },
+      {
+        "file": "version-lock-validation.test.js",
+        "ms": 79,
+        "count": 8
+      },
+      {
+        "file": "sanitizer-keywords.test.js",
+        "ms": 69,
+        "count": 2
+      },
+      {
+        "file": "deprecated-packages.test.js",
+        "ms": 46,
+        "count": 4
+      },
+      {
+        "file": "release-badge.test.js",
+        "ms": 44,
+        "count": 17
+      },
+      {
+        "file": "ci-timeouts.test.js",
+        "ms": 43,
+        "count": 13
+      },
+      {
+        "file": "pipeline-requirements.test.js",
+        "ms": 41,
+        "count": 10
+      },
+      {
+        "file": "workflow-reliability.test.js",
+        "ms": 41,
+        "count": 29
+      },
+      {
+        "file": "smoke-test-package.test.js",
+        "ms": 38,
+        "count": 11
+      },
+      {
+        "file": "land-via-pull-request.test.js",
+        "ms": 36,
+        "count": 15
+      },
+      {
+        "file": "security-workflow.test.js",
+        "ms": 34,
+        "count": 7
+      },
+      {
+        "file": "bot-commit-attribution.test.js",
+        "ms": 30,
+        "count": 3
+      },
+      {
+        "file": "wait-for-npm.test.js",
+        "ms": 28,
+        "count": 20
+      },
+      {
+        "file": "sanitizer-two-pass.test.js",
+        "ms": 27,
+        "count": 11
+      },
+      {
+        "file": "publish-failure-classifier.test.js",
+        "ms": 26,
+        "count": 7
+      },
+      {
+        "file": "checkout-credentials.test.js",
+        "ms": 24,
+        "count": 2
+      },
+      {
+        "file": "publish-retry.test.js",
+        "ms": 24,
+        "count": 16
+      },
+      {
+        "file": "release-naming.test.js",
+        "ms": 22,
+        "count": 27
+      },
+      {
+        "file": "github-actions-log.test.js",
+        "ms": 21,
+        "count": 4
+      },
+      {
+        "file": "transient-links.test.js",
+        "ms": 20,
+        "count": 7
+      },
+      {
+        "file": "npm-audit-report.test.js",
+        "ms": 20,
+        "count": 9
+      },
+      {
+        "file": "workflows-lint.test.js",
+        "ms": 19,
+        "count": 16
+      },
+      {
+        "file": "deploy-pages.test.js",
+        "ms": 19,
+        "count": 17
+      },
+      {
+        "file": "artifact-transport.test.js",
+        "ms": 15,
+        "count": 18
+      },
+      {
+        "file": "sanitizer-cli.test.js",
+        "ms": 15,
+        "count": 14
+      },
+      {
+        "file": "rerun-unacquired.test.js",
+        "ms": 12,
+        "count": 18
+      },
+      {
+        "file": "workflow-permissions.test.js",
+        "ms": 12,
+        "count": 4
+      },
+      {
+        "file": "links-workflow.test.js",
+        "ms": 12,
+        "count": 7
+      },
+      {
+        "file": "release-notes-description.test.js",
+        "ms": 10,
+        "count": 5
+      },
+      {
+        "file": "action-versions.test.js",
+        "ms": 10,
+        "count": 1
+      },
+      {
+        "file": "lint-changed-lines.test.js",
+        "ms": 10,
+        "count": 11
+      },
+      {
+        "file": "universal-app.test.js",
+        "ms": 9,
+        "count": 6
+      },
+      {
+        "file": "setup-npm.test.js",
+        "ms": 9,
+        "count": 6
+      },
+      {
+        "file": "network-skip-reason.test.js",
+        "ms": 9,
+        "count": 5
+      },
+      {
+        "file": "bootstrap-dependencies.test.js",
+        "ms": 8,
+        "count": 9
+      },
+      {
+        "file": "docker-publish.test.js",
+        "ms": 8,
+        "count": 8
+      },
+      {
+        "file": "release-integrity.test.js",
+        "ms": 8,
+        "count": 5
+      },
+      {
+        "file": "issue-92-push.test.js",
+        "ms": 7,
+        "count": 4
+      },
+      {
+        "file": "ci-workflow-policy.test.js",
+        "ms": 7,
+        "count": 11
+      },
+      {
+        "file": "debug-print.test.js",
+        "ms": 5,
+        "count": 7
+      },
+      {
+        "file": "push-failure-classifier.test.js",
+        "ms": 5,
+        "count": 7
+      },
+      {
+        "file": "npm-registry.test.js",
+        "ms": 5,
+        "count": 6
+      },
+      {
+        "file": "docker-build.test.js",
+        "ms": 4,
+        "count": 7
+      },
+      {
+        "file": "sanitize-npm-userconfig.test.js",
+        "ms": 3,
+        "count": 3
+      },
+      {
+        "file": "package-metadata.test.js",
+        "ms": 3,
+        "count": 6
+      },
+      {
+        "file": "version-and-commit.test.js",
+        "ms": 3,
+        "count": 5
+      },
+      {
+        "file": "package-info.test.js",
+        "ms": 2,
+        "count": 6
+      },
+      {
+        "file": "tag-prefix.test.js",
+        "ms": 2,
+        "count": 6
+      },
+      {
+        "file": "index.test.js",
+        "ms": 2,
+        "count": 6
+      },
+      {
+        "file": "sanitizer-external.test.js",
+        "ms": 0,
+        "count": 5
+      },
+      {
+        "file": "sanitizer-rewrite.test.js",
+        "ms": 0,
+        "count": 2
+      }
+    ],
+    "budgets": [
+      {
+        "line": 28396,
+        "text": "Test runtimes (macos-26-intel, deno, 3/3)\tUNKNOWN STEP\t2026-11-05T17:33:56.4030170Z Deno test suite finished in 64s of its 100s budget (exit 0)."
+      },
+      {
+        "line": 30081,
+        "text": "Test runtimes (macos-26-intel, deno, 1/3)\tUNKNOWN STEP\t2026-11-05T17:31:51.8777470Z Deno test suite finished in 65s of its 100s budget (exit 0)."
+      },
+      {
+        "line": 33597,
+        "text": "Test runtimes (macos-26-intel, deno, 2/3)\tUNKNOWN STEP\t2026-11-05T17:34:24.4516240Z Deno test suite finished in 60s of its 100s budget (exit 0)."
+      }
+    ]
+  },
+  "42076521762": {
+    "files": [
+      {
+        "file": "release-api-integrity.test.js",
+        "ms": 70000,
+        "count": 23
+      },
+      {
+        "file": "pr-guards.test.js",
+        "ms": 69000,
+        "count": 25
+      },
+      {
+        "file": "detect-code-changes.test.js",
+        "ms": 39899,
+        "count": 40
+      },
+      {
+        "file": "run-with-budget-warning.test.js",
+        "ms": 24297,
+        "count": 15
+      },
+      {
+        "file": "sanitizer-jsonl-stream.test.js",
+        "ms": 22973,
+        "count": 6
+      },
+      {
+        "file": "release-preflight.test.js",
+        "ms": 18078,
+        "count": 31
+      },
+      {
+        "file": "sanitizer-gitleaks-windows.test.js",
+        "ms": 16884,
+        "count": 10
+      },
+      {
+        "file": "sanitizer-stream-identity.test.js",
+        "ms": 16772,
+        "count": 10
+      },
+      {
+        "file": "pipeline-status.test.js",
+        "ms": 9446,
+        "count": 24
+      },
+      {
+        "file": "version-lock-integrity.test.js",
+        "ms": 9000,
+        "count": 4
+      },
+      {
+        "file": "check-release-needed.test.js",
+        "ms": 8709,
+        "count": 11
+      },
+      {
+        "file": "sanitizer-rules.test.js",
+        "ms": 8001,
+        "count": 6
+      },
+      {
+        "file": "push-main-with-rebase-retry.test.js",
+        "ms": 8000,
+        "count": 3
+      },
+      {
+        "file": "sanitizer-issue-38.test.js",
+        "ms": 6930,
+        "count": 36
+      },
+      {
+        "file": "create-github-release.test.js",
+        "ms": 6064,
+        "count": 12
+      },
+      {
+        "file": "sanitizer-log-bytes.test.js",
+        "ms": 6052,
+        "count": 3
+      },
+      {
+        "file": "sanitizer-issue-84.test.js",
+        "ms": 4730,
+        "count": 159
+      },
+      {
+        "file": "sanitizer-long-logs.test.js",
+        "ms": 4525,
+        "count": 5
+      },
+      {
+        "file": "sanitizer-issue-50.test.js",
+        "ms": 4463,
+        "count": 21
+      },
+      {
+        "file": "sanitizer-issue-51.test.js",
+        "ms": 4422,
+        "count": 6
+      },
+      {
+        "file": "sanitizer-issue-65.test.js",
+        "ms": 4249,
+        "count": 75
+      },
+      {
+        "file": "ci-audit-regressions.test.js",
+        "ms": 4194,
+        "count": 12
+      },
+      {
+        "file": "bounded-run.test.js",
+        "ms": 4047,
+        "count": 9
+      },
+      {
+        "file": "sanitizer-issue-36.test.js",
+        "ms": 4038,
+        "count": 68
+      },
+      {
+        "file": "codeql-results.test.js",
+        "ms": 4033,
+        "count": 13
+      },
+      {
+        "file": "sanitizer-issue-32.test.js",
+        "ms": 3987,
+        "count": 76
+      },
+      {
+        "file": "sanitizer-experience-lines.test.js",
+        "ms": 3901,
+        "count": 37
+      },
+      {
+        "file": "issue-92-whitespace.test.js",
+        "ms": 3486,
+        "count": 11
+      },
+      {
+        "file": "sanitizer-coverage.test.js",
+        "ms": 3389,
+        "count": 82
+      },
+      {
+        "file": "setup-buildx-resilient.test.js",
+        "ms": 3126,
+        "count": 5
+      },
+      {
+        "file": "changeset-config.test.js",
+        "ms": 3018,
+        "count": 4
+      },
+      {
+        "file": "sanitizer-benchmark.test.js",
+        "ms": 3000,
+        "count": 1
+      },
+      {
+        "file": "check-staged-formatting.test.js",
+        "ms": 3000,
+        "count": 1
+      },
+      {
+        "file": "release-notes-integration.test.js",
+        "ms": 3000,
+        "count": 2
+      },
+      {
+        "file": "sanitizer-reused-map-parts.test.js",
+        "ms": 2979,
+        "count": 37
+      },
+      {
+        "file": "sanitizer-locales.test.js",
+        "ms": 2888,
+        "count": 19
+      },
+      {
+        "file": "sanitizer-issue-89.test.js",
+        "ms": 2862,
+        "count": 195
+      },
+      {
+        "file": "sanitizer-fake-identity.test.js",
+        "ms": 2784,
+        "count": 15
+      },
+      {
+        "file": "check-changesets.test.js",
+        "ms": 2745,
+        "count": 3
+      },
+      {
+        "file": "sanitizer-credential-formats.test.js",
+        "ms": 2565,
+        "count": 17
+      },
+      {
+        "file": "check-file-line-limits.test.js",
+        "ms": 2373,
+        "count": 11
+      },
+      {
+        "file": "recheck-broken-links.test.js",
+        "ms": 2246,
+        "count": 21
+      },
+      {
+        "file": "sanitizer-escape-integrity.test.js",
+        "ms": 2180,
+        "count": 7
+      },
+      {
+        "file": "sanitizer-placeholders.test.js",
+        "ms": 2174,
+        "count": 22
+      },
+      {
+        "file": "required-docs.test.js",
+        "ms": 2118,
+        "count": 7
+      },
+      {
+        "file": "archive-and-discovery.test.js",
+        "ms": 2026,
+        "count": 9
+      },
+      {
+        "file": "sanitizer-issue-34.test.js",
+        "ms": 2009,
+        "count": 32
+      },
+      {
+        "file": "package-manager.test.js",
+        "ms": 2002,
+        "count": 11
+      },
+      {
+        "file": "release-publication.test.js",
+        "ms": 2000,
+        "count": 1
+      },
+      {
+        "file": "sanitizer-json-string-runs.test.js",
+        "ms": 2000,
+        "count": 1
+      },
+      {
+        "file": "sanitizer-identity.test.js",
+        "ms": 1741,
+        "count": 84
+      },
+      {
+        "file": "status-gate-coverage.test.js",
+        "ms": 1732,
+        "count": 8
+      },
+      {
+        "file": "sanitizer-session-regressions.test.js",
+        "ms": 1717,
+        "count": 55
+      },
+      {
+        "file": "sanitizer-context.test.js",
+        "ms": 1714,
+        "count": 38
+      },
+      {
+        "file": "sanitizer-document-entities.test.js",
+        "ms": 1624,
+        "count": 23
+      },
+      {
+        "file": "merge-changesets.test.js",
+        "ms": 1526,
+        "count": 2
+      },
+      {
+        "file": "sanitizer-tool-logs.test.js",
+        "ms": 1475,
+        "count": 24
+      },
+      {
+        "file": "dependency-graph.test.js",
+        "ms": 1292,
+        "count": 3
+      },
+      {
+        "file": "container-jobs.test.js",
+        "ms": 1265,
+        "count": 7
+      },
+      {
+        "file": "sanitizer.test.js",
+        "ms": 1191,
+        "count": 7
+      },
+      {
+        "file": "sanitizer-placeholder-cli.test.js",
+        "ms": 1167,
+        "count": 6
+      },
+      {
+        "file": "sanitizer-fake.test.js",
+        "ms": 1094,
+        "count": 54
+      },
+      {
+        "file": "no-changelog-comments.test.js",
+        "ms": 1093,
+        "count": 4
+      },
+      {
+        "file": "use-module-integration.test.js",
+        "ms": 1004,
+        "count": 2
+      },
+      {
+        "file": "release-metadata.test.js",
+        "ms": 1000,
+        "count": 1
+      },
+      {
+        "file": "sanitizer-issue-47.test.js",
+        "ms": 931,
+        "count": 7
+      },
+      {
+        "file": "sanitizer-issue-45-46.test.js",
+        "ms": 925,
+        "count": 62
+      },
+      {
+        "file": "issue-262-regressions.test.js",
+        "ms": 877,
+        "count": 4
+      },
+      {
+        "file": "sanitizer-gh-config.test.js",
+        "ms": 831,
+        "count": 1
+      },
+      {
+        "file": "sanitizer-transforms.test.js",
+        "ms": 830,
+        "count": 8
+      },
+      {
+        "file": "issue-92-putty.test.js",
+        "ms": 759,
+        "count": 4
+      },
+      {
+        "file": "check-web-archive.test.js",
+        "ms": 751,
+        "count": 13
+      },
+      {
+        "file": "check-pages.test.js",
+        "ms": 687,
+        "count": 6
+      },
+      {
+        "file": "issue-228-regressions.test.js",
+        "ms": 581,
+        "count": 12
+      },
+      {
+        "file": "sanitizer-cli-features.test.js",
+        "ms": 580,
+        "count": 4
+      },
+      {
+        "file": "sanitizer-placeholder-escaping.test.js",
+        "ms": 517,
+        "count": 4
+      },
+      {
+        "file": "sanitizer-known-forms.test.js",
+        "ms": 484,
+        "count": 16
+      },
+      {
+        "file": "sanitizer-identity-boundaries.test.js",
+        "ms": 443,
+        "count": 31
+      },
+      {
+        "file": "commit-message.test.js",
+        "ms": 377,
+        "count": 2
+      },
+      {
+        "file": "install-git-hooks.test.js",
+        "ms": 367,
+        "count": 8
+      },
+      {
+        "file": "sanitizer-eslint.test.js",
+        "ms": 257,
+        "count": 3
+      },
+      {
+        "file": "test-sharding.test.js",
+        "ms": 254,
+        "count": 4
+      },
+      {
+        "file": "pages-configuration.test.js",
+        "ms": 224,
+        "count": 3
+      },
+      {
+        "file": "visible-skips.test.js",
+        "ms": 151,
+        "count": 449
+      },
+      {
+        "file": "checkout-credentials.test.js",
+        "ms": 143,
+        "count": 2
+      },
+      {
+        "file": "sanitizer-keywords.test.js",
+        "ms": 142,
+        "count": 2
+      },
+      {
+        "file": "artifact-files.test.js",
+        "ms": 119,
+        "count": 3
+      },
+      {
+        "file": "ci-workflow-policy.test.js",
+        "ms": 79,
+        "count": 11
+      },
+      {
+        "file": "temp-cleanup.test.js",
+        "ms": 69,
+        "count": 3
+      },
+      {
+        "file": "pipeline-requirements.test.js",
+        "ms": 66,
+        "count": 10
+      },
+      {
+        "file": "publish-retry.test.js",
+        "ms": 57,
+        "count": 16
+      },
+      {
+        "file": "deploy-pages.test.js",
+        "ms": 51,
+        "count": 17
+      },
+      {
+        "file": "artifact-transport.test.js",
+        "ms": 45,
+        "count": 18
+      },
+      {
+        "file": "scripts-use-module-adoption.test.js",
+        "ms": 45,
+        "count": 4
+      },
+      {
+        "file": "npm-audit-report.test.js",
+        "ms": 41,
+        "count": 9
+      },
+      {
+        "file": "wayback-retry.test.js",
+        "ms": 34,
+        "count": 11
+      },
+      {
+        "file": "sanitizer-cli.test.js",
+        "ms": 33,
+        "count": 14
+      },
+      {
+        "file": "land-via-pull-request.test.js",
+        "ms": 33,
+        "count": 15
+      },
+      {
+        "file": "ci-timeouts.test.js",
+        "ms": 29,
+        "count": 13
+      },
+      {
+        "file": "wait-for-npm.test.js",
+        "ms": 29,
+        "count": 20
+      },
+      {
+        "file": "sanitize-npm-userconfig.test.js",
+        "ms": 26,
+        "count": 3
+      },
+      {
+        "file": "deprecated-packages.test.js",
+        "ms": 25,
+        "count": 4
+      },
+      {
+        "file": "lint-changed-lines.test.js",
+        "ms": 25,
+        "count": 11
+      },
+      {
+        "file": "bot-commit-attribution.test.js",
+        "ms": 23,
+        "count": 3
+      },
+      {
+        "file": "action-versions.test.js",
+        "ms": 21,
+        "count": 1
+      },
+      {
+        "file": "publish-failure-classifier.test.js",
+        "ms": 19,
+        "count": 7
+      },
+      {
+        "file": "rerun-unacquired.test.js",
+        "ms": 16,
+        "count": 18
+      },
+      {
+        "file": "workflow-permissions.test.js",
+        "ms": 11,
+        "count": 4
+      },
+      {
+        "file": "release-badge.test.js",
+        "ms": 10,
+        "count": 17
+      },
+      {
+        "file": "workflows-lint.test.js",
+        "ms": 10,
+        "count": 16
+      },
+      {
+        "file": "release-notes-description.test.js",
+        "ms": 10,
+        "count": 5
+      },
+      {
+        "file": "bootstrap-dependencies.test.js",
+        "ms": 10,
+        "count": 9
+      },
+      {
+        "file": "setup-npm.test.js",
+        "ms": 10,
+        "count": 6
+      },
+      {
+        "file": "smoke-test-package.test.js",
+        "ms": 9,
+        "count": 11
+      },
+      {
+        "file": "docker-build.test.js",
+        "ms": 9,
+        "count": 7
+      },
+      {
+        "file": "docker-publish.test.js",
+        "ms": 8,
+        "count": 8
+      },
+      {
+        "file": "links-workflow.test.js",
+        "ms": 7,
+        "count": 7
+      },
+      {
+        "file": "npm-registry.test.js",
+        "ms": 7,
+        "count": 6
+      },
+      {
+        "file": "release-integrity.test.js",
+        "ms": 7,
+        "count": 5
+      },
+      {
+        "file": "github-actions-log.test.js",
+        "ms": 6,
+        "count": 4
+      },
+      {
+        "file": "universal-app.test.js",
+        "ms": 5,
+        "count": 6
+      },
+      {
+        "file": "push-failure-classifier.test.js",
+        "ms": 5,
+        "count": 7
+      },
+      {
+        "file": "release-naming.test.js",
+        "ms": 5,
+        "count": 27
+      },
+      {
+        "file": "index.test.js",
+        "ms": 4,
+        "count": 6
+      },
+      {
+        "file": "issue-92-push.test.js",
+        "ms": 4,
+        "count": 4
+      },
+      {
+        "file": "debug-print.test.js",
+        "ms": 4,
+        "count": 7
+      },
+      {
+        "file": "network-skip-reason.test.js",
+        "ms": 4,
+        "count": 5
+      },
+      {
+        "file": "package-info.test.js",
+        "ms": 3,
+        "count": 6
+      },
+      {
+        "file": "package-metadata.test.js",
+        "ms": 3,
+        "count": 6
+      },
+      {
+        "file": "version-and-commit.test.js",
+        "ms": 2,
+        "count": 5
+      },
+      {
+        "file": "sanitizer-rewrite.test.js",
+        "ms": 0,
+        "count": 2
+      },
+      {
+        "file": "sanitizer-external.test.js",
+        "ms": 0,
+        "count": 5
+      }
+    ],
+    "budgets": [
+      {
+        "line": 14555,
+        "text": "Test runtimes (macos-26-intel, deno, 2/3)\tUNKNOWN STEP\t2026-11-05T17:40:05.4547460Z Deno test suite finished in 42s of its 100s budget (exit 0)."
+      },
+      {
+        "line": 28871,
+        "text": "Test runtimes (macos-26-intel, deno, 1/3)\tUNKNOWN STEP\t2026-11-05T17:40:44.7889850Z ##[warning]Deno test suite has run for 71s of its 100s budget."
+      },
+      {
+        "line": 29107,
+        "text": "Test runtimes (macos-26-intel, deno, 1/3)\tUNKNOWN STEP\t2026-11-05T17:41:14.4674690Z ##[error]Deno test suite did not finish within its 100s budget, so termination was requested. Shorten the step or raise its budget (keeping it below the job's timeout-minutes backstop)."
+      },
+      {
+        "line": 29115,
+        "text": "Test runtimes (macos-26-intel, deno, 1/3)\tUNKNOWN STEP\t2026-11-05T17:41:15.4278350Z ##[error]Process completed with exit code 124."
+      },
+      {
+        "line": 36357,
+        "text": "Test runtimes (macos-26-intel, deno, 3/3)\tUNKNOWN STEP\t2026-11-05T17:41:56.9174590Z ##[warning]Deno test suite has run for 70s of its 100s budget."
+      },
+      {
+        "line": 36371,
+        "text": "Test runtimes (macos-26-intel, deno, 3/3)\tUNKNOWN STEP\t2026-11-05T17:41:59.3872610Z Deno test suite finished in 73s of its 100s budget (exit 0)."
+      }
+    ]
+  }
+}

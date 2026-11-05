@@ -1,0 +1,10 @@
+
+/tmp/gh-issue-solver-1793895031390/tests/pages-configuration.test.js
+  26:16  error  Spaces are hard to count. Use {2}  no-regex-spaces
+
+/tmp/gh-issue-solver-1793895031390/tests/status-gate-coverage.test.js
+  52:106  error  Spaces are hard to count. Use {2}  no-regex-spaces
+
+✖ 2 problems (2 errors, 0 warnings)
+  2 errors and 0 warnings potentially fixable with the `--fix` option.
+

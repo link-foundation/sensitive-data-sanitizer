@@ -1,0 +1,229 @@
+▶ issue 92 whitespace scanning
+  ✖ bounds the booking CodeQL witness (2027.832036ms)
+  ✖ bounds the ticket CodeQL witness (2018.142251ms)
+  ✖ bounds the visa CodeQL witness (2035.152059ms)
+  ✖ bounds the postal CodeQL witness (2019.083908ms)
+✖ issue 92 whitespace scanning (8109.703269ms)
+ℹ tests 4
+ℹ suites 1
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8553.619462
+
+✖ failing tests:
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ bounds the booking CodeQL witness (2027.832036ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + Error: spawnSync node ETIMEDOUT
+  +     at Object.spawnSync (node:internal/child_process:1175:20)
+  +     at spawnSync (node:child_process:976:24)
+  +     at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-92-whitespace.test.js:11:22)
+  +     at Test.runInAsyncScope (node:async_hooks:226:14)
+  +     at Test.run (node:internal/test_runner/test:1402:25)
+  +     at Test.start (node:internal/test_runner/test:1262:17)
+  +     at node:internal/test_runner/test:1903:71
+  +     at node:internal/per_context/primordials:505:82
+  +     at new Promise (<anonymous>)
+  +     at new SafePromise (node:internal/per_context/primordials:479:3) {
+  +   code: 'ETIMEDOUT',
+  +   errno: -110,
+  +   path: 'node',
+  +   spawnargs: [
+  +     '--max-old-space-size=128',
+  +     'experiments/issue-92/whitespace-probe.mjs',
+  +     'booking'
+  +   ],
+  +   syscall: 'spawnSync node'
+  + }
+  - undefined
+  
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-92-whitespace.test.js:20:14)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at node:internal/test_runner/test:1903:71
+      at node:internal/per_context/primordials:505:82
+      at new Promise (<anonymous>)
+      at new SafePromise (node:internal/per_context/primordials:479:3)
+      at node:internal/per_context/primordials:505:9
+      at Array.map (<anonymous>) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: spawnSync node ETIMEDOUT
+        at Object.spawnSync (node:internal/child_process:1175:20)
+        at spawnSync (node:child_process:976:24)
+        at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-92-whitespace.test.js:11:22)
+        at Test.runInAsyncScope (node:async_hooks:226:14)
+        at Test.run (node:internal/test_runner/test:1402:25)
+        at Test.start (node:internal/test_runner/test:1262:17)
+        at node:internal/test_runner/test:1903:71
+        at node:internal/per_context/primordials:505:82
+        at new Promise (<anonymous>)
+        at new SafePromise (node:internal/per_context/primordials:479:3),
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ bounds the ticket CodeQL witness (2018.142251ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + Error: spawnSync node ETIMEDOUT
+  +     at Object.spawnSync (node:internal/child_process:1175:20)
+  +     at spawnSync (node:child_process:976:24)
+  +     at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-92-whitespace.test.js:11:22)
+  +     at Test.runInAsyncScope (node:async_hooks:226:14)
+  +     at Test.run (node:internal/test_runner/test:1402:25)
+  +     at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+  +     at Test.postRun (node:internal/test_runner/test:1542:19)
+  +     at Test.run (node:internal/test_runner/test:1467:12)
+  +     at async Promise.all (index 0)
+  +     at async Suite.run (node:internal/test_runner/test:1905:7) {
+  +   code: 'ETIMEDOUT',
+  +   errno: -110,
+  +   path: 'node',
+  +   spawnargs: [
+  +     '--max-old-space-size=128',
+  +     'experiments/issue-92/whitespace-probe.mjs',
+  +     'ticket'
+  +   ],
+  +   syscall: 'spawnSync node'
+  + }
+  - undefined
+  
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-92-whitespace.test.js:20:14)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1905:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: spawnSync node ETIMEDOUT
+        at Object.spawnSync (node:internal/child_process:1175:20)
+        at spawnSync (node:child_process:976:24)
+        at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-92-whitespace.test.js:11:22)
+        at Test.runInAsyncScope (node:async_hooks:226:14)
+        at Test.run (node:internal/test_runner/test:1402:25)
+        at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+        at Test.postRun (node:internal/test_runner/test:1542:19)
+        at Test.run (node:internal/test_runner/test:1467:12)
+        at async Promise.all (index 0)
+        at async Suite.run (node:internal/test_runner/test:1905:7),
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ bounds the visa CodeQL witness (2035.152059ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + Error: spawnSync node ETIMEDOUT
+  +     at Object.spawnSync (node:internal/child_process:1175:20)
+  +     at spawnSync (node:child_process:976:24)
+  +     at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-92-whitespace.test.js:11:22)
+  +     at Test.runInAsyncScope (node:async_hooks:226:14)
+  +     at Test.run (node:internal/test_runner/test:1402:25)
+  +     at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+  +     at Test.postRun (node:internal/test_runner/test:1542:19)
+  +     at Test.run (node:internal/test_runner/test:1467:12)
+  +     at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+  +   code: 'ETIMEDOUT',
+  +   errno: -110,
+  +   path: 'node',
+  +   spawnargs: [
+  +     '--max-old-space-size=128',
+  +     'experiments/issue-92/whitespace-probe.mjs',
+  +     'visa'
+  +   ],
+  +   syscall: 'spawnSync node'
+  + }
+  - undefined
+  
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-92-whitespace.test.js:20:14)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: spawnSync node ETIMEDOUT
+        at Object.spawnSync (node:internal/child_process:1175:20)
+        at spawnSync (node:child_process:976:24)
+        at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-92-whitespace.test.js:11:22)
+        at Test.runInAsyncScope (node:async_hooks:226:14)
+        at Test.run (node:internal/test_runner/test:1402:25)
+        at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+        at Test.postRun (node:internal/test_runner/test:1542:19)
+        at Test.run (node:internal/test_runner/test:1467:12)
+        at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7),
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ bounds the postal CodeQL witness (2019.083908ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + Error: spawnSync node ETIMEDOUT
+  +     at Object.spawnSync (node:internal/child_process:1175:20)
+  +     at spawnSync (node:child_process:976:24)
+  +     at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-92-whitespace.test.js:11:22)
+  +     at Test.runInAsyncScope (node:async_hooks:226:14)
+  +     at Test.run (node:internal/test_runner/test:1402:25)
+  +     at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+  +     at Test.postRun (node:internal/test_runner/test:1542:19)
+  +     at Test.run (node:internal/test_runner/test:1467:12)
+  +     at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+  +   code: 'ETIMEDOUT',
+  +   errno: -110,
+  +   path: 'node',
+  +   spawnargs: [
+  +     '--max-old-space-size=128',
+  +     'experiments/issue-92/whitespace-probe.mjs',
+  +     'postal'
+  +   ],
+  +   syscall: 'spawnSync node'
+  + }
+  - undefined
+  
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-92-whitespace.test.js:20:14)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: spawnSync node ETIMEDOUT
+        at Object.spawnSync (node:internal/child_process:1175:20)
+        at spawnSync (node:child_process:976:24)
+        at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-92-whitespace.test.js:11:22)
+        at Test.runInAsyncScope (node:async_hooks:226:14)
+        at Test.run (node:internal/test_runner/test:1402:25)
+        at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+        at Test.postRun (node:internal/test_runner/test:1542:19)
+        at Test.run (node:internal/test_runner/test:1467:12)
+        at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7),
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

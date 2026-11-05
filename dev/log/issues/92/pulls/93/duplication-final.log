@@ -1,0 +1,1017 @@
+
+> @link-foundation/sensitive-data-sanitizer@0.16.1 check:duplication
+> jscpd .
+
+Using config from .jscpd.json
+[1mClone found (javascript)[22m
+ - [1m[32meslint.config.js[39m[22m [115:72 - 123:4] (9 lines, 31 tokens)
+   eslint.config.js [135:35 - 143:4]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/history-rewrite-integration.mjs[39m[22m [11:5 - 20:57] (10 lines, 88 tokens)
+   tests/sanitizer-rewrite.test.js [8:38 - 17:57]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-1-prose-boundary.mjs[39m[22m [12:2 - 18:3] (7 lines, 31 tokens)
+   experiments/issue-32/document-whitespace.mjs [12:31 - 18:3]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-24/mrz-diagnostic.mjs[39m[22m [6:1 - 11:33] (6 lines, 71 tokens)
+   tests/sanitizer-fake.test.js [314:5 - 321:37]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-24/package-smoke.mjs[39m[22m [2:62 - 7:6] (6 lines, 35 tokens)
+   experiments/issue-43/packed-smoke.mjs [3:59 - 8:6]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-34/session-corpus.mjs[39m[22m [1:46 - 6:9] (6 lines, 35 tokens)
+   tests/sanitizer-issue-36.test.js [2:53 - 7:9]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-36/catalog-probe.mjs[39m[22m [3:65 - 14:31] (12 lines, 68 tokens)
+   tests/sanitizer-locales.test.js [54:87 - 65:35]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-38/reproduce.mjs[39m[22m [6:3 - 13:43] (8 lines, 52 tokens)
+   experiments/issue-38/residual-trace.mjs [5:3 - 12:43]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-43/benchmark.mjs[39m[22m [3:47 - 8:28] (6 lines, 40 tokens)
+   experiments/issue-43/components.mjs [8:46 - 13:28]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-43/components.mjs[39m[22m [14:38 - 19:11] (6 lines, 51 tokens)
+   experiments/issue-43/gitleaks-profile.mjs [6:38 - 11:11]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-43/components.mjs[39m[22m [18:64 - 23:6] (6 lines, 44 tokens)
+   experiments/issue-43/long-stages.mjs [21:22 - 26:6]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-43/gitleaks-profile.mjs[39m[22m [10:65 - 15:28] (6 lines, 31 tokens)
+   src/gitleaks.js [24:58 - 29:30]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-43/packed-smoke.mjs[39m[22m [2:23 - 7:6] (6 lines, 33 tokens)
+   scripts/smoke-test-package.mjs [11:30 - 15:7]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-52/compare-scanner.mjs[39m[22m [19:36 - 27:39] (9 lines, 45 tokens)
+   tests/sanitizer-issue-51.test.js [13:22 - 21:39]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-56/encoded-order.mjs[39m[22m [7:42 - 12:10] (6 lines, 35 tokens)
+   tests/sanitizer-placeholders.test.js [252:61 - 257:11]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-71/hostile-timing.mjs[39m[22m [9:40 - 16:45] (8 lines, 82 tokens)
+   experiments/issue-75/lines-74.mjs [32:58 - 39:45]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-75/edge-73.mjs[39m[22m [8:1 - 13:6] (6 lines, 31 tokens)
+   experiments/issue-75/optin-73.mjs [3:46 - 8:6]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-75/edge-73.mjs[39m[22m [9:9 - 15:17] (7 lines, 45 tokens)
+   tests/sanitizer-reused-map-parts.test.js [12:17 - 18:17]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-75/edge-73.mjs[39m[22m [58:14 - 65:58] (8 lines, 34 tokens)
+   tests/sanitizer-reused-map-parts.test.js [27:19 - 34:58]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-75/edge-73.mjs[39m[22m [90:16 - 97:4] (8 lines, 41 tokens)
+   tests/sanitizer-reused-map-parts.test.js [207:58 - 214:8]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-84/test-baseline.mjs[39m[22m [3:1 - 11:11] (9 lines, 63 tokens)
+   experiments/issue-89/test-baseline.mjs [3:1 - 11:11]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-84/test-baseline.mjs[39m[22m [11:51 - 18:12] (8 lines, 38 tokens)
+   experiments/issue-89/test-baseline.mjs [11:51 - 18:12]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/issue-84/test-baseline.mjs[39m[22m [18:64 - 30:2] (13 lines, 78 tokens)
+   experiments/issue-89/test-baseline.mjs [24:3 - 36:2]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/test-changeset-scripts.mjs[39m[22m [178:77 - 187:6] (10 lines, 40 tokens)
+   experiments/test-changeset-scripts.mjs [224:63 - 232:6]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/test-changeset-scripts.mjs[39m[22m [178:77 - 186:23] (9 lines, 34 tokens)
+   experiments/test-changeset-scripts.mjs [246:61 - 253:23]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/test-changeset-scripts.mjs[39m[22m [181:5 - 186:23] (6 lines, 32 tokens)
+   experiments/test-changeset-scripts.mjs [276:5 - 281:23]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/test-changeset-scripts.mjs[39m[22m [186:48 - 193:27] (8 lines, 36 tokens)
+   experiments/test-changeset-scripts.mjs [257:78 - 264:27]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/test-changeset-scripts.mjs[39m[22m [248:19 - 257:23] (10 lines, 50 tokens)
+   experiments/test-changeset-scripts.mjs [276:19 - 285:23]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/test-failure-detection.mjs[39m[22m [13:1 - 37:2] (25 lines, 68 tokens)
+   scripts/publish-to-npm.mjs [80:1 - 104:2]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/test-format-major-changes.mjs[39m[22m [15:35 - 49:13] (35 lines, 165 tokens)
+   experiments/test-format-minor-changes.mjs [18:37 - 52:13]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/test-format-major-changes.mjs[39m[22m [15:35 - 31:48] (17 lines, 74 tokens)
+   experiments/test-format-no-hash.mjs [10:44 - 26:48]
+[1mClone found (javascript)[22m
+ - [1m[32mexperiments/test-format-major-changes.mjs[39m[22m [15:35 - 49:13] (35 lines, 165 tokens)
+   experiments/test-format-patch-changes.mjs [12:78 - 46:13]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/changeset-version.mjs[39m[22m [63:45 - 68:2] (6 lines, 35 tokens)
+   scripts/create-manual-changeset.mjs [98:44 - 103:2]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/changeset-version.mjs[39m[22m [63:45 - 68:2] (6 lines, 35 tokens)
+   scripts/instant-version-bump.mjs [168:53 - 173:2]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/changeset-version.mjs[39m[22m [63:60 - 68:2] (6 lines, 31 tokens)
+   scripts/merge-changesets.mjs [286:44 - 291:2]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/changeset-version.mjs[39m[22m [63:45 - 68:2] (6 lines, 35 tokens)
+   scripts/validate-changeset.mjs [213:53 - 218:2]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-artifact-archive.mjs[39m[22m [16:1 - 21:9] (6 lines, 34 tokens)
+   scripts/check-desktop-compat.mjs [4:54 - 9:9]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-changesets.mjs[39m[22m [26:28 - 38:15] (13 lines, 39 tokens)
+   scripts/check-release-needed.mjs [41:66 - 53:15]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-changesets.mjs[39m[22m [26:28 - 39:2] (14 lines, 47 tokens)
+   scripts/check-web-archive.mjs [37:65 - 50:2]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-changesets.mjs[39m[22m [33:1 - 38:15] (6 lines, 38 tokens)
+   scripts/check-docker-build.mjs [60:1 - 65:15]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-changesets.mjs[39m[22m [34:9 - 46:9] (13 lines, 38 tokens)
+   scripts/detect-code-changes.mjs [113:9 - 120:9]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-changesets.mjs[39m[22m [109:58 - 116:42] (8 lines, 58 tokens)
+   scripts/merge-changesets.mjs [196:61 - 201:42]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-changesets.mjs[39m[22m [109:58 - 116:42] (8 lines, 58 tokens)
+   scripts/validate-changeset.mjs [151:58 - 156:42]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-ci-workflows.mjs[39m[22m [72:5 - 78:4] (7 lines, 33 tokens)
+   scripts/check-codeql-results.mjs [77:22 - 83:4]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-ci-workflows.mjs[39m[22m [72:5 - 78:4] (7 lines, 33 tokens)
+   scripts/install-git-hooks.mjs [43:11 - 49:4]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-ci-workflows.mjs[39m[22m [72:5 - 79:8] (8 lines, 34 tokens)
+   scripts/run-test-shard.mjs [31:52 - 38:8]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-docker-build.mjs[39m[22m [16:1 - 25:2] (10 lines, 52 tokens)
+   scripts/check-docker-publish.mjs [13:1 - 22:2]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-docker-build.mjs[39m[22m [56:11 - 77:17] (22 lines, 118 tokens)
+   scripts/check-docker-publish.mjs [95:13 - 116:17]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-docker-build.mjs[39m[22m [57:4 - 65:15] (9 lines, 40 tokens)
+   scripts/detect-code-changes.mjs [109:58 - 117:15]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-docker-build.mjs[39m[22m [61:9 - 68:9] (8 lines, 38 tokens)
+   scripts/check-release-needed.mjs [49:9 - 60:9]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-docker-build.mjs[39m[22m [61:47 - 66:2] (6 lines, 30 tokens)
+   scripts/wait-for-npm.mjs [233:44 - 238:2]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-docker-build.mjs[39m[22m [65:39 - 76:7] (12 lines, 48 tokens)
+   scripts/wait-for-npm.mjs [300:51 - 312:7]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-docker-build.mjs[39m[22m [66:1 - 74:2] (9 lines, 44 tokens)
+   scripts/create-github-release.mjs [302:1 - 310:2]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-docker-build.mjs[39m[22m [77:43 - 83:5] (7 lines, 37 tokens)
+   scripts/check-docker-publish.mjs [116:45 - 121:12]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-docker-build.mjs[39m[22m [83:3 - 88:4] (6 lines, 33 tokens)
+   scripts/check-docker-publish.mjs [130:3 - 135:4]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-pages.mjs[39m[22m [33:17 - 38:4] (6 lines, 30 tokens)
+   scripts/rerun-unacquired.mjs [203:5 - 209:4]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-status-gate-covers-all-jobs.mjs[39m[22m [42:29 - 50:38] (9 lines, 53 tokens)
+   tests/checkout-credentials.test.js [37:25 - 45:38]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-status-gate-covers-all-jobs.mjs[39m[22m [42:29 - 49:8] (8 lines, 37 tokens)
+   tests/docker-publish.test.js [13:50 - 19:8]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-status-gate-covers-all-jobs.mjs[39m[22m [42:29 - 50:38] (9 lines, 53 tokens)
+   tests/pipeline-status.test.js [44:23 - 52:38]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-status-gate-covers-all-jobs.mjs[39m[22m [43:67 - 50:38] (8 lines, 31 tokens)
+   tests/ci-timeouts.test.js [30:61 - 37:38]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-status-gate-covers-all-jobs.mjs[39m[22m [43:67 - 50:38] (8 lines, 31 tokens)
+   tests/ci-timeouts.test.js [54:3 - 61:38]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-status-gate-covers-all-jobs.mjs[39m[22m [43:67 - 50:38] (8 lines, 31 tokens)
+   tests/links-workflow.test.js [12:58 - 19:38]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-status-gate-covers-all-jobs.mjs[39m[22m [45:3 - 58:9] (14 lines, 63 tokens)
+   tests/security-workflow.test.js [14:3 - 25:9]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-status-gate-covers-all-jobs.mjs[39m[22m [50:65 - 58:9] (9 lines, 33 tokens)
+   tests/checkout-credentials.test.js [45:67 - 51:9]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-status-gate-covers-all-jobs.mjs[39m[22m [50:65 - 58:9] (9 lines, 33 tokens)
+   tests/ci-timeouts.test.js [61:63 - 73:9]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-status-gate-covers-all-jobs.mjs[39m[22m [50:75 - 59:8] (10 lines, 35 tokens)
+   tests/pipeline-status.test.js [52:77 - 59:8]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-status-gate-covers-all-jobs.mjs[39m[22m [68:3 - 78:10] (11 lines, 61 tokens)
+   tests/pipeline-status.test.js [59:3 - 69:10]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/check-web-archive.mjs[39m[22m [492:1 - 499:28] (8 lines, 48 tokens)
+   scripts/recheck-broken-links.mjs [378:1 - 387:28]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/create-github-release.mjs[39m[22m [300:13 - 308:39] (9 lines, 32 tokens)
+   scripts/smoke-test-package.mjs [499:56 - 507:39]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/create-manual-changeset.mjs[39m[22m [21:58 - 36:15] (16 lines, 43 tokens)
+   scripts/format-github-release.mjs [22:64 - 39:15]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/create-manual-changeset.mjs[39m[22m [21:58 - 45:18] (25 lines, 96 tokens)
+   scripts/instant-version-bump.mjs [35:53 - 59:18]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/create-manual-changeset.mjs[39m[22m [45:50 - 53:4] (9 lines, 32 tokens)
+   scripts/format-github-release.mjs [57:72 - 65:4]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/create-manual-changeset.mjs[39m[22m [45:50 - 53:4] (9 lines, 32 tokens)
+   scripts/format-release-notes.mjs [73:48 - 81:4]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/create-manual-changeset.mjs[39m[22m [45:50 - 53:4] (9 lines, 32 tokens)
+   scripts/instant-version-bump.mjs [59:53 - 67:4]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/create-manual-changeset.mjs[39m[22m [45:50 - 53:4] (9 lines, 32 tokens)
+   scripts/publish-to-npm.mjs [55:71 - 63:4]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/create-manual-changeset.mjs[39m[22m [45:50 - 53:4] (9 lines, 32 tokens)
+   scripts/version-and-commit.mjs [62:57 - 70:4]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/deploy-pages.mjs[39m[22m [285:63 - 292:4] (8 lines, 31 tokens)
+   scripts/npm-audit-report.mjs [240:13 - 247:4]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/deploy-pages.mjs[39m[22m [287:1 - 293:28] (7 lines, 40 tokens)
+   scripts/rerun-unacquired.mjs [204:1 - 210:28]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/format-github-release.mjs[39m[22m [22:30 - 42:18] (21 lines, 64 tokens)
+   scripts/format-release-notes.mjs [38:1 - 58:18]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/format-github-release.mjs[39m[22m [42:49 - 54:15] (13 lines, 56 tokens)
+   scripts/format-release-notes.mjs [63:38 - 75:15]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/format-github-release.mjs[39m[22m [59:7 - 67:6] (9 lines, 30 tokens)
+   scripts/format-release-notes.mjs [75:7 - 83:6]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/format-github-release.mjs[39m[22m [59:7 - 67:6] (9 lines, 30 tokens)
+   scripts/instant-version-bump.mjs [61:7 - 71:6]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/format-github-release.mjs[39m[22m [59:7 - 67:8] (9 lines, 31 tokens)
+   scripts/publish-to-npm.mjs [57:7 - 65:8]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/format-github-release.mjs[39m[22m [59:7 - 67:8] (9 lines, 31 tokens)
+   scripts/version-and-commit.mjs [64:7 - 72:8]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/instant-version-bump.mjs[39m[22m [24:28 - 34:9] (11 lines, 33 tokens)
+   scripts/version-and-commit.mjs [19:50 - 29:9]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/instant-version-bump.mjs[39m[22m [74:32 - 79:8] (6 lines, 34 tokens)
+   scripts/publish-to-npm.mjs [65:19 - 71:6]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/land-via-pull-request.mjs[39m[22m [160:46 - 166:15] (7 lines, 61 tokens)
+   scripts/land-via-pull-request.mjs [204:76 - 210:15]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/merge-changesets.mjs[39m[22m [199:39 - 204:8] (6 lines, 30 tokens)
+   scripts/validate-changeset.mjs [154:39 - 159:8]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/publish-to-npm.mjs[39m[22m [121:1 - 135:15] (15 lines, 37 tokens)
+   scripts/version-and-commit.mjs [142:1 - 153:15]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/publish-to-npm.mjs[39m[22m [293:3 - 301:8] (9 lines, 37 tokens)
+   scripts/version-and-commit.mjs [285:3 - 293:8]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/run-command.mjs[39m[22m [55:5 - 60:23] (6 lines, 30 tokens)
+   tests/detect-code-changes.test.js [399:7 - 404:23]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/sanitize-npm-userconfig.mjs[39m[22m [66:1 - 74:22] (9 lines, 43 tokens)
+   scripts/setup-npm.mjs [248:1 - 256:22]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/smoke-test-package.mjs[39m[22m [26:291 - 51:10] (26 lines, 140 tokens)
+   scripts/wait-for-npm.mjs [24:163 - 49:10]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/smoke-test-package.mjs[39m[22m [507:40 - 519:17] (13 lines, 70 tokens)
+   scripts/wait-for-npm.mjs [308:45 - 320:17]
+[1mClone found (javascript)[22m
+ - [1m[32mscripts/smoke-test-package.mjs[39m[22m [520:57 - 527:65] (8 lines, 39 tokens)
+   scripts/wait-for-npm.mjs [321:57 - 328:65]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/adapters.js[39m[22m [43:29 - 49:12] (7 lines, 31 tokens)
+   src/adapters.js [54:31 - 58:35]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/adapters.js[39m[22m [155:26 - 162:10] (8 lines, 36 tokens)
+   src/projection.js [67:31 - 74:10]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/context.js[39m[22m [467:48 - 476:6] (10 lines, 51 tokens)
+   src/context.js [480:7 - 489:6]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/context.js[39m[22m [470:36 - 477:7] (8 lines, 34 tokens)
+   src/context.js [483:36 - 490:4]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/detection.js[39m[22m [102:3 - 108:8] (7 lines, 34 tokens)
+   src/national-checks.js [8:3 - 14:8]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/document-entities.js[39m[22m [117:48 - 123:12] (7 lines, 48 tokens)
+   src/document-patterns.js [217:43 - 223:12]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/engines.js[39m[22m [304:52 - 309:34] (6 lines, 40 tokens)
+   src/sanitizer.js [845:52 - 850:32]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/entities.js[39m[22m [125:5 - 131:9] (7 lines, 33 tokens)
+   src/fake.js [126:5 - 132:9]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/external.js[39m[22m [101:51 - 111:16] (11 lines, 38 tokens)
+   src/external.js [133:43 - 145:16]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/fake.js[39m[22m [102:1 - 113:22] (12 lines, 70 tokens)
+   tests/sanitizer-fake.test.js [166:3 - 177:24]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/files.js[39m[22m [55:55 - 61:4] (7 lines, 31 tokens)
+   src/files.js [129:21 - 135:4]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/files.js[39m[22m [70:7 - 80:6] (11 lines, 58 tokens)
+   src/stream.js [400:48 - 410:4]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/files.js[39m[22m [96:11 - 101:2] (6 lines, 32 tokens)
+   src/stream.js [349:55 - 354:2]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/gitleaks.js[39m[22m [153:5 - 158:6] (6 lines, 33 tokens)
+   src/projection.js [76:9 - 81:4]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/record-worker.js[39m[22m [10:77 - 18:6] (9 lines, 53 tokens)
+   src/stream-worker.js [11:3 - 19:2]
+[1mClone found (javascript)[22m
+ - [1m[32msrc/sanitizer.js[39m[22m [476:79 - 482:43] (7 lines, 31 tokens)
+   src/sanitizer.js [519:9 - 523:56]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/archive-and-discovery.test.js[39m[22m [6:3 - 14:9] (9 lines, 32 tokens)
+   tests/check-release-needed.test.js [5:3 - 13:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/archive-and-discovery.test.js[39m[22m [6:12 - 14:9] (9 lines, 31 tokens)
+   tests/release-api-integrity.test.js [3:13 - 11:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/archive-and-discovery.test.js[39m[22m [9:9 - 15:9] (7 lines, 32 tokens)
+   tests/version-lock-integrity.test.js [8:13 - 14:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/artifact-files.test.js[39m[22m [10:50 - 15:9] (6 lines, 33 tokens)
+   tests/release-publication.test.js [3:75 - 8:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/artifact-files.test.js[39m[22m [36:26 - 43:23] (8 lines, 36 tokens)
+   tests/artifact-files.test.js [68:38 - 75:23]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/artifact-transport.test.js[39m[22m [58:81 - 66:20] (9 lines, 33 tokens)
+   tests/artifact-transport.test.js [109:46 - 116:20]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/bot-commit-attribution.test.js[39m[22m [31:54 - 39:6] (9 lines, 32 tokens)
+   tests/bot-commit-attribution.test.js [41:55 - 49:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/bounded-run.test.js[39m[22m [105:66 - 110:43] (6 lines, 35 tokens)
+   tests/bounded-run.test.js [138:9 - 143:43]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-changesets.test.js[39m[22m [7:49 - 17:7] (11 lines, 32 tokens)
+   tests/ci-audit-regressions.test.js [1:40 - 11:7]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-changesets.test.js[39m[22m [10:3 - 19:19] (10 lines, 39 tokens)
+   tests/check-file-line-limits.test.js [5:3 - 14:19]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-changesets.test.js[39m[22m [11:12 - 22:11] (12 lines, 49 tokens)
+   tests/detect-code-changes.test.js [7:14 - 18:11]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-changesets.test.js[39m[22m [12:15 - 19:9] (8 lines, 32 tokens)
+   tests/merge-changesets.test.js [8:14 - 16:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-changesets.test.js[39m[22m [15:1 - 22:11] (8 lines, 42 tokens)
+   tests/package-manager.test.js [3:57 - 10:11]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-changesets.test.js[39m[22m [15:1 - 22:11] (8 lines, 42 tokens)
+   tests/status-gate-coverage.test.js [3:59 - 10:11]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-changesets.test.js[39m[22m [39:33 - 45:10] (7 lines, 40 tokens)
+   tests/detect-code-changes.test.js [105:46 - 111:10]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-changesets.test.js[39m[22m [66:9 - 71:41] (6 lines, 35 tokens)
+   tests/check-changesets.test.js [95:9 - 100:41]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-changesets.test.js[39m[22m [66:9 - 79:5] (14 lines, 75 tokens)
+   tests/check-changesets.test.js [124:9 - 137:5]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-changesets.test.js[39m[22m [68:29 - 81:11] (14 lines, 69 tokens)
+   tests/check-changesets.test.js [126:29 - 138:2]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [1:1 - 14:9] (14 lines, 59 tokens)
+   tests/create-github-release.test.js [7:1 - 21:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [10:1 - 16:6] (7 lines, 37 tokens)
+   tests/pipeline-status.test.js [3:59 - 9:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [10:1 - 17:11] (8 lines, 44 tokens)
+   tests/push-main-with-rebase-retry.test.js [10:1 - 17:11]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [11:19 - 17:11] (7 lines, 36 tokens)
+   tests/required-docs.test.js [4:19 - 10:11]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [74:46 - 81:31] (8 lines, 33 tokens)
+   tests/check-file-line-limits.test.js [209:23 - 216:31]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [75:7 - 81:31] (7 lines, 32 tokens)
+   tests/check-file-line-limits.test.js [242:51 - 248:31]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [78:46 - 84:31] (7 lines, 33 tokens)
+   tests/check-file-line-limits.test.js [313:10 - 319:31]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [95:66 - 102:37] (8 lines, 31 tokens)
+   tests/check-file-line-limits.test.js [119:62 - 126:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [95:66 - 102:37] (8 lines, 31 tokens)
+   tests/check-file-line-limits.test.js [146:9 - 153:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [95:66 - 102:37] (8 lines, 31 tokens)
+   tests/check-file-line-limits.test.js [195:9 - 202:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [95:66 - 102:37] (8 lines, 31 tokens)
+   tests/check-file-line-limits.test.js [249:66 - 256:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [95:66 - 102:37] (8 lines, 31 tokens)
+   tests/check-file-line-limits.test.js [270:75 - 277:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [95:66 - 102:37] (8 lines, 31 tokens)
+   tests/check-file-line-limits.test.js [285:68 - 291:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [95:66 - 102:37] (8 lines, 31 tokens)
+   tests/pipeline-status.test.js [571:10 - 578:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [95:66 - 102:37] (8 lines, 31 tokens)
+   tests/required-docs.test.js [134:9 - 141:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [95:66 - 102:37] (8 lines, 31 tokens)
+   tests/required-docs.test.js [153:70 - 160:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [95:66 - 102:37] (8 lines, 31 tokens)
+   tests/run-with-budget-warning.test.js [175:72 - 182:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [106:34 - 113:41] (8 lines, 35 tokens)
+   tests/check-file-line-limits.test.js [131:31 - 138:41]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [106:28 - 113:41] (8 lines, 37 tokens)
+   tests/check-file-line-limits.test.js [157:23 - 164:41]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [106:34 - 113:41] (8 lines, 35 tokens)
+   tests/check-file-line-limits.test.js [183:23 - 190:41]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [143:9 - 153:37] (11 lines, 43 tokens)
+   tests/check-file-line-limits.test.js [166:9 - 178:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [221:64 - 227:5] (7 lines, 36 tokens)
+   tests/check-file-line-limits.test.js [248:61 - 254:5]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [240:67 - 247:36] (8 lines, 55 tokens)
+   tests/check-file-line-limits.test.js [260:77 - 267:36]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-file-line-limits.test.js[39m[22m [262:52 - 268:41] (7 lines, 33 tokens)
+   tests/check-file-line-limits.test.js [279:55 - 285:39]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-pages.test.js[39m[22m [5:14 - 14:6] (10 lines, 37 tokens)
+   tests/container-jobs.test.js [6:14 - 15:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-pages.test.js[39m[22m [42:69 - 50:10] (9 lines, 39 tokens)
+   tests/release-notes-integration.test.js [46:72 - 53:10]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-release-needed.test.js[39m[22m [2:16 - 12:7] (11 lines, 35 tokens)
+   tests/detect-code-changes.test.js [3:27 - 13:7]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-release-needed.test.js[39m[22m [129:45 - 134:23] (6 lines, 37 tokens)
+   tests/check-release-needed.test.js [137:46 - 142:23]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-staged-formatting.test.js[39m[22m [1:1 - 6:9] (6 lines, 45 tokens)
+   tests/release-metadata.test.js [1:1 - 7:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-staged-formatting.test.js[39m[22m [14:2 - 20:4] (7 lines, 47 tokens)
+   tests/release-metadata.test.js [9:56 - 15:4]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/check-staged-formatting.test.js[39m[22m [27:63 - 33:46] (7 lines, 54 tokens)
+   tests/release-metadata.test.js [23:65 - 29:46]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/checkout-credentials.test.js[39m[22m [1:1 - 17:9] (17 lines, 78 tokens)
+   tests/workflow-permissions.test.js [1:1 - 17:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/checkout-credentials.test.js[39m[22m [36:21 - 44:8] (9 lines, 47 tokens)
+   tests/docker-build.test.js [11:24 - 18:8]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/checkout-credentials.test.js[39m[22m [36:1 - 45:38] (10 lines, 65 tokens)
+   tests/release-preflight.test.js [17:1 - 26:38]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/checkout-credentials.test.js[39m[22m [36:32 - 45:38] (10 lines, 60 tokens)
+   tests/security-workflow.test.js [10:22 - 19:38]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/checkout-credentials.test.js[39m[22m [40:3 - 51:9] (12 lines, 63 tokens)
+   tests/ci-timeouts.test.js [32:3 - 43:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/checkout-credentials.test.js[39m[22m [40:3 - 51:9] (12 lines, 63 tokens)
+   tests/pipeline-status.test.js [47:3 - 58:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/checkout-credentials.test.js[39m[22m [53:52 - 61:9] (9 lines, 30 tokens)
+   tests/pipeline-status.test.js [35:50 - 43:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/ci-audit-regressions.test.js[39m[22m [31:60 - 36:14] (6 lines, 32 tokens)
+   tests/ci-audit-regressions.test.js [52:53 - 57:12]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/ci-audit-regressions.test.js[39m[22m [130:61 - 135:13] (6 lines, 31 tokens)
+   tests/ci-audit-regressions.test.js [157:65 - 159:81]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/ci-audit-regressions.test.js[39m[22m [140:11 - 146:18] (7 lines, 53 tokens)
+   tests/ci-audit-regressions.test.js [165:9 - 171:16]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/ci-timeouts.test.js[39m[22m [28:44 - 43:9] (16 lines, 92 tokens)
+   tests/workflow-reliability.test.js [63:25 - 78:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/ci-timeouts.test.js[39m[22m [496:95 - 502:37] (7 lines, 32 tokens)
+   tests/ci-timeouts.test.js [572:102 - 578:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/codeql-results.test.js[39m[22m [1:1 - 6:9] (6 lines, 43 tokens)
+   tests/wayback-cli.test.js [1:1 - 6:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/codeql-results.test.js[39m[22m [3:59 - 9:6] (7 lines, 38 tokens)
+   tests/issue-262-regressions.test.js [10:1 - 16:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/create-github-release.test.js[39m[22m [229:23 - 236:23] (8 lines, 38 tokens)
+   tests/create-github-release.test.js [243:49 - 250:23]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/create-github-release.test.js[39m[22m [400:27 - 406:41] (7 lines, 33 tokens)
+   tests/create-github-release.test.js [433:17 - 436:41]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/create-github-release.test.js[39m[22m [418:40 - 427:39] (10 lines, 37 tokens)
+   tests/create-github-release.test.js [441:37 - 450:39]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/create-github-release.test.js[39m[22m [420:10 - 427:39] (8 lines, 31 tokens)
+   tests/create-github-release.test.js [462:65 - 469:39]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/deploy-pages.test.js[39m[22m [114:56 - 119:6] (6 lines, 52 tokens)
+   tests/deploy-pages.test.js [169:75 - 174:4]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [6:3 - 15:19] (10 lines, 39 tokens)
+   tests/push-main-with-rebase-retry.test.js [5:3 - 14:19]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [36:16 - 41:9] (6 lines, 32 tokens)
+   tests/push-main-with-rebase-retry.test.js [46:19 - 51:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [42:3 - 48:62] (7 lines, 70 tokens)
+   tests/detect-code-changes.test.js [71:3 - 77:62]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [42:70 - 48:32] (7 lines, 50 tokens)
+   tests/detect-code-changes.test.js [331:75 - 337:32]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [49:32 - 54:27] (6 lines, 43 tokens)
+   tests/detect-code-changes.test.js [339:55 - 343:39]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [57:35 - 63:9] (7 lines, 43 tokens)
+   tests/detect-code-changes.test.js [345:55 - 350:8]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [127:45 - 133:35] (7 lines, 37 tokens)
+   tests/detect-code-changes.test.js [193:58 - 199:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [127:45 - 132:39] (6 lines, 30 tokens)
+   tests/detect-code-changes.test.js [250:10 - 255:41]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [127:46 - 133:35] (7 lines, 36 tokens)
+   tests/detect-code-changes.test.js [271:9 - 277:35]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [134:56 - 140:5] (7 lines, 34 tokens)
+   tests/detect-code-changes.test.js [303:39 - 308:10]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [152:56 - 158:5] (7 lines, 34 tokens)
+   tests/detect-code-changes.test.js [230:61 - 236:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [152:56 - 158:5] (7 lines, 34 tokens)
+   tests/detect-code-changes.test.js [277:55 - 283:5]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [152:56 - 158:5] (7 lines, 34 tokens)
+   tests/detect-code-changes.test.js [318:35 - 323:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [166:61 - 173:37] (8 lines, 52 tokens)
+   tests/detect-code-changes.test.js [297:60 - 304:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [167:61 - 175:65] (9 lines, 60 tokens)
+   tests/detect-code-changes.test.js [223:12 - 231:67]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [178:60 - 186:24] (9 lines, 32 tokens)
+   tests/detect-code-changes.test.js [231:65 - 240:24]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [193:50 - 199:37] (7 lines, 39 tokens)
+   tests/detect-code-changes.test.js [313:55 - 319:33]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [231:27 - 237:6] (7 lines, 30 tokens)
+   tests/detect-code-changes.test.js [278:23 - 284:2]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [231:27 - 237:6] (7 lines, 30 tokens)
+   tests/detect-code-changes.test.js [319:21 - 324:2]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [248:50 - 255:41] (8 lines, 39 tokens)
+   tests/detect-code-changes.test.js [269:57 - 276:39]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [278:24 - 284:4] (7 lines, 31 tokens)
+   tests/detect-code-changes.test.js [319:22 - 324:4]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [435:58 - 440:17] (6 lines, 49 tokens)
+   tests/detect-code-changes.test.js [462:69 - 467:17]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [435:58 - 441:10] (7 lines, 55 tokens)
+   tests/detect-code-changes.test.js [538:50 - 544:10]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [438:38 - 443:10] (6 lines, 35 tokens)
+   tests/detect-code-changes.test.js [541:38 - 545:12]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [446:56 - 451:16] (6 lines, 31 tokens)
+   tests/detect-code-changes.test.js [473:56 - 478:16]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [453:10 - 461:23] (9 lines, 37 tokens)
+   tests/detect-code-changes.test.js [479:39 - 487:23]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [453:10 - 461:23] (9 lines, 37 tokens)
+   tests/detect-code-changes.test.js [501:52 - 508:23]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [453:10 - 461:23] (9 lines, 37 tokens)
+   tests/detect-code-changes.test.js [529:9 - 537:23]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [453:9 - 459:5] (7 lines, 33 tokens)
+   tests/detect-code-changes.test.js [563:35 - 569:5]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [471:31 - 477:56] (7 lines, 49 tokens)
+   tests/detect-code-changes.test.js [495:21 - 501:54]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [487:53 - 492:8] (6 lines, 53 tokens)
+   tests/detect-code-changes.test.js [509:66 - 515:10]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/detect-code-changes.test.js[39m[22m [517:27 - 526:35] (10 lines, 41 tokens)
+   tests/detect-code-changes.test.js [552:28 - 561:35]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/docker-build.test.js[39m[22m [13:15 - 22:2] (10 lines, 78 tokens)
+   tests/docker-publish.test.js [14:15 - 23:2]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/docker-build.test.js[39m[22m [18:19 - 24:9] (7 lines, 47 tokens)
+   tests/docker-publish.test.js [19:19 - 25:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/docker-build.test.js[39m[22m [98:62 - 105:18] (8 lines, 30 tokens)
+   tests/docker-publish.test.js [195:7 - 202:18]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/docker-publish.test.js[39m[22m [47:15 - 58:2] (12 lines, 50 tokens)
+   tests/workflow-reliability.test.js [125:13 - 136:2]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/fixtures/issue-34-sessions.mjs[39m[22m [68:61 - 75:38] (8 lines, 43 tokens)
+   tests/fixtures/issue-34-sessions.mjs [142:13 - 147:38]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/fixtures/issue-34-sessions.mjs[39m[22m [87:77 - 96:50] (10 lines, 30 tokens)
+   tests/fixtures/issue-34-sessions.mjs [96:78 - 107:29]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/issue-228-regressions.test.js[39m[22m [117:40 - 122:7] (6 lines, 30 tokens)
+   tests/issue-228-regressions.test.js [134:34 - 139:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/issue-262-regressions.test.js[39m[22m [83:19 - 89:26] (7 lines, 32 tokens)
+   tests/pipeline-requirements.test.js [101:19 - 107:26]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [59:51 - 67:29] (9 lines, 36 tokens)
+   tests/land-via-pull-request.test.js [133:50 - 141:29]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [82:23 - 91:12] (10 lines, 34 tokens)
+   tests/land-via-pull-request.test.js [111:24 - 120:12]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [83:16 - 91:20] (9 lines, 34 tokens)
+   tests/land-via-pull-request.test.js [167:21 - 175:20]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [146:73 - 152:9] (7 lines, 49 tokens)
+   tests/land-via-pull-request.test.js [195:61 - 201:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [161:7 - 170:10] (10 lines, 42 tokens)
+   tests/land-via-pull-request.test.js [204:20 - 213:8]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [161:7 - 170:10] (10 lines, 42 tokens)
+   tests/land-via-pull-request.test.js [413:5 - 422:8]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [176:5 - 181:6] (6 lines, 31 tokens)
+   tests/land-via-pull-request.test.js [380:5 - 385:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [207:18 - 215:12] (9 lines, 31 tokens)
+   tests/land-via-pull-request.test.js [416:18 - 424:12]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [237:6 - 242:52] (6 lines, 38 tokens)
+   tests/land-via-pull-request.test.js [292:53 - 296:52]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [259:78 - 265:9] (7 lines, 41 tokens)
+   tests/land-via-pull-request.test.js [351:56 - 357:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [261:16 - 266:6] (6 lines, 34 tokens)
+   tests/land-via-pull-request.test.js [353:16 - 358:8]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [300:78 - 312:35] (13 lines, 78 tokens)
+   tests/land-via-pull-request.test.js [339:66 - 351:35]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [312:56 - 328:39] (17 lines, 66 tokens)
+   tests/land-via-pull-request.test.js [360:77 - 376:39]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/land-via-pull-request.test.js[39m[22m [329:66 - 335:6] (7 lines, 38 tokens)
+   tests/land-via-pull-request.test.js [377:70 - 383:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/lint-changed-lines.test.js[39m[22m [45:32 - 54:41] (10 lines, 31 tokens)
+   tests/lint-changed-lines.test.js [63:31 - 72:41]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/lint-changed-lines.test.js[39m[22m [45:32 - 54:41] (10 lines, 31 tokens)
+   tests/lint-changed-lines.test.js [81:31 - 90:41]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/lint-changed-lines.test.js[39m[22m [63:33 - 72:44] (10 lines, 32 tokens)
+   tests/lint-changed-lines.test.js [81:33 - 90:44]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/npm-registry.test.js[39m[22m [9:54 - 20:10] (12 lines, 33 tokens)
+   tests/wait-for-npm.test.js [16:48 - 27:10]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/package-manager.test.js[39m[22m [48:29 - 53:31] (6 lines, 32 tokens)
+   tests/package-manager.test.js [70:7 - 74:31]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/package-manager.test.js[39m[22m [48:29 - 53:31] (6 lines, 32 tokens)
+   tests/package-manager.test.js [165:45 - 172:31]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/package-manager.test.js[39m[22m [69:19 - 74:23] (6 lines, 30 tokens)
+   tests/package-manager.test.js [91:20 - 96:23]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/package-manager.test.js[39m[22m [71:7 - 76:31] (6 lines, 53 tokens)
+   tests/package-manager.test.js [168:7 - 174:31]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/package-manager.test.js[39m[22m [110:52 - 116:41] (7 lines, 34 tokens)
+   tests/package-manager.test.js [131:7 - 137:41]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/package-manager.test.js[39m[22m [110:53 - 116:41] (7 lines, 33 tokens)
+   tests/package-manager.test.js [185:68 - 191:41]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/package-metadata.test.js[39m[22m [7:9 - 14:23] (8 lines, 35 tokens)
+   tests/sanitizer-cli.test.js [9:11 - 15:23]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/pipeline-status.test.js[39m[22m [1:1 - 9:6] (9 lines, 64 tokens)
+   tests/required-docs.test.js [1:1 - 9:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/pipeline-status.test.js[39m[22m [1:1 - 7:19] (7 lines, 56 tokens)
+   tests/status-gate-coverage.test.js [1:1 - 7:19]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/pipeline-status.test.js[39m[22m [171:26 - 176:5] (6 lines, 31 tokens)
+   tests/status-gate-coverage.test.js [40:20 - 44:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/pipeline-status.test.js[39m[22m [464:54 - 473:39] (10 lines, 38 tokens)
+   tests/pipeline-status.test.js [483:39 - 490:39]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/pipeline-status.test.js[39m[22m [522:79 - 529:27] (8 lines, 41 tokens)
+   tests/pipeline-status.test.js [579:70 - 586:27]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/pipeline-status.test.js[39m[22m [558:11 - 566:36] (9 lines, 44 tokens)
+   tests/pipeline-status.test.js [594:73 - 599:36]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/pr-guards.test.js[39m[22m [25:74 - 30:43] (6 lines, 35 tokens)
+   tests/pr-guards.test.js [185:67 - 192:47]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/pr-guards.test.js[39m[22m [25:74 - 30:40] (6 lines, 33 tokens)
+   tests/pr-guards.test.js [293:81 - 299:49]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/pr-guards.test.js[39m[22m [98:50 - 103:6] (6 lines, 44 tokens)
+   tests/pr-guards.test.js [151:68 - 158:10]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/pr-guards.test.js[39m[22m [233:46 - 239:5] (7 lines, 31 tokens)
+   tests/pr-guards.test.js [381:69 - 387:5]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/pr-guards.test.js[39m[22m [274:45 - 279:23] (6 lines, 30 tokens)
+   tests/pr-guards.test.js [287:45 - 292:23]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/pr-guards.test.js[39m[22m [381:44 - 387:5] (7 lines, 35 tokens)
+   tests/pr-guards.test.js [422:38 - 428:5]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/publish-retry.test.js[39m[22m [38:7 - 46:12] (9 lines, 37 tokens)
+   tests/publish-retry.test.js [198:7 - 207:12]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/publish-retry.test.js[39m[22m [127:77 - 135:26] (9 lines, 56 tokens)
+   tests/publish-retry.test.js [143:71 - 151:26]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/publish-retry.test.js[39m[22m [127:77 - 132:21] (6 lines, 33 tokens)
+   tests/publish-retry.test.js [181:53 - 186:21]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/publish-retry.test.js[39m[22m [172:9 - 178:12] (7 lines, 30 tokens)
+   tests/publish-retry.test.js [242:8 - 248:12]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/publish-retry.test.js[39m[22m [173:31 - 178:44] (6 lines, 32 tokens)
+   tests/publish-retry.test.js [203:8 - 208:44]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/publish-retry.test.js[39m[22m [212:73 - 217:26] (6 lines, 32 tokens)
+   tests/publish-retry.test.js [269:63 - 275:19]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/publish-retry.test.js[39m[22m [220:37 - 226:25] (7 lines, 36 tokens)
+   tests/publish-retry.test.js [260:31 - 266:25]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/publish-retry.test.js[39m[22m [241:64 - 248:28] (8 lines, 38 tokens)
+   tests/publish-retry.test.js [278:9 - 285:28]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/push-main-with-rebase-retry.test.js[39m[22m [1:18 - 17:11] (17 lines, 71 tokens)
+   tests/run-with-budget-warning.test.js [1:22 - 17:11]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/push-main-with-rebase-retry.test.js[39m[22m [211:9 - 218:37] (8 lines, 31 tokens)
+   tests/push-main-with-rebase-retry.test.js [297:42 - 304:37]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/recheck-broken-links.test.js[39m[22m [176:63 - 181:21] (6 lines, 32 tokens)
+   tests/recheck-broken-links.test.js [200:66 - 205:21]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/recheck-broken-links.test.js[39m[22m [320:30 - 326:3] (7 lines, 30 tokens)
+   tests/recheck-broken-links.test.js [371:59 - 377:5]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/recheck-broken-links.test.js[39m[22m [320:30 - 326:3] (7 lines, 30 tokens)
+   tests/recheck-broken-links.test.js [408:9 - 414:5]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/recheck-broken-links.test.js[39m[22m [320:30 - 326:3] (7 lines, 30 tokens)
+   tests/recheck-broken-links.test.js [445:50 - 451:5]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/recheck-broken-links.test.js[39m[22m [351:87 - 356:21] (6 lines, 31 tokens)
+   tests/recheck-broken-links.test.js [392:69 - 397:21]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/recheck-broken-links.test.js[39m[22m [351:87 - 356:21] (6 lines, 31 tokens)
+   tests/recheck-broken-links.test.js [430:86 - 435:21]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/recheck-broken-links.test.js[39m[22m [356:30 - 365:29] (10 lines, 43 tokens)
+   tests/recheck-broken-links.test.js [397:22 - 406:29]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/recheck-broken-links.test.js[39m[22m [359:11 - 365:53] (7 lines, 35 tokens)
+   tests/recheck-broken-links.test.js [438:11 - 444:53]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/recheck-broken-links.test.js[39m[22m [371:60 - 379:23] (9 lines, 34 tokens)
+   tests/recheck-broken-links.test.js [408:10 - 416:23]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/recheck-broken-links.test.js[39m[22m [371:60 - 379:23] (9 lines, 34 tokens)
+   tests/recheck-broken-links.test.js [445:51 - 453:23]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/recheck-broken-links.test.js[39m[22m [380:72 - 391:46] (12 lines, 92 tokens)
+   tests/recheck-broken-links.test.js [417:75 - 428:46]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/recheck-broken-links.test.js[39m[22m [393:10 - 406:29] (14 lines, 72 tokens)
+   tests/recheck-broken-links.test.js [431:10 - 444:29]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-api-integrity.test.js[39m[22m [8:1 - 13:9] (6 lines, 36 tokens)
+   tests/wayback-cli.test.js [3:59 - 8:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-api-integrity.test.js[39m[22m [76:11 - 81:6] (6 lines, 33 tokens)
+   tests/release-api-integrity.test.js [91:69 - 96:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-api-integrity.test.js[39m[22m [76:11 - 81:6] (6 lines, 33 tokens)
+   tests/release-api-integrity.test.js [108:69 - 113:4]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-metadata.test.js[39m[22m [52:21 - 62:45] (11 lines, 46 tokens)
+   tests/release-metadata.test.js [67:29 - 77:45]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-preflight.test.js[39m[22m [166:37 - 172:25] (7 lines, 32 tokens)
+   tests/release-preflight.test.js [367:64 - 372:27]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-preflight.test.js[39m[22m [189:37 - 195:32] (7 lines, 32 tokens)
+   tests/release-preflight.test.js [245:9 - 251:32]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-preflight.test.js[39m[22m [189:37 - 195:32] (7 lines, 32 tokens)
+   tests/release-preflight.test.js [324:62 - 330:32]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-preflight.test.js[39m[22m [204:36 - 210:32] (7 lines, 32 tokens)
+   tests/release-preflight.test.js [266:9 - 272:32]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-preflight.test.js[39m[22m [217:55 - 229:25] (13 lines, 46 tokens)
+   tests/release-preflight.test.js [237:55 - 249:25]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-preflight.test.js[39m[22m [217:55 - 229:25] (13 lines, 46 tokens)
+   tests/release-preflight.test.js [279:55 - 291:25]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-preflight.test.js[39m[22m [217:55 - 229:25] (13 lines, 46 tokens)
+   tests/release-preflight.test.js [340:56 - 351:27]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-preflight.test.js[39m[22m [220:36 - 230:32] (11 lines, 39 tokens)
+   tests/release-preflight.test.js [261:35 - 271:32]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-preflight.test.js[39m[22m [235:62 - 240:26] (6 lines, 31 tokens)
+   tests/release-preflight.test.js [256:58 - 261:26]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-preflight.test.js[39m[22m [240:36 - 250:32] (11 lines, 39 tokens)
+   tests/release-preflight.test.js [282:36 - 292:32]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-preflight.test.js[39m[22m [240:36 - 250:22] (11 lines, 37 tokens)
+   tests/release-preflight.test.js [343:38 - 352:24]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-preflight.test.js[39m[22m [244:34 - 251:32] (8 lines, 33 tokens)
+   tests/release-preflight.test.js [306:42 - 313:32]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/release-preflight.test.js[39m[22m [368:30 - 373:16] (6 lines, 30 tokens)
+   tests/release-preflight.test.js [382:20 - 387:14]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/required-docs.test.js[39m[22m [122:47 - 129:41] (8 lines, 35 tokens)
+   tests/required-docs.test.js [146:40 - 153:41]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/required-docs.test.js[39m[22m [123:7 - 129:41] (7 lines, 34 tokens)
+   tests/required-docs.test.js [163:60 - 169:41]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/run-with-budget-warning.test.js[39m[22m [1:1 - 17:11] (17 lines, 76 tokens)
+   tests/simulate-fresh-merge.test.js [1:1 - 17:11]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/run-with-budget-warning.test.js[39m[22m [64:65 - 69:39] (6 lines, 31 tokens)
+   tests/run-with-budget-warning.test.js [249:66 - 254:41]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-cli-features.test.js[39m[22m [9:35 - 15:12] (7 lines, 33 tokens)
+   tests/sanitizer-issue-47.test.js [27:40 - 33:12]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-cli-features.test.js[39m[22m [9:22 - 15:13] (7 lines, 38 tokens)
+   tests/sanitizer-two-pass.test.js [45:19 - 51:13]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-cli-features.test.js[39m[22m [48:46 - 54:32] (7 lines, 30 tokens)
+   tests/sanitizer-rewrite.test.js [51:18 - 57:32]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-cli-features.test.js[39m[22m [48:46 - 54:32] (7 lines, 30 tokens)
+   tests/sanitizer-stream.test.js [100:34 - 106:32]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-context.test.js[39m[22m [13:7 - 18:13] (6 lines, 38 tokens)
+   tests/sanitizer-issue-32.test.js [53:7 - 58:13]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-document-entities.test.js[39m[22m [136:63 - 146:12] (11 lines, 49 tokens)
+   tests/sanitizer-document-entities.test.js [159:4 - 169:10]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-experience-lines.test.js[39m[22m [74:37 - 81:10] (8 lines, 42 tokens)
+   tests/sanitizer-experience-lines.test.js [160:48 - 167:10]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-experience-lines.test.js[39m[22m [210:5 - 215:4] (6 lines, 40 tokens)
+   tests/sanitizer-experience-lines.test.js [223:7 - 226:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-gitleaks-windows.test.js[39m[22m [68:51 - 73:10] (6 lines, 30 tokens)
+   tests/sanitizer-gitleaks-windows.test.js [85:90 - 90:8]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-identity-boundaries.test.js[39m[22m [131:37 - 140:9] (10 lines, 30 tokens)
+   tests/sanitizer-identity.test.js [224:41 - 233:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-issue-32.test.js[39m[22m [70:7 - 75:27] (6 lines, 32 tokens)
+   tests/sanitizer-issue-32.test.js [92:7 - 97:24]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-issue-32.test.js[39m[22m [239:16 - 244:8] (6 lines, 32 tokens)
+   tests/sanitizer-stream-identity.test.js [111:56 - 116:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-issue-32.test.js[39m[22m [249:41 - 254:46] (6 lines, 30 tokens)
+   tests/sanitizer-stream-identity.test.js [195:46 - 200:48]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-issue-34.test.js[39m[22m [226:74 - 233:4] (8 lines, 42 tokens)
+   tests/sanitizer-issue-34.test.js [274:59 - 281:2]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-issue-36.test.js[39m[22m [4:1 - 13:9] (10 lines, 43 tokens)
+   tests/sanitizer-issue-38.test.js [2:1 - 11:9]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-issue-36.test.js[39m[22m [45:69 - 53:24] (9 lines, 43 tokens)
+   tests/sanitizer-issue-38.test.js [54:67 - 60:38]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-issue-36.test.js[39m[22m [66:13 - 74:4] (9 lines, 43 tokens)
+   tests/sanitizer-issue-38.test.js [62:64 - 69:4]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-issue-36.test.js[39m[22m [100:76 - 108:10] (9 lines, 30 tokens)
+   tests/sanitizer-session-identity.test.js [258:55 - 266:10]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-issue-38.test.js[39m[22m [27:1 - 33:2] (7 lines, 41 tokens)
+   tests/sanitizer-log-bytes.test.js [7:1 - 13:2]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-issue-38.test.js[39m[22m [135:64 - 143:8] (9 lines, 45 tokens)
+   tests/sanitizer-issue-38.test.js [190:62 - 198:14]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-issue-45-46.test.js[39m[22m [39:59 - 46:4] (8 lines, 45 tokens)
+   tests/sanitizer-issue-50.test.js [60:48 - 67:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-issue-65.test.js[39m[22m [303:35 - 317:7] (15 lines, 44 tokens)
+   tests/sanitizer-placeholder-cli.test.js [20:32 - 33:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-jsonl-stream.test.js[39m[22m [102:79 - 109:12] (8 lines, 31 tokens)
+   tests/sanitizer-stream-identity.test.js [170:36 - 177:12]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-keywords.test.js[39m[22m [25:29 - 31:4] (7 lines, 46 tokens)
+   tests/sanitizer-keywords.test.js [51:19 - 57:4]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-placeholder-residual.test.js[39m[22m [83:23 - 88:11] (6 lines, 38 tokens)
+   tests/sanitizer-reused-map-parts.test.js [21:37 - 27:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-session-identity.test.js[39m[22m [258:43 - 263:5] (6 lines, 30 tokens)
+   tests/sanitizer-stream.test.js [100:22 - 105:5]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-stream-identity.test.js[39m[22m [29:9 - 38:36] (10 lines, 41 tokens)
+   tests/sanitizer-two-pass.test.js [123:24 - 132:34]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/sanitizer-two-pass.test.js[39m[22m [72:38 - 78:31] (7 lines, 33 tokens)
+   tests/sanitizer-two-pass.test.js [174:34 - 180:31]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/scripts-use-module-adoption.test.js[39m[22m [41:48 - 47:6] (7 lines, 34 tokens)
+   tests/scripts-use-module-adoption.test.js [50:51 - 56:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/scripts-use-module-adoption.test.js[39m[22m [41:48 - 47:6] (7 lines, 34 tokens)
+   tests/scripts-use-module-adoption.test.js [62:69 - 70:6]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/status-gate-coverage.test.js[39m[22m [90:19 - 100:36] (11 lines, 33 tokens)
+   tests/status-gate-coverage.test.js [155:27 - 165:34]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/wait-for-npm.test.js[39m[22m [67:49 - 72:19] (6 lines, 32 tokens)
+   tests/wait-for-npm.test.js [153:44 - 158:19]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/wait-for-npm.test.js[39m[22m [109:67 - 114:32] (6 lines, 30 tokens)
+   tests/wait-for-npm.test.js [144:62 - 149:32]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/wait-for-npm.test.js[39m[22m [110:28 - 115:19] (6 lines, 32 tokens)
+   tests/wait-for-npm.test.js [247:23 - 252:19]
+[1mClone found (javascript)[22m
+ - [1m[32mtests/workflows-lint.test.js[39m[22m [127:20 - 140:45] (14 lines, 57 tokens)
+   tests/workflows-lint.test.js [166:18 - 179:45]
+[90m┌────────────┬────────────────┬─────────────┬──────────────┬──────────────┬──────────────────┬───────────────────┐[39m
+[90m│[39m[31m Format     [39m[90m│[39m[31m Files analyzed [39m[90m│[39m[31m Total lines [39m[90m│[39m[31m Total tokens [39m[90m│[39m[31m Clones found [39m[90m│[39m[31m Duplicated lines [39m[90m│[39m[31m Duplicated tokens [39m[90m│[39m
+[90m├────────────┼────────────────┼─────────────┼──────────────┼──────────────┼──────────────────┼───────────────────┤[39m
+[90m│[39m javascript [90m│[39m 388            [90m│[39m 52738       [90m│[39m 284000       [90m│[39m 334          [90m│[39m 2913 (5.52%)     [90m│[39m 14001 (4.93%)     [90m│[39m
+[90m├────────────┼────────────────┼─────────────┼──────────────┼──────────────┼──────────────────┼───────────────────┤[39m
+[90m│[39m [1mTotal:[22m     [90m│[39m 388            [90m│[39m 52738       [90m│[39m 284000       [90m│[39m 334          [90m│[39m 2913 (5.52%)     [90m│[39m 14001 (4.93%)     [90m│[39m
+[90m└────────────┴────────────────┴─────────────┴──────────────┴──────────────┴──────────────────┴───────────────────┘[39m
+[90mFound 334 clones.[39m
+[32mHTML report saved to ./reports/jscpd/jscpd-report.html[39m
+[90mtime: 283.245ms[39m

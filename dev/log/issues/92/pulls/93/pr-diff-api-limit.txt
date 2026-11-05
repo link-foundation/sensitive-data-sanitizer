@@ -1,0 +1,6 @@
+gh pr diff 93 --repo link-foundation/sensitive-data-sanitizer
+HTTP 406: Sorry, the diff exceeded the maximum number of files (300).
+The implementation revision has 301 changed files including the preserved evidence.
+Review fallback: verify PR base/head refs, list all changed files with paginated API,
+and read git diff origin/main...HEAD. The complete implementation diff is saved
+as pr-reviewed-implementation.diff.gz; earlier API-generated diffs are retained.

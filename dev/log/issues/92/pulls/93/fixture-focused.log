@@ -1,0 +1,290 @@
+▶ Changesets release formatter
+  ✔ uses the same formatter as the project formatting check (1.809836ms)
+  ✔ references the release Changesets config schema (0.698653ms)
+  ✔ versions and formats the real package with Deno absent from PATH (2157.461642ms)
+✔ Changesets release formatter (2164.669827ms)
+▶ credential-free PR release versioning
+  ✔ checks the fresh merge in the independent lint job and discards changes (1.164462ms)
+✔ credential-free PR release versioning (1.833099ms)
+$ git commit -m 1.2.3 "quoted" \ path $HOME $(printf nope) `printf nope`
+[main (root-commit) cf70dbd] 1.2.3 "quoted" \ path $HOME $(printf nope) `printf nope`
+ 1 file changed, 1 insertion(+)
+ create mode 100644 file
+$ git commit -m 1.2.3 "quoted" \ path $HOME $(printf nope) `printf nope`
+▶ exact release commit message
+  ✔ preserves an exact Git commit message with LF source endings (127.080741ms)
+[main (root-commit) cf70dbd] 1.2.3 "quoted" \ path $HOME $(printf nope) `printf nope`
+ 1 file changed, 1 insertion(+)
+ create mode 100644 file
+  ✔ preserves an exact Git commit message with CRLF source endings (126.203925ms)
+✔ exact release commit message (256.956354ms)
+▶ conditional GitHub Pages deployment
+  ✔ builds successfully with disabled or legacy Pages (3.611656ms)
+  ✔ surfaces authentication and server failures (0.698403ms)
+  ✖ gates configure, upload and deployment together (1.40979ms)
+✖ conditional GitHub Pages deployment (10.407964ms)
+▶ pipeline status gate
+  ✔ compares fork PR cancellations with the base repository pull head ref (1482.216907ms)
+  ✔ stays compatible with the Bash 3.2 shipped by macOS runners (0.640294ms)
+  ✔ observes every other release workflow job (2.794933ms)
+  ✔ cancels obsolete readers and queues main writers (2.09612ms)
+  ✔ passes when jobs succeeded or were skipped (131.420474ms)
+  ✔ fails for a failed job on every ref (175.768997ms)
+  ✔ fails for a cancelled job on main (208.555722ms)
+  ✔ fails closed for a cancellation without branch and workflow context (179.006646ms)
+✔ pipeline status gate (2186.676535ms)
+▶ pipeline status gate and runner acquisition
+  ✔ names jobs GitHub never acquired a runner for and stays red (340.386122ms)
+  ✔ adds nothing when every failed job ran on a runner (455.721534ms)
+  ✔ does not list jobs when every required job succeeded (311.170928ms)
+  ✔ warns, without hiding the failure, when the jobs cannot be listed (276.72638ms)
+  ✔ skips the job listing without a token (145.70515ms)
+✔ pipeline status gate and runner acquisition (1530.760394ms)
+▶ pipeline status gate in every workflow
+  ✔ gates every workflow and observes every other job (1.811689ms)
+  ✔ uses a status function, so the gate runs when its needs fail (0.779083ms)
+  ✔ bounds the new gate jobs at 5 minutes (0.511054ms)
+✔ pipeline status gate in every workflow (3.453512ms)
+▶ pipeline status supersede detection
+  ✔ errors when main is at the run commit (a genuine overrun) (160.093538ms)
+  ✔ warns only when a moved branch could cancel that exact job (646.645149ms)
+  ✔ does not excuse a non-cancellable job after the branch moves (514.786938ms)
+  ✔ fails closed when cancel-in-progress is an expression (550.838594ms)
+  ✔ errors when the branch head cannot be resolved (180.997149ms)
+  ✔ errors without a network call when RUN_SHA is missing (177.85076ms)
+✔ pipeline status supersede detection (2232.373152ms)
+▶ effective job cancellation policy reader
+  ✔ distinguishes literal, inherited, absent, missing, and expression values (281.628033ms)
+  ✔ reports none when neither job nor workflow declares concurrency (330.442545ms)
+✔ effective job cancellation policy reader (612.483307ms)
+▶ required release API evidence
+  ✔ format-github-release refuses 401 without writing (953.794445ms)
+  ✔ format-github-release refuses 403 without writing (693.322856ms)
+  ✔ format-github-release refuses 404 without writing (711.965779ms)
+  ✔ format-github-release refuses 429 without writing (1063.746417ms)
+  ✔ format-github-release refuses 500 without writing (659.67326ms)
+  ✔ format-github-release refuses ENOTFOUND without writing (850.332831ms)
+  ✔ format-github-release rejects malformed release "{" (705.347084ms)
+  ✔ format-github-release rejects malformed release null (580.635313ms)
+  ✔ format-github-release rejects malformed release {} (621.193245ms)
+  ✔ format-github-release rejects malformed release {"id":123,"tag_name":"v1.2.3","body":7} (622.260906ms)
+  ✔ format-release-notes refuses 401 without writing (660.444578ms)
+  ✔ format-release-notes refuses 403 without writing (620.029313ms)
+  ✔ format-release-notes refuses 404 without writing (624.498941ms)
+  ✔ format-release-notes refuses 429 without writing (688.646112ms)
+  ✔ format-release-notes refuses 500 without writing (745.129679ms)
+  ✔ format-release-notes refuses ENOTFOUND without writing (692.744837ms)
+  ✔ format-release-notes rejects malformed release "{" (757.808899ms)
+  ✔ format-release-notes rejects malformed release null (710.118204ms)
+  ✔ format-release-notes rejects malformed release {} (920.285563ms)
+  ✔ format-release-notes rejects malformed release {"id":123,"tag_name":"v1.2.3","body":7} (657.819853ms)
+  ✔ aborts before PATCH for refused or malformed PR pages {"code":1,"body":"","error":"HTTP 403"} (611.51425ms)
+  ✔ aborts before PATCH for refused or malformed PR pages {"body":"{"} (637.492636ms)
+  ✔ aborts before PATCH for refused or malformed PR pages {"body":[{}]} (732.776416ms)
+  ✔ aborts before PATCH for refused or malformed PR pages {"body":[[{"title":"feature"}]]} (638.82934ms)
+  ✔ aborts before PATCH for refused or malformed PR pages {"body":[[{"title":"feature","number":1}],{}]} (762.122695ms)
+  ✔ includes page 31 and all relevant PRs, deduplicating and preserving notes (1837.717793ms)
+  ✔ accepts a valid empty PR page and succeeds after a refused attempt (1650.790943ms)
+✔ required release API evidence (21423.33151ms)
+▶ release badge version normalization
+  ✔ strips a plain v prefix for backward compatibility (2.99718ms)
+  ✔ strips a js-v prefix from multi-language release tags (0.647318ms)
+  ✔ strips a js_v prefix from auto-detected multi-language release tags (0.303126ms)
+  ✔ strips a rust-v prefix from multi-language release tags (0.341235ms)
+  ✔ strips a rust_v prefix from multi-language release tags (0.340506ms)
+  ✔ escapes hyphens in prerelease versions for shields.io static badge paths (0.468344ms)
+  ✔ builds a valid shields.io badge URL for prefixed tags (0.65405ms)
+  ✔ builds a valid shields.io badge URL for prefixed prerelease tags (0.432678ms)
+✔ release badge version normalization (10.15921ms)
+▶ generated npm badge detection
+  ✔ does not skip ordinary notes: ### Patch Changes
+- Fix img.shields.io URL handling (12.206048ms)
+  ✔ does not skip ordinary notes: ![build](https://img.shields.io/badge/build-passing-green) (4.543875ms)
+  ✔ does not skip ordinary notes: ![npm](https://img.shields.io.attacker.invalid/badge/npm-1-blue.svg) (0.49341ms)
+  ✔ does not skip ordinary notes: ![npm](https://img.shields.io@attacker.invalid/badge/npm-1-blue.svg) (0.352116ms)
+  ✔ does not skip ordinary notes: ![npm](https://attacker.invalid/img.shields.io/badge/npm-1-blue.svg) (0.341857ms)
+  ✔ does not skip ordinary notes: ![npm](http://img.shields.io/badge/npm-1-blue.svg) (0.259163ms)
+  ✔ does not skip ordinary notes: ![npm](https://user@img.shields.io/badge/npm-1-blue.svg) (0.355553ms)
+  ✔ does not skip ordinary notes: https://img.shields.io/badge/npm-1-blue.svg (0.360844ms)
+  ✔ recognizes the actual generated badge (0.585202ms)
+✔ generated npm badge detection (20.440606ms)
+▶ real release formatter with offline gh
+  ✔ publishes all Markdown entries and unique PRs through JSON stdin (266.738641ms)
+  ✔ uses the supplied commit only when entries have no hash (262.650273ms)
+✔ real release formatter with offline gh (531.557137ms)
+▶ release-preflight workflow wiring
+  ✔ runs the preflight job before anything can publish (2.885973ms)
+  ✔ probes with a write, not a login (0.579821ms)
+  ✔ gates every publishing job on an explicit preflight success (5.863327ms)
+  ✔ fails on main and manual instant releases, reports on pull requests (0.481187ms)
+  ✔ passes the publishing credentials to the probe (1.879606ms)
+  ✔ keeps the preflight checkout credential-free and observes the job (0.492689ms)
+✔ release-preflight workflow wiring (14.595143ms)
+▶ release-preflight probe behaviour (offline, curl stub)
+  ✔ passes in release mode when OIDC publishing is available (522.478985ms)
+  ✔ fails in release mode when there is nothing to publish with (31.015883ms)
+  ✔ passes in report mode when there is nothing to publish with (36.761139ms)
+  ✔ verifies the Docker Hub write when the registry accepts it (535.093405ms)
+  ✔ fails in release mode when Docker Hub refuses the write (517.065778ms)
+  ✔ never blocks a pull request on a refused credential (518.247111ms)
+  ✔ blocks release when any configured target remains unknown (767.399789ms)
+✔ release-preflight probe behaviour (offline, curl stub) (2932.435668ms)
+▶ release-preflight npm token diagnostics
+  ✖ fails in release mode when npm rejects the token (440.451782ms)
+  ✔ fails in release mode when it verified nothing (113.051142ms)
+✖ release-preflight npm token diagnostics (555.514275ms)
+▶ npm OIDC package exchange regression
+  ✔ does not allow Docker success to hide npm exchange status 401 (445.246025ms)
+  ✔ does not allow Docker success to hide npm exchange status 403 (506.594667ms)
+  ✔ does not allow Docker success to hide npm exchange status 404 (510.887885ms)
+  ✔ does not allow Docker success to hide npm exchange status 429 (348.730637ms)
+  ✔ does not allow Docker success to hide npm exchange status 500 (362.444968ms)
+  ✔ does not allow Docker success to hide npm exchange status 0 (376.921691ms)
+  ✔ rejects malformed npm exchange body invalid JSON (310.468678ms)
+  ✔ rejects malformed npm exchange body {} (267.967442ms)
+  ✔ rejects malformed npm exchange body {"token":42} (340.110127ms)
+  ✔ rejects malformed npm exchange body {"token":""} (302.04186ms)
+  ✔ rejects malformed JWT responses without exchanging them (188.458296ms)
+  ✔ rejects a missing GitHub request token (14.059475ms)
+  ✖ preserves the token bootstrap path when npm reports a nonexistent package (415.318382ms)
+  ✔ names the maintainer action when npm answers the package lookup with 404 (303.334932ms)
+  ✔ names the maintainer action when npm answers the package lookup with 200 (327.433552ms)
+  ✔ names the maintainer action when npm answers the package lookup with 000 (344.253687ms)
+✖ npm OIDC package exchange regression (5377.241175ms)
+33013038352669f110608472eef79cf620481661
+From /tmp/release-publication-722gnL/origin
+ * branch            main       -> FETCH_HEAD
+5bf2b26910d78f9376a5a26a298f91c084f8b80a
+5bf2b26910d78f9376a5a26a298f91c084f8b80a
+33013038352669f110608472eef79cf620481661
+M source.js 380ff3321dcf5dbe83f88f5112152e205dc154ca
+380ff3321dcf5dbe83f88f5112152e205dc154ca
+33013038352669f110608472eef79cf620481661
+M package-lock.json M package.json {"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}
+{"name":"fixture","version":"1.0.0","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}}}
+{"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}
+{"name":"fixture","version":"1.0.1","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}}}
+380ff3321dcf5dbe83f88f5112152e205dc154ca
+380ff3321dcf5dbe83f88f5112152e205dc154ca
+33013038352669f110608472eef79cf620481661
+M package-lock.json M package.json {"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}
+{"name":"fixture","version":"1.0.0","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}}}
+{"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}
+{"name":"fixture","version":"1.0.1","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}}}
+1df4af25a757c673d62d81bdb4058e9628e7db9d
+1df4af25a757c673d62d81bdb4058e9628e7db9d
+33013038352669f110608472eef79cf620481661
+M package-lock.json M package.json {"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}
+{"name":"fixture","version":"1.0.0","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}}}
+{"name":"fixture","version":"1.0.1","dependencies":{"fixture":"2.0.0"}}
+{"name":"fixture","version":"1.0.1","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}}}
+▶ publication uses validated code
+  ✔ never pulls a newer source commit and recovers only version metadata (869.151904ms)
+✔ publication uses validated code (871.998023ms)
+▶ unacquired job detection
+  ✔ matches a job with no runner and no steps that GitHub gave up on (2.008728ms)
+  ✔ never matches a job that ran, or one that did not fail (1.44762ms)
+  ✔ separates unacquired jobs, real failures and status gates (0.726355ms)
+  ✔ follows pagination of the jobs API (0.757973ms)
+  ✔ reports the unacquired jobs of an injected jobs response (0.921158ms)
+✔ unacquired job detection (8.240481ms)
+▶ rerun of runs that never got a runner
+  ✔ reruns failed jobs when unacquired jobs explain the failure (1.989682ms)
+  ✔ never reruns when a job failed after running steps (5.451318ms)
+  ✔ leaves a run alone when every failed job ran (0.678486ms)
+  ✔ stops at the attempt limit without calling the API (0.475687ms)
+  ✔ ignores runs that did not fail (1.377038ms)
+  ✔ does not rerun a run someone already reran (1.868766ms)
+  ✔ does not rerun a run a newer run of the branch supersedes (0.43446ms)
+  ✔ reruns a later attempt that again found no runner (0.402721ms)
+  ✔ fails when GitHub refuses the rerun (0.430463ms)
+✔ rerun of runs that never got a runner (14.721139ms)
+▶ rerun-unacquired workflow
+  ✔ watches every workflow that runs on its own (0.952478ms)
+  ✔ runs only for failed runs below the attempt limit (0.335345ms)
+  ✔ escalates to actions: write only in the rerun job (0.173243ms)
+  ✔ runs the tested script (0.141623ms)
+✔ rerun-unacquired workflow (2.356285ms)
+▶ explicit public verification and outbound helpers
+  ✔ verifies public candidates with source evidence and never queries credentials or private namesakes (481.288203ms)
+  ✔ blocks publication on required verification errors (3.512122ms)
+  ✔ keeps explicit private names ahead of manual and online public exemptions (9.520849ms)
+  ✔ sanitizes contextual JSON and drops failed Sentry events (33.674051ms)
+  ✔ loads gh auth only on an explicit invocation and hides subprocess errors (16.099469ms)
+  ✔ detects the exact synthetic value returned by local auth (97.043874ms)
+✔ explicit public verification and outbound helpers (648.599694ms)
+▶ check-status-gate-covers-all-jobs.mjs
+  ✔ accepts comments and blank lines in block needs (112.920918ms)
+  ✖ confirms the shipped release workflow is fully covered (127.062446ms)
+  ✔ names the uncovered job when a job is dropped from needs (110.908605ms)
+  ✔ exits 2 when the workflow has no terminal status gate at all (82.169348ms)
+  ✔ accepts a differently named gate via --gate (168.623438ms)
+  ✔ parses the flow form of needs (235.179733ms)
+  ✔ wires the checker into the workflows meta-workflow for every workflow (0.591002ms)
+✖ check-status-gate-covers-all-jobs.mjs (841.210205ms)
+▶ check-status-gate-covers-all-jobs.mjs shipped coverage
+  ✔ confirms every other shipped workflow is fully covered (414.029218ms)
+✔ check-status-gate-covers-all-jobs.mjs shipped coverage (414.509994ms)
+▶ universal React example app
+  ✔ defines the expected app package and build targets (2.754127ms)
+  ✔ renders a visual UI using the package add and multiply functions (0.484424ms)
+  ✔ shares the Vite build output with Capacitor and GitHub Pages (0.506765ms)
+  ✔ adds root scripts and a workflow for web, desktop, and mobile checks (0.78301ms)
+  ✔ documents local validation without store credentials (0.416397ms)
+  ✔ regenerates preview screenshots with browser-commander on every push to main (1.398138ms)
+✔ universal React example app (8.793151ms)
+ℹ tests 149
+ℹ suites 25
+ℹ pass 145
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 21741.780596
+
+✖ failing tests:
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ gates configure, upload and deployment together (1.40979ms)
+  Error: Expected "  pages-deploy:" to contain "if: github.event_name == 'push' && github.ref == 'refs/heads/main'"
+      at Object.toContain (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:566:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/pages-configuration.test.js:27:21)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ fails in release mode when npm rejects the token (440.451782ms)
+  Error: Expected "npm:\n  PASS: npm OIDC package exchange verified (returned token discarded)\n  UNKNOWN: npm whoami response is malformed; token remains unverified\nDocker Hub:\n  SKIP: DOCKERHUB_IMAGE is not set -- Docker publishing is disabled (scripts/check-docker-publish.mjs)\n\nRelease preflight: 1 verified, 0 failed, 1 unknown\n::warning::release-preflight: npm whoami response is malformed; token remains unverified\n::error::release-preflight: not all configured targets verified (1 unknown) -- refusing to release on an unproven credential set\n" to contain "npm rejected NPM_TOKEN (401 Unauthorized)"
+      at Object.toContain (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:566:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/release-preflight.test.js:313:22)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1905:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ preserves the token bootstrap path when npm reports a nonexistent package (415.318382ms)
+  Error: Expected 1 to be 0
+      at Object.toBe (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:391:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/release-preflight.test.js:416:20)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ confirms the shipped release workflow is fully covered (127.062446ms)
+  Error: Expected ".github/workflows/release.yml: pipeline-status covers all 17 other job(s).\n" to contain ".github/workflows/release.yml: pipeline-status covers all 20 other job(s)."
+      at Object.toContain (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:566:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/status-gate-coverage.test.js:51:29)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1905:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)

@@ -1,0 +1,4 @@
+All 47 branch workflow runs are preserved with metadata and complete available logs.
+57 total workflows indexed, including every issue-cited run and relevant main predecessors.
+One cancelled-run aggregation failure is preserved with all 246 available job/step logs in its raw Actions ZIP archive.
+Final implementation SHA: b43e7b41d4d18062bc26b9a047c492467e8cd2bb; five successful workflows, 52 successful jobs, 10 intentional skips.

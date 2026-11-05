@@ -1,0 +1,24 @@
+▶ complete pipeline requirements
+  ✔ queues every writer without cancellation (5.902212ms)
+  ✔ uses only the narrow documented actionlint schema exception (0.530741ms)
+  ✔ provides defaults for required dispatch inputs (0.71277ms)
+  ✔ checks the Dependabot author and enforces warnings on main (3.140479ms)
+  ✔ persists the link cache and uploads the report on failure (0.379477ms)
+  ✔ gives skipped matrix jobs static names (1.650148ms)
+  ✔ deploys Pages without npm dependencies or hidden warnings (0.996991ms)
+  ✔ covers standalone scripts and hooks with pinned ShellCheck (2.44981ms)
+  ✔ declares a shell in every tracked script and hook (31.613945ms)
+  ✔ declares every ESLint configuration import (1.142472ms)
+✔ complete pipeline requirements (51.678551ms)
+✔ partitions every test file exactly once, independent of directory order (4.93068ms)
+✔ covers every runtime and OS once while distributing Windows Bun and Deno fixtures (133.174246ms)
+✔ rejects invalid shard selection and empty or unknown runtime commands (0.724843ms)
+✔ preserves per-test limits and explicit file selection for each runtime (0.342829ms)
+ℹ tests 14
+ℹ suites 1
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 433.013584

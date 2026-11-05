@@ -10,7 +10,7 @@ Complete source archives and recursive GitHub trees are saved next to this docum
 | Package/build | npm package, JS-first demonstrations, desktop/browser/mobile example | pyproject, uv/pip, Python release and examples | Preserve sanitizer exports, CLI, docs, corpus and browser app. Reuse generic npm and desktop hygiene only. Python publication/build commands do not apply to an npm package. |
 | Release | Changesets, OIDC, integrity validation | TOML version parser, scriv, PyPI OIDC | Keep Changesets and npm OIDC; transfer release validation/fail-closed principles. Shared transient push defect reported in both projects. |
 | Security | CodeQL strict result gate, npm audit, dependency graph | language-specific static analysis, audit and graph checks | Apply strict evidence and graph preflight. No Python dependency lock exists here; the example bridge remains shipped and documented. |
-| CI infrastructure | pinned tooling, artifacts, Pages, link recovery, status, retries | corresponding cross-language patterns | Adapt shared tested helpers; preserve 15-leg Intel macOS sharding and the sanitizer session-publication job. |
+| CI infrastructure | pinned tooling, artifacts, Pages, link recovery, status, retries | corresponding cross-language patterns | Adapt shared tested helpers; preserve Intel macOS sharding and add Windows Bun/Deno partitions plus four macOS Deno stripes (20 total jobs) and the sanitizer session-publication job. |
 | Documentation/tests | template docs and arithmetic examples | Python API/tutorial/tests | Preserve product behavior; copy applicable CI regression tests and adapt project matrix/fixtures. Omit template-only language demonstration tests and arithmetic-specific tests. |
 | Historical evidence | case studies and development logs | case studies and captured CI logs | Preserve snapshots verbatim; exclude evidence from source lint/scanners/formatters/link checks. |
 
@@ -65,19 +65,19 @@ All shared scripts were diffed against the template. Generic improvements are ad
 | `lychee-report.mjs` | Identical upstream helper retained/adopted |
 | `markdown-lines.mjs` | Identical upstream helper retained/adopted |
 | `merge-changesets.mjs` | Identical upstream helper retained/adopted |
-| `npm-audit-report.mjs` | Identical upstream helper retained/adopted |
+| `npm-audit-report.mjs` | Adapted for release attestation, project coverage or diagnostics; see PR diff |
 | `npm-registry.mjs` | Identical upstream helper retained/adopted |
 | `package-info.mjs` | Identical upstream helper retained/adopted |
 | `pr-comparison.mjs` | Identical upstream helper retained/adopted |
 | `preflight-credentials.sh` | Identical upstream helper retained/adopted |
 | `publish-failure-classifier.mjs` | Identical upstream helper retained/adopted |
 | `publish-retry.mjs` | Identical upstream helper retained/adopted |
-| `publish-to-npm.mjs` | Identical upstream helper retained/adopted |
+| `publish-to-npm.mjs` | Adapted for release attestation, project coverage or diagnostics; see PR diff |
 | `push-failure-classifier.mjs` | Adapted for release attestation, project coverage or diagnostics; see PR diff |
 | `push-main-with-rebase-retry.mjs` | Adapted for release attestation, project coverage or diagnostics; see PR diff |
 | `read-job-cancel-in-progress.sh` | Identical upstream helper retained/adopted |
 | `recheck-broken-links.mjs` | Identical upstream helper retained/adopted |
-| `release-metadata.mjs` | Identical upstream helper retained/adopted |
+| `release-metadata.mjs` | Adapted for release attestation, project coverage or diagnostics; see PR diff |
 | `release-naming.mjs` | Identical upstream helper retained/adopted |
 | `rerun-unacquired.mjs` | Identical upstream helper retained/adopted |
 | `run-command.mjs` | Identical upstream helper retained/adopted |
@@ -90,8 +90,10 @@ All shared scripts were diffed against the template. Generic improvements are ad
 | `use-module.mjs` | Identical upstream helper retained/adopted |
 | `validate-changeset.mjs` | Identical upstream helper retained/adopted |
 | `version-and-commit.mjs` | Adapted for release attestation, project coverage or diagnostics; see PR diff |
-| `version-lock.mjs` | Identical upstream helper retained/adopted |
+| `version-lock.mjs` | Adapted for release attestation, project coverage or diagnostics; see PR diff |
 | `wait-for-npm.mjs` | Identical upstream helper retained/adopted |
+
+Local additions beyond the template include `release-publication.mjs` and its regression tests: publication may use only validated source or an attested version-only child. The imported npm audit reporter also requires process completion and structurally valid evidence. Shared release fixture scripts are retained under `experiments/` and adapted to this product; template-only demonstrations are excluded deliberately. `inventory-revisions.json` anchors both complete template trees and the exact local code revision used for the comparison; subsequent evidence-only commits do not change product or pipeline behavior.
 
 ## Python pipeline review
 
@@ -104,7 +106,6 @@ The complete Python tree is preserved, including application and documentation f
 | `.github/workflows/release.yml` | Compare shared status/concurrency/security/release practices; retain language-appropriate JS implementation |
 | `.github/workflows/security.yml` | Compare shared status/concurrency/security/release practices; retain language-appropriate JS implementation |
 | `.github/workflows/workflows.yml` | Compare shared status/concurrency/security/release practices; retain language-appropriate JS implementation |
-| `scripts/__pycache__/version_and_commit.cpython-315.pyc` | Reproduced shared transient-push classification gap; upstream issue 136 |
 | `scripts/audit-npm-locks.sh` | Compare shared status/concurrency/security/release practices; retain language-appropriate JS implementation |
 | `scripts/audit_dependencies.py` | Compare shared status/concurrency/security/release practices; retain language-appropriate JS implementation |
 | `scripts/bump_version.py` | Compare shared status/concurrency/security/release practices; retain language-appropriate JS implementation |
@@ -133,7 +134,7 @@ The complete Python tree is preserved, including application and documentation f
 
 ## Upstream context
 
-Recent merged PRs were collected in `js-merged-prs.json` and `python-merged-prs.json`. In particular JS PRs 282, 276 and 274 already address Pages retry/audit visibility, deprecations/install policies, and evidence/lock integrity. Reusing those implementations and tests avoids inventing competing adapters. New downstream discoveries are reported at JS issue 283 and Python issue 136.
+Recent merged PRs were collected in `js-merged-prs.json` and `python-merged-prs.json`. In particular JS PRs 282, 276 and 274 already address Pages retry/audit visibility, deprecations/install policies, and evidence/lock integrity. Reusing those implementations and tests avoids inventing competing adapters. New downstream discoveries are reported at JS issues 283 and 284 and Python issue 136. Follow-up comments preserve the publication-race, Python unsafe recovery, audit-execution, manual-gate and fixture-warning reproducers.
 
 ## Best-practice coverage
 

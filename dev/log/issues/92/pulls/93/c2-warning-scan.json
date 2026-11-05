@@ -1,0 +1,7 @@
+[
+  {
+    "count": 6,
+    "line": 17359,
+    "text": "Test runtimes (windows-2025, bun, 1/1)\tUNKNOWN STEP\t2026-11-05T17:17:00.7086950Z warning: in the working copy of 'dev/log/reference/sample.js', LF will be replaced by CRLF the next time Git touches it"
+  }
+]

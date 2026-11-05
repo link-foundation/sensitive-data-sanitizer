@@ -1,0 +1,31 @@
+[STARTED] Backing up original state...
+[COMPLETED] Backed up original state in git stash (190f6bd)
+[STARTED] Running tasks for staged files...
+[STARTED] package.json — 6 files
+[STARTED] *.{js,mjs,cjs} — 4 files
+[STARTED] *.md — 1 file
+[STARTED] *.sh — 0 files
+[STARTED] .husky/* — 0 files
+[SKIPPED] *.sh — no files
+[SKIPPED] .husky/* — no files
+[STARTED] eslint --fix --max-warnings 0 --no-warn-ignored
+[STARTED] prettier --write
+[COMPLETED] prettier --write
+[STARTED] prettier --check
+[COMPLETED] prettier --check
+[COMPLETED] *.md — 1 file
+[COMPLETED] eslint --fix --max-warnings 0 --no-warn-ignored
+[STARTED] prettier --write
+[COMPLETED] prettier --write
+[STARTED] prettier --check
+[COMPLETED] prettier --check
+[COMPLETED] *.{js,mjs,cjs} — 4 files
+[COMPLETED] package.json — 6 files
+[COMPLETED] Running tasks for staged files...
+[STARTED] Applying modifications from tasks...
+[COMPLETED] Applying modifications from tasks...
+[STARTED] Cleaning up temporary files...
+[COMPLETED] Cleaning up temporary files...
+[issue-92-255abc3c67f8 b8b66f5] fix: reject unsuccessful or malformed audit evidence
+ 6 files changed, 174 insertions(+), 17 deletions(-)
+ create mode 100644 experiments/issue-92/compare-template-trees.py

@@ -6,9 +6,15 @@
     "upstream_sha256": null
   },
   {
+    "path": ".changeset/ci-evidence-and-release-integrity.md",
+    "status": "local-only",
+    "local_sha256": "a66b827ef6c999af67e8757cf12367845e531efccf1820dfe06b33e6af7ac8ae",
+    "upstream_sha256": null
+  },
+  {
     "path": ".changeset/config.json",
     "status": "local-only",
-    "local_sha256": "b5afddde67ecde01e71b9457d0ebd84ccd31bdbf541deada392c0a6b984d836e",
+    "local_sha256": "974a2a8c48207bc0668710247c16f0b0857f5f8fa34bae5464e5294b8e5528a6",
     "upstream_sha256": null
   },
   {
@@ -19,8 +25,8 @@
   },
   {
     "path": ".gitattributes",
-    "status": "template-only",
-    "local_sha256": null,
+    "status": "different",
+    "local_sha256": "9f66ece63011d46bbe6fa92dd8b40ca77a6d1f8f13ef7ef927ee3573c47e7b82",
     "upstream_sha256": "9a702e1f90aa4f0a8cacbf742c50d66046465d163e958e1d2e566848f3f64cec"
   },
   {
@@ -28,6 +34,48 @@
     "status": "template-only",
     "local_sha256": null,
     "upstream_sha256": "17113b637d935fe981dd9378736060e75a8736ec29ab8a27e6e284869f852d4b"
+  },
+  {
+    "path": ".github/actions/artifact-transport/README.md",
+    "status": "local-only",
+    "local_sha256": "7dfce46329ed6f808b4155febff8d41242084367b26fe3ac2d87b1b7c5e7a4f5",
+    "upstream_sha256": null
+  },
+  {
+    "path": ".github/actions/artifact-transport/action.yml",
+    "status": "local-only",
+    "local_sha256": "37a38b3125c2668d36535606de0a235646fb5c8311ef86db64eccf188a99e7d5",
+    "upstream_sha256": null
+  },
+  {
+    "path": ".github/actions/artifact-transport/extract.mjs",
+    "status": "local-only",
+    "local_sha256": "829abd76f5125c26387f7f3b92674f9f5b8fbb59ed754a55e36327123b5ed00d",
+    "upstream_sha256": null
+  },
+  {
+    "path": ".github/actions/artifact-transport/index.mjs",
+    "status": "local-only",
+    "local_sha256": "80c50c9d16640413d3934b280d4fa496b04353e309f1c5019827b4046e8ce1d0",
+    "upstream_sha256": null
+  },
+  {
+    "path": ".github/actions/artifact-transport/package-lock.json",
+    "status": "local-only",
+    "local_sha256": "2afdd50e09bfb5d188d2a849e7add5922aa4a5fead53cd79b86586579dbaa61e",
+    "upstream_sha256": null
+  },
+  {
+    "path": ".github/actions/artifact-transport/package.json",
+    "status": "local-only",
+    "local_sha256": "f4d6d7bd5d0392fd5b32219349ab50eeea7f345ac5ecb8660d253afb39ec5207",
+    "upstream_sha256": null
+  },
+  {
+    "path": ".github/actions/artifact-transport/run/action.yml",
+    "status": "local-only",
+    "local_sha256": "f5db953759589bf8c4eef6e65e317a6a9cb099dd79d2c56f2bfbc8e7c57ecd55",
+    "upstream_sha256": null
   },
   {
     "path": ".github/actions/artifact/action.yml",
@@ -128,7 +176,7 @@
   {
     "path": ".github/codeql/codeql-config.yml",
     "status": "different",
-    "local_sha256": "c5b421c15565dfa6b9c01f1b5e3958d97257ca5e59ae3027fe5687ccff0a78a8",
+    "local_sha256": "f3f75d8a757aa424cc21c2bb3bb7fec34e1d8c8a0ef927f9cd448c3970796a42",
     "upstream_sha256": "fe47e90d27b74328306bd63d754e53b4ea703455a86bde74ec61fd29878639f5"
   },
   {
@@ -152,19 +200,25 @@
   {
     "path": ".github/workflows/links.yml",
     "status": "different",
-    "local_sha256": "6c55142fbd31fc33507b8b6129d5e40f6b7e19239a8e0dc7b9bdd0904b7f1f63",
+    "local_sha256": "6de59d4fb17fbaa90faff7e889b8aaae123eb4742b714e473a4f0608a6e7eaff",
     "upstream_sha256": "1d449d500a45655e138033d04bc9724550d6af710856128eed021d1c2873a5aa"
   },
   {
     "path": ".github/workflows/release.yml",
     "status": "different",
-    "local_sha256": "303b4cb34e7de93d4f4afb9ccf50253a66e4881536b8e90863483cd4887de1d6",
+    "local_sha256": "7d578f2493b6268553e602b425110fa7ee398f3d9f1f8a4a0c99c4f49bcdf7ce",
     "upstream_sha256": "681d280df665c70dee8a5d7e1bb74a31122402e61e89b880b8dac5b9996be5d1"
+  },
+  {
+    "path": ".github/workflows/rerun-unacquired.yml",
+    "status": "local-only",
+    "local_sha256": "e008d9b70d09eb147b6b9878a83bb1c80b158bee47b6ae4711b3ad608d584d2f",
+    "upstream_sha256": null
   },
   {
     "path": ".github/workflows/security.yml",
     "status": "different",
-    "local_sha256": "bd40f7a63eee061b52fed5bbfde9b6af5449ea43e0d3c63bf8308d437f691430",
+    "local_sha256": "f943c1796eef1ecea107980f2c89e84095a7ee1e4900f210b547d0b6f72785f6",
     "upstream_sha256": "2ae04ebe9eaaa9ee72e8d35776b9e536d6f728f5815dd47bb6b44edda6067a59"
   },
   {
@@ -176,7 +230,7 @@
   {
     "path": ".github/zizmor.yml",
     "status": "different",
-    "local_sha256": "08b40afd5a1db2ee5887f3f81de3f5315ed5aa28f6451cc373507abac008173d",
+    "local_sha256": "acc6544cc355a35b7657fb0da10d3ad59cc777eafebaa4d6e3c504b52ecec2fe",
     "upstream_sha256": "172c7481e1de4bcf0e9c01b39d752dd0ab3ec6be86e969705957141c9c667872"
   },
   {
@@ -200,7 +254,7 @@
   {
     "path": ".jscpd.json",
     "status": "local-only",
-    "local_sha256": "96cfd6e87638def38dd8e148c070dd57f7288452b3d99c24aeff451dc1bfb8e4",
+    "local_sha256": "5ab82b793582b2de84be512166c5a261a2d7b8a76ce3cd804edae9eb55070d42",
     "upstream_sha256": null
   },
   {
@@ -566,7 +620,541 @@
   {
     "path": "deno.lock",
     "status": "local-only",
-    "local_sha256": "e29738d32c917012bf851a323ac88cc07b15c2533dfb7b997c93d36d3d099308",
+    "local_sha256": "5585f56d88423177c1deb0f50234d7491f952830f5d02c378fb1e6fc91ab98f8",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ANALYSIS.md",
+    "status": "local-only",
+    "local_sha256": "8aea944ff3a9ff8299e56ee328f3fe61eecf69118e9fb0e611b5cedb2ce14d0b",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/PLAN.md",
+    "status": "local-only",
+    "local_sha256": "14fe7ac4b9ed83aa8c96e668777ac4ae3fb64c984d97d38cb5e6e7bf31c15144",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/app-lock-update.log",
+    "status": "local-only",
+    "local_sha256": "ce7bf91f54adc7390cff6bf1c2572fd00ce9cfbd0611637e273059c4710a80c9",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/artifact-install.log",
+    "status": "local-only",
+    "local_sha256": "3cc4e2df07439a433b0faf5c62466ff983f871a4b76b9b621acf3c528b8079d0",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/annotations.json",
+    "status": "local-only",
+    "local_sha256": "db273c6d078aa27f7988400e3b94bceeb55422dc016722af16985caed8d0a867",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/release-42060440016.log",
+    "status": "local-only",
+    "local_sha256": "c317b2bdf0f9cfc8028a6afc2bc5d6800f314cacdf5d7016c927d0826dbed3e9",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-37679381132.findings.txt",
+    "status": "local-only",
+    "local_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-37679381132.log.gz",
+    "status": "local-only",
+    "local_sha256": "956335524ff39218f58d17252338c9674b424947f4730f5f0fe5d954a3aa9bde",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-41883360342.findings.txt",
+    "status": "local-only",
+    "local_sha256": "84ef843b7272de9a4aa0bcccca6802ae5a2243d7472b94ef6da2ca4816166b1a",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-41883360342.log.gz",
+    "status": "local-only",
+    "local_sha256": "b1447036f6c26c79984831914cac23afb30e2542dc7312a01f5ca40aab86cfbd",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42049631225.findings.txt",
+    "status": "local-only",
+    "local_sha256": "4c175f464de6b546e731b84eeba9094de9a649eb48ebd9b4c23782b7c140649f",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42049631225.log.gz",
+    "status": "local-only",
+    "local_sha256": "627bc478f30f9af770f223abb5c50918bbfc85387abd48f6a99184e0b3d57338",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42049631256.findings.txt",
+    "status": "local-only",
+    "local_sha256": "622283867cb163bc2da4f001e19509274c5b3b3f98a75d38924f5027862a3e8f",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42049631256.log.gz",
+    "status": "local-only",
+    "local_sha256": "306e41d421521408315c5abfa6f8d66e582f0c06b8666559706c0596980cf651",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42049631320.findings.txt",
+    "status": "local-only",
+    "local_sha256": "1567e44db37f8cd8e0d170c5de77a7f9d4f0c90ef60281a9f4eb8c922a0caef2",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42049631320.log.gz",
+    "status": "local-only",
+    "local_sha256": "e11235fb1ab271391c649b145de213e5e563c6092f22a6ea47ab1c636f63105d",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42049631412.findings.txt",
+    "status": "local-only",
+    "local_sha256": "31f1f70fa4612a980485fea253f8559e85e8fe50d367af93aba9f6c6a711f367",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42049631412.log.gz",
+    "status": "local-only",
+    "local_sha256": "ad19c92007a8d768d4e69b1cb7dc42d70ab6746e516a17f9741c78a52c88be9c",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42060440016.findings.txt",
+    "status": "local-only",
+    "local_sha256": "28392a6f6d539332831603bdb2cf7d3bef3ba5d44e4686ce3e4aa1e8be9cc2af",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42060440016.log.gz",
+    "status": "local-only",
+    "local_sha256": "e24dcb82c06a69b99107f6ef299cafa21767aeb63fc89ca8621d105dc895017e",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42060440544.findings.txt",
+    "status": "local-only",
+    "local_sha256": "f2bf9088b4af2b68dfd58d8f3cc9146cab08e4e51e3355dc0945d64a56ff559a",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42060440544.log.gz",
+    "status": "local-only",
+    "local_sha256": "12273756c2e585f4ae7972cb2ce49decbde89769478ce877a487a5fbf65ec20a",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42060441049.findings.txt",
+    "status": "local-only",
+    "local_sha256": "f06c18cdf394b5dbe10e84cca173e6cc715f26ea94f67d169638206e01bc77ae",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42060441049.log.gz",
+    "status": "local-only",
+    "local_sha256": "19de00c5c61d4864d886dace43151607e46ac44ba108e0ff0ebef90b1cd4c772",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42060441559.findings.txt",
+    "status": "local-only",
+    "local_sha256": "e5a93d35115c4c16b6a6e178a83716e92bce2353a7ecddb33162709faf52e2c6",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42060441559.log.gz",
+    "status": "local-only",
+    "local_sha256": "aed4984a04a5ed08ca9b00a59fe040b84689b4fbd00415c7e02a6fe1826ae628",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42061941635.findings.txt",
+    "status": "local-only",
+    "local_sha256": "f207f1616669e1a121fb086e54b5c9a8d682c81656c9c50f9f7d285d00056ecc",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42061941635.log.gz",
+    "status": "local-only",
+    "local_sha256": "bfa063448922a63f268047163603141b35d145f0d70d866878f972101d880a50",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42061941885.findings.txt",
+    "status": "local-only",
+    "local_sha256": "5b195168d97ae312e69eb6aa56aa856851855d183a2876a83114b3de1e9bd799",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/ci-logs/run-42061941885.log.gz",
+    "status": "local-only",
+    "local_sha256": "4fcc1f8c518f11b8f59c2f6a4cebadd2635838510b08a87310238db51e3a5ebe",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/deno-lock-update.log",
+    "status": "local-only",
+    "local_sha256": "601af8622f8f194f07994573cc2a45c6c8bb3704789ed2c401dc5af891fdc517",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/eslint-fix-2.json",
+    "status": "local-only",
+    "local_sha256": "87cef086fd5e41bce33fa498522a20e2d0437c6f3928c6b1e667c70507f82788",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/eslint-fix.json",
+    "status": "local-only",
+    "local_sha256": "397a19457deaf912fa92c71917f17dd0a506cb5b5c0974bc4b1baba699b1c454",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/eslint-initial.json",
+    "status": "local-only",
+    "local_sha256": "256541669afc5a1ecad813bcbe3691a0c1615e3780c0df137ac141e5ab48fee5",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/focused-initial.log",
+    "status": "local-only",
+    "local_sha256": "ae43d870ac64cdd7b36c5bd7e5cda094e35a61414f5d39761955c352aa81cb5b",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/format.log",
+    "status": "local-only",
+    "local_sha256": "314404f230c18164c93a3860064b8c0fbc7e31fcddb19185df3f986aeb5015bd",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/branch-runs-initial.json",
+    "status": "local-only",
+    "local_sha256": "b484eb8ba1505ab4c692fb378b57612892e565557da3e9b55fad66e6741c9f68",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/code-scanning-alerts.json",
+    "status": "local-only",
+    "local_sha256": "c125a38e3fcbb541d4bd43111a3cec1a06696b8928581de5b2f940a063f7bcfe",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/collection.log",
+    "status": "local-only",
+    "local_sha256": "0642a97863cdeb2d0d3de01e7f0a43f8af7df14e6ad728e5230ef389b0df18cc",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/issue-92.json",
+    "status": "local-only",
+    "local_sha256": "f40d9610463dbd8a524ccebb899de23119838abae2fca28155b2e0d64a35423e",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/issue-comments.json",
+    "status": "local-only",
+    "local_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/main-rules.json",
+    "status": "local-only",
+    "local_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/main-runs.json",
+    "status": "local-only",
+    "local_sha256": "415183e2f132413ad778a23ae9e6b8d75cc055ecfc5695aabb1cfda67f38589d",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/pr-conversation-comments.json",
+    "status": "local-only",
+    "local_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/pr-initial.json",
+    "status": "local-only",
+    "local_sha256": "d5e4b6ee86b92024a64b01a39c753d98be9fc47de9e860820ff9aa303d37b2d1",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/pr-inline-comments.json",
+    "status": "local-only",
+    "local_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/pr-reviews.json",
+    "status": "local-only",
+    "local_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/recent-merged-prs.json",
+    "status": "local-only",
+    "local_sha256": "72d2967eca717b6674598b5ebb8605899dc60410583c2c5c91b6166008b2805c",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/repository-settings.json",
+    "status": "local-only",
+    "local_sha256": "7bd6c007484783bf65419173e17ba0053ce9fe38f47d7e0c46c23f8b286250bb",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/rulesets.json",
+    "status": "local-only",
+    "local_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/run-37679381132.json",
+    "status": "local-only",
+    "local_sha256": "5c3c390d30ed44a3db5a0155eaacb08a54fbe1047c92917809e95b9e25ce56b0",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/run-41883360342.json",
+    "status": "local-only",
+    "local_sha256": "e10c1df1fade276589c9ff924d9be44a2572b43ca6aa113ddc9ffc8e8ae312a7",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/run-42049631225.json",
+    "status": "local-only",
+    "local_sha256": "5b14dee5d8c0d53686c2ced83e74c9d53999af0ed57f55e0760ebc3b532b7a23",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/run-42049631256.json",
+    "status": "local-only",
+    "local_sha256": "0344056cb564ba3540c60a458f0a9367cc0c183d3c733b9e81de97a4ffb8a04c",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/run-42049631320.json",
+    "status": "local-only",
+    "local_sha256": "88be83f6f45547895ed83f03e4fdbfebe0cdf8bb8d6c7b9e973d022dec7aa7f6",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/run-42049631412.json",
+    "status": "local-only",
+    "local_sha256": "e95c6727c55035d014a7802e9664aba3eb3b9eebf3c5a139cd42af845c49a689",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/run-42060440016.json",
+    "status": "local-only",
+    "local_sha256": "5f0cd5a3c29b1048a2a5d026f196f62c2283a19beb1caafccaac25d005c075bd",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/run-42060440544.json",
+    "status": "local-only",
+    "local_sha256": "fcf1f66a977b5f40f2453342cfcd9534df79a444d66ee0e250fe399d5bcd7a1c",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/run-42060441049.json",
+    "status": "local-only",
+    "local_sha256": "e8d16f66d1edc4cf7f37b1fb845ff55263f75bd87a2d03204ba50b9605b1cd12",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/run-42060441559.json",
+    "status": "local-only",
+    "local_sha256": "df4693bc9cd9767a8556dce0f6e5098b339ef164d742324c76a789d2f785975a",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/run-42061941635.json",
+    "status": "local-only",
+    "local_sha256": "96c5584a9c17785fd1c6e0462956c06da84d3cc6736199174c1c0b40a9fab674",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/run-42061941885.json",
+    "status": "local-only",
+    "local_sha256": "561af97ef83c4d60517f8b5c18dc331f473a23594f30fcece0440b22c1292023",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/github/sub-issues.json",
+    "status": "local-only",
+    "local_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/pipeline-focused.log",
+    "status": "local-only",
+    "local_sha256": "4be59e7a6ff7537c298a3bbb9267b569a69739639c50210ec4c4fd5ca927d47f",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/regression-before.log",
+    "status": "local-only",
+    "local_sha256": "bfb97fbaf9b86d216d851c8c21e87edad94da64517145260199c9d66cb59dfa0",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/CI-CD-BEST-PRACTICES.md",
+    "status": "local-only",
+    "local_sha256": "7f621471148f9881813b526f416c0bf5a001c58363f930132358e809d3176474",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/TEMPLATE-COMPARISON.md",
+    "status": "local-only",
+    "local_sha256": "7df601cbea07259439df31ec1d6eb246ee93de366c4e1628effacfb697e8bab0",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/commit-refs-rules-issues.json",
+    "status": "local-only",
+    "local_sha256": "93744a425a148d2daa0e5af4c77147e546fbde840e581112b59f2112439cb3a2",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/js-comparison.json",
+    "status": "local-only",
+    "local_sha256": "250307089fb3853e19cba7a46325581a608a42983e845cb1fd1c7e5a49b210a5",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/js-full-inventory.json",
+    "status": "local-only",
+    "local_sha256": "3d4f437538a367d559d71b35c910c9d6fbf0e4a8f9e0fedede68f88897fbb786",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/js-merged-prs.json",
+    "status": "local-only",
+    "local_sha256": "2ef6352106d414b7fedaf60382145d9ecaaad2fa787b990ab4bfd80e7e5ca2a9",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/js-related-issues.json",
+    "status": "local-only",
+    "local_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/js-release.diff",
+    "status": "local-only",
+    "local_sha256": "81bb367c36af46be85a75f0097673534fcfd7f3105c7211330ab87aa7e2827e5",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/js-snapshot.tar.gz",
+    "status": "local-only",
+    "local_sha256": "2c6b12bf2c0b86f5ad6451e1769dc8c42a3873dc36d35ff45a71ea090d40711d",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/js-tree.json",
+    "status": "local-only",
+    "local_sha256": "e990e540fa687a58b9ca1491b5efb0916e5705dce9b2eb9aed868b720dda2ef7",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/python-comparison.json",
+    "status": "local-only",
+    "local_sha256": "54d522085806dfc9433a2ba1f57161b8a58899d1a12d3338934b894f5174ca3c",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/python-full-inventory.json",
+    "status": "local-only",
+    "local_sha256": "144bef26b572891faf9ff677584305d3ebf78babf6c105bf83f383e7d2d09af7",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/python-merged-prs.json",
+    "status": "local-only",
+    "local_sha256": "7120ef4153a023c739e14ca7b7b6d61b9aa881fbc7beb28937e2e5ebbc74397c",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/python-push-reproduction.txt",
+    "status": "local-only",
+    "local_sha256": "ccb47c1b44e4cce3866a3c48021683e9e8304812f270d98b766d8b31ad725b55",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/python-related-issues.json",
+    "status": "local-only",
+    "local_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/python-snapshot.tar.gz",
+    "status": "local-only",
+    "local_sha256": "95e8ad20db294b17c6d25cd3f4a9ed1b4a8d0c676d03b662de7fb89b9cc30899",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/python-tree.json",
+    "status": "local-only",
+    "local_sha256": "07efbedc73b3b210bd0e72e3edf5e58d8e8f149348a14e6df05c7fc8eb299035",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/upstream-js-report-url.txt",
+    "status": "local-only",
+    "local_sha256": "f12df4c447d4ac12be2524095ddc92bb63d73aa7bfe718cc9216546627f2085b",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/upstream-js-report.md",
+    "status": "local-only",
+    "local_sha256": "88fa269546a4133624ab86d584fef1106ea1bb310f2822fcec2ba3bcf730ea2d",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/upstream-python-report-url.txt",
+    "status": "local-only",
+    "local_sha256": "a2937b37ce3121e956028a258798f241314ce1dbbcc7bb379b41e67c2e896c6e",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/research/upstream-python-report.md",
+    "status": "local-only",
+    "local_sha256": "bdf3e8df65643cee46613952e6abf052f99049f602faa04b0316ec6298a3dc30",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/root-install.log",
+    "status": "local-only",
+    "local_sha256": "3e33972667e7ad7f92b9224122ee31494cec71e9deb1fc237a94be5f0dc4fd44",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/root-lock-update.log",
+    "status": "local-only",
+    "local_sha256": "96ac9cdcdcf0b44f3777a125563513c77371f535c603331a4cae91ec825d3002",
+    "upstream_sha256": null
+  },
+  {
+    "path": "dev/log/issues/92/pulls/93/runtime-skip-migration.log",
+    "status": "local-only",
+    "local_sha256": "ef0ff60ffd836a7e0ab3f112a7ce6da477842a72756e0cf63b525f1388e1fa68",
     "upstream_sha256": null
   },
   {
@@ -584,7 +1172,7 @@
   {
     "path": "docs/CONTRIBUTING.md",
     "status": "local-only",
-    "local_sha256": "2121ded78372a715402e8b88464c87c3871a979c9b156c47e25999581a6a81b3",
+    "local_sha256": "145f8eda978cf72c580544abf39c2006d68c560b731af49e54552a41d5e07226",
     "upstream_sha256": null
   },
   {
@@ -2630,7 +3218,7 @@
   {
     "path": "eslint.config.js",
     "status": "local-only",
-    "local_sha256": "01836cdf5d2de8c9636fd603aa10791faf328429b236bbd667e17c1ca016aab9",
+    "local_sha256": "d50077f6bed4f63fe8f59ec6e29c3a88581725b9f4d1b48497882e322f94854c",
     "upstream_sha256": null
   },
   {
@@ -2700,6 +3288,18 @@
     "upstream_sha256": null
   },
   {
+    "path": "examples/universal-app/compat/temp-rimraf/index.cjs",
+    "status": "local-only",
+    "local_sha256": "5c25ac532872b3eea468bbcd8e04a5dfed94f66410d7dff29053f8d087524443",
+    "upstream_sha256": null
+  },
+  {
+    "path": "examples/universal-app/compat/temp-rimraf/package.json",
+    "status": "local-only",
+    "local_sha256": "071a4e566ca47bf67f694ae182e5e71cf05e2accc337a26beb58b28dae359ed7",
+    "upstream_sha256": null
+  },
+  {
     "path": "examples/universal-app/electron/main.cjs",
     "status": "local-only",
     "local_sha256": "43dca1fccdaec2ec349e97c280c80b196809444044e1f0f1065562cf0e9a8d8d",
@@ -2720,13 +3320,13 @@
   {
     "path": "examples/universal-app/package-lock.json",
     "status": "local-only",
-    "local_sha256": "f5ab362064c936af6152781c63adbdc0bf460af62f5250dac0f783471f19ec67",
+    "local_sha256": "341f48cd8a30d4d9cfbf5d4d164587c89fc562db50803efb76590a6de02c053f",
     "upstream_sha256": null
   },
   {
     "path": "examples/universal-app/package.json",
     "status": "local-only",
-    "local_sha256": "4d07e9ba9544130b2d4ed1d24325eb5bc42c4b06a55cf3fc9bd82e36d896a690",
+    "local_sha256": "1f508803912f7ddfa3acc632198deca219f3ef624223a18bd155388882fcb76e",
     "upstream_sha256": null
   },
   {
@@ -2858,7 +3458,13 @@
   {
     "path": "experiments/budget-runner-demo.sh",
     "status": "local-only",
-    "local_sha256": "c4f6c48846ff01f5e8a244a09a6fc892b2e3ad8b945648a5639e4c9bcea79878",
+    "local_sha256": "022b6c1f151e0f5563e74f1d85a5be4926c624a24608b093ae810af1dee7cc56",
+    "upstream_sha256": null
+  },
+  {
+    "path": "experiments/collect-issue-92-evidence.py",
+    "status": "local-only",
+    "local_sha256": "4b3c16658e593467288df00001a8d57abb03b487e7803b3413b5eb9dba09092c",
     "upstream_sha256": null
   },
   {
@@ -3009,6 +3615,12 @@
     "path": "experiments/issue-24/session-benchmark.mjs",
     "status": "local-only",
     "local_sha256": "44c19ae7ff5803f2d677e4ed81d3af0a625fd788e019f2a66653be42813709b8",
+    "upstream_sha256": null
+  },
+  {
+    "path": "experiments/issue-273-release-fixture.mjs",
+    "status": "local-only",
+    "local_sha256": "e845c96109ea33bff19f059c149d0c9be7cf4bebe944efebeae1624b12f15687",
     "upstream_sha256": null
   },
   {
@@ -3402,6 +4014,36 @@
     "upstream_sha256": null
   },
   {
+    "path": "experiments/issue-92/compare-template-trees.py",
+    "status": "local-only",
+    "local_sha256": "33f7f1cba04e92a9eeef094f3e7679ed00eee992a842851703ab8ddc5133f565",
+    "upstream_sha256": null
+  },
+  {
+    "path": "experiments/issue-92/publication-race.py",
+    "status": "local-only",
+    "local_sha256": "5b9e8eaeeec76edd050c4b866b20733da6d375ef27ee9b9e6523bee200985e61",
+    "upstream_sha256": null
+  },
+  {
+    "path": "experiments/issue-92/putty-probe.mjs",
+    "status": "local-only",
+    "local_sha256": "05af09d70f86fb52939ab453623f2ad9a68f7382adfae9e70a54d1f2d9c2e453",
+    "upstream_sha256": null
+  },
+  {
+    "path": "experiments/issue-92/visible-runtime-skips.mjs",
+    "status": "local-only",
+    "local_sha256": "adde8b0c039bc052d164059faf9115369014454447502d33f3b7ac536d44c79e",
+    "upstream_sha256": null
+  },
+  {
+    "path": "experiments/issue-92/whitespace-probe.mjs",
+    "status": "local-only",
+    "local_sha256": "ee098ddb7eb531a501f8edcc95343eee5bbe00567c0baa065c109ef14d6949fd",
+    "upstream_sha256": null
+  },
+  {
     "path": "experiments/issue_126_plan.md",
     "status": "template-only",
     "local_sha256": null,
@@ -3423,6 +4065,12 @@
     "path": "experiments/mock-scanner.mjs",
     "status": "local-only",
     "local_sha256": "10205c2ba384b384b7644d15846f3c7408f2f3d5dfb955858c3ce1c09c1447cf",
+    "upstream_sha256": null
+  },
+  {
+    "path": "experiments/release-notes-fixture.mjs",
+    "status": "local-only",
+    "local_sha256": "4e0ec035ac6d652119aad058e35b025c9528c59244b9093f3db8501166b88b7d",
     "upstream_sha256": null
   },
   {
@@ -3506,7 +4154,13 @@
   {
     "path": "experiments/test-issue75-buildx-mirror-fallback.sh",
     "status": "local-only",
-    "local_sha256": "9e05d1fa750baa5a93f846735e69c899fda7d9b7bc110d17e75fd138d02f1487",
+    "local_sha256": "0239779a423e789a89ccda1e2c15aff71ed4eea8c786cda1732579ce18a9dbdc",
+    "upstream_sha256": null
+  },
+  {
+    "path": "experiments/trace-changeset-fixture.cjs",
+    "status": "local-only",
+    "local_sha256": "952e31034aae6dd714d4567b9790369fd8f96091a6a4e30b314ee68c63577b66",
     "upstream_sha256": null
   },
   {
@@ -3524,13 +4178,13 @@
   {
     "path": "package-lock.json",
     "status": "local-only",
-    "local_sha256": "6e511a61a7b46e167f26dd706ebd941dd7d3899fc3e117da7aa4ce651b8cb20e",
+    "local_sha256": "b8481ce8229ba53d5ce524863cb0b991d24a9bdf4076db71825a20552d7752e9",
     "upstream_sha256": null
   },
   {
     "path": "package.json",
     "status": "local-only",
-    "local_sha256": "f7bf95681d0f54d3e734d60348c6582e8881f558d6711eb3c874f642ceb941e6",
+    "local_sha256": "7735513c6c81b4d5f5e93f31985ced9f1dd97e04a47a986a093b96b281df78b9",
     "upstream_sha256": null
   },
   {
@@ -3538,6 +4192,18 @@
     "status": "template-only",
     "local_sha256": null,
     "upstream_sha256": "39594a0fffa67cd25e22aec3819c8cac69ea923483e4bf5104e58a9b633bb282"
+  },
+  {
+    "path": "scripts/artifact-files.mjs",
+    "status": "local-only",
+    "local_sha256": "aacb70689efaba1ca67740c6facddaf894bf44bba44f204751fed7a65afa17ac",
+    "upstream_sha256": null
+  },
+  {
+    "path": "scripts/artifact-transport.mjs",
+    "status": "local-only",
+    "local_sha256": "8f9fa29b85b57b187433a1207c605fb55ab0dd6ef5be5be9545e61b3202d37f7",
+    "upstream_sha256": null
   },
   {
     "path": "scripts/audit-npm-locks.sh",
@@ -3570,6 +4236,12 @@
     "upstream_sha256": null
   },
   {
+    "path": "scripts/check-artifact-archive.mjs",
+    "status": "local-only",
+    "local_sha256": "8a23c2024cdb5aa5edf5290481c5f62536a20b8724e2112900f6c4863a009284",
+    "upstream_sha256": null
+  },
+  {
     "path": "scripts/check-changesets.mjs",
     "status": "local-only",
     "local_sha256": "a110f3cdf37150379b221a6800843bd47f9870fc3ae69b5582c8ba582a9d9632",
@@ -3582,10 +4254,22 @@
     "upstream_sha256": null
   },
   {
+    "path": "scripts/check-codeql-results.mjs",
+    "status": "local-only",
+    "local_sha256": "1c3bed82a99b6657e0ce12f92daeac1d3e687c053c4ca1d354360deb582fadc5",
+    "upstream_sha256": null
+  },
+  {
     "path": "scripts/check-dependency-graph.sh",
-    "status": "template-only",
-    "local_sha256": null,
+    "status": "different",
+    "local_sha256": "663baa52cdd0e8cc48a54c6a4b9c0fe24b3e4cba590d3a3b4ba644196bbcf8ed",
     "upstream_sha256": "525d548daf5f959b8a09f16ba6dd36f0863a712361edbdc835b9c38c5f77f3b8"
+  },
+  {
+    "path": "scripts/check-desktop-compat.mjs",
+    "status": "local-only",
+    "local_sha256": "8994f694888c60d3a0bb37135c42fbbc008be36b7ee0b03fd1583d8ca2d48558",
+    "upstream_sha256": null
   },
   {
     "path": "scripts/check-docker-build.mjs",
@@ -3606,6 +4290,12 @@
     "upstream_sha256": null
   },
   {
+    "path": "scripts/check-javascript-syntax.mjs",
+    "status": "local-only",
+    "local_sha256": "a486db3b9c11c6b4cd735a5ee360c8e1692fee75e7b51a8aecee3010cae3d7e7",
+    "upstream_sha256": null
+  },
+  {
     "path": "scripts/check-mjs-syntax.sh",
     "status": "local-only",
     "local_sha256": "630b678c88fc208fda39ab01811c87becbeafad350062c04ff79165f98032989",
@@ -3621,6 +4311,12 @@
     "path": "scripts/check-pages.mjs",
     "status": "local-only",
     "local_sha256": "6047b3893731aaeec7f5d78de78ecaae895790e1802bdaadaa473c1d3cc6536f",
+    "upstream_sha256": null
+  },
+  {
+    "path": "scripts/check-pages.sh",
+    "status": "local-only",
+    "local_sha256": "4ed6b7edde40f5ef23248db14d4753a53f4ae39c57f3e4aecf359671a0d673e8",
     "upstream_sha256": null
   },
   {
@@ -3720,6 +4416,12 @@
     "upstream_sha256": null
   },
   {
+    "path": "scripts/deploy-pages.mjs",
+    "status": "local-only",
+    "local_sha256": "916a2b9409c12f5b54b3d5237e1453258f2ee9ff7e403e6c516dc6b52dae8fc3",
+    "upstream_sha256": null
+  },
+  {
     "path": "scripts/detect-code-changes.mjs",
     "status": "local-only",
     "local_sha256": "0a36eabbc24766384d1462561ce5209e4a456028439f69345f970398921c0b46",
@@ -3759,6 +4461,18 @@
     "path": "scripts/github-actions-log.mjs",
     "status": "local-only",
     "local_sha256": "dd20de2ecf927baee89f27a59208f38b24f4b3a07a6ffb33afef75a7c13da603",
+    "upstream_sha256": null
+  },
+  {
+    "path": "scripts/github-api-evidence.mjs",
+    "status": "local-only",
+    "local_sha256": "723686f708e28744e1ee92294e0c0be081ebbc62abbedb6733bd858f240ce9b5",
+    "upstream_sha256": null
+  },
+  {
+    "path": "scripts/github-api.mjs",
+    "status": "local-only",
+    "local_sha256": "1f8a977639173761df9aa264c1131066efac3c0681dff5e6a7697932d31fbc6d",
     "upstream_sha256": null
   },
   {
@@ -3804,9 +4518,27 @@
     "upstream_sha256": null
   },
   {
+    "path": "scripts/lychee-report.mjs",
+    "status": "local-only",
+    "local_sha256": "d7ac3ec917bae886530a29ff4d10fd41bc2b106392d2ad24da4558c66e0fd313",
+    "upstream_sha256": null
+  },
+  {
+    "path": "scripts/markdown-lines.mjs",
+    "status": "local-only",
+    "local_sha256": "450a4d8a3deae4c7c4ca1a55b666169e57ce11cbba9814b34545628672e53c12",
+    "upstream_sha256": null
+  },
+  {
     "path": "scripts/merge-changesets.mjs",
     "status": "local-only",
     "local_sha256": "772f4ad7740b6af1e22f0237ce456459558cf9fce5df628757198eda92c6121b",
+    "upstream_sha256": null
+  },
+  {
+    "path": "scripts/npm-audit-report.mjs",
+    "status": "local-only",
+    "local_sha256": "104884434f7b0b425324ffde08108154b6ab0a8c9450d1ea145158b1de9dff3f",
     "upstream_sha256": null
   },
   {
@@ -3848,7 +4580,7 @@
   {
     "path": "scripts/publish-to-npm.mjs",
     "status": "local-only",
-    "local_sha256": "8d4e6955879332aef113bda553d3e7f03646a3eb2b817b954d79410d60d19fbd",
+    "local_sha256": "7b0c6ddb2c5521305fc0b8139d300918878297d6fc33ce323001231f1c55e7dc",
     "upstream_sha256": null
   },
   {
@@ -3866,7 +4598,7 @@
   {
     "path": "scripts/push-main-with-rebase-retry.mjs",
     "status": "local-only",
-    "local_sha256": "133b23de59882f27c13845e835e4b63d8a94a8dc9001f8423aeb788447977f7e",
+    "local_sha256": "a583424aaba4a664bd2c2626f665e683c4b969e78630ee85c35411dab94e5809",
     "upstream_sha256": null
   },
   {
@@ -3896,7 +4628,7 @@
   {
     "path": "scripts/release-metadata.mjs",
     "status": "local-only",
-    "local_sha256": "efb8b363d8dcec4f45e6b71dfb679c6a0bc0cd63b3c7014c025ca7df862aa894",
+    "local_sha256": "6620eba9e758b8a96167fa4182791e270aa09af131635876d60d6db592b0d8a0",
     "upstream_sha256": null
   },
   {
@@ -3906,10 +4638,22 @@
     "upstream_sha256": null
   },
   {
+    "path": "scripts/release-publication.mjs",
+    "status": "local-only",
+    "local_sha256": "efb0d5538c4c5dfba3d0809b038d660e15444ed188107a9650be7807c7c6cd81",
+    "upstream_sha256": null
+  },
+  {
     "path": "scripts/release_naming.py",
     "status": "template-only",
     "local_sha256": null,
     "upstream_sha256": "36e7dd583aedd3082adeab78fc2886458317e31e02cdd1ae7a022fabe4098096"
+  },
+  {
+    "path": "scripts/rerun-unacquired.mjs",
+    "status": "local-only",
+    "local_sha256": "e2da9ff7c015f2378bd68713c23703241003a14e9d0598a8c4abf260df1c530f",
+    "upstream_sha256": null
   },
   {
     "path": "scripts/run-command.mjs",
@@ -3998,7 +4742,13 @@
   {
     "path": "scripts/version-and-commit.mjs",
     "status": "local-only",
-    "local_sha256": "8f8836d3cd8809ec1fda36d3f7b5388e7dd7919b020f7f614bde95918000ea6f",
+    "local_sha256": "5eefba3f79030c5da152a10ff9c42adbc036bb05184eb2bd76f45a8fead0953b",
+    "upstream_sha256": null
+  },
+  {
+    "path": "scripts/version-lock.mjs",
+    "status": "local-only",
+    "local_sha256": "a96673b68c12f35995a0daeacf1af689ca6cfd7b50d8c86be80f16f964402e49",
     "upstream_sha256": null
   },
   {
@@ -4160,7 +4910,7 @@
   {
     "path": "src/identity.js",
     "status": "local-only",
-    "local_sha256": "ba98077e6052e19ca54fe7bf4323752dfb8ece6bbce80fd6331e0df9f15eec64",
+    "local_sha256": "0170e785e18c836858ddeaf1a8e9318b6a2e6b4c2f112094051d1069a56223ab",
     "upstream_sha256": null
   },
   {
@@ -4274,7 +5024,7 @@
   {
     "path": "src/personal.js",
     "status": "local-only",
-    "local_sha256": "9becf82db81d676a4b3dd4cfb949b3edd27b28c6ce3df0dabadfe5652f174c90",
+    "local_sha256": "2b9700160af6e45ea5aa64b63053d800b66321bb12b1321ff053a9749d03ba6f",
     "upstream_sha256": null
   },
   {
@@ -4476,6 +5226,30 @@
     "upstream_sha256": "d053d872f065af8999b8601fb0e6980354074e235cac2f81364f322ee820271a"
   },
   {
+    "path": "tests/action-versions.test.js",
+    "status": "local-only",
+    "local_sha256": "11f818525845feb36416a13d3c8bad88cf7538280624f0c35488d3ee795b7567",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/archive-and-discovery.test.js",
+    "status": "local-only",
+    "local_sha256": "bc78512e9dfee57e718743003e7fed2cc33975b6370a57900df8cd9545bcaa49",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/artifact-files.test.js",
+    "status": "local-only",
+    "local_sha256": "e93a28f0e1c616f0c7900523ad16ee1d2f4d2ad4966d0216f02711a9fad9fc0d",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/artifact-transport.test.js",
+    "status": "local-only",
+    "local_sha256": "aa4643a42c411e0aaba100f063137ad92e7e8c8d08e55ed09f8d7c323e588c11",
+    "upstream_sha256": null
+  },
+  {
     "path": "tests/artifact.test.mjs",
     "status": "template-only",
     "local_sha256": null,
@@ -4500,6 +5274,18 @@
     "upstream_sha256": null
   },
   {
+    "path": "tests/bounded-run.test.js",
+    "status": "local-only",
+    "local_sha256": "d657a40c1eecbf32de0d571dfa175e2a34c6f5cfcd2e6ba2bbc34b8521a0f6f4",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/changeset-config.test.js",
+    "status": "local-only",
+    "local_sha256": "94c5bfd406c69a138c35977159fadf774c20942e7bec3a6ced32514462c6df4e",
+    "upstream_sha256": null
+  },
+  {
     "path": "tests/check-changesets.test.js",
     "status": "local-only",
     "local_sha256": "b6cf477e0659f58ada07b41adf1a77f929696c561fb058864be75765a5164b00",
@@ -4509,6 +5295,12 @@
     "path": "tests/check-file-line-limits.test.js",
     "status": "local-only",
     "local_sha256": "c7c0dab873b4334950aa05cab32a15f7f8563a2bbf321eeb0f873315a9b09212",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/check-pages.test.js",
+    "status": "local-only",
+    "local_sha256": "95f8f507ebd1eeed06e8a571483e67f6d2669f150c7266339b4efdef02bcb7a6",
     "upstream_sha256": null
   },
   {
@@ -4536,9 +5328,15 @@
     "upstream_sha256": null
   },
   {
+    "path": "tests/ci-audit-regressions.test.js",
+    "status": "local-only",
+    "local_sha256": "e460954d4a1cc58d33a63173a130bc15e5c105111e2fc39871c8eda8142f0de8",
+    "upstream_sha256": null
+  },
+  {
     "path": "tests/ci-timeouts.test.js",
     "status": "local-only",
-    "local_sha256": "52b7ffc0ebf352fc4cde32403e2719d825b2a267c205875eef72cf37d96489aa",
+    "local_sha256": "4c6ffb716aa084a0e779c84010d219225262d6396a132becc9552503cde79500",
     "upstream_sha256": null
   },
   {
@@ -4548,9 +5346,21 @@
     "upstream_sha256": null
   },
   {
+    "path": "tests/codeql-results.test.js",
+    "status": "local-only",
+    "local_sha256": "bec1c8752a8cdab57c46eacc8a0f04f78facdf8bd01d7ac3892db9b34314f5bb",
+    "upstream_sha256": null
+  },
+  {
     "path": "tests/commit-message.test.js",
     "status": "local-only",
-    "local_sha256": "2da945edf9215de99141e30963ca35121f6b1e435e4207c0299e6aaf1c9aaff9",
+    "local_sha256": "da70789a12c107011ad9136ded732021340268c2bdaa1170641ac2e0d6a8572f",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/container-jobs.test.js",
+    "status": "local-only",
+    "local_sha256": "415f8911ffe0d7f126a29f23ff25e4ff12df7b3582d1bebdb6212e061eb8fe23",
     "upstream_sha256": null
   },
   {
@@ -4566,10 +5376,28 @@
     "upstream_sha256": null
   },
   {
+    "path": "tests/dependency-graph.test.js",
+    "status": "local-only",
+    "local_sha256": "3b4687f1c857349f193ca3251859de6e91717c8ef727f6d3a03057ebacd58417",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/deploy-pages.test.js",
+    "status": "local-only",
+    "local_sha256": "86cc2dc3d4ffe3098b208c8a95d57a26a79382f1e57e7e25402819e4466e8f86",
+    "upstream_sha256": null
+  },
+  {
     "path": "tests/deploy-pages.test.mjs",
     "status": "template-only",
     "local_sha256": null,
     "upstream_sha256": "60d33468c67459740bd12692f47ab2fa3773f3331547f76108f75d1148331de2"
+  },
+  {
+    "path": "tests/deprecated-packages.test.js",
+    "status": "local-only",
+    "local_sha256": "3e5e1d0febcf5e97a4b56673b52d83574509ece9a39580ab99faff0804b4bb40",
+    "upstream_sha256": null
   },
   {
     "path": "tests/detect-code-changes.test.js",
@@ -4668,9 +5496,21 @@
     "upstream_sha256": null
   },
   {
+    "path": "tests/fixtures/npm-audit-moderate.json",
+    "status": "local-only",
+    "local_sha256": "1b4330d885c5c9c4f154b766c6cc87aede136ee6a4d49adc2f77af6f4af43fce",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/fixtures/pages-stub/gh",
+    "status": "local-only",
+    "local_sha256": "3a6b49791ae6cd88e48619e368da8de341fe1aaf9b6c854ff1dc46c62895097d",
+    "upstream_sha256": null
+  },
+  {
     "path": "tests/fixtures/preflight-stub/curl",
     "status": "local-only",
-    "local_sha256": "44d4fd10cfc3a51db327dffa9faf7da07a2bbb537881f562ce4975831d8caef2",
+    "local_sha256": "109bc954078eab8bbe1338659db1934da11756f83fd39d51dcbeba62bd0dc535",
     "upstream_sha256": null
   },
   {
@@ -4680,9 +5520,45 @@
     "upstream_sha256": null
   },
   {
+    "path": "tests/fixtures/wayback-fetch.mjs",
+    "status": "local-only",
+    "local_sha256": "559f5f255066b8609497dae1a594726b38850b0d4ab548630518a54d06955165",
+    "upstream_sha256": null
+  },
+  {
     "path": "tests/github-actions-log.test.js",
     "status": "local-only",
     "local_sha256": "b58a324712e98b1d297ebfee99bd2e26bd26b13cc23c60dce9b9de41f1c95aef",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/helpers/bounded-run.js",
+    "status": "local-only",
+    "local_sha256": "c54bbf3a0de3fbba2a6a4f18f3811c1a95b2d4249bfec2621ecdad63e38813b8",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/helpers/conditional-registration.js",
+    "status": "local-only",
+    "local_sha256": "9d235c8b78a423087cdb65813fc3928dc737795371502eaa74eb6e30b148ab57",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/helpers/env.js",
+    "status": "local-only",
+    "local_sha256": "6493d6aef2965da423b8592ab909a50a8fca575125d4a5c0ca52514de1b9e7a2",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/helpers/network.js",
+    "status": "local-only",
+    "local_sha256": "c7c9f2edf03f0cfbcf96955765c61c7ab0adc875c6f66d8faf05c34285a7ed84",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/helpers/skip.js",
+    "status": "local-only",
+    "local_sha256": "5cd525bf49a1f30dd7bc26d464af4542b8f0338a026371bd6783b8f98ade35d5",
     "upstream_sha256": null
   },
   {
@@ -4695,6 +5571,36 @@
     "path": "tests/install-git-hooks.test.js",
     "status": "local-only",
     "local_sha256": "ce733cb4cbdf3e86e840f5c88c98ca25a91f328cf545725adee1843c7ee65562",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/issue-228-regressions.test.js",
+    "status": "local-only",
+    "local_sha256": "a577369b8b0ca0813c0d59c333ad4cb711c4c1874b44b5882b42118edd560a16",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/issue-262-regressions.test.js",
+    "status": "local-only",
+    "local_sha256": "dc3d35067a986b33387d64ff74a988ae8e5248a13e9689f6d2d276b49ed12b19",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/issue-92-push.test.js",
+    "status": "local-only",
+    "local_sha256": "12927dbd9499590dc3aca2bc6bac0e121e377189441c184a21840fa5be5fc9d6",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/issue-92-putty.test.js",
+    "status": "local-only",
+    "local_sha256": "caeb0eaaed59353fda6a6c8f431f96082b352eededbd4b005591f80783543faf",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/issue-92-whitespace.test.js",
+    "status": "local-only",
+    "local_sha256": "aaa7329c1c21c9a3526c1806500dda24b637e5ced0738b6a4bc5c51b9ad1335f",
     "upstream_sha256": null
   },
   {
@@ -4712,7 +5618,7 @@
   {
     "path": "tests/lint-changed-lines.test.js",
     "status": "local-only",
-    "local_sha256": "45a30cbf30feb5cc92f187800b4064968d5c70ca8aa54f47d7c04480985a3e7c",
+    "local_sha256": "a1775c52ed26b98c47b38f2702a78523f33cff04b0ee110736896a41b8aed817",
     "upstream_sha256": null
   },
   {
@@ -4722,9 +5628,21 @@
     "upstream_sha256": null
   },
   {
+    "path": "tests/network-skip-reason.test.js",
+    "status": "local-only",
+    "local_sha256": "7b0a1d03a978dab050fe606b9954870681a044ee5abb7aed3c4b029411eca60c",
+    "upstream_sha256": null
+  },
+  {
     "path": "tests/no-changelog-comments.test.js",
     "status": "local-only",
     "local_sha256": "1b09cc62c66e65bb14b0f798612e3d5ee62287d62e9e1859c65335b981930c3f",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/npm-audit-report.test.js",
+    "status": "local-only",
+    "local_sha256": "a19e326151788cb4abc0359aa50faa5ad33e4b18102bdf1dff42301adcbcfd66",
     "upstream_sha256": null
   },
   {
@@ -4748,19 +5666,25 @@
   {
     "path": "tests/package-metadata.test.js",
     "status": "local-only",
-    "local_sha256": "b1c8ed99dc571b9bac8af88539b7cb0ec10349454506027002f94158bb1f7fc0",
+    "local_sha256": "c2dfb27fc5077fdbaa2ecfc9f004d8abee541c98dacb6b2c24d4ce7eeab32e37",
     "upstream_sha256": null
   },
   {
     "path": "tests/pages-configuration.test.js",
     "status": "local-only",
-    "local_sha256": "d1c1b1b42431d7b558fac0c98babd5f2d70cf89a115084a6ee72a7110ca8667c",
+    "local_sha256": "90f1f8e00eb6c750b4361d3e51a5080c2e1d987dbe66093caa6436316a262c63",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/pipeline-requirements.test.js",
+    "status": "local-only",
+    "local_sha256": "5c0d9a5a87038fb1ca02c047e369d18b1f31c7b9674e09decacaf6b4fcadee25",
     "upstream_sha256": null
   },
   {
     "path": "tests/pipeline-status.test.js",
     "status": "local-only",
-    "local_sha256": "20ef15966d1e2fa6865cf448772c4a465535220e622dc49b177fa7cc4e98fd8c",
+    "local_sha256": "3b78b73e7b4376c96980684892d1feb2a01555cbe331d2a80cc405d9fbfcba7a",
     "upstream_sha256": null
   },
   {
@@ -4800,9 +5724,21 @@
     "upstream_sha256": null
   },
   {
+    "path": "tests/release-api-integrity.test.js",
+    "status": "local-only",
+    "local_sha256": "53d92964b411bddf582500ab4b37b8383b7bea0d4a1e1832e07be9d50feed9c2",
+    "upstream_sha256": null
+  },
+  {
     "path": "tests/release-badge.test.js",
     "status": "local-only",
-    "local_sha256": "fb649ab48b6712248dfe5046df5e9647c44723ed27a996a08e31b9f6447e7f99",
+    "local_sha256": "4efce13fee77181c6be952fede916457398074d3a508a5cb248ae6dc731eafed",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/release-integrity.test.js",
+    "status": "local-only",
+    "local_sha256": "b1a8c57f623ec8d53198715c9192e35bc5457e58cb4fdf2e66ef295e71a2ae16",
     "upstream_sha256": null
   },
   {
@@ -4818,15 +5754,39 @@
     "upstream_sha256": null
   },
   {
+    "path": "tests/release-notes-description.test.js",
+    "status": "local-only",
+    "local_sha256": "353651fa18bd028b7321d83d5169cdc0e5416e2e5500ab2d71f83b420658480d",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/release-notes-integration.test.js",
+    "status": "local-only",
+    "local_sha256": "e9771266371ddda2278737c76285d639ffdc9b7b722255c21f8c3e3f2e7386f4",
+    "upstream_sha256": null
+  },
+  {
     "path": "tests/release-preflight.test.js",
     "status": "local-only",
-    "local_sha256": "91a8c60839b0a5b86b52355c0cfa00dbc6a7be05e7dcd3fd5208cebaaa1690bd",
+    "local_sha256": "72c2f2ad1b6a510642bdc78724216ddf0c91bb3ec42aa9cfd63fd6ace7823ede",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/release-publication.test.js",
+    "status": "local-only",
+    "local_sha256": "6a56da808830079694de7667814ecc58cbb1b76a2375509cafa76fdf0f69b96b",
     "upstream_sha256": null
   },
   {
     "path": "tests/required-docs.test.js",
     "status": "local-only",
     "local_sha256": "93d61bb37edd521ed350c0a0d7631c5ad7028e8c9107ab72dae0dd2d21b6bad0",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/rerun-unacquired.test.js",
+    "status": "local-only",
+    "local_sha256": "9afa6f1d185775c2b9208d105efb6f424811b9c0fb68f04a61eb8233945524c5",
     "upstream_sha256": null
   },
   {
@@ -4850,19 +5810,19 @@
   {
     "path": "tests/sanitizer-cli-features.test.js",
     "status": "local-only",
-    "local_sha256": "9557977f7686e49f95f0e65eef74dc47a56ff9c25810b5df8ad8e097c9d4f29a",
+    "local_sha256": "d504f400bb563d2b52773314a939f6f1c60320ccbe5c85c4089f3d900d54362e",
     "upstream_sha256": null
   },
   {
     "path": "tests/sanitizer-cli.test.js",
     "status": "local-only",
-    "local_sha256": "fb3b56fbca39b5aa1bfc2b5735ff7de7df26c483408c6752e002c86f12e97201",
+    "local_sha256": "52bb0485f36c2d2a9ed787a57e212ddefce6273c2c32510ca59abc94b0431a4d",
     "upstream_sha256": null
   },
   {
     "path": "tests/sanitizer-context.test.js",
     "status": "local-only",
-    "local_sha256": "5b3b54cf5d7d593e0392828dec1bda93ce03bcdfc8bb6a2273e71b38b2b14452",
+    "local_sha256": "a6fb9e574309da32a8adfd9ed86b5292ce97ee7929c6afbd66077d65624bef31",
     "upstream_sha256": null
   },
   {
@@ -4904,7 +5864,7 @@
   {
     "path": "tests/sanitizer-external.test.js",
     "status": "local-only",
-    "local_sha256": "1d82e42fb3372318832118f19b4763389629d960197ff6a6cf038e120a18a48f",
+    "local_sha256": "eb3fb329e880edc2c3d0684d2ad3e0c1a011ff0f4fd206cea8c584f7093804fa",
     "upstream_sha256": null
   },
   {
@@ -4922,7 +5882,7 @@
   {
     "path": "tests/sanitizer-gh-config.test.js",
     "status": "local-only",
-    "local_sha256": "c1b7c536d45c71f9cb35105fcbe8c33e9614958effb65152be4032dc6807cc92",
+    "local_sha256": "a5a96498a07513d73a79b376716fc728ac006545d4587392871742b2b3d924d5",
     "upstream_sha256": null
   },
   {
@@ -4946,19 +5906,19 @@
   {
     "path": "tests/sanitizer-issue-32.test.js",
     "status": "local-only",
-    "local_sha256": "b72572536f099b7162aeee413edc28775a34c841067c130624fd1f2ed43ea87b",
+    "local_sha256": "680ba8a04175d76f6b0d27f300bb8822860d3fafeac0d7b5a316e9b4d40d14e4",
     "upstream_sha256": null
   },
   {
     "path": "tests/sanitizer-issue-34.test.js",
     "status": "local-only",
-    "local_sha256": "d7990dcc696df44c9b815aefdb215320930a60ca0067283fbf75b75896e4438b",
+    "local_sha256": "35b64e19c081de76cb91bf10d7bfef919914aa279409ecf2285e82c08ab55a2f",
     "upstream_sha256": null
   },
   {
     "path": "tests/sanitizer-issue-36.test.js",
     "status": "local-only",
-    "local_sha256": "a0944b725cbec082932c45c26457cfbd9ad8de089828adc7cff674a2824a6c78",
+    "local_sha256": "15b7293a15fa3be121dcb7920937db7d961c6fcf83fe77f1642b36059bde1d7f",
     "upstream_sha256": null
   },
   {
@@ -4976,13 +5936,13 @@
   {
     "path": "tests/sanitizer-issue-47.test.js",
     "status": "local-only",
-    "local_sha256": "b3a7e02eae28b41794faaa3f4ad565f5d0d8b2f8ebebf695a2f68b1710e90caf",
+    "local_sha256": "00d513faa57679653c536132a1a15aadcc81c6106350a6397e967681ad9901a9",
     "upstream_sha256": null
   },
   {
     "path": "tests/sanitizer-issue-50.test.js",
     "status": "local-only",
-    "local_sha256": "7e87c95dbfc70f30353e1da03bb0cf74a9b6716d361b4d133effc01b6e1e49db",
+    "local_sha256": "cea3e80ffc0f60e17faf3de95bbcd9a6c253a820bb8c848e70e0f15a1249c6f5",
     "upstream_sha256": null
   },
   {
@@ -5018,7 +5978,7 @@
   {
     "path": "tests/sanitizer-jsonl-stream.test.js",
     "status": "local-only",
-    "local_sha256": "734edcde865e043e5d49f558cef1297b4891e86dd71a6f7e9af56b6750a99d76",
+    "local_sha256": "46f713c5a4d2c21bf31a6e9a18f59b88fc69e071ed7f55f6f8378f461264e1bd",
     "upstream_sha256": null
   },
   {
@@ -5054,13 +6014,13 @@
   {
     "path": "tests/sanitizer-outbound.test.js",
     "status": "local-only",
-    "local_sha256": "53a7a83344d1ab6a5384b7059fc19bd2f58135ef81081deda35990c57f39493c",
+    "local_sha256": "e6d748591805b6462287308fedb5d72629c12e3c5a3112778d6c95286327b985",
     "upstream_sha256": null
   },
   {
     "path": "tests/sanitizer-placeholder-cli.test.js",
     "status": "local-only",
-    "local_sha256": "201580b227921e3ec54e25ec9a5d640718c2baa2d8ed129ae04ef402a05d25b2",
+    "local_sha256": "a9ecd52da15d5858c9c7eda15e6eb047024c41ceeb3e057e9deb901d54071ca7",
     "upstream_sha256": null
   },
   {
@@ -5096,7 +6056,7 @@
   {
     "path": "tests/sanitizer-rewrite.test.js",
     "status": "local-only",
-    "local_sha256": "9013e799b224499fce57db5c6c3e49ad80b85bb5cc53c551affbeb8cea7f519f",
+    "local_sha256": "f55d1e48682f3fcdb770138883176217fde747b2cb8329d9fbd5ca8575156b97",
     "upstream_sha256": null
   },
   {
@@ -5108,7 +6068,7 @@
   {
     "path": "tests/sanitizer-session-identity.test.js",
     "status": "local-only",
-    "local_sha256": "402ed57dea6cb064cce3e1ef922f3e4f001f11f6e387b5d4d13b1cf64ee23178",
+    "local_sha256": "84b4e17b2f43b1b377fc3e12dda66786fe42654f53146651d6f4fa9dc05efb52",
     "upstream_sha256": null
   },
   {
@@ -5120,13 +6080,13 @@
   {
     "path": "tests/sanitizer-stream-identity.test.js",
     "status": "local-only",
-    "local_sha256": "97b68caf7031712ebbe84d89cee2a72c98e2f718288897ba4ee6f3ee63f1d055",
+    "local_sha256": "51cbf0acc4dfde63d2df9f78558ef44a1ac0b5af6f5280b5adc7b8f48c5833c7",
     "upstream_sha256": null
   },
   {
     "path": "tests/sanitizer-stream.test.js",
     "status": "local-only",
-    "local_sha256": "5e4654dfb91c55d6e9928b8a17fe3511405833eeea5c062087c9cd13b3c282f4",
+    "local_sha256": "578b77414610ef31b7dda908e9ce6f70cc56ebaf571c70ab1faed3c998ab3b07",
     "upstream_sha256": null
   },
   {
@@ -5144,7 +6104,7 @@
   {
     "path": "tests/sanitizer-two-pass.test.js",
     "status": "local-only",
-    "local_sha256": "0c41aa22ea1f7f825fd42d0caed8ce707eed4f8c7b6ee5ca726a226f9e22a1d4",
+    "local_sha256": "f56d6e4c1bd9168c785de47664978582c449b1265c6ec75b47fa4a82b25cad64",
     "upstream_sha256": null
   },
   {
@@ -5192,7 +6152,7 @@
   {
     "path": "tests/status-gate-coverage.test.js",
     "status": "local-only",
-    "local_sha256": "b46ba73c1c4306c3f7cea501f4026c045a7a3579e43e071fd70f85f0fd1493da",
+    "local_sha256": "48c72ff09441d9a265b92f28b09cbe797a3dd031247ad58eb756357a5ae67cb0",
     "upstream_sha256": null
   },
   {
@@ -5202,9 +6162,15 @@
     "upstream_sha256": null
   },
   {
+    "path": "tests/temp-cleanup.test.js",
+    "status": "local-only",
+    "local_sha256": "a814ee27745a56f10073f95a792a1a200abfa4a195f38ebd3fb282472da6d451",
+    "upstream_sha256": null
+  },
+  {
     "path": "tests/test-sharding.test.js",
     "status": "local-only",
-    "local_sha256": "d8ee14b16e3c41ac99ebd5513a286685574db1b4bdc4961b8a53bfbf12ae313c",
+    "local_sha256": "b1368769ad420742c2be476630053c67a534fac0df665ded3f28c33ce90f9264",
     "upstream_sha256": null
   },
   {
@@ -5396,7 +6362,7 @@
   {
     "path": "tests/universal-app.test.js",
     "status": "local-only",
-    "local_sha256": "ad5965a5657d5e9ea5a28c681b36b85e4c6ccb90df41bbd4faece80347484145",
+    "local_sha256": "cf0051d143227ac73f3f1846c9be3c52c0e313ecad09369395a3c1db4952e7c2",
     "upstream_sha256": null
   },
   {
@@ -5418,9 +6384,39 @@
     "upstream_sha256": null
   },
   {
+    "path": "tests/version-lock-integrity.test.js",
+    "status": "local-only",
+    "local_sha256": "3b55f1b990f94191ec0528e8c139fcafe7e8ac085bd15e564cebfe58a5168014",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/version-lock-validation.test.js",
+    "status": "local-only",
+    "local_sha256": "cf11031ff3134691a8f63a30ff5ec319a86fb927febec2a3ab914d2cf4949d87",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/visible-skips.test.js",
+    "status": "local-only",
+    "local_sha256": "8508cff725451df8a53f364998afb8435029ed725622b120b83d9a3df2abaf38",
+    "upstream_sha256": null
+  },
+  {
     "path": "tests/wait-for-npm.test.js",
     "status": "local-only",
     "local_sha256": "8cafca6af2a7cb0b70af68744a703b67dbbd6dfcaf14c23c15dd64282d932bee",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/wayback-cli.test.js",
+    "status": "local-only",
+    "local_sha256": "80ccf294f67611fb005b2c07db0282c39dfb3308c1afc608a1a5c12ca009cb51",
+    "upstream_sha256": null
+  },
+  {
+    "path": "tests/wayback-retry.test.js",
+    "status": "local-only",
+    "local_sha256": "fe6e1dd5e5731aff5c790c1b5f71e64383649de2ed50090ca7a019fe565481bf",
     "upstream_sha256": null
   },
   {
@@ -5432,7 +6428,7 @@
   {
     "path": "tests/workflow-reliability.test.js",
     "status": "local-only",
-    "local_sha256": "fd063c65e340d4cdfe3be823cbca45758f25ba4592a8dd0bc6abc8d9322deca8",
+    "local_sha256": "9901bfb615d5bec0edcd50bae1c36694d85235730de3e7fbec840619d071d1fd",
     "upstream_sha256": null
   },
   {

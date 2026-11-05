@@ -1,0 +1,733 @@
+{
+  "run": 42072807448,
+  "elapsed_seconds": 164,
+  "budget_seconds": 200,
+  "warning_seconds": 140,
+  "total_test_milliseconds": 161719.47,
+  "slowest_tests": [
+    {
+      "line": 20758,
+      "milliseconds": 6576.86,
+      "file": "##[group]tests\\wayback-cli.test.js:",
+      "text": "2026-11-05T17:19:43.5264403Z (pass) Wayback CLI retries and failure reporting > handles persistent HTTP 429 without claiming no snapshot [6576.86ms]"
+    },
+    {
+      "line": 20024,
+      "milliseconds": 6441.9,
+      "file": "##[group]tests\\sanitizer-stream.test.js:",
+      "text": "2026-11-05T17:19:27.5550880Z (pass) bounded publication sanitization > processes a file larger than 10 MiB in a bounded worker and publishes privately [6441.90ms]"
+    },
+    {
+      "line": 19636,
+      "milliseconds": 3513.98,
+      "file": "##[group]tests\\sanitizer-jsonl-stream.test.js:",
+      "text": "2026-11-05T17:19:04.5765421Z (pass) ordered bounded JSONL streaming > accepts a seven-megabyte record followed by records above the whole-input limit [3513.98ms]"
+    },
+    {
+      "line": 20009,
+      "milliseconds": 2973.87,
+      "file": "##[group]tests\\sanitizer-stream-identity.test.js:",
+      "text": "2026-11-05T17:19:18.5027445Z (pass) private stream confirmations and publication > protects distant cross-script MRZ reuse in a 1.7 MB session (1 workers) [2973.87ms]"
+    },
+    {
+      "line": 18279,
+      "milliseconds": 2747.48,
+      "file": "##[group]tests\\release-publication.test.js:",
+      "text": "2026-11-05T17:18:40.7244872Z (pass) publication uses validated code > never pulls a newer source commit and recovers only version metadata [2747.48ms]"
+    },
+    {
+      "line": 20747,
+      "milliseconds": 2572.29,
+      "file": "##[group]tests\\wayback-cli.test.js:",
+      "text": "2026-11-05T17:19:36.8394679Z (pass) Wayback CLI retries and failure reporting > handles recover HTTP 429 without claiming no snapshot [2572.29ms]"
+    },
+    {
+      "line": 20011,
+      "milliseconds": 2394.64,
+      "file": "##[group]tests\\sanitizer-stream-identity.test.js:",
+      "text": "2026-11-05T17:19:20.7934340Z (pass) private stream confirmations and publication > protects distant cross-script MRZ reuse in a 1.7 MB session (4 workers) [2394.64ms]"
+    },
+    {
+      "line": 17431,
+      "milliseconds": 2285.7,
+      "file": "##[group]tests\\changeset-config.test.js:",
+      "text": "2026-11-05T17:17:06.4812448Z (pass) Changesets release formatter > versions and formats the real package with Deno absent from PATH [2285.70ms]"
+    },
+    {
+      "line": 17421,
+      "milliseconds": 2088.93,
+      "file": "##[group]tests\\bounded-run.test.js:",
+      "text": "2026-11-05T17:17:04.1534605Z (pass) runBounded > kills descendants on timeout and reports the timeout [2088.93ms]"
+    },
+    {
+      "line": 19851,
+      "milliseconds": 1459.61,
+      "file": "##[group]tests\\sanitizer-rewrite.test.js:",
+      "text": "2026-11-05T17:19:11.5036887Z (pass) fresh-clone history remediation > previews private replacements and mailmap without editing the source or pushing [1459.61ms]"
+    },
+    {
+      "line": 20248,
+      "milliseconds": 1450.71,
+      "file": "##[group]tests\\version-lock-integrity.test.js:",
+      "text": "2026-11-05T17:19:31.0812216Z (pass) offline release lock integrity > changeset-version preserves the entire peer graph in . [1450.71ms]"
+    },
+    {
+      "line": 18018,
+      "milliseconds": 1428.78,
+      "file": "##[group]tests\\pr-guards.test.js:",
+      "text": "2026-11-05T17:18:07.9087526Z (pass) trusted release PR identity > preserves the exemption for the same-repository release actor only [1428.78ms]"
+    },
+    {
+      "line": 19697,
+      "milliseconds": 1415.17,
+      "file": "##[group]tests\\sanitizer-log-bytes.test.js:",
+      "text": "2026-11-05T17:19:08.0398671Z (pass) lossless text log publication (issues 41/42) > preserves invalid bytes, Unicode and sanitizes text across every split, twoPass=true [1415.17ms]"
+    },
+    {
+      "line": 20249,
+      "milliseconds": 1406.43,
+      "file": "##[group]tests\\version-lock-integrity.test.js:",
+      "text": "2026-11-05T17:19:32.2636761Z (pass) offline release lock integrity > changeset-version preserves the entire peer graph in js [1406.43ms]"
+    },
+    {
+      "line": 18011,
+      "milliseconds": 1360.45,
+      "file": "##[group]tests\\pr-guards.test.js:",
+      "text": "2026-11-05T17:17:59.8386723Z (pass) PR changeset scope validation > counts PR fragments relative to the merge base [1360.45ms]"
+    },
+    {
+      "line": 17879,
+      "milliseconds": 1325.2,
+      "file": "##[group]tests\\no-changelog-comments.test.js:",
+      "text": "2026-11-05T17:17:43.6223176Z (pass) no-changelog-comments ESLint rule > reports comments, strings, and template literal text that describe change history [1325.20ms]"
+    },
+    {
+      "line": 17669,
+      "milliseconds": 1324.76,
+      "file": "##[group]tests\\detect-code-changes.test.js:",
+      "text": "2026-11-05T17:17:13.5822203Z (pass) detect-code-changes CLI > ignores experiments/repro.mjs changes on pull_request [1324.76ms]"
+    },
+    {
+      "line": 17999,
+      "milliseconds": 1301.15,
+      "file": "##[group]tests\\pr-guards.test.js:",
+      "text": "2026-11-05T17:17:50.4994673Z (pass) parsed version guard > rejects invalid JSON and missing versions [1301.15ms]"
+    },
+    {
+      "line": 18226,
+      "milliseconds": 1282.63,
+      "file": "##[group]tests\\release-preflight.test.js:",
+      "text": "2026-11-05T17:18:23.1798360Z (pass) release-preflight probe behaviour (offline, curl stub) > verifies the Docker Hub write when the registry accepts it [1282.63ms]"
+    },
+    {
+      "line": 18361,
+      "milliseconds": 1275.5,
+      "file": "##[group]tests\\sanitizer-cli.test.js:",
+      "text": "2026-11-05T17:18:45.4020961Z (pass) sanitizer CLI reports and validation > writes a private output atomically and refuses clobbering or same-path output [1275.50ms]"
+    },
+    {
+      "line": 18013,
+      "milliseconds": 1253.07,
+      "file": "##[group]tests\\pr-guards.test.js:",
+      "text": "2026-11-05T17:18:02.1510969Z (pass) exact changeset rename detection > does not count an unchanged pending fragment moved in js [1253.07ms]"
+    },
+    {
+      "line": 19696,
+      "milliseconds": 1209.83,
+      "file": "##[group]tests\\sanitizer-log-bytes.test.js:",
+      "text": "2026-11-05T17:19:06.8857346Z (pass) lossless text log publication (issues 41/42) > preserves invalid bytes, Unicode and sanitizes text across every split, twoPass=false [1209.83ms]"
+    },
+    {
+      "line": 18012,
+      "milliseconds": 1200.82,
+      "file": "##[group]tests\\pr-guards.test.js:",
+      "text": "2026-11-05T17:18:00.9897792Z (pass) exact changeset rename detection > does not count an unchanged pending fragment moved in . [1200.82ms]"
+    },
+    {
+      "line": 19852,
+      "milliseconds": 1169.26,
+      "file": "##[group]tests\\sanitizer-rewrite.test.js:",
+      "text": "2026-11-05T17:19:12.6653146Z (pass) fresh-clone history remediation > fails closed for missing rewrite tools and pre-existing destinations [1169.26ms]"
+    },
+    {
+      "line": 18009,
+      "milliseconds": 1153.5,
+      "file": "##[group]tests\\pr-guards.test.js:",
+      "text": "2026-11-05T17:17:58.6682322Z (pass) PR changeset scope validation > requires a fragment for multi-language JS code and handles spaces in names [1153.50ms]"
+    }
+  ],
+  "files": [
+    [
+      "##[group]tests\\detect-code-changes.test.js:",
+      29378.03
+    ],
+    [
+      "##[group]tests\\pr-guards.test.js:",
+      23610.789999999994
+    ],
+    [
+      "##[group]tests\\release-preflight.test.js:",
+      16802.78
+    ],
+    [
+      "##[group]tests\\release-api-integrity.test.js:",
+      11947.060000000001
+    ],
+    [
+      "##[group]tests\\wayback-cli.test.js:",
+      9149.15
+    ],
+    [
+      "##[group]tests\\sanitizer-stream.test.js:",
+      7063.43
+    ],
+    [
+      "##[group]tests\\sanitizer-stream-identity.test.js:",
+      5422.479999999999
+    ],
+    [
+      "##[group]tests\\sanitizer-jsonl-stream.test.js:",
+      5379.42
+    ],
+    [
+      "##[group]tests\\sanitizer-cli.test.js:",
+      5186.86
+    ],
+    [
+      "##[group]tests\\version-lock-integrity.test.js:",
+      5021.16
+    ],
+    [
+      "##[group]tests\\bounded-run.test.js:",
+      3269.8999999999996
+    ],
+    [
+      "##[group]tests\\release-publication.test.js:",
+      2747.48
+    ],
+    [
+      "##[group]tests\\sanitizer-rewrite.test.js:",
+      2628.87
+    ],
+    [
+      "##[group]tests\\sanitizer-log-bytes.test.js:",
+      2627.0
+    ],
+    [
+      "##[group]tests\\changeset-config.test.js:",
+      2286.28
+    ],
+    [
+      "##[group]tests\\sanitizer-issue-32.test.js:",
+      1807.01
+    ],
+    [
+      "##[group]tests\\sanitizer-issue-47.test.js:",
+      1788.42
+    ],
+    [
+      "##[group]tests\\sanitizer-issue-36.test.js:",
+      1547.0399999999997
+    ],
+    [
+      "##[group]tests\\no-changelog-comments.test.js:",
+      1339.71
+    ],
+    [
+      "##[group]tests\\archive-and-discovery.test.js:",
+      1276.43
+    ],
+    [
+      "##[group]tests\\sanitizer-gitleaks-windows.test.js:",
+      1223.4899999999998
+    ],
+    [
+      "##[group]tests\\sanitizer-rules.test.js:",
+      1040.3500000000001
+    ],
+    [
+      "##[group]tests\\check-staged-formatting.test.js:",
+      1000.62
+    ],
+    [
+      "##[group]tests\\release-metadata.test.js:",
+      991.45
+    ],
+    [
+      "##[group]tests\\sanitizer-issue-34.test.js:",
+      975.12
+    ],
+    [
+      "##[group]tests\\codeql-results.test.js:",
+      797.9200000000001
+    ],
+    [
+      "##[group]tests\\sanitizer-long-logs.test.js:",
+      792.66
+    ],
+    [
+      "##[group]tests\\sanitizer-issue-51.test.js:",
+      771.21
+    ],
+    [
+      "##[group]tests\\sanitizer-session-identity.test.js:",
+      770.2399999999997
+    ],
+    [
+      "##[group]tests\\issue-92-whitespace.test.js:",
+      763.9299999999998
+    ],
+    [
+      "##[group]tests\\commit-message.test.js:",
+      734.85
+    ],
+    [
+      "##[group]tests\\issue-262-regressions.test.js:",
+      674.54
+    ],
+    [
+      "##[group]tests\\sanitizer-experience-lines.test.js:",
+      627.01
+    ],
+    [
+      "##[group]tests\\sanitizer-issue-89.test.js:",
+      609.98
+    ],
+    [
+      "##[group]tests\\package-manager.test.js:",
+      573.38
+    ],
+    [
+      "##[group]tests\\status-gate-coverage.test.js:",
+      567.63
+    ],
+    [
+      "##[group]tests\\use-module-integration.test.js:",
+      559.65
+    ],
+    [
+      "##[group]tests\\recheck-broken-links.test.js:",
+      489.8
+    ],
+    [
+      "##[group]tests\\sanitizer-issue-50.test.js:",
+      482.92
+    ],
+    [
+      "##[group]tests\\sanitizer-placeholder-cli.test.js:",
+      447.78999999999996
+    ],
+    [
+      "##[group]tests\\check-release-needed.test.js:",
+      425.43
+    ],
+    [
+      "##[group]tests\\sanitizer-benchmark.test.js:",
+      414.61
+    ],
+    [
+      "##[group]tests\\sanitizer-external.test.js:",
+      391.52000000000004
+    ],
+    [
+      "##[group]tests\\sanitizer-json-string-runs.test.js:",
+      385.82
+    ],
+    [
+      "##[group]tests\\create-github-release.test.js:",
+      384.79999999999995
+    ],
+    [
+      "##[group]tests\\sanitizer-two-pass.test.js:",
+      339.65
+    ],
+    [
+      "##[group]tests\\sanitizer-issue-38.test.js:",
+      307.11
+    ],
+    [
+      "##[group]tests\\sanitizer-issue-84.test.js:",
+      278.34
+    ],
+    [
+      "##[group]tests\\sanitizer-reused-map-parts.test.js:",
+      273.09000000000003
+    ],
+    [
+      "##[group]tests\\sanitizer-context.test.js:",
+      250.02999999999997
+    ],
+    [
+      "##[group]tests\\sanitizer-locales.test.js:",
+      242.04000000000002
+    ],
+    [
+      "##[group]tests\\install-git-hooks.test.js:",
+      233.95000000000002
+    ],
+    [
+      "##[group]tests\\sanitizer-session-regressions.test.js:",
+      229.05999999999992
+    ],
+    [
+      "##[group]tests\\sanitizer-issue-65.test.js:",
+      225.55
+    ],
+    [
+      "##[group]tests\\sanitizer-placeholders.test.js:",
+      189.48000000000002
+    ],
+    [
+      "##[group]tests\\issue-92-putty.test.js:",
+      165.72
+    ],
+    [
+      "##[group]tests\\sanitizer-coverage.test.js:",
+      147.10999999999999
+    ],
+    [
+      "##[group]tests\\sanitizer-cli-features.test.js:",
+      133.4
+    ],
+    [
+      "##[group]tests\\sanitizer-document-entities.test.js:",
+      114.07999999999997
+    ],
+    [
+      "##[group]tests\\check-changesets.test.js:",
+      103.55999999999999
+    ],
+    [
+      "##[group]tests\\artifact-files.test.js:",
+      95.37
+    ],
+    [
+      "##[group]tests\\sanitizer-escape-integrity.test.js:",
+      87.63
+    ],
+    [
+      "##[group]tests\\sanitizer-fake.test.js:",
+      74.82999999999998
+    ],
+    [
+      "##[group]tests\\merge-changesets.test.js:",
+      73.19
+    ],
+    [
+      "##[group]tests\\sanitizer-fake-identity.test.js:",
+      71.12
+    ],
+    [
+      "##[group]tests\\sanitizer-issue-45-46.test.js:",
+      69.53999999999999
+    ],
+    [
+      "##[group]tests\\sanitizer-tool-logs.test.js:",
+      57.779999999999994
+    ],
+    [
+      "##[group]tests\\issue-228-regressions.test.js:",
+      56.08
+    ],
+    [
+      "##[group]tests\\package-metadata.test.js:",
+      53.35
+    ],
+    [
+      "##[group]tests\\deprecated-packages.test.js:",
+      52.26
+    ],
+    [
+      "##[group]tests\\sanitizer-placeholder-residual.test.js:",
+      46.17
+    ],
+    [
+      "##[group]tests\\sanitizer-known-forms.test.js:",
+      45.85
+    ],
+    [
+      "##[group]tests\\sanitizer-identity-boundaries.test.js:",
+      45.500000000000014
+    ],
+    [
+      "##[group]tests\\pages-configuration.test.js:",
+      40.309999999999995
+    ],
+    [
+      "##[group]tests\\sanitizer-identity.test.js:",
+      38.86999999999998
+    ],
+    [
+      "##[group]tests\\visible-skips.test.js:",
+      34.739999999999945
+    ],
+    [
+      "##[group]tests\\sanitizer-credential-formats.test.js:",
+      29.869999999999997
+    ],
+    [
+      "##[group]tests\\check-web-archive.test.js:",
+      29.1
+    ],
+    [
+      "##[group]tests\\sanitizer-eslint.test.js:",
+      27.11
+    ],
+    [
+      "##[group]tests\\sanitizer-placeholder-escaping.test.js:",
+      26.87
+    ],
+    [
+      "##[group]tests\\wayback-retry.test.js:",
+      23.349999999999998
+    ],
+    [
+      "##[group]tests\\version-lock-validation.test.js:",
+      18.05
+    ],
+    [
+      "##[group]tests\\sanitizer-gh-config.test.js:",
+      15.42
+    ],
+    [
+      "##[group]tests\\ci-timeouts.test.js:",
+      14.17
+    ],
+    [
+      "##[group]tests\\workflow-reliability.test.js:",
+      13.07
+    ],
+    [
+      "##[group]tests\\sanitizer-review.test.js:",
+      12.529999999999996
+    ],
+    [
+      "##[group]tests\\sanitizer-transforms.test.js:",
+      12.16
+    ],
+    [
+      "##[group]tests\\sanitizer-outbound.test.js:",
+      10.270000000000001
+    ],
+    [
+      "##[group]tests\\scripts-use-module-adoption.test.js:",
+      10.219999999999999
+    ],
+    [
+      "##[group]tests\\sanitizer.test.js:",
+      9.809999999999999
+    ],
+    [
+      "##[group]tests\\temp-cleanup.test.js:",
+      9.67
+    ],
+    [
+      "##[group]tests\\checkout-credentials.test.js:",
+      8.55
+    ],
+    [
+      "##[group]tests\\security-workflow.test.js:",
+      7.79
+    ],
+    [
+      "##[group]tests\\deploy-pages.test.js:",
+      7.6000000000000005
+    ],
+    [
+      "##[group]tests\\land-via-pull-request.test.js:",
+      6.069999999999999
+    ],
+    [
+      "##[group]tests\\ci-audit-regressions.test.js:",
+      5.99
+    ],
+    [
+      "##[group]tests\\npm-audit-report.test.js:",
+      4.57
+    ],
+    [
+      "##[group]tests\\bot-commit-attribution.test.js:",
+      4.49
+    ],
+    [
+      "##[group]tests\\sanitizer-keywords.test.js:",
+      4.36
+    ],
+    [
+      "##[group]tests\\workflow-permissions.test.js:",
+      3.79
+    ],
+    [
+      "##[group]tests\\wait-for-npm.test.js:",
+      3.7600000000000002
+    ],
+    [
+      "##[group]tests\\artifact-transport.test.js:",
+      3.6400000000000006
+    ],
+    [
+      "##[group]tests\\action-versions.test.js:",
+      3.5
+    ],
+    [
+      "##[group]tests\\pipeline-requirements.test.js:",
+      3.39
+    ],
+    [
+      "##[group]tests\\pipeline-status.test.js:",
+      3.17
+    ],
+    [
+      "##[group]tests\\rerun-unacquired.test.js:",
+      3.1399999999999992
+    ],
+    [
+      "##[group]tests\\publish-retry.test.js:",
+      2.99
+    ],
+    [
+      "##[group]tests\\debug-print.test.js:",
+      2.97
+    ],
+    [
+      "##[group]tests\\workflows-lint.test.js:",
+      2.7499999999999996
+    ],
+    [
+      "##[group]tests\\docker-publish.test.js:",
+      2.59
+    ],
+    [
+      "##[group]tests\\transient-links.test.js:",
+      1.96
+    ],
+    [
+      "##[group]tests\\issue-92-push.test.js:",
+      1.77
+    ],
+    [
+      "##[group]tests\\universal-app.test.js:",
+      1.53
+    ],
+    [
+      "##[group]tests\\docker-build.test.js:",
+      1.35
+    ],
+    [
+      "##[group]tests\\bootstrap-dependencies.test.js:",
+      1.3300000000000003
+    ],
+    [
+      "##[group]tests\\smoke-test-package.test.js:",
+      1.2200000000000002
+    ],
+    [
+      "##[group]tests\\test-sharding.test.js:",
+      1.22
+    ],
+    [
+      "##[group]tests\\lint-changed-lines.test.js:",
+      0.99
+    ],
+    [
+      "##[group]tests\\npm-registry.test.js:",
+      0.97
+    ],
+    [
+      "##[group]tests\\use-module.test.js:",
+      0.9699999999999999
+    ],
+    [
+      "##[group]tests\\release-integrity.test.js:",
+      0.95
+    ],
+    [
+      "##[group]tests\\links-workflow.test.js:",
+      0.89
+    ],
+    [
+      "##[group]tests\\ci-workflow-policy.test.js:",
+      0.77
+    ],
+    [
+      "##[group]tests\\network-skip-reason.test.js:",
+      0.7
+    ],
+    [
+      "##[group]tests\\github-actions-log.test.js:",
+      0.63
+    ],
+    [
+      "##[group]tests\\release-notes-description.test.js:",
+      0.6
+    ],
+    [
+      "##[group]tests\\release-badge.test.js:",
+      0.5800000000000001
+    ],
+    [
+      "##[group]tests\\setup-npm.test.js:",
+      0.5800000000000001
+    ],
+    [
+      "##[group]tests\\publish-failure-classifier.test.js:",
+      0.49000000000000005
+    ],
+    [
+      "##[group]tests\\release-naming.test.js:",
+      0.39000000000000007
+    ],
+    [
+      "##[group]tests\\check-pages.test.js:",
+      0.33
+    ],
+    [
+      "##[group]tests\\sanitize-npm-userconfig.test.js:",
+      0.32999999999999996
+    ],
+    [
+      "##[group]tests\\package-info.test.js:",
+      0.28
+    ],
+    [
+      "##[group]tests\\tag-prefix.test.js:",
+      0.27
+    ],
+    [
+      "##[group]tests\\check-file-line-limits.test.js:",
+      0.16
+    ],
+    [
+      "##[group]tests\\push-failure-classifier.test.js:",
+      0.15000000000000002
+    ],
+    [
+      "##[group]tests\\required-docs.test.js:",
+      0.12
+    ],
+    [
+      "##[group]tests\\version-and-commit.test.js:",
+      0.11000000000000001
+    ],
+    [
+      "##[group]tests\\container-jobs.test.js:",
+      0.11
+    ],
+    [
+      "##[group]tests\\setup-buildx-resilient.test.js:",
+      0.05
+    ],
+    [
+      "##[group]tests\\index.test.js:",
+      0.04
+    ],
+    [
+      "##[group]tests\\simulate-fresh-merge.test.js:",
+      0.04
+    ],
+    [
+      "##[group]tests\\run-with-budget-warning.test.js:",
+      0.03
+    ]
+  ]
+}

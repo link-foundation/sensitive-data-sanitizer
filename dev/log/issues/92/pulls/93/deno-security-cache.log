@@ -1,0 +1,307 @@
+Initialize @secretlint/secretlint-rule-preset-recommend@13.0.7
+Initialize mrz@5.0.2
+Initialize command-stream@2.4.0
+Initialize eslint@10.14.0
+Initialize prettier@3.8.4
+Initialize @secretlint/core@13.0.7
+Initialize links-notation@0.30.0
+Initialize test-anywhere@0.8.50
+Initialize @secretlint/profiler@13.0.7
+Initialize yaml@2.9.1
+Initialize re2js@2.9.0
+Initialize lino-arguments@0.4.0
+Initialize libphonenumber-js@1.13.14
+Initialize secretlint@13.0.7
+Initialize @eslint/js@10.0.1
+Initialize re2-wasm@1.0.2
+Initialize eslint-config-prettier@10.1.8
+Initialize lint-staged@16.4.0
+Initialize eslint-plugin-prettier@5.5.6
+Initialize husky@9.1.7
+Initialize jscpd@5.4.0
+Initialize @changesets/cli@3.0.3
+Initialize @faker-js/faker@10.6.0
+Initialize gifenc@1.0.3
+Initialize node-pty@1.1.0
+Initialize @xterm/headless@6.0.0
+Initialize cross-spawn@7.0.6
+Initialize execa@10.1.0
+Initialize @resvg/resvg-js@2.6.2
+Initialize json-stable-stringify-without-jsonify@1.0.1
+Initialize @eslint/core@1.2.1
+Initialize imurmurhash@0.1.4
+Initialize @humanwhocodes/module-importer@1.0.1
+Initialize @eslint-community/eslint-utils@4.9.1
+Initialize eslint-visitor-keys@5.0.1
+Initialize natural-compare@1.4.0
+Initialize @eslint/plugin-kit@0.7.3
+Initialize fast-deep-equal@3.1.3
+Initialize optionator@0.9.4
+Initialize glob-parent@6.0.2
+Initialize is-glob@4.0.3
+Initialize @eslint/config-helpers@0.7.0
+Initialize eslint-scope@9.1.2
+Initialize espree@11.2.0
+Initialize @eslint-community/regexpp@4.12.2
+Initialize escape-string-regexp@4.0.0
+Initialize ajv@6.15.0
+Initialize ignore@5.3.2
+Initialize @humanwhocodes/retry@0.4.3
+Initialize minimatch@10.2.6
+Initialize @types/estree@1.0.9
+Initialize esquery@1.7.0
+Initialize @eslint/config-array@0.23.5
+Initialize esutils@2.0.3
+Initialize file-entry-cache@11.1.5
+Initialize debug@4.4.3
+Initialize @humanfs/node@0.16.8
+Initialize find-up@5.0.0
+Initialize @secretlint/types@13.0.7
+Initialize structured-source@4.0.0
+Initialize links-notation@0.27.1
+Initialize getenv@2.0.0
+Initialize lino-env@0.2.8
+Initialize yargs@18.2.0
+Initialize @secretlint/formatter@13.0.7
+Initialize @secretlint/resolver@13.0.7
+Initialize @secretlint/node@13.0.7
+Initialize read-pkg@10.1.0
+Initialize @secretlint/config-creator@13.0.7
+Initialize @secretlint/walker@13.0.7
+Initialize commander@14.0.3
+Initialize tinyexec@1.3.1
+Initialize listr2@9.0.5
+Initialize picomatch@4.0.7
+Initialize string-argv@0.3.2
+Initialize synckit@0.11.13
+Initialize prettier-linter-helpers@1.0.1
+Initialize jscpd-linux-x64-musl@5.4.0
+Initialize jscpd-linux-x64-gnu@5.4.0
+Initialize launch-editor@2.14.1
+Initialize @changesets/get-dependents-graph@3.0.0
+Initialize @changesets/should-skip-package@1.0.0
+Initialize @manypkg/get-packages@3.1.0
+Initialize import-meta-resolve@4.2.0
+Initialize @changesets/read@1.0.1
+Initialize @changesets/errors@1.0.0
+Initialize @changesets/write@1.0.1
+Initialize @changesets/git@4.0.1
+Initialize semver@7.8.5
+Initialize @changesets/config@4.0.1
+Initialize @changesets/types@7.0.0
+Initialize @changesets/assemble-release-plan@7.0.0
+Initialize @pnpm/deps.graph-sequencer@1100.0.1
+Initialize @clack/prompts@1.8.1
+Initialize @changesets/apply-release-plan@8.1.1
+Initialize @changesets/changelog-git@1.0.0
+Initialize cac@7.0.0
+Initialize package-manager-detector@1.8.0
+Initialize @changesets/pre@3.0.0
+Initialize node-addon-api@7.1.1
+Initialize which@2.0.2
+Initialize path-key@3.1.1
+Initialize shebang-command@2.0.0
+Initialize human-signals@8.0.1
+Initialize is-plain-obj@4.1.0
+Initialize pretty-ms@9.3.1
+Initialize strip-final-newline@4.0.0
+Initialize yoctocolors@2.2.0
+Initialize is-stream@4.0.1
+Initialize figures@6.1.0
+Initialize which-command@0.1.0
+Initialize npm-run-path@6.0.0
+Initialize @sindresorhus/merge-streams@4.0.0
+Initialize signal-exit@4.1.0
+Initialize get-stream@9.0.1
+Initialize @resvg/resvg-js-linux-x64-musl@2.6.2
+Initialize @resvg/resvg-js-linux-x64-gnu@2.6.2
+Initialize @types/json-schema@7.0.15
+Initialize eslint-visitor-keys@3.4.3
+Initialize levn@0.4.1
+Initialize word-wrap@1.2.5
+Initialize deep-is@0.1.4
+Initialize fast-levenshtein@2.0.6
+Initialize type-check@0.4.0
+Initialize prelude-ls@1.2.1
+Initialize is-extglob@2.1.1
+Initialize estraverse@5.3.0
+Initialize esrecurse@4.3.0
+Initialize @types/esrecurse@4.3.1
+Initialize acorn@8.19.0
+Initialize acorn-jsx@5.3.2
+Initialize uri-js@4.4.1
+Initialize json-schema-traverse@0.4.1
+Initialize fast-json-stable-stringify@2.1.0
+Initialize brace-expansion@5.0.12
+Initialize @eslint/object-schema@3.0.5
+Initialize flat-cache@6.1.23
+Initialize ms@2.1.3
+Initialize @humanfs/types@0.15.0
+Initialize @humanfs/core@0.19.2
+Initialize path-exists@4.0.0
+Initialize locate-path@6.0.0
+Initialize boundary@2.0.0
+Initialize links-notation@0.11.2
+Initialize string-width@8.3.0
+Initialize y18n@5.0.8
+Initialize cliui@9.0.1
+Initialize get-caller-file@2.0.5
+Initialize yargs-parser@22.0.0
+Initialize escalade@3.2.0
+Initialize table@6.9.0
+Initialize @textlint/module-interop@15.8.0
+Initialize strip-ansi@7.2.0
+Initialize terminal-link@5.0.0
+Initialize pluralize@8.0.0
+Initialize @textlint/linter-formatter@15.8.0
+Initialize @textlint/types@15.8.0
+Initialize chalk@5.6.2
+Initialize @secretlint/source-creator@13.0.7
+Initialize @secretlint/config-loader@13.0.7
+Initialize p-map@7.0.8
+Initialize type-fest@5.10.0
+Initialize unicorn-magic@0.4.1
+Initialize @types/normalize-package-data@2.4.4
+Initialize normalize-package-data@8.0.0
+Initialize parse-json@8.3.0
+Initialize ignore@7.0.12
+Initialize eventemitter3@5.0.4
+Initialize log-update@6.1.0
+Initialize colorette@2.0.20
+Initialize rfdc@1.4.1
+Initialize wrap-ansi@9.0.2
+Initialize cli-truncate@5.2.0
+Initialize @pkgr/core@0.3.6
+Initialize fast-diff@1.3.0
+Initialize picocolors@1.1.1
+Initialize shell-quote@1.12.0
+Initialize @manypkg/tools@2.1.2
+Initialize @manypkg/find-root@3.1.0
+Initialize @changesets/parse@1.0.0
+Initialize human-id@4.2.1
+Initialize @changesets/format@0.1.2
+Initialize sisteransi@1.0.5
+Initialize fast-string-width@3.0.2
+Initialize fast-wrap-ansi@0.2.2
+Initialize @clack/core@1.5.1
+Initialize jsonc-parser@3.3.1
+Initialize isexe@2.0.0
+Initialize shebang-regex@3.0.0
+Initialize parse-ms@4.0.0
+Initialize is-unicode-supported@2.1.0
+Initialize unicorn-magic@0.3.0
+Initialize path-key@4.0.0
+Initialize @sec-ant/readable-stream@0.4.1
+Initialize punycode@2.3.1
+Initialize balanced-match@4.0.4
+Initialize cacheable@2.5.0
+Initialize hookified@1.15.1
+Initialize flatted@3.4.2
+Initialize p-locate@5.0.0
+Initialize get-east-asian-width@1.7.0
+Initialize string-width@7.2.0
+Initialize lodash.truncate@4.4.2
+Initialize slice-ansi@4.0.0
+Initialize string-width@4.2.3
+Initialize strip-ansi@6.0.1
+Initialize ajv@8.20.0
+Initialize ansi-regex@6.4.0
+Initialize ansi-escapes@7.3.0
+Initialize supports-hyperlinks@4.6.0
+Initialize lodash@4.18.1
+Initialize @azu/format-text@1.0.2
+Initialize @textlint/resolver@15.8.0
+Initialize @azu/style-format@1.0.1
+Initialize pluralize@2.0.0
+Initialize text-table@0.2.0
+Initialize js-yaml@4.3.2
+Initialize @textlint/ast-node-types@15.8.0
+Initialize istextorbinary@9.5.0
+Initialize rc-config-loader@4.1.4
+Initialize tagged-tag@1.0.0
+Initialize hosted-git-info@9.0.3
+Initialize validate-npm-package-license@3.0.4
+Initialize @babel/code-frame@7.29.7
+Initialize type-fest@4.41.0
+Initialize index-to-position@1.2.0
+Initialize slice-ansi@7.1.2
+Initialize cli-cursor@5.0.0
+Initialize ansi-styles@6.2.3
+Initialize slice-ansi@8.0.0
+Initialize tinyglobby@0.2.17
+Initialize jju@1.4.0
+Initialize fast-string-truncated-width@3.0.3
+Initialize @cacheable/memory@2.2.0
+Initialize qified@0.10.1
+Initialize @cacheable/utils@2.5.0
+Initialize keyv@5.6.0
+Initialize p-limit@3.1.0
+Initialize emoji-regex@10.6.0
+Initialize astral-regex@2.0.0
+Initialize ansi-styles@4.3.0
+Initialize is-fullwidth-code-point@3.0.0
+Initialize emoji-regex@8.0.0
+Initialize ansi-regex@5.0.1
+Initialize json-schema-traverse@1.0.0
+Initialize fast-uri@3.1.8
+Initialize require-from-string@2.0.2
+Initialize environment@1.1.0
+Initialize has-flag@5.0.1
+Initialize supports-color@10.2.2
+Initialize argparse@2.0.1
+Initialize binaryextensions@6.11.0
+Initialize editions@6.22.0
+Initialize textextensions@6.11.0
+Initialize json5@2.2.3
+Initialize lru-cache@11.5.3
+Initialize spdx-expression-parse@3.0.1
+Initialize spdx-correct@3.2.0
+Initialize js-tokens@4.0.0
+Initialize @babel/helper-validator-identifier@7.29.7
+Initialize is-fullwidth-code-point@5.1.0
+Initialize restore-cursor@5.1.0
+Initialize fdir@6.5.0
+Initialize @keyv/bigmap@1.3.1
+Initialize hookified@2.2.0
+Initialize hashery@1.5.1
+Initialize @keyv/serialize@1.1.1
+Initialize yocto-queue@0.1.0
+Initialize color-convert@2.0.1
+Initialize version-range@4.15.0
+Initialize spdx-exceptions@2.5.0
+Initialize spdx-license-ids@3.0.24
+Initialize onetime@7.0.0
+Initialize color-name@1.1.4
+Initialize mimic-function@5.0.1
+Installed 275 packages in 936ms
+Reused 275 packages from cache
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Downloaded 0 packages from JSR
+Downloaded 0 packages from npm
+
+Dependencies:
++ npm:@faker-js/faker 10.6.0
++ npm:@secretlint/core 13.0.7
++ npm:@secretlint/profiler 13.0.7
++ npm:@secretlint/secretlint-rule-preset-recommend 13.0.7
++ npm:libphonenumber-js 1.13.14
++ npm:links-notation 0.30.0
++ npm:re2-wasm 1.0.2
++ npm:re2js 2.9.0
++ npm:yaml 2.9.1
+
+Dev dependencies:
++ npm:@changesets/cli 3.0.3
++ npm:@eslint/js 10.0.1
++ npm:command-stream 2.4.0
++ npm:eslint 10.14.0
++ npm:eslint-config-prettier 10.1.8
++ npm:eslint-plugin-prettier 5.5.6
++ npm:husky 9.1.7
++ npm:jscpd 5.4.0
++ npm:lino-arguments 0.4.0
++ npm:lint-staged 16.4.0
++ npm:mrz 5.0.2
++ npm:prettier 3.8.4
++ npm:secretlint 13.0.7
++ npm:test-anywhere 0.8.50

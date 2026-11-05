@@ -1,0 +1,7 @@
+before: validated=598fadaad014e03b2c5436cd2663e597b7eaa8bf, publication=adadb33a5cd85d07de00ee2330f3c5ac4f1f8726
+publication source: unvalidated
+Traceback (most recent call last):
+  File "/tmp/gh-issue-solver-1793895031390/experiments/issue-92/publication-race.py", line 56, in <module>
+    assert actual == validated, "publication pulled unvalidated source"
+           ^^^^^^^^^^^^^^^^^^^
+AssertionError: publication pulled unvalidated source

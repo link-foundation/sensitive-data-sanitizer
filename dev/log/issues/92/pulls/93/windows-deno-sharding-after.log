@@ -1,0 +1,81 @@
+▶ complete pipeline requirements
+  ✔ queues every writer without cancellation (5.872397ms)
+  ✔ uses only the narrow documented actionlint schema exception (0.70218ms)
+  ✔ provides defaults for required dispatch inputs (1.143553ms)
+  ✔ checks the Dependabot author and enforces warnings on main (2.822997ms)
+  ✔ persists the link cache and uploads the report on failure (0.389408ms)
+  ✔ gives skipped matrix jobs static names (2.570987ms)
+  ✔ deploys Pages without npm dependencies or hidden warnings (0.797308ms)
+  ✔ covers standalone scripts and hooks with pinned ShellCheck (0.858351ms)
+  ✔ declares a shell in every tracked script and hook (22.721837ms)
+  ✔ declares every ESLint configuration import (1.595407ms)
+✔ complete pipeline requirements (43.629287ms)
+▶ check-status-gate-covers-all-jobs.mjs
+  ✔ accepts comments and blank lines in block needs (112.652037ms)
+  ✔ confirms the shipped release workflow is fully covered (135.231577ms)
+  ✔ names the uncovered job when a job is dropped from needs (88.264362ms)
+  ✔ exits 2 when the workflow has no terminal status gate at all (103.449876ms)
+  ✔ accepts a differently named gate via --gate (119.960884ms)
+  ✔ parses the flow form of needs (122.610729ms)
+  ✔ wires the checker into the workflows meta-workflow for every workflow (0.45002ms)
+✔ check-status-gate-covers-all-jobs.mjs (685.838479ms)
+▶ check-status-gate-covers-all-jobs.mjs shipped coverage
+  ✔ confirms every other shipped workflow is fully covered (301.520985ms)
+✔ check-status-gate-covers-all-jobs.mjs shipped coverage (302.065219ms)
+✔ partitions every test file exactly once, independent of directory order (6.488337ms)
+✔ covers every runtime and OS once while distributing Windows Bun and Deno fixtures (139.055824ms)
+✔ rejects invalid shard selection and empty or unknown runtime commands (0.924395ms)
+✔ preserves per-test limits and explicit file selection for each runtime (0.353149ms)
+▶ workflow concurrency policy
+  ✔ detects unsupported keys in a concurrency block (2.193032ms)
+  ✔ keeps every waiting main writer in the queue (5.174875ms)
+  ✔ uses only keys supported by GitHub Actions (4.845681ms)
+  ✔ uses job-level concurrency so stale checks cannot cancel active writers (6.075726ms)
+✔ workflow concurrency policy (20.674957ms)
+▶ workflow reliability policy
+  ✔ sets Git default branch config before checkout initializes repositories (1.131971ms)
+  ✔ excludes Vite source HTML from raw lychee file scans (0.541961ms)
+  ✔ uploads preview regeneration artifacts when screenshot rendering fails (0.64308ms)
+  ✔ uses the official Playwright image for preview regeneration with browser downloads disabled (4.724605ms)
+✔ workflow reliability policy (7.801747ms)
+▶ workflow artifact and writer reliability
+  ✔ serializes main writers and retries generated pushes after rebasing (1.483258ms)
+  ✔ verifies desktop package output before uploading artifacts (5.173072ms)
+✔ workflow artifact and writer reliability (7.015591ms)
+▶ release workflow change gates
+  ✔ skips the slow test matrix for pull requests with no code changes (5.501375ms)
+  ✔ runs the slow test matrix for workflow changes after fast checks pass (0.831651ms)
+  ✔ skips test-compilation for excluded-only pushes (4.338435ms)
+  ✔ skips check-file-line-limits for excluded-only pushes (0.581295ms)
+  ✔ skips lint for excluded-only pushes (0.616511ms)
+  ✔ skips test for excluded-only pushes (0.532764ms)
+  ✔ skips validate-docs for excluded-only pushes (3.113469ms)
+✔ release workflow change gates (16.254098ms)
+▶ manual release quality gates
+  ✔ runs lint and tests before an instant manual release (10.587455ms)
+  ✔ blocks an instant manual release after either quality gate fails (0.688033ms)
+  ✔ blocks an instant manual release from a branch other than main (0.48224ms)
+  ✔ waits for successful lint before creating a manual changeset PR (0.442546ms)
+  ✔ does not run instant-release after cancellation (2.816986ms)
+  ✔ does not run changeset-pr after cancellation (0.410906ms)
+✔ manual release quality gates (15.966932ms)
+▶ npm publish token bootstrap
+  ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the release publish step (0.36402ms)
+  ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the instant-release publish step (0.282227ms)
+✔ npm publish token bootstrap (0.96971ms)
+▶ npm user config cleanup
+  ✔ removes deprecated always-auth before npm commands in the release job (0.350775ms)
+  ✔ removes deprecated always-auth before npm commands in the instant-release job (0.29999ms)
+✔ npm user config cleanup (0.908807ms)
+▶ install-from-package smoke test
+  ✔ smoke-tests the published npm package in the release job (0.372546ms)
+  ✔ smoke-tests the published npm package in the instant-release job (0.41791ms)
+✔ install-from-package smoke test (1.404921ms)
+ℹ tests 51
+ℹ suites 11
+ℹ pass 51
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1228.489125
