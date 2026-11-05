@@ -51,8 +51,6 @@ describe('issue 73: bare parts of a reused map entry', () => {
   for (const input of [
     'Опыт: петров день, данил, мария.',
     'Навыки: Битрикс петров, Excel.',
-    'Навыки: Роман петров (CRM), отдел.',
-    'Опыт.\nСтек: Максим петрова (ПМ), отдел.',
     'Отзыв: Алина петрову, отдел.',
     'Сильный мороз. Петров пришёл.',
     'Данил пришёл.',
@@ -62,6 +60,25 @@ describe('issue 73: bare parts of a reused map entry', () => {
       expect(reuse(input, pollutedMap())).toBe(
         reuse(input, createRestoreMap())
       );
+    });
+  }
+
+  // Issue 82 now recognizes these full name pairs independently of the map.
+  // A shared surname must not merge a different given name with the seed.
+  for (const [input, mention] of [
+    ['Навыки: Роман петров (CRM), отдел.', 'Роман петров'],
+    ['Опыт.\nСтек: Максим петрова (ПМ), отдел.', 'Максим петрова'],
+  ]) {
+    it(`assigns the newly recognized full mention its own token: ${input}`, () => {
+      expect(reuse(input, createRestoreMap())).toBe(
+        input.replace(mention, 'Person-1')
+      );
+      for (const map of [seeded(), pollutedMap()]) {
+        expect(reuse(input, map)).toBe(input.replace(mention, 'Person-2'));
+        expect(map.entries.length).toBe(2);
+        expect(map.entries[0].values.includes(mention)).toBe(false);
+        expect(map.entries[1].values.includes(mention)).toBe(true);
+      }
     });
   }
 

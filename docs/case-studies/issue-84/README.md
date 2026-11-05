@@ -229,3 +229,8 @@ is now assembled at runtime; the secret scanner stays fully enabled. Desktop
 packaging also encountered an upstream Electron download HTTP 504
 (`desktop-127306920263.log:256`), unrelated to native sanitization. A fresh CI
 run validates the final commit; no failed check is treated as passing.
+
+The full CI matrix also exposed two issue #73 assertions that expected newly
+recognized lowercase name pairs to remain undetected. The tests now require
+whole-mention redaction, independent identity tokens in reused maps, and exact
+restoration. Bare parts still follow the existing preservation tests.
