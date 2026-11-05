@@ -247,7 +247,7 @@ function operationalValue(value, type) {
   return (
     (type === 'URL' &&
       /^\/(?!\/)[^\s?@#]*$/.test(value) &&
-      !/(?:^|\/)(?:users?|profiles?|people|members?|home)\/[^/]+/i.test(
+      !/(?:^|\/)(?:u|in|users?|profiles?|people|members?|home)\/[^/]+/i.test(
         value
       )) ||
     (type === 'TIME' &&
@@ -393,19 +393,24 @@ function detectCredentials(text, emit) {
   }
 }
 
-function detectPersonalLabels(text, emit) {
-  for (const [type, words] of Object.entries(labels)) {
-    if (type === 'credential') {
-      continue;
-    }
+const personalPrefixes = Object.entries(labels)
+  .filter(([type]) => type !== 'credential')
+  .map(([type, words]) => {
     const separator =
       type === 'ID'
         ? `(?:[:=：]|(?:${verbs})(?![\\p{L}\\p{N}_]))?[ \\t]+|[:=：][ \\t]*`
         : `(?:[:=：]|(?:${verbs})(?![\\p{L}\\p{N}_]))[ \\t]*`;
-    const prefix = new RegExp(
-      `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(?:${words.map(escapePattern).join('|')})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?[ \\t]*(?:${separator})`,
-      'giu'
-    );
+    return [
+      type,
+      new RegExp(
+        `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(?:${words.map(escapePattern).join('|')})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?[ \\t]*(?:${separator})`,
+        'giu'
+      ),
+    ];
+  });
+
+function detectPersonalLabels(text, emit) {
+  for (const [type, prefix] of personalPrefixes) {
     for (const match of text.matchAll(prefix)) {
       const identity = type === 'ID';
       const suffix = identity

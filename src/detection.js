@@ -58,11 +58,14 @@ export function collectMatches(
   group = 0,
   accept = () => true
 ) {
-  // Clone expressions so concurrent callers never share lastIndex.
-  const pattern = new RegExp(
-    regex.source,
-    regex.flags.includes('g') ? regex.flags : `${regex.flags}g`
-  );
+  // matchAll clones global expressions and leaves their lastIndex untouched.
+  const pattern =
+    regex.global && regex.lastIndex === 0
+      ? regex
+      : new RegExp(
+          regex.source,
+          regex.global ? regex.flags : `${regex.flags}g`
+        );
   for (const match of text.matchAll(pattern)) {
     const raw = match[group];
     const value = details.category === 'personal' ? raw?.trim() : raw;
