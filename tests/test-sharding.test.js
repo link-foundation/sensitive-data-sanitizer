@@ -49,6 +49,23 @@ it('covers every runtime and OS once while distributing Windows Bun and Deno fix
           )
         ).toBe(true);
       }
+      if (os === 'macos-26-intel' && runtime === 'deno') {
+        // These subprocess-heavy files consumed most of the suite budget
+        // together on a cold runner. Keep them in separate execution jobs.
+        const expensive = [
+          'pr-guards.test.js',
+          'release-api-integrity.test.js',
+          'detect-code-changes.test.js',
+        ];
+        expect(
+          shards.every(
+            ({ shard }) =>
+              selectTests(files, shard).filter((file) =>
+                expensive.some((name) => file === `tests/${name}`)
+              ).length <= 1
+          )
+        ).toBe(true);
+      }
     }
   }
 });

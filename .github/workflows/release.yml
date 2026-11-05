@@ -379,9 +379,12 @@ jobs:
           - { os: macos-26-intel, runtime: bun, shard: '1/3' }
           - { os: macos-26-intel, runtime: bun, shard: '2/3' }
           - { os: macos-26-intel, runtime: bun, shard: '3/3' }
-          - { os: macos-26-intel, runtime: deno, shard: '1/3' }
-          - { os: macos-26-intel, runtime: deno, shard: '2/3' }
-          - { os: macos-26-intel, runtime: deno, shard: '3/3' }
+          # Four stripes separate the expensive API, Git guard and change
+          # discovery fixtures, which otherwise share one cold-runner budget.
+          - { os: macos-26-intel, runtime: deno, shard: '1/4' }
+          - { os: macos-26-intel, runtime: deno, shard: '2/4' }
+          - { os: macos-26-intel, runtime: deno, shard: '3/4' }
+          - { os: macos-26-intel, runtime: deno, shard: '4/4' }
     steps:
       - uses: actions/checkout@v7
         with:
