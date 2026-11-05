@@ -228,6 +228,9 @@ function quotedRange(text, start, opening, maxLength) {
 }
 
 function plausibleLabel(value, type) {
+  if (operationalValue(value, type)) {
+    return false;
+  }
   if (type === 'PERSON') {
     return plausiblePerson(value.replace(/[,;\d].*$/s, '').trim());
   }
@@ -238,6 +241,20 @@ function plausibleLabel(value, type) {
     );
   }
   return true;
+}
+
+function operationalValue(value, type) {
+  return (
+    (type === 'URL' &&
+      /^\/(?!\/)[^\s?@#]*$/.test(value) &&
+      !/(?:^|\/)(?:users?|profiles?|people|members?|home)\/[^/]+/i.test(
+        value
+      )) ||
+    (type === 'TIME' &&
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/.test(
+        value
+      ))
+  );
 }
 
 // Shared by native labels and the vendor catalogs. Code expressions and

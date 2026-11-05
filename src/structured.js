@@ -280,3 +280,87 @@ export function verifyStructured(text, options) {
     }
   }
 }
+
+// Scan decoded strings at their own line start, retaining a map through every
+// JSON escape. Both native and asynchronous engines consume these same views.
+export function* structuredValueViews(
+  batch,
+  options,
+  depth = 0,
+  outerMap = (f) => f
+) {
+  for (const entry of batch.entries) {
+    const value = JSON.parse(entry.raw);
+    const offsets = stringOffsets(entry.raw);
+    const map = (finding) => {
+      const raw = {
+        ...finding,
+        start: offsets ? offsets.starts[finding.start] : finding.start + 1,
+        end: offsets ? offsets.ends[finding.end - 1] : finding.end + 1,
+      };
+      if (
+        preserveStructuredEntry(
+          entry,
+          {
+            ...raw,
+            start: entry.batchStart + raw.start,
+            end: entry.batchStart + raw.end,
+          },
+          batch.text,
+          options
+        )
+      ) {
+        return undefined;
+      }
+      return outerMap({
+        ...raw,
+        start: entry.start + raw.start,
+        end: entry.start + raw.end,
+      });
+    };
+    yield { text: value, map };
+    // Match the encoded detector's finite depth; arbitrary nesting is a limit.
+    if (depth < 2 && /^[ \t\r\n]*[[{]/.test(value)) {
+      let batches;
+      try {
+        batches = structuredBatches(value, { ...options, structured: 'json' });
+      } catch (error) {
+        if (error.code !== 'ERR_JSON') {
+          throw error;
+        }
+        batches = [];
+      }
+      for (const nested of batches) {
+        yield* structuredValueViews(nested, options, depth + 1, map);
+      }
+    }
+  }
+}
+export function inspectStructuredValues(batch, options, inspectValue) {
+  const result = [];
+  for (const view of structuredValueViews(batch, options)) {
+    const findings = inspectValue(view.text);
+    options.debug?.({ event: 'structured-value', count: findings.length });
+    for (const finding of findings) {
+      const mapped = view.map(finding);
+      if (mapped) {
+        result.push(mapped);
+      }
+    }
+  }
+  return result;
+}
+function stringOffsets(raw) {
+  if (!raw.includes('\\')) {
+    return undefined;
+  }
+  const starts = [],
+    ends = [];
+  for (let i = 1; i < raw.length - 1; ) {
+    const start = i;
+    i += raw[i] === '\\' ? (raw[i + 1] === 'u' ? 6 : 2) : 1;
+    starts.push(start);
+    ends.push(i);
+  }
+  return { starts, ends };
+}

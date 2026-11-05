@@ -24,6 +24,7 @@ import {
 } from './placeholders.js';
 import {
   structuredBatches,
+  structuredValueViews,
   mapStructuredFindings,
   verifyStructured,
 } from './structured.js';
@@ -142,6 +143,21 @@ async function analyzeStructured(
       options
     )) {
       findings.push(finding);
+    }
+    for (const view of structuredValueViews(batch, options)) {
+      const detected = await analyze(
+        view.text,
+        [],
+        true,
+        { ...options, structured: undefined },
+        nativeFindings === undefined ? undefined : []
+      );
+      for (const finding of detected) {
+        const mapped = view.map(finding);
+        if (mapped) {
+          findings.push(mapped);
+        }
+      }
     }
   }
   // Native structured inspection validates, locates and reapplies the
