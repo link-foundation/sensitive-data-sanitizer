@@ -12,16 +12,19 @@ it('keeps weekly dependency updates aligned with every tracked manifest', () => 
   const directory = (path) =>
     dirname(path) === '.' ? '/' : `/${dirname(path)}`;
   for (const [ecosystem, filename] of [
-    ['npm', 'package-lock.json'],
-    ['pip', 'requirements.txt'],
+    ['npm', /^package-lock\.json$/u],
+    ['pip', /^requirements.*\.txt$/u],
   ]) {
     const update = config.updates.find(
       (item) => item['package-ecosystem'] === ecosystem
     );
-    const actual = paths
-      .filter((path) => path.split('/').at(-1) === filename)
-      .map(directory)
-      .sort();
+    const actual = [
+      ...new Set(
+        paths
+          .filter((path) => filename.test(path.split('/').at(-1)))
+          .map(directory)
+      ),
+    ].sort();
     expect((update.directories ?? [update.directory]).sort()).toEqual(actual);
   }
   expect(
