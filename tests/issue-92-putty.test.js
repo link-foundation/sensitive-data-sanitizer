@@ -1,24 +1,35 @@
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
 import { describe, it } from 'test-anywhere';
 import { detectCredentialFormats } from '../src/credentials.js';
 import { sandboxed, itUnless } from './helpers/skip.js';
+import { HANG_GUARD_MS, runBounded } from './helpers/bounded-run.js';
 
 describe('issue 92 PuTTY scanning', () => {
   itUnless(sandboxed)(
-    'bounds repeated incomplete headers in a separate process',
-    () => {
-      const result = spawnSync(
+    'bounds repeated incomplete headers separately from cold module startup',
+    async () => {
+      // Windows can spend more than two seconds starting Node and loading
+      // the scanner's module graph. Reproduce that independently of scan speed.
+      const preload = `data:text/javascript,${encodeURIComponent(
+        'await new Promise(resolve => setTimeout(resolve, 2100))'
+      )}`;
+      const result = await runBounded(
         'node',
-        ['--max-old-space-size=128', 'experiments/issue-92/putty-probe.mjs'],
+        [
+          '--max-old-space-size=128',
+          '--import',
+          preload,
+          'experiments/issue-92/putty-probe.mjs',
+        ],
         {
-          encoding: 'utf8',
-          timeout: 2000,
+          timeout: HANG_GUARD_MS,
+          env: { ...process.env, CI_SCRIPTS_DEBUG: '1' },
         }
       );
-      assert.equal(result.error, undefined);
-      assert.equal(result.status, 0, result.stderr);
       assert.equal(result.stdout.trim(), '0');
+      const timing = JSON.parse(result.stderr);
+      assert.ok(timing.initializationMs >= 2100);
+      assert.ok(timing.scanMs < 2000);
     }
   );
 

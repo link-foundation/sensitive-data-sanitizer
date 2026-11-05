@@ -50,7 +50,7 @@ describe('security workflow', () => {
     expect(workflow).toContain('  workflow_dispatch:');
   });
 
-  it('analyzes JavaScript and GitHub Actions with CodeQL', () => {
+  it('analyzes JavaScript, GitHub Actions, and shipped Python helpers with CodeQL', () => {
     const codeql = getJobBlock('codeql');
 
     expect(codeql).toContain('    timeout-minutes: 30');
@@ -58,7 +58,7 @@ describe('security workflow', () => {
       '      group: check-${{ github.workflow }}-${{ github.ref }}-codeql-${{ matrix.language }}\n      cancel-in-progress: true'
     );
     expect(codeql).toContain(
-      '        language: [javascript-typescript, actions]'
+      '        language: [javascript-typescript, actions, python]'
     );
     expect(codeql).toContain('      actions: read');
     expect(codeql).toContain('      security-events: write');
@@ -131,6 +131,14 @@ describe('security workflow', () => {
     );
     expect(audit).toContain('AUDIT_DIR: ${{ matrix.directory }}');
     expect(audit).toContain('AUDIT_LEVEL: high');
+  });
+
+  it('audits every Python requirements surface without installing NLP packages', () => {
+    const audit = getJobBlock('python-audit');
+    expect(audit).toContain('pipx install uv==0.13.7');
+    expect(audit).toContain('pipx install pip-audit==2.10.1');
+    expect(audit).toContain('python scripts/audit-python-dependencies.py');
+    expect(getJobBlock('pipeline-status')).toContain('      - python-audit');
   });
 
   // `--audit-level=high` alone exits 0 on a moderate advisory and

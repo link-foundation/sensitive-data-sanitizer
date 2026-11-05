@@ -1,0 +1,7 @@
+547: Package desktop app (windows-2025)	Package Electron app	2026-11-05T18:04:24.9124415Z ^[[36;1mecho "::error::Desktop package output was not created at examples/universal-app/out"^[[0m
+895: Package desktop app (ubuntu-24.04)	Package Electron app	2026-11-05T18:04:05.1547710Z ^[[36;1mecho "::error::Desktop package output was not created at examples/universal-app/out"^[[0m
+1401: Regenerate Preview Images	Commit drift back to main	2026-11-05T18:04:50.8499966Z /__w/_temp/a0d7c022-7fc5-469f-aa85-f7939993466a.sh: line 4: gh: command not found
+1402: Regenerate Preview Images	Commit drift back to main	2026-11-05T18:04:50.8547790Z ##[error]Process completed with exit code 127.
+1769: Package desktop app (macos-26-intel)	Package Electron app	2026-11-05T18:04:58.1792060Z ^[[36;1mecho "::error::Desktop package output was not created at examples/universal-app/out"^[[0m
+2349: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.9627554Z ##[error]Failing jobs: preview-regen
+2350: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:09.7245061Z ##[error]Process completed with exit code 1.

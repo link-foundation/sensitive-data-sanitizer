@@ -1,0 +1,5 @@
+492: Package desktop app (macos-26-intel)	Package Electron app	2026-11-05T18:39:16.3104290Z ^[[36;1mecho "::error::Desktop package output was not created at examples/universal-app/out"^[[0m
+571: Package desktop app (macos-26-intel)	Upload desktop package	2026-11-05T18:40:00.5292700Z ##[error]The operation was canceled.
+800: Package desktop app (ubuntu-24.04)	Package Electron app	2026-11-05T18:38:44.3151444Z ^[[36;1mecho "::error::Desktop package output was not created at examples/universal-app/out"^[[0m
+1420: Package desktop app (windows-2025)	Package Electron app	2026-11-05T18:39:04.6003777Z ^[[36;1mecho "::error::Desktop package output was not created at examples/universal-app/out"^[[0m
+1800: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:40:53.7374803Z ##[warning]desktop-package. This run is no longer the head of main, and these jobs cancel in progress.

@@ -90,11 +90,33 @@ describe('workflow linting job', () => {
     expect(timeouts).toEqual([
       '    timeout-minutes: 10',
       '    timeout-minutes: 10',
+      '    timeout-minutes: 5',
       '    timeout-minutes: 10',
       '    timeout-minutes: 10',
       '    timeout-minutes: 10',
       '    timeout-minutes: 5',
     ]);
+  });
+
+  it('gates Python-only changes with pinned lint and format checks', () => {
+    expect(workflowsWorkflow.match(/- '\*\*\.py'/g)?.length).toBe(2);
+    expect(workflowsWorkflow.match(/- 'ruff.toml'/g)?.length).toBe(2);
+    expect(workflowsWorkflow).toContain('      - python-check');
+    expect(workflowsWorkflow).toContain('ruff check --output-format=github .');
+    expect(workflowsWorkflow).toContain('ruff format --check .');
+    const versions = [...workflowsWorkflow.matchAll(/--spec ruff==(\S+)/g)].map(
+      (match) => match[1]
+    );
+    expect(versions).toEqual(['0.17.3', '0.17.3']);
+    const config = readFileSync('ruff.toml', 'utf8');
+    expect(config).toContain('"E4", "E7", "E9", "F", "I"');
+    expect(config).toContain('"dev/log"');
+    const hooks = JSON.parse(readFileSync('package.json', 'utf8'))[
+      'lint-staged'
+    ];
+    expect(hooks['*.py']).toContain(
+      'pipx run --spec ruff==0.17.3 ruff check --fix --force-exclude'
+    );
   });
 });
 

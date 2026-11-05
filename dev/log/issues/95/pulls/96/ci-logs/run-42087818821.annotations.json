@@ -1,0 +1,15 @@
+[
+  {
+    "job": "Check Links",
+    "path": ".github",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/cb7a935ae84fc8b8a1f4bd93dcdd50ed332148fb/.github",
+    "start_line": 152,
+    "start_column": null,
+    "end_line": 152,
+    "end_column": null,
+    "annotation_level": "notice",
+    "title": "",
+    "message": "Summary report available at: https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42087818821#summary-127457563707",
+    "raw_details": ""
+  }
+]

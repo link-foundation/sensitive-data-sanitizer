@@ -1,0 +1,3663 @@
+[
+  {
+    "total_count": 37,
+    "jobs": [
+      {
+        "id": 127451813896,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrLhYCA",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127451813896",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127451813896",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:38:34Z",
+        "started_at": "2026-11-05T18:38:36Z",
+        "completed_at": "2026-11-05T18:38:44Z",
+        "name": "Release Preflight",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:38:37Z",
+            "completed_at": "2026-11-05T18:38:38Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:38:38Z",
+            "completed_at": "2026-11-05T18:38:39Z"
+          },
+          {
+            "name": "Probe every release credential",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:38:39Z",
+            "completed_at": "2026-11-05T18:38:41Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T18:38:41Z",
+            "completed_at": "2026-11-05T18:38:41Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T18:38:41Z",
+            "completed_at": "2026-11-05T18:38:41Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127451813896",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198933,
+        "runner_name": "GitHub Actions 1000198933",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127451814163,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrLhZEw",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127451814163",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127451814163",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:38:34Z",
+        "started_at": "2026-11-05T18:38:36Z",
+        "completed_at": "2026-11-05T18:38:44Z",
+        "name": "Detect Changes",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:38:37Z",
+            "completed_at": "2026-11-05T18:38:38Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:38:38Z",
+            "completed_at": "2026-11-05T18:38:40Z"
+          },
+          {
+            "name": "Detect changes",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:38:40Z",
+            "completed_at": "2026-11-05T18:38:41Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T18:38:41Z",
+            "completed_at": "2026-11-05T18:38:42Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T18:38:42Z",
+            "completed_at": "2026-11-05T18:38:42Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127451814163",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198936,
+        "runner_name": "GitHub Actions 1000198936",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127451814190,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrLhZLg",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127451814190",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127451814190",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:38:34Z",
+        "started_at": "2026-11-05T18:38:35Z",
+        "completed_at": "2026-11-05T18:38:41Z",
+        "name": "Check for Manual Version Changes",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:38:36Z",
+            "completed_at": "2026-11-05T18:38:37Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:38:37Z",
+            "completed_at": "2026-11-05T18:38:39Z"
+          },
+          {
+            "name": "Check for version changes in package.json",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:38:39Z",
+            "completed_at": "2026-11-05T18:38:39Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T18:38:39Z",
+            "completed_at": "2026-11-05T18:38:39Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T18:38:39Z",
+            "completed_at": "2026-11-05T18:38:39Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127451814190",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198937,
+        "runner_name": "GitHub Actions 1000198937",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127451909004,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrLnLjA",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127451909004",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127451909004",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:38:44Z",
+        "started_at": "2026-11-05T18:38:46Z",
+        "completed_at": "2026-11-05T18:38:53Z",
+        "name": "Check File Line Limits",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:38:47Z",
+            "completed_at": "2026-11-05T18:38:47Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:38:47Z",
+            "completed_at": "2026-11-05T18:38:50Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:38:50Z",
+            "completed_at": "2026-11-05T18:38:50Z"
+          },
+          {
+            "name": "Check file line limits",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:38:50Z",
+            "completed_at": "2026-11-05T18:38:51Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T18:38:51Z",
+            "completed_at": "2026-11-05T18:38:51Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T18:38:51Z",
+            "completed_at": "2026-11-05T18:38:51Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127451909004",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198959,
+        "runner_name": "GitHub Actions 1000198959",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127451909052,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrLnLvA",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127451909052",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127451909052",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:38:44Z",
+        "started_at": "2026-11-05T18:38:46Z",
+        "completed_at": "2026-11-05T18:39:07Z",
+        "name": "Session Publication Corpus",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:38:47Z",
+            "completed_at": "2026-11-05T18:38:48Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:38:48Z",
+            "completed_at": "2026-11-05T18:38:50Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:38:50Z",
+            "completed_at": "2026-11-05T18:38:51Z"
+          },
+          {
+            "name": "Run actions/setup-node@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:38:51Z",
+            "completed_at": "2026-11-05T18:38:53Z"
+          },
+          {
+            "name": "Install corpus dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:38:53Z",
+            "completed_at": "2026-11-05T18:38:58Z"
+          },
+          {
+            "name": "Publish Codex and Claude session corpus with zero residuals",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T18:38:58Z",
+            "completed_at": "2026-11-05T18:39:04Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T18:39:04Z",
+            "completed_at": "2026-11-05T18:39:04Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T18:39:04Z",
+            "completed_at": "2026-11-05T18:39:04Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T18:39:04Z",
+            "completed_at": "2026-11-05T18:39:04Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127451909052",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198958,
+        "runner_name": "GitHub Actions 1000198958",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127451909073,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrLnL0Q",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127451909073",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127451909073",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:38:44Z",
+        "started_at": "2026-11-05T18:38:46Z",
+        "completed_at": "2026-11-05T18:38:51Z",
+        "name": "Docker Image Build Check",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:38:47Z",
+            "completed_at": "2026-11-05T18:38:48Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:38:48Z",
+            "completed_at": "2026-11-05T18:38:49Z"
+          },
+          {
+            "name": "Check Docker build configuration",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:38:49Z",
+            "completed_at": "2026-11-05T18:38:49Z"
+          },
+          {
+            "name": "Set up Docker Buildx (resilient)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 4,
+            "started_at": "2026-11-05T18:38:49Z",
+            "completed_at": "2026-11-05T18:38:49Z"
+          },
+          {
+            "name": "Build Docker image (no push)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 5,
+            "started_at": "2026-11-05T18:38:49Z",
+            "completed_at": "2026-11-05T18:38:49Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T18:38:49Z",
+            "completed_at": "2026-11-05T18:38:49Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T18:38:49Z",
+            "completed_at": "2026-11-05T18:38:50Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127451909073",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198956,
+        "runner_name": "GitHub Actions 1000198956",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127451909099,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrLnL6w",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127451909099",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127451909099",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:38:44Z",
+        "started_at": "2026-11-05T18:38:47Z",
+        "completed_at": "2026-11-05T18:38:59Z",
+        "name": "Check for Changesets",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:38:48Z",
+            "completed_at": "2026-11-05T18:38:48Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:38:48Z",
+            "completed_at": "2026-11-05T18:38:51Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:38:51Z",
+            "completed_at": "2026-11-05T18:38:52Z"
+          },
+          {
+            "name": "Install dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:38:52Z",
+            "completed_at": "2026-11-05T18:38:56Z"
+          },
+          {
+            "name": "Check for changesets",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:38:56Z",
+            "completed_at": "2026-11-05T18:38:56Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T18:38:56Z",
+            "completed_at": "2026-11-05T18:38:57Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T18:38:57Z",
+            "completed_at": "2026-11-05T18:38:57Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T18:38:57Z",
+            "completed_at": "2026-11-05T18:38:57Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127451909099",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198957,
+        "runner_name": "GitHub Actions 1000198957",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127451909135,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrLnMDw",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127451909135",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127451909135",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:38:44Z",
+        "started_at": "2026-11-05T18:38:47Z",
+        "completed_at": "2026-11-05T18:39:15Z",
+        "name": "Lint and Format Check",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:38:47Z",
+            "completed_at": "2026-11-05T18:38:48Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:38:48Z",
+            "completed_at": "2026-11-05T18:38:50Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:38:50Z",
+            "completed_at": "2026-11-05T18:38:50Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:38:50Z",
+            "completed_at": "2026-11-05T18:38:51Z"
+          },
+          {
+            "name": "Check for secrets",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:38:51Z",
+            "completed_at": "2026-11-05T18:38:55Z"
+          },
+          {
+            "name": "Install dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T18:38:55Z",
+            "completed_at": "2026-11-05T18:38:59Z"
+          },
+          {
+            "name": "Dry-run release versioning (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T18:38:59Z",
+            "completed_at": "2026-11-05T18:39:00Z"
+          },
+          {
+            "name": "Run ESLint",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T18:39:00Z",
+            "completed_at": "2026-11-05T18:39:07Z"
+          },
+          {
+            "name": "Check formatting",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T18:39:07Z",
+            "completed_at": "2026-11-05T18:39:13Z"
+          },
+          {
+            "name": "Check code duplication",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T18:39:13Z",
+            "completed_at": "2026-11-05T18:39:13Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-11-05T18:39:13Z",
+            "completed_at": "2026-11-05T18:39:13Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-11-05T18:39:13Z",
+            "completed_at": "2026-11-05T18:39:13Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-11-05T18:39:13Z",
+            "completed_at": "2026-11-05T18:39:13Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127451909135",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198960,
+        "runner_name": "GitHub Actions 1000198960",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127451909344,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrLnM4A",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127451909344",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127451909344",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:38:44Z",
+        "started_at": "2026-11-05T18:38:48Z",
+        "completed_at": "2026-11-05T18:39:06Z",
+        "name": "Test Compilation",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:38:49Z",
+            "completed_at": "2026-11-05T18:38:49Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:38:49Z",
+            "completed_at": "2026-11-05T18:38:51Z"
+          },
+          {
+            "name": "Run actions/setup-node@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:38:51Z",
+            "completed_at": "2026-11-05T18:38:53Z"
+          },
+          {
+            "name": "Check JavaScript syntax",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:38:53Z",
+            "completed_at": "2026-11-05T18:39:03Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T18:39:03Z",
+            "completed_at": "2026-11-05T18:39:03Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T18:39:03Z",
+            "completed_at": "2026-11-05T18:39:04Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T18:39:04Z",
+            "completed_at": "2026-11-05T18:39:04Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127451909344",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198962,
+        "runner_name": "GitHub Actions 1000198962",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127451909418,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrLnNKg",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127451909418",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127451909418",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:38:44Z",
+        "started_at": "2026-11-05T18:38:47Z",
+        "completed_at": "2026-11-05T18:38:52Z",
+        "name": "Validate Documentation",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:38:48Z",
+            "completed_at": "2026-11-05T18:38:48Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:38:48Z",
+            "completed_at": "2026-11-05T18:38:50Z"
+          },
+          {
+            "name": "Check required documentation sections",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:38:50Z",
+            "completed_at": "2026-11-05T18:38:50Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T18:38:50Z",
+            "completed_at": "2026-11-05T18:38:50Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T18:38:50Z",
+            "completed_at": "2026-11-05T18:38:50Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127451909418",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198961,
+        "runner_name": "GitHub Actions 1000198961",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452205814,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5S9g",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452205814",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452205814",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:21Z",
+        "completed_at": "2026-11-05T18:41:17Z",
+        "name": "Test runtimes (macos-26-intel, deno, 4/4)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:23Z",
+            "completed_at": "2026-11-05T18:39:28Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:28Z",
+            "completed_at": "2026-11-05T18:39:36Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:36Z",
+            "completed_at": "2026-11-05T18:39:36Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:36Z",
+            "completed_at": "2026-11-05T18:39:44Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:44Z",
+            "completed_at": "2026-11-05T18:40:18Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6,
+            "started_at": "2026-11-05T18:40:18Z",
+            "completed_at": "2026-11-05T18:40:18Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:40:18Z",
+            "completed_at": "2026-11-05T18:40:18Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8,
+            "started_at": "2026-11-05T18:40:18Z",
+            "completed_at": "2026-11-05T18:40:18Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-11-05T18:40:18Z",
+            "completed_at": "2026-11-05T18:40:18Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T18:40:18Z",
+            "completed_at": "2026-11-05T18:40:21Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T18:40:21Z",
+            "completed_at": "2026-11-05T18:40:33Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T18:40:33Z",
+            "completed_at": "2026-11-05T18:41:10Z"
+          },
+          {
+            "name": "Post Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-11-05T18:41:10Z",
+            "completed_at": "2026-11-05T18:41:10Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-11-05T18:41:10Z",
+            "completed_at": "2026-11-05T18:41:13Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:41:13Z",
+            "completed_at": "2026-11-05T18:41:14Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:41:14Z",
+            "completed_at": "2026-11-05T18:41:15Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452205814",
+        "labels": [
+          "macos-26-intel"
+        ],
+        "runner_id": 1000198965,
+        "runner_name": "GitHub Actions 1000198965",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452205954,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5Tgg",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452205954",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452205954",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:18Z",
+        "completed_at": "2026-11-05T18:40:26Z",
+        "name": "Test runtimes (ubuntu-24.04, deno, 1/1)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:18Z",
+            "completed_at": "2026-11-05T18:39:19Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:19Z",
+            "completed_at": "2026-11-05T18:39:21Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:21Z",
+            "completed_at": "2026-11-05T18:39:21Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:21Z",
+            "completed_at": "2026-11-05T18:39:22Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:22Z",
+            "completed_at": "2026-11-05T18:39:28Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6,
+            "started_at": "2026-11-05T18:39:28Z",
+            "completed_at": "2026-11-05T18:39:28Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:39:28Z",
+            "completed_at": "2026-11-05T18:39:28Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8,
+            "started_at": "2026-11-05T18:39:28Z",
+            "completed_at": "2026-11-05T18:39:28Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-11-05T18:39:28Z",
+            "completed_at": "2026-11-05T18:39:28Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T18:39:28Z",
+            "completed_at": "2026-11-05T18:39:29Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T18:39:29Z",
+            "completed_at": "2026-11-05T18:39:30Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 12,
+            "started_at": "2026-11-05T18:39:30Z",
+            "completed_at": "2026-11-05T18:40:24Z"
+          },
+          {
+            "name": "Post Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-11-05T18:40:24Z",
+            "completed_at": "2026-11-05T18:40:25Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 23,
+            "started_at": "2026-11-05T18:40:25Z",
+            "completed_at": "2026-11-05T18:40:25Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:40:25Z",
+            "completed_at": "2026-11-05T18:40:25Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:40:25Z",
+            "completed_at": "2026-11-05T18:40:25Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452205954",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198977,
+        "runner_name": "GitHub Actions 1000198977",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206001,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5TsQ",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206001",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206001",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:17Z",
+        "completed_at": "2026-11-05T18:41:38Z",
+        "name": "Test runtimes (windows-2025, node, 1/1)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:18Z",
+            "completed_at": "2026-11-05T18:39:19Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:19Z",
+            "completed_at": "2026-11-05T18:39:28Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:28Z",
+            "completed_at": "2026-11-05T18:39:28Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:28Z",
+            "completed_at": "2026-11-05T18:39:34Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:34Z",
+            "completed_at": "2026-11-05T18:39:46Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 6,
+            "started_at": "2026-11-05T18:39:46Z",
+            "completed_at": "2026-11-05T18:41:34Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:41:34Z",
+            "completed_at": "2026-11-05T18:41:34Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8,
+            "started_at": "2026-11-05T18:41:34Z",
+            "completed_at": "2026-11-05T18:41:34Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-11-05T18:41:34Z",
+            "completed_at": "2026-11-05T18:41:34Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 10,
+            "started_at": "2026-11-05T18:41:34Z",
+            "completed_at": "2026-11-05T18:41:34Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 11,
+            "started_at": "2026-11-05T18:41:34Z",
+            "completed_at": "2026-11-05T18:41:34Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 12,
+            "started_at": "2026-11-05T18:41:34Z",
+            "completed_at": "2026-11-05T18:41:34Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 23,
+            "started_at": "2026-11-05T18:41:34Z",
+            "completed_at": "2026-11-05T18:41:34Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:41:34Z",
+            "completed_at": "2026-11-05T18:41:36Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:41:36Z",
+            "completed_at": "2026-11-05T18:41:36Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206001",
+        "labels": [
+          "windows-2025"
+        ],
+        "runner_id": 1000198971,
+        "runner_name": "GitHub Actions 1000198971",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206005,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5TtQ",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206005",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206005",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:40:09Z",
+        "completed_at": "2026-11-05T18:41:31Z",
+        "name": "Test runtimes (macos-26-intel, deno, 3/4)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:17Z",
+            "completed_at": "2026-11-05T18:39:23Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:23Z",
+            "completed_at": "2026-11-05T18:39:36Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:36Z",
+            "completed_at": "2026-11-05T18:39:37Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:37Z",
+            "completed_at": "2026-11-05T18:39:52Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:52Z",
+            "completed_at": "2026-11-05T18:40:31Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6,
+            "started_at": "2026-11-05T18:40:31Z",
+            "completed_at": "2026-11-05T18:40:31Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:40:31Z",
+            "completed_at": "2026-11-05T18:40:31Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8,
+            "started_at": "2026-11-05T18:40:31Z",
+            "completed_at": "2026-11-05T18:40:31Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-11-05T18:40:31Z",
+            "completed_at": "2026-11-05T18:40:31Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "cancelled",
+            "number": 10,
+            "started_at": "2026-11-05T18:40:31Z",
+            "completed_at": "2026-11-05T18:40:31Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 11,
+            "started_at": "2026-11-05T18:40:31Z",
+            "completed_at": "2026-11-05T18:40:31Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 12,
+            "started_at": "2026-11-05T18:40:31Z",
+            "completed_at": "2026-11-05T18:40:31Z"
+          },
+          {
+            "name": "Post Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-11-05T18:40:31Z",
+            "completed_at": "2026-11-05T18:40:32Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 23,
+            "started_at": "2026-11-05T18:40:32Z",
+            "completed_at": "2026-11-05T18:40:32Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:40:32Z",
+            "completed_at": "2026-11-05T18:40:34Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:40:34Z",
+            "completed_at": "2026-11-05T18:40:35Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206005",
+        "labels": [
+          "macos-26-intel"
+        ],
+        "runner_id": 1000198989,
+        "runner_name": "GitHub Actions 1000198989",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206007,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5Ttw",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206007",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206007",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:17Z",
+        "completed_at": "2026-11-05T18:41:10Z",
+        "name": "Test runtimes (ubuntu-24.04, bun, 1/1)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:18Z",
+            "completed_at": "2026-11-05T18:39:19Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:19Z",
+            "completed_at": "2026-11-05T18:39:21Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:21Z",
+            "completed_at": "2026-11-05T18:39:21Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:21Z",
+            "completed_at": "2026-11-05T18:39:22Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:22Z",
+            "completed_at": "2026-11-05T18:39:27Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6,
+            "started_at": "2026-11-05T18:39:27Z",
+            "completed_at": "2026-11-05T18:39:27Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:39:27Z",
+            "completed_at": "2026-11-05T18:39:27Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T18:39:27Z",
+            "completed_at": "2026-11-05T18:39:28Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 9,
+            "started_at": "2026-11-05T18:39:28Z",
+            "completed_at": "2026-11-05T18:41:08Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 10,
+            "started_at": "2026-11-05T18:41:08Z",
+            "completed_at": "2026-11-05T18:41:08Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 11,
+            "started_at": "2026-11-05T18:41:08Z",
+            "completed_at": "2026-11-05T18:41:08Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 12,
+            "started_at": "2026-11-05T18:41:08Z",
+            "completed_at": "2026-11-05T18:41:08Z"
+          },
+          {
+            "name": "Post Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 22,
+            "started_at": "2026-11-05T18:41:08Z",
+            "completed_at": "2026-11-05T18:41:08Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 23,
+            "started_at": "2026-11-05T18:41:08Z",
+            "completed_at": "2026-11-05T18:41:08Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:41:08Z",
+            "completed_at": "2026-11-05T18:41:09Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:41:09Z",
+            "completed_at": "2026-11-05T18:41:09Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206007",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198967,
+        "runner_name": "GitHub Actions 1000198967",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206014,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5Tvg",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206014",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206014",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:40:37Z",
+        "completed_at": "2026-11-05T18:42:12Z",
+        "name": "Test runtimes (macos-26-intel, node, 2/3)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:57Z",
+            "completed_at": "2026-11-05T18:40:02Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:40:02Z",
+            "completed_at": "2026-11-05T18:40:08Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:40:08Z",
+            "completed_at": "2026-11-05T18:40:08Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:40:08Z",
+            "completed_at": "2026-11-05T18:40:11Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:40:11Z",
+            "completed_at": "2026-11-05T18:40:27Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "cancelled",
+            "number": 6,
+            "started_at": "2026-11-05T18:40:27Z",
+            "completed_at": "2026-11-05T18:41:24Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:41:24Z",
+            "completed_at": "2026-11-05T18:41:24Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8,
+            "started_at": "2026-11-05T18:41:24Z",
+            "completed_at": "2026-11-05T18:41:24Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-11-05T18:41:24Z",
+            "completed_at": "2026-11-05T18:41:24Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 10,
+            "started_at": "2026-11-05T18:41:24Z",
+            "completed_at": "2026-11-05T18:41:24Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 11,
+            "started_at": "2026-11-05T18:41:24Z",
+            "completed_at": "2026-11-05T18:41:24Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 12,
+            "started_at": "2026-11-05T18:41:24Z",
+            "completed_at": "2026-11-05T18:41:24Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 23,
+            "started_at": "2026-11-05T18:41:24Z",
+            "completed_at": "2026-11-05T18:41:24Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:41:24Z",
+            "completed_at": "2026-11-05T18:41:26Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:41:26Z",
+            "completed_at": "2026-11-05T18:41:31Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206014",
+        "labels": [
+          "macos-26-intel"
+        ],
+        "runner_id": 1000198998,
+        "runner_name": "GitHub Actions 1000198998",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206017,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5TwQ",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206017",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206017",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:22Z",
+        "completed_at": "2026-11-05T18:41:03Z",
+        "name": "Test runtimes (macos-26-intel, node, 1/3)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:24Z",
+            "completed_at": "2026-11-05T18:39:29Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:29Z",
+            "completed_at": "2026-11-05T18:39:35Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:35Z",
+            "completed_at": "2026-11-05T18:39:35Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:35Z",
+            "completed_at": "2026-11-05T18:39:40Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:40Z",
+            "completed_at": "2026-11-05T18:40:09Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 6,
+            "started_at": "2026-11-05T18:40:09Z",
+            "completed_at": "2026-11-05T18:40:58Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:40:58Z",
+            "completed_at": "2026-11-05T18:40:58Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8,
+            "started_at": "2026-11-05T18:40:58Z",
+            "completed_at": "2026-11-05T18:40:58Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-11-05T18:40:58Z",
+            "completed_at": "2026-11-05T18:40:58Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 10,
+            "started_at": "2026-11-05T18:40:58Z",
+            "completed_at": "2026-11-05T18:40:58Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 11,
+            "started_at": "2026-11-05T18:40:58Z",
+            "completed_at": "2026-11-05T18:40:58Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 12,
+            "started_at": "2026-11-05T18:40:58Z",
+            "completed_at": "2026-11-05T18:40:58Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 23,
+            "started_at": "2026-11-05T18:40:58Z",
+            "completed_at": "2026-11-05T18:40:58Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:40:58Z",
+            "completed_at": "2026-11-05T18:40:59Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:40:59Z",
+            "completed_at": "2026-11-05T18:41:00Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206017",
+        "labels": [
+          "macos-26-intel"
+        ],
+        "runner_id": 1000198969,
+        "runner_name": "GitHub Actions 1000198969",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206039,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5T1w",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206039",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206039",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:19Z",
+        "completed_at": "2026-11-05T18:40:34Z",
+        "name": "Test runtimes (macos-26-intel, deno, 1/4)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:20Z",
+            "completed_at": "2026-11-05T18:39:23Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:23Z",
+            "completed_at": "2026-11-05T18:39:28Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:28Z",
+            "completed_at": "2026-11-05T18:39:29Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:29Z",
+            "completed_at": "2026-11-05T18:39:33Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:33Z",
+            "completed_at": "2026-11-05T18:39:50Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6,
+            "started_at": "2026-11-05T18:39:50Z",
+            "completed_at": "2026-11-05T18:39:50Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:39:50Z",
+            "completed_at": "2026-11-05T18:39:50Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8,
+            "started_at": "2026-11-05T18:39:50Z",
+            "completed_at": "2026-11-05T18:39:50Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-11-05T18:39:50Z",
+            "completed_at": "2026-11-05T18:39:50Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T18:39:50Z",
+            "completed_at": "2026-11-05T18:39:53Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T18:39:53Z",
+            "completed_at": "2026-11-05T18:40:00Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 12,
+            "started_at": "2026-11-05T18:40:00Z",
+            "completed_at": "2026-11-05T18:40:29Z"
+          },
+          {
+            "name": "Post Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-11-05T18:40:29Z",
+            "completed_at": "2026-11-05T18:40:29Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 23,
+            "started_at": "2026-11-05T18:40:30Z",
+            "completed_at": "2026-11-05T18:40:30Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:40:30Z",
+            "completed_at": "2026-11-05T18:40:31Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:40:31Z",
+            "completed_at": "2026-11-05T18:40:32Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206039",
+        "labels": [
+          "macos-26-intel"
+        ],
+        "runner_id": 1000198970,
+        "runner_name": "GitHub Actions 1000198970",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206124,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5ULA",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206124",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206124",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:17Z",
+        "completed_at": "2026-11-05T18:40:38Z",
+        "name": "Test runtimes (windows-2025, deno, 2/3)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:18Z",
+            "completed_at": "2026-11-05T18:39:19Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:19Z",
+            "completed_at": "2026-11-05T18:39:27Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:27Z",
+            "completed_at": "2026-11-05T18:39:28Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:28Z",
+            "completed_at": "2026-11-05T18:39:34Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:34Z",
+            "completed_at": "2026-11-05T18:39:48Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6,
+            "started_at": "2026-11-05T18:39:48Z",
+            "completed_at": "2026-11-05T18:39:48Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:39:48Z",
+            "completed_at": "2026-11-05T18:39:48Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8,
+            "started_at": "2026-11-05T18:39:48Z",
+            "completed_at": "2026-11-05T18:39:48Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-11-05T18:39:48Z",
+            "completed_at": "2026-11-05T18:39:48Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T18:39:48Z",
+            "completed_at": "2026-11-05T18:39:49Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T18:39:49Z",
+            "completed_at": "2026-11-05T18:40:04Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T18:40:04Z",
+            "completed_at": "2026-11-05T18:40:32Z"
+          },
+          {
+            "name": "Post Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-11-05T18:40:32Z",
+            "completed_at": "2026-11-05T18:40:32Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-11-05T18:40:32Z",
+            "completed_at": "2026-11-05T18:40:35Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:40:35Z",
+            "completed_at": "2026-11-05T18:40:37Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:40:37Z",
+            "completed_at": "2026-11-05T18:40:37Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206124",
+        "labels": [
+          "windows-2025"
+        ],
+        "runner_id": 1000198966,
+        "runner_name": "GitHub Actions 1000198966",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206173,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5UXQ",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206173",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206173",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:19Z",
+        "completed_at": "2026-11-05T18:41:09Z",
+        "name": "Test runtimes (macos-26-intel, deno, 2/4)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:20Z",
+            "completed_at": "2026-11-05T18:39:24Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:24Z",
+            "completed_at": "2026-11-05T18:39:31Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:31Z",
+            "completed_at": "2026-11-05T18:39:32Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:32Z",
+            "completed_at": "2026-11-05T18:39:36Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:36Z",
+            "completed_at": "2026-11-05T18:39:59Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6,
+            "started_at": "2026-11-05T18:39:59Z",
+            "completed_at": "2026-11-05T18:39:59Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:39:59Z",
+            "completed_at": "2026-11-05T18:39:59Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8,
+            "started_at": "2026-11-05T18:39:59Z",
+            "completed_at": "2026-11-05T18:39:59Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-11-05T18:39:59Z",
+            "completed_at": "2026-11-05T18:39:59Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T18:39:59Z",
+            "completed_at": "2026-11-05T18:40:02Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T18:40:02Z",
+            "completed_at": "2026-11-05T18:40:18Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 12,
+            "started_at": "2026-11-05T18:40:18Z",
+            "completed_at": "2026-11-05T18:41:05Z"
+          },
+          {
+            "name": "Post Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-11-05T18:41:05Z",
+            "completed_at": "2026-11-05T18:41:05Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 23,
+            "started_at": "2026-11-05T18:41:05Z",
+            "completed_at": "2026-11-05T18:41:05Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:41:05Z",
+            "completed_at": "2026-11-05T18:41:07Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:41:07Z",
+            "completed_at": "2026-11-05T18:41:07Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206173",
+        "labels": [
+          "macos-26-intel"
+        ],
+        "runner_id": 1000198968,
+        "runner_name": "GitHub Actions 1000198968",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206200,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5UeA",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206200",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206200",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:18Z",
+        "completed_at": "2026-11-05T18:40:52Z",
+        "name": "Test runtimes (windows-2025, bun, 2/3)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:19Z",
+            "completed_at": "2026-11-05T18:39:20Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:20Z",
+            "completed_at": "2026-11-05T18:39:30Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:30Z",
+            "completed_at": "2026-11-05T18:39:31Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:31Z",
+            "completed_at": "2026-11-05T18:39:37Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:37Z",
+            "completed_at": "2026-11-05T18:39:50Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6,
+            "started_at": "2026-11-05T18:39:50Z",
+            "completed_at": "2026-11-05T18:39:50Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:39:50Z",
+            "completed_at": "2026-11-05T18:39:50Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T18:39:50Z",
+            "completed_at": "2026-11-05T18:39:54Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T18:39:54Z",
+            "completed_at": "2026-11-05T18:40:47Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 10,
+            "started_at": "2026-11-05T18:40:47Z",
+            "completed_at": "2026-11-05T18:40:47Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 11,
+            "started_at": "2026-11-05T18:40:47Z",
+            "completed_at": "2026-11-05T18:40:47Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 12,
+            "started_at": "2026-11-05T18:40:47Z",
+            "completed_at": "2026-11-05T18:40:47Z"
+          },
+          {
+            "name": "Post Setup Bun",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-11-05T18:40:47Z",
+            "completed_at": "2026-11-05T18:40:47Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-11-05T18:40:47Z",
+            "completed_at": "2026-11-05T18:40:48Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:40:48Z",
+            "completed_at": "2026-11-05T18:40:50Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:40:50Z",
+            "completed_at": "2026-11-05T18:40:50Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206200",
+        "labels": [
+          "windows-2025"
+        ],
+        "runner_id": 1000198976,
+        "runner_name": "GitHub Actions 1000198976",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206202,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5Ueg",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206202",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206202",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:17Z",
+        "completed_at": "2026-11-05T18:40:49Z",
+        "name": "Test runtimes (windows-2025, bun, 3/3)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:19Z",
+            "completed_at": "2026-11-05T18:39:20Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:20Z",
+            "completed_at": "2026-11-05T18:39:29Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:29Z",
+            "completed_at": "2026-11-05T18:39:29Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:29Z",
+            "completed_at": "2026-11-05T18:39:36Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:36Z",
+            "completed_at": "2026-11-05T18:39:49Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6,
+            "started_at": "2026-11-05T18:39:49Z",
+            "completed_at": "2026-11-05T18:39:49Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:39:49Z",
+            "completed_at": "2026-11-05T18:39:49Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T18:39:49Z",
+            "completed_at": "2026-11-05T18:39:52Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T18:39:52Z",
+            "completed_at": "2026-11-05T18:40:44Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 10,
+            "started_at": "2026-11-05T18:40:44Z",
+            "completed_at": "2026-11-05T18:40:44Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 11,
+            "started_at": "2026-11-05T18:40:44Z",
+            "completed_at": "2026-11-05T18:40:44Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 12,
+            "started_at": "2026-11-05T18:40:44Z",
+            "completed_at": "2026-11-05T18:40:44Z"
+          },
+          {
+            "name": "Post Setup Bun",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-11-05T18:40:44Z",
+            "completed_at": "2026-11-05T18:40:44Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-11-05T18:40:44Z",
+            "completed_at": "2026-11-05T18:40:45Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:40:45Z",
+            "completed_at": "2026-11-05T18:40:48Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:40:48Z",
+            "completed_at": "2026-11-05T18:40:48Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206202",
+        "labels": [
+          "windows-2025"
+        ],
+        "runner_id": 1000198975,
+        "runner_name": "GitHub Actions 1000198975",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206219,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5Uiw",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206219",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206219",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:18Z",
+        "completed_at": "2026-11-05T18:40:19Z",
+        "name": "Test runtimes (ubuntu-24.04, node, 1/1)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:18Z",
+            "completed_at": "2026-11-05T18:39:19Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:19Z",
+            "completed_at": "2026-11-05T18:39:21Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:21Z",
+            "completed_at": "2026-11-05T18:39:21Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:21Z",
+            "completed_at": "2026-11-05T18:39:22Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:22Z",
+            "completed_at": "2026-11-05T18:39:25Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 6,
+            "started_at": "2026-11-05T18:39:25Z",
+            "completed_at": "2026-11-05T18:40:16Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:40:16Z",
+            "completed_at": "2026-11-05T18:40:16Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8,
+            "started_at": "2026-11-05T18:40:16Z",
+            "completed_at": "2026-11-05T18:40:16Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-11-05T18:40:16Z",
+            "completed_at": "2026-11-05T18:40:16Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 10,
+            "started_at": "2026-11-05T18:40:16Z",
+            "completed_at": "2026-11-05T18:40:16Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 11,
+            "started_at": "2026-11-05T18:40:16Z",
+            "completed_at": "2026-11-05T18:40:16Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 12,
+            "started_at": "2026-11-05T18:40:16Z",
+            "completed_at": "2026-11-05T18:40:16Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 23,
+            "started_at": "2026-11-05T18:40:16Z",
+            "completed_at": "2026-11-05T18:40:16Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:40:16Z",
+            "completed_at": "2026-11-05T18:40:16Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:40:16Z",
+            "completed_at": "2026-11-05T18:40:16Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206219",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198978,
+        "runner_name": "GitHub Actions 1000198978",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206297,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5U2Q",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206297",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206297",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:18Z",
+        "completed_at": "2026-11-05T18:41:21Z",
+        "name": "Test runtimes (windows-2025, deno, 3/3)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:19Z",
+            "completed_at": "2026-11-05T18:39:20Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:21Z",
+            "completed_at": "2026-11-05T18:39:44Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:44Z",
+            "completed_at": "2026-11-05T18:39:45Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:45Z",
+            "completed_at": "2026-11-05T18:39:56Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:56Z",
+            "completed_at": "2026-11-05T18:40:17Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6,
+            "started_at": "2026-11-05T18:40:17Z",
+            "completed_at": "2026-11-05T18:40:17Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:40:17Z",
+            "completed_at": "2026-11-05T18:40:17Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8,
+            "started_at": "2026-11-05T18:40:17Z",
+            "completed_at": "2026-11-05T18:40:17Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-11-05T18:40:17Z",
+            "completed_at": "2026-11-05T18:40:17Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T18:40:17Z",
+            "completed_at": "2026-11-05T18:40:19Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T18:40:19Z",
+            "completed_at": "2026-11-05T18:40:36Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T18:40:36Z",
+            "completed_at": "2026-11-05T18:41:16Z"
+          },
+          {
+            "name": "Post Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-11-05T18:41:16Z",
+            "completed_at": "2026-11-05T18:41:16Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-11-05T18:41:16Z",
+            "completed_at": "2026-11-05T18:41:18Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:41:18Z",
+            "completed_at": "2026-11-05T18:41:19Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:41:19Z",
+            "completed_at": "2026-11-05T18:41:19Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206297",
+        "labels": [
+          "windows-2025"
+        ],
+        "runner_id": 1000198972,
+        "runner_name": "GitHub Actions 1000198972",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206316,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5U7A",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206316",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206316",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:18Z",
+        "completed_at": "2026-11-05T18:40:58Z",
+        "name": "Test runtimes (windows-2025, bun, 1/3)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:19Z",
+            "completed_at": "2026-11-05T18:39:21Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:21Z",
+            "completed_at": "2026-11-05T18:39:31Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:31Z",
+            "completed_at": "2026-11-05T18:39:32Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:32Z",
+            "completed_at": "2026-11-05T18:39:42Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:42Z",
+            "completed_at": "2026-11-05T18:39:57Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6,
+            "started_at": "2026-11-05T18:39:57Z",
+            "completed_at": "2026-11-05T18:39:57Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:39:57Z",
+            "completed_at": "2026-11-05T18:39:57Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T18:39:57Z",
+            "completed_at": "2026-11-05T18:40:03Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 9,
+            "started_at": "2026-11-05T18:40:03Z",
+            "completed_at": "2026-11-05T18:40:54Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 10,
+            "started_at": "2026-11-05T18:40:54Z",
+            "completed_at": "2026-11-05T18:40:54Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 11,
+            "started_at": "2026-11-05T18:40:54Z",
+            "completed_at": "2026-11-05T18:40:54Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 12,
+            "started_at": "2026-11-05T18:40:54Z",
+            "completed_at": "2026-11-05T18:40:54Z"
+          },
+          {
+            "name": "Post Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 22,
+            "started_at": "2026-11-05T18:40:54Z",
+            "completed_at": "2026-11-05T18:40:54Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 23,
+            "started_at": "2026-11-05T18:40:54Z",
+            "completed_at": "2026-11-05T18:40:54Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:40:54Z",
+            "completed_at": "2026-11-05T18:40:56Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:40:56Z",
+            "completed_at": "2026-11-05T18:40:56Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206316",
+        "labels": [
+          "windows-2025"
+        ],
+        "runner_id": 1000198973,
+        "runner_name": "GitHub Actions 1000198973",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206332,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5U_A",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206332",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206332",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:18Z",
+        "completed_at": "2026-11-05T18:40:42Z",
+        "name": "Test runtimes (windows-2025, deno, 1/3)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:39:19Z",
+            "completed_at": "2026-11-05T18:39:21Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:39:21Z",
+            "completed_at": "2026-11-05T18:39:31Z"
+          },
+          {
+            "name": "Simulate fresh merge with base branch (PR only)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:39:31Z",
+            "completed_at": "2026-11-05T18:39:32Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:39:32Z",
+            "completed_at": "2026-11-05T18:39:38Z"
+          },
+          {
+            "name": "Install dependencies (Node.js)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:39:38Z",
+            "completed_at": "2026-11-05T18:39:47Z"
+          },
+          {
+            "name": "Run tests (Node.js)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6,
+            "started_at": "2026-11-05T18:39:47Z",
+            "completed_at": "2026-11-05T18:39:47Z"
+          },
+          {
+            "name": "Verify clone-only history rewrite with git-filter-repo",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:39:47Z",
+            "completed_at": "2026-11-05T18:39:47Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8,
+            "started_at": "2026-11-05T18:39:47Z",
+            "completed_at": "2026-11-05T18:39:47Z"
+          },
+          {
+            "name": "Run tests (Bun)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-11-05T18:39:47Z",
+            "completed_at": "2026-11-05T18:39:47Z"
+          },
+          {
+            "name": "Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T18:39:47Z",
+            "completed_at": "2026-11-05T18:39:49Z"
+          },
+          {
+            "name": "Prepare Deno dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T18:39:49Z",
+            "completed_at": "2026-11-05T18:40:00Z"
+          },
+          {
+            "name": "Run tests (Deno)",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 12,
+            "started_at": "2026-11-05T18:40:00Z",
+            "completed_at": "2026-11-05T18:40:38Z"
+          },
+          {
+            "name": "Post Setup Deno",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-11-05T18:40:38Z",
+            "completed_at": "2026-11-05T18:40:39Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 23,
+            "started_at": "2026-11-05T18:40:39Z",
+            "completed_at": "2026-11-05T18:40:39Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T18:40:39Z",
+            "completed_at": "2026-11-05T18:40:41Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T18:40:41Z",
+            "completed_at": "2026-11-05T18:40:41Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206332",
+        "labels": [
+          "windows-2025"
+        ],
+        "runner_id": 1000198974,
+        "runner_name": "GitHub Actions 1000198974",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127452206368,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5VIA",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206368",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206368",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:15Z",
+        "completed_at": "2026-11-05T18:41:02Z",
+        "name": "Test runtimes (macos-26-intel, node, 3/3)",
+        "steps": [],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206368",
+        "labels": [
+          "macos-26-intel"
+        ],
+        "runner_id": 0,
+        "runner_name": "",
+        "runner_group_id": 0,
+        "runner_group_name": ""
+      },
+      {
+        "id": 127452206524,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5VvA",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206524",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206524",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "created_at": "2026-11-05T18:39:15Z",
+        "started_at": "2026-11-05T18:39:15Z",
+        "completed_at": "2026-11-05T18:41:02Z",
+        "name": "Test runtimes (macos-26-intel, bun, 2/3)",
+        "steps": [],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206524",
+        "labels": [
+          "macos-26-intel"
+        ],
+        "runner_id": 0,
+        "runner_name": "",
+        "runner_group_id": 0,
+        "runner_group_name": ""
+      },
+      {
+        "id": 127452206611,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5WEw",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206611",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206611",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "created_at": "2026-11-05T18:39:16Z",
+        "started_at": "2026-11-05T18:39:16Z",
+        "completed_at": "2026-11-05T18:41:02Z",
+        "name": "Test runtimes (macos-26-intel, bun, 3/3)",
+        "steps": [],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206611",
+        "labels": [
+          "macos-26-intel"
+        ],
+        "runner_id": 0,
+        "runner_name": "",
+        "runner_group_id": 0,
+        "runner_group_name": ""
+      },
+      {
+        "id": 127452206765,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5WrQ",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452206765",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452206765",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "created_at": "2026-11-05T18:39:16Z",
+        "started_at": "2026-11-05T18:39:16Z",
+        "completed_at": "2026-11-05T18:41:02Z",
+        "name": "Test runtimes (macos-26-intel, bun, 1/3)",
+        "steps": [],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452206765",
+        "labels": [
+          "macos-26-intel"
+        ],
+        "runner_id": 0,
+        "runner_name": "",
+        "runner_group_id": 0,
+        "runner_group_name": ""
+      },
+      {
+        "id": 127452208679,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrL5eJw",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127452208679",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127452208679",
+        "status": "completed",
+        "conclusion": "skipped",
+        "created_at": "2026-11-05T18:39:16Z",
+        "started_at": "2026-11-05T18:39:16Z",
+        "completed_at": "2026-11-05T18:39:15Z",
+        "name": "Create Changeset PR",
+        "steps": [],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127452208679",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": null,
+        "runner_name": null,
+        "runner_group_id": null,
+        "runner_group_name": null
+      },
+      {
+        "id": 127453900115,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrNgtUw",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127453900115",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127453900115",
+        "status": "completed",
+        "conclusion": "skipped",
+        "created_at": "2026-11-05T18:42:13Z",
+        "started_at": "2026-11-05T18:42:13Z",
+        "completed_at": "2026-11-05T18:42:13Z",
+        "name": "Instant Release",
+        "steps": [],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127453900115",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": null,
+        "runner_name": null,
+        "runner_group_id": null,
+        "runner_group_name": null
+      },
+      {
+        "id": 127453900693,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrNgvlQ",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127453900693",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127453900693",
+        "status": "completed",
+        "conclusion": "skipped",
+        "created_at": "2026-11-05T18:42:13Z",
+        "started_at": "2026-11-05T18:42:13Z",
+        "completed_at": "2026-11-05T18:42:13Z",
+        "name": "Configure Docker Hub Publish",
+        "steps": [],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127453900693",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": null,
+        "runner_name": null,
+        "runner_group_id": null,
+        "runner_group_name": null
+      },
+      {
+        "id": 127453900757,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrNgv1Q",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127453900757",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127453900757",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-11-05T18:42:13Z",
+        "started_at": "2026-11-05T18:42:15Z",
+        "completed_at": "2026-11-05T18:42:26Z",
+        "name": "Pipeline Status",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:42:15Z",
+            "completed_at": "2026-11-05T18:42:16Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:42:16Z",
+            "completed_at": "2026-11-05T18:42:18Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:42:18Z",
+            "completed_at": "2026-11-05T18:42:22Z"
+          },
+          {
+            "name": "Fail the run when a required job was cancelled or failed",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 4,
+            "started_at": "2026-11-05T18:42:22Z",
+            "completed_at": "2026-11-05T18:42:24Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:42:24Z",
+            "completed_at": "2026-11-05T18:42:24Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T18:42:24Z",
+            "completed_at": "2026-11-05T18:42:24Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T18:42:24Z",
+            "completed_at": "2026-11-05T18:42:24Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127453900757",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000199030,
+        "runner_name": "GitHub Actions 1000199030",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127453901081,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrNgxGQ",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127453901081",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127453901081",
+        "status": "completed",
+        "conclusion": "skipped",
+        "created_at": "2026-11-05T18:42:13Z",
+        "started_at": "2026-11-05T18:42:13Z",
+        "completed_at": "2026-11-05T18:42:13Z",
+        "name": "Release",
+        "steps": [],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127453901081",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": null,
+        "runner_name": null,
+        "runner_group_id": null,
+        "runner_group_name": null
+      },
+      {
+        "id": 127453901641,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrNgzSQ",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127453901641",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127453901641",
+        "status": "completed",
+        "conclusion": "skipped",
+        "created_at": "2026-11-05T18:42:13Z",
+        "started_at": "2026-11-05T18:42:13Z",
+        "completed_at": "2026-11-05T18:42:13Z",
+        "name": "Build Docker Image",
+        "steps": [],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127453901641",
+        "labels": [],
+        "runner_id": null,
+        "runner_name": null,
+        "runner_group_id": null,
+        "runner_group_name": null
+      },
+      {
+        "id": 127453903059,
+        "run_id": 42086192032,
+        "workflow_name": "Checks and release",
+        "head_branch": "issue-95-5445009fe5d0",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdrNg40w",
+        "head_sha": "2a17882c6141ff65a808e0d0c657dde15cc47b15",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127453903059",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42086192032/job/127453903059",
+        "status": "completed",
+        "conclusion": "skipped",
+        "created_at": "2026-11-05T18:42:13Z",
+        "started_at": "2026-11-05T18:42:13Z",
+        "completed_at": "2026-11-05T18:42:13Z",
+        "name": "Optional Docker Hub Publish",
+        "steps": [],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127453903059",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": null,
+        "runner_name": null,
+        "runner_group_id": null,
+        "runner_group_name": null
+      }
+    ]
+  }
+]

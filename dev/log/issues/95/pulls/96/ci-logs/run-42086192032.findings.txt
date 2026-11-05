@@ -1,0 +1,67 @@
+8318: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:03.0790673Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(121ms)^[[0m
+8319: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:03.0793850Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(5ms)^[[0m
+8385: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:03.0937616Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(3ms)^[[0m
+8387: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:03.0945104Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(6ms)^[[0m
+8448: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:03.1083743Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+8449: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:03.1087440Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(2ms)^[[0m
+9564: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:24.9168003Z ^[[0m^[[1m^[[31merror^[[0m: Error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+9572: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:24.9177033Z ^[[0m^[[1m^[[31merror^[[0m: Error: Expected false to be true
+9588: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:24.9265663Z ##[error]Process completed with exit code 1.
+11957: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:59.4833541Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+11959: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:59.4835525Z   ✔ keeps Error: boom
+12024: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:59.4925582Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+12026: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:59.4927747Z   ✔ keeps Error: boom
+12091: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:59.6078843Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+12093: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:59.6081768Z   ✔ keeps Error: boom
+13363: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:34.5335767Z   Error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+13377: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:34.5343358Z   Error: Expected false to be true
+13387: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:34.6330158Z ##[error]Process completed with exit code 1.
+13690: Test runtimes (macos-26-intel, deno, 3/4)	UNKNOWN STEP	2026-11-05T18:40:31.9652670Z ##[error]The operation was canceled.
+14595: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:33.0168954Z error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+14599: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:33.0194556Z ##[error]
+15074: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:41.1888903Z error: Expected false to be true
+15078: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:41.1899654Z ##[error]
+16125: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:20.9752000Z (pass) issues 87/88 (text) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+16127: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:20.9753093Z (pass) issues 87/88 (text) > keeps Error: boom
+16190: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:20.9791228Z (pass) issues 87/88 (json) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+16192: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:20.9792734Z (pass) issues 87/88 (json) > keeps Error: boom
+16255: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:20.9826196Z (pass) issues 87/88 (jsonl) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+16257: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:20.9827162Z (pass) issues 87/88 (jsonl) > keeps Error: boom
+17539: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:41:08.9487365Z ##[error]Process completed with exit code 1.
+18402: Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:41:24.9312290Z ##[error]The operation was canceled.
+19625: Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:58.8279670Z   Error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+19639: Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:58.8300140Z   Error: Expected false to be true
+19649: Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:58.8383390Z ##[error]Process completed with exit code 1.
+21494: Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:29.5074830Z ^[[0m^[[1m^[[31merror^[[0m: Error: Expected false to be true
+21509: Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:29.5373940Z ##[error]Process completed with exit code 1.
+24605: Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:41:05.4187740Z ^[[0m^[[1m^[[31merror^[[0m: Error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+24619: Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:41:05.4271140Z ##[error]Process completed with exit code 1.
+26900: Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:38.7899381Z (pass) issues 87/88 (text) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+26902: Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:38.7900815Z (pass) issues 87/88 (text) > keeps Error: boom
+26965: Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:38.7948436Z (pass) issues 87/88 (json) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+26967: Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:38.7950216Z (pass) issues 87/88 (json) > keeps Error: boom
+27030: Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:38.8002997Z (pass) issues 87/88 (jsonl) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+27032: Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:38.8004836Z (pass) issues 87/88 (jsonl) > keeps Error: boom
+30218: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:55.2207169Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+30220: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:55.2255641Z   ✔ keeps Error: boom
+30285: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:55.2644850Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+30287: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:55.2645504Z   ✔ keeps Error: boom
+30352: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:55.2909047Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+30354: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:55.2909847Z   ✔ keeps Error: boom
+31630: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7338706Z   Error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+31644: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7343137Z   Error: Expected false to be true
+31654: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7363642Z ##[error]Process completed with exit code 1.
+32999: Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:46.4311459Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(109ms)^[[0m
+33000: Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:46.4324805Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(7ms)^[[0m
+33061: Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:46.5842684Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(4ms)^[[0m
+33062: Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:46.5892194Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(7ms)^[[0m
+33127: Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:46.7097487Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+33128: Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:46.7160538Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(2ms)^[[0m
+35093: Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:49.0650924Z error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+35097: Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:49.0674311Z ##[error]
+35113: Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:49.0685165Z error: Expected false to be true
+35117: Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:49.0688048Z ##[error]
+35217: Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:54.8035071Z ##[error]Process completed with exit code 1.
+36867: Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:38.6906701Z ^[[0m^[[1m^[[31merror^[[0m: Error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+36875: Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:38.6922476Z ^[[0m^[[1m^[[31merror^[[0m: Error: Expected false to be true
+36891: Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:38.8246637Z ##[error]Process completed with exit code 1.

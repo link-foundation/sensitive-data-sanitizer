@@ -1,0 +1,41 @@
+[
+  {
+    "job": "Package desktop app (macos-26-intel)",
+    "path": ".github",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/2a17882c6141ff65a808e0d0c657dde15cc47b15/.github",
+    "start_line": 1,
+    "start_column": null,
+    "end_line": 1,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "",
+    "message": "Canceling since a higher priority waiting request for check-Example app-refs/pull/96/merge-desktop-package-macos-26-intel exists",
+    "raw_details": ""
+  },
+  {
+    "job": "Package desktop app (macos-26-intel)",
+    "path": ".github",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/2a17882c6141ff65a808e0d0c657dde15cc47b15/.github",
+    "start_line": 28,
+    "start_column": null,
+    "end_line": 28,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "",
+    "message": "The operation was canceled.",
+    "raw_details": ""
+  },
+  {
+    "job": "Pipeline Status",
+    "path": ".github",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/2a17882c6141ff65a808e0d0c657dde15cc47b15/.github",
+    "start_line": 46,
+    "start_column": null,
+    "end_line": 46,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Cancelled jobs in a superseded run",
+    "message": "desktop-package. This run is no longer the head of main, and these jobs cancel in progress.",
+    "raw_details": ""
+  }
+]

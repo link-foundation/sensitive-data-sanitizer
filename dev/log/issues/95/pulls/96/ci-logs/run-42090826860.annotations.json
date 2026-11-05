@@ -1,0 +1,54 @@
+[
+  {
+    "job": "Test runtimes (windows-2025, bun, 3/3)",
+    "path": ".github",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/76d5c2b82e82457e0f14c2e29d6251ca68cbe748/.github",
+    "start_line": 1090,
+    "start_column": null,
+    "end_line": 1090,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "",
+    "message": "Process completed with exit code 1.",
+    "raw_details": ""
+  },
+  {
+    "job": "Test runtimes (windows-2025, bun, 3/3)",
+    "path": "node:assert",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/76d5c2b82e82457e0f14c2e29d6251ca68cbe748/node:assert",
+    "start_line": 50,
+    "start_column": 32,
+    "end_line": 50,
+    "end_column": 32,
+    "annotation_level": "failure",
+    "title": "AssertionError: Expected values to be strictly equal:",
+    "message": "\n+ SystemError: spawnSync node ETIMEDOUT\n+     at spawnSync (node:child_process:285:35)\n+     at <anonymous> (D:\\a\\sensitive-data-sanitizer\\sensitive-data-sanitizer\\tests\\issue-92-putty.test.js:11:22) {\n+   code: 'ETIMEDOUT',\n+   errno: -4039,\n+   path: 'node',\n+   spawnargs: [\n+     '--max-old-space-size=128',\n+     'experiments/issue-92/putty-probe.mjs'\n+   ],\n+   syscall: 'spawnSync node'\n+ }\n- undefined\n\n      at innerFail (node:assert:50:32)\n      at strictEqual (node:assert:181:14)\n      at <anonymous> (D:\\a\\sensitive-data-sanitizer\\sensitive-data-sanitizer\\tests\\issue-92-putty.test.js:19:14)",
+    "raw_details": ""
+  },
+  {
+    "job": "Pipeline Status",
+    "path": ".github",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/76d5c2b82e82457e0f14c2e29d6251ca68cbe748/.github",
+    "start_line": 89,
+    "start_column": null,
+    "end_line": 89,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "",
+    "message": "Process completed with exit code 1.",
+    "raw_details": ""
+  },
+  {
+    "job": "Pipeline Status",
+    "path": ".github",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/76d5c2b82e82457e0f14c2e29d6251ca68cbe748/.github",
+    "start_line": 88,
+    "start_column": null,
+    "end_line": 88,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "Pipeline failed",
+    "message": "Failing jobs: test",
+    "raw_details": ""
+  }
+]

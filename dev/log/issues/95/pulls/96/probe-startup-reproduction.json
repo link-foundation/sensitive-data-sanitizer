@@ -1,0 +1,11 @@
+{
+  "oldWholeProcessDeadline": "ETIMEDOUT",
+  "repaired": {
+    "elapsedMs": 2389,
+    "initializationMs": 2358.474981,
+    "scanMs": 2.311461000000236
+  },
+  "scanBudgetMs": 2000,
+  "hangGuardMs": 25000,
+  "heapLimitMiB": 128
+}

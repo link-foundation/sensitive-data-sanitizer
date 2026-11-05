@@ -12,10 +12,24 @@ export function selectTests(files, shard) {
     );
   }
   const [, index, count] = match.map(Number);
-  return files
-    .filter((file) => file.endsWith('.test.js'))
-    .sort()
+  // Seed separate shards with the measured subprocess-heavy suites. Merely
+  // sorting all filenames can colocate these whenever another test is added.
+  const expensive = [
+    'pr-guards.test.js',
+    'release-api-integrity.test.js',
+    'detect-code-changes.test.js',
+    'run-with-budget-warning.test.js',
+    'release-preflight.test.js',
+    'sanitizer-jsonl-stream.test.js',
+  ];
+  const tests = files.filter((file) => file.endsWith('.test.js')).sort();
+  const ordered = [
+    ...expensive.filter((file) => tests.includes(file)),
+    ...tests.filter((file) => !expensive.includes(file)),
+  ];
+  return ordered
     .filter((_, position) => position % count === index - 1)
+    .sort()
     .map((file) => `tests/${file}`);
 }
 

@@ -7,6 +7,8 @@ on:
     paths:
       - '.github/**'
       - '**.sh'
+      - '**.py'
+      - 'ruff.toml'
       - '.husky/**'
       - 'scripts/check-ci-workflows.mjs'
       - 'scripts/check-status-gate-covers-all-jobs.mjs'
@@ -21,6 +23,8 @@ on:
     paths:
       - '.github/**'
       - '**.sh'
+      - '**.py'
+      - 'ruff.toml'
       - '.husky/**'
       - 'scripts/check-ci-workflows.mjs'
       - 'scripts/check-status-gate-covers-all-jobs.mjs'
@@ -85,6 +89,24 @@ jobs:
           persist-credentials: false
       - name: Check standalone shell scripts and hooks
         run: git ls-files -z '*.sh' '.husky/*' | xargs -0 pipx run --spec shellcheck-py==0.11.0.1 shellcheck
+
+  python-check:
+    name: Python static checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    concurrency:
+      group: check-${{ github.workflow }}-${{ github.ref }}-python-check
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Lint every maintained Python helper
+        run: pipx run --spec ruff==0.17.3 ruff check --output-format=github .
+      - name: Check Python formatting
+        run: pipx run --spec ruff==0.17.3 ruff format --check .
+      - name: Test Python dependency audit failures and discovery
+        run: python3 -m unittest discover -s tests/python -v
 
   # The terminal status job of release.yml keys branch protection; its
   # needs list is hand-maintained, so a job left out of it could fail while
@@ -261,6 +283,7 @@ jobs:
       - status-gate-coverage
       - zizmor
       - shellcheck
+      - python-check
       - artifact-roundtrip
     # actions: read lets the gate list this run's jobs and name the ones
     # GitHub never acquired a runner for.
