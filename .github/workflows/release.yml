@@ -359,9 +359,16 @@ jobs:
         os: [ubuntu-24.04, windows-2025]
         runtime: [node, bun, deno]
         shard: ['1/1']
+        exclude:
+          - { os: windows-2025, runtime: bun, shard: '1/1' }
         # Intel runners avoid ARM64 capacity failures. Partition the suite so
         # each job retains its existing execution budget on the slower pool.
+        # Windows Bun executes subprocess fixtures serially; share its work
+        # across the same complete, nonoverlapping partitions.
         include:
+          - { os: windows-2025, runtime: bun, shard: '1/3' }
+          - { os: windows-2025, runtime: bun, shard: '2/3' }
+          - { os: windows-2025, runtime: bun, shard: '3/3' }
           - { os: macos-26-intel, runtime: node, shard: '1/3' }
           - { os: macos-26-intel, runtime: node, shard: '2/3' }
           - { os: macos-26-intel, runtime: node, shard: '3/3' }
