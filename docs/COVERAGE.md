@@ -236,7 +236,8 @@ The `documents` profile additionally recognizes:
   forms and lower case, and surnames after г-жа/господин/госпожа.
 - Birth years with д.р./г.р./год рождения/родился/родилась/Born in context;
   Russian age expressions and Пол labels, English Sex, and gender beside age.
-  Age-in-years expressions can also describe nonpersonal durations.
+  Bare age-in-years expressions are ambiguous and remain unchanged without
+  affirmative personal-age context; durations are preserved.
 - Labelled citizenship, marital status, children, nationality, religion,
   disability and criminal record, including the reported English labels.
 - Company/employer/workplace labels, capitalized company/holding/bank names,
@@ -258,7 +259,7 @@ recognizer when these fields must be removed. Initial/name rules do not cover
 all surnames, languages, cases or arbitrary lower-case names.
 
 Operational value policy (#79): a single-slash relative URL with no query,
-fragment, userinfo or explicit user/profile/member/home path stays unchanged
+fragment, userinfo or explicit u/in/user/profile/member/home/people path stays unchanged
 under `url`; other detectors and known values still apply. An ISO-style
 `YYYY-MM-DDTHH:mm:ss[.fraction](Z|±HH:mm)` timestamp under `time` stays unchanged.
 This exemption is syntactic, not date validation. Userinfo, token-bearing URLs
@@ -270,3 +271,69 @@ provider-specific rules and required external scanners remain authoritative.
 
 The [complete requirement inventory and alternatives](case-studies/issue-84/README.md)
 links every reported text row to its regression case.
+
+## Document context refinements (issues 87–88)
+
+Age requires a label (`возраст 41`, `Age 41`), personal pronoun (`мне 29 лет`),
+birthday verb (`исполнилось 34`) or gender followed by age (`Женщина, 34 года`).
+Bare `34 года` remains unchanged as an ambiguous limit. Work experience, tenure,
+contract lengths and elapsed/future durations stay unchanged. `Дети: нет` and
+`Гражданство: не указано` are treated as empty fields; negative disability and
+criminal-record statements remain sensitive attributes.
+
+Additional document forms include `контактный телефон` and `сот.` phone labels,
+parenthesized `(собака)` email separators, `телега`/`Zoom` messenger labels,
+dated `ТП УФМС`/`УФМС` passport issuers, `р/с` account numbers, `г-н` surname
+titles, `1985 года рождения` and `г.р. 1985`, abbreviated/single-letter gender
+values (`Пол: Ж`, `Пол: М`, `пол: жен.`, `пол муж.`), `гражданин РФ`,
+`есть двое детей`, `проживаю в Перми`, and English `Employer`, `Company` and
+`Education` labels. A capitalized Cyrillic word followed by two initials is
+recognized regardless of surname ending (`Цой В. Р.`, `Ким Д. С.`,
+`Шевченко Т. Г.`). This structural rule can flag non-name text with the same
+shape; it does not provide a complete surname dictionary.
+
+JSON escape boundaries cannot start an obfuscated-email local part, preserving
+stack newlines and frames after IP:port. Relative `/u/<name>` and `/in/<name>`
+URLs are personal paths under `url`, like the existing user/profile paths.
+Exact `0.0.0.0` is an operational unspecified bind address, like loopback/local
+addresses. `publicKnowledge: false` and explicit private known values still
+redact it.
+
+## Structured JSON cost (issue 86)
+
+Structured sanitization scans labelled raw strings and each decoded string with
+its own line boundaries, then verifies sanitized output. This preserves detection
+in arrays, CV fragments and embedded JSON, but adds fixed work per string/key.
+Costs depend on string count, enabled engines, content, runtime and hardware;
+line length alone cannot predict synchronous main-thread delay.
+
+A finite serial measurement on Linux x64, Node 26.13.0, using the documents
+profile and structured JSON, produced these median milliseconds per `sanitize`
+call (100 warm-ups, three 100-call trials):
+
+| Fixture                                   | 0.16.0 | 0.16.1 | This change |
+| ----------------------------------------- | -----: | -----: | ----------: |
+| Short JSON (89 characters)                |   1.21 |   8.44 |        4.67 |
+| Exact issue reproduction (264 characters) |   1.81 |  19.71 |       11.15 |
+| Longer synthetic JSON (9,396 characters)  |  10.04 |  37.88 |       28.32 |
+
+The short and longer synthetic rows approximate the issue's unpublished
+100/9,453-character inputs; only the 264-character input was provided in full.
+These results are evidence for this container, not a universal latency guarantee
+or an Apple Silicon comparison. The issue reporter measured 0.16.1 at
+2.31/5.61/34.85 ms on their short/264-character/9 KiB rows and 1.10 ms for the
+264-character text-mode control. The remaining structured overhead is **above
+2x** of 0.16.0 here; documenting that cost fulfills the issue's alternative
+acceptance criterion. No detection view is removed to meet a timing target.
+
+Personal-label patterns are now constructed once instead of for every scan, and
+redundant explicit RegExp cloning is avoided when `matchAll` supplies isolation.
+Reproduce with `node --max-old-space-size=256 experiments/issue-89/benchmark.mjs`
+and optionally pass a released checkout's `src/index.js`. For latency-sensitive
+logging, measure the real workload before synchronously sanitizing every line;
+the existing JSONL record-worker API/CLI can move record scanning off the main
+thread (see [API.md](API.md)). External engines and more sensitive values can add
+further work. These numbers do not describe `createSanitizer` with Secretlint.
+
+The [complete issue 89 requirement inventory](case-studies/issue-89/README.md)
+records every row, root cause, alternative and regression mapping.

@@ -144,6 +144,7 @@ export function localAddress(value) {
   }
   const [a, b] = value.split('.').map(Number);
   return (
+    value === '0.0.0.0' ||
     a === 127 ||
     a === 10 ||
     (a === 172 && b >= 16 && b <= 31) ||
