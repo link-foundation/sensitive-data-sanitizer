@@ -76,7 +76,7 @@ jobs:
         run: echo "day=$(date -u +%F)" >> "$GITHUB_OUTPUT"
 
       - name: Restore link cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: .lycheecache
           key: cache-lychee-${{ runner.os }}-${{ steps.link-cache.outputs.day }}-${{ github.sha }}
