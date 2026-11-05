@@ -2,7 +2,13 @@ import { describe, it, expect } from 'test-anywhere';
 import { readFileSync, readdirSync } from 'node:fs';
 
 const WORKFLOW_DIRECTORY = '.github/workflows';
-const SUPPORTED_CONCURRENCY_KEYS = new Set(['group', 'cancel-in-progress']);
+// GitHub documents `queue` although actionlint 1.7.12 does not know it yet:
+// https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency
+const SUPPORTED_CONCURRENCY_KEYS = new Set([
+  'group',
+  'cancel-in-progress',
+  'queue',
+]);
 
 function readWorkflow(filePath) {
   return readFileSync(filePath, 'utf8').replaceAll('\r\n', '\n');
@@ -102,6 +108,7 @@ function evaluateWorkflowIf(expression, context) {
     )
     .replaceAll('!cancelled()', '!context.cancelled')
     .replaceAll('github.event_name', 'context.github.event_name')
+    .replaceAll('github.ref', "(context.github.ref || 'refs/heads/main')")
     .replaceAll(
       'github.event.inputs.release_mode',
       'context.github.event.inputs.release_mode'
@@ -130,7 +137,7 @@ function expectOrdered(text, markers) {
 
 function expectMainWriterConcurrency(jobBlock) {
   expect(jobBlock).toContain(
-    '    concurrency:\n      group: main-writer-${{ github.repository }}-main\n      cancel-in-progress: false'
+    '    concurrency:\n      group: main-writer-${{ github.repository }}-main\n      cancel-in-progress: false\n      queue: max'
   );
 }
 
@@ -188,10 +195,39 @@ describe('workflow concurrency policy', () => {
       '      group: main-writer',
       '      cancel-in-progress: false',
       '      queue: max',
+      '      cancel-in-flight: true',
       '    steps: []',
     ].join('\n');
 
-    expect(getUnsupportedConcurrencyKeys(invalidWorkflow)).toEqual(['queue']);
+    expect(getUnsupportedConcurrencyKeys(invalidWorkflow)).toEqual([
+      'cancel-in-flight',
+    ]);
+  });
+
+  it('keeps every waiting main writer in the queue', () => {
+    // With the default `queue: single`, a third writer that starts waiting
+    // cancels the one already waiting, so a due release ends up cancelled.
+    const writers = [];
+
+    for (const workflowPath of listWorkflowPaths()) {
+      const blocks = readWorkflow(workflowPath).split(/\n {4}concurrency:\n/);
+
+      for (const block of blocks.slice(1)) {
+        const settings = block.split(/\n(?! {6})/)[0];
+
+        if (settings.includes('group: main-writer-')) {
+          writers.push(settings);
+          expect(settings).toContain('cancel-in-progress: false');
+          expect(settings).toContain('queue: max');
+        }
+        // GitHub rejects the workflow when a queue may also cancel.
+        if (settings.includes('queue: max')) {
+          expect(settings).not.toContain('cancel-in-progress: true');
+        }
+      }
+    }
+
+    expect(writers.length).toBe(7);
   });
 
   it('uses only keys supported by GitHub Actions', () => {
@@ -241,14 +277,14 @@ describe('workflow concurrency policy', () => {
         getJobBlock(releaseWorkflow, jobName),
         jobName,
         '',
-        "${{ github.ref != 'refs/heads/main' }}"
+        'true'
       );
     }
     expectCancellableCheckConcurrency(
       getJobBlock(releaseWorkflow, 'test'),
       'test',
       '-${{ matrix.runtime }}-${{ matrix.os }}-${{ matrix.shard }}',
-      "${{ github.ref != 'refs/heads/main' }}"
+      'true'
     );
 
     for (const jobName of ['web-build', 'android-build', 'ios-build']) {
@@ -290,7 +326,7 @@ describe('workflow reliability policy', () => {
         'workflow_dispatch:',
         gitDefaultBranchEnv,
         'jobs:',
-        '- uses: actions/checkout@v6',
+        '- uses: actions/checkout@v7',
       ]);
     }
   });
@@ -304,10 +340,13 @@ describe('workflow reliability policy', () => {
     expect(viteSourceHtml).toContain('src="/src/main.js"');
     expect(linksWorkflow).toContain(`--exclude-path ${viteSourceHtmlPath}`);
     expectOrdered(linksWorkflow, [
+      '--hidden',
+      '--extensions md,html',
       '--exclude-path docs/case-studies',
+      '--exclude-path dev/log',
       `--exclude-path ${viteSourceHtmlPath}`,
-      "'./**/*.md'",
-      "'./**/*.html'",
+      '--exclude-path tests/fixtures',
+      '\n            .',
     ]);
   });
 
@@ -321,15 +360,17 @@ describe('workflow reliability policy', () => {
       'name: Upload screenshot failure artifacts'
     );
     expect(previewRegenJob).toContain('if: failure()');
-    expect(previewRegenJob).toContain('uses: actions/upload-artifact@v7');
+    expect(previewRegenJob).toContain(
+      'uses: ./.github/actions/artifact-transport'
+    );
     expect(previewRegenJob).toContain(
       'name: preview-regen-failure-${{ github.run_id }}'
     );
-    expect(previewRegenJob).toContain('docs/screenshots/');
-    expect(previewRegenJob).toContain('web/test-results/');
-    expect(previewRegenJob).toContain('web/playwright-report/');
+    expect(previewRegenJob).toContain('path: docs/screenshots/example-app/');
+    expect(previewRegenJob).not.toContain('web/test-results/');
+    expect(previewRegenJob).not.toContain('web/playwright-report/');
     expect(previewRegenJob).toContain('retention-days: 7');
-    expect(previewRegenJob).toContain('if-no-files-found: ignore');
+    expect(previewRegenJob).toContain('if-no-files-found: error');
   });
 
   it('uses the official Playwright image for preview regeneration with browser downloads disabled', () => {
@@ -349,7 +390,9 @@ describe('workflow reliability policy', () => {
     expect(previewRegenJob).not.toContain('npx playwright install');
     expect(previewRegenJob).not.toContain('~/.cache/ms-playwright');
   });
+});
 
+describe('workflow artifact and writer reliability', () => {
   it('serializes main writers and retries generated pushes after rebasing', () => {
     const exampleAppWorkflow = readWorkflow(
       '.github/workflows/example-app.yml'
@@ -543,6 +586,18 @@ describe('manual release quality gates', () => {
     ).toBe(false);
   });
 
+  it('blocks an instant manual release from a branch other than main', () => {
+    const workflow = readWorkflow('.github/workflows/release.yml');
+    const context = getManualReleaseContext({ releaseMode: 'instant' });
+    context.github.ref = 'refs/heads/feature';
+    expect(
+      evaluateWorkflowIf(
+        getMultilineIfExpression(getJobBlock(workflow, 'instant-release')),
+        context
+      )
+    ).toBe(false);
+  });
+
   it('waits for successful lint before creating a manual changeset PR', () => {
     const workflow = readWorkflow('.github/workflows/release.yml');
     const changesetPrJob = getJobBlock(workflow, 'changeset-pr');
@@ -608,7 +663,7 @@ describe('npm user config cleanup', () => {
       const job = getJobBlock(workflow, jobName);
 
       expectOrdered(job, [
-        'uses: actions/setup-node@v6',
+        'uses: actions/setup-node@v7',
         '- name: Remove deprecated npm auth config',
         '- name: Install dependencies',
       ]);

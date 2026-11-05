@@ -1,0 +1,86 @@
+▶ conditional GitHub Pages deployment
+  ✔ builds successfully with disabled or legacy Pages (1.911285ms)
+  ✔ surfaces authentication and server failures (0.781989ms)
+  ✔ gates configure, upload and deployment together (116.482942ms)
+✔ conditional GitHub Pages deployment (122.932954ms)
+▶ release-preflight workflow wiring
+  ✔ runs the preflight job before anything can publish (4.549787ms)
+  ✔ probes with a write, not a login (0.829537ms)
+  ✔ gates every publishing job on an explicit preflight success (5.151188ms)
+  ✔ fails on main and manual instant releases, reports on pull requests (0.528085ms)
+  ✔ passes the publishing credentials to the probe (1.408187ms)
+  ✔ keeps the preflight checkout credential-free and observes the job (0.984827ms)
+✔ release-preflight workflow wiring (16.769179ms)
+▶ release-preflight probe behaviour (offline, curl stub)
+  ✔ passes in release mode when OIDC publishing is available (360.453033ms)
+  ✔ fails in release mode when there is nothing to publish with (17.06434ms)
+  ✔ passes in report mode when there is nothing to publish with (16.330751ms)
+  ✔ verifies the Docker Hub write when the registry accepts it (497.863563ms)
+  ✔ fails in release mode when Docker Hub refuses the write (564.146226ms)
+  ✔ never blocks a pull request on a refused credential (542.44116ms)
+  ✔ blocks release when any configured target remains unknown (435.738661ms)
+✔ release-preflight probe behaviour (offline, curl stub) (2437.134228ms)
+▶ release-preflight npm token diagnostics
+  ✔ fails in release mode when npm rejects the token (350.820095ms)
+  ✔ fails in release mode when it verified nothing (46.410097ms)
+✔ release-preflight npm token diagnostics (398.833072ms)
+▶ npm OIDC package exchange regression
+  ✔ does not allow Docker success to hide npm exchange status 401 (412.435353ms)
+  ✔ does not allow Docker success to hide npm exchange status 403 (541.617985ms)
+  ✔ does not allow Docker success to hide npm exchange status 404 (529.378555ms)
+  ✔ does not allow Docker success to hide npm exchange status 429 (369.550954ms)
+  ✔ does not allow Docker success to hide npm exchange status 500 (422.977037ms)
+  ✔ does not allow Docker success to hide npm exchange status 0 (384.441128ms)
+  ✔ rejects malformed npm exchange body invalid JSON (302.930999ms)
+  ✔ rejects malformed npm exchange body {} (300.954943ms)
+  ✔ rejects malformed npm exchange body {"token":42} (324.371072ms)
+  ✔ rejects malformed npm exchange body {"token":""} (285.687594ms)
+  ✔ rejects malformed JWT responses without exchanging them (175.60391ms)
+  ✔ rejects a missing GitHub request token (14.632593ms)
+  ✔ preserves the token bootstrap path when npm reports a nonexistent package (359.533808ms)
+  ✔ names the maintainer action when npm answers the package lookup with 404 (461.935827ms)
+  ✔ names the maintainer action when npm answers the package lookup with 200 (313.019596ms)
+  ✔ names the maintainer action when npm answers the package lookup with 000 (300.031951ms)
+✔ npm OIDC package exchange regression (5502.491093ms)
+▶ sanitizer CLI optional PII engine
+  ✔ runs a required local PII bridge for unlabelled names (1471.790338ms)
+  ✔ rejects model or Python options without a selected PII bridge (2365.884828ms)
+✔ sanitizer CLI optional PII engine (3840.84459ms)
+▶ sanitizer CLI publication
+  ✔ redacts complete stdin including a multiline truncated key (1128.005077ms)
+✔ sanitizer CLI publication (1128.432784ms)
+▶ sanitizer CLI reports and validation
+  ✔ reports findings through exit 1 and metadata without leaking source (1177.339138ms)
+  ✔ never publishes input after a byte-limit or UTF-8 error (1536.905646ms)
+  ✔ writes a private output atomically and refuses clobbering or same-path output (4434.714278ms)
+  ✔ reports binary input as incomplete and does not corrupt it (900.987176ms)
+  ✔ rejects symlinks and leaves destinations intact (894.541152ms)
+  ✔ validates config before creating output and hides malformed raw content (801.74965ms)
+  ✔ uses reviewed config public contacts with the default engine (1001.476856ms)
+  ✔ does not echo unknown arguments that may themselves contain secrets (3.45252ms)
+✔ sanitizer CLI reports and validation (10753.58078ms)
+✔ audits removed historical blobs and author metadata without rewriting any refs (668.671975ms)
+▶ shared tool-log CLI options
+  ✔ keeps invalid bytes and public account details in whole, streaming and two-pass output (183.20139ms)
+  ✔ collects exact environment and gh config values only when requested (888.490296ms)
+✔ shared tool-log CLI options (1072.269162ms)
+▶ check-status-gate-covers-all-jobs.mjs
+  ✔ accepts comments and blank lines in block needs (137.364091ms)
+  ✔ confirms the shipped release workflow is fully covered (122.032774ms)
+  ✔ names the uncovered job when a job is dropped from needs (105.546484ms)
+  ✔ exits 2 when the workflow has no terminal status gate at all (88.615933ms)
+  ✔ accepts a differently named gate via --gate (87.702689ms)
+  ✔ parses the flow form of needs (99.736615ms)
+  ✔ wires the checker into the workflows meta-workflow for every workflow (1.045059ms)
+✔ check-status-gate-covers-all-jobs.mjs (646.074044ms)
+▶ check-status-gate-covers-all-jobs.mjs shipped coverage
+  ✔ confirms every other shipped workflow is fully covered (416.478657ms)
+✔ check-status-gate-covers-all-jobs.mjs shipped coverage (419.432455ms)
+ℹ tests 56
+ℹ suites 11
+ℹ pass 56
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18444.700659

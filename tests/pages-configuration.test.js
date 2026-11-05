@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'test-anywhere';
 import { pagesEnabled } from '../scripts/check-pages.mjs';
 import { readFileSync } from 'node:fs';
+import { parse } from 'yaml';
 describe('conditional GitHub Pages deployment', () => {
   it('builds successfully with disabled or legacy Pages', () => {
     expect(pagesEnabled(404, {})).toBe(false);
@@ -14,12 +15,19 @@ describe('conditional GitHub Pages deployment', () => {
   });
   it('gates configure, upload and deployment together', () => {
     const workflow = readFileSync('.github/workflows/example-app.yml', 'utf8');
-    expect(workflow).toContain('node scripts/check-pages.mjs');
-    expect(
-      workflow.match(/if: steps.pages.outputs.pages_enabled == 'true'/g).length
-    ).toBe(2);
-    expect(workflow).toContain(
-      "if: needs.web-build.outputs.pages_enabled == 'true'"
-    );
+    expect(workflow).toContain('run: bash scripts/check-pages.sh');
+    expect(workflow).toContain("&& 'require' || 'warn'");
+    const { jobs } = parse(workflow);
+    const expected =
+      "github.event_name == 'push' && github.ref == 'refs/heads/main'";
+    for (const name of [
+      'Configure GitHub Pages',
+      'Upload GitHub Pages artifact',
+    ]) {
+      expect(
+        jobs['web-build'].steps.find((step) => step.name === name).if
+      ).toBe(expected);
+    }
+    expect(jobs['pages-deploy'].if).toBe(expected);
   });
 });

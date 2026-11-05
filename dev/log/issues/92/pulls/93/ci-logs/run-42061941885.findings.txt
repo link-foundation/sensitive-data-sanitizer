@@ -1,0 +1,88 @@
+393: Release Preflight	Probe every release credential	2026-11-05T16:11:30.8737536Z Release preflight: 1 verified, 0 failed, 0 unknown
+791: Pipeline Status	Fail the run when a required job was cancelled or failed	﻿2026-11-05T16:11:42.7761005Z ##[group]Run bash scripts/check-pipeline-status.sh
+792: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:11:42.7761545Z ^[[36;1mbash scripts/check-pipeline-status.sh^[[0m
+793: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:11:42.7782827Z shell: /usr/bin/bash -e {0}
+794: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:11:42.7783200Z env:
+795: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:11:42.7783470Z   GIT_CONFIG_COUNT: 1
+796: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:11:42.7783728Z   GIT_CONFIG_KEY_0: init.defaultBranch
+797: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:11:42.7784044Z   GIT_CONFIG_VALUE_0: main
+798: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:11:42.7786243Z   NEEDS_JSON: {
+799: Pipeline Status	Fail the run when a required job was cancelled or failed	  "detect-changes": {
+800: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+801: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {
+802: Pipeline Status	Fail the run when a required job was cancelled or failed	      "docs-changed": "false",
+803: Pipeline Status	Fail the run when a required job was cancelled or failed	      "any-code-changed": "false",
+804: Pipeline Status	Fail the run when a required job was cancelled or failed	      "js-changed": "false"
+805: Pipeline Status	Fail the run when a required job was cancelled or failed	    }
+806: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+807: Pipeline Status	Fail the run when a required job was cancelled or failed	  "test-compilation": {
+808: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+809: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+810: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+811: Pipeline Status	Fail the run when a required job was cancelled or failed	  "check-file-line-limits": {
+812: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+813: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+814: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+815: Pipeline Status	Fail the run when a required job was cancelled or failed	  "version-check": {
+816: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+817: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+818: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+819: Pipeline Status	Fail the run when a required job was cancelled or failed	  "changeset-check": {
+820: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+821: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+822: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+823: Pipeline Status	Fail the run when a required job was cancelled or failed	  "lint": {
+824: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+825: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+826: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+827: Pipeline Status	Fail the run when a required job was cancelled or failed	  "test": {
+828: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+829: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+830: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+831: Pipeline Status	Fail the run when a required job was cancelled or failed	  "session-publication": {
+832: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+833: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+834: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+835: Pipeline Status	Fail the run when a required job was cancelled or failed	  "docker-build": {
+836: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+837: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+838: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+839: Pipeline Status	Fail the run when a required job was cancelled or failed	  "docker-publish-config": {
+840: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+841: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+842: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+843: Pipeline Status	Fail the run when a required job was cancelled or failed	  "docker-publish-build": {
+844: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+845: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+846: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+847: Pipeline Status	Fail the run when a required job was cancelled or failed	  "validate-docs": {
+848: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+849: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+850: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+851: Pipeline Status	Fail the run when a required job was cancelled or failed	  "release-preflight": {
+852: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+853: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+854: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+855: Pipeline Status	Fail the run when a required job was cancelled or failed	  "release": {
+856: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+857: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+858: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+859: Pipeline Status	Fail the run when a required job was cancelled or failed	  "instant-release": {
+860: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+861: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+862: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+863: Pipeline Status	Fail the run when a required job was cancelled or failed	  "docker-publish": {
+864: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+865: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+866: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+867: Pipeline Status	Fail the run when a required job was cancelled or failed	  "changeset-pr": {
+868: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+869: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+870: Pipeline Status	Fail the run when a required job was cancelled or failed	  }
+871: Pipeline Status	Fail the run when a required job was cancelled or failed	}
+872: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:11:42.7789420Z   RUN_SHA: 87a18c0755bd71c878d9e9a02f2fbd98319894c2
+873: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:11:42.7789788Z   BRANCH_NAME: issue-92-255abc3c67f8
+874: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:11:42.7790053Z ##[endgroup]
+875: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:11:42.8260226Z Failed jobs:    <none>
+876: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:11:42.8260844Z Cancelled jobs: <none>
+877: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:11:42.8261423Z All required jobs succeeded or were legitimately skipped.

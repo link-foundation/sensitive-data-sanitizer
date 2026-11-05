@@ -27,39 +27,9 @@ function isAllowedReleaseChange(status, path, allowed) {
   return consumedChangeset || metadata;
 }
 
-/** Prove that the new commit only changes version metadata. */
-export async function assertReleaseMetadataOnly({
-  runner = runCommand,
-  parentSha = process.env.GITHUB_SHA,
-  extraPaths = process.env.RELEASE_METADATA_PATHS || '',
-  logger = console,
-} = {}) {
-  if (!/^[0-9a-f]{40}$/i.test(parentSha || '')) {
-    throw new Error(
-      'A validated parent GITHUB_SHA is required for release attestation.'
-    );
-  }
-  const strict = (args) => runStrict('git', args, { runner, logger });
-  const headSha = (await strict(['rev-parse', 'HEAD'])).stdout.trim();
-  const actualParent = (await strict(['rev-parse', 'HEAD^'])).stdout.trim();
-  if (actualParent !== parentSha) {
-    throw new Error(
-      `Release commit parent ${actualParent} differs from validated parent ${parentSha}.`
-    );
-  }
-
+function assertMetadataDiff(stdout, extraPaths) {
   const allowed = allowedMetadataPaths(extraPaths);
-  const diff = await strict([
-    'diff-tree',
-    '--no-commit-id',
-    '--no-renames',
-    '--name-status',
-    '-r',
-    '-z',
-    'HEAD^',
-    'HEAD',
-  ]);
-  const fields = diff.stdout.split('\0').filter(Boolean);
+  const fields = stdout.split('\0').filter(Boolean);
   if (fields.length === 0 || fields.length % 2 !== 0) {
     throw new Error('Release commit has no valid metadata diff to attest.');
   }
@@ -76,5 +46,42 @@ export async function assertReleaseMetadataOnly({
       `Refusing to attest unvalidated release changes: ${unexpected.join(', ')}`
     );
   }
+}
+
+/** Prove that the new commit only changes version metadata. */
+export async function assertReleaseMetadataOnly({
+  runner = runCommand,
+  parentSha = process.env.GITHUB_SHA,
+  extraPaths = process.env.RELEASE_METADATA_PATHS || '',
+  headRef = 'HEAD',
+  logger = console,
+} = {}) {
+  if (!/^[0-9a-f]{40}$/i.test(parentSha || '')) {
+    throw new Error(
+      'A validated parent GITHUB_SHA is required for release attestation.'
+    );
+  }
+  const strict = (args) => runStrict('git', args, { runner, logger });
+  const headSha = (await strict(['rev-parse', headRef])).stdout.trim();
+  const actualParent = (
+    await strict(['rev-parse', `${headRef}^`])
+  ).stdout.trim();
+  if (actualParent !== parentSha) {
+    throw new Error(
+      `Release commit parent ${actualParent} differs from validated parent ${parentSha}.`
+    );
+  }
+
+  const diff = await strict([
+    'diff-tree',
+    '--no-commit-id',
+    '--no-renames',
+    '--name-status',
+    '-r',
+    '-z',
+    `${headRef}^`,
+    headRef,
+  ]);
+  assertMetadataDiff(diff.stdout, extraPaths);
   return headSha;
 }

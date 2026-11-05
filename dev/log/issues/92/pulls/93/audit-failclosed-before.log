@@ -1,0 +1,45 @@
+▶ npm audit report
+  ✔ reports each advisory once, not once per dependent package (2.895055ms)
+  ✔ keeps a green high gate but names the moderate advisory it accepted (1.656101ms)
+  ✔ fails at the configured level and annotates the blocking advisory as an error (0.813058ms)
+  ✔ fails the scheduled run on a moderate advisory only when a non-breaking fix exists (0.548484ms)
+  ✔ treats only a fix without --force as non-breaking (0.347308ms)
+  ✔ fails closed when npm cannot produce a report (1.029161ms)
+  ✖ rejects execution failures even when stdout contains a clean report (0.672806ms)
+  ✖ rejects malformed vulnerability maps instead of reporting no advisories (0.415406ms)
+  ✔ keeps workflow command data on one line (3.912373ms)
+✖ npm audit report (15.462635ms)
+ℹ tests 9
+ℹ suites 1
+ℹ pass 7
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 177.377113
+
+✖ failing tests:
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ rejects execution failures even when stdout contains a clean report (0.672806ms)
+  Error: Expected 0 to be 1
+      at Object.toBe (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:391:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/npm-audit-report.test.js:148:60)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ rejects malformed vulnerability maps instead of reporting no advisories (0.415406ms)
+  Error: Expected function to throw
+      at Object.toThrow (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:603:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/npm-audit-report.test.js:167:65)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)

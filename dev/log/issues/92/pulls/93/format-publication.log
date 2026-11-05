@@ -1,0 +1,8 @@
+scripts/release-metadata.mjs 781ms
+scripts/release-publication.mjs 78ms
+scripts/version-lock.mjs 109ms (unchanged)
+scripts/version-and-commit.mjs 356ms
+scripts/publish-to-npm.mjs 98ms (unchanged)
+tests/release-publication.test.js 21ms
+tests/workflow-reliability.test.js 147ms
+tests/issue-228-regressions.test.js 50ms (unchanged)

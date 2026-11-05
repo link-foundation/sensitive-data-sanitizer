@@ -1,0 +1,395 @@
+{
+  "sha": "b43e7b41d4d18062bc26b9a047c492467e8cd2bb",
+  "workflows": [
+    {
+      "run": 42077850614,
+      "name": "Example app",
+      "sha": "b43e7b41d4d18062bc26b9a047c492467e8cd2bb",
+      "created_at": "2026-11-05T17:46:16Z",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42077850614",
+      "log": "ci-logs/run-42077850614.log.gz",
+      "lines": 1619,
+      "annotations": [],
+      "dependency_or_eol_warnings": [],
+      "jobs": [
+        {
+          "name": "Build web app",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Package desktop app (ubuntu-24.04)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Package desktop app (windows-2025)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Package desktop app (macos-26-intel)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build iOS app",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Build Android app",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Regenerate Preview Images",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Deploy GitHub Pages",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Pipeline Status",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "run": 42077850632,
+      "name": "Workflows",
+      "sha": "b43e7b41d4d18062bc26b9a047c492467e8cd2bb",
+      "created_at": "2026-11-05T17:46:16Z",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42077850632",
+      "log": "ci-logs/run-42077850632.log.gz",
+      "lines": 1561,
+      "annotations": [],
+      "dependency_or_eol_warnings": [],
+      "jobs": [
+        {
+          "name": "zizmor",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Artifact Transport Regression",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "actionlint",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Status Gate Coverage",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "ShellCheck",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Pipeline Status",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "run": 42077850639,
+      "name": "Broken Link Checker",
+      "sha": "b43e7b41d4d18062bc26b9a047c492467e8cd2bb",
+      "created_at": "2026-11-05T17:46:16Z",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42077850639",
+      "log": "ci-logs/run-42077850639.log.gz",
+      "lines": 567,
+      "annotations": [],
+      "dependency_or_eol_warnings": [],
+      "jobs": [
+        {
+          "name": "Check Links",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Pipeline Status",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "run": 42077850652,
+      "name": "Checks and release",
+      "sha": "b43e7b41d4d18062bc26b9a047c492467e8cd2bb",
+      "created_at": "2026-11-05T17:46:16Z",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42077850652",
+      "log": "ci-logs/run-42077850652.log.gz",
+      "lines": 45264,
+      "annotations": [],
+      "dependency_or_eol_warnings": [],
+      "jobs": [
+        {
+          "name": "Release Preflight",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check for Manual Version Changes",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Detect Changes",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test Compilation",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check File Line Limits",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check for Changesets",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Lint and Format Check",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Session Publication Corpus",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Docker Image Build Check",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate Documentation",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (windows-2025, bun, 2/3)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (macos-26-intel, deno, 1/4)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (macos-26-intel, bun, 1/3)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (windows-2025, bun, 3/3)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (macos-26-intel, deno, 4/4)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (ubuntu-24.04, deno, 1/1)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (macos-26-intel, node, 2/3)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (macos-26-intel, bun, 3/3)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (windows-2025, node, 1/1)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (macos-26-intel, deno, 2/4)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (windows-2025, bun, 1/3)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (windows-2025, deno, 3/3)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (windows-2025, deno, 1/3)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Create Changeset PR",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Test runtimes (ubuntu-24.04, node, 1/1)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (macos-26-intel, bun, 2/3)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (windows-2025, deno, 2/3)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (macos-26-intel, node, 1/3)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (macos-26-intel, node, 3/3)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (ubuntu-24.04, bun, 1/1)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test runtimes (macos-26-intel, deno, 3/4)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Instant Release",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Release",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Configure Docker Hub Publish",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Pipeline Status",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Docker Image",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Optional Docker Hub Publish",
+          "status": "completed",
+          "conclusion": "skipped"
+        }
+      ]
+    },
+    {
+      "run": 42077850708,
+      "name": "Security",
+      "sha": "b43e7b41d4d18062bc26b9a047c492467e8cd2bb",
+      "created_at": "2026-11-05T17:46:16Z",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42077850708",
+      "log": "ci-logs/run-42077850708.log.gz",
+      "lines": 6869,
+      "annotations": [],
+      "dependency_or_eol_warnings": [],
+      "jobs": [
+        {
+          "name": "Dependency Graph Prerequisite",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "CodeQL (javascript-typescript)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "CodeQL (actions)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Audit npm lock (.)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Audit npm lock (examples/universal-app)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Audit npm lock (.github/actions/artifact-transport)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Dependency Review",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Pipeline Status",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "job_conclusions": {
+    "success": 52,
+    "skipped": 10
+  },
+  "additional_warning_matches": []
+}

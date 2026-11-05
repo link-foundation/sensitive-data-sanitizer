@@ -1,3 +1,4 @@
+import { itUnless, nodeCliUnavailable } from './helpers/skip.js';
 import { describe, it, expect } from 'test-anywhere';
 import {
   mkdtempSync,
@@ -32,114 +33,124 @@ function workspace(callback) {
 }
 
 describe('sanitizer CLI optional PII engine', () => {
-  it('runs a required local PII bridge for unlabelled names', () => {
-    if (typeof Deno !== 'undefined') {
-      return;
+  itUnless(nodeCliUnavailable)(
+    'runs a required local PII bridge for unlabelled names',
+    () => {
+      const result = invoke(
+        [
+          'redact',
+          '-',
+          '--presidio',
+          resolve('experiments/mock-scanner.mjs'),
+          '--python',
+          process.execPath,
+        ],
+        '😀 Zoë arrived.'
+      );
+      expect(result.status).toBe(0);
+      expect(result.stdout).toBe('😀 [REDACTED] arrived.');
+      expect(result.stderr).toBe('');
     }
-    const result = invoke(
-      [
-        'redact',
-        '-',
-        '--presidio',
-        resolve('experiments/mock-scanner.mjs'),
-        '--python',
-        process.execPath,
-      ],
-      '😀 Zoë arrived.'
-    );
-    expect(result.status).toBe(0);
-    expect(result.stdout).toBe('😀 [REDACTED] arrived.');
-    expect(result.stderr).toBe('');
-  });
-  it('rejects model or Python options without a selected PII bridge', () => {
-    if (typeof Deno !== 'undefined') {
-      return;
+  );
+  itUnless(nodeCliUnavailable)(
+    'rejects model or Python options without a selected PII bridge',
+    () => {
+      for (const option of ['--python', '--model', '--language']) {
+        const result = invoke(
+          ['redact', '-', option, 'unused'],
+          'ordinary text'
+        );
+        expect(result.status).toBe(2);
+        expect(result.stdout).toBe('');
+      }
     }
-    for (const option of ['--python', '--model', '--language']) {
-      const result = invoke(['redact', '-', option, 'unused'], 'ordinary text');
-      expect(result.status).toBe(2);
-      expect(result.stdout).toBe('');
-    }
-  });
+  );
 });
 
 describe('sanitizer CLI publication', () => {
-  it('redacts complete stdin including a multiline truncated key', () => {
-    if (typeof Deno !== 'undefined') {
-      return;
+  itUnless(nodeCliUnavailable)(
+    'redacts complete stdin including a multiline truncated key',
+    () => {
+      const result = invoke(
+        ['redact', '-'],
+        'before\n-----BEGIN PRIVATE KEY-----\nconfidential'
+      );
+      expect(result.status).toBe(0);
+      expect(result.stdout).toBe('before\n[REDACTED]');
+      expect(result.stderr).toBe('');
     }
-    const result = invoke(
-      ['redact', '-'],
-      'before\n-----BEGIN PRIVATE KEY-----\nconfidential'
-    );
-    expect(result.status).toBe(0);
-    expect(result.stdout).toBe('before\n[REDACTED]');
-    expect(result.stderr).toBe('');
-  });
-  it('reports findings through exit 1 and metadata without leaking source', () => {
-    if (typeof Deno !== 'undefined') {
-      return;
+  );
+});
+
+describe('sanitizer CLI reports and validation', () => {
+  itUnless(nodeCliUnavailable)(
+    'reports findings through exit 1 and metadata without leaking source',
+    () => {
+      const result = invoke(
+        ['scan', '-'],
+        'password=short private@example.org'
+      );
+      expect(result.status).toBe(1);
+      const report = JSON.parse(result.stdout);
+      expect(report.complete).toBe(true);
+      expect(report.results[0].findings.length > 0).toBe(true);
+      expect(result.stdout.includes('short')).toBe(false);
+      expect(result.stdout.includes('private@example.org')).toBe(false);
     }
-    const result = invoke(['scan', '-'], 'password=short private@example.org');
-    expect(result.status).toBe(1);
-    const report = JSON.parse(result.stdout);
-    expect(report.complete).toBe(true);
-    expect(report.results[0].findings.length > 0).toBe(true);
-    expect(result.stdout.includes('short')).toBe(false);
-    expect(result.stdout.includes('private@example.org')).toBe(false);
-  });
-  it('never publishes input after a byte-limit or UTF-8 error', () => {
-    if (typeof Deno !== 'undefined') {
-      return;
-    }
-    for (const [args, input] of [
-      [['redact', '-', '--max-bytes', '4'], 'password=secret'],
-      [['redact', '-', '--jsonl'], Buffer.from([0xc3, 0x28])],
-    ]) {
-      const result = invoke(args, input);
-      expect(result.status).toBe(2);
-      expect(result.stdout).toBe('');
-      expect(result.stderr.includes('secret')).toBe(false);
-    }
-  });
-  it('writes a private output atomically and refuses clobbering or same-path output', () => {
-    if (typeof Deno !== 'undefined') {
-      return;
-    }
-    workspace((root) => {
-      const source = join(root, 'source.txt'),
-        output = join(root, 'output.txt');
-      writeFileSync(source, 'password=short');
-      expect(invoke(['redact', source, '--output', output]).status).toBe(0);
-      expect(readFileSync(output, 'utf8')).toBe('password=[REDACTED]');
-      expect(readFileSync(source, 'utf8')).toBe('password=short');
-      if (process.platform !== 'win32') {
-        expect(statSync(output).mode & 0o777).toBe(0o600);
+  );
+  itUnless(nodeCliUnavailable)(
+    'never publishes input after a byte-limit or UTF-8 error',
+    () => {
+      for (const [args, input] of [
+        [['redact', '-', '--max-bytes', '4'], 'password=secret'],
+        [['redact', '-', '--jsonl'], Buffer.from([0xc3, 0x28])],
+      ]) {
+        const result = invoke(args, input);
+        expect(result.status).toBe(2);
+        expect(result.stdout).toBe('');
+        expect(result.stderr.includes('secret')).toBe(false);
       }
-      expect(invoke(['redact', source, '--output', output]).status).toBe(2);
-      expect(invoke(['redact', source, '--output', source]).status).toBe(2);
-      expect(invoke(['redact', source, '--in-place']).status).toBe(0);
-      expect(readFileSync(source, 'utf8')).toBe('password=[REDACTED]');
-    });
-  });
-  it('reports binary input as incomplete and does not corrupt it', () => {
-    if (typeof Deno !== 'undefined') {
-      return;
     }
-    workspace((root) => {
-      const binary = join(root, 'binary.dat');
-      writeFileSync(binary, Buffer.from([0, 1, 2]));
-      writeFileSync(join(root, 'text.txt'), 'safe');
-      const result = invoke(['scan', root]);
-      expect(result.status).toBe(2);
-      expect(JSON.parse(result.stdout).complete).toBe(false);
-      expect(readFileSync(binary)).toEqual(Buffer.from([0, 1, 2]));
-    });
-  });
-  it('rejects symlinks and leaves destinations intact', () => {
-    if (typeof Deno !== 'undefined' || process.platform === 'win32') {
-      return;
+  );
+  itUnless(nodeCliUnavailable)(
+    'writes a private output atomically and refuses clobbering or same-path output',
+    () => {
+      workspace((root) => {
+        const source = join(root, 'source.txt'),
+          output = join(root, 'output.txt');
+        writeFileSync(source, 'password=short');
+        expect(invoke(['redact', source, '--output', output]).status).toBe(0);
+        expect(readFileSync(output, 'utf8')).toBe('password=[REDACTED]');
+        expect(readFileSync(source, 'utf8')).toBe('password=short');
+        if (process.platform !== 'win32') {
+          expect(statSync(output).mode & 0o777).toBe(0o600);
+        }
+        expect(invoke(['redact', source, '--output', output]).status).toBe(2);
+        expect(invoke(['redact', source, '--output', source]).status).toBe(2);
+        expect(invoke(['redact', source, '--in-place']).status).toBe(0);
+        expect(readFileSync(source, 'utf8')).toBe('password=[REDACTED]');
+      });
     }
+  );
+  itUnless(nodeCliUnavailable)(
+    'reports binary input as incomplete and does not corrupt it',
+    () => {
+      workspace((root) => {
+        const binary = join(root, 'binary.dat');
+        writeFileSync(binary, Buffer.from([0, 1, 2]));
+        writeFileSync(join(root, 'text.txt'), 'safe');
+        const result = invoke(['scan', root]);
+        expect(result.status).toBe(2);
+        expect(JSON.parse(result.stdout).complete).toBe(false);
+        expect(readFileSync(binary)).toEqual(Buffer.from([0, 1, 2]));
+      });
+    }
+  );
+  itUnless(
+    nodeCliUnavailable,
+    process.platform === 'win32' &&
+      'symlink fixture needs Windows developer mode'
+  )('rejects symlinks and leaves destinations intact', () => {
     workspace((root) => {
       const source = join(root, 'source.txt'),
         alias = join(root, 'alias.txt');
@@ -149,50 +160,50 @@ describe('sanitizer CLI publication', () => {
       expect(readFileSync(source, 'utf8')).toBe('password=short');
     });
   });
-  it('validates config before creating output and hides malformed raw content', () => {
-    if (typeof Deno !== 'undefined') {
-      return;
+  itUnless(nodeCliUnavailable)(
+    'validates config before creating output and hides malformed raw content',
+    () => {
+      workspace((root) => {
+        const config = join(root, 'config.json'),
+          output = join(root, 'out.txt');
+        writeFileSync(config, '{"password":"DO-NOT-PRINT"');
+        const result = invoke(
+          ['redact', '-', '--config', config, '--output', output],
+          'safe'
+        );
+        expect(result.status).toBe(2);
+        expect(result.stderr.includes('DO-NOT-PRINT')).toBe(false);
+        expect(existsSync(output)).toBe(false);
+      });
     }
-    workspace((root) => {
-      const config = join(root, 'config.json'),
-        output = join(root, 'out.txt');
-      writeFileSync(config, '{"password":"DO-NOT-PRINT"');
-      const result = invoke(
-        ['redact', '-', '--config', config, '--output', output],
-        'safe'
-      );
-      expect(result.status).toBe(2);
-      expect(result.stderr.includes('DO-NOT-PRINT')).toBe(false);
-      expect(existsSync(output)).toBe(false);
-    });
-  });
-  it('uses reviewed config public contacts with the default engine', () => {
-    if (typeof Deno !== 'undefined') {
-      return;
+  );
+  itUnless(nodeCliUnavailable)(
+    'uses reviewed config public contacts with the default engine',
+    () => {
+      workspace((root) => {
+        const config = join(root, 'config.json');
+        writeFileSync(
+          config,
+          JSON.stringify({
+            publicEntities: [
+              {
+                type: 'EMAIL',
+                value: 'press@example.org',
+                source: 'https://example.org/contact',
+                reviewedAt: '2026-10-07',
+              },
+            ],
+          })
+        );
+        const result = invoke(
+          ['redact', '-', '--config', config],
+          'press@example.org private@example.org'
+        );
+        expect(result.status).toBe(0);
+        expect(result.stdout).toBe('press@example.org [REDACTED]');
+      });
     }
-    workspace((root) => {
-      const config = join(root, 'config.json');
-      writeFileSync(
-        config,
-        JSON.stringify({
-          publicEntities: [
-            {
-              type: 'EMAIL',
-              value: 'press@example.org',
-              source: 'https://example.org/contact',
-              reviewedAt: '2026-10-07',
-            },
-          ],
-        })
-      );
-      const result = invoke(
-        ['redact', '-', '--config', config],
-        'press@example.org private@example.org'
-      );
-      expect(result.status).toBe(0);
-      expect(result.stdout).toBe('press@example.org [REDACTED]');
-    });
-  });
+  );
   it('does not echo unknown arguments that may themselves contain secrets', async () => {
     let output = '',
       errors = '';
@@ -214,111 +225,114 @@ describe('sanitizer CLI publication', () => {
   });
 });
 
-it('audits removed historical blobs and author metadata without rewriting any refs', async () => {
-  if (typeof Deno !== 'undefined') {
-    return;
+itUnless(nodeCliUnavailable)(
+  'audits removed historical blobs and author metadata without rewriting any refs',
+  async () => {
+    const root = mkdtempSync(join(tmpdir(), 'sanitizer-history-'));
+    const git = (args) =>
+      spawnSync('git', ['-C', root, ...args], {
+        encoding: 'utf8',
+        env: {
+          ...process.env,
+          GIT_AUTHOR_NAME: 'Synthetic Tester',
+          GIT_AUTHOR_EMAIL: 'tester@example.org',
+          GIT_COMMITTER_NAME: 'Synthetic Tester',
+          GIT_COMMITTER_EMAIL: 'tester@example.org',
+        },
+      });
+    try {
+      expect(git(['init']).status).toBe(0);
+      const file = join(root, 'log.txt');
+      writeFileSync(file, 'password=historical');
+      expect(git(['add', '.']).status).toBe(0);
+      expect(git(['commit', '-m', 'add']).status).toBe(0);
+      writeFileSync(file, 'safe');
+      git(['add', '.']);
+      git(['commit', '-m', 'remove']);
+      const before = git(['rev-parse', 'HEAD']).stdout;
+      const result = await auditGitHistory(root, {
+        sanitizer: createSanitizer({ secretlint: false }),
+      });
+      expect(result.complete).toBe(true);
+      expect(result.findings.some((record) => record.type === 'blob')).toBe(
+        true
+      );
+      expect(result.findings.some((record) => record.type === 'commit')).toBe(
+        true
+      );
+      expect(JSON.stringify(result).includes('historical')).toBe(false);
+      expect(git(['rev-parse', 'HEAD']).stdout).toBe(before);
+      expect(readFileSync(file, 'utf8')).toBe('safe');
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
   }
-  const root = mkdtempSync(join(tmpdir(), 'sanitizer-history-'));
-  const git = (args) =>
-    spawnSync('git', ['-C', root, ...args], {
-      encoding: 'utf8',
-      env: {
-        ...process.env,
-        GIT_AUTHOR_NAME: 'Synthetic Tester',
-        GIT_AUTHOR_EMAIL: 'tester@example.org',
-        GIT_COMMITTER_NAME: 'Synthetic Tester',
-        GIT_COMMITTER_EMAIL: 'tester@example.org',
-      },
-    });
-  try {
-    expect(git(['init']).status).toBe(0);
-    const file = join(root, 'log.txt');
-    writeFileSync(file, 'password=historical');
-    expect(git(['add', '.']).status).toBe(0);
-    expect(git(['commit', '-m', 'add']).status).toBe(0);
-    writeFileSync(file, 'safe');
-    git(['add', '.']);
-    git(['commit', '-m', 'remove']);
-    const before = git(['rev-parse', 'HEAD']).stdout;
-    const result = await auditGitHistory(root, {
-      sanitizer: createSanitizer({ secretlint: false }),
-    });
-    expect(result.complete).toBe(true);
-    expect(result.findings.some((record) => record.type === 'blob')).toBe(true);
-    expect(result.findings.some((record) => record.type === 'commit')).toBe(
-      true
-    );
-    expect(JSON.stringify(result).includes('historical')).toBe(false);
-    expect(git(['rev-parse', 'HEAD']).stdout).toBe(before);
-    expect(readFileSync(file, 'utf8')).toBe('safe');
-  } finally {
-    rmSync(root, { recursive: true, force: true });
-  }
-});
+);
 
 describe('shared tool-log CLI options', () => {
-  it('keeps invalid bytes and public account details in whole, streaming and two-pass output', async () => {
-    if (typeof Deno !== 'undefined') {
-      return;
+  itUnless(nodeCliUnavailable)(
+    'keeps invalid bytes and public account details in whole, streaming and two-pass output',
+    async () => {
+      const input = Buffer.concat([
+        Buffer.from('email: public@account.example\n'),
+        Buffer.from([0xff, 0xc3, 0x28]),
+        Buffer.from('\npassword: hunter2\n'),
+      ]);
+      const expected = Buffer.concat([
+        Buffer.from('email: public@account.example\n'),
+        Buffer.from([0xff, 0xc3, 0x28]),
+        Buffer.from('\npassword: [REDACTED]\n'),
+      ]);
+      for (const flags of [[], ['--stream'], ['--stream', '--two-pass']]) {
+        const chunks = [];
+        const code = await runCli(
+          ['redact', '-', '--credentials-only', '--native-only', ...flags],
+          {
+            stdin: [input],
+            stdout: { write: (chunk) => chunks.push(Buffer.from(chunk)) },
+            stderr: { write() {} },
+          }
+        );
+        expect(code).toBe(0);
+        expect([...Buffer.concat(chunks)]).toEqual([...expected]);
+      }
     }
-    const input = Buffer.concat([
-      Buffer.from('email: public@account.example\n'),
-      Buffer.from([0xff, 0xc3, 0x28]),
-      Buffer.from('\npassword: hunter2\n'),
-    ]);
-    const expected = Buffer.concat([
-      Buffer.from('email: public@account.example\n'),
-      Buffer.from([0xff, 0xc3, 0x28]),
-      Buffer.from('\npassword: [REDACTED]\n'),
-    ]);
-    for (const flags of [[], ['--stream'], ['--stream', '--two-pass']]) {
-      const chunks = [];
-      const code = await runCli(
-        ['redact', '-', '--credentials-only', '--native-only', ...flags],
-        {
-          stdin: [input],
-          stdout: { write: (chunk) => chunks.push(Buffer.from(chunk)) },
-          stderr: { write() {} },
-        }
-      );
-      expect(code).toBe(0);
-      expect([...Buffer.concat(chunks)]).toEqual([...expected]);
+  );
+  itUnless(nodeCliUnavailable)(
+    'collects exact environment and gh config values only when requested',
+    () => {
+      workspace((root) => {
+        writeFileSync(
+          join(root, 'hosts.yml'),
+          'github.com:\n  oauth_token: opaque-config-value\n'
+        );
+        const result = spawnSync(
+          process.execPath,
+          [
+            cli,
+            'redact',
+            '-',
+            '--env-secrets',
+            '--gh-config',
+            '--credentials-only',
+            '--native-only',
+          ],
+          {
+            input:
+              'opaque-env-value opaque-config-value public@account.example',
+            env: {
+              ...process.env,
+              GH_CONFIG_DIR: root,
+              MY_SERVICE_TOKEN: 'opaque-env-value',
+            },
+            encoding: 'utf8',
+          }
+        );
+        expect(result.status).toBe(0);
+        expect(result.stdout).toBe(
+          '[REDACTED] [REDACTED] public@account.example'
+        );
+      });
     }
-  });
-  it('collects exact environment and gh config values only when requested', () => {
-    if (typeof Deno !== 'undefined') {
-      return;
-    }
-    workspace((root) => {
-      writeFileSync(
-        join(root, 'hosts.yml'),
-        'github.com:\n  oauth_token: opaque-config-value\n'
-      );
-      const result = spawnSync(
-        process.execPath,
-        [
-          cli,
-          'redact',
-          '-',
-          '--env-secrets',
-          '--gh-config',
-          '--credentials-only',
-          '--native-only',
-        ],
-        {
-          input: 'opaque-env-value opaque-config-value public@account.example',
-          env: {
-            ...process.env,
-            GH_CONFIG_DIR: root,
-            MY_SERVICE_TOKEN: 'opaque-env-value',
-          },
-          encoding: 'utf8',
-        }
-      );
-      expect(result.status).toBe(0);
-      expect(result.stdout).toBe(
-        '[REDACTED] [REDACTED] public@account.example'
-      );
-    });
-  });
+  );
 });

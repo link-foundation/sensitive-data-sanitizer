@@ -1,0 +1,11 @@
+▶ archive and test discovery boundaries
+  ✔ pins the real hook arguments while keeping maintained source checked (447.066332ms)
+✔ archive and test discovery boundaries (450.828794ms)
+ℹ tests 1
+ℹ suites 1
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 671.117249

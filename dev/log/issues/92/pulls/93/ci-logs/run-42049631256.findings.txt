@@ -1,0 +1,2 @@
+1866: Audit npm lock (.)	UNKNOWN STEP	2026-11-05T14:55:01.4907870Z Failed to save: Unable to reserve cache with key node-cache-Linux-x64-npm-acbfbaeecbd5cbdb0998f0b35d6fc25b0cdc3aaa51e65859d05e6a921fb894cc, another job may be creating this cache.
+4787: Pipeline Status	UNKNOWN STEP	2026-11-05T14:56:59.8401649Z Failed jobs:    <none>

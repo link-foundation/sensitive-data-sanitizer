@@ -1,0 +1,26 @@
+[STARTED] Backing up original state...
+[COMPLETED] Backed up original state in git stash (93cf6aa)
+[STARTED] Running tasks for staged files...
+[STARTED] package.json — 2 files
+[STARTED] *.{js,mjs,cjs} — 1 file
+[STARTED] *.md — 0 files
+[STARTED] *.sh — 0 files
+[STARTED] .husky/* — 0 files
+[SKIPPED] *.md — no files
+[SKIPPED] *.sh — no files
+[SKIPPED] .husky/* — no files
+[STARTED] eslint --fix --max-warnings 0 --no-warn-ignored
+[COMPLETED] eslint --fix --max-warnings 0 --no-warn-ignored
+[STARTED] prettier --write
+[COMPLETED] prettier --write
+[STARTED] prettier --check
+[COMPLETED] prettier --check
+[COMPLETED] *.{js,mjs,cjs} — 1 file
+[COMPLETED] package.json — 2 files
+[COMPLETED] Running tasks for staged files...
+[STARTED] Applying modifications from tasks...
+[COMPLETED] Applying modifications from tasks...
+[STARTED] Cleaning up temporary files...
+[COMPLETED] Cleaning up temporary files...
+[issue-92-255abc3c67f8 f5bc747] ci: shard serial Windows Bun fixtures within existing budgets
+ 2 files changed, 45 insertions(+), 1 deletion(-)

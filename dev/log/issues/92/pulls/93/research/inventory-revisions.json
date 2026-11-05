@@ -1,0 +1,26 @@
+{
+  "local_commit": "b43e7b41d4d18062bc26b9a047c492467e8cd2bb",
+  "local_files": 939,
+  "templates": {
+    "js": {
+      "commit": "7877a27980664bc6453e80262f8391d1c2562ab1",
+      "files": 532,
+      "counts": {
+        "identical": 421,
+        "different": 63,
+        "local-only": 455,
+        "template-only": 48
+      }
+    },
+    "python": {
+      "commit": "78f2fdf5e085871387555bc066071f0aedd24479",
+      "files": 155,
+      "counts": {
+        "identical": 2,
+        "different": 18,
+        "local-only": 919,
+        "template-only": 135
+      }
+    }
+  }
+}

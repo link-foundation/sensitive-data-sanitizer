@@ -1,0 +1,6 @@
+[issue-92-255abc3c67f8 c2f9def] test: complete CI fixtures and preserve runtime constraints
+ 18 files changed, 291 insertions(+), 66 deletions(-)
+ create mode 100644 experiments/issue-273-release-fixture.mjs
+ create mode 100644 experiments/issue-92/publication-race.py
+ create mode 100644 experiments/release-notes-fixture.mjs
+ create mode 100644 experiments/trace-changeset-fixture.cjs

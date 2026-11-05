@@ -1,0 +1,16 @@
+
+Checking for remote changes...
+Remote main has advanced (local: validated, remote: unverified-source-change)
+This may indicate a previous attempt partially succeeded.
+Remote version: 1.0.0
+Versions match, assuming previous run completed successfully
+REPRODUCED: different remote commit accepted using only matching version
+Calls: [['git', 'fetch', 'origin', 'main'], ['git', 'rev-parse', 'HEAD'], ['git', 'rev-parse', 'origin/main'], ['git', 'show', 'origin/main:pyproject.toml']]
+
+Checking for remote changes...
+Remote main has advanced (local: validated, remote: unverified-source-change)
+This may indicate a previous attempt partially succeeded.
+Remote version: 1.0.1
+Local and remote versions differ, rebasing...
+REPRODUCED: unverified remote commit rebased without source/lock attestation
+Calls: [['git', 'fetch', 'origin', 'main'], ['git', 'rev-parse', 'HEAD'], ['git', 'rev-parse', 'origin/main'], ['git', 'show', 'origin/main:pyproject.toml'], ['git', 'rebase', 'origin/main']]

@@ -1,0 +1,30 @@
+▶ issue 92 release push recovery
+  ✔ retries the reported server error without rebasing or making a PR (3.315819ms)
+  ✔ stops after three server failures and retains the actual error (1.445117ms)
+  ✔ never classifies authentication failures or repository rules as transient (0.326169ms)
+  ✔ fails permanent release rules without creating an automated PR (1.308342ms)
+✔ issue 92 release push recovery (8.535452ms)
+▶ npm audit report
+  ✔ reports each advisory once, not once per dependent package (2.259598ms)
+  ✔ keeps a green high gate but names the moderate advisory it accepted (1.154786ms)
+  ✔ fails at the configured level and annotates the blocking advisory as an error (0.625839ms)
+  ✔ fails the scheduled run on a moderate advisory only when a non-breaking fix exists (0.425484ms)
+  ✔ treats only a fix without --force as non-breaking (0.231903ms)
+  ✔ fails closed when npm cannot produce a report (0.919897ms)
+  ✔ rejects execution failures even when stdout contains a clean report (2.451857ms)
+  ✔ rejects malformed vulnerability maps and unresolved advisory references (0.907715ms)
+  ✔ keeps workflow command data on one line (0.45003ms)
+✔ npm audit report (13.096076ms)
+▶ push-main-with-rebase-retry.mjs
+  ✔ rebases and retries when a generated-artifact push races another main writer (832.159673ms)
+  ✔ lands the commit through a pull request when a ruleset declines the direct push (859.828128ms)
+  ✔ fails fast on a rejection that neither a rebase nor a pull request can fix (176.864692ms)
+✔ push-main-with-rebase-retry.mjs (1871.62015ms)
+ℹ tests 16
+ℹ suites 3
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2042.457812

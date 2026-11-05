@@ -1,0 +1,27 @@
+4769: Pipeline Status	Fail the run when a required job was cancelled or failed	﻿2026-11-05T16:01:02.6223970Z ##[group]Run bash scripts/check-pipeline-status.sh
+4770: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:02.6224522Z ^[[36;1mbash scripts/check-pipeline-status.sh^[[0m
+4771: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:02.6256177Z shell: /usr/bin/bash -e {0}
+4772: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:02.6256495Z env:
+4773: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:02.6256724Z   GIT_CONFIG_COUNT: 1
+4774: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:02.6256987Z   GIT_CONFIG_KEY_0: init.defaultBranch
+4775: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:02.6257281Z   GIT_CONFIG_VALUE_0: main
+4776: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:02.6257974Z   NEEDS_JSON: {
+4777: Pipeline Status	Fail the run when a required job was cancelled or failed	  "codeql": {
+4778: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+4779: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+4780: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+4781: Pipeline Status	Fail the run when a required job was cancelled or failed	  "dependency-review": {
+4782: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+4783: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+4784: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+4785: Pipeline Status	Fail the run when a required job was cancelled or failed	  "npm-audit": {
+4786: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+4787: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+4788: Pipeline Status	Fail the run when a required job was cancelled or failed	  }
+4789: Pipeline Status	Fail the run when a required job was cancelled or failed	}
+4790: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:02.6258724Z   RUN_SHA: c5b61aa68a3507927237cd2f348205650d1e9442
+4791: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:02.6259059Z   BRANCH_NAME: main
+4792: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:02.6259290Z ##[endgroup]
+4793: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:02.6963256Z Failed jobs:    <none>
+4794: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:02.6963876Z Cancelled jobs: <none>
+4795: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:02.6964471Z All required jobs succeeded or were legitimately skipped.

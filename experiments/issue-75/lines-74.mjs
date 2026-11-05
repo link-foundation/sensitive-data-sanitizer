@@ -1,4 +1,4 @@
-// Prints the issue #74 table rows and hostile-timing for the experience rule.
+// Prints the work-experience table rows and hostile-timing for the experience rule.
 // Run from the repository root: node experiments/issue-75/lines-74.mjs
 import { performance } from 'node:perf_hooks';
 import { sanitize, inspect } from '../../src/index.js';

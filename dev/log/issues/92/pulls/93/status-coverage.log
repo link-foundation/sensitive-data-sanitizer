@@ -1,0 +1,5 @@
+.github/workflows/release.yml: pipeline-status covers all 17 other job(s).
+.github/workflows/links.yml: pipeline-status covers all 1 other job(s).
+.github/workflows/security.yml: pipeline-status covers all 4 other job(s).
+.github/workflows/workflows.yml: pipeline-status covers all 5 other job(s).
+.github/workflows/example-app.yml: pipeline-status covers all 6 other job(s).

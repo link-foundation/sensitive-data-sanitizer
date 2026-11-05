@@ -1,3 +1,4 @@
+import { itUnless, sandboxed } from './helpers/skip.js';
 import { describe, it, expect } from 'test-anywhere';
 import { mkdtemp, readFile, writeFile, stat, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -34,57 +35,57 @@ async function cli(args, input = '') {
 }
 describe('private map CLI and stream integration', () => {
   for (const extension of ['json', 'lino']) {
-    it(`writes a 0600 ${extension} map, reuses it, restores and blocks scanning it`, async () => {
-      if (!(await canWrite())) {
-        return;
-      }
-      const dir = await mkdtemp(join(tmpdir(), 'placeholder-cli-'));
-      try {
-        const map = join(dir, `map.${extension}`),
-          safe = join(dir, 'safe.txt');
-        const first = await cli(
-          [
-            'redact',
-            '-',
-            '--native-only',
-            '--placeholder',
-            '--map',
-            map,
-            '--output',
-            safe,
-          ],
-          'Jane Doe met jane@private.test'
-        );
-        expect(first.code).toBe(0);
-        expect(first.output).toBe('');
-        if (process.platform !== 'win32') {
-          expect((await stat(map)).mode & 0o777).toBe(0o600);
-        }
-        const second = await cli(
-          ['redact', '-', '--native-only', '--placeholder', '--map', map],
-          'John Smith met Jane Doe'
-        );
-        expect(second.output).toBe('Person-2 met Person-1');
-        const restored = await cli(['restore', safe, '--map', map]);
-        expect(restored.output).toBe('Jane Doe met jane@private.test');
-        expect((await cli(['scan', map, '--native-only'])).code).toBe(2);
-        expect((await cli(['redact', map, '--native-only'])).code).toBe(2);
-        expect(
-          (
-            await cli([
+    itUnless(sandboxed)(
+      `writes a 0600 ${extension} map, reuses it, restores and blocks scanning it`,
+      async () => {
+        const dir = await mkdtemp(join(tmpdir(), 'placeholder-cli-'));
+        try {
+          const map = join(dir, `map.${extension}`),
+            safe = join(dir, 'safe.txt');
+          const first = await cli(
+            [
               'redact',
-              safe,
+              '-',
+              '--native-only',
               '--placeholder',
               '--map',
+              map,
+              '--output',
               safe,
-              '--native-only',
-            ])
-          ).code
-        ).toBe(2);
-      } finally {
-        await rm(dir, { recursive: true, force: true });
+            ],
+            'Jane Doe met jane@private.test'
+          );
+          expect(first.code).toBe(0);
+          expect(first.output).toBe('');
+          if (process.platform !== 'win32') {
+            expect((await stat(map)).mode & 0o777).toBe(0o600);
+          }
+          const second = await cli(
+            ['redact', '-', '--native-only', '--placeholder', '--map', map],
+            'John Smith met Jane Doe'
+          );
+          expect(second.output).toBe('Person-2 met Person-1');
+          const restored = await cli(['restore', safe, '--map', map]);
+          expect(restored.output).toBe('Jane Doe met jane@private.test');
+          expect((await cli(['scan', map, '--native-only'])).code).toBe(2);
+          expect((await cli(['redact', map, '--native-only'])).code).toBe(2);
+          expect(
+            (
+              await cli([
+                'redact',
+                safe,
+                '--placeholder',
+                '--map',
+                safe,
+                '--native-only',
+              ])
+            ).code
+          ).toBe(2);
+        } finally {
+          await rm(dir, { recursive: true, force: true });
+        }
       }
-    });
+    );
   }
   it('requires explicit CLI map retention or discard, with no map in stdout', async () => {
     expect(
@@ -118,50 +119,43 @@ describe('private map CLI and stream integration', () => {
     );
     expect(restore(`${text.split('\n')[0]}\n`, map)).toBe(source[0]);
   });
-  it('keeps the caller map updated through the bounded file API and CLI streaming', async () => {
-    if (!(await canWrite())) {
-      return;
+  itUnless(sandboxed)(
+    'keeps the caller map updated through the bounded file API and CLI streaming',
+    async () => {
+      const dir = await mkdtemp(join(tmpdir(), 'placeholder-stream-'));
+      try {
+        const source = join(dir, 'input.txt'),
+          target = join(dir, 'output.txt'),
+          mapPath = join(dir, 'map.json');
+        await writeFile(source, 'Jane Doe\nJohn Smith met Jane Doe');
+        const map = createRestoreMap();
+        await sanitizeFileBounded(source, target, {
+          secretlint: false,
+          transformation: { mode: 'placeholder', map },
+        });
+        const safe = await readFile(target, 'utf8');
+        expect(safe).toBe('Person-1\nPerson-2 met Person-1');
+        expect(restore(safe, map)).toBe('Jane Doe\nJohn Smith met Jane Doe');
+        const result = await cli([
+          'redact',
+          source,
+          '--stream',
+          '--native-only',
+          '--placeholder',
+          '--map',
+          mapPath,
+        ]);
+        expect(result.output).toBe(safe);
+        expect(restore(result.output, await readRestoreMap(mapPath))).toBe(
+          'Jane Doe\nJohn Smith met Jane Doe'
+        );
+      } finally {
+        await rm(dir, { recursive: true, force: true });
+      }
     }
-    const dir = await mkdtemp(join(tmpdir(), 'placeholder-stream-'));
-    try {
-      const source = join(dir, 'input.txt'),
-        target = join(dir, 'output.txt'),
-        mapPath = join(dir, 'map.json');
-      await writeFile(source, 'Jane Doe\nJohn Smith met Jane Doe');
-      const map = createRestoreMap();
-      await sanitizeFileBounded(source, target, {
-        secretlint: false,
-        transformation: { mode: 'placeholder', map },
-      });
-      const safe = await readFile(target, 'utf8');
-      expect(safe).toBe('Person-1\nPerson-2 met Person-1');
-      expect(restore(safe, map)).toBe('Jane Doe\nJohn Smith met Jane Doe');
-      const result = await cli([
-        'redact',
-        source,
-        '--stream',
-        '--native-only',
-        '--placeholder',
-        '--map',
-        mapPath,
-      ]);
-      expect(result.output).toBe(safe);
-      expect(restore(result.output, await readRestoreMap(mapPath))).toBe(
-        'Jane Doe\nJohn Smith met Jane Doe'
-      );
-    } finally {
-      await rm(dir, { recursive: true, force: true });
-    }
-  });
+  );
 });
 
-async function canWrite() {
-  return (
-    typeof Deno === 'undefined' ||
-    (await Deno.permissions.query({ name: 'write', path: tmpdir() })).state ===
-      'granted'
-  );
-}
 it('restores complete streams with different original surfaces in identical batches', async () => {
   for (const structured of [undefined, 'jsonl']) {
     const source = structured

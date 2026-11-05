@@ -1,0 +1,45 @@
+file:///tmp/gh-issue-solver-1793895031390/tests/issue-228-regressions.test.js:178
+          'export function sample(value) {\n' +\n            '  let result = value;\n  result += 1;\n  result *= 2;\n' +\n            '  result -= 3;\n  result /= 4;\n  return result;\n}\n'
+                                               ^
+
+SyntaxError: Invalid or unexpected token
+    at compileSourceTextModule (node:internal/modules/esm/utils:355:16)
+    at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:94:18)
+    at #translate (node:internal/modules/esm/loader:441:20)
+    at afterLoad (node:internal/modules/esm/loader:509:29)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:514:12)
+    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:567:36)
+    at afterResolve (node:internal/modules/esm/loader:614:52)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:620:12)
+    at node:internal/modules/esm/loader:639:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:582:22)
+
+Node.js v26.13.0
+✖ tests/issue-228-regressions.test.js (112.851831ms)
+▶ issue 92 whitespace scanning
+  ✔ bounds the booking CodeQL witness (319.367321ms)
+  ✔ bounds the ticket CodeQL witness (318.028714ms)
+  ✔ bounds the visa CodeQL witness (375.691703ms)
+  ✔ bounds the postal CodeQL witness (417.156386ms)
+  ✔ preserves travel values after " " (11.962484ms)
+  ✔ preserves travel values after "\t" (2.236451ms)
+  ✔ preserves travel values after ":" (1.635901ms)
+  ✔ preserves travel values after " : " (1.177286ms)
+  ✔ preserves travel values after "=" (1.161466ms)
+  ✔ preserves travel values after "：\t" (16.275347ms)
+  ✔ preserves city and postal code address extents (53.179796ms)
+✔ issue 92 whitespace scanning (1522.173088ms)
+ℹ tests 12
+ℹ suites 1
+ℹ pass 11
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1951.362638
+
+✖ failing tests:
+
+test at tests/issue-228-regressions.test.js:1:1
+✖ tests/issue-228-regressions.test.js (112.851831ms)
+  'test failed'

@@ -1,0 +1,137 @@
+▶ bounded artifact SDK retries
+  ✔ recovers from ENOTFOUND and reconciles a lost finalize response (9.862696ms)
+  ✔ recovers from EAI_AGAIN and reconciles a lost finalize response (1.079142ms)
+  ✔ recovers from ECONNRESET and reconciles a lost finalize response (0.422448ms)
+  ✔ recovers from ETIMEDOUT and reconciles a lost finalize response (3.785521ms)
+  ✔ recovers from ECONNREFUSED and reconciles a lost finalize response (3.094272ms)
+  ✔ recovers from EHOSTUNREACH and reconciles a lost finalize response (0.460478ms)
+  ✔ fails after three transient attempts, including retries of reconciliation (9.686128ms)
+  ✔ immediately refuses denied (1.422343ms)
+  ✔ immediately refuses HTTP 401 (0.7829ms)
+  ✔ immediately refuses HTTP 409 (0.457383ms)
+  ✔ immediately refuses Artifact storage quota exceeded (0.755719ms)
+  ✔ immediately refuses invalid request (0.184464ms)
+✔ bounded artifact SDK retries (38.101811ms)
+▶ artifact evidence and downloads
+  ✔ rejects empty evidence and malformed successful responses (4.387955ms)
+  ✔ continues when retry reconciliation confirms absence (0.390218ms)
+  ✔ retries downloads by immutable ID and refuses missing required artifacts (0.75073ms)
+  ✔ passes the recorded upload digest so the SDK verifies downloads (1.201331ms)
+✔ artifact evidence and downloads (7.186575ms)
+▶ artifact transport integration requirement
+  ✔ keeps symlink discovery and required link reports wired through the action (0.719371ms)
+  ✔ retries every maintained upload and Pages packaging without ignoring failure (1.42642ms)
+✔ artifact transport integration requirement (2.357588ms)
+▶ CI timeout policy
+  ✖ sets timeout-minutes for every release workflow job (13.328292ms)
+  ✔ sets timeout-minutes for every link workflow job (4.143519ms)
+  ✔ parses workflow files checked out with Windows line endings (0.515902ms)
+  ✔ caps individual Node.js and Bun tests at 30 seconds (0.55739ms)
+  ✔ documents that the Bun flag bounds a test and not the suite (4.328806ms)
+✖ CI timeout policy (26.220049ms)
+▶ CI execution budgets
+  ✔ lets publish and Docker waits complete their default propagation window (12.209825ms)
+  ✔ keeps every declared step budget under the job backstop (14.770822ms)
+  ✔ warns at the same share of the budget that the invariant allows (0.857349ms)
+✔ CI execution budgets (29.175442ms)
+▶ step budget grouping
+  ✔ sums exclusive matrix legs as alternatives, not as a sequence (0.534096ms)
+  ✔ still fails when a single leg exceeds the allowance (0.370962ms)
+  ✔ adds unconditional budgets to the largest conditional group (0.271247ms)
+  ✔ resolves a "$VAR" budget from the step, job, or workflow env (0.525641ms)
+  ✔ reports a budget it cannot read and never skips one silently (0.269181ms)
+✔ step budget grouping (2.546389ms)
+▶ issue 92 whitespace scanning
+  ✔ bounds the booking CodeQL witness (337.330768ms)
+  ✔ bounds the ticket CodeQL witness (300.124265ms)
+  ✔ bounds the visa CodeQL witness (319.798385ms)
+  ✔ bounds the postal CodeQL witness (359.901179ms)
+  ✔ preserves travel values after " " (10.423944ms)
+  ✔ preserves travel values after "\t" (1.264639ms)
+  ✔ preserves travel values after ":" (0.778001ms)
+  ✔ preserves travel values after " : " (0.899949ms)
+  ✔ preserves travel values after "=" (0.566316ms)
+  ✔ preserves travel values after "：\t" (18.1634ms)
+  ✔ preserves city and postal code address extents (40.998896ms)
+✔ issue 92 whitespace scanning (1394.816672ms)
+▶ workflow concurrency policy
+  ✔ detects unsupported keys in a concurrency block (2.265827ms)
+  ✔ keeps every waiting main writer in the queue (6.195717ms)
+  ✔ uses only keys supported by GitHub Actions (2.765929ms)
+  ✖ uses job-level concurrency so stale checks cannot cancel active writers (5.575019ms)
+✖ workflow concurrency policy (20.732694ms)
+▶ workflow reliability policy
+  ✔ sets Git default branch config before checkout initializes repositories (1.324451ms)
+  ✔ excludes Vite source HTML from raw lychee file scans (2.480917ms)
+  ✔ uploads preview regeneration artifacts when screenshot rendering fails (0.936516ms)
+  ✔ uses the official Playwright image for preview regeneration with browser downloads disabled (0.73427ms)
+✔ workflow reliability policy (6.197439ms)
+▶ workflow artifact and writer reliability
+  ✔ serializes main writers and retries generated pushes after rebasing (2.773283ms)
+  ✔ verifies desktop package output before uploading artifacts (0.760258ms)
+✔ workflow artifact and writer reliability (4.057969ms)
+▶ release workflow change gates
+  ✔ skips the slow test matrix for pull requests with no code changes (1.318821ms)
+  ✔ runs the slow test matrix for workflow changes after fast checks pass (1.94582ms)
+  ✔ skips test-compilation for excluded-only pushes (0.970582ms)
+  ✔ skips check-file-line-limits for excluded-only pushes (2.539246ms)
+  ✔ skips lint for excluded-only pushes (0.747153ms)
+  ✔ skips test for excluded-only pushes (0.661804ms)
+  ✔ skips validate-docs for excluded-only pushes (0.6109ms)
+✔ release workflow change gates (9.631606ms)
+▶ manual release quality gates
+  ✔ runs lint and tests before an instant manual release (2.913415ms)
+  ✔ blocks an instant manual release after either quality gate fails (2.984928ms)
+  ✔ waits for successful lint before creating a manual changeset PR (0.835499ms)
+  ✔ does not run instant-release after cancellation (0.744348ms)
+  ✔ does not run changeset-pr after cancellation (0.543814ms)
+✔ manual release quality gates (8.575676ms)
+▶ npm publish token bootstrap
+  ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the release publish step (1.67821ms)
+  ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the instant-release publish step (0.356615ms)
+✔ npm publish token bootstrap (2.994956ms)
+▶ npm user config cleanup
+  ✔ removes deprecated always-auth before npm commands in the release job (0.359049ms)
+  ✔ removes deprecated always-auth before npm commands in the instant-release job (0.244124ms)
+✔ npm user config cleanup (0.737155ms)
+▶ install-from-package smoke test
+  ✔ smoke-tests the published npm package in the release job (1.012498ms)
+  ✔ smoke-tests the published npm package in the instant-release job (0.215572ms)
+✔ install-from-package smoke test (1.362962ms)
+ℹ tests 70
+ℹ suites 15
+ℹ pass 68
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2020.973251
+
+✖ failing tests:
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sets timeout-minutes for every release workflow job (13.328292ms)
+  Error: Expected 45 to be 30
+      at Object.toBe (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:391:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/ci-timeouts.test.js:299:59)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at node:internal/test_runner/test:1903:71
+      at node:internal/per_context/primordials:505:82
+      at new Promise (<anonymous>)
+      at new SafePromise (node:internal/per_context/primordials:479:3)
+      at node:internal/per_context/primordials:505:9
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ uses job-level concurrency so stale checks cannot cancel active writers (5.575019ms)
+  Error: Expected "  test:\n    name: Test runtimes\n    env:\n      TEST_SHARD: ${{ matrix.shard }}\n    runs-on: ${{ matrix.os }}\n    # Typical run: <1min per runtime/OS on warm runners, with Windows\n    # sometimes slower on cold starts. Each test step owns an explicit\n    # budget below (see scripts/run-with-budget-warning.sh); this cap is\n    # only the backstop behind those budgets, sized so the budgets always\n    # expire first. A job killed by timeout-minutes reports *cancelled*,\n    # which hides the failure -- see docs/legacy/CI-TIMEOUT-BUDGETS.md.\n    timeout-minutes: 15\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.runtime }}-${{ matrix.os }}-${{ matrix.shard }}\n      cancel-in-progress: true\n    needs:\n      [\n        detect-changes,\n        changeset-check,\n        test-compilation,\n        lint,\n        check-file-line-limits,\n      ]\n    # Use !cancelled() instead of always() so cancellation propagates correctly (hive-mind issue #1278)\n    # Run for relevant code/package/workflow changes, or for an instant manual\n    # release. Skipped fast checks count as non-failures only after one of\n    # those positive gates passes.\n    if: |\n      !cancelled() &&\n      (\n        needs.detect-changes.outputs.any-code-changed == 'true' ||\n        (\n          github.event_name == 'workflow_dispatch' &&\n          github.event.inputs.release_mode == 'instant'\n        )\n      ) &&\n      (needs.changeset-check.result == 'success' || needs.changeset-check.result == 'skipped') &&\n      (needs.test-compilation.result == 'success' || needs.test-compilation.result == 'skipped') &&\n      (needs.lint.result == 'success' || needs.lint.result == 'skipped') &&\n      (needs.check-file-line-limits.result == 'success' || needs.check-file-line-limits.result == 'skipped')\n    strategy:\n      fail-fast: false\n      matrix:\n        os: [ubuntu-24.04, windows-2025]\n        runtime: [node, bun, deno]\n        shard: ['1/1']\n        # Intel runners avoid ARM64 capacity failures. Partition the suite so\n        # each job retains its existing execution budget on the slower pool.\n        include:\n          - { os: macos-26-intel, runtime: node, shard: '1/3' }\n          - { os: macos-26-intel, runtime: node, shard: '2/3' }\n          - { os: macos-26-intel, runtime: node, shard: '3/3' }\n          - { os: macos-26-intel, runtime: bun, shard: '1/3' }\n          - { os: macos-26-intel, runtime: bun, shard: '2/3' }\n          - { os: macos-26-intel, runtime: bun, shard: '3/3' }\n          - { os: macos-26-intel, runtime: deno, shard: '1/3' }\n          - { os: macos-26-intel, runtime: deno, shard: '2/3' }\n          - { os: macos-26-intel, runtime: deno, shard: '3/3' }\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          # For PRs, fetch enough history to merge with base branch\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Simulate fresh merge with base branch (PR only)\n        if: github.event_name == 'pull_request'\n        env:\n          BASE_REF: ${{ github.base_ref }}\n        shell: bash\n        run: bash scripts/simulate-fresh-merge.sh\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Install dependencies (Node.js)\n        run: npm ci\n\n      - name: Run tests (Node.js)\n        if: matrix.runtime == 'node'\n        shell: bash\n        run: bash scripts/run-with-budget-warning.sh 300 \"Node.js test suite\" node scripts/run-test-shard.mjs node \"$TEST_SHARD\"\n\n      - name: Verify clone-only history rewrite with git-filter-repo\n        if: matrix.runtime == 'node' && matrix.os == 'ubuntu-24.04'\n        shell: bash\n        run: |\n          python3 -m venv \"$RUNNER_TEMP/history-tools\"\n          bash scripts/run-with-budget-warning.sh 120 \"Install history rewrite tool\" \"$RUNNER_TEMP/history-tools/bin/pip\" install git-filter-repo==2.47.0\n          GIT_FILTER_REPO=\"$RUNNER_TEMP/history-tools/bin/git-filter-repo\" bash scripts/run-with-budget-warning.sh 60 \"History rewrite integration\" node --max-old-space-size=512 experiments/history-rewrite-integration.mjs\n\n      - name: Setup Bun\n        if: matrix.runtime == 'bun'\n        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0\n        with:\n          bun-version: '1.x'\n\n      - name: Run tests (Bun)\n        if: matrix.runtime == 'bun'\n        shell: bash\n        # --timeout caps an *individual* test at 30s, matching Node's\n        # --test-timeout budget while leaving headroom for cold runners.\n        # It is a per-test bound and does not bound the suite: 25 tests of\n        # 29s each pass every per-test check. The suite budget below is\n        # what bounds the whole run.\n        run: bash scripts/run-with-budget-warning.sh 200 \"Bun test suite\" node scripts/run-test-shard.mjs bun \"$TEST_SHARD\"\n\n      - name: Setup Deno\n        if: matrix.runtime == 'deno'\n        uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5\n        with:\n          deno-version: v2.x\n\n      - name: Prepare Deno dependencies\n        if: matrix.runtime == 'deno'\n        shell: bash\n        # Cold npm downloads previously consumed the test execution budget.\n        # Bound dependency preparation separately, as for Node and Bun installs.\n        run: deno test -A --parallel --no-run --frozen\n\n      - name: Run tests (Deno)\n        if: matrix.runtime == 'deno'\n        shell: bash\n        run: bash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\"\n\n  # === DOCKER IMAGE BUILD CHECK (pull requests) ===\n  # Builds the Dockerfile without pushing so a broken image fails the pull\n  # request instead of surfacing only after publish (issue #106).\n  # push: false + load: true keeps this working for fork pull requests,\n  # which have no registry credentials. Skipped when no Dockerfile exists." to contain "    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.runtime }}-${{ matrix.os }}\n      cancel-in-progress: true"
+      at Object.toContain (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:566:15)
+      at expectCancellableCheckConcurrency (file:///tmp/gh-issue-solver-1793895031390/tests/workflow-reliability.test.js:150:20)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/workflow-reliability.test.js:283:5)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)

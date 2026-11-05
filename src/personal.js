@@ -224,7 +224,7 @@ export function detectPersonal(text, emit) {
   );
   collectMatches(
     text,
-    /(?<![\p{L}\p{N}])\d{1,6}[A-Za-z]?[ \t]+(?:[\p{Lu}][\p{L}.'-]*[ \t]+){1,5}(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Boulevard|Blvd|Way|Straße|Strasse|Rue|Calle|Rua)\b(?:,[ \t]+(?:[^\r\n<>]{1,80}?[ \t]+(?:[A-Z]{1,2}\d[A-Z\d]?[ \t]+\d[A-Z]{2}|\d{5}(?:-\d{4})?)\b|(?:[\p{Lu}][\p{Ll}.'-]+[ \t]*){1,4}))?/gu,
+    /(?<![\p{L}\p{N}])\d{1,6}[A-Za-z]?[ \t]+(?:[\p{Lu}][\p{L}.'-]*[ \t]+){1,5}(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Boulevard|Blvd|Way|Straße|Strasse|Rue|Calle|Rua)\b(?:,[ \t]+(?:(?:[^ \t\r\n<>][^\r\n<>]{0,79}?[ \t]+)?(?:[A-Z]{1,2}\d[A-Z\d]?[ \t]+\d[A-Z]{2}|\d{5}(?:-\d{4})?)\b|(?:[\p{Lu}][\p{Ll}.'-]+[ \t]*){1,4}))?/gu,
     emit,
     details('ADDRESS', 'postal-address')
   );

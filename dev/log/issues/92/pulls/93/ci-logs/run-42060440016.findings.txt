@@ -1,0 +1,267 @@
+157: Release Preflight	Probe every release credential	2026-11-05T15:58:59.8941658Z Release preflight: 1 verified, 0 failed, 0 unknown
+3051: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:02.0710727Z   ✔ does not run later loaders once one has failed (0.5342ms)
+3262: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:32.8535858Z   ✔ propagates a failed pull-request check without attempting a merge (4.4394ms)
+3413: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:32.8771913Z   ✔ retries the publish command when the publish itself failed (0.3719ms)
+3429: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:32.8792912Z   ✔ marks ERROR, TIMEOUT, and UNKNOWN markers as never answered (0.3904ms)
+3593: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:33.0206958Z   ✔ removes only deprecated always-auth entries from npmrc content (2.2167ms)
+4149: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:49.0006792Z   ✔ keeps Booking ERROR today (1.7957ms)
+4685: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:00.0625975Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+4687: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:00.0809390Z   ✔ keeps Error: boom
+4752: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:00.1008019Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+4754: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:00.1009638Z   ✔ keeps Error: boom
+4819: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:00.1983633Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+4821: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:00.2012022Z   ✔ keeps Error: boom
+4954: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:09.8695033Z   ✔ sanitizes contextual JSON and drops failed Sentry events (21.2512ms)
+5498: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:27.7729346Z   ✔ asserts a failed release only when npm answered (0.189ms)
+5546: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:27.7775594Z   ✔ removes deprecated always-auth before npm commands in the release job (1.0001ms)
+5547: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:27.7776482Z   ✔ removes deprecated always-auth before npm commands in the instant-release job (0.319ms)
+5905: Test (bun on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:00:27.5982350Z (pass) explicit public verification and outbound helpers > sanitizes contextual JSON and drops failed Sentry events [8.49ms]
+6225: Test (bun on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:00:44.0968130Z (pass) npm user config cleanup > removes deprecated always-auth before npm commands in the release job [0.17ms]
+6226: Test (bun on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:00:44.0969760Z (pass) npm user config cleanup > removes deprecated always-auth before npm commands in the instant-release job [0.13ms]
+6233: Test (bun on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:00:44.0976410Z (pass) npm user config sanitization > removes only deprecated always-auth entries from npmrc content [0.12ms]
+6346: Test (bun on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:00:47.3140090Z (pass) issue 32 public and code negatives > keeps Booking ERROR today [0.67ms]
+6525: Test (bun on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:00:49.5237830Z (pass) bootstrapDependencies > does not run later loaders once one has failed [0.13ms]
+7463: Test (deno on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T15:59:45.9671190Z ^[[0m^[[33m│^[[0m  The following packages are deprecated:
+7500: Test (deno on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T15:59:48.7847010Z propagates a failed pull-request check without attempting a merge ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(12ms)^[[0m
+7839: Test (deno on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:05.6507590Z keeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(109ms)^[[0m
+7840: Test (deno on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:05.6549500Z keeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(44ms)^[[0m
+7901: Test (deno on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:05.8200270Z keeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(2ms)^[[0m
+7902: Test (deno on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:05.8236190Z keeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(3ms)^[[0m
+7963: Test (deno on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:06.9747610Z keeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+7964: Test (deno on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:06.9768370Z keeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(2ms)^[[0m
+8202: Test (deno on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:18.0653470Z asserts a failed release only when npm answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(224µs)^[[0m
+8228: Test (deno on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:18.7032380Z ^[[0m^[[32mok^[[0m | 698 passed | 0 failed ^[[0m^[[38;5;245m(30s)^[[0m
+8707: Test (bun on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T15:59:52.5963670Z (pass) land-via-pull-request check enforcement > propagates a failed pull-request check without attempting a merge [0.98ms]
+8861: Test (bun on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T15:59:58.4822310Z (pass) formatFailureMessage > asserts a failed release only when npm answered [0.05ms]
+9146: Test (bun on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:03.3554420Z (pass) issues 87/88 (text) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+9148: Test (bun on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:03.3556410Z (pass) issues 87/88 (text) > keeps Error: boom
+9211: Test (bun on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:03.3608050Z (pass) issues 87/88 (json) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+9213: Test (bun on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:03.3609730Z (pass) issues 87/88 (json) > keeps Error: boom
+9276: Test (bun on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:03.3674750Z (pass) issues 87/88 (jsonl) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+9278: Test (bun on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:00:03.3676490Z (pass) issues 87/88 (jsonl) > keeps Error: boom
+9819: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:41.0585724Z (pass) explicit public verification and outbound helpers > sanitizes contextual JSON and drops failed Sentry events [2.69ms]
+10106: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:42.0795388Z (pass) issue 32 public and code negatives > keeps Booking ERROR today [0.19ms]
+10137: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:42.0803990Z (pass) bootstrapDependencies > does not run later loaders once one has failed [0.09ms]
+10465: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:43.1057896Z (pass) land-via-pull-request check enforcement > propagates a failed pull-request check without attempting a merge [0.55ms]
+10516: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:44.1093024Z (pass) npm user config cleanup > removes deprecated always-auth before npm commands in the release job [0.07ms]
+10517: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:44.1093404Z (pass) npm user config cleanup > removes deprecated always-auth before npm commands in the instant-release job [0.06ms]
+11082: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:05.4213471Z (pass) issues 87/88 (text) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+11084: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:05.4214197Z (pass) issues 87/88 (text) > keeps Error: boom
+11147: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:05.4230016Z (pass) issues 87/88 (json) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+11149: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:05.4230455Z (pass) issues 87/88 (json) > keeps Error: boom
+11212: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:05.4245689Z (pass) issues 87/88 (jsonl) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+11214: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:05.4246127Z (pass) issues 87/88 (jsonl) > keeps Error: boom
+11375: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:06.4413251Z (pass) lychee report classification > marks ERROR, TIMEOUT, and UNKNOWN markers as never answered [0.04ms]
+11682: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:10.5096035Z (pass) pipeline status gate > fails for a failed job on every ref [43.32ms]
+11881: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:12.5804977Z (pass) formatFailureMessage > asserts a failed release only when npm answered [0.02ms]
+11935: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:16.6343830Z (pass) publishWithRetry > retries the publish command when the publish itself failed [0.07ms]
+11992: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:22.7260117Z (pass) npm user config sanitization > removes only deprecated always-auth entries from npmrc content [0.07ms]
+12588: Test (node on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:01:01.5230000Z   ✔ propagates a failed pull-request check without attempting a merge (1.494254ms)
+12987: Test (node on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:01:07.8982560Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+12989: Test (node on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:01:08.0842960Z   ✔ keeps Error: boom
+13054: Test (node on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:01:08.5571630Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+13056: Test (node on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:01:08.5575140Z   ✔ keeps Error: boom
+13121: Test (node on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:01:08.6332010Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+13123: Test (node on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:01:08.6335390Z   ✔ keeps Error: boom
+13401: Test (node on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T16:01:20.6539030Z   ✔ asserts a failed release only when npm answered (0.186593ms)
+13703: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:55.6709130Z (pass) bootstrapDependencies > does not run later loaders once one has failed [0.14ms]
+13926: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:15.3762941Z (pass) land-via-pull-request check enforcement > propagates a failed pull-request check without attempting a merge [1.08ms]
+14079: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:30.4537545Z (pass) publishWithRetry > retries the publish command when the publish itself failed [0.14ms]
+14102: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:30.4548858Z (pass) lychee report classification > marks ERROR, TIMEOUT, and UNKNOWN markers as never answered [0.12ms]
+14246: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:46.7237688Z (pass) npm user config sanitization > removes only deprecated always-auth entries from npmrc content [0.11ms]
+14808: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:57.2797581Z (pass) issue 32 public and code negatives > keeps Booking ERROR today [0.62ms]
+15340: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:04.3143394Z (pass) issues 87/88 (text) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+15342: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:04.3144663Z (pass) issues 87/88 (text) > keeps Error: boom
+15405: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:04.3179347Z (pass) issues 87/88 (json) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+15407: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:04.3180153Z (pass) issues 87/88 (json) > keeps Error: boom
+15470: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:04.3206543Z (pass) issues 87/88 (jsonl) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+15472: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:04.3207313Z (pass) issues 87/88 (jsonl) > keeps Error: boom
+15625: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:12.3846351Z (pass) explicit public verification and outbound helpers > sanitizes contextual JSON and drops failed Sentry events [2.65ms]
+16184: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:35.3089045Z (pass) formatFailureMessage > asserts a failed release only when npm answered [0.05ms]
+16222: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:35.3123489Z (pass) npm user config cleanup > removes deprecated always-auth before npm commands in the release job [0.29ms]
+16223: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:35.3124277Z (pass) npm user config cleanup > removes deprecated always-auth before npm commands in the instant-release job [0.24ms]
+16508: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:42.6271234Z   ✔ does not run later loaders once one has failed (0.162223ms)
+16742: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:45.7074371Z   ✔ propagates a failed pull-request check without attempting a merge (4.008649ms)
+16833: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:45.7124605Z   ✔ fails for a failed job on every ref (59.753697ms)
+16907: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:46.7245734Z   ✔ retries the publish command when the publish itself failed (1.470801ms)
+16927: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:46.7256271Z   ✔ marks ERROR, TIMEOUT, and UNKNOWN markers as never answered (0.261581ms)
+17095: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:59.0827111Z   ✔ removes only deprecated always-auth entries from npmrc content (0.773097ms)
+17651: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:59.2006510Z   ✔ keeps Booking ERROR today (0.617608ms)
+18187: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:04.2801741Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+18189: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:04.2802858Z   ✔ keeps Error: boom
+18254: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:04.2846019Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+18256: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:04.2847044Z   ✔ keeps Error: boom
+18321: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:04.2876535Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+18323: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:04.2877506Z   ✔ keeps Error: boom
+18456: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:09.4925511Z   ✔ sanitizes contextual JSON and drops failed Sentry events (13.878934ms)
+19002: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:28.9443421Z   ✔ asserts a failed release only when npm answered (0.057136ms)
+19050: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:28.9457843Z   ✔ removes deprecated always-auth before npm commands in the release job (0.139049ms)
+19051: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:28.9458477Z   ✔ removes deprecated always-auth before npm commands in the instant-release job (0.067362ms)
+19848: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:35.2911538Z ^[[0m^[[33m│^[[0m  The following packages are deprecated:
+19869: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:40.3933801Z does not run later loaders once one has failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(147µs)^[[0m
+19983: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:42.4276568Z propagates a failed pull-request check without attempting a merge ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(6ms)^[[0m
+20072: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:43.4526513Z retries the publish command when the publish itself failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(115µs)^[[0m
+20086: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:43.4546563Z marks ERROR, TIMEOUT, and UNKNOWN markers as never answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(257µs)^[[0m
+20176: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:44.4694015Z removes only deprecated always-auth entries from npmrc content ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(611µs)^[[0m
+20683: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:54.6490197Z keeps Booking ERROR today ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(633µs)^[[0m
+21184: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:02.7840592Z keeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(64ms)^[[0m
+21185: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:02.7841393Z keeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(20ms)^[[0m
+21246: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:02.7881088Z keeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+21247: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:02.7882348Z keeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(2ms)^[[0m
+21308: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:02.7906576Z keeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(885µs)^[[0m
+21309: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:02.7907366Z keeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+21436: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:08.8810245Z sanitizes contextual JSON and drops failed Sentry events ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(7ms)^[[0m
+21899: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:23.1205080Z asserts a failed release only when npm answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(72µs)^[[0m
+21936: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:24.1223982Z removes deprecated always-auth before npm commands in the release job ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(158µs)^[[0m
+21937: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:24.1224617Z removes deprecated always-auth before npm commands in the instant-release job ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(115µs)^[[0m
+21958: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:24.1235956Z ^[[0m^[[32mok^[[0m | 1953 passed (8 steps) | 0 failed ^[[0m^[[38;5;245m(43s)^[[0m
+22472: Test (bun on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T16:01:44.4998740Z (pass) publishWithRetry > retries the publish command when the publish itself failed [0.14ms]
+22525: Test (bun on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T16:01:44.5082410Z (pass) pipeline status gate > fails for a failed job on every ref [217.98ms]
+22970: Test (bun on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T16:02:19.5182720Z (pass) lychee report classification > marks ERROR, TIMEOUT, and UNKNOWN markers as never answered [0.07ms]
+23731: Test (deno on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T15:59:51.7618040Z ^[[0m^[[33m│^[[0m  The following packages are deprecated:
+23822: Test (deno on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T15:59:57.2121050Z retries the publish command when the publish itself failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(301µs)^[[0m
+23827: Test (deno on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T15:59:57.2155270Z marks ERROR, TIMEOUT, and UNKNOWN markers as never answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(530µs)^[[0m
+24387: Test (deno on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T16:00:32.2973670Z ^[[0m^[[32mok^[[0m | 600 passed | 0 failed ^[[0m^[[38;5;245m(37s)^[[0m
+25125: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T15:59:56.6975749Z ^[[0m^[[33m│^[[0m  The following packages are deprecated:
+25146: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:01.4127036Z does not run later loaders once one has failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+25260: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:03.7527222Z propagates a failed pull-request check without attempting a merge ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(13ms)^[[0m
+25349: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:04.9279605Z retries the publish command when the publish itself failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(216µs)^[[0m
+25363: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:04.9297465Z marks ERROR, TIMEOUT, and UNKNOWN markers as never answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(391µs)^[[0m
+25453: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:06.1046064Z removes only deprecated always-auth entries from npmrc content ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(848µs)^[[0m
+25960: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:21.2625223Z keeps Booking ERROR today ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(720µs)^[[0m
+26461: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:32.8067471Z keeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(84ms)^[[0m
+26462: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:32.8069474Z keeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(33ms)^[[0m
+26523: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:32.8106100Z keeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+26524: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:32.8107116Z keeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(3ms)^[[0m
+26585: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:32.8135624Z keeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+26586: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:32.8136667Z keeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(2ms)^[[0m
+26713: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:00:41.9975419Z sanitizes contextual JSON and drops failed Sentry events ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(11ms)^[[0m
+27176: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:02.6890764Z asserts a failed release only when npm answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(118µs)^[[0m
+27213: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:02.6915492Z removes deprecated always-auth before npm commands in the release job ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(475µs)^[[0m
+27214: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:02.6916301Z removes deprecated always-auth before npm commands in the instant-release job ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(407µs)^[[0m
+27235: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T16:01:02.6930958Z ^[[0m^[[32mok^[[0m | 1953 passed (8 steps) | 0 failed ^[[0m^[[38;5;245m(1m1s)^[[0m
+27489: Test (node on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:01:01.2347760Z   ✔ does not run later loaders once one has failed (0.353308ms)
+27695: Test (node on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:01:23.1645950Z   ✔ removes only deprecated always-auth entries from npmrc content (1.681914ms)
+27836: Test (node on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:01:31.3535010Z   ✔ keeps Booking ERROR today (1.445883ms)
+28117: Test (node on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:01:44.6703940Z   ✔ sanitizes contextual JSON and drops failed Sentry events (20.120374ms)
+28342: Test (node on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:01:46.9751960Z   ✔ removes deprecated always-auth before npm commands in the release job (0.339809ms)
+28343: Test (node on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:01:46.9753960Z   ✔ removes deprecated always-auth before npm commands in the instant-release job (0.241924ms)
+28360: Test (node on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:01:47.9142290Z Failed to save: Unable to reserve cache with key node-cache-macOS-x64-npm-646165e7f89afc591daaa04a239ba42db335b9b70f30b3727c2c62cdcc18cb27, another job may be creating this cache.
+29122: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:01:07.7569260Z ^[[0m^[[33m│^[[0m  The following packages are deprecated:
+29142: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:01:12.1009270Z does not run later loaders once one has failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+29251: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:01:21.8135840Z removes only deprecated always-auth entries from npmrc content ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+29379: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:01:37.5650440Z keeps Booking ERROR today ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(2ms)^[[0m
+29648: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:02:06.1578100Z sanitizes contextual JSON and drops failed Sentry events ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(27ms)^[[0m
+29765: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:02:17.3446780Z ##[warning]Deno test suite has run for 70s of its 100s budget.
+29837: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:02:24.1018730Z removes deprecated always-auth before npm commands in the release job ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(11ms)^[[0m
+29838: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:02:24.1021950Z removes deprecated always-auth before npm commands in the instant-release job ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(5ms)^[[0m
+29842: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T16:02:24.1030820Z ^[[0m^[[32mok^[[0m | 655 passed (8 steps) | 0 failed ^[[0m^[[38;5;245m(1m12s)^[[0m
+30178: Test (node on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T16:01:15.8036450Z   ✔ fails for a failed job on every ref (655.163388ms)
+30217: Test (node on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T16:01:18.4402160Z   ✔ retries the publish command when the publish itself failed (0.354577ms)
+30223: Test (node on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T16:01:18.8100690Z   ✔ marks ERROR, TIMEOUT, and UNKNOWN markers as never answered (0.870724ms)
+30881: Test (node on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T16:01:52.2024040Z Failed to save: Unable to reserve cache with key node-cache-macOS-x64-npm-646165e7f89afc591daaa04a239ba42db335b9b70f30b3727c2c62cdcc18cb27, another job may be creating this cache.
+31062: Release	Remove deprecated npm auth config	﻿2026-11-05T16:03:28.3934360Z ##[group]Run node scripts/sanitize-npm-userconfig.mjs
+31063: Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3934815Z ^[[36;1mnode scripts/sanitize-npm-userconfig.mjs^[[0m
+31064: Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3961468Z shell: /usr/bin/bash -e {0}
+31065: Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3961716Z env:
+31066: Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3961896Z   GIT_CONFIG_COUNT: 1
+31067: Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3962105Z   GIT_CONFIG_KEY_0: init.defaultBranch
+31068: Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3962337Z   GIT_CONFIG_VALUE_0: main
+31069: Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3962575Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+31070: Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3962922Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+31071: Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3963153Z ##[endgroup]
+31072: Release	Remove deprecated npm auth config	2026-11-05T16:03:28.4270864Z No deprecated always-auth entry found in /home/runner/work/_temp/.npmrc.
+31083: Release	Check package manager declaration and lockfiles	2026-11-05T16:03:28.4635109Z ##[warning]lockfile(s) for another package manager at the repository root: deno.lock. The npm declaration outranks them, but any tool embedding the same lockfile table without reading the declaration will pick the wrong agent.
+31236: Release	Version packages and commit to main	2026-11-05T16:03:47.9537018Z error: failed to push some refs to 'https://github.com/link-foundation/sensitive-data-sanitizer'
+31237: Release	Version packages and commit to main	2026-11-05T16:03:47.9555718Z Command failed (exit 1): git push origin HEAD:main
+31242: Release	Version packages and commit to main	2026-11-05T16:03:47.9557906Z error: failed to push some refs to 'https://github.com/link-foundation/sensitive-data-sanitizer'
+31244: Release	Version packages and commit to main	2026-11-05T16:03:47.9594156Z Error: Failed to push version 0.16.2 to main: Command failed with exit code 1
+31245: Release	Version packages and commit to main	2026-11-05T16:03:47.9683329Z ##[error]Process completed with exit code 1.
+31444: Pipeline Status	Fail the run when a required job was cancelled or failed	﻿2026-11-05T16:03:57.4486031Z ##[group]Run bash scripts/check-pipeline-status.sh
+31445: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.4486563Z ^[[36;1mbash scripts/check-pipeline-status.sh^[[0m
+31446: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.4517117Z shell: /usr/bin/bash -e {0}
+31447: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.4517426Z env:
+31448: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.4517634Z   GIT_CONFIG_COUNT: 1
+31449: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.4517891Z   GIT_CONFIG_KEY_0: init.defaultBranch
+31450: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.4518175Z   GIT_CONFIG_VALUE_0: main
+31451: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.4521602Z   NEEDS_JSON: {
+31452: Pipeline Status	Fail the run when a required job was cancelled or failed	  "detect-changes": {
+31453: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+31454: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {
+31455: Pipeline Status	Fail the run when a required job was cancelled or failed	      "js-changed": "true",
+31456: Pipeline Status	Fail the run when a required job was cancelled or failed	      "docs-changed": "true",
+31457: Pipeline Status	Fail the run when a required job was cancelled or failed	      "any-code-changed": "true"
+31458: Pipeline Status	Fail the run when a required job was cancelled or failed	    }
+31459: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31460: Pipeline Status	Fail the run when a required job was cancelled or failed	  "test-compilation": {
+31461: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+31462: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31463: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31464: Pipeline Status	Fail the run when a required job was cancelled or failed	  "check-file-line-limits": {
+31465: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+31466: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31467: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31468: Pipeline Status	Fail the run when a required job was cancelled or failed	  "version-check": {
+31469: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+31470: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31471: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31472: Pipeline Status	Fail the run when a required job was cancelled or failed	  "changeset-check": {
+31473: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+31474: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31475: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31476: Pipeline Status	Fail the run when a required job was cancelled or failed	  "lint": {
+31477: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+31478: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31479: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31480: Pipeline Status	Fail the run when a required job was cancelled or failed	  "test": {
+31481: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+31482: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31483: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31484: Pipeline Status	Fail the run when a required job was cancelled or failed	  "session-publication": {
+31485: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+31486: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31487: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31488: Pipeline Status	Fail the run when a required job was cancelled or failed	  "docker-build": {
+31489: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+31490: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31491: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31492: Pipeline Status	Fail the run when a required job was cancelled or failed	  "docker-publish-config": {
+31493: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+31494: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31495: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31496: Pipeline Status	Fail the run when a required job was cancelled or failed	  "docker-publish-build": {
+31497: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+31498: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31499: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31500: Pipeline Status	Fail the run when a required job was cancelled or failed	  "validate-docs": {
+31501: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+31502: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31503: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31504: Pipeline Status	Fail the run when a required job was cancelled or failed	  "release-preflight": {
+31505: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+31506: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31507: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31508: Pipeline Status	Fail the run when a required job was cancelled or failed	  "release": {
+31509: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "failure",
+31510: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31511: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31512: Pipeline Status	Fail the run when a required job was cancelled or failed	  "instant-release": {
+31513: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+31514: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31515: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31516: Pipeline Status	Fail the run when a required job was cancelled or failed	  "docker-publish": {
+31517: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+31518: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31519: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+31520: Pipeline Status	Fail the run when a required job was cancelled or failed	  "changeset-pr": {
+31521: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+31522: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+31523: Pipeline Status	Fail the run when a required job was cancelled or failed	  }
+31524: Pipeline Status	Fail the run when a required job was cancelled or failed	}
+31525: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.4525731Z   RUN_SHA: c5b61aa68a3507927237cd2f348205650d1e9442
+31526: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.4526298Z   BRANCH_NAME: main
+31527: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.4526524Z ##[endgroup]
+31528: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.5213723Z Failed jobs:    release
+31529: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.5214173Z Cancelled jobs: <none>
+31530: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.5230654Z ##[error]Failing jobs: release
+31531: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:03:57.5243184Z ##[error]Process completed with exit code 1.

@@ -111,10 +111,13 @@ export default [
     },
   },
   {
-    // Public-policy review dates are configuration data.
+    // Sanitizer fixtures contain policy dates and multilingual sample text.
     files: ['tests/sanitizer*.test.js', 'examples/sanitize-session.mjs'],
     rules: {
-      'local/no-changelog-comments': ['warn', { allowDatesInStrings: true }],
+      'local/no-changelog-comments': [
+        'warn',
+        { allowDatesInStrings: true, allow: ['пере' + 'несена'] },
+      ],
     },
   },
   {
@@ -129,8 +132,18 @@ export default [
     },
   },
   {
+    files: ['experiments/**/*.mjs'],
+    rules: {
+      'local/no-changelog-comments': [
+        'warn',
+        { allowDatesInStrings: true, allow: ['пере' + 'несена'] },
+      ],
+    },
+  },
+  {
     ignores: [
       'node_modules/**',
+      'dev/log/**',
       '**/node_modules/**',
       'coverage/**',
       'dist/**',

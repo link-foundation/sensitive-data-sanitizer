@@ -1,4 +1,5 @@
-name: Shipped code and pipeline scripts
+name: Shipped code and pipeline
 paths-ignore:
   - experiments
-  - examples
+  - docs/case-studies
+  - dev/log

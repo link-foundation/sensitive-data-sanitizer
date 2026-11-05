@@ -20,6 +20,7 @@ on:
           - instant
           - changeset-pr
       bump_type:
+        default: 'patch'
         description: 'Manual release type'
         required: true
         type: choice
@@ -61,14 +62,14 @@ jobs:
       actions: read
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-detect-changes
-      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+      cancel-in-progress: true
     if: github.event_name != 'workflow_dispatch'
     outputs:
       js-changed: ${{ steps.changes.outputs.js-changed }}
       docs-changed: ${{ steps.changes.outputs.docs-changed }}
       any-code-changed: ${{ steps.changes.outputs.any-code-changed }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -94,16 +95,21 @@ jobs:
     timeout-minutes: 5
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-test-compilation
-      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+      cancel-in-progress: true
     needs: [detect-changes]
     if: |
-      needs.detect-changes.outputs.js-changed == 'true'
+      !cancelled() &&
+      (needs.detect-changes.outputs.js-changed == 'true' || github.event_name == 'workflow_dispatch')
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
-      - name: Check .mjs syntax
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+
+      - name: Check JavaScript syntax
         run: bash scripts/check-mjs-syntax.sh
 
   # Enforce 1500-line limit on .mjs files and release.yml
@@ -114,13 +120,14 @@ jobs:
     timeout-minutes: 5
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-check-file-line-limits
-      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+      cancel-in-progress: true
     needs: [detect-changes]
     if: |
-      needs.detect-changes.outputs.docs-changed == 'true' ||
-      needs.detect-changes.outputs.any-code-changed == 'true'
+      !cancelled() &&
+      (needs.detect-changes.outputs.docs-changed == 'true' ||
+       needs.detect-changes.outputs.any-code-changed == 'true' || github.event_name == 'workflow_dispatch')
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -143,13 +150,14 @@ jobs:
     timeout-minutes: 5
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-session-publication
-      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+      cancel-in-progress: true
     needs: [detect-changes]
     if: |
-      needs.detect-changes.outputs.any-code-changed == 'true' ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.release_mode == 'instant')
+      !cancelled() &&
+      (needs.detect-changes.outputs.any-code-changed == 'true' ||
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.release_mode == 'instant'))
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -158,7 +166,7 @@ jobs:
         env:
           BASE_REF: ${{ github.base_ref }}
         run: bash scripts/simulate-fresh-merge.sh
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: '24.x'
       - name: Install corpus dependencies
@@ -175,10 +183,10 @@ jobs:
     timeout-minutes: 5
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-version-check
-      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+      cancel-in-progress: true
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -186,6 +194,7 @@ jobs:
       - name: Check for version changes in package.json
         env:
           GITHUB_HEAD_REF: ${{ github.head_ref }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
           GITHUB_BASE_REF: ${{ github.base_ref }}
           GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
@@ -197,26 +206,26 @@ jobs:
   changeset-check:
     name: Check for Changesets
     runs-on: ubuntu-24.04
-    # Typical run: <30s including npm install. 10min covers cold runners.
+    # Typical run: <30s including dependency installation. 10min covers cold runners.
     timeout-minutes: 10
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-changeset-check
-      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+      cancel-in-progress: true
     needs: [detect-changes]
     if: github.event_name == 'pull_request' && needs.detect-changes.outputs.any-code-changed == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '24.x'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Check for changesets
         env:
@@ -224,6 +233,7 @@ jobs:
           GITHUB_BASE_REF: ${{ github.base_ref }}
           GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GITHUB_HEAD_REF: ${{ github.head_ref }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
           GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           RELEASE_PR_ACTOR: ${{ vars.RELEASE_PR_ACTOR }}
         run: |
@@ -245,7 +255,7 @@ jobs:
     timeout-minutes: 10
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-lint
-      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+      cancel-in-progress: true
     needs: [detect-changes]
     if: |
       !cancelled() &&
@@ -255,7 +265,7 @@ jobs:
         needs.detect-changes.outputs.any-code-changed == 'true'
       )
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           # For PRs, fetch enough history to merge with base branch
           fetch-depth: 0
@@ -268,15 +278,30 @@ jobs:
         run: bash scripts/simulate-fresh-merge.sh
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '24.x'
 
+      - name: Check for secrets
+        run: npx --yes -p secretlint@13.0.7 -p @secretlint/secretlint-rule-preset-recommend@13.0.7 secretlint "**/*"
+
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Dry-run release versioning (PR only)
+        if: github.event_name == 'pull_request'
+        env:
+          npm_config_offline: 'true'
+          npm_config_ignore_scripts: 'true'
+        run: |
+          trap 'git restore --source=HEAD --staged --worktree -- .' EXIT
+          npm run changeset:version
+          git status --short
 
       - name: Run ESLint
-        run: npm run lint
+        env:
+          LINT_ALL_WARNINGS: '1'
+        run: npm run lint:all -- --max-warnings 0
 
       - name: Check formatting
         run: npm run format:check
@@ -284,15 +309,12 @@ jobs:
       - name: Check code duplication
         run: npm run check:duplication
 
-      - name: Check for secrets
-        run: npm run check:secrets
-
   # Test matrix: 3 runtimes (Node.js, Bun, Deno) x 3 OS (Ubuntu, macOS, Windows)
   # IMPORTANT: Tests must validate the ACTUAL merge result, not a stale merge preview.
   # See docs/case-studies/issue-23 for why this is critical.
   # Fast-fail: slow test matrix only runs after fast checks pass (hive-mind principle #5)
   test:
-    name: Test (${{ matrix.runtime }} on ${{ matrix.os }}, shard ${{ matrix.shard }})
+    name: Test runtimes
     env:
       TEST_SHARD: ${{ matrix.shard }}
     runs-on: ${{ matrix.os }}
@@ -305,7 +327,7 @@ jobs:
     timeout-minutes: 15
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.runtime }}-${{ matrix.os }}-${{ matrix.shard }}
-      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+      cancel-in-progress: true
     needs:
       [
         detect-changes,
@@ -337,20 +359,34 @@ jobs:
         os: [ubuntu-24.04, windows-2025]
         runtime: [node, bun, deno]
         shard: ['1/1']
+        exclude:
+          - { os: windows-2025, runtime: bun, shard: '1/1' }
+          - { os: windows-2025, runtime: deno, shard: '1/1' }
         # Intel runners avoid ARM64 capacity failures. Partition the suite so
         # each job retains its existing execution budget on the slower pool.
+        # Windows Bun runs subprocess fixtures serially and Deno initializes
+        # a separate worker graph per file. Partition both within their budgets.
         include:
+          - { os: windows-2025, runtime: bun, shard: '1/3' }
+          - { os: windows-2025, runtime: bun, shard: '2/3' }
+          - { os: windows-2025, runtime: bun, shard: '3/3' }
+          - { os: windows-2025, runtime: deno, shard: '1/3' }
+          - { os: windows-2025, runtime: deno, shard: '2/3' }
+          - { os: windows-2025, runtime: deno, shard: '3/3' }
           - { os: macos-26-intel, runtime: node, shard: '1/3' }
           - { os: macos-26-intel, runtime: node, shard: '2/3' }
           - { os: macos-26-intel, runtime: node, shard: '3/3' }
           - { os: macos-26-intel, runtime: bun, shard: '1/3' }
           - { os: macos-26-intel, runtime: bun, shard: '2/3' }
           - { os: macos-26-intel, runtime: bun, shard: '3/3' }
-          - { os: macos-26-intel, runtime: deno, shard: '1/3' }
-          - { os: macos-26-intel, runtime: deno, shard: '2/3' }
-          - { os: macos-26-intel, runtime: deno, shard: '3/3' }
+          # Four stripes separate the expensive API, Git guard and change
+          # discovery fixtures, which otherwise share one cold-runner budget.
+          - { os: macos-26-intel, runtime: deno, shard: '1/4' }
+          - { os: macos-26-intel, runtime: deno, shard: '2/4' }
+          - { os: macos-26-intel, runtime: deno, shard: '3/4' }
+          - { os: macos-26-intel, runtime: deno, shard: '4/4' }
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           # For PRs, fetch enough history to merge with base branch
           fetch-depth: 0
@@ -364,14 +400,12 @@ jobs:
         run: bash scripts/simulate-fresh-merge.sh
 
       - name: Setup Node.js
-        if: matrix.runtime == 'node'
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '24.x'
 
       - name: Install dependencies (Node.js)
-        if: matrix.runtime == 'node'
-        run: npm install
+        run: npm ci
 
       - name: Run tests (Node.js)
         if: matrix.runtime == 'node'
@@ -391,10 +425,6 @@ jobs:
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version: '1.x'
-
-      - name: Install dependencies (Bun)
-        if: matrix.runtime == 'bun'
-        run: bun install
 
       - name: Run tests (Bun)
         if: matrix.runtime == 'bun'
@@ -417,7 +447,7 @@ jobs:
         shell: bash
         # Cold npm downloads previously consumed the test execution budget.
         # Bound dependency preparation separately, as for Node and Bun installs.
-        run: bash scripts/run-with-budget-warning.sh 120 "Deno dependency preparation" deno cache tests/*.test.js
+        run: deno test -A --parallel --no-run --frozen
 
       - name: Run tests (Deno)
         if: matrix.runtime == 'deno'
@@ -437,7 +467,7 @@ jobs:
     timeout-minutes: 30
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-docker-build
-      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+      cancel-in-progress: true
     needs: [detect-changes]
     if: github.event_name == 'pull_request' && needs.detect-changes.outputs.any-code-changed == 'true'
     permissions:
@@ -446,7 +476,7 @@ jobs:
       DOCKER_CONTEXT: ${{ vars.DOCKER_CONTEXT }}
       DOCKERFILE: ${{ vars.DOCKERFILE }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -489,12 +519,12 @@ jobs:
     timeout-minutes: 5
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-validate-docs
-      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+      cancel-in-progress: true
     needs: [detect-changes]
     if: |
       needs.detect-changes.outputs.docs-changed == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -528,7 +558,7 @@ jobs:
       # finding.
       id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -569,10 +599,11 @@ jobs:
         release-preflight,
       ]
     # Registry verification can take over 15 minutes after a successful publish.
-    timeout-minutes: 50
+    timeout-minutes: 65
     concurrency:
       group: main-writer-${{ github.repository }}-main
       cancel-in-progress: false
+      queue: max
     # Use !cancelled() instead of always() so cancellation propagates correctly (hive-mind issue #1278)
     # This is needed because lint/test jobs have a transitive dependency on changeset-check
     if: |
@@ -600,13 +631,13 @@ jobs:
       # `git push origin main` to publish the version bump, which needs the
       # token wired into the remote. Every other checkout in this
       # repository sets persist-credentials: false.
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: true
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '24.x'
           registry-url: 'https://registry.npmjs.org'
@@ -623,7 +654,7 @@ jobs:
         run: node scripts/check-package-manager.mjs
 
       - name: Install dependencies
-        run: bash scripts/run-with-budget-warning.sh 240 "Release dependency install" npm install
+        run: bash scripts/run-with-budget-warning.sh 240 "Release dependency install" npm ci
 
       - name: Update npm for OIDC trusted publishing
         run: node scripts/setup-npm.mjs
@@ -673,7 +704,7 @@ jobs:
         # See issue #77.
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: bash scripts/run-with-budget-warning.sh 1200 "npm publish and registry verification" node scripts/publish-to-npm.mjs --should-pull
+        run: bash scripts/run-with-budget-warning.sh 1800 "npm publish and registry verification" node scripts/publish-to-npm.mjs --should-pull
 
       - name: Smoke-test published npm package
         if: steps.publish.outputs.published == 'true'
@@ -722,6 +753,7 @@ jobs:
       !cancelled() &&
       github.event_name == 'workflow_dispatch' &&
       github.event.inputs.release_mode == 'instant' &&
+      github.ref == 'refs/heads/main' &&
       needs.release-preflight.result == 'success' &&
       needs.lint.result == 'success' &&
       needs.test.result == 'success' &&
@@ -729,10 +761,11 @@ jobs:
       !contains(needs.*.result, 'cancelled')
     runs-on: ubuntu-24.04
     # Same publish envelope as the automated release path.
-    timeout-minutes: 50
+    timeout-minutes: 65
     concurrency:
       group: main-writer-${{ github.repository }}-main
       cancel-in-progress: false
+      queue: max
     # Permissions required for npm OIDC trusted publishing
     permissions:
       contents: write
@@ -748,13 +781,13 @@ jobs:
       # commit to main, which needs the token wired into the remote.
       # Every other checkout in this repository sets
       # persist-credentials: false.
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: true
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '24.x'
           registry-url: 'https://registry.npmjs.org'
@@ -763,7 +796,7 @@ jobs:
         run: node scripts/sanitize-npm-userconfig.mjs
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Update npm for OIDC trusted publishing
         run: node scripts/setup-npm.mjs
@@ -787,7 +820,7 @@ jobs:
         # when the secret is unset. See the release job above for details (#77).
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: bash scripts/run-with-budget-warning.sh 1200 "npm publish and registry verification" node scripts/publish-to-npm.mjs
+        run: bash scripts/run-with-budget-warning.sh 1800 "npm publish and registry verification" node scripts/publish-to-npm.mjs
 
       - name: Smoke-test published npm package
         if: steps.publish.outputs.published == 'true'
@@ -818,10 +851,11 @@ jobs:
   docker-publish-config:
     name: Configure Docker Hub Publish
     needs: [release, instant-release, release-preflight]
-    timeout-minutes: 30
+    timeout-minutes: 45
     concurrency:
       group: main-writer-${{ github.repository }}-main
       cancel-in-progress: false
+      queue: max
     if: |
       !cancelled() &&
       needs.release-preflight.result == 'success' &&
@@ -846,7 +880,7 @@ jobs:
       DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
       RELEASE_VERSION: ${{ needs.release.outputs.published_version || needs.instant-release.outputs.published_version }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -864,12 +898,12 @@ jobs:
         if: steps.docker_config.outputs.enabled == 'true'
         env:
           VERSION: ${{ env.RELEASE_VERSION }}
-        run: bash scripts/run-with-budget-warning.sh 1100 "Docker npm availability wait" node scripts/wait-for-npm.mjs --release-version "${VERSION}"
+        run: bash scripts/run-with-budget-warning.sh 1800 "Docker npm availability wait" node scripts/wait-for-npm.mjs --release-version "${VERSION}"
 
   # Build each architecture on a native runner. Each build is pushed by digest;
   # docker-publish combines those immutable digests into the release tags.
   docker-publish-build:
-    name: Build Docker Image (${{ matrix.platform }})
+    name: Build Docker Image
     needs: [docker-publish-config]
     if: needs.docker-publish-config.outputs.enabled == 'true'
     timeout-minutes: 30
@@ -885,7 +919,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -912,7 +946,7 @@ jobs:
           touch "/tmp/digests/${DIGEST#sha256:}"
 
       - name: Upload image digest
-        uses: actions/upload-artifact@v7
+        uses: ./.github/actions/artifact-transport
         with:
           name: docker-digest-${{ strategy.job-index }}
           path: /tmp/digests/*
@@ -927,11 +961,12 @@ jobs:
     concurrency:
       group: main-writer-${{ github.repository }}-main
       cancel-in-progress: false
+      queue: max
     runs-on: ubuntu-24.04
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -945,13 +980,13 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Download image digests
-        uses: actions/download-artifact@v8
+        uses: ./.github/actions/artifact-transport
         env:
-          NODE_OPTIONS: --disable-warning=DEP0005
+          NODE_OPTIONS: --pending-deprecation --throw-deprecation
         with:
           path: /tmp/digests
           pattern: docker-digest-*
-          merge-multiple: true
+          mode: download
 
       - name: Create multi-architecture manifest
         working-directory: /tmp/digests
@@ -1005,12 +1040,13 @@ jobs:
     concurrency:
       group: main-writer-${{ github.repository }}-main
       cancel-in-progress: false
+      queue: max
     permissions:
       contents: read
     steps:
       # peter-evans/create-pull-request receives the dedicated token directly;
       # dependency installation does not need a credential in .git/config.
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -1025,12 +1061,12 @@ jobs:
           fi
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '24.x'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Create changeset file
         env:
@@ -1041,7 +1077,7 @@ jobs:
       - name: Format changeset with Prettier
         run: |
           # Run Prettier on the changeset file to ensure it matches project style
-          npx prettier --write ".changeset/*.md" || true
+          npx prettier --write ".changeset/*.md"
 
           echo "Formatted changeset files"
 
@@ -1068,8 +1104,8 @@ jobs:
             ### Next Steps
             1. Review the changeset in this PR
             2. Merge this PR to main
-            3. The automated release workflow will create a version PR
-            4. Merge the version PR to publish to npm and create a GitHub release
+            3. The automated release workflow will validate and commit version metadata
+            4. It will publish to npm and create a GitHub release after the metadata push succeeds
 
   # GitHub reports jobs killed by timeout-minutes as cancelled rather than
   # failed. Observe every job and excuse only cancellations that the tested
@@ -1080,7 +1116,7 @@ jobs:
     timeout-minutes: 5
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-pipeline-status
-      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+      cancel-in-progress: true
     if: >-
       !cancelled()
     needs:
@@ -1101,13 +1137,16 @@ jobs:
       - instant-release
       - docker-publish
       - changeset-pr
+    permissions:
+      actions: read
+      contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '24.x'
 
@@ -1115,5 +1154,6 @@ jobs:
         env:
           NEEDS_JSON: ${{ toJSON(needs) }}
           RUN_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+          GH_TOKEN: ${{ github.token }}
+          HEAD_REF: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/head', github.event.number) || github.ref }}
         run: bash scripts/check-pipeline-status.sh

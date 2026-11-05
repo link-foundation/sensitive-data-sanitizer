@@ -1,3 +1,4 @@
+import { itUnless, nodeCliUnavailable } from './helpers/skip.js';
 import { describe, it, expect } from 'test-anywhere';
 import { boundedProbe } from './bounded-probe.js';
 import {
@@ -44,16 +45,16 @@ async function stream(input, options) {
   return output;
 }
 describe('issue 32 name and identity regressions', () => {
-  it('bounds document-name guards on a finite hostile tab suffix', async () => {
-    if (typeof Deno !== 'undefined') {
-      return;
+  itUnless(nodeCliUnavailable)(
+    'bounds document-name guards on a finite hostile tab suffix',
+    async () => {
+      const probe = await boundedProbe(
+        'experiments/issue-32/document-whitespace.mjs'
+      );
+      expect(probe.bytes > 128 * 1024).toBe(true);
+      expect(probe.milliseconds < 1000).toBe(true);
     }
-    const probe = await boundedProbe(
-      'experiments/issue-32/document-whitespace.mjs'
-    );
-    expect(probe.bytes > 128 * 1024).toBe(true);
-    expect(probe.milliseconds < 1000).toBe(true);
-  });
+  );
   for (const input of [...filenames, ...pairs]) {
     it(`protects ${input}`, async () => {
       expect(sanitize(input).redactions > 0).toBe(true);

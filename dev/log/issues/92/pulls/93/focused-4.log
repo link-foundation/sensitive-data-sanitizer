@@ -1,0 +1,100 @@
+▶ CI timeout policy
+  ✖ sets timeout-minutes for every release workflow job (7.592613ms)
+  ✔ sets timeout-minutes for every link workflow job (0.655614ms)
+  ✔ parses workflow files checked out with Windows line endings (0.304999ms)
+  ✔ caps individual Node.js and Bun tests at 30 seconds (0.853994ms)
+  ✔ documents that the Bun flag bounds a test and not the suite (1.352935ms)
+✖ CI timeout policy (14.029991ms)
+▶ CI execution budgets
+  ✔ lets publish and Docker waits complete their default propagation window (9.711045ms)
+  ✔ keeps every declared step budget under the job backstop (20.680346ms)
+  ✔ warns at the same share of the budget that the invariant allows (0.826061ms)
+✔ CI execution budgets (32.00546ms)
+▶ step budget grouping
+  ✔ sums exclusive matrix legs as alternatives, not as a sequence (0.831971ms)
+  ✔ still fails when a single leg exceeds the allowance (0.730983ms)
+  ✔ adds unconditional budgets to the largest conditional group (0.256307ms)
+  ✔ resolves a "$VAR" budget from the step, job, or workflow env (0.43932ms)
+  ✔ reports a budget it cannot read and never skips one silently (0.195705ms)
+✔ step budget grouping (3.508114ms)
+▶ issue 92 whitespace scanning
+  ✔ bounds the booking CodeQL witness (412.814387ms)
+  ✔ bounds the ticket CodeQL witness (367.330306ms)
+  ✔ bounds the visa CodeQL witness (392.325519ms)
+  ✔ bounds the postal CodeQL witness (396.369472ms)
+  ✔ preserves travel values after " " (13.474445ms)
+  ✔ preserves travel values after "\t" (3.245013ms)
+  ✔ preserves travel values after ":" (0.673757ms)
+  ✔ preserves travel values after " : " (5.628258ms)
+  ✔ preserves travel values after "=" (0.469836ms)
+  ✔ preserves travel values after "：\t" (20.155608ms)
+  ✔ preserves city and postal code address extents (56.579409ms)
+✔ issue 92 whitespace scanning (1674.741903ms)
+▶ workflow concurrency policy
+  ✔ detects unsupported keys in a concurrency block (2.547802ms)
+  ✔ keeps every waiting main writer in the queue (6.559564ms)
+  ✔ uses only keys supported by GitHub Actions (5.294907ms)
+  ✔ uses job-level concurrency so stale checks cannot cancel active writers (12.398779ms)
+✔ workflow concurrency policy (30.045915ms)
+▶ workflow reliability policy
+  ✔ sets Git default branch config before checkout initializes repositories (1.431079ms)
+  ✔ excludes Vite source HTML from raw lychee file scans (0.852911ms)
+  ✔ uploads preview regeneration artifacts when screenshot rendering fails (1.108819ms)
+  ✔ uses the official Playwright image for preview regeneration with browser downloads disabled (2.591995ms)
+✔ workflow reliability policy (7.398351ms)
+▶ workflow artifact and writer reliability
+  ✔ serializes main writers and retries generated pushes after rebasing (3.515879ms)
+  ✔ verifies desktop package output before uploading artifacts (1.045811ms)
+✔ workflow artifact and writer reliability (5.083722ms)
+▶ release workflow change gates
+  ✔ skips the slow test matrix for pull requests with no code changes (1.687728ms)
+  ✔ runs the slow test matrix for workflow changes after fast checks pass (1.415651ms)
+  ✔ skips test-compilation for excluded-only pushes (1.020734ms)
+  ✔ skips check-file-line-limits for excluded-only pushes (0.93778ms)
+  ✔ skips lint for excluded-only pushes (0.815602ms)
+  ✔ skips test for excluded-only pushes (0.594909ms)
+  ✔ skips validate-docs for excluded-only pushes (0.480256ms)
+✔ release workflow change gates (7.810328ms)
+▶ manual release quality gates
+  ✔ runs lint and tests before an instant manual release (2.268652ms)
+  ✔ blocks an instant manual release after either quality gate fails (0.759416ms)
+  ✔ waits for successful lint before creating a manual changeset PR (0.817626ms)
+  ✔ does not run instant-release after cancellation (0.397241ms)
+  ✔ does not run changeset-pr after cancellation (0.40771ms)
+✔ manual release quality gates (5.535796ms)
+▶ npm publish token bootstrap
+  ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the release publish step (0.367677ms)
+  ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the instant-release publish step (0.574782ms)
+✔ npm publish token bootstrap (1.131531ms)
+▶ npm user config cleanup
+  ✔ removes deprecated always-auth before npm commands in the release job (0.538264ms)
+  ✔ removes deprecated always-auth before npm commands in the instant-release job (0.421596ms)
+✔ npm user config cleanup (1.139757ms)
+▶ install-from-package smoke test
+  ✔ smoke-tests the published npm package in the release job (0.454958ms)
+  ✔ smoke-tests the published npm package in the instant-release job (0.258523ms)
+✔ install-from-package smoke test (0.893867ms)
+ℹ tests 52
+ℹ suites 12
+ℹ pass 51
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2085.208108
+
+✖ failing tests:
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sets timeout-minutes for every release workflow job (7.592613ms)
+  Error: Expected 45 to be 30
+      at Object.toBe (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:391:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/ci-timeouts.test.js:299:59)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at node:internal/test_runner/test:1903:71
+      at node:internal/per_context/primordials:505:82
+      at new Promise (<anonymous>)
+      at new SafePromise (node:internal/per_context/primordials:479:3)
+      at node:internal/per_context/primordials:505:9

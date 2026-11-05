@@ -1,3 +1,4 @@
+import { itUnless, nodeCliUnavailable } from './helpers/skip.js';
 import { describe, it, expect } from 'test-anywhere';
 import {
   mkdtemp,
@@ -185,42 +186,42 @@ describe('two-pass publication bounds and verification', () => {
 });
 
 describe('two-pass CLI publication', () => {
-  it('publishes earlier aliases from stdin with a completed registry', async () => {
-    if (typeof Deno !== 'undefined') {
-      return;
+  itUnless(nodeCliUnavailable)(
+    'publishes earlier aliases from stdin with a completed registry',
+    async () => {
+      const result = await cli(
+        ['redact', '-', '--native-only', '--stream', '--jsonl', '--two-pass'],
+        [
+          '{"text":"saved qazvela.pdf"}\n',
+          '{"text":"Applicant: Qazvela Zorveta"}\n',
+        ]
+      );
+      expect(result.status).toBe(0);
+      expect(result.errors).toBe('');
+      expect(result.output.toLowerCase().includes('qazvela')).toBe(false);
+      expect(result.output.trim().split('\n').map(JSON.parse).length).toBe(2);
     }
-    const result = await cli(
-      ['redact', '-', '--native-only', '--stream', '--jsonl', '--two-pass'],
-      [
-        '{"text":"saved qazvela.pdf"}\n',
-        '{"text":"Applicant: Qazvela Zorveta"}\n',
-      ]
-    );
-    expect(result.status).toBe(0);
-    expect(result.errors).toBe('');
-    expect(result.output.toLowerCase().includes('qazvela')).toBe(false);
-    expect(result.output.trim().split('\n').map(JSON.parse).length).toBe(2);
-  });
-  it('reports encoding locations and emits no partial stdout', async () => {
-    if (typeof Deno !== 'undefined') {
-      return;
+  );
+  itUnless(nodeCliUnavailable)(
+    'reports encoding locations and emits no partial stdout',
+    async () => {
+      const result = await cli(
+        ['redact', '-', '--native-only', '--stream', '--jsonl', '--two-pass'],
+        [
+          Buffer.concat([
+            Buffer.from('{}\n{"text":"'),
+            Buffer.from([0xff]),
+            Buffer.from('"}\n'),
+          ]),
+        ]
+      );
+      expect(result.status).toBe(2);
+      expect(result.output).toBe('');
+      expect(result.errors.includes('ERR_ENCODING; record 2, byte 12')).toBe(
+        true
+      );
     }
-    const result = await cli(
-      ['redact', '-', '--native-only', '--stream', '--jsonl', '--two-pass'],
-      [
-        Buffer.concat([
-          Buffer.from('{}\n{"text":"'),
-          Buffer.from([0xff]),
-          Buffer.from('"}\n'),
-        ]),
-      ]
-    );
-    expect(result.status).toBe(2);
-    expect(result.output).toBe('');
-    expect(result.errors.includes('ERR_ENCODING; record 2, byte 12')).toBe(
-      true
-    );
-  });
+  );
   it('requires --stream when --two-pass is requested', async () => {
     const result = await cli(['redact', '-', '--two-pass'], ['ordinary']);
     expect(result.status).toBe(2);

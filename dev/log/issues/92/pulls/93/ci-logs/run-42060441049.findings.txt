@@ -1,0 +1,19 @@
+479: Pipeline Status	Fail the run when a required job was cancelled or failed	﻿2026-11-05T15:59:12.4628707Z ##[group]Run bash scripts/check-pipeline-status.sh
+480: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T15:59:12.4629170Z ^[[36;1mbash scripts/check-pipeline-status.sh^[[0m
+481: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T15:59:12.4656239Z shell: /usr/bin/bash -e {0}
+482: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T15:59:12.4656510Z env:
+483: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T15:59:12.4656872Z   GIT_CONFIG_COUNT: 1
+484: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T15:59:12.4657087Z   GIT_CONFIG_KEY_0: init.defaultBranch
+485: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T15:59:12.4657328Z   GIT_CONFIG_VALUE_0: main
+486: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T15:59:12.4657643Z   NEEDS_JSON: {
+487: Pipeline Status	Fail the run when a required job was cancelled or failed	  "link-checker": {
+488: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+489: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+490: Pipeline Status	Fail the run when a required job was cancelled or failed	  }
+491: Pipeline Status	Fail the run when a required job was cancelled or failed	}
+492: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T15:59:12.4658008Z   RUN_SHA: c5b61aa68a3507927237cd2f348205650d1e9442
+493: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T15:59:12.4658256Z   BRANCH_NAME: main
+494: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T15:59:12.4658440Z ##[endgroup]
+495: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T15:59:12.5205276Z Failed jobs:    <none>
+496: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T15:59:12.5205678Z Cancelled jobs: <none>
+497: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T15:59:12.5206092Z All required jobs succeeded or were legitimately skipped.

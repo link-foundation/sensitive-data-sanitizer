@@ -1,0 +1,8 @@
+$ git rev-parse HEAD
+0ea2b5c5b2f9a48e704c7548a717886ce361ad38
+$ git fetch origin main
+From /tmp/issue-92-publish-e6aaa67f/origin
+ * branch            main       -> FETCH_HEAD
+$ git merge-base --is-ancestor 0ea2b5c5b2f9a48e704c7548a717886ce361ad38 origin/main
+after: validated=0ea2b5c5b2f9a48e704c7548a717886ce361ad38, publication=0ea2b5c5b2f9a48e704c7548a717886ce361ad38
+publication source: validated

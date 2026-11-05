@@ -1,0 +1,632 @@
+--- .github/workflows/release.yml	2026-11-05 16:10:33.300117996 +0000
++++ /tmp/issue-92-templates/js/.github/workflows/release.yml	2026-11-02 22:00:54.000000000 +0000
+@@ -21,6 +21,7 @@
+           - changeset-pr
+       bump_type:
+         description: 'Manual release type'
++        default: patch
+         required: true
+         type: choice
+         options:
+@@ -68,7 +69,7 @@
+       docs-changed: ${{ steps.changes.outputs.docs-changed }}
+       any-code-changed: ${{ steps.changes.outputs.any-code-changed }}
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           fetch-depth: 0
+           persist-credentials: false
+@@ -86,7 +87,7 @@
+   # === FAST CHECKS - run before slow tests for fastest feedback ===
+   # See: hive-mind CI/CD best practices principle #5 (fast-fail job ordering)
+ 
+-  # Syntax check all .mjs files with node --check (~7s)
++  # Syntax check every tracked JavaScript file recursively with node --check.
+   test-compilation:
+     name: Test Compilation
+     runs-on: ubuntu-24.04
+@@ -99,11 +100,16 @@
+     if: |
+       needs.detect-changes.outputs.js-changed == 'true'
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           persist-credentials: false
+ 
+-      - name: Check .mjs syntax
++      - name: Setup Node.js
++        uses: actions/setup-node@v7
++        with:
++          node-version: '24.x'
++
++      - name: Check tracked JavaScript syntax
+         run: bash scripts/check-mjs-syntax.sh
+ 
+   # Enforce 1500-line limit on .mjs files and release.yml
+@@ -120,7 +126,7 @@
+       needs.detect-changes.outputs.docs-changed == 'true' ||
+       needs.detect-changes.outputs.any-code-changed == 'true'
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           fetch-depth: 0
+           persist-credentials: false
+@@ -137,35 +143,6 @@
+       - name: Check file line limits
+         run: bash scripts/check-file-line-limits.sh
+ 
+-  session-publication:
+-    name: Session Publication Corpus
+-    runs-on: ubuntu-24.04
+-    timeout-minutes: 5
+-    concurrency:
+-      group: check-${{ github.workflow }}-${{ github.ref }}-session-publication
+-      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+-    needs: [detect-changes]
+-    if: |
+-      needs.detect-changes.outputs.any-code-changed == 'true' ||
+-      (github.event_name == 'workflow_dispatch' && github.event.inputs.release_mode == 'instant')
+-    steps:
+-      - uses: actions/checkout@v6
+-        with:
+-          fetch-depth: 0
+-          persist-credentials: false
+-      - name: Simulate fresh merge with base branch (PR only)
+-        if: github.event_name == 'pull_request'
+-        env:
+-          BASE_REF: ${{ github.base_ref }}
+-        run: bash scripts/simulate-fresh-merge.sh
+-      - uses: actions/setup-node@v6
+-        with:
+-          node-version: '24.x'
+-      - name: Install corpus dependencies
+-        run: npm ci
+-      - name: Publish Codex and Claude session corpus with zero residuals
+-        run: bash scripts/run-with-budget-warning.sh 120 "Session publication corpus" node --max-old-space-size=512 experiments/issue-34/session-corpus.mjs
+-
+   # === VERSION CHANGE CHECK ===
+   # Prohibit manual version changes in package.json - versions should only be changed by CI/CD
+   version-check:
+@@ -178,7 +155,7 @@
+       cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+     if: github.event_name == 'pull_request'
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           fetch-depth: 0
+           persist-credentials: false
+@@ -197,7 +174,7 @@
+   changeset-check:
+     name: Check for Changesets
+     runs-on: ubuntu-24.04
+-    # Typical run: <30s including npm install. 10min covers cold runners.
++    # Typical run: <30s including npm ci. 10min covers cold runners.
+     timeout-minutes: 10
+     concurrency:
+       group: check-${{ github.workflow }}-${{ github.ref }}-changeset-check
+@@ -205,18 +182,18 @@
+     needs: [detect-changes]
+     if: github.event_name == 'pull_request' && needs.detect-changes.outputs.any-code-changed == 'true'
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           fetch-depth: 0
+           persist-credentials: false
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v6
++        uses: actions/setup-node@v7
+         with:
+           node-version: '24.x'
+ 
+       - name: Install dependencies
+-        run: npm install
++        run: npm ci
+ 
+       - name: Check for changesets
+         env:
+@@ -226,6 +203,7 @@
+           GITHUB_HEAD_REF: ${{ github.head_ref }}
+           GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+           RELEASE_PR_ACTOR: ${{ vars.RELEASE_PR_ACTOR }}
++          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+         run: |
+           # Run changeset validation script
+           # This validates that exactly ONE changeset was ADDED by this PR
+@@ -255,7 +233,7 @@
+         needs.detect-changes.outputs.any-code-changed == 'true'
+       )
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           # For PRs, fetch enough history to merge with base branch
+           fetch-depth: 0
+@@ -268,14 +246,32 @@
+         run: bash scripts/simulate-fresh-merge.sh
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v6
++        uses: actions/setup-node@v7
+         with:
+           node-version: '24.x'
+ 
++      - name: Check for secrets
++        run: npx --yes -p secretlint@13.0.7 -p @secretlint/secretlint-rule-preset-recommend@13.0.7 secretlint "**/*"
++
+       - name: Install dependencies
+-        run: npm install
++        run: npm ci
++
++      # Exercise versioning without credentials, even if release-preflight fails.
++      # Restore consumed changesets and metadata on success or failure so lint
++      # checks the fresh merge rather than generated release files.
++      - name: Dry-run release versioning (PR only)
++        if: github.event_name == 'pull_request'
++        env:
++          npm_config_offline: 'true'
++          npm_config_ignore_scripts: 'true'
++        run: |
++          trap 'git restore --source=HEAD --staged --worktree -- .' EXIT
++          npm run changeset:version
++          git status --short
+ 
+       - name: Run ESLint
++        env:
++          LINT_ALL_WARNINGS: ${{ github.event_name != 'pull_request' && '1' || '0' }}
+         run: npm run lint
+ 
+       - name: Check formatting
+@@ -284,27 +280,22 @@
+       - name: Check code duplication
+         run: npm run check:duplication
+ 
+-      - name: Check for secrets
+-        run: npm run check:secrets
+-
+   # Test matrix: 3 runtimes (Node.js, Bun, Deno) x 3 OS (Ubuntu, macOS, Windows)
+   # IMPORTANT: Tests must validate the ACTUAL merge result, not a stale merge preview.
+   # See docs/case-studies/issue-23 for why this is critical.
+   # Fast-fail: slow test matrix only runs after fast checks pass (hive-mind principle #5)
+   test:
+-    name: Test (${{ matrix.runtime }} on ${{ matrix.os }}, shard ${{ matrix.shard }})
+-    env:
+-      TEST_SHARD: ${{ matrix.shard }}
++    name: Test runtimes
+     runs-on: ${{ matrix.os }}
+     # Typical run: <1min per runtime/OS on warm runners, with Windows
+     # sometimes slower on cold starts. Each test step owns an explicit
+     # budget below (see scripts/run-with-budget-warning.sh); this cap is
+     # only the backstop behind those budgets, sized so the budgets always
+     # expire first. A job killed by timeout-minutes reports *cancelled*,
+-    # which hides the failure -- see docs/legacy/CI-TIMEOUT-BUDGETS.md.
++    # which hides the failure -- see docs/CI-TIMEOUT-BUDGETS.md.
+     timeout-minutes: 15
+     concurrency:
+-      group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.runtime }}-${{ matrix.os }}-${{ matrix.shard }}
++      group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.runtime }}-${{ matrix.os }}
+       cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+     needs:
+       [
+@@ -334,23 +325,10 @@
+     strategy:
+       fail-fast: false
+       matrix:
+-        os: [ubuntu-24.04, windows-2025]
++        os: [ubuntu-24.04, macos-15, windows-2025]
+         runtime: [node, bun, deno]
+-        shard: ['1/1']
+-        # Intel runners avoid ARM64 capacity failures. Partition the suite so
+-        # each job retains its existing execution budget on the slower pool.
+-        include:
+-          - { os: macos-26-intel, runtime: node, shard: '1/3' }
+-          - { os: macos-26-intel, runtime: node, shard: '2/3' }
+-          - { os: macos-26-intel, runtime: node, shard: '3/3' }
+-          - { os: macos-26-intel, runtime: bun, shard: '1/3' }
+-          - { os: macos-26-intel, runtime: bun, shard: '2/3' }
+-          - { os: macos-26-intel, runtime: bun, shard: '3/3' }
+-          - { os: macos-26-intel, runtime: deno, shard: '1/3' }
+-          - { os: macos-26-intel, runtime: deno, shard: '2/3' }
+-          - { os: macos-26-intel, runtime: deno, shard: '3/3' }
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           # For PRs, fetch enough history to merge with base branch
+           fetch-depth: 0
+@@ -363,28 +341,25 @@
+         shell: bash
+         run: bash scripts/simulate-fresh-merge.sh
+ 
++      # Every runtime leg also exercises native Node fixtures (Changesets,
++      # pipeline scripts and the Pages adapter), so each leg pins Node 24 and
++      # installs the owning locks explicitly instead of relying on packages
++      # another runtime happened to resolve.
+       - name: Setup Node.js
+-        if: matrix.runtime == 'node'
+-        uses: actions/setup-node@v6
++        uses: actions/setup-node@v7
+         with:
+           node-version: '24.x'
+ 
+-      - name: Install dependencies (Node.js)
+-        if: matrix.runtime == 'node'
+-        run: npm install
++      - name: Install dependencies (runtime tests and native fixtures)
++        run: npm ci
++
++      - name: Install native CI adapter dependencies
++        run: npm ci --prefix .github/actions/artifact-transport --ignore-scripts --no-audit --no-fund
+ 
+       - name: Run tests (Node.js)
+         if: matrix.runtime == 'node'
+         shell: bash
+-        run: bash scripts/run-with-budget-warning.sh 300 "Node.js test suite" node scripts/run-test-shard.mjs node "$TEST_SHARD"
+-
+-      - name: Verify clone-only history rewrite with git-filter-repo
+-        if: matrix.runtime == 'node' && matrix.os == 'ubuntu-24.04'
+-        shell: bash
+-        run: |
+-          python3 -m venv "$RUNNER_TEMP/history-tools"
+-          bash scripts/run-with-budget-warning.sh 120 "Install history rewrite tool" "$RUNNER_TEMP/history-tools/bin/pip" install git-filter-repo==2.47.0
+-          GIT_FILTER_REPO="$RUNNER_TEMP/history-tools/bin/git-filter-repo" bash scripts/run-with-budget-warning.sh 60 "History rewrite integration" node --max-old-space-size=512 experiments/history-rewrite-integration.mjs
++        run: bash scripts/run-with-budget-warning.sh 300 "Node.js test suite" npm test
+ 
+       - name: Setup Bun
+         if: matrix.runtime == 'bun'
+@@ -392,10 +367,6 @@
+         with:
+           bun-version: '1.x'
+ 
+-      - name: Install dependencies (Bun)
+-        if: matrix.runtime == 'bun'
+-        run: bun install
+-
+       - name: Run tests (Bun)
+         if: matrix.runtime == 'bun'
+         shell: bash
+@@ -404,7 +375,7 @@
+         # It is a per-test bound and does not bound the suite: 25 tests of
+         # 29s each pass every per-test check. The suite budget below is
+         # what bounds the whole run.
+-        run: bash scripts/run-with-budget-warning.sh 200 "Bun test suite" node scripts/run-test-shard.mjs bun "$TEST_SHARD"
++        run: bash scripts/run-with-budget-warning.sh 200 "Bun test suite" bun test --timeout 30000
+ 
+       - name: Setup Deno
+         if: matrix.runtime == 'deno'
+@@ -412,17 +383,17 @@
+         with:
+           deno-version: v2.x
+ 
+-      - name: Prepare Deno dependencies
++      # Resolve Deno's own frozen module graph before the timed suite, as npm
++      # ci does for the other runtimes. --no-run executes no test assertions,
++      # so the 100s suite budget below still measures every acceptance test.
++      - name: Prepare Deno test dependencies
+         if: matrix.runtime == 'deno'
+-        shell: bash
+-        # Cold npm downloads previously consumed the test execution budget.
+-        # Bound dependency preparation separately, as for Node and Bun installs.
+-        run: bash scripts/run-with-budget-warning.sh 120 "Deno dependency preparation" deno cache tests/*.test.js
++        run: deno test -A --parallel --no-run --frozen
+ 
+       - name: Run tests (Deno)
+         if: matrix.runtime == 'deno'
+         shell: bash
+-        run: bash scripts/run-with-budget-warning.sh 100 "Deno test suite" node scripts/run-test-shard.mjs deno "$TEST_SHARD"
++        run: bash scripts/run-with-budget-warning.sh 100 "Deno test suite" deno test -A --parallel
+ 
+   # === DOCKER IMAGE BUILD CHECK (pull requests) ===
+   # Builds the Dockerfile without pushing so a broken image fails the pull
+@@ -446,7 +417,7 @@
+       DOCKER_CONTEXT: ${{ vars.DOCKER_CONTEXT }}
+       DOCKERFILE: ${{ vars.DOCKERFILE }}
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           persist-credentials: false
+ 
+@@ -494,7 +465,7 @@
+     if: |
+       needs.detect-changes.outputs.docs-changed == 'true'
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           persist-credentials: false
+ 
+@@ -528,7 +499,7 @@
+       # finding.
+       id-token: write
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           persist-credentials: false
+ 
+@@ -563,16 +534,17 @@
+         changeset-check,
+         lint,
+         test,
+-        session-publication,
+         docker-build,
+         validate-docs,
+         release-preflight,
+       ]
+-    # Registry verification can take over 15 minutes after a successful publish.
+-    timeout-minutes: 50
++    # The 25.5-minute propagation window fits within the publish step budget,
++    # with headroom for install/smoke steps under the 70% budget policy.
++    timeout-minutes: 65
+     concurrency:
+       group: main-writer-${{ github.repository }}-main
+       cancel-in-progress: false
++      queue: max
+     # Use !cancelled() instead of always() so cancellation propagates correctly (hive-mind issue #1278)
+     # This is needed because lint/test jobs have a transitive dependency on changeset-check
+     if: |
+@@ -600,13 +572,13 @@
+       # `git push origin main` to publish the version bump, which needs the
+       # token wired into the remote. Every other checkout in this
+       # repository sets persist-credentials: false.
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           persist-credentials: true
+           fetch-depth: 0
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v6
++        uses: actions/setup-node@v7
+         with:
+           node-version: '24.x'
+           registry-url: 'https://registry.npmjs.org'
+@@ -623,7 +595,7 @@
+         run: node scripts/check-package-manager.mjs
+ 
+       - name: Install dependencies
+-        run: bash scripts/run-with-budget-warning.sh 240 "Release dependency install" npm install
++        run: bash scripts/run-with-budget-warning.sh 240 "Release dependency install" npm ci
+ 
+       - name: Update npm for OIDC trusted publishing
+         run: node scripts/setup-npm.mjs
+@@ -673,7 +645,7 @@
+         # See issue #77.
+         env:
+           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+-        run: bash scripts/run-with-budget-warning.sh 1200 "npm publish and registry verification" node scripts/publish-to-npm.mjs --should-pull
++        run: bash scripts/run-with-budget-warning.sh 1800 "npm publish and registry verification" node scripts/publish-to-npm.mjs --should-pull
+ 
+       - name: Smoke-test published npm package
+         if: steps.publish.outputs.published == 'true'
+@@ -713,7 +685,6 @@
+         changeset-check,
+         lint,
+         test,
+-        session-publication,
+         docker-build,
+         validate-docs,
+         release-preflight,
+@@ -729,10 +700,11 @@
+       !contains(needs.*.result, 'cancelled')
+     runs-on: ubuntu-24.04
+     # Same publish envelope as the automated release path.
+-    timeout-minutes: 50
++    timeout-minutes: 65
+     concurrency:
+       group: main-writer-${{ github.repository }}-main
+       cancel-in-progress: false
++      queue: max
+     # Permissions required for npm OIDC trusted publishing
+     permissions:
+       contents: write
+@@ -748,13 +720,13 @@
+       # commit to main, which needs the token wired into the remote.
+       # Every other checkout in this repository sets
+       # persist-credentials: false.
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           persist-credentials: true
+           fetch-depth: 0
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v6
++        uses: actions/setup-node@v7
+         with:
+           node-version: '24.x'
+           registry-url: 'https://registry.npmjs.org'
+@@ -763,7 +735,7 @@
+         run: node scripts/sanitize-npm-userconfig.mjs
+ 
+       - name: Install dependencies
+-        run: npm install
++        run: npm ci
+ 
+       - name: Update npm for OIDC trusted publishing
+         run: node scripts/setup-npm.mjs
+@@ -787,7 +759,7 @@
+         # when the secret is unset. See the release job above for details (#77).
+         env:
+           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+-        run: bash scripts/run-with-budget-warning.sh 1200 "npm publish and registry verification" node scripts/publish-to-npm.mjs
++        run: bash scripts/run-with-budget-warning.sh 1800 "npm publish and registry verification" node scripts/publish-to-npm.mjs
+ 
+       - name: Smoke-test published npm package
+         if: steps.publish.outputs.published == 'true'
+@@ -818,10 +790,11 @@
+   docker-publish-config:
+     name: Configure Docker Hub Publish
+     needs: [release, instant-release, release-preflight]
+-    timeout-minutes: 30
++    timeout-minutes: 45
+     concurrency:
+       group: main-writer-${{ github.repository }}-main
+       cancel-in-progress: false
++      queue: max
+     if: |
+       !cancelled() &&
+       needs.release-preflight.result == 'success' &&
+@@ -846,7 +819,7 @@
+       DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
+       RELEASE_VERSION: ${{ needs.release.outputs.published_version || needs.instant-release.outputs.published_version }}
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           persist-credentials: false
+ 
+@@ -864,12 +837,12 @@
+         if: steps.docker_config.outputs.enabled == 'true'
+         env:
+           VERSION: ${{ env.RELEASE_VERSION }}
+-        run: bash scripts/run-with-budget-warning.sh 1100 "Docker npm availability wait" node scripts/wait-for-npm.mjs --release-version "${VERSION}"
++        run: bash scripts/run-with-budget-warning.sh 1800 "Docker npm availability wait" node scripts/wait-for-npm.mjs --release-version "${VERSION}"
+ 
+   # Build each architecture on a native runner. Each build is pushed by digest;
+   # docker-publish combines those immutable digests into the release tags.
+   docker-publish-build:
+-    name: Build Docker Image (${{ matrix.platform }})
++    name: Build Docker Image
+     needs: [docker-publish-config]
+     if: needs.docker-publish-config.outputs.enabled == 'true'
+     timeout-minutes: 30
+@@ -885,14 +858,14 @@
+     permissions:
+       contents: read
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           persist-credentials: false
+ 
+       - name: Build and push platform image by digest
+         id: build
+         # Step-level budget below the job's timeout-minutes backstop; see
+-        # docs/legacy/CI-TIMEOUT-BUDGETS.md.
++        # docs/CI-TIMEOUT-BUDGETS.md.
+         timeout-minutes: 20
+         uses: ./.github/actions/publish-dockerhub
+         with:
+@@ -912,7 +885,7 @@
+           touch "/tmp/digests/${DIGEST#sha256:}"
+ 
+       - name: Upload image digest
+-        uses: actions/upload-artifact@v7
++        uses: ./.github/actions/artifact-transport
+         with:
+           name: docker-digest-${{ strategy.job-index }}
+           path: /tmp/digests/*
+@@ -927,11 +900,12 @@
+     concurrency:
+       group: main-writer-${{ github.repository }}-main
+       cancel-in-progress: false
++      queue: max
+     runs-on: ubuntu-24.04
+     permissions:
+       contents: read
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           persist-credentials: false
+ 
+@@ -945,13 +919,13 @@
+           password: ${{ secrets.DOCKERHUB_TOKEN }}
+ 
+       - name: Download image digests
+-        uses: actions/download-artifact@v8
++        uses: ./.github/actions/artifact-transport
+         env:
+-          NODE_OPTIONS: --disable-warning=DEP0005
++          NODE_OPTIONS: --pending-deprecation --throw-deprecation
+         with:
+           path: /tmp/digests
+           pattern: docker-digest-*
+-          merge-multiple: true
++          mode: download
+ 
+       - name: Create multi-architecture manifest
+         working-directory: /tmp/digests
+@@ -1005,12 +979,13 @@
+     concurrency:
+       group: main-writer-${{ github.repository }}-main
+       cancel-in-progress: false
++      queue: max
+     permissions:
+       contents: read
+     steps:
+       # peter-evans/create-pull-request receives the dedicated token directly;
+       # dependency installation does not need a credential in .git/config.
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           persist-credentials: false
+           fetch-depth: 0
+@@ -1025,12 +1000,12 @@
+           fi
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v6
++        uses: actions/setup-node@v7
+         with:
+           node-version: '24.x'
+ 
+       - name: Install dependencies
+-        run: npm install
++        run: npm ci
+ 
+       - name: Create changeset file
+         env:
+@@ -1041,7 +1016,7 @@
+       - name: Format changeset with Prettier
+         run: |
+           # Run Prettier on the changeset file to ensure it matches project style
+-          npx prettier --write ".changeset/*.md" || true
++          npx prettier --write ".changeset/*.md"
+ 
+           echo "Formatted changeset files"
+ 
+@@ -1091,7 +1066,6 @@
+       - changeset-check
+       - lint
+       - test
+-      - session-publication
+       - docker-build
+       - docker-publish-config
+       - docker-publish-build
+@@ -1101,19 +1075,25 @@
+       - instant-release
+       - docker-publish
+       - changeset-pr
++    # actions: read lets the gate list this run's jobs and name the ones
++    # GitHub never acquired a runner for.
++    permissions:
++      actions: read
++      contents: read
+     steps:
+-      - uses: actions/checkout@v6
++      - uses: actions/checkout@v7
+         with:
+           persist-credentials: false
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v6
++        uses: actions/setup-node@v7
+         with:
+           node-version: '24.x'
+ 
+       - name: Fail the run when a required job was cancelled or failed
+         env:
+           NEEDS_JSON: ${{ toJSON(needs) }}
++          GH_TOKEN: ${{ github.token }}
+           RUN_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+-          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
++          HEAD_REF: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/head', github.event.number) || github.ref }}
+         run: bash scripts/check-pipeline-status.sh

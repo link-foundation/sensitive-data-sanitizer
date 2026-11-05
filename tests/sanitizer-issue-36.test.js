@@ -1,3 +1,4 @@
+import { itUnless, sandboxed } from './helpers/skip.js';
 import { describe, it, expect } from 'test-anywhere';
 import assert from 'node:assert/strict';
 import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
@@ -38,76 +39,70 @@ describe('issue 36 public session reproductions', () => {
       expect(await engine.inspect(result.text)).toEqual([]);
     });
     for (const workers of [1]) {
-      it(`publishes ${fixture.name} across two-pass batches (${workers} workers)`, async () => {
-        if (
-          typeof Deno !== 'undefined' &&
-          (await Deno.permissions.query({ name: 'write', path: tmpdir() }))
-            .state !== 'granted'
-        ) {
-          return;
+      itUnless(sandboxed)(
+        `publishes ${fixture.name} across two-pass batches (${workers} workers)`,
+        async () => {
+          const directory = await mkdtemp(join(tmpdir(), 'issue-36-'));
+          try {
+            const target = join(directory, 'published.jsonl');
+            await sanitizeStreamToFile(
+              fixture.records.map((record) => jsonl([record])),
+              target,
+              {
+                ...publication,
+                twoPass: true,
+                workers,
+                batchBytes: 1,
+              }
+            );
+            const text = await readFile(target, 'utf8');
+            verify(
+              input,
+              { text, redactions: text.includes('[REDACTED]') ? 1 : 0 },
+              fixture
+            );
+            expect(await createSanitizer(publication).inspect(text)).toEqual(
+              []
+            );
+            expect(await readdir(directory)).toEqual(['published.jsonl']);
+          } finally {
+            await rm(directory, { recursive: true, force: true });
+          }
         }
-        const directory = await mkdtemp(join(tmpdir(), 'issue-36-'));
-        try {
-          const target = join(directory, 'published.jsonl');
-          await sanitizeStreamToFile(
-            fixture.records.map((record) => jsonl([record])),
-            target,
-            {
-              ...publication,
-              twoPass: true,
-              workers,
-              batchBytes: 1,
-            }
-          );
-          const text = await readFile(target, 'utf8');
-          verify(
-            input,
-            { text, redactions: text.includes('[REDACTED]') ? 1 : 0 },
-            fixture
-          );
-          expect(await createSanitizer(publication).inspect(text)).toEqual([]);
-          expect(await readdir(directory)).toEqual(['published.jsonl']);
-        } finally {
-          await rm(directory, { recursive: true, force: true });
-        }
-      });
+      );
     }
   }
-  it('publishes the complete reproductions with four ordered workers', async () => {
-    if (
-      typeof Deno !== 'undefined' &&
-      (await Deno.permissions.query({ name: 'write', path: tmpdir() }))
-        .state !== 'granted'
-    ) {
-      return;
-    }
-    const directory = await mkdtemp(join(tmpdir(), 'issue-36-workers-'));
-    try {
-      const target = join(directory, 'published.jsonl');
-      const records = issue36Cases.flatMap((fixture) => fixture.records);
-      await sanitizeStreamToFile(
-        records.map((record) => jsonl([record])),
-        target,
-        { ...publication, twoPass: true, workers: 4, batchBytes: 1 }
-      );
-      const text = await readFile(target, 'utf8');
-      const lines = text.trim().split('\n');
-      let offset = 0;
-      for (const fixture of issue36Cases) {
-        const output = `${lines.slice(offset, offset + fixture.records.length).join('\n')}\n`;
-        verify(
-          jsonl(fixture.records),
-          { text: output, redactions: output.includes('[REDACTED]') ? 1 : 0 },
-          fixture
+  itUnless(sandboxed)(
+    'publishes the complete reproductions with four ordered workers',
+    async () => {
+      const directory = await mkdtemp(join(tmpdir(), 'issue-36-workers-'));
+      try {
+        const target = join(directory, 'published.jsonl');
+        const records = issue36Cases.flatMap((fixture) => fixture.records);
+        await sanitizeStreamToFile(
+          records.map((record) => jsonl([record])),
+          target,
+          { ...publication, twoPass: true, workers: 4, batchBytes: 1 }
         );
-        offset += fixture.records.length;
+        const text = await readFile(target, 'utf8');
+        const lines = text.trim().split('\n');
+        let offset = 0;
+        for (const fixture of issue36Cases) {
+          const output = `${lines.slice(offset, offset + fixture.records.length).join('\n')}\n`;
+          verify(
+            jsonl(fixture.records),
+            { text: output, redactions: output.includes('[REDACTED]') ? 1 : 0 },
+            fixture
+          );
+          offset += fixture.records.length;
+        }
+        expect(lines.length).toBe(records.length);
+        expect(await createSanitizer(publication).inspect(text)).toEqual([]);
+      } finally {
+        await rm(directory, { recursive: true, force: true });
       }
-      expect(lines.length).toBe(records.length);
-      expect(await createSanitizer(publication).inspect(text)).toEqual([]);
-    } finally {
-      await rm(directory, { recursive: true, force: true });
     }
-  });
+  );
 });
 
 describe('issue 36 label boundaries', () => {

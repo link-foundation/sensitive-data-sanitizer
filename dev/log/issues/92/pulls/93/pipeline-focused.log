@@ -1,0 +1,1311 @@
+▶ bounded artifact SDK retries
+  ✔ recovers from ENOTFOUND and reconciles a lost finalize response (2.676342ms)
+  ✔ recovers from EAI_AGAIN and reconciles a lost finalize response (0.532244ms)
+  ✔ recovers from ECONNRESET and reconciles a lost finalize response (0.293517ms)
+  ✔ recovers from ETIMEDOUT and reconciles a lost finalize response (0.850847ms)
+  ✔ recovers from ECONNREFUSED and reconciles a lost finalize response (0.446743ms)
+  ✔ recovers from EHOSTUNREACH and reconciles a lost finalize response (1.487625ms)
+  ✔ fails after three transient attempts, including retries of reconciliation (4.740763ms)
+  ✔ immediately refuses denied (0.599809ms)
+  ✔ immediately refuses HTTP 401 (1.809936ms)
+  ✔ immediately refuses HTTP 409 (0.64264ms)
+  ✔ immediately refuses Artifact storage quota exceeded (0.26798ms)
+  ✔ immediately refuses invalid request (0.178483ms)
+✔ bounded artifact SDK retries (17.466238ms)
+▶ artifact evidence and downloads
+  ✔ rejects empty evidence and malformed successful responses (0.446402ms)
+  ✔ continues when retry reconciliation confirms absence (0.367405ms)
+  ✔ retries downloads by immutable ID and refuses missing required artifacts (0.648379ms)
+  ✔ passes the recorded upload digest so the SDK verifies downloads (0.936577ms)
+✔ artifact evidence and downloads (2.714103ms)
+▶ artifact transport integration requirement
+  ✔ keeps symlink discovery and required link reports wired through the action (0.60037ms)
+  ✖ retries every maintained upload and Pages packaging without ignoring failure (0.742745ms)
+✖ artifact transport integration requirement (1.606246ms)
+▶ CI timeout policy
+  ✖ sets timeout-minutes for every release workflow job (2.814028ms)
+  ✔ sets timeout-minutes for every link workflow job (1.144866ms)
+  ✔ parses workflow files checked out with Windows line endings (0.653418ms)
+  ✖ caps individual Node.js and Bun tests at 30 seconds (2.697502ms)
+  ✔ documents that the Bun flag bounds a test and not the suite (1.495559ms)
+✖ CI timeout policy (11.518204ms)
+▶ CI execution budgets
+  ✔ lets publish and Docker waits complete their default propagation window (6.324818ms)
+  ✖ keeps every declared step budget under the job backstop (17.336227ms)
+  ✔ warns at the same share of the budget that the invariant allows (0.548803ms)
+✖ CI execution budgets (24.941182ms)
+▶ step budget grouping
+  ✔ sums exclusive matrix legs as alternatives, not as a sequence (4.465318ms)
+  ✔ still fails when a single leg exceeds the allowance (0.825018ms)
+  ✔ adds unconditional budgets to the largest conditional group (0.238474ms)
+  ✔ resolves a "$VAR" budget from the step, job, or workflow env (0.472742ms)
+  ✔ reports a budget it cannot read and never skips one silently (0.268681ms)
+✔ step budget grouping (6.915711ms)
+▶ deploy-pages: creating the deployment
+  ✔ retries an HTTP 500 and publishes the same artifact once (5.815998ms)
+  ✔ retries HTTP 429 and network failures too (2.676433ms)
+  ✔ fails a permanent 4xx at once, naming the status and request ID (6.522927ms)
+  ✔ gives up after the bounded number of transient failures (1.62976ms)
+  ✔ adopts a deployment whose creation response was lost (2.262721ms)
+  ✔ creates a new deployment when the earlier one of this commit failed (0.569021ms)
+  ✔ refuses a missing artifact ID before calling the API (0.486157ms)
+✔ deploy-pages: creating the deployment (23.631419ms)
+▶ deploy-pages: waiting for the deployment
+  ✔ fails the step on every final failed state (2.281746ms)
+  ✔ cancels the deployment after too many errors reading its status (1.466236ms)
+  ✔ cancels and fails at once on a permanent error reading the status (1.040571ms)
+  ✔ cancels a deployment that does not finish in time (0.764515ms)
+  ✔ reports which deployment it created so a cancelled job can cancel it (0.31129ms)
+✔ deploy-pages: waiting for the deployment (7.137153ms)
+▶ deploy-pages: GitHub clients
+  ✔ keeps request IDs out of the message and in the description (0.811504ms)
+  ✔ classifies only 429, 5xx, timeouts and network failures as transient (0.674869ms)
+  ✔ sends the GitHub headers and raises HTTP errors with their request ID (60.589244ms)
+  ✔ requests the OIDC token like core.getIDToken (1.668812ms)
+  ✔ reports a failure as one encoded error annotation (0.256658ms)
+✔ deploy-pages: GitHub clients (64.514137ms)
+▶ deprecated packages
+  ✔ package-lock.json has no deprecated packages (6.024167ms)
+  ✔ .github/actions/artifact-transport/package-lock.json has no deprecated packages (5.927546ms)
+  ✔ examples/universal-app/package-lock.json has no deprecated packages (4.256269ms)
+  ✖ covers every committed npm lockfile (14.301547ms)
+✖ deprecated packages (33.732901ms)
+▶ issue 262 repository regressions
+  ✔ runs the pinned secrets scan after Node setup and before installation (1.971557ms)
+  ✔ checks workflows without a composite actions directory (236.871098ms)
+  ✖ loads release dependencies from the lockfile without downloaded eval (17.493319ms)
+  ✖ enforces LF for every tracked shell script and hook (23.47616ms)
+✖ issue 262 repository regressions (282.542186ms)
+▶ complete pipeline requirements
+  ✔ queues every writer without cancellation (4.338123ms)
+  ✔ uses only the narrow documented actionlint schema exception (0.515642ms)
+  ✔ provides defaults for required dispatch inputs (0.701569ms)
+  ✔ checks the Dependabot author and enforces warnings on main (2.757263ms)
+  ✔ persists the link cache and uploads the report on failure (0.42348ms)
+  ✔ gives skipped matrix jobs static names (2.043261ms)
+  ✔ deploys Pages without npm dependencies or hidden warnings (0.774444ms)
+  ✔ covers standalone scripts and hooks with pinned ShellCheck (1.802322ms)
+  ✔ declares a shell in every tracked script and hook (9.933427ms)
+  ✔ declares every ESLint configuration import (1.562454ms)
+✔ complete pipeline requirements (27.754571ms)
+▶ Dependabot changeset exemption
+  ✔ exempts the exact bot author before reading a diff (211.051426ms)
+  ✔ does not exempt a branch impersonating Dependabot (400.587022ms)
+✔ Dependabot changeset exemption (614.589704ms)
+▶ parsed version guard
+  ✔ accepts formatting with an unchanged version (235.182828ms)
+  ✔ rejects a changed version (265.46892ms)
+  ✔ fails when the base ref is unavailable (168.37771ms)
+  ✔ fails when the explicitly requested PR head is unavailable (294.955ms)
+  ✔ rejects a branch name impersonating release automation (340.897114ms)
+  ✔ rejects invalid JSON and missing versions (490.440802ms)
+  ✔ checks the JavaScript manifest in a multi-language repository (219.443021ms)
+  ✔ compares the PR manifest with its merge base (295.914559ms)
+✔ parsed version guard (2312.679401ms)
+▶ PR changeset validation
+  ✔ does not accept a base fragment when the CI comparison fails (195.949578ms)
+  ✔ requires an explicit opt-in to directory scanning locally (333.2552ms)
+  ✔ accepts exactly one added fragment and ignores existing ones (239.542159ms)
+  ✔ does not count an edited existing fragment (216.08202ms)
+  ✔ rejects multiple added fragments and malformed frontmatter (354.516358ms)
+✔ PR changeset validation (1340.170524ms)
+▶ PR changeset scope validation
+  ✔ exempts documentation-only changes (215.035429ms)
+  ✔ validates optional fragments in documentation-only PRs (387.447442ms)
+  ✔ requires a fragment for multi-language JS code and handles spaces in names (377.323107ms)
+  ✔ exempts unrelated language roots in a multi-language repository (299.800909ms)
+  ✔ counts PR fragments relative to the merge base (490.735262ms)
+✔ PR changeset scope validation (1771.014864ms)
+▶ exact changeset rename detection
+  ✔ does not count an unchanged pending fragment moved in . (387.967723ms)
+  ✔ does not count an unchanged pending fragment moved in js (428.158098ms)
+  ✔ counts a new fragment replacing a similar deleted one (269.058356ms)
+  ✔ requires a fragment when moving index.js to docs/moved.md (300.747033ms)
+  ✔ requires a fragment when moving docs/source.md to moved.js (321.398434ms)
+  ✔ parses NUL-separated rename paths without losing following additions (267.514054ms)
+✔ exact changeset rename detection (1975.973105ms)
+▶ trusted release PR identity
+  ✔ preserves the exemption for the same-repository release actor only (825.479107ms)
+  ✔ treats shell metacharacters in an unavailable ref as data (180.180064ms)
+✔ trusted release PR identity (1006.009966ms)
+▶ security workflow
+  ✔ runs on main pushes, pull requests, weekly schedules, and manual dispatches (1.992597ms)
+  ✔ analyzes JavaScript and GitHub Actions with CodeQL (0.822655ms)
+  ✔ rejects high-severity dependency changes only on pull requests (0.385238ms)
+  ✔ probes the graph on every event, requiring it outside PRs (0.686611ms)
+  ✔ fails closed on high-severity advisories in every npm lock (19.70801ms)
+  ✔ reports advisories below the gate and fails fixable ones weekly (0.790634ms)
+✔ security workflow (26.806241ms)
+✖ excludes historical experiments while scanning shipped examples (0.6865ms)
+▶ findConditionalRegistrations
+  ✔ flags swapped registrars and skipped suites (7.061872ms)
+  ✔ flags tests registered inside an if block (0.95411ms)
+  ✔ flags a describe callback that returns before registering (0.961343ms)
+  ✔ flags a test body that passes early on an environment check (1.07149ms)
+  ✔ leaves early returns on data and helper functions alone (0.533225ms)
+✔ findConditionalRegistrations (14.481512ms)
+▶ test registration
+  ✔ action-versions.test.js registers every test unconditionally (19.083596ms)
+  ✔ action-versions.test.js passes blank environment values to child fixtures (1.360838ms)
+  ✔ action-versions.test.js leaves the process working directory alone (2.228837ms)
+  ✔ archive-and-discovery.test.js registers every test unconditionally (1.324831ms)
+  ✔ archive-and-discovery.test.js passes blank environment values to child fixtures (0.84692ms)
+  ✔ archive-and-discovery.test.js leaves the process working directory alone (0.31182ms)
+  ✔ artifact-files.test.js registers every test unconditionally (0.693845ms)
+  ✔ artifact-files.test.js passes blank environment values to child fixtures (0.23025ms)
+  ✔ artifact-files.test.js leaves the process working directory alone (0.174496ms)
+  ✔ artifact-transport.test.js registers every test unconditionally (1.320013ms)
+  ✔ artifact-transport.test.js passes blank environment values to child fixtures (0.426715ms)
+  ✔ artifact-transport.test.js leaves the process working directory alone (0.21993ms)
+  ✔ bootstrap-dependencies.test.js registers every test unconditionally (2.608987ms)
+  ✔ bootstrap-dependencies.test.js passes blank environment values to child fixtures (0.285793ms)
+  ✔ bootstrap-dependencies.test.js leaves the process working directory alone (0.230059ms)
+  ✔ bot-commit-attribution.test.js registers every test unconditionally (0.234427ms)
+  ✔ bot-commit-attribution.test.js passes blank environment values to child fixtures (0.184725ms)
+  ✔ bot-commit-attribution.test.js leaves the process working directory alone (1.260601ms)
+  ✔ bounded-run.test.js registers every test unconditionally (1.123105ms)
+  ✔ bounded-run.test.js passes blank environment values to child fixtures (0.399265ms)
+  ✔ bounded-run.test.js leaves the process working directory alone (0.511935ms)
+  ✔ changeset-config.test.js registers every test unconditionally (0.373666ms)
+  ✔ changeset-config.test.js passes blank environment values to child fixtures (0.191387ms)
+  ✔ changeset-config.test.js leaves the process working directory alone (0.16065ms)
+  ✔ check-changesets.test.js registers every test unconditionally (6.549967ms)
+  ✔ check-changesets.test.js passes blank environment values to child fixtures (3.892351ms)
+  ✔ check-changesets.test.js leaves the process working directory alone (5.731841ms)
+  ✔ check-file-line-limits.test.js registers every test unconditionally (0.635074ms)
+  ✔ check-file-line-limits.test.js passes blank environment values to child fixtures (0.25751ms)
+  ✔ check-file-line-limits.test.js leaves the process working directory alone (0.152564ms)
+  ✔ check-pages.test.js registers every test unconditionally (0.193771ms)
+  ✔ check-pages.test.js passes blank environment values to child fixtures (0.745ms)
+  ✔ check-pages.test.js leaves the process working directory alone (0.205503ms)
+  ✔ check-release-needed.test.js registers every test unconditionally (0.330085ms)
+  ✔ check-release-needed.test.js passes blank environment values to child fixtures (0.13966ms)
+  ✔ check-release-needed.test.js leaves the process working directory alone (0.259824ms)
+  ✔ check-staged-formatting.test.js registers every test unconditionally (0.243603ms)
+  ✔ check-staged-formatting.test.js passes blank environment values to child fixtures (0.224489ms)
+  ✔ check-staged-formatting.test.js leaves the process working directory alone (0.161763ms)
+  ✔ check-web-archive.test.js registers every test unconditionally (1.110572ms)
+  ✔ check-web-archive.test.js passes blank environment values to child fixtures (0.389908ms)
+  ✔ check-web-archive.test.js leaves the process working directory alone (1.579667ms)
+  ✔ checkout-credentials.test.js registers every test unconditionally (2.137957ms)
+  ✔ checkout-credentials.test.js passes blank environment values to child fixtures (0.242141ms)
+  ✔ checkout-credentials.test.js leaves the process working directory alone (0.148156ms)
+  ✔ ci-audit-regressions.test.js registers every test unconditionally (0.31179ms)
+  ✔ ci-audit-regressions.test.js passes blank environment values to child fixtures (0.172521ms)
+  ✔ ci-audit-regressions.test.js leaves the process working directory alone (0.163305ms)
+  ✔ ci-timeouts.test.js registers every test unconditionally (0.609297ms)
+  ✔ ci-timeouts.test.js passes blank environment values to child fixtures (0.2413ms)
+  ✔ ci-timeouts.test.js leaves the process working directory alone (3.841195ms)
+  ✔ ci-workflow-policy.test.js registers every test unconditionally (0.350183ms)
+  ✔ ci-workflow-policy.test.js passes blank environment values to child fixtures (0.20379ms)
+  ✔ ci-workflow-policy.test.js leaves the process working directory alone (0.263803ms)
+  ✔ codeql-results.test.js registers every test unconditionally (0.520491ms)
+  ✔ codeql-results.test.js passes blank environment values to child fixtures (0.202808ms)
+  ✔ codeql-results.test.js leaves the process working directory alone (0.448737ms)
+  ✔ commit-message.test.js registers every test unconditionally (0.515382ms)
+  ✔ commit-message.test.js passes blank environment values to child fixtures (0.270745ms)
+  ✔ commit-message.test.js leaves the process working directory alone (0.191448ms)
+  ✔ container-jobs.test.js registers every test unconditionally (0.314056ms)
+  ✔ container-jobs.test.js passes blank environment values to child fixtures (0.202308ms)
+  ✔ container-jobs.test.js leaves the process working directory alone (0.360883ms)
+  ✔ create-github-release.test.js registers every test unconditionally (0.672074ms)
+  ✔ create-github-release.test.js passes blank environment values to child fixtures (0.211996ms)
+  ✔ create-github-release.test.js leaves the process working directory alone (0.147907ms)
+  ✔ debug-print.test.js registers every test unconditionally (0.25192ms)
+  ✔ debug-print.test.js passes blank environment values to child fixtures (0.173233ms)
+  ✔ debug-print.test.js leaves the process working directory alone (0.180828ms)
+  ✔ dependency-graph.test.js registers every test unconditionally (0.292485ms)
+  ✔ dependency-graph.test.js passes blank environment values to child fixtures (0.274642ms)
+  ✔ dependency-graph.test.js leaves the process working directory alone (0.27899ms)
+  ✔ deploy-pages.test.js registers every test unconditionally (0.372646ms)
+  ✔ deploy-pages.test.js passes blank environment values to child fixtures (0.194162ms)
+  ✔ deploy-pages.test.js leaves the process working directory alone (0.177231ms)
+  ✔ deprecated-packages.test.js registers every test unconditionally (0.212547ms)
+  ✔ deprecated-packages.test.js passes blank environment values to child fixtures (0.147906ms)
+  ✔ deprecated-packages.test.js leaves the process working directory alone (0.153698ms)
+  ✔ detect-code-changes.test.js registers every test unconditionally (0.588407ms)
+  ✔ detect-code-changes.test.js passes blank environment values to child fixtures (0.221202ms)
+  ✔ detect-code-changes.test.js leaves the process working directory alone (0.2039ms)
+  ✔ docker-build.test.js registers every test unconditionally (0.231582ms)
+  ✔ docker-build.test.js passes blank environment values to child fixtures (0.388715ms)
+  ✔ docker-build.test.js leaves the process working directory alone (0.253683ms)
+  ✔ docker-publish.test.js registers every test unconditionally (1.508283ms)
+  ✔ docker-publish.test.js passes blank environment values to child fixtures (0.296984ms)
+  ✔ docker-publish.test.js leaves the process working directory alone (0.201445ms)
+  ✔ github-actions-log.test.js registers every test unconditionally (0.239948ms)
+  ✔ github-actions-log.test.js passes blank environment values to child fixtures (0.192199ms)
+  ✔ github-actions-log.test.js leaves the process working directory alone (0.180015ms)
+  ✔ index.test.js registers every test unconditionally (0.22484ms)
+  ✔ index.test.js passes blank environment values to child fixtures (0.164648ms)
+  ✔ index.test.js leaves the process working directory alone (0.143418ms)
+  ✔ install-git-hooks.test.js registers every test unconditionally (0.18222ms)
+  ✔ install-git-hooks.test.js passes blank environment values to child fixtures (0.528575ms)
+  ✔ install-git-hooks.test.js leaves the process working directory alone (0.180997ms)
+  ✔ issue-228-regressions.test.js registers every test unconditionally (0.310109ms)
+  ✔ issue-228-regressions.test.js passes blank environment values to child fixtures (0.157343ms)
+  ✔ issue-228-regressions.test.js leaves the process working directory alone (0.164276ms)
+  ✔ issue-262-regressions.test.js registers every test unconditionally (0.190395ms)
+  ✔ issue-262-regressions.test.js passes blank environment values to child fixtures (0.15523ms)
+  ✔ issue-262-regressions.test.js leaves the process working directory alone (0.173123ms)
+  ✔ issue-92-push.test.js registers every test unconditionally (0.839445ms)
+  ✔ issue-92-push.test.js passes blank environment values to child fixtures (0.127207ms)
+  ✔ issue-92-push.test.js leaves the process working directory alone (0.105167ms)
+  ✔ issue-92-putty.test.js registers every test unconditionally (0.142216ms)
+  ✔ issue-92-putty.test.js passes blank environment values to child fixtures (0.101048ms)
+  ✔ issue-92-putty.test.js leaves the process working directory alone (0.104605ms)
+  ✔ land-via-pull-request.test.js registers every test unconditionally (0.332671ms)
+  ✔ land-via-pull-request.test.js passes blank environment values to child fixtures (0.17173ms)
+  ✔ land-via-pull-request.test.js leaves the process working directory alone (0.314677ms)
+  ✔ links-workflow.test.js registers every test unconditionally (0.247401ms)
+  ✔ links-workflow.test.js passes blank environment values to child fixtures (0.150621ms)
+  ✔ links-workflow.test.js leaves the process working directory alone (0.119091ms)
+  ✔ lint-changed-lines.test.js registers every test unconditionally (0.182701ms)
+  ✔ lint-changed-lines.test.js passes blank environment values to child fixtures (0.118ms)
+  ✔ lint-changed-lines.test.js leaves the process working directory alone (0.190265ms)
+  ✔ merge-changesets.test.js registers every test unconditionally (0.196407ms)
+  ✔ merge-changesets.test.js passes blank environment values to child fixtures (0.135042ms)
+  ✔ merge-changesets.test.js leaves the process working directory alone (0.134921ms)
+  ✔ network-skip-reason.test.js registers every test unconditionally (0.230099ms)
+  ✔ network-skip-reason.test.js passes blank environment values to child fixtures (0.165148ms)
+  ✔ network-skip-reason.test.js leaves the process working directory alone (0.150831ms)
+  ✔ no-changelog-comments.test.js registers every test unconditionally (0.180867ms)
+  ✔ no-changelog-comments.test.js passes blank environment values to child fixtures (0.169857ms)
+  ✔ no-changelog-comments.test.js leaves the process working directory alone (0.178935ms)
+  ✔ npm-audit-report.test.js registers every test unconditionally (0.644463ms)
+  ✔ npm-audit-report.test.js passes blank environment values to child fixtures (0.149689ms)
+  ✔ npm-audit-report.test.js leaves the process working directory alone (0.152684ms)
+  ✔ npm-registry.test.js registers every test unconditionally (10.595113ms)
+  ✔ npm-registry.test.js passes blank environment values to child fixtures (1.411083ms)
+  ✔ npm-registry.test.js leaves the process working directory alone (11.22674ms)
+  ✔ package-info.test.js registers every test unconditionally (0.547061ms)
+  ✔ package-info.test.js passes blank environment values to child fixtures (0.186297ms)
+  ✔ package-info.test.js leaves the process working directory alone (0.278479ms)
+  ✔ package-manager.test.js registers every test unconditionally (0.367415ms)
+  ✔ package-manager.test.js passes blank environment values to child fixtures (0.198861ms)
+  ✔ package-manager.test.js leaves the process working directory alone (0.150471ms)
+  ✖ package-metadata.test.js registers every test unconditionally (1.930261ms)
+  ✔ package-metadata.test.js passes blank environment values to child fixtures (1.964243ms)
+  ✔ package-metadata.test.js leaves the process working directory alone (0.317973ms)
+  ✔ pages-configuration.test.js registers every test unconditionally (0.168333ms)
+  ✔ pages-configuration.test.js passes blank environment values to child fixtures (0.120335ms)
+  ✔ pages-configuration.test.js leaves the process working directory alone (0.240559ms)
+  ✔ pipeline-requirements.test.js registers every test unconditionally (0.360422ms)
+  ✔ pipeline-requirements.test.js passes blank environment values to child fixtures (0.25672ms)
+  ✔ pipeline-requirements.test.js leaves the process working directory alone (0.213879ms)
+  ✔ pipeline-status.test.js registers every test unconditionally (1.822019ms)
+  ✔ pipeline-status.test.js passes blank environment values to child fixtures (0.470268ms)
+  ✔ pipeline-status.test.js leaves the process working directory alone (0.274712ms)
+  ✔ pr-guards.test.js registers every test unconditionally (0.486387ms)
+  ✔ pr-guards.test.js passes blank environment values to child fixtures (0.323914ms)
+  ✔ pr-guards.test.js leaves the process working directory alone (0.21465ms)
+  ✔ publish-failure-classifier.test.js registers every test unconditionally (0.194663ms)
+  ✔ publish-failure-classifier.test.js passes blank environment values to child fixtures (0.854974ms)
+  ✔ publish-failure-classifier.test.js leaves the process working directory alone (0.323001ms)
+  ✔ publish-retry.test.js registers every test unconditionally (0.371773ms)
+  ✔ publish-retry.test.js passes blank environment values to child fixtures (0.311732ms)
+  ✔ publish-retry.test.js leaves the process working directory alone (0.212456ms)
+  ✔ push-failure-classifier.test.js registers every test unconditionally (0.318003ms)
+  ✔ push-failure-classifier.test.js passes blank environment values to child fixtures (0.613856ms)
+  ✔ push-failure-classifier.test.js leaves the process working directory alone (0.165729ms)
+  ✔ push-main-with-rebase-retry.test.js registers every test unconditionally (0.379848ms)
+  ✔ push-main-with-rebase-retry.test.js passes blank environment values to child fixtures (0.376232ms)
+  ✔ push-main-with-rebase-retry.test.js leaves the process working directory alone (0.211675ms)
+  ✔ recheck-broken-links.test.js registers every test unconditionally (0.365052ms)
+  ✔ recheck-broken-links.test.js passes blank environment values to child fixtures (0.356425ms)
+  ✔ recheck-broken-links.test.js leaves the process working directory alone (0.178923ms)
+  ✔ release-api-integrity.test.js registers every test unconditionally (0.322741ms)
+  ✔ release-api-integrity.test.js passes blank environment values to child fixtures (0.309688ms)
+  ✔ release-api-integrity.test.js leaves the process working directory alone (1.803714ms)
+  ✔ release-badge.test.js registers every test unconditionally (0.978154ms)
+  ✔ release-badge.test.js passes blank environment values to child fixtures (0.282627ms)
+  ✔ release-badge.test.js leaves the process working directory alone (0.223698ms)
+  ✔ release-integrity.test.js registers every test unconditionally (0.68081ms)
+  ✔ release-integrity.test.js passes blank environment values to child fixtures (1.987487ms)
+  ✔ release-integrity.test.js leaves the process working directory alone (1.432503ms)
+  ✔ release-metadata.test.js registers every test unconditionally (0.645414ms)
+  ✔ release-metadata.test.js passes blank environment values to child fixtures (0.435351ms)
+  ✔ release-metadata.test.js leaves the process working directory alone (1.251314ms)
+  ✔ release-naming.test.js registers every test unconditionally (1.451246ms)
+  ✔ release-naming.test.js passes blank environment values to child fixtures (0.817284ms)
+  ✔ release-naming.test.js leaves the process working directory alone (0.174206ms)
+  ✔ release-notes-description.test.js registers every test unconditionally (0.194362ms)
+  ✔ release-notes-description.test.js passes blank environment values to child fixtures (0.169788ms)
+  ✔ release-notes-description.test.js leaves the process working directory alone (0.159898ms)
+  ✔ release-notes-integration.test.js registers every test unconditionally (0.392463ms)
+  ✔ release-notes-integration.test.js passes blank environment values to child fixtures (0.424521ms)
+  ✔ release-notes-integration.test.js leaves the process working directory alone (1.496241ms)
+  ✔ release-preflight.test.js registers every test unconditionally (1.518713ms)
+  ✔ release-preflight.test.js passes blank environment values to child fixtures (3.834662ms)
+  ✔ release-preflight.test.js leaves the process working directory alone (2.957126ms)
+  ✔ required-docs.test.js registers every test unconditionally (3.456047ms)
+  ✔ required-docs.test.js passes blank environment values to child fixtures (1.301778ms)
+  ✔ required-docs.test.js leaves the process working directory alone (0.630606ms)
+  ✔ rerun-unacquired.test.js registers every test unconditionally (1.122203ms)
+  ✔ rerun-unacquired.test.js passes blank environment values to child fixtures (0.168364ms)
+  ✔ rerun-unacquired.test.js leaves the process working directory alone (0.196777ms)
+  ✔ run-with-budget-warning.test.js registers every test unconditionally (0.32671ms)
+  ✔ run-with-budget-warning.test.js passes blank environment values to child fixtures (2.657427ms)
+  ✔ run-with-budget-warning.test.js leaves the process working directory alone (0.263032ms)
+  ✔ sanitize-npm-userconfig.test.js registers every test unconditionally (0.279592ms)
+  ✔ sanitize-npm-userconfig.test.js passes blank environment values to child fixtures (0.161662ms)
+  ✔ sanitize-npm-userconfig.test.js leaves the process working directory alone (0.14485ms)
+  ✔ sanitizer-benchmark.test.js registers every test unconditionally (0.180948ms)
+  ✔ sanitizer-benchmark.test.js passes blank environment values to child fixtures (0.137005ms)
+  ✔ sanitizer-benchmark.test.js leaves the process working directory alone (0.125955ms)
+  ✖ sanitizer-cli-features.test.js registers every test unconditionally (3.326635ms)
+  ✔ sanitizer-cli-features.test.js passes blank environment values to child fixtures (0.283519ms)
+  ✔ sanitizer-cli-features.test.js leaves the process working directory alone (0.121607ms)
+  ✖ sanitizer-cli.test.js registers every test unconditionally (3.002269ms)
+  ✔ sanitizer-cli.test.js passes blank environment values to child fixtures (0.965381ms)
+  ✔ sanitizer-cli.test.js leaves the process working directory alone (0.189013ms)
+  ✖ sanitizer-context.test.js registers every test unconditionally (0.274712ms)
+  ✔ sanitizer-context.test.js passes blank environment values to child fixtures (0.218727ms)
+  ✔ sanitizer-context.test.js leaves the process working directory alone (0.190035ms)
+  ✔ sanitizer-coverage.test.js registers every test unconditionally (0.323382ms)
+  ✔ sanitizer-coverage.test.js passes blank environment values to child fixtures (0.164096ms)
+  ✔ sanitizer-coverage.test.js leaves the process working directory alone (1.046242ms)
+  ✔ sanitizer-credential-formats.test.js registers every test unconditionally (0.430183ms)
+  ✔ sanitizer-credential-formats.test.js passes blank environment values to child fixtures (0.212817ms)
+  ✔ sanitizer-credential-formats.test.js leaves the process working directory alone (0.205734ms)
+  ✔ sanitizer-document-entities.test.js registers every test unconditionally (0.419813ms)
+  ✔ sanitizer-document-entities.test.js passes blank environment values to child fixtures (0.176729ms)
+  ✔ sanitizer-document-entities.test.js leaves the process working directory alone (0.235089ms)
+  ✔ sanitizer-escape-integrity.test.js registers every test unconditionally (0.581545ms)
+  ✔ sanitizer-escape-integrity.test.js passes blank environment values to child fixtures (0.185185ms)
+  ✔ sanitizer-escape-integrity.test.js leaves the process working directory alone (0.166631ms)
+  ✔ sanitizer-eslint.test.js registers every test unconditionally (0.175598ms)
+  ✔ sanitizer-eslint.test.js passes blank environment values to child fixtures (0.154098ms)
+  ✔ sanitizer-eslint.test.js leaves the process working directory alone (0.145682ms)
+  ✔ sanitizer-experience-lines.test.js registers every test unconditionally (0.291764ms)
+  ✔ sanitizer-experience-lines.test.js passes blank environment values to child fixtures (0.138738ms)
+  ✔ sanitizer-experience-lines.test.js leaves the process working directory alone (0.113882ms)
+  ✖ sanitizer-external.test.js registers every test unconditionally (0.271677ms)
+  ✔ sanitizer-external.test.js passes blank environment values to child fixtures (0.164948ms)
+  ✔ sanitizer-external.test.js leaves the process working directory alone (0.103343ms)
+  ✔ sanitizer-fake-identity.test.js registers every test unconditionally (0.174415ms)
+  ✔ sanitizer-fake-identity.test.js passes blank environment values to child fixtures (0.143659ms)
+  ✔ sanitizer-fake-identity.test.js leaves the process working directory alone (0.14448ms)
+  ✔ sanitizer-fake.test.js registers every test unconditionally (0.34825ms)
+  ✔ sanitizer-fake.test.js passes blank environment values to child fixtures (0.164427ms)
+  ✔ sanitizer-fake.test.js leaves the process working directory alone (0.157584ms)
+  ✔ sanitizer-gh-config.test.js registers every test unconditionally (0.15535ms)
+  ✔ sanitizer-gh-config.test.js passes blank environment values to child fixtures (0.16129ms)
+  ✔ sanitizer-gh-config.test.js leaves the process working directory alone (0.149217ms)
+  ✔ sanitizer-gitleaks-windows.test.js registers every test unconditionally (0.211194ms)
+  ✔ sanitizer-gitleaks-windows.test.js passes blank environment values to child fixtures (0.156091ms)
+  ✔ sanitizer-gitleaks-windows.test.js leaves the process working directory alone (0.292456ms)
+  ✔ sanitizer-identity-boundaries.test.js registers every test unconditionally (0.497949ms)
+  ✔ sanitizer-identity-boundaries.test.js passes blank environment values to child fixtures (0.272388ms)
+  ✔ sanitizer-identity-boundaries.test.js leaves the process working directory alone (0.145292ms)
+  ✔ sanitizer-identity.test.js registers every test unconditionally (0.241612ms)
+  ✔ sanitizer-identity.test.js passes blank environment values to child fixtures (0.129762ms)
+  ✔ sanitizer-identity.test.js leaves the process working directory alone (0.170889ms)
+  ✖ sanitizer-issue-32.test.js registers every test unconditionally (0.329926ms)
+  ✔ sanitizer-issue-32.test.js passes blank environment values to child fixtures (0.143719ms)
+  ✔ sanitizer-issue-32.test.js leaves the process working directory alone (0.120154ms)
+  ✖ sanitizer-issue-34.test.js registers every test unconditionally (0.362206ms)
+  ✔ sanitizer-issue-34.test.js passes blank environment values to child fixtures (0.138749ms)
+  ✔ sanitizer-issue-34.test.js leaves the process working directory alone (0.236942ms)
+  ✔ sanitizer-issue-36.test.js registers every test unconditionally (0.368457ms)
+  ✔ sanitizer-issue-36.test.js passes blank environment values to child fixtures (0.138549ms)
+  ✔ sanitizer-issue-36.test.js leaves the process working directory alone (0.137426ms)
+  ✔ sanitizer-issue-38.test.js registers every test unconditionally (0.209872ms)
+  ✔ sanitizer-issue-38.test.js passes blank environment values to child fixtures (0.119844ms)
+  ✔ sanitizer-issue-38.test.js leaves the process working directory alone (0.144169ms)
+  ✔ sanitizer-issue-45-46.test.js registers every test unconditionally (0.147736ms)
+  ✔ sanitizer-issue-45-46.test.js passes blank environment values to child fixtures (0.119223ms)
+  ✔ sanitizer-issue-45-46.test.js leaves the process working directory alone (0.111948ms)
+  ✖ sanitizer-issue-47.test.js registers every test unconditionally (0.250708ms)
+  ✔ sanitizer-issue-47.test.js passes blank environment values to child fixtures (0.148287ms)
+  ✔ sanitizer-issue-47.test.js leaves the process working directory alone (0.12301ms)
+  ✖ sanitizer-issue-50.test.js registers every test unconditionally (0.204802ms)
+  ✔ sanitizer-issue-50.test.js passes blank environment values to child fixtures (0.16635ms)
+  ✔ sanitizer-issue-50.test.js leaves the process working directory alone (0.168975ms)
+  ✔ sanitizer-issue-51.test.js registers every test unconditionally (0.187541ms)
+  ✔ sanitizer-issue-51.test.js passes blank environment values to child fixtures (0.224539ms)
+  ✔ sanitizer-issue-51.test.js leaves the process working directory alone (0.133029ms)
+  ✔ sanitizer-issue-65.test.js registers every test unconditionally (0.306611ms)
+  ✔ sanitizer-issue-65.test.js passes blank environment values to child fixtures (0.140302ms)
+  ✔ sanitizer-issue-65.test.js leaves the process working directory alone (0.141935ms)
+  ✔ sanitizer-issue-84.test.js registers every test unconditionally (0.221904ms)
+  ✔ sanitizer-issue-84.test.js passes blank environment values to child fixtures (0.274662ms)
+  ✔ sanitizer-issue-84.test.js leaves the process working directory alone (0.157293ms)
+  ✔ sanitizer-issue-89.test.js registers every test unconditionally (0.228375ms)
+  ✔ sanitizer-issue-89.test.js passes blank environment values to child fixtures (0.15035ms)
+  ✔ sanitizer-issue-89.test.js leaves the process working directory alone (0.162884ms)
+  ✔ sanitizer-json-string-runs.test.js registers every test unconditionally (0.171309ms)
+  ✔ sanitizer-json-string-runs.test.js passes blank environment values to child fixtures (0.130352ms)
+  ✔ sanitizer-json-string-runs.test.js leaves the process working directory alone (0.127848ms)
+  ✖ sanitizer-jsonl-stream.test.js registers every test unconditionally (0.264363ms)
+  ✔ sanitizer-jsonl-stream.test.js passes blank environment values to child fixtures (0.163054ms)
+  ✔ sanitizer-jsonl-stream.test.js leaves the process working directory alone (0.133809ms)
+  ✔ sanitizer-keywords.test.js registers every test unconditionally (0.149739ms)
+  ✔ sanitizer-keywords.test.js passes blank environment values to child fixtures (0.132437ms)
+  ✔ sanitizer-keywords.test.js leaves the process working directory alone (0.168955ms)
+  ✔ sanitizer-known-forms.test.js registers every test unconditionally (0.225952ms)
+  ✔ sanitizer-known-forms.test.js passes blank environment values to child fixtures (3.117445ms)
+  ✔ sanitizer-known-forms.test.js leaves the process working directory alone (0.292596ms)
+  ✔ sanitizer-locales.test.js registers every test unconditionally (0.197448ms)
+  ✔ sanitizer-locales.test.js passes blank environment values to child fixtures (0.157183ms)
+  ✔ sanitizer-locales.test.js leaves the process working directory alone (0.126375ms)
+  ✔ sanitizer-log-bytes.test.js registers every test unconditionally (0.168774ms)
+  ✔ sanitizer-log-bytes.test.js passes blank environment values to child fixtures (0.143739ms)
+  ✔ sanitizer-log-bytes.test.js leaves the process working directory alone (0.147896ms)
+  ✔ sanitizer-long-logs.test.js registers every test unconditionally (0.183131ms)
+  ✔ sanitizer-long-logs.test.js passes blank environment values to child fixtures (0.123269ms)
+  ✔ sanitizer-long-logs.test.js leaves the process working directory alone (0.109124ms)
+  ✖ sanitizer-outbound.test.js registers every test unconditionally (0.256297ms)
+  ✔ sanitizer-outbound.test.js passes blank environment values to child fixtures (0.126175ms)
+  ✔ sanitizer-outbound.test.js leaves the process working directory alone (0.193181ms)
+  ✖ sanitizer-placeholder-cli.test.js registers every test unconditionally (0.233906ms)
+  ✔ sanitizer-placeholder-cli.test.js passes blank environment values to child fixtures (0.133208ms)
+  ✔ sanitizer-placeholder-cli.test.js leaves the process working directory alone (0.124471ms)
+  ✔ sanitizer-placeholder-escaping.test.js registers every test unconditionally (0.173353ms)
+  ✔ sanitizer-placeholder-escaping.test.js passes blank environment values to child fixtures (0.233945ms)
+  ✔ sanitizer-placeholder-escaping.test.js leaves the process working directory alone (0.144861ms)
+  ✔ sanitizer-placeholder-residual.test.js registers every test unconditionally (0.183762ms)
+  ✔ sanitizer-placeholder-residual.test.js passes blank environment values to child fixtures (0.125204ms)
+  ✔ sanitizer-placeholder-residual.test.js leaves the process working directory alone (0.153707ms)
+  ✔ sanitizer-placeholders.test.js registers every test unconditionally (0.261848ms)
+  ✔ sanitizer-placeholders.test.js passes blank environment values to child fixtures (0.133518ms)
+  ✔ sanitizer-placeholders.test.js leaves the process working directory alone (0.126085ms)
+  ✔ sanitizer-reused-map-parts.test.js registers every test unconditionally (0.261387ms)
+  ✔ sanitizer-reused-map-parts.test.js passes blank environment values to child fixtures (0.169367ms)
+  ✔ sanitizer-reused-map-parts.test.js leaves the process working directory alone (0.162795ms)
+  ✔ sanitizer-review.test.js registers every test unconditionally (0.151753ms)
+  ✔ sanitizer-review.test.js passes blank environment values to child fixtures (0.140312ms)
+  ✔ sanitizer-review.test.js leaves the process working directory alone (0.175959ms)
+  ✖ sanitizer-rewrite.test.js registers every test unconditionally (0.231192ms)
+  ✔ sanitizer-rewrite.test.js passes blank environment values to child fixtures (0.121677ms)
+  ✔ sanitizer-rewrite.test.js leaves the process working directory alone (0.115685ms)
+  ✔ sanitizer-rules.test.js registers every test unconditionally (0.175117ms)
+  ✔ sanitizer-rules.test.js passes blank environment values to child fixtures (0.181559ms)
+  ✔ sanitizer-rules.test.js leaves the process working directory alone (0.151362ms)
+  ✖ sanitizer-session-identity.test.js registers every test unconditionally (0.523906ms)
+  ✔ sanitizer-session-identity.test.js passes blank environment values to child fixtures (0.208879ms)
+  ✔ sanitizer-session-identity.test.js leaves the process working directory alone (0.323894ms)
+  ✔ sanitizer-session-regressions.test.js registers every test unconditionally (0.231992ms)
+  ✔ sanitizer-session-regressions.test.js passes blank environment values to child fixtures (0.18206ms)
+  ✔ sanitizer-session-regressions.test.js leaves the process working directory alone (0.186387ms)
+  ✔ sanitizer-stream-identity.test.js registers every test unconditionally (0.354873ms)
+  ✔ sanitizer-stream-identity.test.js passes blank environment values to child fixtures (0.465919ms)
+  ✔ sanitizer-stream-identity.test.js leaves the process working directory alone (0.20908ms)
+  ✖ sanitizer-stream.test.js registers every test unconditionally (0.315489ms)
+  ✔ sanitizer-stream.test.js passes blank environment values to child fixtures (0.163835ms)
+  ✔ sanitizer-stream.test.js leaves the process working directory alone (0.148368ms)
+  ✔ sanitizer-tool-logs.test.js registers every test unconditionally (0.184916ms)
+  ✔ sanitizer-tool-logs.test.js passes blank environment values to child fixtures (0.114053ms)
+  ✔ sanitizer-tool-logs.test.js leaves the process working directory alone (0.138838ms)
+  ✔ sanitizer-transforms.test.js registers every test unconditionally (0.191196ms)
+  ✔ sanitizer-transforms.test.js passes blank environment values to child fixtures (0.133489ms)
+  ✔ sanitizer-transforms.test.js leaves the process working directory alone (0.118732ms)
+  ✖ sanitizer-two-pass.test.js registers every test unconditionally (0.269833ms)
+  ✔ sanitizer-two-pass.test.js passes blank environment values to child fixtures (0.174595ms)
+  ✔ sanitizer-two-pass.test.js leaves the process working directory alone (0.245677ms)
+  ✔ sanitizer.test.js registers every test unconditionally (0.179104ms)
+  ✔ sanitizer.test.js passes blank environment values to child fixtures (0.126186ms)
+  ✔ sanitizer.test.js leaves the process working directory alone (0.1286ms)
+  ✔ scripts-use-module-adoption.test.js registers every test unconditionally (0.222946ms)
+  ✔ scripts-use-module-adoption.test.js passes blank environment values to child fixtures (0.125574ms)
+  ✔ scripts-use-module-adoption.test.js leaves the process working directory alone (0.132357ms)
+  ✔ security-workflow.test.js registers every test unconditionally (0.186058ms)
+  ✔ security-workflow.test.js passes blank environment values to child fixtures (0.115736ms)
+  ✔ security-workflow.test.js leaves the process working directory alone (0.149219ms)
+  ✔ setup-buildx-resilient.test.js registers every test unconditionally (0.206284ms)
+  ✔ setup-buildx-resilient.test.js passes blank environment values to child fixtures (0.123691ms)
+  ✔ setup-buildx-resilient.test.js leaves the process working directory alone (0.133689ms)
+  ✔ setup-npm.test.js registers every test unconditionally (0.161321ms)
+  ✔ setup-npm.test.js passes blank environment values to child fixtures (0.152986ms)
+  ✔ setup-npm.test.js leaves the process working directory alone (0.313415ms)
+  ✔ simulate-fresh-merge.test.js registers every test unconditionally (0.18274ms)
+  ✔ simulate-fresh-merge.test.js passes blank environment values to child fixtures (0.139179ms)
+  ✔ simulate-fresh-merge.test.js leaves the process working directory alone (1.504095ms)
+  ✔ smoke-test-package.test.js registers every test unconditionally (0.257289ms)
+  ✔ smoke-test-package.test.js passes blank environment values to child fixtures (0.150711ms)
+  ✔ smoke-test-package.test.js leaves the process working directory alone (0.165087ms)
+  ✔ status-gate-coverage.test.js registers every test unconditionally (0.206265ms)
+  ✔ status-gate-coverage.test.js passes blank environment values to child fixtures (0.925387ms)
+  ✔ status-gate-coverage.test.js leaves the process working directory alone (0.197719ms)
+  ✔ tag-prefix.test.js registers every test unconditionally (0.165278ms)
+  ✔ tag-prefix.test.js passes blank environment values to child fixtures (1.20621ms)
+  ✔ tag-prefix.test.js leaves the process working directory alone (0.1825ms)
+  ✔ temp-cleanup.test.js registers every test unconditionally (0.247131ms)
+  ✔ temp-cleanup.test.js passes blank environment values to child fixtures (0.140933ms)
+  ✔ temp-cleanup.test.js leaves the process working directory alone (0.850817ms)
+  ✔ test-sharding.test.js registers every test unconditionally (0.149209ms)
+  ✔ test-sharding.test.js passes blank environment values to child fixtures (0.146223ms)
+  ✔ test-sharding.test.js leaves the process working directory alone (0.102771ms)
+  ✔ transient-links.test.js registers every test unconditionally (0.141665ms)
+  ✔ transient-links.test.js passes blank environment values to child fixtures (0.094366ms)
+  ✔ transient-links.test.js leaves the process working directory alone (0.148637ms)
+  ✔ universal-app.test.js registers every test unconditionally (0.258062ms)
+  ✔ universal-app.test.js passes blank environment values to child fixtures (0.442987ms)
+  ✔ universal-app.test.js leaves the process working directory alone (0.309688ms)
+  ✔ use-module-integration.test.js registers every test unconditionally (0.181128ms)
+  ✔ use-module-integration.test.js passes blank environment values to child fixtures (0.175929ms)
+  ✔ use-module-integration.test.js leaves the process working directory alone (0.135523ms)
+  ✔ use-module.test.js registers every test unconditionally (0.229328ms)
+  ✔ use-module.test.js passes blank environment values to child fixtures (0.16064ms)
+  ✔ use-module.test.js leaves the process working directory alone (0.147184ms)
+  ✔ version-and-commit.test.js registers every test unconditionally (0.158867ms)
+  ✔ version-and-commit.test.js passes blank environment values to child fixtures (0.158847ms)
+  ✔ version-and-commit.test.js leaves the process working directory alone (1.718877ms)
+  ✔ version-lock-integrity.test.js registers every test unconditionally (0.306251ms)
+  ✔ version-lock-integrity.test.js passes blank environment values to child fixtures (0.195004ms)
+  ✔ version-lock-integrity.test.js leaves the process working directory alone (0.13406ms)
+  ✔ version-lock-validation.test.js registers every test unconditionally (0.22014ms)
+  ✔ version-lock-validation.test.js passes blank environment values to child fixtures (0.134762ms)
+  ✔ version-lock-validation.test.js leaves the process working directory alone (0.205654ms)
+  ✔ visible-skips.test.js registers every test unconditionally (5.109139ms)
+  ✔ visible-skips.test.js passes blank environment values to child fixtures (6.177073ms)
+  ✔ visible-skips.test.js leaves the process working directory alone (0.260096ms)
+  ✔ wait-for-npm.test.js registers every test unconditionally (0.261017ms)
+  ✔ wait-for-npm.test.js passes blank environment values to child fixtures (0.122249ms)
+  ✔ wait-for-npm.test.js leaves the process working directory alone (0.113812ms)
+  ✔ wayback-cli.test.js registers every test unconditionally (0.243605ms)
+  ✔ wayback-cli.test.js passes blank environment values to child fixtures (0.115224ms)
+  ✔ wayback-cli.test.js leaves the process working directory alone (0.174906ms)
+  ✔ wayback-retry.test.js registers every test unconditionally (0.18771ms)
+  ✔ wayback-retry.test.js passes blank environment values to child fixtures (0.110796ms)
+  ✔ wayback-retry.test.js leaves the process working directory alone (0.101369ms)
+  ✔ workflow-permissions.test.js registers every test unconditionally (0.152704ms)
+  ✔ workflow-permissions.test.js passes blank environment values to child fixtures (0.105437ms)
+  ✔ workflow-permissions.test.js leaves the process working directory alone (0.129431ms)
+  ✔ workflow-reliability.test.js registers every test unconditionally (0.395598ms)
+  ✔ workflow-reliability.test.js passes blank environment values to child fixtures (0.143899ms)
+  ✔ workflow-reliability.test.js leaves the process working directory alone (0.136764ms)
+  ✔ workflows-lint.test.js registers every test unconditionally (0.24141ms)
+  ✔ workflows-lint.test.js passes blank environment values to child fixtures (0.122118ms)
+  ✔ workflows-lint.test.js leaves the process working directory alone (0.118392ms)
+✖ test registration (296.712177ms)
+▶ test file discovery
+  ✔ keeps test-named files inside tests/, so every runner runs the same set (5.30766ms)
+✔ test file discovery (5.513404ms)
+▶ Deno CI leg
+  ✖ grants the permissions required by fixture tests (2.014017ms)
+✖ Deno CI leg (2.165009ms)
+▶ skip helpers
+  ✔ lists the Deno permissions a run lacks (0.433919ms)
+  ✔ returns the plain registrar when no reason applies (0.193992ms)
+  ✔ returns a skipping registrar when a reason applies (0.130885ms)
+✔ skip helpers (0.939503ms)
+▶ fixture environment isolation
+  ✔ blanks selected values and preserves the parent environment (0.395618ms)
+✔ fixture environment isolation (0.492358ms)
+▶ workflow concurrency policy
+  ✔ detects unsupported keys in a concurrency block (3.262676ms)
+  ✔ keeps every waiting main writer in the queue (5.799729ms)
+  ✔ uses only keys supported by GitHub Actions (7.12488ms)
+  ✖ uses job-level concurrency so stale checks cannot cancel active writers (2.480557ms)
+✖ workflow concurrency policy (20.99953ms)
+▶ workflow reliability policy
+  ✔ sets Git default branch config before checkout initializes repositories (1.533661ms)
+  ✖ excludes Vite source HTML from raw lychee file scans (0.418441ms)
+  ✔ uploads preview regeneration artifacts when screenshot rendering fails (2.950794ms)
+  ✔ uses the official Playwright image for preview regeneration with browser downloads disabled (2.289831ms)
+✖ workflow reliability policy (8.294231ms)
+▶ workflow artifact and writer reliability
+  ✔ serializes main writers and retries generated pushes after rebasing (4.485838ms)
+  ✔ verifies desktop package output before uploading artifacts (2.141505ms)
+✔ workflow artifact and writer reliability (7.647514ms)
+▶ release workflow change gates
+  ✔ skips the slow test matrix for pull requests with no code changes (3.772797ms)
+  ✔ runs the slow test matrix for workflow changes after fast checks pass (0.903626ms)
+  ✔ skips test-compilation for excluded-only pushes (0.68585ms)
+  ✔ skips check-file-line-limits for excluded-only pushes (1.083581ms)
+  ✔ skips lint for excluded-only pushes (0.585291ms)
+  ✔ skips test for excluded-only pushes (0.881314ms)
+  ✔ skips validate-docs for excluded-only pushes (0.958789ms)
+✔ release workflow change gates (10.407603ms)
+▶ manual release quality gates
+  ✖ runs lint and tests before an instant manual release (1.99422ms)
+  ✖ blocks an instant manual release after either quality gate fails (1.49615ms)
+  ✔ waits for successful lint before creating a manual changeset PR (1.074035ms)
+  ✔ does not run instant-release after cancellation (0.660262ms)
+  ✔ does not run changeset-pr after cancellation (0.510652ms)
+✖ manual release quality gates (6.65307ms)
+▶ npm publish token bootstrap
+  ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the release publish step (2.359841ms)
+  ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the instant-release publish step (0.454708ms)
+✔ npm publish token bootstrap (3.280327ms)
+▶ npm user config cleanup
+  ✔ removes deprecated always-auth before npm commands in the release job (0.611169ms)
+  ✔ removes deprecated always-auth before npm commands in the instant-release job (0.264794ms)
+✔ npm user config cleanup (1.170894ms)
+▶ install-from-package smoke test
+  ✔ smoke-tests the published npm package in the release job (0.548363ms)
+  ✔ smoke-tests the published npm package in the instant-release job (0.344593ms)
+✔ install-from-package smoke test (1.095083ms)
+ℹ tests 572
+ℹ suites 33
+ℹ pass 543
+ℹ fail 29
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9380.775861
+
+✖ failing tests:
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ retries every maintained upload and Pages packaging without ignoring failure (0.742745ms)
+  Error: ENOENT: no such file or directory, open '.github/workflows/javascript-first-example.yml'
+      at readFileSync (node:fs:624:20)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/artifact-transport.test.js:251:20)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1905:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '.github/workflows/javascript-first-example.yml'
+  }
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sets timeout-minutes for every release workflow job (2.814028ms)
+  Error: Expected ["changeset-check","changeset-pr","check-file-line-limits","detect-changes","docker-build","docker-publish","docker-publish-build","docker-publish-config","instant-release","lint","pipeline-status","release","release-preflight","session-publication","test","test-compilation","validate-docs","version-check"] to equal ["changeset-check","changeset-pr","check-file-line-limits","detect-changes","docker-build","docker-publish","docker-publish-build","docker-publish-config","instant-release","lint","pipeline-status","release","release-preflight","test","test-compilation","validate-docs","version-check"]
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/ci-timeouts.test.js:293:54)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at node:internal/test_runner/test:1903:71
+      at node:internal/per_context/primordials:505:82
+      at new Promise (<anonymous>)
+      at new SafePromise (node:internal/per_context/primordials:479:3)
+      at node:internal/per_context/primordials:505:9
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ caps individual Node.js and Bun tests at 30 seconds (2.697502ms)
+  Error: Expected "name: Checks and release\n\non:\n  push:\n    branches:\n      - main\n  pull_request:\n    types: [opened, synchronize, reopened]\n  # Manual release support - consolidated here to work with npm trusted publishing\n  # npm only allows ONE workflow file as trusted publisher, so all publishing\n  # must go through this workflow (release.yml)\n  workflow_dispatch:\n    inputs:\n      release_mode:\n        description: 'Manual release mode'\n        required: true\n        type: choice\n        default: 'instant'\n        options:\n          - instant\n          - changeset-pr\n      bump_type:\n        default: 'patch'\n        description: 'Manual release type'\n        required: true\n        type: choice\n        options:\n          - patch\n          - minor\n          - major\n      description:\n        description: 'Manual release description (optional)'\n        required: false\n        type: string\n\n# Least-privilege default for the highest-value token in the repository.\n# Every job starts read-only; the publishing jobs escalate individually.\npermissions:\n  contents: read\n\n# Provide Git config to actions/checkout itself; checkout runs git init before\n# any workflow step can configure Git.\nenv:\n  GIT_CONFIG_COUNT: '1'\n  GIT_CONFIG_KEY_0: init.defaultBranch\n  GIT_CONFIG_VALUE_0: main\n\njobs:\n  # === DETECT CHANGES - determines which jobs should run ===\n  detect-changes:\n    name: Detect Changes\n    runs-on: ubuntu-24.04\n    # Typical run: ~6s. Cap at 5min so a hung detection step\n    # surfaces quickly instead of stalling the whole pipeline.\n    timeout-minutes: 5\n    # Job-level permissions replace the workflow defaults for this job.\n    permissions:\n      contents: read\n      # The detector asks the Actions API whether the previous head of the\n      # branch already passed this workflow, so a docs-only push can trust\n      # its incremental range.\n      actions: read\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-detect-changes\n      cancel-in-progress: true\n    if: github.event_name != 'workflow_dispatch'\n    outputs:\n      js-changed: ${{ steps.changes.outputs.js-changed }}\n      docs-changed: ${{ steps.changes.outputs.docs-changed }}\n      any-code-changed: ${{ steps.changes.outputs.any-code-changed }}\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Detect changes\n        id: changes\n        env:\n          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}\n          GITHUB_BEFORE_SHA: ${{ github.event.before }}\n          GITHUB_AFTER_SHA: ${{ github.event.after }}\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          GITHUB_WORKFLOW_REF: ${{ github.workflow_ref }}\n        run: node scripts/detect-code-changes.mjs\n\n  # === FAST CHECKS - run before slow tests for fastest feedback ===\n  # See: hive-mind CI/CD best practices principle #5 (fast-fail job ordering)\n\n  # Syntax check all .mjs files with node --check (~7s)\n  test-compilation:\n    name: Test Compilation\n    runs-on: ubuntu-24.04\n    # Typical run: <10s. Tight cap fails fast on syntax-check hangs.\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-test-compilation\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      !cancelled() &&\n      (needs.detect-changes.outputs.js-changed == 'true' || github.event_name == 'workflow_dispatch')\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Check JavaScript syntax\n        run: bash scripts/check-mjs-syntax.sh\n\n  # Enforce 1500-line limit on .mjs files and release.yml\n  check-file-line-limits:\n    name: Check File Line Limits\n    runs-on: ubuntu-24.04\n    # Typical run: <10s. This job only walks tracked files and counts lines.\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-check-file-line-limits\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      !cancelled() &&\n      (needs.detect-changes.outputs.docs-changed == 'true' ||\n       needs.detect-changes.outputs.any-code-changed == 'true' || github.event_name == 'workflow_dispatch')\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Simulate fresh merge with base branch (PR only)\n        if: github.event_name == 'pull_request'\n        env:\n          BASE_REF: ${{ github.base_ref }}\n        run: bash scripts/simulate-fresh-merge.sh\n\n      # Enforces the 1500-line limit on JavaScript (.js/.mjs/.cjs) and\n      # Markdown (.md) files plus release.yml. This is the single source\n      # of truth for the line limit; validate-docs no longer re-checks it.\n      - name: Check file line limits\n        run: bash scripts/check-file-line-limits.sh\n\n  session-publication:\n    name: Session Publication Corpus\n    runs-on: ubuntu-24.04\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-session-publication\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      !cancelled() &&\n      (needs.detect-changes.outputs.any-code-changed == 'true' ||\n       (github.event_name == 'workflow_dispatch' && github.event.inputs.release_mode == 'instant'))\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n      - name: Simulate fresh merge with base branch (PR only)\n        if: github.event_name == 'pull_request'\n        env:\n          BASE_REF: ${{ github.base_ref }}\n        run: bash scripts/simulate-fresh-merge.sh\n      - uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n      - name: Install corpus dependencies\n        run: npm ci\n      - name: Publish Codex and Claude session corpus with zero residuals\n        run: bash scripts/run-with-budget-warning.sh 120 \"Session publication corpus\" node --max-old-space-size=512 experiments/issue-34/session-corpus.mjs\n\n  # === VERSION CHANGE CHECK ===\n  # Prohibit manual version changes in package.json - versions should only be changed by CI/CD\n  version-check:\n    name: Check for Manual Version Changes\n    runs-on: ubuntu-24.04\n    # Typical run: ~6s. Read-only package.json diff inspection.\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-version-check\n      cancel-in-progress: true\n    if: github.event_name == 'pull_request'\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Check for version changes in package.json\n        env:\n          GITHUB_HEAD_REF: ${{ github.head_ref }}\n          PR_AUTHOR: ${{ github.event.pull_request.user.login }}\n          GITHUB_BASE_REF: ${{ github.base_ref }}\n          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}\n          GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}\n          RELEASE_PR_ACTOR: ${{ vars.RELEASE_PR_ACTOR }}\n        run: node scripts/check-version.mjs\n\n  # === CHANGESET CHECK - only runs on PRs with code changes ===\n  # Docs-only PRs (./docs folder, markdown files) don't require changesets\n  changeset-check:\n    name: Check for Changesets\n    runs-on: ubuntu-24.04\n    # Typical run: <30s including npm install. 10min covers cold runners.\n    timeout-minutes: 10\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-changeset-check\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: github.event_name == 'pull_request' && needs.detect-changes.outputs.any-code-changed == 'true'\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Install dependencies\n        run: npm ci\n\n      - name: Check for changesets\n        env:\n          # Pass PR context to the validation script\n          GITHUB_BASE_REF: ${{ github.base_ref }}\n          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}\n          GITHUB_HEAD_REF: ${{ github.head_ref }}\n          PR_AUTHOR: ${{ github.event.pull_request.user.login }}\n          GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}\n          RELEASE_PR_ACTOR: ${{ vars.RELEASE_PR_ACTOR }}\n        run: |\n          # Run changeset validation script\n          # This validates that exactly ONE changeset was ADDED by this PR\n          # Pre-existing changesets from other merged PRs are ignored\n          node scripts/validate-changeset.mjs\n\n  # === LINT AND FORMAT CHECK ===\n  # Lint runs independently of changeset-check - it's a fast check that should always run\n  # See: https://github.com/link-assistant/hive-mind/pull/1024 for why this dependency was removed\n  # IMPORTANT: ESLint includes max-lines rule (1500 lines) to ensure files stay maintainable\n  # See docs/case-studies/issue-23 for why fresh merge simulation is critical\n  lint:\n    name: Lint and Format Check\n    runs-on: ubuntu-24.04\n    # Typical run: <1min including install, ESLint, Prettier, jscpd,\n    # and secretlint. 10min protects against a hung lint plugin.\n    timeout-minutes: 10\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-lint\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      !cancelled() &&\n      (\n        github.event_name == 'workflow_dispatch' ||\n        needs.detect-changes.outputs.docs-changed == 'true' ||\n        needs.detect-changes.outputs.any-code-changed == 'true'\n      )\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          # For PRs, fetch enough history to merge with base branch\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Simulate fresh merge with base branch (PR only)\n        if: github.event_name == 'pull_request'\n        env:\n          BASE_REF: ${{ github.base_ref }}\n        run: bash scripts/simulate-fresh-merge.sh\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Check for secrets\n        run: npx --yes -p secretlint@13.0.7 -p @secretlint/secretlint-rule-preset-recommend@13.0.7 secretlint \"**/*\"\n\n      - name: Install dependencies\n        run: npm ci\n\n      - name: Dry-run release versioning (PR only)\n        if: github.event_name == 'pull_request'\n        env:\n          npm_config_offline: 'true'\n          npm_config_ignore_scripts: 'true'\n        run: |\n          trap 'git restore --source=HEAD --staged --worktree -- .' EXIT\n          npm run changeset:version\n          git status --short\n\n      - name: Run ESLint\n        env:\n          LINT_ALL_WARNINGS: ${{ github.event_name != 'pull_request' && '1' || '0' }}\n        run: npm run lint:all -- --max-warnings 0\n\n      - name: Check formatting\n        run: npm run format:check\n\n      - name: Check code duplication\n        run: npm run check:duplication\n\n  # Test matrix: 3 runtimes (Node.js, Bun, Deno) x 3 OS (Ubuntu, macOS, Windows)\n  # IMPORTANT: Tests must validate the ACTUAL merge result, not a stale merge preview.\n  # See docs/case-studies/issue-23 for why this is critical.\n  # Fast-fail: slow test matrix only runs after fast checks pass (hive-mind principle #5)\n  test:\n    name: Test runtimes\n    env:\n      TEST_SHARD: ${{ matrix.shard }}\n    runs-on: ${{ matrix.os }}\n    # Typical run: <1min per runtime/OS on warm runners, with Windows\n    # sometimes slower on cold starts. Each test step owns an explicit\n    # budget below (see scripts/run-with-budget-warning.sh); this cap is\n    # only the backstop behind those budgets, sized so the budgets always\n    # expire first. A job killed by timeout-minutes reports *cancelled*,\n    # which hides the failure -- see docs/legacy/CI-TIMEOUT-BUDGETS.md.\n    timeout-minutes: 15\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.runtime }}-${{ matrix.os }}-${{ matrix.shard }}\n      cancel-in-progress: true\n    needs:\n      [\n        detect-changes,\n        changeset-check,\n        test-compilation,\n        lint,\n        check-file-line-limits,\n      ]\n    # Use !cancelled() instead of always() so cancellation propagates correctly (hive-mind issue #1278)\n    # Run for relevant code/package/workflow changes, or for an instant manual\n    # release. Skipped fast checks count as non-failures only after one of\n    # those positive gates passes.\n    if: |\n      !cancelled() &&\n      (\n        needs.detect-changes.outputs.any-code-changed == 'true' ||\n        (\n          github.event_name == 'workflow_dispatch' &&\n          github.event.inputs.release_mode == 'instant'\n        )\n      ) &&\n      (needs.changeset-check.result == 'success' || needs.changeset-check.result == 'skipped') &&\n      (needs.test-compilation.result == 'success' || needs.test-compilation.result == 'skipped') &&\n      (needs.lint.result == 'success' || needs.lint.result == 'skipped') &&\n      (needs.check-file-line-limits.result == 'success' || needs.check-file-line-limits.result == 'skipped')\n    strategy:\n      fail-fast: false\n      matrix:\n        os: [ubuntu-24.04, windows-2025]\n        runtime: [node, bun, deno]\n        shard: ['1/1']\n        # Intel runners avoid ARM64 capacity failures. Partition the suite so\n        # each job retains its existing execution budget on the slower pool.\n        include:\n          - { os: macos-26-intel, runtime: node, shard: '1/3' }\n          - { os: macos-26-intel, runtime: node, shard: '2/3' }\n          - { os: macos-26-intel, runtime: node, shard: '3/3' }\n          - { os: macos-26-intel, runtime: bun, shard: '1/3' }\n          - { os: macos-26-intel, runtime: bun, shard: '2/3' }\n          - { os: macos-26-intel, runtime: bun, shard: '3/3' }\n          - { os: macos-26-intel, runtime: deno, shard: '1/3' }\n          - { os: macos-26-intel, runtime: deno, shard: '2/3' }\n          - { os: macos-26-intel, runtime: deno, shard: '3/3' }\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          # For PRs, fetch enough history to merge with base branch\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Simulate fresh merge with base branch (PR only)\n        if: github.event_name == 'pull_request'\n        env:\n          BASE_REF: ${{ github.base_ref }}\n        shell: bash\n        run: bash scripts/simulate-fresh-merge.sh\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Install dependencies (Node.js)\n        run: npm ci\n\n      - name: Run tests (Node.js)\n        if: matrix.runtime == 'node'\n        shell: bash\n        run: bash scripts/run-with-budget-warning.sh 300 \"Node.js test suite\" node scripts/run-test-shard.mjs node \"$TEST_SHARD\"\n\n      - name: Verify clone-only history rewrite with git-filter-repo\n        if: matrix.runtime == 'node' && matrix.os == 'ubuntu-24.04'\n        shell: bash\n        run: |\n          python3 -m venv \"$RUNNER_TEMP/history-tools\"\n          bash scripts/run-with-budget-warning.sh 120 \"Install history rewrite tool\" \"$RUNNER_TEMP/history-tools/bin/pip\" install git-filter-repo==2.47.0\n          GIT_FILTER_REPO=\"$RUNNER_TEMP/history-tools/bin/git-filter-repo\" bash scripts/run-with-budget-warning.sh 60 \"History rewrite integration\" node --max-old-space-size=512 experiments/history-rewrite-integration.mjs\n\n      - name: Setup Bun\n        if: matrix.runtime == 'bun'\n        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0\n        with:\n          bun-version: '1.x'\n\n      - name: Run tests (Bun)\n        if: matrix.runtime == 'bun'\n        shell: bash\n        # --timeout caps an *individual* test at 30s, matching Node's\n        # --test-timeout budget while leaving headroom for cold runners.\n        # It is a per-test bound and does not bound the suite: 25 tests of\n        # 29s each pass every per-test check. The suite budget below is\n        # what bounds the whole run.\n        run: bash scripts/run-with-budget-warning.sh 200 \"Bun test suite\" node scripts/run-test-shard.mjs bun \"$TEST_SHARD\"\n\n      - name: Setup Deno\n        if: matrix.runtime == 'deno'\n        uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5\n        with:\n          deno-version: v2.x\n\n      - name: Prepare Deno dependencies\n        if: matrix.runtime == 'deno'\n        shell: bash\n        # Cold npm downloads previously consumed the test execution budget.\n        # Bound dependency preparation separately, as for Node and Bun installs.\n        run: deno test -A --parallel --no-run --frozen\n\n      - name: Run tests (Deno)\n        if: matrix.runtime == 'deno'\n        shell: bash\n        run: bash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\"\n\n  # === DOCKER IMAGE BUILD CHECK (pull requests) ===\n  # Builds the Dockerfile without pushing so a broken image fails the pull\n  # request instead of surfacing only after publish (issue #106).\n  # push: false + load: true keeps this working for fork pull requests,\n  # which have no registry credentials. Skipped when no Dockerfile exists.\n  docker-build:\n    name: Docker Image Build Check\n    runs-on: ubuntu-24.04\n    # Typical run: a few minutes with a warm GHA layer cache. 30min covers\n    # a cold, uncached build without allowing a 6h hang.\n    timeout-minutes: 30\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-docker-build\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: github.event_name == 'pull_request' && needs.detect-changes.outputs.any-code-changed == 'true'\n    permissions:\n      contents: read\n    env:\n      DOCKER_CONTEXT: ${{ vars.DOCKER_CONTEXT }}\n      DOCKERFILE: ${{ vars.DOCKERFILE }}\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - name: Check Docker build configuration\n        id: docker_config\n        run: node scripts/check-docker-build.mjs\n\n      - name: Set up Docker Buildx (resilient)\n        if: steps.docker_config.outputs.enabled == 'true'\n        uses: ./.github/actions/setup-buildx-resilient\n\n      - name: Build Docker image (no push)\n        if: steps.docker_config.outputs.enabled == 'true'\n        # A `uses:` step cannot be wrapped by run-with-budget-warning.sh, so\n        # it declares its deadline with a step-level timeout-minutes: an\n        # exhausted step budget fails the step, while an exhausted job cap\n        # only cancels the job.\n        timeout-minutes: 20\n        uses: docker/build-push-action@v7\n        with:\n          context: ${{ steps.docker_config.outputs.context }}\n          file: ${{ steps.docker_config.outputs.dockerfile }}\n          push: false\n          load: true\n          tags: pr-check:${{ github.sha }}\n          # Scoped so this build cannot overwrite or be overwritten by the\n          # unscoped default `buildkit` scope: the GitHub Actions cache is a\n          # 10 GB repository-wide pool with LRU eviction, and unscoped\n          # mode=max exports of every intermediate layer crowd out the caches\n          # the rest of the pipeline reads.\n          cache-from: type=gha,scope=docker-image\n          cache-to: type=gha,mode=max,scope=docker-image\n\n  # === DOCUMENTATION VALIDATION ===\n  # Validate documentation files when docs change (hive-mind principle #12)\n  validate-docs:\n    name: Validate Documentation\n    runs-on: ubuntu-24.04\n    # Typical run: <10s. Pure shell checks over documentation files.\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-validate-docs\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      needs.detect-changes.outputs.docs-changed == 'true'\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      # Documentation line limits (1500 lines, matching the architecture\n      # limit) are enforced by the check-file-line-limits job, which scans\n      # every .md file. This job validates that the required documents\n      # exist AND still carry the sections readers depend on -- a deleted\n      # section is an ordinary diff hunk, and is exactly what review skims\n      # past. The requirement table lives in\n      # scripts/check-required-docs.sh; `--list` prints it for tests and\n      # reviewers.\n      - name: Check required documentation sections\n        run: bash scripts/check-required-docs.sh\n\n  # Principle 16 of the shared CI/CD best practices: prove the release\n  # credentials can write before the expensive jobs spend their minutes\n  # (issues #176, #181). A non-empty secret proves nothing -- an expired\n  # token is non-empty -- and a login proves authentication, not\n  # authorisation, so scripts/preflight-credentials.sh probes with an\n  # attempted write: a refused credential fails the run seconds in instead\n  # of surfacing as a registry error after the matrix.\n  release-preflight:\n    name: Release Preflight\n    runs-on: ubuntu-24.04\n    timeout-minutes: 5\n    permissions:\n      contents: read\n      # The runner injects ACTIONS_ID_TOKEN_REQUEST_URL only when the job may\n      # mint OIDC tokens. npm publishes with provenance, so its absence --\n      # mirrored in the publishing jobs' permission envelope -- is itself the\n      # finding.\n      id-token: write\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - name: Probe every release credential\n        env:\n          # Release mode (push to main, manual instant release) fails the run\n          # on a refused credential. Report mode (pull requests -- a fork has\n          # no publishing secrets) runs the same probes and annotates without\n          # blocking.\n          PREFLIGHT_MODE: >-\n            ${{\n              (\n                (github.event_name == 'push' && github.ref == 'refs/heads/main') ||\n                (github.event_name == 'workflow_dispatch' && github.event.inputs.release_mode == 'instant')\n              ) && 'release' || 'report'\n            }}\n          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}\n          DOCKERHUB_IMAGE: ${{ vars.DOCKERHUB_IMAGE }}\n          DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}\n          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}\n        run: bash scripts/preflight-credentials.sh\n\n  # Release - only runs on main after tests pass (for push events)\n  release:\n    name: Release\n    needs:\n      [\n        detect-changes,\n        test-compilation,\n        check-file-line-limits,\n        version-check,\n        changeset-check,\n        lint,\n        test,\n        session-publication,\n        docker-build,\n        validate-docs,\n        release-preflight,\n      ]\n    # Registry verification can take over 15 minutes after a successful publish.\n    timeout-minutes: 65\n    concurrency:\n      group: main-writer-${{ github.repository }}-main\n      cancel-in-progress: false\n      queue: max\n    # Use !cancelled() instead of always() so cancellation propagates correctly (hive-mind issue #1278)\n    # This is needed because lint/test jobs have a transitive dependency on changeset-check\n    if: |\n      !cancelled() &&\n      github.ref == 'refs/heads/main' &&\n      github.event_name == 'push' &&\n      needs.release-preflight.result == 'success' &&\n      needs.lint.result == 'success' &&\n      needs.test.result == 'success' &&\n      !contains(needs.*.result, 'failure') &&\n      !contains(needs.*.result, 'cancelled')\n    runs-on: ubuntu-24.04\n    # Permissions required for npm OIDC trusted publishing\n    permissions:\n      contents: write\n      pull-requests: write\n      checks: write\n      id-token: write\n    outputs:\n      published: ${{ steps.publish.outputs.published }}\n      published_version: ${{ steps.publish.outputs.published_version }}\n    steps:\n      # One of two checkouts in this workflow that keep credentials in\n      # .git/config: scripts/version-and-commit.mjs runs\n      # `git push origin main` to publish the version bump, which needs the\n      # token wired into the remote. Every other checkout in this\n      # repository sets persist-credentials: false.\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: true\n          fetch-depth: 0\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n          registry-url: 'https://registry.npmjs.org'\n\n      - name: Remove deprecated npm auth config\n        run: node scripts/sanitize-npm-userconfig.mjs\n\n      # Fail-closed before the install step: changesets 3.x shells out to the\n      # detected package manager, and a foreign lockfile at the root\n      # (deno.lock is here for the Deno test leg) outranks package-lock.json\n      # in package-manager-detector's probe order unless package.json\n      # declares the manager. The requirement table lives in the script.\n      - name: Check package manager declaration and lockfiles\n        run: node scripts/check-package-manager.mjs\n\n      - name: Install dependencies\n        run: bash scripts/run-with-budget-warning.sh 240 \"Release dependency install\" npm ci\n\n      - name: Update npm for OIDC trusted publishing\n        run: node scripts/setup-npm.mjs\n\n      - name: Check for changesets\n        id: check_changesets\n        run: node scripts/check-changesets.mjs\n\n      - name: Check if release is needed\n        id: check_release\n        env:\n          HAS_CHANGESETS: ${{ steps.check_changesets.outputs.has_changesets }}\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n        run: node scripts/check-release-needed.mjs\n\n      - name: Merge multiple changesets\n        if: steps.check_changesets.outputs.has_changesets == 'true' && steps.check_changesets.outputs.changeset_count > 1\n        run: |\n          echo \"Multiple changesets detected, merging...\"\n          node scripts/merge-changesets.mjs\n\n      - name: Version packages and commit to main\n        if: steps.check_changesets.outputs.has_changesets == 'true'\n        id: version\n        env:\n          # Prefer the dedicated actor when configured. Otherwise the built-in\n          # token attests a metadata-only version commit after parent validation.\n          RELEASE_PR_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          RELEASE_METADATA_PATHS: ${{ vars.RELEASE_METADATA_PATHS }}\n        run: node scripts/version-and-commit.mjs --mode changeset\n\n      - name: Publish to npm\n        # Run if version was committed, if a previous attempt already committed (for re-runs),\n        # or if check-release-needed detected an unpublished version (self-healing, issue #36)\n        if: >-\n          steps.version.outputs.version_committed == 'true' ||\n          steps.version.outputs.already_released == 'true' ||\n          (steps.check_release.outputs.should_release == 'true' && steps.check_release.outputs.skip_bump == 'true')\n        id: publish\n        # Optional NPM_TOKEN bootstrap fallback. OIDC trusted publishing is the\n        # steady-state mechanism, but it cannot create a brand-new package (the\n        # first publish returns E404 because a trusted publisher can only be\n        # configured for a package that already exists). When NPM_TOKEN is set,\n        # the first publish succeeds; once the package exists and a trusted\n        # publisher is configured, OIDC takes over and the token can be removed.\n        # See issue #77.\n        env:\n          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}\n        run: bash scripts/run-with-budget-warning.sh 1800 \"npm publish and registry verification\" node scripts/publish-to-npm.mjs --should-pull\n\n      - name: Smoke-test published npm package\n        if: steps.publish.outputs.published == 'true'\n        env:\n          PACKAGE_VERSION: ${{ steps.publish.outputs.published_version }}\n        run: bash scripts/run-with-budget-warning.sh 600 \"npm package smoke test\" node scripts/smoke-test-package.mjs --package-version \"$PACKAGE_VERSION\"\n\n      - name: Create GitHub Release\n        if: steps.publish.outputs.published == 'true'\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          PACKAGE_VERSION: ${{ steps.publish.outputs.published_version }}\n          REPOSITORY: ${{ github.repository }}\n        run: node scripts/create-github-release.mjs --release-version \"$PACKAGE_VERSION\" --repository \"$REPOSITORY\"\n\n      - name: Format GitHub release notes\n        if: steps.publish.outputs.published == 'true'\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          PACKAGE_VERSION: ${{ steps.publish.outputs.published_version }}\n          REPOSITORY: ${{ github.repository }}\n          COMMIT_SHA: ${{ github.sha }}\n        run: node scripts/format-github-release.mjs --release-version \"$PACKAGE_VERSION\" --repository \"$REPOSITORY\" --commit-sha \"$COMMIT_SHA\"\n\n  # Manual Instant Release - triggered via workflow_dispatch with instant mode\n  # This job is in release.yml because npm trusted publishing\n  # only allows one workflow file to be registered as a trusted publisher\n  instant-release:\n    name: Instant Release\n    # Publishing must wait for both quality gates and require explicit success.\n    needs:\n      [\n        detect-changes,\n        test-compilation,\n        check-file-line-limits,\n        version-check,\n        changeset-check,\n        lint,\n        test,\n        session-publication,\n        docker-build,\n        validate-docs,\n        release-preflight,\n      ]\n    if: |\n      !cancelled() &&\n      github.event_name == 'workflow_dispatch' &&\n      github.event.inputs.release_mode == 'instant' &&\n      github.ref == 'refs/heads/main' &&\n      needs.release-preflight.result == 'success' &&\n      needs.lint.result == 'success' &&\n      needs.test.result == 'success' &&\n      !contains(needs.*.result, 'failure') &&\n      !contains(needs.*.result, 'cancelled')\n    runs-on: ubuntu-24.04\n    # Same publish envelope as the automated release path.\n    timeout-minutes: 65\n    concurrency:\n      group: main-writer-${{ github.repository }}-main\n      cancel-in-progress: false\n      queue: max\n    # Permissions required for npm OIDC trusted publishing\n    permissions:\n      contents: write\n      pull-requests: write\n      checks: write\n      id-token: write\n    outputs:\n      published: ${{ steps.publish.outputs.published }}\n      published_version: ${{ steps.publish.outputs.published_version }}\n    steps:\n      # The second checkout in this workflow that keeps credentials in\n      # .git/config: scripts/version-and-commit.mjs pushes the version\n      # commit to main, which needs the token wired into the remote.\n      # Every other checkout in this repository sets\n      # persist-credentials: false.\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: true\n          fetch-depth: 0\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n          registry-url: 'https://registry.npmjs.org'\n\n      - name: Remove deprecated npm auth config\n        run: node scripts/sanitize-npm-userconfig.mjs\n\n      - name: Install dependencies\n        run: npm ci\n\n      - name: Update npm for OIDC trusted publishing\n        run: node scripts/setup-npm.mjs\n\n      - name: Version packages and commit to main\n        id: version\n        env:\n          BUMP_TYPE: ${{ github.event.inputs.bump_type }}\n          RELEASE_DESCRIPTION: ${{ github.event.inputs.description }}\n          # See the release job above (issues #143, #192, and #196).\n          RELEASE_PR_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          RELEASE_METADATA_PATHS: ${{ vars.RELEASE_METADATA_PATHS }}\n        run: node scripts/version-and-commit.mjs --mode instant --bump-type \"$BUMP_TYPE\" --description \"$RELEASE_DESCRIPTION\"\n\n      - name: Publish to npm\n        # Run if version was committed OR if a previous attempt already committed (for re-runs)\n        if: steps.version.outputs.version_committed == 'true' || steps.version.outputs.already_released == 'true'\n        id: publish\n        # Optional NPM_TOKEN bootstrap fallback; OIDC trusted publishing is used\n        # when the secret is unset. See the release job above for details (#77).\n        env:\n          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}\n        run: bash scripts/run-with-budget-warning.sh 1800 \"npm publish and registry verification\" node scripts/publish-to-npm.mjs\n\n      - name: Smoke-test published npm package\n        if: steps.publish.outputs.published == 'true'\n        env:\n          PACKAGE_VERSION: ${{ steps.publish.outputs.published_version }}\n        run: bash scripts/run-with-budget-warning.sh 600 \"npm package smoke test\" node scripts/smoke-test-package.mjs --package-version \"$PACKAGE_VERSION\"\n\n      - name: Create GitHub Release\n        if: steps.publish.outputs.published == 'true'\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          PACKAGE_VERSION: ${{ steps.publish.outputs.published_version }}\n          REPOSITORY: ${{ github.repository }}\n        run: node scripts/create-github-release.mjs --release-version \"$PACKAGE_VERSION\" --repository \"$REPOSITORY\"\n\n      - name: Format GitHub release notes\n        if: steps.publish.outputs.published == 'true'\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          PACKAGE_VERSION: ${{ steps.publish.outputs.published_version }}\n          REPOSITORY: ${{ github.repository }}\n          COMMIT_SHA: ${{ github.sha }}\n        run: node scripts/format-github-release.mjs --release-version \"$PACKAGE_VERSION\" --repository \"$REPOSITORY\" --commit-sha \"$COMMIT_SHA\"\n\n  # Optional Docker Hub publishing for packages that also ship Docker images.\n  # Set vars.DOCKERHUB_IMAGE to enable this path, then configure\n  # vars.DOCKERHUB_USERNAME and secrets.DOCKERHUB_TOKEN.\n  docker-publish-config:\n    name: Configure Docker Hub Publish\n    needs: [release, instant-release, release-preflight]\n    timeout-minutes: 45\n    concurrency:\n      group: main-writer-${{ github.repository }}-main\n      cancel-in-progress: false\n      queue: max\n    if: |\n      !cancelled() &&\n      needs.release-preflight.result == 'success' &&\n      (\n        (needs.release.result == 'success' && needs.release.outputs.published == 'true') ||\n        (needs.instant-release.result == 'success' && needs.instant-release.outputs.published == 'true')\n      )\n    runs-on: ubuntu-24.04\n    permissions:\n      contents: read\n    outputs:\n      context: ${{ steps.docker_config.outputs.context }}\n      dockerfile: ${{ steps.docker_config.outputs.dockerfile }}\n      enabled: ${{ steps.docker_config.outputs.enabled }}\n      image: ${{ steps.docker_config.outputs.image }}\n      version: ${{ steps.release_version.outputs.version }}\n    env:\n      DOCKER_CONTEXT: ${{ vars.DOCKER_CONTEXT }}\n      DOCKERFILE: ${{ vars.DOCKERFILE }}\n      DOCKERHUB_IMAGE: ${{ vars.DOCKERHUB_IMAGE }}\n      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}\n      DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}\n      RELEASE_VERSION: ${{ needs.release.outputs.published_version || needs.instant-release.outputs.published_version }}\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - name: Check Docker publish configuration\n        id: docker_config\n        run: node scripts/check-docker-publish.mjs\n\n      - name: Export release version\n        id: release_version\n        env:\n          VERSION: ${{ env.RELEASE_VERSION }}\n        run: echo \"version=${VERSION}\" >> \"$GITHUB_OUTPUT\"\n\n      - name: Wait for npm package availability before Docker publish\n        if: steps.docker_config.outputs.enabled == 'true'\n        env:\n          VERSION: ${{ env.RELEASE_VERSION }}\n        run: bash scripts/run-with-budget-warning.sh 1800 \"Docker npm availability wait\" node scripts/wait-for-npm.mjs --release-version \"${VERSION}\"\n\n  # Build each architecture on a native runner. Each build is pushed by digest;\n  # docker-publish combines those immutable digests into the release tags.\n  docker-publish-build:\n    name: Build Docker Image\n    needs: [docker-publish-config]\n    if: needs.docker-publish-config.outputs.enabled == 'true'\n    timeout-minutes: 30\n    strategy:\n      fail-fast: false\n      matrix:\n        include:\n          - platform: linux/amd64\n            runner: ubuntu-24.04\n          - platform: linux/arm64\n            runner: ubuntu-24.04-arm\n    runs-on: ${{ matrix.runner }}\n    permissions:\n      contents: read\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - name: Build and push platform image by digest\n        id: build\n        # Step-level budget below the job's timeout-minutes backstop; see\n        # docs/legacy/CI-TIMEOUT-BUDGETS.md.\n        timeout-minutes: 20\n        uses: ./.github/actions/publish-dockerhub\n        with:\n          context: ${{ needs.docker-publish-config.outputs.context }}\n          file: ${{ needs.docker-publish-config.outputs.dockerfile }}\n          image: ${{ needs.docker-publish-config.outputs.image }}\n          platform: ${{ matrix.platform }}\n          token: ${{ secrets.DOCKERHUB_TOKEN }}\n          username: ${{ vars.DOCKERHUB_USERNAME }}\n          version: ${{ needs.docker-publish-config.outputs.version }}\n\n      - name: Export image digest\n        env:\n          DIGEST: ${{ steps.build.outputs.digest }}\n        run: |\n          mkdir -p /tmp/digests\n          touch \"/tmp/digests/${DIGEST#sha256:}\"\n\n      - name: Upload image digest\n        uses: ./.github/actions/artifact-transport\n        with:\n          name: docker-digest-${{ strategy.job-index }}\n          path: /tmp/digests/*\n          if-no-files-found: error\n          retention-days: 1\n\n  docker-publish:\n    name: Optional Docker Hub Publish\n    needs: [docker-publish-config, docker-publish-build]\n    if: needs.docker-publish-build.result == 'success'\n    timeout-minutes: 45\n    concurrency:\n      group: main-writer-${{ github.repository }}-main\n      cancel-in-progress: false\n      queue: max\n    runs-on: ubuntu-24.04\n    permissions:\n      contents: read\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - name: Set up Docker Buildx (resilient)\n        uses: ./.github/actions/setup-buildx-resilient\n\n      - name: Log in to Docker Hub\n        uses: docker/login-action@v4\n        with:\n          username: ${{ vars.DOCKERHUB_USERNAME }}\n          password: ${{ secrets.DOCKERHUB_TOKEN }}\n\n      - name: Download image digests\n        uses: ./.github/actions/artifact-transport\n        env:\n          NODE_OPTIONS: --pending-deprecation --throw-deprecation\n        with:\n          path: /tmp/digests\n          pattern: docker-digest-*\n          mode: download\n\n      - name: Create multi-architecture manifest\n        working-directory: /tmp/digests\n        env:\n          IMAGE: ${{ needs.docker-publish-config.outputs.image }}\n          VERSION: ${{ needs.docker-publish-config.outputs.version }}\n        run: |\n          # One argument per digest. An array keeps the expansion explicit\n          # instead of relying on word splitting of a command substitution.\n          mapfile -t digests < <(printf \"${IMAGE}@sha256:%s\\n\" *)\n          if [[ \"${#digests[@]}\" -ne 2 ]]; then\n            echo \"Expected 2 platform digests, found ${#digests[@]}.\" >&2\n            exit 1\n          fi\n          docker buildx imagetools create \\\n            --tag \"${IMAGE}:latest\" \\\n            --tag \"${IMAGE}:${VERSION}\" \\\n            \"${digests[@]}\"\n\n      - name: Verify published multi-architecture manifests\n        env:\n          IMAGE: ${{ needs.docker-publish-config.outputs.image }}\n          VERSION: ${{ needs.docker-publish-config.outputs.version }}\n        run: |\n          for tag in latest \"${VERSION}\"; do\n            if ! manifest=\"$(docker buildx imagetools inspect \"${IMAGE}:${tag}\")\"; then\n              echo \"Unable to read back published manifest ${IMAGE}:${tag}\" >&2\n              exit 1\n            fi\n            for platform in linux/amd64 linux/arm64; do\n              if ! grep -Eq \"Platform:[[:space:]]+${platform}\" <<<\"${manifest}\"; then\n                echo \"Published manifest ${IMAGE}:${tag} is missing ${platform}\" >&2\n                exit 1\n              fi\n            done\n          done\n\n  # Manual Changeset PR - creates a pull request with the changeset for review\n  changeset-pr:\n    name: Create Changeset PR\n    # PR creation does not publish, but it must still pass the fast lint gate.\n    needs: [lint]\n    if: |\n      !cancelled() &&\n      github.event_name == 'workflow_dispatch' &&\n      github.event.inputs.release_mode == 'changeset-pr' &&\n      needs.lint.result == 'success'\n    runs-on: ubuntu-24.04\n    # PR creation only: install, create a changeset, format, and open a PR.\n    timeout-minutes: 10\n    concurrency:\n      group: main-writer-${{ github.repository }}-main\n      cancel-in-progress: false\n      queue: max\n    permissions:\n      contents: read\n    steps:\n      # peter-evans/create-pull-request receives the dedicated token directly;\n      # dependency installation does not need a credential in .git/config.\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n          fetch-depth: 0\n\n      - name: Require release pull-request token\n        env:\n          RELEASE_PR_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}\n        run: |\n          if [[ -z \"$RELEASE_PR_TOKEN\" ]]; then\n            echo \"::error::RELEASE_PR_TOKEN is required to create a changeset pull request.\"\n            exit 1\n          fi\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Install dependencies\n        run: npm ci\n\n      - name: Create changeset file\n        env:\n          BUMP_TYPE: ${{ github.event.inputs.bump_type }}\n          RELEASE_DESCRIPTION: ${{ github.event.inputs.description }}\n        run: node scripts/create-manual-changeset.mjs --bump-type \"$BUMP_TYPE\" --description \"$RELEASE_DESCRIPTION\"\n\n      - name: Format changeset with Prettier\n        run: |\n          # Run Prettier on the changeset file to ensure it matches project style\n          npx prettier --write \".changeset/*.md\"\n\n          echo \"Formatted changeset files\"\n\n      - name: Create Pull Request\n        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1\n        with:\n          # The built-in token suppresses pull_request workflows; use the same\n          # dedicated automation actor as the release fallback (issue #192).\n          token: ${{ secrets.RELEASE_PR_TOKEN }}\n          commit-message: 'chore: add changeset for manual ${{ github.event.inputs.bump_type }} release'\n          branch: changeset-manual-release-${{ github.run_id }}\n          delete-branch: true\n          title: 'chore: manual ${{ github.event.inputs.bump_type }} release'\n          body: |\n            ## Manual Release Request\n\n            This PR was created by a manual workflow trigger to prepare a **${{ github.event.inputs.bump_type }}** release.\n\n            ### Release Details\n            - **Type:** ${{ github.event.inputs.bump_type }}\n            - **Description:** ${{ github.event.inputs.description || 'Manual release' }}\n            - **Triggered by:** @${{ github.actor }}\n\n            ### Next Steps\n            1. Review the changeset in this PR\n            2. Merge this PR to main\n            3. The automated release workflow will create a version PR\n            4. Merge the version PR to publish to npm and create a GitHub release\n\n  # GitHub reports jobs killed by timeout-minutes as cancelled rather than\n  # failed. Observe every job and excuse only cancellations that the tested\n  # workflow explicitly permits when a newer commit supersedes this run.\n  pipeline-status:\n    name: Pipeline Status\n    runs-on: ubuntu-24.04\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-pipeline-status\n      cancel-in-progress: true\n    if: >-\n      !cancelled()\n    needs:\n      - detect-changes\n      - test-compilation\n      - check-file-line-limits\n      - version-check\n      - changeset-check\n      - lint\n      - test\n      - session-publication\n      - docker-build\n      - docker-publish-config\n      - docker-publish-build\n      - validate-docs\n      - release-preflight\n      - release\n      - instant-release\n      - docker-publish\n      - changeset-pr\n    permissions:\n      actions: read\n      contents: read\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Fail the run when a required job was cancelled or failed\n        env:\n          NEEDS_JSON: ${{ toJSON(needs) }}\n          RUN_SHA: ${{ github.event.pull_request.head.sha || github.sha }}\n          GH_TOKEN: ${{ github.token }}\n          HEAD_REF: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/head', github.event.number) || github.ref }}\n        run: bash scripts/check-pipeline-status.sh\n" to contain "bun test --timeout 30000"
+      at Object.toContain (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:566:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/ci-timeouts.test.js:331:29)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ keeps every declared step budget under the job backstop (17.336227ms)
+  Error: Expected ["docker-build","docker-publish-build","docker-publish-config","instant-release","release","session-publication","test"] to equal ["docker-build","docker-publish-build","docker-publish-config","instant-release","release","test"]
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/ci-timeouts.test.js:385:62)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1905:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ covers every committed npm lockfile (14.301547ms)
+  Error: Expected ["examples/universal-app/package-lock.json","package-lock.json"] to equal [".github/actions/artifact-transport/package-lock.json","examples/universal-app/package-lock.json","package-lock.json"]
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/deprecated-packages.test.js:46:28)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ loads release dependencies from the lockfile without downloaded eval (17.493319ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /\bnpm install\b|\bbun install\b/. Input:
+  
+  'name: Checks and release\n' +
+    '\n' +
+    'on:\n' +
+    '  push:\n' +
+    '    branches:\n' +
+    '      - main\n' +
+    '  pull_request:\n' +
+    '    types: [opened, synchronize, reopened]\n' +
+    '  # Manual release support - consolidated here to work with npm trusted publishing\n' +
+    '  # npm only allows ONE workflow file as trusted publisher, so all publishing\n' +
+    '  # must go through this workflow (release.yml)\n' +
+    '  workflow_dispatch:\n' +
+    '    inputs:\n' +
+    '      release_mode:\n' +
+    "        description: 'Manual release mode'\n" +
+    '        required: true\n' +
+    '        type: choice\n' +
+    "        default: 'instant'\n" +
+    '        options:\n' +
+    '          - instant\n' +
+    '          - changeset-pr\n' +
+    '      bump_type:\n' +
+    "        default: 'patch'\n" +
+    "        description: 'Manual release type'\n" +
+    '        required: true\n' +
+    '        type: choice\n' +
+    '        options:\n' +
+    '          - patch\n' +
+    '          - minor\n' +
+    '          - major\n' +
+    '      description:\n' +
+    "        description: 'Manual release description (optional)'\n" +
+    '        required: false\n' +
+    '        type: string\n' +
+    '\n' +
+    '# Least-privilege default for the highest-value token in the repository.\n' +
+    '# Every job starts read-only; the publishing jobs escalate individually.\n' +
+    'permissions:\n' +
+    '  contents: read\n' +
+    '\n' +
+    '# Provide Git config to actions/checkout itself; checkout runs git init before\n' +
+    '# any workflow step can configure Git.\n' +
+    'env:\n' +
+    "  GIT_CONFIG_COUNT: '1'\n" +
+    '  GIT_CONFIG_KEY_0: init.defaultBranch\n' +
+    '  GIT_CONFIG_VALUE_0: main\n' +
+    '\n' +
+    'jobs:\n' +
+    '  # === DETECT CHANGES - determines which jobs should run ===\n' +
+    '  detect-changes:\n' +
+    '    name: Detect Changes\n' +
+    '    runs-on: ubuntu-24.04\n' +
+    '    # Typical run: ~6s. Cap at 5min so a hung detection step\n' +
+    '    # surfaces quickly instead of stalling the whole pipeline.\n' +
+    '    timeout-minutes: 5\n' +
+    '    # Job-level permissions replace the workflow defaults for this job.\n' +
+    '    permissions:\n' +
+    '      contents: read\n' +
+    '      # The detector asks the Actions API whether the previous head of the\n' +
+    '      # branch already passed this workflow, so a docs-only push can trust\n' +
+    '      # its incremental range.\n' +
+    '      actions: read\n' +
+    '    concurrency:\n' +
+    '      group: check-${{ github.workflow }}-${{ github.ref }}-detect-changes\n' +
+    '      cancel-in-progress: true\n' +
+    "    if: github.event_name != 'workflow_dispatch'\n" +
+    '    outputs:\n' +
+    '      js-changed: ${{ steps.changes.outputs.js-changed }}\n' +
+    '      docs-changed: ${{ steps.changes.outputs.docs-changed }}\n' +
+    '      any-code-changed: ${{ steps.changes.outputs.any-code-changed }}\n' +
+    '    steps:\n' +
+    '      - uses: actions/checkout@v7\n' +
+    '        with:\n' +
+    '          fetch-depth: 0\n' +
+    '          persist-credentials: false\n' +
+    '\n' +
+    '      - name: Detect changes\n' +
+    '        id: changes\n' +
+    '        env:\n' +
+    '          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}\n' +
+    '          GITHUB_BEFORE_SHA: ${{ github.event.before }}\n' +
+    '          GITHUB_AFTER_SHA: ${{ github.event.after }}\n' +
+    '          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n' +
+    '          GITHUB_WORKFLOW_REF: ${{ github.workflow_ref }}\n' +
+    '        run: node scripts/detect-code-changes.mjs\n' +
+    '\n' +
+    '  # === FAST CHECKS - run before slow tests for fastest feedback ===\n' +
+    '  # See: hive-mind CI/CD best practices principle #5 (fast-fail job ordering)\n' +
+    '\n' +
+    '  # Syntax check all .mjs files with node --check (~7s)\n' +
+    '  test-compilation:\n' +
+    '    name: Test Compilation\n' +
+    '    runs-on: ubuntu-24.04\n' +
+    '    # Typical run: <10s. Tight cap fails fast on syntax-check hangs.\n' +
+    '    timeout-minutes: 5\n' +
+    '    concurrency:\n' +
+    '      group: check-${{ github.workflow }}-${{ github.ref }}-test-compilation\n' +
+    '      cancel-in-progress: true\n' +
+    '    needs: [detect-changes]\n' +
+    '    if: |\n' +
+    '      !cancelled() &&\n' +
+    "      (needs.detect-changes.outputs.js-changed == 'true' || github.event_name == 'workflow_dispatch')\n" +
+    '    steps:\n' +
+    '      - uses: actions/checkout@v7\n' +
+    '        with:\n' +
+    '          persist-credentials: false\n' +
+    '\n' +
+    '      - uses: actions/setup-node@v7\n' +
+    '        with:\n' +
+    "          node-version: '24.x'\n" +
+    '\n' +
+    '      - name: Check JavaScript syntax\n' +
+    '        run: bash scripts/check-mjs-syntax.sh\n' +
+    '\n' +
+    '  # Enforce 1500-line limit on .mjs files and release.yml\n' +
+    '  check-file-line-limits:\n' +
+    '    name: Check File Line Limits\n' +
+    '    runs-on: ubuntu-24.04\n' +
+    '    # Typical run: <10s. This job only walks tracked files and counts lines.\n' +
+    '    timeout-minutes: 5\n' +
+    '    concurrency:\n' +
+    '      group: check-${{ github.workflow }}-${{ github.ref }}-check-file-line-limits\n' +
+    '      cancel-in-progress: true\n' +
+    '    needs: [detect-changes]\n' +
+    '    if: |\n' +
+    '      !cancelled() &&\n' +
+    "      (needs.detect-changes.outputs.docs-changed == 'true' ||\n" +
+    "       needs.detect-changes.outputs.any-code-changed == 'true' || github.event_name == 'workflow_dispatch')\n" +
+    '    steps:\n' +
+    '      - uses: actions/checkout@v7\n' +
+    '        with:\n' +
+    '          fetch-depth: 0\n' +
+    '          persist-credentials: false\n' +
+    '\n' +
+    '      - name: Simulate fresh merge with base branch (PR only)\n' +
+    "        if: github.event_name == 'pull_request'\n" +
+    '        env:\n' +
+    '          BASE_REF: ${{ github.base_ref }}\n' +
+    '        run: bash scripts/simulate-fresh-merge.sh\n' +
+    '\n' +
+    '      # Enforces the 1500-line limit on JavaScript (.js/.mjs/.cjs) and\n' +
+    '      # Markdown (.md) files plus release.yml. This is the single source\n' +
+    '      # of truth for the line limit; validate-docs no longer re-checks it.\n' +
+    '      - name: Check file line limits\n' +
+    '        run: bash scripts/check-file-line-limits.sh\n' +
+    '\n' +
+    '  session-publication:\n' +
+    '    name: Session Publication Corpus\n' +
+    '    runs-on: ubuntu-24.04\n' +
+    '    timeout-minutes: 5\n' +
+    '    concurrency:\n' +
+    '      group: check-${{ github.workflow }}-${{ github.ref }}-session-publication\n' +
+    '      cancel-in-progress: true\n' +
+    '    needs: [detect-changes]\n' +
+    '    if: |\n' +
+    '      !cancelled() &&\n' +
+    "      (needs.detect-changes.outputs.any-code-changed == 'true' ||\n" +
+    "       (github.event_name == 'workflow_dispatch' && github.event.inputs.release_mode == 'instant'))\n" +
+    '    steps:\n' +
+    '      - uses: actions/checkout@v7\n' +
+    '        with:\n' +
+    '          fetch-depth: 0\n' +
+    '          persist-credentials: false\n' +
+    '      - name: Simulate fresh merge with base branch (PR only)\n' +
+    "        if: github.event_name == 'pull_request'\n" +
+    '        env:\n' +
+    '          BASE_REF: ${{ github.base_ref }}\n' +
+    '        run: bash scripts/simulate-fresh-merge.sh\n' +
+    '      - uses: actions/setup-node@v7\n' +
+    '        with:\n' +
+    "          node-version: '24.x'\n" +
+    '      - name: Install corpus dependencies\n' +
+    '        run: npm ci\n' +
+    '      - name: Publish Codex and Claude session corpus with zero residuals\n' +
+    '        run: bash scripts/run-with-budget-warning.sh 120 "Session publication corpus" node --max-old-space-size=512 experiments/issue-34/session-corpus.mjs\n' +
+    '\n' +
+    '  # === VERSION CHANGE CHECK ===\n' +
+    '  # Prohibit manual version changes in package.json - versions should only be changed by CI/CD\n' +
+    '  version-check:\n' +
+    '    name: Check for Manual Version Changes\n' +
+    '    runs-on: ubuntu-24.04\n' +
+    '    # Typical run: ~6s. Read-only package.json diff inspection.\n' +
+    '    timeout-minutes: 5\n' +
+    '    concurrency:\n' +
+    '      group: check-${{ github.workflow }}-${{ github.ref }}-version-check\n' +
+    '      cancel-in-progress: true\n' +
+    "    if: github.event_name == 'pull_request'\n" +
+    '    steps:\n' +
+    '      - uses: actions/checkout@v7\n' +
+    '        with:\n' +
+    '          fetch-depth: 0\n' +
+    '          persist-credentials: false\n' +
+    '\n' +
+    '      - name: Check for version changes in package.json\n' +
+    '        env:\n' +
+    '          GITHUB_HEAD_REF: ${{ github.head_ref }}\n' +
+    '          PR_AUTHOR: ${{ github.event.pull_request.user.login }}\n' +
+    '          GITHUB_BASE_REF: ${{ github.base_ref }}\n' +
+    '          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}\n' +
+    '          GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}\n' +
+    '          RELEASE_PR_ACTOR: ${{ vars.RELEASE_PR_ACTOR }}\n' +
+    '        run: node scripts/check-version.mjs\n' +
+    '\n' +
+    '  # === CHANGESET CHECK - only runs on PRs with code changes ===\n' +
+    "  # Docs-only PRs (./docs folder, markdown files) don't require changesets\n" +
+    '  changeset-check:\n' +
+    '    name: Check for Changesets\n' +
+    '    runs-on: ubuntu-24.04\n' +
+    '    # Typical run: <30s including npm install. 10min covers cold runners.\n' +
+    '    timeout-minutes: 10\n' +
+    '    concurrency:\n' +
+    '      group: check-${{ github.workflow }}-${{ github.ref }}-changeset-check\n' +
+    '      cancel-in-progress: true\n' +
+    '    needs: [detect-changes]\n' +
+    "    if: github.event_name == 'pull_request' && needs.detect-changes.outputs.any-code-changed == 'true'\n" +
+    '    steps:\n' +
+    '      - uses: actions/checkout@v7\n' +
+    '        with:\n' +
+    '          fetch-depth: 0\n' +
+    '          persist-credentials: false\n' +
+    '\n' +
+    '      - name: Setup Node.js\n' +
+    '        uses: actions/setup-node@v7\n' +
+    '        with:\n' +
+    "          node-version: '24.x'\n" +
+    '\n' +
+    '      - name: Install dependencies\n' +
+    '        run: npm ci\n' +
+    '\n' +
+    '      - name: Check for changesets\n' +
+    '        env:\n' +
+    '          # Pass PR context to the validation script\n' +
+    '          GITHUB_BASE_REF: ${{ github.base_ref }}\n' +
+    '          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}\n' +
+    '          GITHUB_HEAD_REF: ${{ github.head_ref }}\n' +
+    '          PR_AUTHOR: ${{ github.event.pull_request.user.login }}\n' +
+    '          GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}\n' +
+    '          RELEASE_PR_ACTOR: ${{ vars.RELEASE_PR_ACTOR }}\n' +
+    '        run: |\n' +
+    '          # Run changeset validation script\n' +
+    '          # This validates that exactly ONE changeset was ADDED by this PR\n' +
+    '          # Pre-existing changesets from other merged PRs are ignored\n' +
+    '          node scripts/validate-changeset.mjs\n' +
+    '\n' +
+    '  # === LINT AND FORMAT CHECK ===\n' +
+    "  # Lint runs independently of changeset-check - it's a fast check that should always run\n" +
+    '  # See: https://github.com/link-assistant/hive-mind/pull/1024 for why this dependency was removed\n' +
+    '  # IMPORTANT: ESLint includes max-lines rule (1500 lines) to ensure files stay maintainable\n' +
+    '  # See docs/case-studies/issue-23 for why fresh merge simulation is critical\n' +
+    '  lint:\n' +
+    '    name: Lint and Format Check\n' +
+    '    runs-on: ubuntu-24.04\n' +
+    '    # Typical run: <1min including install, ESLint, Prettier, jscpd,\n' +
+    '    # and secretlint. 10min protects against a hung lint plugin.\n' +
+    '    timeout-minutes: 10\n' +
+    '    concurrency:\n' +
+    '      group: check-${{ github.workflow }}-${{ github.ref }}-lint\n' +
+    '      cancel-in-progress: true\n' +
+    '    needs: [detect-changes]\n' +
+    '    if: |\n' +
+    '      !cancelled() &&\n' +
+    '      (\n' +
+    "        github.event_name == 'workflow_dispatch' ||\n" +
+    "        needs.detect-changes.outputs.docs-changed == 'true' ||\n" +
+    "        needs.detect-changes.outputs.any-code-changed == 'true'\n" +
+    '      )\n' +
+    '    steps:\n' +
+    '      - uses: actions/checkout@v7\n' +
+    '        with:\n' +
+    '          # For PRs, fetch enough history to merge with base branch\n' +
+    '          fetch-depth: 0\n' +
+    '          persist-credentials: false\n' +
+    '\n' +
+    '      - name: Simulate fresh merge with base branch (PR only)\n' +
+    '        if:'... 35393 more characters
+  
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-262-regressions.test.js:77:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'name: Checks and release\n\non:\n  push:\n    branches:\n      - main\n  pull_request:\n    types: [opened, synchronize, reopened]\n  # Manual release support - consolidated here to work with npm trusted publishing\n  # npm only allows ONE workflow file as trusted publisher, so all publishing\n  # must go through this workflow (release.yml)\n  workflow_dispatch:\n    inputs:\n      release_mode:\n        description: \'Manual release mode\'\n        required: true\n        type: choice\n        default: \'instant\'\n        options:\n          - instant\n          - changeset-pr\n      bump_type:\n        default: \'patch\'\n        description: \'Manual release type\'\n        required: true\n        type: choice\n        options:\n          - patch\n          - minor\n          - major\n      description:\n        description: \'Manual release description (optional)\'\n        required: false\n        type: string\n\n# Least-privilege default for the highest-value token in the repository.\n# Every job starts read-only; the publishing jobs escalate individually.\npermissions:\n  contents: read\n\n# Provide Git config to actions/checkout itself; checkout runs git init before\n# any workflow step can configure Git.\nenv:\n  GIT_CONFIG_COUNT: \'1\'\n  GIT_CONFIG_KEY_0: init.defaultBranch\n  GIT_CONFIG_VALUE_0: main\n\njobs:\n  # === DETECT CHANGES - determines which jobs should run ===\n  detect-changes:\n    name: Detect Changes\n    runs-on: ubuntu-24.04\n    # Typical run: ~6s. Cap at 5min so a hung detection step\n    # surfaces quickly instead of stalling the whole pipeline.\n    timeout-minutes: 5\n    # Job-level permissions replace the workflow defaults for this job.\n    permissions:\n      contents: read\n      # The detector asks the Actions API whether the previous head of the\n      # branch already passed this workflow, so a docs-only push can trust\n      # its incremental range.\n      actions: read\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-detect-changes\n      cancel-in-progress: true\n    if: github.event_name != \'workflow_dispatch\'\n    outputs:\n      js-changed: ${{ steps.changes.outputs.js-changed }}\n      docs-changed: ${{ steps.changes.outputs.docs-changed }}\n      any-code-changed: ${{ steps.changes.outputs.any-code-changed }}\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Detect changes\n        id: changes\n        env:\n          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}\n          GITHUB_BEFORE_SHA: ${{ github.event.before }}\n          GITHUB_AFTER_SHA: ${{ github.event.after }}\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          GITHUB_WORKFLOW_REF: ${{ github.workflow_ref }}\n        run: node scripts/detect-code-changes.mjs\n\n  # === FAST CHECKS - run before slow tests for fastest feedback ===\n  # See: hive-mind CI/CD best practices principle #5 (fast-fail job ordering)\n\n  # Syntax check all .mjs files with node --check (~7s)\n  test-compilation:\n    name: Test Compilation\n    runs-on: ubuntu-24.04\n    # Typical run: <10s. Tight cap fails fast on syntax-check hangs.\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-test-compilation\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      !cancelled() &&\n      (needs.detect-changes.outputs.js-changed == \'true\' || github.event_name == \'workflow_dispatch\')\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - uses: actions/setup-node@v7\n        with:\n          node-version: \'24.x\'\n\n      - name: Check JavaScript syntax\n        run: bash scripts/check-mjs-syntax.sh\n\n  # Enforce 1500-line limit on .mjs files and release.yml\n  check-file-line-limits:\n    name: Check File Line Limits\n    runs-on: ubuntu-24.04\n    # Typical run: <10s. This job only walks tracked files and counts lines.\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-check-file-line-limits\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      !cancelled() &&\n      (needs.detect-changes.outputs.docs-changed == \'true\' ||\n       needs.detect-changes.outputs.any-code-changed == \'true\' || github.event_name == \'workflow_dispatch\')\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Simulate fresh merge with base branch (PR only)\n        if: github.event_name == \'pull_request\'\n        env:\n          BASE_REF: ${{ github.base_ref }}\n        run: bash scripts/simulate-fresh-merge.sh\n\n      # Enforces the 1500-line limit on JavaScript (.js/.mjs/.cjs) and\n      # Markdown (.md) files plus release.yml. This is the single source\n      # of truth for the line limit; validate-docs no longer re-checks it.\n      - name: Check file line limits\n        run: bash scripts/check-file-line-limits.sh\n\n  session-publication:\n    name: Session Publication Corpus\n    runs-on: ubuntu-24.04\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-session-publication\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      !cancelled() &&\n      (needs.detect-changes.outputs.any-code-changed == \'true\' ||\n       (github.event_name == \'workflow_dispatch\' && github.event.inputs.release_mode == \'instant\'))\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n      - name: Simulate fresh merge with base branch (PR only)\n        if: github.event_name == \'pull_request\'\n        env:\n          BASE_REF: ${{ github.base_ref }}\n        run: bash scripts/simulate-fresh-merge.sh\n      - uses: actions/setup-node@v7\n        with:\n          node-version: \'24.x\'\n      - name: Install corpus dependencies\n        run: npm ci\n      - name: Publish Codex and Claude session corpus with zero residuals\n        run: bash scripts/run-with-budget-warning.sh 120 "Session publication corpus" node --max-old-space-size=512 experiments/issue-34/session-corpus.mjs\n\n  # === VERSION CHANGE CHECK ===\n  # Prohibit manual version changes in package.json - versions should only be changed by CI/CD\n  version-check:\n    name: Check for Manual Version Changes\n    runs-on: ubuntu-24.04\n    # Typical run: ~6s. Read-only package.json diff inspection.\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-version-check\n      cancel-in-progress: true\n    if: github.event_name == \'pull_request\'\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Check for version changes in package.json\n        env:\n          GITHUB_HEAD_REF: ${{ github.head_ref }}\n          PR_AUTHOR: ${{ github.event.pull_request.user.login }}\n          GITHUB_BASE_REF: ${{ github.base_ref }}\n          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}\n          GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}\n          RELEASE_PR_ACTOR: ${{ vars.RELEASE_PR_ACTOR }}\n        run: node scripts/check-version.mjs\n\n  # === CHANGESET CHECK - only runs on PRs with code changes ===\n  # Docs-only PRs (./docs folder, markdown files) don\'t require changesets\n  changeset-check:\n    name: Check for Changesets\n    runs-on: ubuntu-24.04\n    # Typical run: <30s including npm install. 10min covers cold runners.\n    timeout-minutes: 10\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-changeset-check\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: github.event_name == \'pull_request\' && needs.detect-changes.outputs.any-code-changed == \'true\'\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: \'24.x\'\n\n      - name: Install dependencies\n        run: npm ci\n\n      - name: Check for changesets\n        env:\n          # Pass PR context to the validation script\n          GITHUB_BASE_REF: ${{ github.base_ref }}\n          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}\n          GITHUB_HEAD_REF: ${{ github.head_ref }}\n          PR_AUTHOR: ${{ github.event.pull_request.user.login }}\n          GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}\n          RELEASE_PR_ACTOR: ${{ vars.RELEASE_PR_ACTOR }}\n        run: |\n          # Run changeset validation script\n          # This validates that exactly ONE changeset was ADDED by this PR\n          # Pre-existing changesets from other merged PRs are ignored\n          node scripts/validate-changeset.mjs\n\n  # === LINT AND FORMAT CHECK ===\n  # Lint runs independently of changeset-check - it\'s a fast check that should always run\n  # See: https://github.com/link-assistant/hive-mind/pull/1024 for why this dependency was removed\n  # IMPORTANT: ESLint includes max-lines rule (1500 lines) to ensure files stay maintainable\n  # See docs/case-studies/issue-23 for why fresh merge simulation is critical\n  lint:\n    name: Lint and Format Check\n    runs-on: ubuntu-24.04\n    # Typical run: <1min including install, ESLint, Prettier, jscpd,\n    # and secretlint. 10min protects against a hung lint plugin.\n    timeout-minutes: 10\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-lint\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      !cancelled() &&\n      (\n        github.event_name == \'workflow_dispatch\' ||\n        needs.detect-changes.outputs.docs-changed == \'true\' ||\n        needs.detect-changes.outputs.any-code-changed == \'true\'\n      )\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          # For PRs, fetch enough history to merge with base branch\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Simulate fresh merge with base branch (PR only)\n        if:'... 35393 more characters,
+    expected: /\bnpm install\b|\bbun install\b/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ enforces LF for every tracked shell script and hook (23.47616ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '.husky/pre-commit: eol: unspecified'
+  - '.husky/pre-commit: eol: lf'
+                             ^
+  
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/issue-262-regressions.test.js:97:16)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '.husky/pre-commit: eol: unspecified',
+    expected: '.husky/pre-commit: eol: lf',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ excludes historical experiments while scanning shipped examples (0.6865ms)
+  Error: Expected "name: Shipped code and pipeline\npaths-ignore:\n  - docs/case-studies\n  - dev/log\n" to match /- experiments\b/
+      at Object.toMatch (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:574:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/security-workflow.test.js:152:18)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Suite.postRun (node:internal/test_runner/test:1542:19)
+      at Suite.run (node:internal/test_runner/test:1921:10)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ package-metadata.test.js registers every test unconditionally (1.930261ms)
+  Error: Expected ["package-metadata.test.js:37 silent-pass","package-metadata.test.js:74 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-cli-features.test.js registers every test unconditionally (3.326635ms)
+  Error: Expected ["sanitizer-cli-features.test.js:57 silent-pass","sanitizer-cli-features.test.js:68 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-cli.test.js registers every test unconditionally (3.002269ms)
+  Error: Expected ["sanitizer-cli.test.js:36 silent-pass","sanitizer-cli.test.js:55 silent-pass","sanitizer-cli.test.js:68 silent-pass","sanitizer-cli.test.js:80 silent-pass","sanitizer-cli.test.js:92 silent-pass","sanitizer-cli.test.js:106 silent-pass","sanitizer-cli.test.js:126 silent-pass","sanitizer-cli.test.js:140 silent-pass","sanitizer-cli.test.js:153 silent-pass","sanitizer-cli.test.js:170 silent-pass","sanitizer-cli.test.js:218 silent-pass","sanitizer-cli.test.js:261 silent-pass","sanitizer-cli.test.js:289 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-context.test.js registers every test unconditionally (0.274712ms)
+  Error: Expected ["sanitizer-context.test.js:8 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-external.test.js registers every test unconditionally (0.271677ms)
+  Error: Expected ["sanitizer-external.test.js:15 silent-pass","sanitizer-external.test.js:28 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-issue-32.test.js registers every test unconditionally (0.329926ms)
+  Error: Expected ["sanitizer-issue-32.test.js:48 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-issue-34.test.js registers every test unconditionally (0.362206ms)
+  Error: Expected ["sanitizer-issue-34.test.js:202 silent-pass","sanitizer-issue-34.test.js:256 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-issue-47.test.js registers every test unconditionally (0.250708ms)
+  Error: Expected ["sanitizer-issue-47.test.js:99 silent-pass","sanitizer-issue-47.test.js:135 silent-pass","sanitizer-issue-47.test.js:161 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-issue-50.test.js registers every test unconditionally (0.204802ms)
+  Error: Expected ["sanitizer-issue-50.test.js:69 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-jsonl-stream.test.js registers every test unconditionally (0.264363ms)
+  Error: Expected ["sanitizer-jsonl-stream.test.js:14 silent-pass","sanitizer-jsonl-stream.test.js:109 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-outbound.test.js registers every test unconditionally (0.256297ms)
+  Error: Expected ["sanitizer-outbound.test.js:102 silent-pass","sanitizer-outbound.test.js:114 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-placeholder-cli.test.js registers every test unconditionally (0.233906ms)
+  Error: Expected ["sanitizer-placeholder-cli.test.js:38 silent-pass","sanitizer-placeholder-cli.test.js:122 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-rewrite.test.js registers every test unconditionally (0.231192ms)
+  Error: Expected ["sanitizer-rewrite.test.js:27 silent-pass","sanitizer-rewrite.test.js:57 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-session-identity.test.js registers every test unconditionally (0.523906ms)
+  Error: Expected ["sanitizer-session-identity.test.js:150 silent-pass","sanitizer-session-identity.test.js:234 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-stream.test.js registers every test unconditionally (0.315489ms)
+  Error: Expected ["sanitizer-stream.test.js:48 silent-pass","sanitizer-stream.test.js:76 silent-pass","sanitizer-stream.test.js:106 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ sanitizer-two-pass.test.js registers every test unconditionally (0.269833ms)
+  Error: Expected ["sanitizer-two-pass.test.js:189 silent-pass","sanitizer-two-pass.test.js:205 silent-pass"] to equal []
+      at Object.toEqual (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:399:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:98:24)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ grants the permissions required by fixture tests (2.014017ms)
+  Error: Expected "name: Checks and release\n\non:\n  push:\n    branches:\n      - main\n  pull_request:\n    types: [opened, synchronize, reopened]\n  # Manual release support - consolidated here to work with npm trusted publishing\n  # npm only allows ONE workflow file as trusted publisher, so all publishing\n  # must go through this workflow (release.yml)\n  workflow_dispatch:\n    inputs:\n      release_mode:\n        description: 'Manual release mode'\n        required: true\n        type: choice\n        default: 'instant'\n        options:\n          - instant\n          - changeset-pr\n      bump_type:\n        default: 'patch'\n        description: 'Manual release type'\n        required: true\n        type: choice\n        options:\n          - patch\n          - minor\n          - major\n      description:\n        description: 'Manual release description (optional)'\n        required: false\n        type: string\n\n# Least-privilege default for the highest-value token in the repository.\n# Every job starts read-only; the publishing jobs escalate individually.\npermissions:\n  contents: read\n\n# Provide Git config to actions/checkout itself; checkout runs git init before\n# any workflow step can configure Git.\nenv:\n  GIT_CONFIG_COUNT: '1'\n  GIT_CONFIG_KEY_0: init.defaultBranch\n  GIT_CONFIG_VALUE_0: main\n\njobs:\n  # === DETECT CHANGES - determines which jobs should run ===\n  detect-changes:\n    name: Detect Changes\n    runs-on: ubuntu-24.04\n    # Typical run: ~6s. Cap at 5min so a hung detection step\n    # surfaces quickly instead of stalling the whole pipeline.\n    timeout-minutes: 5\n    # Job-level permissions replace the workflow defaults for this job.\n    permissions:\n      contents: read\n      # The detector asks the Actions API whether the previous head of the\n      # branch already passed this workflow, so a docs-only push can trust\n      # its incremental range.\n      actions: read\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-detect-changes\n      cancel-in-progress: true\n    if: github.event_name != 'workflow_dispatch'\n    outputs:\n      js-changed: ${{ steps.changes.outputs.js-changed }}\n      docs-changed: ${{ steps.changes.outputs.docs-changed }}\n      any-code-changed: ${{ steps.changes.outputs.any-code-changed }}\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Detect changes\n        id: changes\n        env:\n          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}\n          GITHUB_BEFORE_SHA: ${{ github.event.before }}\n          GITHUB_AFTER_SHA: ${{ github.event.after }}\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          GITHUB_WORKFLOW_REF: ${{ github.workflow_ref }}\n        run: node scripts/detect-code-changes.mjs\n\n  # === FAST CHECKS - run before slow tests for fastest feedback ===\n  # See: hive-mind CI/CD best practices principle #5 (fast-fail job ordering)\n\n  # Syntax check all .mjs files with node --check (~7s)\n  test-compilation:\n    name: Test Compilation\n    runs-on: ubuntu-24.04\n    # Typical run: <10s. Tight cap fails fast on syntax-check hangs.\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-test-compilation\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      !cancelled() &&\n      (needs.detect-changes.outputs.js-changed == 'true' || github.event_name == 'workflow_dispatch')\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Check JavaScript syntax\n        run: bash scripts/check-mjs-syntax.sh\n\n  # Enforce 1500-line limit on .mjs files and release.yml\n  check-file-line-limits:\n    name: Check File Line Limits\n    runs-on: ubuntu-24.04\n    # Typical run: <10s. This job only walks tracked files and counts lines.\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-check-file-line-limits\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      !cancelled() &&\n      (needs.detect-changes.outputs.docs-changed == 'true' ||\n       needs.detect-changes.outputs.any-code-changed == 'true' || github.event_name == 'workflow_dispatch')\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Simulate fresh merge with base branch (PR only)\n        if: github.event_name == 'pull_request'\n        env:\n          BASE_REF: ${{ github.base_ref }}\n        run: bash scripts/simulate-fresh-merge.sh\n\n      # Enforces the 1500-line limit on JavaScript (.js/.mjs/.cjs) and\n      # Markdown (.md) files plus release.yml. This is the single source\n      # of truth for the line limit; validate-docs no longer re-checks it.\n      - name: Check file line limits\n        run: bash scripts/check-file-line-limits.sh\n\n  session-publication:\n    name: Session Publication Corpus\n    runs-on: ubuntu-24.04\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-session-publication\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      !cancelled() &&\n      (needs.detect-changes.outputs.any-code-changed == 'true' ||\n       (github.event_name == 'workflow_dispatch' && github.event.inputs.release_mode == 'instant'))\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n      - name: Simulate fresh merge with base branch (PR only)\n        if: github.event_name == 'pull_request'\n        env:\n          BASE_REF: ${{ github.base_ref }}\n        run: bash scripts/simulate-fresh-merge.sh\n      - uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n      - name: Install corpus dependencies\n        run: npm ci\n      - name: Publish Codex and Claude session corpus with zero residuals\n        run: bash scripts/run-with-budget-warning.sh 120 \"Session publication corpus\" node --max-old-space-size=512 experiments/issue-34/session-corpus.mjs\n\n  # === VERSION CHANGE CHECK ===\n  # Prohibit manual version changes in package.json - versions should only be changed by CI/CD\n  version-check:\n    name: Check for Manual Version Changes\n    runs-on: ubuntu-24.04\n    # Typical run: ~6s. Read-only package.json diff inspection.\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-version-check\n      cancel-in-progress: true\n    if: github.event_name == 'pull_request'\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Check for version changes in package.json\n        env:\n          GITHUB_HEAD_REF: ${{ github.head_ref }}\n          PR_AUTHOR: ${{ github.event.pull_request.user.login }}\n          GITHUB_BASE_REF: ${{ github.base_ref }}\n          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}\n          GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}\n          RELEASE_PR_ACTOR: ${{ vars.RELEASE_PR_ACTOR }}\n        run: node scripts/check-version.mjs\n\n  # === CHANGESET CHECK - only runs on PRs with code changes ===\n  # Docs-only PRs (./docs folder, markdown files) don't require changesets\n  changeset-check:\n    name: Check for Changesets\n    runs-on: ubuntu-24.04\n    # Typical run: <30s including npm install. 10min covers cold runners.\n    timeout-minutes: 10\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-changeset-check\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: github.event_name == 'pull_request' && needs.detect-changes.outputs.any-code-changed == 'true'\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Install dependencies\n        run: npm ci\n\n      - name: Check for changesets\n        env:\n          # Pass PR context to the validation script\n          GITHUB_BASE_REF: ${{ github.base_ref }}\n          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}\n          GITHUB_HEAD_REF: ${{ github.head_ref }}\n          PR_AUTHOR: ${{ github.event.pull_request.user.login }}\n          GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}\n          RELEASE_PR_ACTOR: ${{ vars.RELEASE_PR_ACTOR }}\n        run: |\n          # Run changeset validation script\n          # This validates that exactly ONE changeset was ADDED by this PR\n          # Pre-existing changesets from other merged PRs are ignored\n          node scripts/validate-changeset.mjs\n\n  # === LINT AND FORMAT CHECK ===\n  # Lint runs independently of changeset-check - it's a fast check that should always run\n  # See: https://github.com/link-assistant/hive-mind/pull/1024 for why this dependency was removed\n  # IMPORTANT: ESLint includes max-lines rule (1500 lines) to ensure files stay maintainable\n  # See docs/case-studies/issue-23 for why fresh merge simulation is critical\n  lint:\n    name: Lint and Format Check\n    runs-on: ubuntu-24.04\n    # Typical run: <1min including install, ESLint, Prettier, jscpd,\n    # and secretlint. 10min protects against a hung lint plugin.\n    timeout-minutes: 10\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-lint\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      !cancelled() &&\n      (\n        github.event_name == 'workflow_dispatch' ||\n        needs.detect-changes.outputs.docs-changed == 'true' ||\n        needs.detect-changes.outputs.any-code-changed == 'true'\n      )\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          # For PRs, fetch enough history to merge with base branch\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Simulate fresh merge with base branch (PR only)\n        if: github.event_name == 'pull_request'\n        env:\n          BASE_REF: ${{ github.base_ref }}\n        run: bash scripts/simulate-fresh-merge.sh\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Check for secrets\n        run: npx --yes -p secretlint@13.0.7 -p @secretlint/secretlint-rule-preset-recommend@13.0.7 secretlint \"**/*\"\n\n      - name: Install dependencies\n        run: npm ci\n\n      - name: Dry-run release versioning (PR only)\n        if: github.event_name == 'pull_request'\n        env:\n          npm_config_offline: 'true'\n          npm_config_ignore_scripts: 'true'\n        run: |\n          trap 'git restore --source=HEAD --staged --worktree -- .' EXIT\n          npm run changeset:version\n          git status --short\n\n      - name: Run ESLint\n        env:\n          LINT_ALL_WARNINGS: ${{ github.event_name != 'pull_request' && '1' || '0' }}\n        run: npm run lint:all -- --max-warnings 0\n\n      - name: Check formatting\n        run: npm run format:check\n\n      - name: Check code duplication\n        run: npm run check:duplication\n\n  # Test matrix: 3 runtimes (Node.js, Bun, Deno) x 3 OS (Ubuntu, macOS, Windows)\n  # IMPORTANT: Tests must validate the ACTUAL merge result, not a stale merge preview.\n  # See docs/case-studies/issue-23 for why this is critical.\n  # Fast-fail: slow test matrix only runs after fast checks pass (hive-mind principle #5)\n  test:\n    name: Test runtimes\n    env:\n      TEST_SHARD: ${{ matrix.shard }}\n    runs-on: ${{ matrix.os }}\n    # Typical run: <1min per runtime/OS on warm runners, with Windows\n    # sometimes slower on cold starts. Each test step owns an explicit\n    # budget below (see scripts/run-with-budget-warning.sh); this cap is\n    # only the backstop behind those budgets, sized so the budgets always\n    # expire first. A job killed by timeout-minutes reports *cancelled*,\n    # which hides the failure -- see docs/legacy/CI-TIMEOUT-BUDGETS.md.\n    timeout-minutes: 15\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.runtime }}-${{ matrix.os }}-${{ matrix.shard }}\n      cancel-in-progress: true\n    needs:\n      [\n        detect-changes,\n        changeset-check,\n        test-compilation,\n        lint,\n        check-file-line-limits,\n      ]\n    # Use !cancelled() instead of always() so cancellation propagates correctly (hive-mind issue #1278)\n    # Run for relevant code/package/workflow changes, or for an instant manual\n    # release. Skipped fast checks count as non-failures only after one of\n    # those positive gates passes.\n    if: |\n      !cancelled() &&\n      (\n        needs.detect-changes.outputs.any-code-changed == 'true' ||\n        (\n          github.event_name == 'workflow_dispatch' &&\n          github.event.inputs.release_mode == 'instant'\n        )\n      ) &&\n      (needs.changeset-check.result == 'success' || needs.changeset-check.result == 'skipped') &&\n      (needs.test-compilation.result == 'success' || needs.test-compilation.result == 'skipped') &&\n      (needs.lint.result == 'success' || needs.lint.result == 'skipped') &&\n      (needs.check-file-line-limits.result == 'success' || needs.check-file-line-limits.result == 'skipped')\n    strategy:\n      fail-fast: false\n      matrix:\n        os: [ubuntu-24.04, windows-2025]\n        runtime: [node, bun, deno]\n        shard: ['1/1']\n        # Intel runners avoid ARM64 capacity failures. Partition the suite so\n        # each job retains its existing execution budget on the slower pool.\n        include:\n          - { os: macos-26-intel, runtime: node, shard: '1/3' }\n          - { os: macos-26-intel, runtime: node, shard: '2/3' }\n          - { os: macos-26-intel, runtime: node, shard: '3/3' }\n          - { os: macos-26-intel, runtime: bun, shard: '1/3' }\n          - { os: macos-26-intel, runtime: bun, shard: '2/3' }\n          - { os: macos-26-intel, runtime: bun, shard: '3/3' }\n          - { os: macos-26-intel, runtime: deno, shard: '1/3' }\n          - { os: macos-26-intel, runtime: deno, shard: '2/3' }\n          - { os: macos-26-intel, runtime: deno, shard: '3/3' }\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          # For PRs, fetch enough history to merge with base branch\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Simulate fresh merge with base branch (PR only)\n        if: github.event_name == 'pull_request'\n        env:\n          BASE_REF: ${{ github.base_ref }}\n        shell: bash\n        run: bash scripts/simulate-fresh-merge.sh\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Install dependencies (Node.js)\n        run: npm ci\n\n      - name: Run tests (Node.js)\n        if: matrix.runtime == 'node'\n        shell: bash\n        run: bash scripts/run-with-budget-warning.sh 300 \"Node.js test suite\" node scripts/run-test-shard.mjs node \"$TEST_SHARD\"\n\n      - name: Verify clone-only history rewrite with git-filter-repo\n        if: matrix.runtime == 'node' && matrix.os == 'ubuntu-24.04'\n        shell: bash\n        run: |\n          python3 -m venv \"$RUNNER_TEMP/history-tools\"\n          bash scripts/run-with-budget-warning.sh 120 \"Install history rewrite tool\" \"$RUNNER_TEMP/history-tools/bin/pip\" install git-filter-repo==2.47.0\n          GIT_FILTER_REPO=\"$RUNNER_TEMP/history-tools/bin/git-filter-repo\" bash scripts/run-with-budget-warning.sh 60 \"History rewrite integration\" node --max-old-space-size=512 experiments/history-rewrite-integration.mjs\n\n      - name: Setup Bun\n        if: matrix.runtime == 'bun'\n        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0\n        with:\n          bun-version: '1.x'\n\n      - name: Run tests (Bun)\n        if: matrix.runtime == 'bun'\n        shell: bash\n        # --timeout caps an *individual* test at 30s, matching Node's\n        # --test-timeout budget while leaving headroom for cold runners.\n        # It is a per-test bound and does not bound the suite: 25 tests of\n        # 29s each pass every per-test check. The suite budget below is\n        # what bounds the whole run.\n        run: bash scripts/run-with-budget-warning.sh 200 \"Bun test suite\" node scripts/run-test-shard.mjs bun \"$TEST_SHARD\"\n\n      - name: Setup Deno\n        if: matrix.runtime == 'deno'\n        uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5\n        with:\n          deno-version: v2.x\n\n      - name: Prepare Deno dependencies\n        if: matrix.runtime == 'deno'\n        shell: bash\n        # Cold npm downloads previously consumed the test execution budget.\n        # Bound dependency preparation separately, as for Node and Bun installs.\n        run: deno test -A --parallel --no-run --frozen\n\n      - name: Run tests (Deno)\n        if: matrix.runtime == 'deno'\n        shell: bash\n        run: bash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\"\n\n  # === DOCKER IMAGE BUILD CHECK (pull requests) ===\n  # Builds the Dockerfile without pushing so a broken image fails the pull\n  # request instead of surfacing only after publish (issue #106).\n  # push: false + load: true keeps this working for fork pull requests,\n  # which have no registry credentials. Skipped when no Dockerfile exists.\n  docker-build:\n    name: Docker Image Build Check\n    runs-on: ubuntu-24.04\n    # Typical run: a few minutes with a warm GHA layer cache. 30min covers\n    # a cold, uncached build without allowing a 6h hang.\n    timeout-minutes: 30\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-docker-build\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: github.event_name == 'pull_request' && needs.detect-changes.outputs.any-code-changed == 'true'\n    permissions:\n      contents: read\n    env:\n      DOCKER_CONTEXT: ${{ vars.DOCKER_CONTEXT }}\n      DOCKERFILE: ${{ vars.DOCKERFILE }}\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - name: Check Docker build configuration\n        id: docker_config\n        run: node scripts/check-docker-build.mjs\n\n      - name: Set up Docker Buildx (resilient)\n        if: steps.docker_config.outputs.enabled == 'true'\n        uses: ./.github/actions/setup-buildx-resilient\n\n      - name: Build Docker image (no push)\n        if: steps.docker_config.outputs.enabled == 'true'\n        # A `uses:` step cannot be wrapped by run-with-budget-warning.sh, so\n        # it declares its deadline with a step-level timeout-minutes: an\n        # exhausted step budget fails the step, while an exhausted job cap\n        # only cancels the job.\n        timeout-minutes: 20\n        uses: docker/build-push-action@v7\n        with:\n          context: ${{ steps.docker_config.outputs.context }}\n          file: ${{ steps.docker_config.outputs.dockerfile }}\n          push: false\n          load: true\n          tags: pr-check:${{ github.sha }}\n          # Scoped so this build cannot overwrite or be overwritten by the\n          # unscoped default `buildkit` scope: the GitHub Actions cache is a\n          # 10 GB repository-wide pool with LRU eviction, and unscoped\n          # mode=max exports of every intermediate layer crowd out the caches\n          # the rest of the pipeline reads.\n          cache-from: type=gha,scope=docker-image\n          cache-to: type=gha,mode=max,scope=docker-image\n\n  # === DOCUMENTATION VALIDATION ===\n  # Validate documentation files when docs change (hive-mind principle #12)\n  validate-docs:\n    name: Validate Documentation\n    runs-on: ubuntu-24.04\n    # Typical run: <10s. Pure shell checks over documentation files.\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-validate-docs\n      cancel-in-progress: true\n    needs: [detect-changes]\n    if: |\n      needs.detect-changes.outputs.docs-changed == 'true'\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      # Documentation line limits (1500 lines, matching the architecture\n      # limit) are enforced by the check-file-line-limits job, which scans\n      # every .md file. This job validates that the required documents\n      # exist AND still carry the sections readers depend on -- a deleted\n      # section is an ordinary diff hunk, and is exactly what review skims\n      # past. The requirement table lives in\n      # scripts/check-required-docs.sh; `--list` prints it for tests and\n      # reviewers.\n      - name: Check required documentation sections\n        run: bash scripts/check-required-docs.sh\n\n  # Principle 16 of the shared CI/CD best practices: prove the release\n  # credentials can write before the expensive jobs spend their minutes\n  # (issues #176, #181). A non-empty secret proves nothing -- an expired\n  # token is non-empty -- and a login proves authentication, not\n  # authorisation, so scripts/preflight-credentials.sh probes with an\n  # attempted write: a refused credential fails the run seconds in instead\n  # of surfacing as a registry error after the matrix.\n  release-preflight:\n    name: Release Preflight\n    runs-on: ubuntu-24.04\n    timeout-minutes: 5\n    permissions:\n      contents: read\n      # The runner injects ACTIONS_ID_TOKEN_REQUEST_URL only when the job may\n      # mint OIDC tokens. npm publishes with provenance, so its absence --\n      # mirrored in the publishing jobs' permission envelope -- is itself the\n      # finding.\n      id-token: write\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - name: Probe every release credential\n        env:\n          # Release mode (push to main, manual instant release) fails the run\n          # on a refused credential. Report mode (pull requests -- a fork has\n          # no publishing secrets) runs the same probes and annotates without\n          # blocking.\n          PREFLIGHT_MODE: >-\n            ${{\n              (\n                (github.event_name == 'push' && github.ref == 'refs/heads/main') ||\n                (github.event_name == 'workflow_dispatch' && github.event.inputs.release_mode == 'instant')\n              ) && 'release' || 'report'\n            }}\n          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}\n          DOCKERHUB_IMAGE: ${{ vars.DOCKERHUB_IMAGE }}\n          DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}\n          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}\n        run: bash scripts/preflight-credentials.sh\n\n  # Release - only runs on main after tests pass (for push events)\n  release:\n    name: Release\n    needs:\n      [\n        detect-changes,\n        test-compilation,\n        check-file-line-limits,\n        version-check,\n        changeset-check,\n        lint,\n        test,\n        session-publication,\n        docker-build,\n        validate-docs,\n        release-preflight,\n      ]\n    # Registry verification can take over 15 minutes after a successful publish.\n    timeout-minutes: 65\n    concurrency:\n      group: main-writer-${{ github.repository }}-main\n      cancel-in-progress: false\n      queue: max\n    # Use !cancelled() instead of always() so cancellation propagates correctly (hive-mind issue #1278)\n    # This is needed because lint/test jobs have a transitive dependency on changeset-check\n    if: |\n      !cancelled() &&\n      github.ref == 'refs/heads/main' &&\n      github.event_name == 'push' &&\n      needs.release-preflight.result == 'success' &&\n      needs.lint.result == 'success' &&\n      needs.test.result == 'success' &&\n      !contains(needs.*.result, 'failure') &&\n      !contains(needs.*.result, 'cancelled')\n    runs-on: ubuntu-24.04\n    # Permissions required for npm OIDC trusted publishing\n    permissions:\n      contents: write\n      pull-requests: write\n      checks: write\n      id-token: write\n    outputs:\n      published: ${{ steps.publish.outputs.published }}\n      published_version: ${{ steps.publish.outputs.published_version }}\n    steps:\n      # One of two checkouts in this workflow that keep credentials in\n      # .git/config: scripts/version-and-commit.mjs runs\n      # `git push origin main` to publish the version bump, which needs the\n      # token wired into the remote. Every other checkout in this\n      # repository sets persist-credentials: false.\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: true\n          fetch-depth: 0\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n          registry-url: 'https://registry.npmjs.org'\n\n      - name: Remove deprecated npm auth config\n        run: node scripts/sanitize-npm-userconfig.mjs\n\n      # Fail-closed before the install step: changesets 3.x shells out to the\n      # detected package manager, and a foreign lockfile at the root\n      # (deno.lock is here for the Deno test leg) outranks package-lock.json\n      # in package-manager-detector's probe order unless package.json\n      # declares the manager. The requirement table lives in the script.\n      - name: Check package manager declaration and lockfiles\n        run: node scripts/check-package-manager.mjs\n\n      - name: Install dependencies\n        run: bash scripts/run-with-budget-warning.sh 240 \"Release dependency install\" npm ci\n\n      - name: Update npm for OIDC trusted publishing\n        run: node scripts/setup-npm.mjs\n\n      - name: Check for changesets\n        id: check_changesets\n        run: node scripts/check-changesets.mjs\n\n      - name: Check if release is needed\n        id: check_release\n        env:\n          HAS_CHANGESETS: ${{ steps.check_changesets.outputs.has_changesets }}\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n        run: node scripts/check-release-needed.mjs\n\n      - name: Merge multiple changesets\n        if: steps.check_changesets.outputs.has_changesets == 'true' && steps.check_changesets.outputs.changeset_count > 1\n        run: |\n          echo \"Multiple changesets detected, merging...\"\n          node scripts/merge-changesets.mjs\n\n      - name: Version packages and commit to main\n        if: steps.check_changesets.outputs.has_changesets == 'true'\n        id: version\n        env:\n          # Prefer the dedicated actor when configured. Otherwise the built-in\n          # token attests a metadata-only version commit after parent validation.\n          RELEASE_PR_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          RELEASE_METADATA_PATHS: ${{ vars.RELEASE_METADATA_PATHS }}\n        run: node scripts/version-and-commit.mjs --mode changeset\n\n      - name: Publish to npm\n        # Run if version was committed, if a previous attempt already committed (for re-runs),\n        # or if check-release-needed detected an unpublished version (self-healing, issue #36)\n        if: >-\n          steps.version.outputs.version_committed == 'true' ||\n          steps.version.outputs.already_released == 'true' ||\n          (steps.check_release.outputs.should_release == 'true' && steps.check_release.outputs.skip_bump == 'true')\n        id: publish\n        # Optional NPM_TOKEN bootstrap fallback. OIDC trusted publishing is the\n        # steady-state mechanism, but it cannot create a brand-new package (the\n        # first publish returns E404 because a trusted publisher can only be\n        # configured for a package that already exists). When NPM_TOKEN is set,\n        # the first publish succeeds; once the package exists and a trusted\n        # publisher is configured, OIDC takes over and the token can be removed.\n        # See issue #77.\n        env:\n          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}\n        run: bash scripts/run-with-budget-warning.sh 1800 \"npm publish and registry verification\" node scripts/publish-to-npm.mjs --should-pull\n\n      - name: Smoke-test published npm package\n        if: steps.publish.outputs.published == 'true'\n        env:\n          PACKAGE_VERSION: ${{ steps.publish.outputs.published_version }}\n        run: bash scripts/run-with-budget-warning.sh 600 \"npm package smoke test\" node scripts/smoke-test-package.mjs --package-version \"$PACKAGE_VERSION\"\n\n      - name: Create GitHub Release\n        if: steps.publish.outputs.published == 'true'\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          PACKAGE_VERSION: ${{ steps.publish.outputs.published_version }}\n          REPOSITORY: ${{ github.repository }}\n        run: node scripts/create-github-release.mjs --release-version \"$PACKAGE_VERSION\" --repository \"$REPOSITORY\"\n\n      - name: Format GitHub release notes\n        if: steps.publish.outputs.published == 'true'\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          PACKAGE_VERSION: ${{ steps.publish.outputs.published_version }}\n          REPOSITORY: ${{ github.repository }}\n          COMMIT_SHA: ${{ github.sha }}\n        run: node scripts/format-github-release.mjs --release-version \"$PACKAGE_VERSION\" --repository \"$REPOSITORY\" --commit-sha \"$COMMIT_SHA\"\n\n  # Manual Instant Release - triggered via workflow_dispatch with instant mode\n  # This job is in release.yml because npm trusted publishing\n  # only allows one workflow file to be registered as a trusted publisher\n  instant-release:\n    name: Instant Release\n    # Publishing must wait for both quality gates and require explicit success.\n    needs:\n      [\n        detect-changes,\n        test-compilation,\n        check-file-line-limits,\n        version-check,\n        changeset-check,\n        lint,\n        test,\n        session-publication,\n        docker-build,\n        validate-docs,\n        release-preflight,\n      ]\n    if: |\n      !cancelled() &&\n      github.event_name == 'workflow_dispatch' &&\n      github.event.inputs.release_mode == 'instant' &&\n      github.ref == 'refs/heads/main' &&\n      needs.release-preflight.result == 'success' &&\n      needs.lint.result == 'success' &&\n      needs.test.result == 'success' &&\n      !contains(needs.*.result, 'failure') &&\n      !contains(needs.*.result, 'cancelled')\n    runs-on: ubuntu-24.04\n    # Same publish envelope as the automated release path.\n    timeout-minutes: 65\n    concurrency:\n      group: main-writer-${{ github.repository }}-main\n      cancel-in-progress: false\n      queue: max\n    # Permissions required for npm OIDC trusted publishing\n    permissions:\n      contents: write\n      pull-requests: write\n      checks: write\n      id-token: write\n    outputs:\n      published: ${{ steps.publish.outputs.published }}\n      published_version: ${{ steps.publish.outputs.published_version }}\n    steps:\n      # The second checkout in this workflow that keeps credentials in\n      # .git/config: scripts/version-and-commit.mjs pushes the version\n      # commit to main, which needs the token wired into the remote.\n      # Every other checkout in this repository sets\n      # persist-credentials: false.\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: true\n          fetch-depth: 0\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n          registry-url: 'https://registry.npmjs.org'\n\n      - name: Remove deprecated npm auth config\n        run: node scripts/sanitize-npm-userconfig.mjs\n\n      - name: Install dependencies\n        run: npm ci\n\n      - name: Update npm for OIDC trusted publishing\n        run: node scripts/setup-npm.mjs\n\n      - name: Version packages and commit to main\n        id: version\n        env:\n          BUMP_TYPE: ${{ github.event.inputs.bump_type }}\n          RELEASE_DESCRIPTION: ${{ github.event.inputs.description }}\n          # See the release job above (issues #143, #192, and #196).\n          RELEASE_PR_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          RELEASE_METADATA_PATHS: ${{ vars.RELEASE_METADATA_PATHS }}\n        run: node scripts/version-and-commit.mjs --mode instant --bump-type \"$BUMP_TYPE\" --description \"$RELEASE_DESCRIPTION\"\n\n      - name: Publish to npm\n        # Run if version was committed OR if a previous attempt already committed (for re-runs)\n        if: steps.version.outputs.version_committed == 'true' || steps.version.outputs.already_released == 'true'\n        id: publish\n        # Optional NPM_TOKEN bootstrap fallback; OIDC trusted publishing is used\n        # when the secret is unset. See the release job above for details (#77).\n        env:\n          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}\n        run: bash scripts/run-with-budget-warning.sh 1800 \"npm publish and registry verification\" node scripts/publish-to-npm.mjs\n\n      - name: Smoke-test published npm package\n        if: steps.publish.outputs.published == 'true'\n        env:\n          PACKAGE_VERSION: ${{ steps.publish.outputs.published_version }}\n        run: bash scripts/run-with-budget-warning.sh 600 \"npm package smoke test\" node scripts/smoke-test-package.mjs --package-version \"$PACKAGE_VERSION\"\n\n      - name: Create GitHub Release\n        if: steps.publish.outputs.published == 'true'\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          PACKAGE_VERSION: ${{ steps.publish.outputs.published_version }}\n          REPOSITORY: ${{ github.repository }}\n        run: node scripts/create-github-release.mjs --release-version \"$PACKAGE_VERSION\" --repository \"$REPOSITORY\"\n\n      - name: Format GitHub release notes\n        if: steps.publish.outputs.published == 'true'\n        env:\n          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          PACKAGE_VERSION: ${{ steps.publish.outputs.published_version }}\n          REPOSITORY: ${{ github.repository }}\n          COMMIT_SHA: ${{ github.sha }}\n        run: node scripts/format-github-release.mjs --release-version \"$PACKAGE_VERSION\" --repository \"$REPOSITORY\" --commit-sha \"$COMMIT_SHA\"\n\n  # Optional Docker Hub publishing for packages that also ship Docker images.\n  # Set vars.DOCKERHUB_IMAGE to enable this path, then configure\n  # vars.DOCKERHUB_USERNAME and secrets.DOCKERHUB_TOKEN.\n  docker-publish-config:\n    name: Configure Docker Hub Publish\n    needs: [release, instant-release, release-preflight]\n    timeout-minutes: 45\n    concurrency:\n      group: main-writer-${{ github.repository }}-main\n      cancel-in-progress: false\n      queue: max\n    if: |\n      !cancelled() &&\n      needs.release-preflight.result == 'success' &&\n      (\n        (needs.release.result == 'success' && needs.release.outputs.published == 'true') ||\n        (needs.instant-release.result == 'success' && needs.instant-release.outputs.published == 'true')\n      )\n    runs-on: ubuntu-24.04\n    permissions:\n      contents: read\n    outputs:\n      context: ${{ steps.docker_config.outputs.context }}\n      dockerfile: ${{ steps.docker_config.outputs.dockerfile }}\n      enabled: ${{ steps.docker_config.outputs.enabled }}\n      image: ${{ steps.docker_config.outputs.image }}\n      version: ${{ steps.release_version.outputs.version }}\n    env:\n      DOCKER_CONTEXT: ${{ vars.DOCKER_CONTEXT }}\n      DOCKERFILE: ${{ vars.DOCKERFILE }}\n      DOCKERHUB_IMAGE: ${{ vars.DOCKERHUB_IMAGE }}\n      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}\n      DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}\n      RELEASE_VERSION: ${{ needs.release.outputs.published_version || needs.instant-release.outputs.published_version }}\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - name: Check Docker publish configuration\n        id: docker_config\n        run: node scripts/check-docker-publish.mjs\n\n      - name: Export release version\n        id: release_version\n        env:\n          VERSION: ${{ env.RELEASE_VERSION }}\n        run: echo \"version=${VERSION}\" >> \"$GITHUB_OUTPUT\"\n\n      - name: Wait for npm package availability before Docker publish\n        if: steps.docker_config.outputs.enabled == 'true'\n        env:\n          VERSION: ${{ env.RELEASE_VERSION }}\n        run: bash scripts/run-with-budget-warning.sh 1800 \"Docker npm availability wait\" node scripts/wait-for-npm.mjs --release-version \"${VERSION}\"\n\n  # Build each architecture on a native runner. Each build is pushed by digest;\n  # docker-publish combines those immutable digests into the release tags.\n  docker-publish-build:\n    name: Build Docker Image\n    needs: [docker-publish-config]\n    if: needs.docker-publish-config.outputs.enabled == 'true'\n    timeout-minutes: 30\n    strategy:\n      fail-fast: false\n      matrix:\n        include:\n          - platform: linux/amd64\n            runner: ubuntu-24.04\n          - platform: linux/arm64\n            runner: ubuntu-24.04-arm\n    runs-on: ${{ matrix.runner }}\n    permissions:\n      contents: read\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - name: Build and push platform image by digest\n        id: build\n        # Step-level budget below the job's timeout-minutes backstop; see\n        # docs/legacy/CI-TIMEOUT-BUDGETS.md.\n        timeout-minutes: 20\n        uses: ./.github/actions/publish-dockerhub\n        with:\n          context: ${{ needs.docker-publish-config.outputs.context }}\n          file: ${{ needs.docker-publish-config.outputs.dockerfile }}\n          image: ${{ needs.docker-publish-config.outputs.image }}\n          platform: ${{ matrix.platform }}\n          token: ${{ secrets.DOCKERHUB_TOKEN }}\n          username: ${{ vars.DOCKERHUB_USERNAME }}\n          version: ${{ needs.docker-publish-config.outputs.version }}\n\n      - name: Export image digest\n        env:\n          DIGEST: ${{ steps.build.outputs.digest }}\n        run: |\n          mkdir -p /tmp/digests\n          touch \"/tmp/digests/${DIGEST#sha256:}\"\n\n      - name: Upload image digest\n        uses: ./.github/actions/artifact-transport\n        with:\n          name: docker-digest-${{ strategy.job-index }}\n          path: /tmp/digests/*\n          if-no-files-found: error\n          retention-days: 1\n\n  docker-publish:\n    name: Optional Docker Hub Publish\n    needs: [docker-publish-config, docker-publish-build]\n    if: needs.docker-publish-build.result == 'success'\n    timeout-minutes: 45\n    concurrency:\n      group: main-writer-${{ github.repository }}-main\n      cancel-in-progress: false\n      queue: max\n    runs-on: ubuntu-24.04\n    permissions:\n      contents: read\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - name: Set up Docker Buildx (resilient)\n        uses: ./.github/actions/setup-buildx-resilient\n\n      - name: Log in to Docker Hub\n        uses: docker/login-action@v4\n        with:\n          username: ${{ vars.DOCKERHUB_USERNAME }}\n          password: ${{ secrets.DOCKERHUB_TOKEN }}\n\n      - name: Download image digests\n        uses: ./.github/actions/artifact-transport\n        env:\n          NODE_OPTIONS: --pending-deprecation --throw-deprecation\n        with:\n          path: /tmp/digests\n          pattern: docker-digest-*\n          mode: download\n\n      - name: Create multi-architecture manifest\n        working-directory: /tmp/digests\n        env:\n          IMAGE: ${{ needs.docker-publish-config.outputs.image }}\n          VERSION: ${{ needs.docker-publish-config.outputs.version }}\n        run: |\n          # One argument per digest. An array keeps the expansion explicit\n          # instead of relying on word splitting of a command substitution.\n          mapfile -t digests < <(printf \"${IMAGE}@sha256:%s\\n\" *)\n          if [[ \"${#digests[@]}\" -ne 2 ]]; then\n            echo \"Expected 2 platform digests, found ${#digests[@]}.\" >&2\n            exit 1\n          fi\n          docker buildx imagetools create \\\n            --tag \"${IMAGE}:latest\" \\\n            --tag \"${IMAGE}:${VERSION}\" \\\n            \"${digests[@]}\"\n\n      - name: Verify published multi-architecture manifests\n        env:\n          IMAGE: ${{ needs.docker-publish-config.outputs.image }}\n          VERSION: ${{ needs.docker-publish-config.outputs.version }}\n        run: |\n          for tag in latest \"${VERSION}\"; do\n            if ! manifest=\"$(docker buildx imagetools inspect \"${IMAGE}:${tag}\")\"; then\n              echo \"Unable to read back published manifest ${IMAGE}:${tag}\" >&2\n              exit 1\n            fi\n            for platform in linux/amd64 linux/arm64; do\n              if ! grep -Eq \"Platform:[[:space:]]+${platform}\" <<<\"${manifest}\"; then\n                echo \"Published manifest ${IMAGE}:${tag} is missing ${platform}\" >&2\n                exit 1\n              fi\n            done\n          done\n\n  # Manual Changeset PR - creates a pull request with the changeset for review\n  changeset-pr:\n    name: Create Changeset PR\n    # PR creation does not publish, but it must still pass the fast lint gate.\n    needs: [lint]\n    if: |\n      !cancelled() &&\n      github.event_name == 'workflow_dispatch' &&\n      github.event.inputs.release_mode == 'changeset-pr' &&\n      needs.lint.result == 'success'\n    runs-on: ubuntu-24.04\n    # PR creation only: install, create a changeset, format, and open a PR.\n    timeout-minutes: 10\n    concurrency:\n      group: main-writer-${{ github.repository }}-main\n      cancel-in-progress: false\n      queue: max\n    permissions:\n      contents: read\n    steps:\n      # peter-evans/create-pull-request receives the dedicated token directly;\n      # dependency installation does not need a credential in .git/config.\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n          fetch-depth: 0\n\n      - name: Require release pull-request token\n        env:\n          RELEASE_PR_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}\n        run: |\n          if [[ -z \"$RELEASE_PR_TOKEN\" ]]; then\n            echo \"::error::RELEASE_PR_TOKEN is required to create a changeset pull request.\"\n            exit 1\n          fi\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Install dependencies\n        run: npm ci\n\n      - name: Create changeset file\n        env:\n          BUMP_TYPE: ${{ github.event.inputs.bump_type }}\n          RELEASE_DESCRIPTION: ${{ github.event.inputs.description }}\n        run: node scripts/create-manual-changeset.mjs --bump-type \"$BUMP_TYPE\" --description \"$RELEASE_DESCRIPTION\"\n\n      - name: Format changeset with Prettier\n        run: |\n          # Run Prettier on the changeset file to ensure it matches project style\n          npx prettier --write \".changeset/*.md\"\n\n          echo \"Formatted changeset files\"\n\n      - name: Create Pull Request\n        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1\n        with:\n          # The built-in token suppresses pull_request workflows; use the same\n          # dedicated automation actor as the release fallback (issue #192).\n          token: ${{ secrets.RELEASE_PR_TOKEN }}\n          commit-message: 'chore: add changeset for manual ${{ github.event.inputs.bump_type }} release'\n          branch: changeset-manual-release-${{ github.run_id }}\n          delete-branch: true\n          title: 'chore: manual ${{ github.event.inputs.bump_type }} release'\n          body: |\n            ## Manual Release Request\n\n            This PR was created by a manual workflow trigger to prepare a **${{ github.event.inputs.bump_type }}** release.\n\n            ### Release Details\n            - **Type:** ${{ github.event.inputs.bump_type }}\n            - **Description:** ${{ github.event.inputs.description || 'Manual release' }}\n            - **Triggered by:** @${{ github.actor }}\n\n            ### Next Steps\n            1. Review the changeset in this PR\n            2. Merge this PR to main\n            3. The automated release workflow will create a version PR\n            4. Merge the version PR to publish to npm and create a GitHub release\n\n  # GitHub reports jobs killed by timeout-minutes as cancelled rather than\n  # failed. Observe every job and excuse only cancellations that the tested\n  # workflow explicitly permits when a newer commit supersedes this run.\n  pipeline-status:\n    name: Pipeline Status\n    runs-on: ubuntu-24.04\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-pipeline-status\n      cancel-in-progress: true\n    if: >-\n      !cancelled()\n    needs:\n      - detect-changes\n      - test-compilation\n      - check-file-line-limits\n      - version-check\n      - changeset-check\n      - lint\n      - test\n      - session-publication\n      - docker-build\n      - docker-publish-config\n      - docker-publish-build\n      - validate-docs\n      - release-preflight\n      - release\n      - instant-release\n      - docker-publish\n      - changeset-pr\n    permissions:\n      actions: read\n      contents: read\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Fail the run when a required job was cancelled or failed\n        env:\n          NEEDS_JSON: ${{ toJSON(needs) }}\n          RUN_SHA: ${{ github.event.pull_request.head.sha || github.sha }}\n          GH_TOKEN: ${{ github.token }}\n          HEAD_REF: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/head', github.event.number) || github.ref }}\n        run: bash scripts/check-pipeline-status.sh\n" to match /"Deno test suite" deno test -A --parallel\r?\n/
+      at Object.toMatch (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:574:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/visible-skips.test.js:155:22)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at node:internal/test_runner/test:1903:71
+      at node:internal/per_context/primordials:505:82
+      at new Promise (<anonymous>)
+      at new SafePromise (node:internal/per_context/primordials:479:3)
+      at node:internal/per_context/primordials:505:9
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ uses job-level concurrency so stale checks cannot cancel active writers (2.480557ms)
+  Error: Expected "  detect-changes:\n    name: Detect Changes\n    runs-on: ubuntu-24.04\n    # Typical run: ~6s. Cap at 5min so a hung detection step\n    # surfaces quickly instead of stalling the whole pipeline.\n    timeout-minutes: 5\n    # Job-level permissions replace the workflow defaults for this job.\n    permissions:\n      contents: read\n      # The detector asks the Actions API whether the previous head of the\n      # branch already passed this workflow, so a docs-only push can trust\n      # its incremental range.\n      actions: read\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-detect-changes\n      cancel-in-progress: true\n    if: github.event_name != 'workflow_dispatch'\n    outputs:\n      js-changed: ${{ steps.changes.outputs.js-changed }}\n      docs-changed: ${{ steps.changes.outputs.docs-changed }}\n      any-code-changed: ${{ steps.changes.outputs.any-code-changed }}\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n\n      - name: Detect changes\n        id: changes\n        env:\n          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}\n          GITHUB_BEFORE_SHA: ${{ github.event.before }}\n          GITHUB_AFTER_SHA: ${{ github.event.after }}\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n          GITHUB_WORKFLOW_REF: ${{ github.workflow_ref }}\n        run: node scripts/detect-code-changes.mjs\n\n  # === FAST CHECKS - run before slow tests for fastest feedback ===\n  # See: hive-mind CI/CD best practices principle #5 (fast-fail job ordering)\n\n  # Syntax check all .mjs files with node --check (~7s)" to contain "    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-detect-changes\n      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}"
+      at Object.toContain (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:566:15)
+      at expectCancellableCheckConcurrency (file:///tmp/gh-issue-solver-1793895031390/tests/workflow-reliability.test.js:149:20)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/workflow-reliability.test.js:275:7)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ excludes Vite source HTML from raw lychee file scans (0.418441ms)
+  Error: Expected 3618 to be greater than 3641
+      at Object.toBeGreaterThan (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:611:15)
+      at expectOrdered (file:///tmp/gh-issue-solver-1793895031390/tests/workflow-reliability.test.js:132:19)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/workflow-reliability.test.js:341:5)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1905:7)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ runs lint and tests before an instant manual release (1.99422ms)
+  ReferenceError [Error]: github is not defined
+      at eval (eval at evaluateWorkflowIf (file:///tmp/gh-issue-solver-1793895031390/tests/workflow-reliability.test.js:121:10), <anonymous>:6:1)
+      at evaluateWorkflowIf (file:///tmp/gh-issue-solver-1793895031390/tests/workflow-reliability.test.js:124:4)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/workflow-reliability.test.js:558:7)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at node:internal/test_runner/test:1903:71
+      at node:internal/per_context/primordials:505:82
+      at new Promise (<anonymous>)
+      at new SafePromise (node:internal/per_context/primordials:479:3)
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ blocks an instant manual release after either quality gate fails (1.49615ms)
+  ReferenceError [Error]: github is not defined
+      at eval (eval at evaluateWorkflowIf (file:///tmp/gh-issue-solver-1793895031390/tests/workflow-reliability.test.js:121:10), <anonymous>:6:1)
+      at evaluateWorkflowIf (file:///tmp/gh-issue-solver-1793895031390/tests/workflow-reliability.test.js:124:4)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/workflow-reliability.test.js:569:7)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1905:7)

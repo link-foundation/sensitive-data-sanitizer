@@ -1,0 +1,82 @@
+▶ CI audit regressions
+  ✔ records a decision for every dependency install script in . (27.427068ms)
+  ✔ records a decision for every dependency install script in examples/universal-app (11.951703ms)
+  ✔ records a decision for every dependency install script in .github/actions/artifact-transport (2.385981ms)
+  ✔ records Deno decisions separately from npm install-script decisions (6.030268ms)
+  ✔ includes shipped applications in CodeQL analysis (0.942407ms)
+  ✔ keeps Pages deployment permissions and preconditions (1.684682ms)
+  ✔ installs artifact dependencies without deprecated packages (8.520633ms)
+  ✔ syntax gate rejects incomplete evidence: src/index.js (398.834563ms)
+  ✔ syntax gate rejects incomplete evidence: scripts/nested/adapter.cjs (219.459961ms)
+  ✔ syntax gate rejects incomplete evidence: tests/nested/check.mjs (272.241855ms)
+  ✔ syntax gate rejects incomplete evidence: empty repository (139.94231ms)
+  ✔ syntax gate accepts valid nested shipped code (216.607852ms)
+✔ CI audit regressions (1316.070286ms)
+▶ CodeQL local result gate
+  ✔ accepts explicit clean reports from every language (144.79973ms)
+  ✔ rejects missing, malformed, or unsuccessful evidence [] (92.32494ms)
+  ✔ rejects missing, malformed, or unsuccessful evidence ["{"] (75.556173ms)
+  ✔ rejects missing, malformed, or unsuccessful evidence [{}] (88.123565ms)
+  ✔ rejects missing, malformed, or unsuccessful evidence [{"version":"2.1.0","runs":[]}] (91.750521ms)
+  ✔ rejects missing, malformed, or unsuccessful evidence [{"version":"2.1.0","runs":[{}]}] (97.302275ms)
+  ✔ rejects missing, malformed, or unsuccessful evidence [{"version":"2.1.0","runs":[{"tool":{"driver":{"name":"CodeQL"}},"invocations":[{"executionSuccessful":false}],"results":[]}]}] (124.267172ms)
+  ✔ rejects a finding with severity error in a later run/file (107.963993ms)
+  ✔ rejects a finding with severity warning in a later run/file (86.218841ms)
+  ✔ rejects a finding with severity note in a later run/file (87.076371ms)
+  ✔ rejects a finding with severity none in a later run/file (93.505112ms)
+  ✔ rejects a finding with severity undefined in a later run/file (85.593966ms)
+  ✔ makes full analysis and the strict result gate prerequisites of terminal success (0.807978ms)
+✔ CodeQL local result gate (1181.329438ms)
+▶ issue 92 release push recovery
+  ✔ retries the reported server error without rebasing or making a PR (3.749153ms)
+  ✔ stops after three server failures and retains the actual error (10.042361ms)
+  ✔ never classifies authentication failures or repository rules as transient (3.897741ms)
+  ✔ fails permanent release rules without creating an automated PR (3.963573ms)
+✔ issue 92 release push recovery (43.317509ms)
+▶ issue 92 PuTTY scanning
+  ✔ bounds repeated incomplete headers in a separate process (343.351202ms)
+  ✔ preserves separate complete blocks and incomplete-body protection with "\n" (3.87577ms)
+  ✔ preserves separate complete blocks and incomplete-body protection with "\r" (0.63333ms)
+  ✔ preserves separate complete blocks and incomplete-body protection with "\r\n" (1.567384ms)
+✔ issue 92 PuTTY scanning (352.49031ms)
+▶ use-module interop shim
+  ✔ reproduces the Node 24 namespace that breaks destructuring (2.394667ms)
+  ✔ resolves $ from the Node >= 22.12 CommonJS namespace (0.828224ms)
+  ✔ resolves $ from the Node < 22.12 CommonJS namespace (0.475527ms)
+  ✔ resolves $ when use-m already unwrapped the module (0.358249ms)
+  ✔ resolves $ from a real ES module namespace with named exports (0.395829ms)
+  ✔ resolves a double-wrapped default (0.304568ms)
+  ✔ names the observed keys when no candidate exposes the export (0.406638ms)
+  ✔ reports the received value when use-m resolved nothing (0.346977ms)
+  ✔ describes null, primitives and objects (0.387152ms)
+  ✔ loads command-stream through an injected use() implementation (2.28372ms)
+  ✔ loads lino-arguments through an injected use() implementation (0.584219ms)
+✔ use-module interop shim (12.845732ms)
+▶ loadCommandStream turns on errexit
+  ✔ enables shell.errexit on the resolved module (2.992401ms)
+  ✔ still loads a module that exposes no shell (0.448257ms)
+✔ loadCommandStream turns on errexit (3.873185ms)
+▶ offline release lock integrity
+  ✔ changeset-version preserves the entire peer graph in . (2036.25275ms)
+  ✔ changeset-version preserves the entire peer graph in js (2164.869112ms)
+  ✔ instant-version-bump preserves the entire peer graph in . (1244.409126ms)
+  ✔ instant-version-bump preserves the entire peer graph in js (1053.389093ms)
+✔ offline release lock integrity (6502.98402ms)
+▶ strict version-only tree validation
+  ✔ updates exactly two metadata fields in lock v2 (6.867168ms)
+  ✔ updates exactly two metadata fields in lock v3 (3.904784ms)
+  ✔ rejects unsupported drift (10.661127ms)
+  ✔ rejects name drift (4.256619ms)
+  ✔ rejects root drift (2.860766ms)
+  ✔ rejects version drift (2.280814ms)
+  ✔ rejects manifest drift (6.564424ms)
+  ✔ rejects graph drift (9.257236ms)
+✔ strict version-only tree validation (50.860539ms)
+ℹ tests 58
+ℹ suites 8
+ℹ pass 58
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7090.16391

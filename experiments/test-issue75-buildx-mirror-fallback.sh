@@ -99,7 +99,7 @@ echo "== Case 1: canonical Docker Hub healthy =="
 run_case canon 1 0
 check "exits 0" test "$(cat "$WORK/rc.canon")" = "0"
 check "pulled canonical image" grep -qx "moby/buildkit:buildx-stable-1" "$WORK/pulled.canon"
-check "did NOT touch the mirror" bash -c '! grep -q mirror.gcr.io "$1"' _ "$WORK/calls.canon"
+check "did NOT touch the mirror" test "$(grep -c mirror.gcr.io "$WORK/calls.canon")" = 0
 check "did NOT need to tag" test ! -s "$WORK/tagged.canon"
 
 echo "== Case 2: Docker Hub down, mirror healthy (issue #75 scenario) =="

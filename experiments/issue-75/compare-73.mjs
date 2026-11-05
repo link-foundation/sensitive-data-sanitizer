@@ -1,4 +1,4 @@
-// Prints issue #73 rows on a shared map, for this tree or another checkout.
+// Prints personal-name rows on a shared map, for this tree or another checkout.
 // Usage: node experiments/issue-75/compare-73.mjs [path-to-src-index.js]
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';

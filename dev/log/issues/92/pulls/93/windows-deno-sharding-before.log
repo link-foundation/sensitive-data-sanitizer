@@ -1,0 +1,26 @@
+✔ partitions every test file exactly once, independent of directory order (4.012858ms)
+✖ covers every runtime and OS once while distributing Windows Bun and Deno fixtures (95.099225ms)
+✔ rejects invalid shard selection and empty or unknown runtime commands (0.860826ms)
+✔ preserves per-test limits and explicit file selection for each runtime (0.3909ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 355.940385
+
+✖ failing tests:
+
+test at node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:174:12
+✖ covers every runtime and OS once while distributing Windows Bun and Deno fixtures (95.099225ms)
+  Error: Expected false to be true
+      at Object.toBe (file:///tmp/gh-issue-solver-1793895031390/node_modules/.deno/test-anywhere@0.8.50/node_modules/test-anywhere/src/index.js:391:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793895031390/tests/test-sharding.test.js:50:11)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)

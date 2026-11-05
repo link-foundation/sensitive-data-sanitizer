@@ -1,5 +1,6 @@
 import { it, expect } from 'test-anywhere';
-import { readdirSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
+import { parse } from 'yaml';
 import { selectTests, testCommand } from '../scripts/run-test-shard.mjs';
 
 it('partitions every test file exactly once, independent of directory order', () => {
@@ -14,6 +15,59 @@ it('partitions every test file exactly once, independent of directory order', ()
       Math.min(...shards.map((s) => s.length)) <=
       1
   ).toBe(true);
+});
+
+it('covers every runtime and OS once while distributing Windows Bun and Deno fixtures', () => {
+  const workflow = parse(readFileSync('.github/workflows/release.yml', 'utf8'));
+  const matrix = workflow.jobs.test.strategy.matrix;
+  const legs = matrix.os.flatMap((os) =>
+    matrix.runtime.flatMap((runtime) =>
+      matrix.shard.map((shard) => ({ os, runtime, shard }))
+    )
+  );
+  const selected = legs.filter(
+    (leg) =>
+      !(matrix.exclude ?? []).some((excluded) =>
+        Object.entries(excluded).every(([key, value]) => leg[key] === value)
+      )
+  );
+  selected.push(...matrix.include);
+  const files = readdirSync('tests');
+  const whole = selectTests(files, '1/1');
+  for (const os of ['ubuntu-24.04', 'windows-2025', 'macos-26-intel']) {
+    for (const runtime of ['node', 'bun', 'deno']) {
+      const shards = selected.filter(
+        (leg) => leg.os === os && leg.runtime === runtime
+      );
+      const covered = shards.flatMap(({ shard }) => selectTests(files, shard));
+      expect(covered.sort()).toEqual(whole);
+      expect(new Set(covered).size).toBe(whole.length);
+      if (os === 'windows-2025' && ['bun', 'deno'].includes(runtime)) {
+        expect(
+          shards.every(
+            ({ shard }) => selectTests(files, shard).length < whole.length / 2
+          )
+        ).toBe(true);
+      }
+      if (os === 'macos-26-intel' && runtime === 'deno') {
+        // These subprocess-heavy files consumed most of the suite budget
+        // together on a cold runner. Keep them in separate execution jobs.
+        const expensive = [
+          'pr-guards.test.js',
+          'release-api-integrity.test.js',
+          'detect-code-changes.test.js',
+        ];
+        expect(
+          shards.every(
+            ({ shard }) =>
+              selectTests(files, shard).filter((file) =>
+                expensive.some((name) => file === `tests/${name}`)
+              ).length <= 1
+          )
+        ).toBe(true);
+      }
+    }
+  }
 });
 
 it('rejects invalid shard selection and empty or unknown runtime commands', () => {
@@ -36,6 +90,6 @@ it('preserves per-test limits and explicit file selection for each runtime', () 
   ]);
   expect(testCommand('deno', files)).toEqual([
     'deno',
-    ['test', '--allow-read', '--allow-env', ...files],
+    ['test', '-A', '--parallel', ...files],
   ]);
 });
