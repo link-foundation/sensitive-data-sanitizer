@@ -85,7 +85,8 @@ function validateEntries(map) {
       tokens.has(entry.token) ||
       !nonemptyStrings(entry.values) ||
       !Array.isArray(entry.aliases) ||
-      entry.aliases.some((v) => typeof v !== 'string' || !v)
+      entry.aliases.some((v) => typeof v !== 'string' || !v) ||
+      (entry.standalone !== undefined && !nonemptyStrings(entry.standalone))
     ) {
       throw failure('ERR_MAP');
     }

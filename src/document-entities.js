@@ -61,14 +61,17 @@ const month = [
   ...new Set(months.split('|').flatMap((word) => [word, capitalized(word)])),
 ].join('|');
 const rangeStart = `(?:(?:19|20)\\d{2}(?:-\\d{2}){0,2}|\\d{2}[./](?:\\d{2}\\.)?\\d{4}|(?:${month})\\.?[ \\t]+(?:19|20)\\d{2})`;
-const rangeOpen = ['по настоящее время', 'настоящее время', 'сейчас', 'н.в.']
-  .concat(['н/в', 'present', 'now', 'current'])
+const rangeOpen = ['по настоящее время', 'настоящее время', 'сейчас', 'по н.в.']
+  .concat(['н.в.', 'по н/в', 'н/в', 'present', 'now', 'current'])
   .flatMap((word) => [word, capitalized(word)])
   .map(escapePattern)
   .join('|');
 const range = `${rangeStart}(?:[ \\t]*[-–—][ \\t]*|[ \\t]+(?:по|to)[ \\t]+)(?:${rangeStart}|${rangeOpen})(?!${boundary})`;
 const titleWord = '[\\p{L}\\p{N}][\\p{L}\\p{N}/+#.&-]{0,39}';
-const lineTitle = `^[ \\t]*(?:[-–—•*·][ \\t]+|\\d{1,2}[.)][ \\t]+)?${titleWord}(?:[ \\t]+${titleWord}){0,5}`;
+// A segment starts a line or follows `|`. `Опыт:` or `Опыт -` before the title
+// reads like a list marker: the date range remains the anchor of the rule.
+const lineLabel = `\\p{L}[\\p{L}\\p{N}/+#.&-]{0,39}(?:[ \\t]+${titleWord})?(?:[ \\t]*:[ \\t]*|[ \\t]+[-–—][ \\t]+)`;
+const lineTitle = `(?:^|(?<=\\|))[ \\t]*(?:[-–—•*·][ \\t]+|\\d{1,2}[.)][ \\t]+)?(?:${lineLabel}){0,2}${titleWord}(?:[ \\t]+${titleWord}){0,8}`;
 const employerWord = "[\\p{L}\\p{M}\\p{N}&'’.+-]{1,40}";
 const employer = `«[^«»\\r\\n]{1,160}»|"[^"\\r\\n]{1,160}"|“[^“”\\r\\n]{1,160}”|(?:\\p{Lu}|\\d{1,4}-?\\p{L})${employerWord}?(?:[ \\t]+${employerWord}){0,5}`;
 const experienceLine = new RegExp(

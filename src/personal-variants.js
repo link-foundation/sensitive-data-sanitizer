@@ -167,6 +167,10 @@ export function detectKnownPersonal(text, entries, rule, emit, options) {
       ...(family ? [family.pattern] : []),
     ]) {
       for (const match of text.matchAll(pattern)) {
+        // A stored capitalized word in lower case is ordinary text: `Мороз`, `мороз`.
+        if (entry.properCase && /^\p{Ll}/u.test(match[0])) {
+          continue;
+        }
         if (++count > (options.maxFindings ?? 100000)) {
           throw failure('ERR_LIMIT');
         }

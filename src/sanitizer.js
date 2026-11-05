@@ -26,6 +26,7 @@ import {
   hasPlaceholders,
   placeholderValues,
   placeholderNameFindings,
+  coverAdjacentNames,
   nestedPlaceholderOptions,
 } from './placeholders.js';
 import {
@@ -466,7 +467,11 @@ export function reviewFindings(text, findings, options) {
     text,
     markFake(
       text,
-      propagate(text, markFake(text, [...unique.values()], options), options),
+      coverAdjacentNames(
+        text,
+        propagate(text, markFake(text, [...unique.values()], options), options),
+        options
+      ),
       options
     ).sort(
       (a, b) =>
