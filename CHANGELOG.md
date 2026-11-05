@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.17.0
+
+### Minor Changes
+
+- Add synchronous sensitiveFields schema redaction and consistent document field aliases. Protect percent-encoded URL contacts, personal paths, opaque share links, CV employers and contextual company names; preserve multiline empty attributes and redact escaped fragments without losing structured records.
+
+  Install and verify a checksum-pinned GitHub CLI in the preview screenshot container, and exercise the same publishing tools on pull requests before generated images reach main.
+
+  Check maintained Python helpers with Ruff and CodeQL, and audit every tracked Python requirements file, including transitive benchmark dependencies, without installing NLP packages.
+
 ## 0.16.2
 
 ### Patch Changes
