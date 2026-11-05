@@ -108,7 +108,7 @@ function evaluateWorkflowIf(expression, context) {
     )
     .replaceAll('!cancelled()', '!context.cancelled')
     .replaceAll('github.event_name', 'context.github.event_name')
-    .replaceAll('github.ref', "'refs/heads/main'")
+    .replaceAll('github.ref', "(context.github.ref || 'refs/heads/main')")
     .replaceAll(
       'github.event.inputs.release_mode',
       'context.github.event.inputs.release_mode'
@@ -582,6 +582,18 @@ describe('manual release quality gates', () => {
           releaseMode: 'instant',
           testResult: 'failure',
         })
+      )
+    ).toBe(false);
+  });
+
+  it('blocks an instant manual release from a branch other than main', () => {
+    const workflow = readWorkflow('.github/workflows/release.yml');
+    const context = getManualReleaseContext({ releaseMode: 'instant' });
+    context.github.ref = 'refs/heads/feature';
+    expect(
+      evaluateWorkflowIf(
+        getMultilineIfExpression(getJobBlock(workflow, 'instant-release')),
+        context
       )
     ).toBe(false);
   });

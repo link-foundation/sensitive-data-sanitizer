@@ -175,7 +175,17 @@ describe('quiet, effective tooling configuration', () => {
       try {
         writeFileSync(
           path.join(fixture, 'sample.js'),
-          'export function sample(value) {\n' +\n            '  let result = value;\n  result += 1;\n  result *= 2;\n' +\n            '  result -= 3;\n  result /= 4;\n  return result;\n}\n'
+          [
+            'export function sample(value) {',
+            '  let result = value;',
+            '  result += 1;',
+            '  result *= 2;',
+            '  result -= 3;',
+            '  result /= 4;',
+            '  return result;',
+            '}',
+            '',
+          ].join('\n')
         );
         const result = spawnSync(
           process.execPath,

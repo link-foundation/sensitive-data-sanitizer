@@ -16,12 +16,11 @@
  * - lino-arguments: Unified configuration from CLI args, env vars, and .lenv files
  */
 
-import { readFileSync, appendFileSync, readdirSync } from 'fs';
+import { readFileSync, appendFileSync } from 'fs';
 
 import {
   getJsRoot,
   getPackageJsonPath,
-  getChangesetDir,
   needsCd,
   parseJsRootConfig,
 } from './js-paths.mjs';
@@ -31,6 +30,7 @@ import { printUntrusted } from './github-actions-log.mjs';
 import { checkStagedFormatting } from './check-staged-formatting.mjs';
 import { runStrict } from './run-command.mjs';
 import { captureVersionTree, syncVersionLock } from './version-lock.mjs';
+import { assertValidatedRelease } from './release-publication.mjs';
 
 // Import link-foundation libraries
 // Loaded through bootstrapDependencies: when installed helpers are unavailable,
@@ -147,19 +147,6 @@ function setOutput(key, value) {
 }
 
 /**
- * Count changeset files (excluding README.md)
- */
-function countChangesets() {
-  try {
-    const changesetDir = getChangesetDir({ jsRoot });
-    const files = readdirSync(changesetDir);
-    return files.filter((f) => f.endsWith('.md') && f !== 'README.md').length;
-  } catch {
-    return 0;
-  }
-}
-
-/**
  * Get package version
  * @param {string} source - 'local' or 'remote'
  */
@@ -202,26 +189,29 @@ async function main() {
       );
       console.log('This may indicate a previous attempt partially succeeded.');
 
-      // Check if the remote version is already the expected bump
+      // A rerun may recover an already-pushed version-only child. Source or
+      // dependency changes require a new validation run on the current main.
+      try {
+        await assertValidatedRelease({
+          parentSha: localHead,
+          headRef: 'origin/main',
+          jsRoot,
+        });
+      } catch (error) {
+        throw new Error(
+          'Remote main changed after validation; rerun CI on current main.',
+          {
+            cause: error,
+          }
+        );
+      }
       const remoteVersion = await getVersion('remote');
       console.log(`Remote version: ${remoteVersion}`);
-
-      // Check if there are changesets to process
-      const changesetCount = countChangesets();
-
-      if (changesetCount === 0) {
-        console.log('No changesets to process and remote has advanced.');
-        console.log(
-          'Assuming version bump was already completed in a previous attempt.'
-        );
-        setOutput('version_committed', 'false');
-        setOutput('already_released', 'true');
-        setOutput('new_version', remoteVersion);
-        return;
-      } else {
-        console.log('Rebasing on remote main to incorporate changes...');
-        await $`git rebase origin/main`;
-      }
+      await $`git merge --ff-only origin/main`;
+      setOutput('version_committed', 'false');
+      setOutput('already_released', 'true');
+      setOutput('new_version', remoteVersion);
+      return;
     }
 
     // Get current version before bump
@@ -273,16 +263,8 @@ async function main() {
       // Commit with version number as message
       await runStrict('git', ['commit', '-m', newVersion]);
 
-      // Push directly to main, rebasing and retrying if another main writer won
-      // the race between this commit and the push, and landing the commit
-      // through a pull request when a repository ruleset declines direct
-      // pushes to main (link-foundation/js-ai-driven-development-pipeline-template#143).
-      //
-      // The helper exits non-zero only when it could not land the commit
-      // through any of its strategies; errexit turns that exit into a
-      // rejection, and reporting version_committed=true for a push that never
-      // landed would let the publish job work from a version that exists only
-      // in the runner.
+      // Transient server failures retry the same attested metadata commit.
+      // Source races and permanent rules fail before publication.
       try {
         await $`node scripts/push-main-with-rebase-retry.mjs origin main --label ${newVersion} --release-parent ${localHead}`.run(
           { capture: true, mirror: true }

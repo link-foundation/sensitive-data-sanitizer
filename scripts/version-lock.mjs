@@ -37,9 +37,7 @@ export function captureVersionTree(jsRoot) {
   return { manifest, lock };
 }
 /** Versioning may change only the manifest version and two root lock versions. */
-export function syncVersionLock(jsRoot, before) {
-  const manifest = readJson(join(jsRoot, 'package.json'));
-  const lock = readJson(join(jsRoot, 'package-lock.json'));
+export function assertVersionOnlyChanges(before, { manifest, lock }) {
   assert.deepEqual(
     nonVersionManifest(manifest),
     nonVersionManifest(before.manifest),
@@ -50,6 +48,11 @@ export function syncVersionLock(jsRoot, before) {
     nonVersionLock(before.lock),
     'Package configuration changed after validation: package-lock.json'
   );
+}
+export function syncVersionLock(jsRoot, before) {
+  const manifest = readJson(join(jsRoot, 'package.json'));
+  const lock = readJson(join(jsRoot, 'package-lock.json'));
+  assertVersionOnlyChanges(before, { manifest, lock });
   if (
     typeof manifest.version !== 'string' ||
     !/^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.+-]+)?$/.test(manifest.version)
