@@ -8,6 +8,7 @@
     "npm:@secretlint/profiler@13.1.0": "13.1.0",
     "npm:@secretlint/secretlint-rule-preset-recommend@13.1.0": "13.1.0",
     "npm:browser-commander@0.34.1": "0.34.1_playwright@1.65.0",
+    "npm:cmd-shim@9.0.2": "9.0.2",
     "npm:command-stream@2.6.0": "2.6.0",
     "npm:eslint-config-prettier@^10.1.8": "10.1.8_eslint@10.14.0",
     "npm:eslint-plugin-prettier@^5.5.7": "5.5.7_eslint@10.14.0_eslint-config-prettier@10.1.8_prettier@3.9.10",
@@ -678,6 +679,9 @@
         "strip-ansi@7.2.0",
         "wrap-ansi"
       ]
+    },
+    "cmd-shim@9.0.2": {
+      "integrity": "sha512-xVHoI+wNrM4tDB9iC1idf/8D0tYnVimlBp/5zHW+x1sGjjRD69NvR9th3Z1JAYGN/BTW4he6aZFYV6kzy+k+jw=="
     },
     "color-convert@2.0.1": {
       "integrity": "sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==",
@@ -1681,6 +1685,7 @@
         "npm:@secretlint/profiler@13.1.0",
         "npm:@secretlint/secretlint-rule-preset-recommend@13.1.0",
         "npm:browser-commander@0.34.1",
+        "npm:cmd-shim@^9.0.2",
         "npm:command-stream@2.6.0",
         "npm:eslint-config-prettier@^10.1.8",
         "npm:eslint-plugin-prettier@^5.5.7",

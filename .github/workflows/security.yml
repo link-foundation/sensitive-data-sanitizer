@@ -180,7 +180,9 @@ jobs:
       # The hashes cover the complete graph, including that source archive.
       - name: Verify locked benchmark dependencies on current Python
         run: |
-          uv pip install --system --require-hashes -r experiments/benchmark/requirements.txt -r experiments/benchmark/requirements.lock
+          uv pip install --system --require-hashes -r experiments/benchmark/requirements.lock -c experiments/benchmark/requirements.txt
+          # Check that every direct requirement is actually present in the lock.
+          uv pip install --system --no-index --no-deps -r experiments/benchmark/requirements.txt
           uv pip check --system
           python -c 'import detect_secrets, presidio_analyzer, scrubadub, spacy'
 
