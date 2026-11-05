@@ -13,6 +13,17 @@ on:
       - 'scripts/check-desktop-compat.mjs'
       - 'scripts/deploy-pages.mjs'
       - 'scripts/github-api.mjs'
+      - 'scripts/setup-preview-gh.sh'
+      - 'scripts/check-preview-tools.sh'
+      - 'scripts/push-main-with-rebase-retry.mjs'
+      - 'scripts/push-failure-classifier.mjs'
+      - 'scripts/land-via-pull-request.mjs'
+      - 'scripts/release-metadata.mjs'
+      - 'scripts/run-command.mjs'
+      - 'scripts/use-module.mjs'
+      - 'scripts/debug-print.mjs'
+      - 'tests/preview-tools.test.js'
+      - 'tests/container-jobs.test.js'
       - '.github/workflows/example-app.yml'
       - '.github/actions/artifact-transport/**'
       - 'scripts/artifact-transport.mjs'
@@ -30,6 +41,17 @@ on:
       - 'scripts/check-desktop-compat.mjs'
       - 'scripts/deploy-pages.mjs'
       - 'scripts/github-api.mjs'
+      - 'scripts/setup-preview-gh.sh'
+      - 'scripts/check-preview-tools.sh'
+      - 'scripts/push-main-with-rebase-retry.mjs'
+      - 'scripts/push-failure-classifier.mjs'
+      - 'scripts/land-via-pull-request.mjs'
+      - 'scripts/release-metadata.mjs'
+      - 'scripts/run-command.mjs'
+      - 'scripts/use-module.mjs'
+      - 'scripts/debug-print.mjs'
+      - 'tests/preview-tools.test.js'
+      - 'tests/container-jobs.test.js'
       - '.github/workflows/example-app.yml'
       - '.github/actions/artifact-transport/**'
       - 'scripts/artifact-transport.mjs'
@@ -286,11 +308,36 @@ jobs:
       - name: Build iOS project
         run: npm --prefix examples/universal-app run mobile:ios:build
 
+  # Exercise the same publishing environment on PRs, where the writer is skipped.
+  preview-tools:
+    name: Verify preview container tools
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright@sha256:b0ab6f3cb99aa7803adbc14d9027ec1785fc6e433b97e134e0f8fe61683b6b53 # v1.59.1-noble
+    timeout-minutes: 5
+    concurrency:
+      group: check-${{ github.workflow }}-${{ github.ref }}-preview-tools
+      cancel-in-progress: true
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Trust the checkout
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Install pinned GitHub CLI
+        run: bash scripts/setup-preview-gh.sh
+      - name: Verify publishing tools without repository writes
+        run: bash scripts/check-preview-tools.sh
+
   # Regenerate example-app preview screenshots (docs/screenshots/example-app/*)
   # using browser-commander + Playwright so README/site images always reflect
   # the current UI. Issue: #62. Implementation: scripts/update-preview-images.mjs.
   preview-regen:
     name: Regenerate Preview Images
+    needs: [preview-tools]
     runs-on: ubuntu-24.04
     container:
       # Keep this release in sync with the playwright package version below.
@@ -328,6 +375,12 @@ jobs:
       # refuses the checkout as dubious ownership until it is trusted.
       - name: Trust the checkout
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Install pinned GitHub CLI
+        run: bash scripts/setup-preview-gh.sh
+
+      - name: Verify publishing tools without repository writes
+        run: bash scripts/check-preview-tools.sh
 
       - name: Install example app dependencies
         run: npm ci --prefix examples/universal-app --no-audit --no-fund
@@ -452,6 +505,7 @@ jobs:
       - desktop-package
       - android-build
       - ios-build
+      - preview-tools
       - preview-regen
     # actions: read lets the gate list this run's jobs and name the ones
     # GitHub never acquired a runner for.
