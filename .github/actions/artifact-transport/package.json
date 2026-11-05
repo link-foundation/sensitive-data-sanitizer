@@ -14,6 +14,7 @@
     },
     "@actions/artifact": {
       "unzip-stream": "0.3.4"
-    }
+    },
+    "minimatch@>=7 <11": "^11.0.4"
   }
 }

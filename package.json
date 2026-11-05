@@ -136,5 +136,8 @@
   },
   "allowScripts": {
     "node-pty": false
+  },
+  "overrides": {
+    "minimatch@>=7 <11": "^11.0.4"
   }
 }

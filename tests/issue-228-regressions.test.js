@@ -175,7 +175,7 @@ describe('quiet, effective tooling configuration', () => {
       try {
         writeFileSync(
           path.join(fixture, 'sample.js'),
-          'export const value = 1;\n'
+          'export function sample(value) {\n' +\n            '  let result = value;\n  result += 1;\n  result *= 2;\n' +\n            '  result -= 3;\n  result /= 4;\n  return result;\n}\n'
         );
         const result = spawnSync(
           process.execPath,
@@ -192,7 +192,7 @@ describe('quiet, effective tooling configuration', () => {
           { encoding: 'utf8', timeout: HANG_GUARD_MS }
         );
         expect(`${result.stdout}${result.stderr}`).not.toMatch(
-          /unknown field/i
+          /unknown field|analyzed no files/i
         );
         expect(result.status).toBe(0);
       } finally {

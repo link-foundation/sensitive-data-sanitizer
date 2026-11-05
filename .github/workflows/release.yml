@@ -300,7 +300,7 @@ jobs:
 
       - name: Run ESLint
         env:
-          LINT_ALL_WARNINGS: ${{ github.event_name != 'pull_request' && '1' || '0' }}
+          LINT_ALL_WARNINGS: '1'
         run: npm run lint:all -- --max-warnings 0
 
       - name: Check formatting

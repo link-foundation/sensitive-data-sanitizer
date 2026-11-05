@@ -9,7 +9,7 @@
     "npm:@secretlint/secretlint-rule-preset-recommend@13.0.7": "13.0.7",
     "npm:command-stream@2.4.0": "2.4.0",
     "npm:eslint-config-prettier@^10.1.8": "10.1.8_eslint@10.14.0",
-    "npm:eslint-plugin-prettier@^5.5.4": "5.5.6_eslint@10.14.0_eslint-config-prettier@10.1.8__eslint@10.14.0_prettier@3.8.4",
+    "npm:eslint-plugin-prettier@^5.5.4": "5.5.6_eslint@10.14.0_eslint-config-prettier@10.1.8_prettier@3.8.4",
     "npm:eslint@^10.13.0": "10.14.0",
     "npm:husky@^9.1.7": "9.1.7",
     "npm:jscpd@^5.4.0": "5.4.0",
@@ -720,7 +720,7 @@
       ],
       "bin": true
     },
-    "eslint-plugin-prettier@5.5.6_eslint@10.14.0_eslint-config-prettier@10.1.8__eslint@10.14.0_prettier@3.8.4": {
+    "eslint-plugin-prettier@5.5.6_eslint@10.14.0_eslint-config-prettier@10.1.8_prettier@3.8.4": {
       "integrity": "sha512-ifetmTcxWfz+4qRW3pH/ujdTq2jQIj59AxJMIN26K5avYgU8dxycUETQonWiW+wPrYXA0j3Try0l1CnwVQtDqQ==",
       "dependencies": [
         "eslint",
@@ -1659,7 +1659,10 @@
         "npm:secretlint@13.0.7",
         "npm:test-anywhere@~0.8.48",
         "npm:yaml@^2.9.1"
-      ]
+      ],
+      "overrides": {
+        "minimatch@>=7 <11": "^11.0.4"
+      }
     }
   }
 }

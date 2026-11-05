@@ -146,9 +146,7 @@ describe('lintExitCode', () => {
   it('reports every warning on pushes to main', () => {
     const workflow = readFileSync('.github/workflows/release.yml', 'utf8');
     const step = workflow.split('- name: Run ESLint')[1].split('- name:')[0];
-    expect(step).toContain(
-      "LINT_ALL_WARNINGS: ${{ github.event_name != 'pull_request' && '1' || '0' }}"
-    );
+    expect(step).toContain("LINT_ALL_WARNINGS: '1'");
     expect(step).toContain('run: npm run lint');
   });
 });

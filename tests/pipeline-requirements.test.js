@@ -44,9 +44,7 @@ describe('complete pipeline requirements', () => {
     expect(source).toContain(
       'PR_AUTHOR: ${{ github.event.pull_request.user.login }}'
     );
-    expect(source).toContain(
-      "LINT_ALL_WARNINGS: ${{ github.event_name != 'pull_request' && '1' || '0' }}"
-    );
+    expect(source).toContain("LINT_ALL_WARNINGS: '1'");
     expect(source).not.toMatch(/prettier[^\n]+\|\| true/);
   });
   it('persists the link cache and uploads the report on failure', () => {

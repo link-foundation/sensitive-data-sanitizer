@@ -119,6 +119,10 @@ jobs:
           # severities this accepts.
           fail-on-severity: high
           comment-summary-in-pr: on-failure
+          # Repository-maintenance scores stay visible as context. Package
+          # vulnerability findings are enforced by dependency review and audit.
+          show-openssf-scorecard: true
+          warn-on-openssf-scorecard-level: 0
 
   npm-audit:
     name: Audit npm lock (${{ matrix.directory }})
