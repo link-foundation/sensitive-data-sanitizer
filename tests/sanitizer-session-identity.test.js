@@ -1,3 +1,4 @@
+import { itUnless, nodeCliUnavailable } from './helpers/skip.js';
 import { describe, it, expect } from 'test-anywhere';
 import {
   sanitize,
@@ -146,37 +147,37 @@ describe('structured integration', () => {
       ).password
     ).toBe('[REDACTED]');
   });
-  it('streams JSONL through the CLI with structural metadata', async () => {
-    if (typeof Deno !== 'undefined') {
-      return;
+  itUnless(nodeCliUnavailable)(
+    'streams JSONL through the CLI with structural metadata',
+    async () => {
+      const records = [
+        JSON.stringify({ name: 'Read', content: 'passport 58 39 204716' }),
+        JSON.stringify({ type: 'tool_result', content: 'born 1985-12-07' }),
+      ];
+      let stdout = '',
+        stderr = '';
+      const code = await runCli(
+        ['redact', '-', '--jsonl', '--stream', '--native-only'],
+        {
+          stdin: [records.join('\n')],
+          stdout: {
+            write(value) {
+              stdout += value;
+            },
+          },
+          stderr: {
+            write(value) {
+              stderr += value;
+            },
+          },
+        }
+      );
+      expect(code).toBe(0);
+      expect(stderr).toBe('');
+      expect(JSON.parse(stdout.split('\n')[0]).name).toBe('Read');
+      expect(JSON.parse(stdout.split('\n')[1]).content).toBe('born [REDACTED]');
     }
-    const records = [
-      JSON.stringify({ name: 'Read', content: 'passport 58 39 204716' }),
-      JSON.stringify({ type: 'tool_result', content: 'born 1985-12-07' }),
-    ];
-    let stdout = '',
-      stderr = '';
-    const code = await runCli(
-      ['redact', '-', '--jsonl', '--stream', '--native-only'],
-      {
-        stdin: [records.join('\n')],
-        stdout: {
-          write(value) {
-            stdout += value;
-          },
-        },
-        stderr: {
-          write(value) {
-            stderr += value;
-          },
-        },
-      }
-    );
-    expect(code).toBe(0);
-    expect(stderr).toBe('');
-    expect(JSON.parse(stdout.split('\n')[0]).name).toBe('Read');
-    expect(JSON.parse(stdout.split('\n')[1]).content).toBe('born [REDACTED]');
-  });
+  );
   it('fails closed for malformed JSON and colliding sanitized keys', async () => {
     const engine = createSanitizer({ structured: 'json', secretlint: false });
     for (const input of [
@@ -230,36 +231,36 @@ describe('structured publication boundaries', () => {
       sanitize('"plain"', { structured: 'json', maxInputLength: 7 }).text
     ).toBe('"plain"');
   });
-  it('uses structured policies and oversized fallback in bounded worker file publication', async () => {
-    if (typeof Deno !== 'undefined') {
-      return;
+  itUnless(nodeCliUnavailable)(
+    'uses structured policies and oversized fallback in bounded worker file publication',
+    async () => {
+      const directory = await mkdtemp(join(tmpdir(), 'identity-session-'));
+      try {
+        const source = join(directory, 'session.jsonl'),
+          target = join(directory, 'safe.jsonl');
+        const record = {
+          id: 'toolu_01CM9SwFYXq3vJ6cjYAFFjkf',
+          name: 'Read',
+          content: 'born 1985-12-07',
+          url: `https://example.org/?q=${'word%20'.repeat(2000)}`,
+        };
+        await writeFile(source, `${JSON.stringify(record)}\n`);
+        await sanitizeFileBounded(source, target, {
+          sanitizerOptions: {
+            structured: 'jsonl',
+            structuralFields: ['id', 'name'],
+          },
+        });
+        const parsed = JSON.parse(await readFile(target, 'utf8'));
+        expect(parsed.id).toBe(record.id);
+        expect(parsed.name).toBe('Read');
+        expect(parsed.content).toBe('born [REDACTED]');
+        expect(parsed.url.includes('word')).toBe(false);
+      } finally {
+        await rm(directory, { recursive: true, force: true });
+      }
     }
-    const directory = await mkdtemp(join(tmpdir(), 'identity-session-'));
-    try {
-      const source = join(directory, 'session.jsonl'),
-        target = join(directory, 'safe.jsonl');
-      const record = {
-        id: 'toolu_01CM9SwFYXq3vJ6cjYAFFjkf',
-        name: 'Read',
-        content: 'born 1985-12-07',
-        url: `https://example.org/?q=${'word%20'.repeat(2000)}`,
-      };
-      await writeFile(source, `${JSON.stringify(record)}\n`);
-      await sanitizeFileBounded(source, target, {
-        sanitizerOptions: {
-          structured: 'jsonl',
-          structuralFields: ['id', 'name'],
-        },
-      });
-      const parsed = JSON.parse(await readFile(target, 'utf8'));
-      expect(parsed.id).toBe(record.id);
-      expect(parsed.name).toBe('Read');
-      expect(parsed.content).toBe('born [REDACTED]');
-      expect(parsed.url.includes('word')).toBe(false);
-    } finally {
-      await rm(directory, { recursive: true, force: true });
-    }
-  });
+  );
 });
 
 describe('contextual national phones', () => {

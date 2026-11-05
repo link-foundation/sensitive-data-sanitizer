@@ -11,7 +11,7 @@
  * - Environment: JS_ROOT=<path>
  *
  * Uses link-foundation libraries:
- * - use-m: Dynamic package loading without package.json dependencies
+ * - Lockfile-installed command-stream and lino-arguments helpers
  * - command-stream: Modern shell command execution with streaming support
  * - lino-arguments: Unified configuration from CLI args, env vars, and .lenv files
  */
@@ -30,9 +30,10 @@ import { loadCommandStream, loadLinoArguments } from './use-module.mjs';
 import { printUntrusted } from './github-actions-log.mjs';
 import { checkStagedFormatting } from './check-staged-formatting.mjs';
 import { runStrict } from './run-command.mjs';
+import { captureVersionTree, syncVersionLock } from './version-lock.mjs';
 
 // Import link-foundation libraries
-// Loaded through bootstrapDependencies: when the use-m CDN is unreachable,
+// Loaded through bootstrapDependencies: when installed helpers are unavailable,
 // this script reports the failure and writes its outputs, and the process
 // does not die inside module initialisation.
 const [{ $ }, { makeConfig }] = await bootstrapDependencies(
@@ -219,13 +220,14 @@ async function main() {
         return;
       } else {
         console.log('Rebasing on remote main to incorporate changes...');
-        await $`git rebase --autostash origin/main`;
+        await $`git rebase origin/main`;
       }
     }
 
     // Get current version before bump
     const oldVersion = await getVersion();
     console.log(`Current version: ${oldVersion}`);
+    const validatedVersionTree = captureVersionTree(jsRoot);
 
     if (mode === 'instant') {
       console.log('Running instant version bump...');
@@ -250,6 +252,7 @@ async function main() {
     }
 
     // Get new version after bump
+    syncVersionLock(jsRoot, validatedVersionTree);
     const newVersion = await getVersion();
     console.log(`New version: ${newVersion}`);
     setOutput('new_version', newVersion);
@@ -281,7 +284,7 @@ async function main() {
       // landed would let the publish job work from a version that exists only
       // in the runner.
       try {
-        await $`node scripts/push-main-with-rebase-retry.mjs origin main --label ${newVersion}`.run(
+        await $`node scripts/push-main-with-rebase-retry.mjs origin main --label ${newVersion} --release-parent ${localHead}`.run(
           { capture: true, mirror: true }
         );
       } catch (error) {

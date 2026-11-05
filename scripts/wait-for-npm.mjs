@@ -15,7 +15,8 @@ import { fileURLToPath } from 'node:url';
 import { buildPackageVersionUrl } from './npm-registry.mjs';
 import { formatNpmPackageVersion, readPackageInfo } from './package-info.mjs';
 
-const DEFAULT_MAX_ATTEMPTS = 92;
+// The first check is immediate; 153 ten-second sleeps span 25.5 minutes.
+const DEFAULT_MAX_ATTEMPTS = 154;
 const NPM_REGISTRY_USER_AGENT =
   'js-ai-driven-development-pipeline-template wait-for-npm';
 const DEFAULT_SLEEP_SECONDS = 10;
@@ -218,9 +219,9 @@ function sleep(seconds) {
   );
 }
 
-function readGithubOutputPath(env) {
+function readGithubOutputPath() {
   try {
-    return env.GITHUB_OUTPUT || '';
+    return process.env.GITHUB_OUTPUT || '';
   } catch {
     // Runtimes with restricted environment access (Deno without --allow-env)
     // throw here; step outputs are simply unavailable then.
@@ -228,8 +229,8 @@ function readGithubOutputPath(env) {
   }
 }
 
-function setOutput(name, value, env) {
-  const outputFile = readGithubOutputPath(env);
+function setOutput(name, value) {
+  const outputFile = readGithubOutputPath();
   if (outputFile) {
     appendFileSync(outputFile, `${name}=${value}\n`);
   }
@@ -341,8 +342,8 @@ export async function main({
       config.releaseVersion
     );
 
-    setOutput('npm_available', result.available ? 'true' : 'false', env);
-    setOutput('npm_check_status', result.status, env);
+    setOutput('npm_available', result.available ? 'true' : 'false');
+    setOutput('npm_check_status', result.status);
 
     if (!result.available) {
       stderr(

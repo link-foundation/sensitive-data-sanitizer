@@ -92,7 +92,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^3.0.3",
-    "eslint": "^9.38.0",
+    "eslint": "^10.13.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "husky": "^9.1.7",
@@ -101,7 +101,10 @@
     "mrz": "^5.0.2",
     "prettier": "^3.6.2",
     "secretlint": "13.0.7",
-    "test-anywhere": "^0.8.48"
+    "test-anywhere": "^0.8.48",
+    "@eslint/js": "^10.0.1",
+    "command-stream": "2.4.0",
+    "lino-arguments": "0.4.0"
   },
   "lint-staged": {
     "*.{js,mjs,cjs}": [
@@ -112,6 +115,12 @@
     "*.md": [
       "prettier --write",
       "prettier --check"
+    ],
+    "*.sh": [
+      "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
+    ],
+    ".husky/*": [
+      "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
     ]
   },
   "dependencies": {
@@ -124,5 +133,8 @@
     "re2-wasm": "1.0.2",
     "re2js": "^2.9.0",
     "yaml": "^2.9.1"
+  },
+  "allowScripts": {
+    "node-pty": false
   }
 }

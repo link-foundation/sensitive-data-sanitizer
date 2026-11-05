@@ -36,6 +36,6 @@ it('preserves per-test limits and explicit file selection for each runtime', () 
   ]);
   expect(testCommand('deno', files)).toEqual([
     'deno',
-    ['test', '--allow-read', '--allow-env', ...files],
+    ['test', '-A', '--parallel', ...files],
   ]);
 });

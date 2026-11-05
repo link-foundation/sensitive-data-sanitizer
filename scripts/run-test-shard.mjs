@@ -23,7 +23,7 @@ export function testCommand(runtime, files) {
   const options = {
     node: ['--test', '--test-timeout=30000'],
     bun: ['test', '--timeout', '30000'],
-    deno: ['test', '--allow-read', '--allow-env'],
+    deno: ['test', '-A', '--parallel'],
   };
   if (!Object.hasOwn(options, runtime) || files.length === 0) {
     throw new Error('Expected node, bun or deno and a nonempty test shard');

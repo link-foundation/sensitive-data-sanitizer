@@ -206,3 +206,26 @@ git push
 ## Questions?
 
 If you have questions about contributing, feel free to open an issue for discussion.
+
+### CI audit and release diagnostics
+
+CI checks every tracked JavaScript file recursively and rejects lint warnings.
+Runtime-specific fixtures must register an explicit skip with a reason through
+`tests/helpers/skip.js`; returning before assertions misreports coverage.
+All committed npm locks must be free of deprecated packages and every dependency
+install script needs a reviewed decision in the owning manifest. Deno keeps its
+own install-script policy. CI uses `npm ci` and precompiles the frozen Deno graph.
+
+Release helpers load `command-stream` and `lino-arguments` from the committed lock.
+Versioning updates version metadata without reinstalling dependencies. Each release
+push attests the metadata diff and validated parent. A permanent repository-rule
+refusal fails with instructions to configure the rule; explicit changeset PR mode
+remains available. Internal GitHub push failures receive three bounded attempts.
+Set `CI_SCRIPTS_DEBUG=1` for push classification details and
+`PIPELINE_STATUS_VERBOSE=1` for terminal-gate diagnostics; both default off.
+
+Security requires valid, clean CodeQL SARIF and audits all three npm locks. The
+weekly audit also flags fixable moderate advisories. Missing dependency-graph
+configuration is explained on PRs and fails default-branch preflight. Historical
+research under `dev/log/` and `docs/case-studies/` is preserved as evidence.
+See `dev/log/issues/92/pulls/93/ANALYSIS.md` for the audit and reproduction cases.

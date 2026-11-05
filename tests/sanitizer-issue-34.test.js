@@ -1,3 +1,4 @@
+import { itUnless, nodeCliUnavailable } from './helpers/skip.js';
 import { URL } from 'node:url';
 import { describe, it, expect } from 'test-anywhere';
 import { readFile, mkdtemp, rm, readdir } from 'node:fs/promises';
@@ -21,9 +22,6 @@ async function errorOf(operation) {
   } catch (error) {
     return error;
   }
-}
-function canWrite() {
-  return typeof Deno === 'undefined';
 }
 
 describe('issue 34 session label and propagation regressions', () => {
@@ -198,40 +196,40 @@ describe('issue 34 structured keys and public CI metadata', () => {
 
 describe('issue 34 two-pass atomic publication', () => {
   for (const workers of [1, 4]) {
-    it(`redacts earlier values with ${workers} workers from a one-shot source`, async () => {
-      if (!canWrite()) {
-        return;
-      }
-      const dir = await mkdtemp(join(tmpdir(), 'issue-34-'));
-      const input = [
-        '{"text":"saved qazvela.pdf"}\n',
-        '{"text":"Applicant: Qazvela Zorveta"}\n',
-      ];
-      let consumed = 0;
-      async function* oneShot() {
-        for (const line of input) {
-          consumed++;
-          yield line;
+    itUnless(nodeCliUnavailable)(
+      `redacts earlier values with ${workers} workers from a one-shot source`,
+      async () => {
+        const dir = await mkdtemp(join(tmpdir(), 'issue-34-'));
+        const input = [
+          '{"text":"saved qazvela.pdf"}\n',
+          '{"text":"Applicant: Qazvela Zorveta"}\n',
+        ];
+        let consumed = 0;
+        async function* oneShot() {
+          for (const line of input) {
+            consumed++;
+            yield line;
+          }
+        }
+        try {
+          const target = join(dir, 'published.jsonl');
+          await sanitizeStreamToFile(oneShot(), target, {
+            ...publication,
+            structured: 'jsonl',
+            twoPass: true,
+            workers,
+            batchBytes: 1,
+          });
+          const output = await readFile(target, 'utf8');
+          expect(consumed).toBe(2);
+          expect(output.toLowerCase().includes('qazvela')).toBe(false);
+          expect(output.trim().split('\n').map(JSON.parse).length).toBe(2);
+          expect(await readdir(dir)).toEqual(['published.jsonl']);
+        } finally {
+          await rm(dir, { recursive: true, force: true });
         }
       }
-      try {
-        const target = join(dir, 'published.jsonl');
-        await sanitizeStreamToFile(oneShot(), target, {
-          ...publication,
-          structured: 'jsonl',
-          twoPass: true,
-          workers,
-          batchBytes: 1,
-        });
-        const output = await readFile(target, 'utf8');
-        expect(consumed).toBe(2);
-        expect(output.toLowerCase().includes('qazvela')).toBe(false);
-        expect(output.trim().split('\n').map(JSON.parse).length).toBe(2);
-        expect(await readdir(dir)).toEqual(['published.jsonl']);
-      } finally {
-        await rm(dir, { recursive: true, force: true });
-      }
-    });
+    );
   }
   it('reports record and byte offsets for malformed UTF-8', async () => {
     const bytes = Buffer.concat([
@@ -252,32 +250,32 @@ describe('issue 34 two-pass atomic publication', () => {
     expect(error.record).toBe(2);
     expect(error.offset).toBe(12);
   });
-  it('cleans both passes and preserves an existing target on failure', async () => {
-    if (!canWrite()) {
-      return;
-    }
-    const dir = await mkdtemp(join(tmpdir(), 'issue-34-failure-'));
-    try {
-      const target = join(dir, 'published.jsonl');
-      await sanitizeStreamToFile(['{}\n'], target, {
-        ...publication,
-        structured: 'jsonl',
-        workers: 1,
-      });
-      const error = await errorOf(() =>
-        sanitizeStreamToFile(['{}\n{'], target, {
+  itUnless(nodeCliUnavailable)(
+    'cleans both passes and preserves an existing target on failure',
+    async () => {
+      const dir = await mkdtemp(join(tmpdir(), 'issue-34-failure-'));
+      try {
+        const target = join(dir, 'published.jsonl');
+        await sanitizeStreamToFile(['{}\n'], target, {
           ...publication,
           structured: 'jsonl',
-          twoPass: true,
-          replace: true,
           workers: 1,
-        })
-      );
-      expect(error.code).toBe('ERR_JSON');
-      expect(await readFile(target, 'utf8')).toBe('{}\n');
-      expect(await readdir(dir)).toEqual(['published.jsonl']);
-    } finally {
-      await rm(dir, { recursive: true, force: true });
+        });
+        const error = await errorOf(() =>
+          sanitizeStreamToFile(['{}\n{'], target, {
+            ...publication,
+            structured: 'jsonl',
+            twoPass: true,
+            replace: true,
+            workers: 1,
+          })
+        );
+        expect(error.code).toBe('ERR_JSON');
+        expect(await readFile(target, 'utf8')).toBe('{}\n');
+        expect(await readdir(dir)).toEqual(['published.jsonl']);
+      } finally {
+        await rm(dir, { recursive: true, force: true });
+      }
     }
-  });
+  );
 });

@@ -1,3 +1,4 @@
+import { itUnless, sandboxed } from './helpers/skip.js';
 import { describe, it, expect } from 'test-anywhere';
 import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -173,38 +174,34 @@ describe('private stream confirmations and publication', () => {
       expect(actual).toBe(code);
     }
   });
-  it('publishes valid sessions atomically and removes staging on late confirmation', async () => {
-    if (
-      typeof Deno !== 'undefined' &&
-      (await Deno.permissions.query({ name: 'write', path: tmpdir() }))
-        .state !== 'granted'
-    ) {
-      return;
-    }
-    const directory = await mkdtemp(join(tmpdir(), 'issue-32-identity-'));
-    try {
-      const success = join(directory, 'success.jsonl');
-      await sanitizeStreamToFile(['{"text":"state:\\nt"}\n'], success, {
-        structured: 'jsonl',
-        workers: 1,
-      });
-      expect(JSON.parse(await readFile(success, 'utf8')).text).toBe(
-        'state:\nt'
-      );
-      let code;
+  itUnless(sandboxed)(
+    'publishes valid sessions atomically and removes staging on late confirmation',
+    async () => {
+      const directory = await mkdtemp(join(tmpdir(), 'issue-32-identity-'));
       try {
-        await sanitizeStreamToFile(
-          ['{"text":"qazvela.pdf"}\n{"text":"Applicant: Qazvela Zorveta"}\n'],
-          join(directory, 'blocked.jsonl'),
-          { structured: 'jsonl', workers: 4, batchBytes: 1 }
+        const success = join(directory, 'success.jsonl');
+        await sanitizeStreamToFile(['{"text":"state:\\nt"}\n'], success, {
+          structured: 'jsonl',
+          workers: 1,
+        });
+        expect(JSON.parse(await readFile(success, 'utf8')).text).toBe(
+          'state:\nt'
         );
-      } catch (error) {
-        code = error.code;
+        let code;
+        try {
+          await sanitizeStreamToFile(
+            ['{"text":"qazvela.pdf"}\n{"text":"Applicant: Qazvela Zorveta"}\n'],
+            join(directory, 'blocked.jsonl'),
+            { structured: 'jsonl', workers: 4, batchBytes: 1 }
+          );
+        } catch (error) {
+          code = error.code;
+        }
+        expect(code).toBe('ERR_LATE_PERSONAL');
+        expect(await readdir(directory)).toEqual(['success.jsonl']);
+      } finally {
+        await rm(directory, { recursive: true, force: true });
       }
-      expect(code).toBe('ERR_LATE_PERSONAL');
-      expect(await readdir(directory)).toEqual(['success.jsonl']);
-    } finally {
-      await rm(directory, { recursive: true, force: true });
     }
-  });
+  );
 });

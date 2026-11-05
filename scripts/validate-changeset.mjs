@@ -27,6 +27,10 @@ import {
 
 /** Directory scanning is an explicit local mode, never a CI fallback. */
 function getAddedChangesetFiles(changesetDir, jsRoot) {
+  if (process.env.PR_AUTHOR === 'dependabot[bot]') {
+    console.log('Skipping changeset validation for dependabot[bot]');
+    return null;
+  }
   if (process.env.ALLOW_LOCAL_CHANGESET_SCAN === 'true') {
     if (
       process.env.CI ||
@@ -51,7 +55,9 @@ function getAddedChangesetFiles(changesetDir, jsRoot) {
   const prefix =
     packageRoot === '.' ? '' : `${packageRoot.replace(/\/$/, '')}/`;
   const packagePaths = changes
-    .map((change) => change.path)
+    .flatMap((change) =>
+      change.oldPath ? [change.oldPath, change.path] : [change.path]
+    )
     .filter(
       (path) => path.startsWith(prefix) || path.startsWith('.github/workflows/')
     )

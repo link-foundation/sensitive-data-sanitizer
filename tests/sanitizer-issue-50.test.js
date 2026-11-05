@@ -1,3 +1,4 @@
+import { itUnless, nodeCliUnavailable } from './helpers/skip.js';
 import { describe, it, expect } from 'test-anywhere';
 import { Readable } from 'node:stream';
 import { mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
@@ -65,44 +66,53 @@ describe('Authorization token boundaries (issue 50)', () => {
       }
     }
   });
-  it('preserves NUL and invalid bytes through CLI file/stdin and stream paths', async () => {
-    if (typeof Deno !== 'undefined') {
-      return;
-    }
-    const directory = await mkdtemp(join(tmpdir(), 'issue-50-'));
-    const input = Buffer.concat([
-      Buffer.from('Authorization: Bearer abc\0 tail\n'),
-      Buffer.from([255]),
-      Buffer.from('\nAuthorization: Bearer [REDACTED] already\n'),
-    ]);
-    const expected = Buffer.concat([
-      Buffer.from('Authorization: [REDACTED]\0 tail\n'),
-      Buffer.from([255]),
-      Buffer.from('\nAuthorization: Bearer [REDACTED] already\n'),
-    ]);
-    try {
-      const source = join(directory, 'input');
-      await writeFile(source, input);
-      expect(await readFile(source)).toEqual(input);
-      for (const path of ['-', source]) {
-        for (const flags of [[], ['--stream']]) {
-          const chunks = [];
-          const errors = [];
-          const status = await runCli(
-            ['redact', path, '--credentials-only', '--allow-binary', ...flags],
-            {
-              stdin: Readable.from([input.subarray(0, 20), input.subarray(20)]),
-              stdout: { write: (chunk) => chunks.push(Buffer.from(chunk)) },
-              stderr: { write: (chunk) => errors.push(chunk) },
-            }
-          );
-          expect(status).toBe(0);
-          expect(errors).toEqual([]);
-          expect(Buffer.concat(chunks)).toEqual(expected);
+  itUnless(nodeCliUnavailable)(
+    'preserves NUL and invalid bytes through CLI file/stdin and stream paths',
+    async () => {
+      const directory = await mkdtemp(join(tmpdir(), 'issue-50-'));
+      const input = Buffer.concat([
+        Buffer.from('Authorization: Bearer abc\0 tail\n'),
+        Buffer.from([255]),
+        Buffer.from('\nAuthorization: Bearer [REDACTED] already\n'),
+      ]);
+      const expected = Buffer.concat([
+        Buffer.from('Authorization: [REDACTED]\0 tail\n'),
+        Buffer.from([255]),
+        Buffer.from('\nAuthorization: Bearer [REDACTED] already\n'),
+      ]);
+      try {
+        const source = join(directory, 'input');
+        await writeFile(source, input);
+        expect(await readFile(source)).toEqual(input);
+        for (const path of ['-', source]) {
+          for (const flags of [[], ['--stream']]) {
+            const chunks = [];
+            const errors = [];
+            const status = await runCli(
+              [
+                'redact',
+                path,
+                '--credentials-only',
+                '--allow-binary',
+                ...flags,
+              ],
+              {
+                stdin: Readable.from([
+                  input.subarray(0, 20),
+                  input.subarray(20),
+                ]),
+                stdout: { write: (chunk) => chunks.push(Buffer.from(chunk)) },
+                stderr: { write: (chunk) => errors.push(chunk) },
+              }
+            );
+            expect(status).toBe(0);
+            expect(errors).toEqual([]);
+            expect(Buffer.concat(chunks)).toEqual(expected);
+          }
         }
+      } finally {
+        await rm(directory, { recursive: true, force: true });
       }
-    } finally {
-      await rm(directory, { recursive: true, force: true });
     }
-  });
+  );
 });

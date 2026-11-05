@@ -181,11 +181,11 @@ function detectPassports(text, emit) {
   });
 }
 const booking =
-  /(?<![\p{L}\p{N}_])(?:booking(?:[ _-]+(?:reference|code))?|reservation(?:[ _-]+code)?|confirmation(?:[ _-]+code)?|бронь|record[ _-]+locator|PNR|код брони|номер брони|бронирование)[ \t]*[:=：]?[ \t]*[`"']?([A-Z0-9]{4,8})(?![\p{L}\p{N}_])/giu;
+  /(?<![\p{L}\p{N}_])(?:booking(?:[ _-]+(?:reference|code))?|reservation(?:[ _-]+code)?|confirmation(?:[ _-]+code)?|бронь|record[ _-]+locator|PNR|код брони|номер брони|бронирование)[ \t]*(?:[:=：][ \t]*)?[`"']?([A-Z0-9]{4,8})(?![\p{L}\p{N}_])/giu;
 const ticket =
-  /(?<![\p{L}\p{N}_])(?:e[ -]?ticket|ticket[ _-]*(?:number|no)?|номер билета|электронный билет)[ \t]*[:=：]?[ \t]*[`"']?(\d{3}[ -]?\d{10})(?![\p{L}\p{N}_])/giu;
+  /(?<![\p{L}\p{N}_])(?:e[ -]?ticket|ticket[ _-]*(?:number|no)?|номер билета|электронный билет)[ \t]*(?:[:=：][ \t]*)?[`"']?(\d{3}[ -]?\d{10})(?![\p{L}\p{N}_])/giu;
 const visa =
-  /(?<![\p{L}\p{N}_])(?:e[ -]?visa|visa|номер визы|виза)(?:[ \t_-]+(?:registration|application|number|no|code|номер|код)){0,3}[ \t]*[:=：]?[ \t]*[`"']?([A-Z0-9][A-Z0-9-]{4,31})(?![\p{L}\p{N}_])/giu;
+  /(?<![\p{L}\p{N}_])(?:e[ -]?visa|visa|номер визы|виза)(?:[ \t_-]+(?:registration|application|number|no|code|номер|код)){0,3}[ \t]*(?:[:=：][ \t]*)?[`"']?([A-Z0-9][A-Z0-9-]{4,31})(?![\p{L}\p{N}_])/giu;
 const placeholder =
   /^(?:NONE|UNKNOWN|NULL|UNDEFINED|REDACTED|EXAMPLE|SAMPLE|PENDING|HOTEL|BOOKING|REFERENCE|REGISTRATION|APPLICATION|NUMBER|CODE|FAILED|ERROR|HTTP|OK|CANCELLED|CONFIRMED|SUCCESS|READY|ACTIVE|CLOSED)$/i;
 function detectTravel(text, emit) {

@@ -90,3 +90,13 @@ export function isNonFastForward(result) {
   const output = combinedOutput(result, false);
   return NON_FAST_FORWARD_PATTERNS.some((pattern) => output.includes(pattern));
 }
+
+/** Internal GitHub failures can reject an otherwise valid, unchanged push. */
+export function isTransientPushFailure(result) {
+  if (isBlockedByRepositoryRule(result)) {
+    return false;
+  }
+  return /fatal error in commit_refs_rules|(?:requested url returned error|http)[ :]+(?:429|500|502|503|504)\b|remote: internal server error/i.test(
+    combinedOutput(result)
+  );
+}

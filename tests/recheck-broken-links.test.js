@@ -18,6 +18,7 @@ import {
   recheckUnanswered,
 } from '../scripts/recheck-broken-links.mjs';
 import { splitRecoveredUrls } from '../scripts/check-web-archive.mjs';
+import { itUnless, sandboxed } from './helpers/skip.js';
 
 const fixtureReport = readFileSync('tests/fixtures/lychee-report.md', 'utf8');
 const linksWorkflow = readFileSync('.github/workflows/links.yml', 'utf8');
@@ -264,164 +265,208 @@ describe('re-check requests', () => {
   });
 });
 
-describe('re-check step end to end', () => {
-  // The end-to-end fixtures spawn node and write outside the sandbox,
-  // which the Deno leg's `--allow-read`-only test run cannot do.
-  if (typeof Deno !== 'undefined') {
-    return;
-  }
+function writeReport(dir, entries) {
+  const reportPath = path.join(dir, 'out.md');
+  writeFileSync(
+    reportPath,
+    `# Link Checker Report\n\n| Errors | ${entries.length} |\n\n## Errors per input\n\n${entries.join('\n')}\n`
+  );
+  return reportPath;
+}
 
-  function writeReport(dir, entries) {
-    const reportPath = path.join(dir, 'out.md');
-    writeFileSync(reportPath, `## Errors per input\n\n${entries.join('\n')}\n`);
-    return reportPath;
-  }
-
-  function runRecheck(env) {
-    return new Promise((resolve) => {
-      const child = spawn('node', ['scripts/recheck-broken-links.mjs'], {
-        cwd: process.cwd(),
-        env: { ...process.env, ...env },
-        stdio: ['ignore', 'pipe', 'pipe'],
-      });
-      let output = '';
-      child.stdout.on('data', (chunk) => {
-        output += chunk;
-      });
-      child.stderr.on('data', (chunk) => {
-        output += chunk;
-      });
-      child.on('close', (code) => resolve({ code, output }));
+function runRecheck(env) {
+  return new Promise((resolve) => {
+    const child = spawn('node', ['scripts/recheck-broken-links.mjs'], {
+      cwd: process.cwd(),
+      env: { ...process.env, ...env },
+      stdio: ['ignore', 'pipe', 'pipe'],
     });
-  }
-
-  it('recovers only the URLs that answer healthy and never re-asks a 404', async () => {
-    const requests = [];
-    const server = createServer((request, response) => {
-      requests.push(request.url);
-      if (request.url === '/healthy') {
-        response.writeHead(200);
-      } else {
-        response.writeHead(404);
-      }
-      response.end();
+    let output = '';
+    child.stdout.on('data', (chunk) => {
+      output += chunk;
     });
-    await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
-    const { port } = server.address();
-    const base = `http://127.0.0.1:${port}`;
-
-    const dir = mkdtempSync(path.join(tmpdir(), 'recheck-'));
-    try {
-      const reportPath = writeReport(dir, [
-        `- [ERROR] <${base}/healthy> | Connection reset by peer`,
-        `- [ERROR] <${base}/dead> | Connection reset by peer`,
-        '- [404] <https://example.com/final/> | Rejected status code: 404 Not Found',
-      ]);
-      const recoveredPath = path.join(dir, 'recovered.txt');
-      const outputPath = path.join(dir, 'github-output.txt');
-
-      const { code, output } = await runRecheck({
-        LYCHEE_OUTPUT: reportPath,
-        RECOVERED_OUTPUT: recoveredPath,
-        GITHUB_OUTPUT: outputPath,
-        RECHECK_WAIT_MS: '10',
-        RECHECK_BUDGET_SECONDS: '30',
-      });
-
-      expect(code).toBe(0);
-      expect(readFileSync(recoveredPath, 'utf8')).toBe(`${base}/healthy\n`);
-      expect(requests.sort()).toEqual(['/dead', '/healthy']);
-      // The 404 was already an answer; re-asking it would be wrong.
-      expect(requests).not.toContain('/final');
-      // One link stayed broken, so the gate must not be released.
-      expect(existsSync(outputPath)).toBe(false);
-      expect(output).toContain('still without an answer');
-    } finally {
-      server.close();
-      rmSync(dir, { recursive: true, force: true });
-    }
+    child.stderr.on('data', (chunk) => {
+      output += chunk;
+    });
+    child.on('close', (code) => resolve({ code, output }));
   });
+}
 
-  it('releases the gate when a cached 503 recovers with a fresh success', async () => {
+itUnless(sandboxed)(
+  'never releases malformed evidence even when its URL would recover',
+  async () => {
+    let requests = 0;
     const server = createServer((request, response) => {
+      requests++;
       response.writeHead(200);
       response.end();
     });
     await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
-    const { port } = server.address();
-
-    const dir = mkdtempSync(path.join(tmpdir(), 'recheck-'));
+    const dir = mkdtempSync(path.join(tmpdir(), 'recheck-malformed-'));
     try {
-      const reportPath = writeReport(dir, [
-        `- [503] <http://127.0.0.1:${port}/slow> | Error (cached)`,
-      ]);
-      const recoveredPath = path.join(dir, 'recovered.txt');
-      const outputPath = path.join(dir, 'github-output.txt');
-
+      const reportPath = path.join(dir, 'out.md');
+      const outputPath = path.join(dir, 'outputs');
+      writeFileSync(
+        reportPath,
+        `malformed report\n- [ERROR] <http://127.0.0.1:${server.address().port}/healthy> | Connection reset\n`
+      );
       const { code } = await runRecheck({
         LYCHEE_OUTPUT: reportPath,
-        RECOVERED_OUTPUT: recoveredPath,
-        GITHUB_OUTPUT: outputPath,
-        RECHECK_WAIT_MS: '10',
-        RECHECK_BUDGET_SECONDS: '30',
-      });
-
-      expect(code).toBe(0);
-      expect(readFileSync(outputPath, 'utf8')).toContain('all_recovered=true');
-    } finally {
-      server.close();
-      rmSync(dir, { recursive: true, force: true });
-    }
-  });
-
-  it('does not release the gate when a 404 remains beside a recovered link', async () => {
-    const server = createServer((request, response) => {
-      response.writeHead(200);
-      response.end();
-    });
-    await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
-    const { port } = server.address();
-
-    const dir = mkdtempSync(path.join(tmpdir(), 'recheck-'));
-    try {
-      const reportPath = writeReport(dir, [
-        '- [404] <https://example.com/final/> | Rejected status code: 404 Not Found',
-        `- [ERROR] <http://127.0.0.1:${port}/recovered> | Connection reset by peer`,
-      ]);
-      const recoveredPath = path.join(dir, 'recovered.txt');
-      const outputPath = path.join(dir, 'github-output.txt');
-
-      const { code } = await runRecheck({
-        LYCHEE_OUTPUT: reportPath,
-        RECOVERED_OUTPUT: recoveredPath,
-        GITHUB_OUTPUT: outputPath,
-        RECHECK_WAIT_MS: '10',
-        RECHECK_BUDGET_SECONDS: '30',
-      });
-
-      expect(code).toBe(0);
-      expect(readFileSync(recoveredPath, 'utf8')).toContain('/recovered');
-      expect(existsSync(outputPath)).toBe(false);
-    } finally {
-      server.close();
-      rmSync(dir, { recursive: true, force: true });
-    }
-  });
-
-  it('exits 0 even when the report is missing entirely', async () => {
-    const dir = mkdtempSync(path.join(tmpdir(), 'recheck-'));
-    try {
-      const { code, output } = await runRecheck({
-        LYCHEE_OUTPUT: path.join(dir, 'missing.md'),
         RECOVERED_OUTPUT: path.join(dir, 'recovered.txt'),
+        GITHUB_OUTPUT: outputPath,
       });
-
       expect(code).toBe(0);
-      expect(output).toContain('treating as no recovery');
+      expect(existsSync(outputPath)).toBe(false);
+      expect(requests).toBe(0);
     } finally {
+      server.close();
       rmSync(dir, { recursive: true, force: true });
     }
-  });
+  }
+);
+
+describe('re-check step end to end', () => {
+  itUnless(sandboxed)(
+    'recovers only the URLs that answer healthy and never re-asks a 404',
+    async () => {
+      const requests = [];
+      const server = createServer((request, response) => {
+        requests.push(request.url);
+        if (request.url === '/healthy') {
+          response.writeHead(200);
+        } else {
+          response.writeHead(404);
+        }
+        response.end();
+      });
+      await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+      const { port } = server.address();
+      const base = `http://127.0.0.1:${port}`;
+
+      const dir = mkdtempSync(path.join(tmpdir(), 'recheck-'));
+      try {
+        const reportPath = writeReport(dir, [
+          `- [ERROR] <${base}/healthy> | Connection reset by peer`,
+          `- [ERROR] <${base}/dead> | Connection reset by peer`,
+          '- [404] <https://example.com/final/> | Rejected status code: 404 Not Found',
+        ]);
+        const recoveredPath = path.join(dir, 'recovered.txt');
+        const outputPath = path.join(dir, 'github-output.txt');
+
+        const { code, output } = await runRecheck({
+          LYCHEE_OUTPUT: reportPath,
+          RECOVERED_OUTPUT: recoveredPath,
+          GITHUB_OUTPUT: outputPath,
+          RECHECK_WAIT_MS: '10',
+          RECHECK_BUDGET_SECONDS: '30',
+        });
+
+        expect(code).toBe(0);
+        expect(readFileSync(recoveredPath, 'utf8')).toBe(`${base}/healthy\n`);
+        expect(requests.sort()).toEqual(['/dead', '/healthy']);
+        // The 404 was already an answer; re-asking it would be wrong.
+        expect(requests).not.toContain('/final');
+        // One link stayed broken, so the gate must not be released.
+        expect(existsSync(outputPath)).toBe(false);
+        expect(output).toContain('still without an answer');
+      } finally {
+        server.close();
+        rmSync(dir, { recursive: true, force: true });
+      }
+    }
+  );
+
+  itUnless(sandboxed)(
+    'releases the gate when a cached 503 recovers with a fresh success',
+    async () => {
+      const server = createServer((request, response) => {
+        response.writeHead(200);
+        response.end();
+      });
+      await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+      const { port } = server.address();
+
+      const dir = mkdtempSync(path.join(tmpdir(), 'recheck-'));
+      try {
+        const reportPath = writeReport(dir, [
+          `- [503] <http://127.0.0.1:${port}/slow> | Error (cached)`,
+        ]);
+        const recoveredPath = path.join(dir, 'recovered.txt');
+        const outputPath = path.join(dir, 'github-output.txt');
+
+        const { code } = await runRecheck({
+          LYCHEE_OUTPUT: reportPath,
+          RECOVERED_OUTPUT: recoveredPath,
+          GITHUB_OUTPUT: outputPath,
+          RECHECK_WAIT_MS: '10',
+          RECHECK_BUDGET_SECONDS: '30',
+        });
+
+        expect(code).toBe(0);
+        expect(readFileSync(outputPath, 'utf8')).toContain(
+          'all_recovered=true'
+        );
+      } finally {
+        server.close();
+        rmSync(dir, { recursive: true, force: true });
+      }
+    }
+  );
+
+  itUnless(sandboxed)(
+    'does not release the gate when a 404 remains beside a recovered link',
+    async () => {
+      const server = createServer((request, response) => {
+        response.writeHead(200);
+        response.end();
+      });
+      await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+      const { port } = server.address();
+
+      const dir = mkdtempSync(path.join(tmpdir(), 'recheck-'));
+      try {
+        const reportPath = writeReport(dir, [
+          '- [404] <https://example.com/final/> | Rejected status code: 404 Not Found',
+          `- [ERROR] <http://127.0.0.1:${port}/recovered> | Connection reset by peer`,
+        ]);
+        const recoveredPath = path.join(dir, 'recovered.txt');
+        const outputPath = path.join(dir, 'github-output.txt');
+
+        const { code } = await runRecheck({
+          LYCHEE_OUTPUT: reportPath,
+          RECOVERED_OUTPUT: recoveredPath,
+          GITHUB_OUTPUT: outputPath,
+          RECHECK_WAIT_MS: '10',
+          RECHECK_BUDGET_SECONDS: '30',
+        });
+
+        expect(code).toBe(0);
+        expect(readFileSync(recoveredPath, 'utf8')).toContain('/recovered');
+        expect(existsSync(outputPath)).toBe(false);
+      } finally {
+        server.close();
+        rmSync(dir, { recursive: true, force: true });
+      }
+    }
+  );
+
+  itUnless(sandboxed)(
+    'exits 0 even when the report is missing entirely',
+    async () => {
+      const dir = mkdtempSync(path.join(tmpdir(), 'recheck-'));
+      try {
+        const { code, output } = await runRecheck({
+          LYCHEE_OUTPUT: path.join(dir, 'missing.md'),
+          RECOVERED_OUTPUT: path.join(dir, 'recovered.txt'),
+        });
+
+        expect(code).toBe(0);
+        expect(output).toContain('treating as no recovery');
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
+    }
+  );
 });
 
 describe('web archive fallback honouring the re-check', () => {

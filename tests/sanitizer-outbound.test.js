@@ -1,3 +1,4 @@
+import { itUnless, nodeCliUnavailable } from './helpers/skip.js';
 import { describe, it, expect } from 'test-anywhere';
 import { resolve } from 'node:path';
 import {
@@ -98,32 +99,32 @@ describe('explicit public verification and outbound helpers', () => {
     }
     expect(called).toBe(false);
   });
-  it('loads gh auth only on an explicit invocation and hides subprocess errors', async () => {
-    if (typeof Deno !== 'undefined') {
-      return;
+  itUnless(nodeCliUnavailable)(
+    'loads gh auth only on an explicit invocation and hides subprocess errors',
+    async () => {
+      let blocked = false;
+      try {
+        await knownSecretsFromGitHubAuth({ command: '/no/such/synthetic-gh' });
+      } catch (e) {
+        blocked = e.code === 'ERR_AUTH';
+      }
+      expect(blocked).toBe(true);
     }
-    let blocked = false;
-    try {
-      await knownSecretsFromGitHubAuth({ command: '/no/such/synthetic-gh' });
-    } catch (e) {
-      blocked = e.code === 'ERR_AUTH';
+  );
+  itUnless(nodeCliUnavailable)(
+    'detects the exact synthetic value returned by local auth',
+    async () => {
+      const knownSecrets = await knownSecretsFromGitHubAuth({
+        command: resolve('experiments/mock-gh-auth.mjs'),
+        hostname: 'github.com',
+      });
+      expect(
+        (
+          await createSanitizer({ knownSecrets }).sanitize(
+            'Value: synthetic-local-auth-fixture'
+          )
+        ).text
+      ).toBe('Value: [REDACTED]');
     }
-    expect(blocked).toBe(true);
-  });
-  it('detects the exact synthetic value returned by local auth', async () => {
-    if (typeof Deno !== 'undefined' || process.platform === 'win32') {
-      return;
-    }
-    const knownSecrets = await knownSecretsFromGitHubAuth({
-      command: resolve('experiments/mock-gh-auth.mjs'),
-      hostname: 'github.com',
-    });
-    expect(
-      (
-        await createSanitizer({ knownSecrets }).sanitize(
-          'Value: synthetic-local-auth-fixture'
-        )
-      ).text
-    ).toBe('Value: [REDACTED]');
-  });
+  );
 });

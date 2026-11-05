@@ -45,10 +45,26 @@ export function detectCredentialFormats(text, emit) {
     (value) =>
       !credentialPlaceholder(value) && value !== 'put your unique phrase here'
   );
-  collectMatches(
-    text,
-    /PuTTY-User-Key-File-[23]:[^\r\n]*(?:\r\n|\r|\n)[\s\S]*?(?:Private-MAC:[ \t]*[a-fA-F0-9]+|$)/g,
-    emit,
-    details('putty-private-key')
-  );
+  detectPuttyPrivateKeys(text, emit);
+}
+
+// Scan each consumed range once. A regex combining an unbounded header line
+// and a lazy body rescans every repeated header when the newline is missing.
+function detectPuttyPrivateKeys(text, emit) {
+  const headers = /PuTTY-User-Key-File-[23]:/g;
+  const lineEnd = /[\r\n]/g;
+  const mac = /Private-MAC:[ \t]*[a-fA-F0-9]+/g;
+  let header;
+  while ((header = headers.exec(text))) {
+    lineEnd.lastIndex = headers.lastIndex;
+    const newline = lineEnd.exec(text);
+    if (!newline) {
+      break;
+    }
+    mac.lastIndex = newline.index + 1;
+    const terminator = mac.exec(text);
+    const end = terminator ? mac.lastIndex : text.length;
+    emit({ start: header.index, end, ...details('putty-private-key') });
+    headers.lastIndex = end;
+  }
 }
