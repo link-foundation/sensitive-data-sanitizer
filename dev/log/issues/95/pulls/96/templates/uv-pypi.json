@@ -1,0 +1,523 @@
+{
+  "info": {
+    "author": null,
+    "author_email": "\"Astral Software Inc.\" <hey@astral.sh>",
+    "bugtrack_url": null,
+    "classifiers": [
+      "Development Status :: 5 - Production/Stable",
+      "Environment :: Console",
+      "Intended Audience :: Developers",
+      "Operating System :: OS Independent",
+      "Programming Language :: Python",
+      "Programming Language :: Python :: 3 :: Only",
+      "Programming Language :: Python :: 3.10",
+      "Programming Language :: Python :: 3.11",
+      "Programming Language :: Python :: 3.12",
+      "Programming Language :: Python :: 3.13",
+      "Programming Language :: Python :: 3.14",
+      "Programming Language :: Python :: 3.15",
+      "Programming Language :: Python :: 3.8",
+      "Programming Language :: Python :: 3.9",
+      "Programming Language :: Rust",
+      "Topic :: Software Development :: Libraries",
+      "Topic :: Software Development :: Quality Assurance",
+      "Topic :: Software Development :: Testing"
+    ],
+    "description": "# uv\n\nAn extremely fast Python package and project manager, written in Rust.\n\n<p align=\"center\">\n  <img alt=\"Shows a bar chart with benchmark results.\" src=\"https://github.com/astral-sh/uv/assets/1309177/629e59c0-9c6e-4013-9ad4-adb2bcf5080d\">\n</p>\n\n<p align=\"center\">\n  <i>Installing <a href=\"https://trio.readthedocs.io/\">Trio</a>'s dependencies with a warm cache.</i>\n</p>\n\n## Highlights\n\n- A single tool to replace `pip`, `pip-tools`, `pipx`, `poetry`, `pyenv`, `twine`, `virtualenv`, and\n  more.\n- [10-100x faster](https://github.com/astral-sh/uv/blob/main/BENCHMARKS.md) than `pip`.\n- Provides [comprehensive project management](https://github.com/astral-sh/uv/blob/0.13.7/README.md#projects), with a\n  [universal lockfile](https://docs.astral.sh/uv/concepts/projects/layout#the-lockfile).\n- [Runs scripts](https://github.com/astral-sh/uv/blob/0.13.7/README.md#scripts), with support for\n  [inline dependency metadata](https://docs.astral.sh/uv/guides/scripts#declaring-script-dependencies).\n- [Installs and manages](https://github.com/astral-sh/uv/blob/0.13.7/README.md#python-versions) Python versions.\n- [Runs and installs](https://github.com/astral-sh/uv/blob/0.13.7/README.md#tools) tools published as Python packages.\n- Includes a [pip-compatible interface](https://github.com/astral-sh/uv/blob/0.13.7/README.md#the-pip-interface) for a performance boost with a familiar\n  CLI.\n- Supports Cargo-style [workspaces](https://docs.astral.sh/uv/concepts/projects/workspaces) for\n  scalable projects.\n- Disk-space efficient, with a [global cache](https://docs.astral.sh/uv/concepts/cache) for\n  dependency deduplication.\n- Installable without Rust or Python via `curl` or `pip`.\n- Supports macOS, Linux, and Windows.\n\nuv is backed by [Astral](https://astral.sh), the creators of\n[Ruff](https://github.com/astral-sh/ruff) and [ty](https://github.com/astral-sh/ty).\n\n## Installation\n\nInstall uv with our standalone installers:\n\n```bash\n# On macOS and Linux.\ncurl -LsSf https://astral.sh/uv/install.sh | sh\n```\n\n```bash\n# On Windows.\npowershell -ExecutionPolicy ByPass -c \"irm https://astral.sh/uv/install.ps1 | iex\"\n```\n\nOr, from [PyPI](https://pypi.org/project/uv/):\n\n```bash\n# With pip.\npip install uv\n```\n\n```bash\n# Or pipx.\npipx install uv\n```\n\nIf installed via the standalone installer, uv can update itself to the latest version:\n\n```bash\nuv self update\n```\n\nSee the [installation documentation](https://docs.astral.sh/uv/getting-started/installation/) for\ndetails and alternative installation methods.\n\n## Documentation\n\nuv's documentation is available at [docs.astral.sh/uv](https://docs.astral.sh/uv).\n\nAdditionally, the command line reference documentation can be viewed with `uv help`.\n\n## Features\n\n### Projects\n\nuv manages project dependencies and environments, with support for lockfiles, workspaces, and more,\nsimilar to `rye` or `poetry`:\n\n```console\n$ uv init example\nInitialized project `example` at `/home/user/example`\n\n$ cd example\n\n$ uv add ruff\nCreating virtual environment at: .venv\nResolved 2 packages in 170ms\n   Built example @ file:///home/user/example\nPrepared 2 packages in 627ms\nInstalled 2 packages in 1ms\n + example==0.1.0 (from file:///home/user/example)\n + ruff==0.5.0\n\n$ uv run ruff check\nAll checks passed!\n\n$ uv lock\nResolved 2 packages in 0.33ms\n\n$ uv sync\nResolved 2 packages in 0.70ms\nChecked 1 package in 0.02ms\n```\n\nSee the [project documentation](https://docs.astral.sh/uv/guides/projects/) to get started.\n\nuv also supports building and publishing projects, even if they're not managed with uv. See the\n[publish guide](https://docs.astral.sh/uv/guides/publish/) to learn more.\n\n### Scripts\n\nuv manages dependencies and environments for single-file scripts.\n\nCreate a new script and add inline metadata declaring its dependencies:\n\n```console\n$ echo 'import requests; print(requests.get(\"https://astral.sh\"))' > example.py\n\n$ uv add --script example.py requests\nUpdated `example.py`\n```\n\nThen, run the script in an isolated virtual environment:\n\n```console\n$ uv run example.py\nReading inline script metadata from: example.py\nInstalled 5 packages in 12ms\n<Response [200]>\n```\n\nSee the [scripts documentation](https://docs.astral.sh/uv/guides/scripts/) to get started.\n\n### Tools\n\nuv executes and installs command-line tools provided by Python packages, similar to `pipx`.\n\nRun a tool in an ephemeral environment using `uvx` (an alias for `uv tool run`):\n\n```console\n$ uvx pycowsay 'hello world!'\nResolved 1 package in 167ms\nInstalled 1 package in 9ms\n + pycowsay==0.0.0.2\n  \"\"\"\n\n  ------------\n< hello world! >\n  ------------\n   \\   ^__^\n    \\  (oo)\\_______\n       (__)\\       )\\/\\\n           ||----w |\n           ||     ||\n```\n\nInstall a tool with `uv tool install`:\n\n```console\n$ uv tool install ruff\nResolved 1 package in 6ms\nInstalled 1 package in 2ms\n + ruff==0.5.0\nInstalled 1 executable: ruff\n\n$ ruff --version\nruff 0.5.0\n```\n\nSee the [tools documentation](https://docs.astral.sh/uv/guides/tools/) to get started.\n\n### Python versions\n\nuv installs Python and allows quickly switching between versions.\n\nInstall multiple Python versions:\n\n```console\n$ uv python install 3.12 3.13 3.14\nInstalled 3 versions in 972ms\n + cpython-3.12.12-macos-aarch64-none (python3.12)\n + cpython-3.13.9-macos-aarch64-none (python3.13)\n + cpython-3.14.0-macos-aarch64-none (python3.14)\n\n```\n\nDownload Python versions as needed:\n\n```console\n$ uv venv --python 3.12.0\nUsing Python 3.12.0\nCreating virtual environment at: .venv\nActivate with: source .venv/bin/activate\n\n$ uv run --python pypy@3.8 -- python --version\nPython 3.8.16 (a9dbdca6fc3286b0addd2240f11d97d8e8de187a, Dec 29 2022, 11:45:30)\n[PyPy 7.3.11 with GCC Apple LLVM 13.1.6 (clang-1316.0.21.2.5)] on darwin\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n>>>>\n```\n\nUse a specific Python version in the current directory:\n\n```console\n$ uv python pin 3.11\nPinned `.python-version` to `3.11`\n```\n\nSee the [Python installation documentation](https://docs.astral.sh/uv/guides/install-python/) to get\nstarted.\n\n### The pip interface\n\nuv provides a drop-in replacement for common `pip`, `pip-tools`, and `virtualenv` commands.\n\nuv extends their interfaces with advanced features, such as dependency version overrides,\nplatform-independent resolutions, reproducible resolutions, alternative resolution strategies, and\nmore.\n\nMigrate to uv without changing your existing workflows \u2014 and experience a 10-100x speedup \u2014 with the\n`uv pip` interface.\n\nCompile requirements into a platform-independent requirements file:\n\n```console\n$ uv pip compile requirements.in \\\n   --universal \\\n   --output-file requirements.txt\nResolved 43 packages in 12ms\n```\n\nCreate a virtual environment:\n\n```console\n$ uv venv\nUsing Python 3.12.3\nCreating virtual environment at: .venv\nActivate with: source .venv/bin/activate\n```\n\nInstall the locked requirements:\n\n```console\n$ uv pip sync requirements.txt\nResolved 43 packages in 11ms\nInstalled 43 packages in 208ms\n + babel==2.15.0\n + black==24.4.2\n + certifi==2024.7.4\n ...\n```\n\nSee the [pip interface documentation](https://docs.astral.sh/uv/pip/index/) to get started.\n\n## Contributing\n\nWe are passionate about supporting contributors of all levels of experience and would love to see\nyou get involved in the project. See the\n[contributing guide](https://github.com/astral-sh/uv?tab=contributing-ov-file#contributing) to get\nstarted.\n\n## FAQ\n\n#### How do you pronounce uv?\n\nIt's pronounced as \"you - vee\" ([`/ju\u02d0 vi\u02d0/`](https://en.wikipedia.org/wiki/Help:IPA/English#Key))\n\n#### How should I stylize uv?\n\nJust \"uv\", please. See the [style guide](https://github.com/astral-sh/uv/blob/0.13.7/STYLE.md#styling-uv) for details.\n\n#### What platforms does uv support?\n\nSee uv's [platform support](https://docs.astral.sh/uv/reference/platforms/) document.\n\n#### Is uv ready for production?\n\nYes, uv is stable and widely used in production. See uv's\n[versioning policy](https://docs.astral.sh/uv/reference/versioning/) document for details.\n\n## Acknowledgements\n\nuv's dependency resolver uses [PubGrub](https://github.com/pubgrub-rs/pubgrub) under the hood. We're\ngrateful to the PubGrub maintainers, especially [Jacob Finkelman](https://github.com/Eh2406), for\ntheir support.\n\nuv's Git implementation is based on [Cargo](https://github.com/rust-lang/cargo).\n\nSome of uv's optimizations are inspired by the great work we've seen in [pnpm](https://pnpm.io/),\n[Orogene](https://github.com/orogene/orogene), and [Bun](https://github.com/oven-sh/bun). We've also\nlearned a lot from Nathaniel J. Smith's [Posy](https://github.com/njsmith/posy) and adapted its\n[trampoline](https://github.com/njsmith/posy/tree/main/src/trampolines/windows-trampolines/posy-trampoline)\nfor Windows support.\n\n## License\n\nuv is licensed under either of\n\n- Apache License, Version 2.0, ([LICENSE-APACHE](https://github.com/astral-sh/uv/blob/0.13.7/LICENSE-APACHE) or\n  <https://www.apache.org/licenses/LICENSE-2.0>)\n- MIT license ([LICENSE-MIT](https://github.com/astral-sh/uv/blob/0.13.7/LICENSE-MIT) or <https://opensource.org/licenses/MIT>)\n\nat your option.\n\nUnless you explicitly state otherwise, any contribution intentionally submitted for inclusion in uv\nby you, as defined in the Apache-2.0 license, shall be dually licensed as above, without any\nadditional terms or conditions.\n\n<div align=\"center\">\n  <a target=\"_blank\" href=\"https://astral.sh\" style=\"background:none\">\n    <img src=\"https://raw.githubusercontent.com/astral-sh/uv/main/assets/svg/Astral.svg\" alt=\"Made by Astral\">\n  </a>\n</div>\n\n",
+    "description_content_type": "text/markdown; charset=UTF-8; variant=GFM",
+    "docs_url": null,
+    "download_url": null,
+    "downloads": {
+      "last_day": -1,
+      "last_month": -1,
+      "last_week": -1
+    },
+    "dynamic": null,
+    "home_page": "https://pypi.org/project/uv/",
+    "keywords": "uv, requirements, packaging",
+    "license": null,
+    "license_expression": "MIT OR Apache-2.0",
+    "license_files": [
+      "LICENSE-APACHE",
+      "LICENSE-MIT"
+    ],
+    "maintainer": null,
+    "maintainer_email": null,
+    "name": "uv",
+    "package_url": "https://pypi.org/project/uv/",
+    "platform": null,
+    "project_url": "https://pypi.org/project/uv/",
+    "project_urls": {
+      "Changelog": "https://github.com/astral-sh/uv/blob/main/CHANGELOG.md",
+      "Discord": "https://discord.gg/astral-sh",
+      "Documentation": "https://docs.astral.sh/uv",
+      "Homepage": "https://pypi.org/project/uv/",
+      "Releases": "https://github.com/astral-sh/uv/releases",
+      "Repository": "https://github.com/astral-sh/uv"
+    },
+    "provides_extra": null,
+    "release_url": "https://pypi.org/project/uv/0.13.7/",
+    "requires_dist": null,
+    "requires_python": ">=3.8",
+    "summary": "An extremely fast Python package and project manager, written in Rust.",
+    "version": "0.13.7",
+    "yanked": false,
+    "yanked_reason": null
+  },
+  "urls": [
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "a6e8bda02e68c92b896e2c27581843c461e1007cb68c67c0b357d1e4849e6311",
+        "md5": "de830890beef688f1970a45d037e9d5d",
+        "sha256": "89df450624dec8c48b8b5a7adb654928cc50e95753f869c70cd65ef8333f2197"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-linux_armv6l.whl",
+      "has_sig": false,
+      "md5_digest": "de830890beef688f1970a45d037e9d5d",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 18121202,
+      "upload_time": "2026-11-03T02:41:43",
+      "upload_time_iso_8601": "2026-11-03T02:41:43.776511Z",
+      "url": "https://files.pythonhosted.org/packages/a6/e8/bda02e68c92b896e2c27581843c461e1007cb68c67c0b357d1e4849e6311/uv-0.13.7-py3-none-linux_armv6l.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "3d5be0379e7b172659420b1ec99a8e8229830aa85ea59684847c80b1c959a056",
+        "md5": "c7be735a141a448afab2268e77a12777",
+        "sha256": "fd04bf01ba5f2829f4f94ca8f0c24a743f21e73d75045613ed6fc2fd66fc7bda"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-macosx_10_12_x86_64.whl",
+      "has_sig": false,
+      "md5_digest": "c7be735a141a448afab2268e77a12777",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 17194673,
+      "upload_time": "2026-11-03T02:41:46",
+      "upload_time_iso_8601": "2026-11-03T02:41:46.959825Z",
+      "url": "https://files.pythonhosted.org/packages/3d/5b/e0379e7b172659420b1ec99a8e8229830aa85ea59684847c80b1c959a056/uv-0.13.7-py3-none-macosx_10_12_x86_64.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "40a58756c38ace102fa13fd4e653e8bc40e1f65924f1c0a0d23350339dac97e5",
+        "md5": "dd84b4c3e566d86a4333e58c6b728045",
+        "sha256": "f91a229093163eefca89ea1b220a221d64c3beade05d03519a6584d1797a5a5f"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-macosx_11_0_arm64.whl",
+      "has_sig": false,
+      "md5_digest": "dd84b4c3e566d86a4333e58c6b728045",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 14454941,
+      "upload_time": "2026-11-03T02:41:50",
+      "upload_time_iso_8601": "2026-11-03T02:41:50.208986Z",
+      "url": "https://files.pythonhosted.org/packages/40/a5/8756c38ace102fa13fd4e653e8bc40e1f65924f1c0a0d23350339dac97e5/uv-0.13.7-py3-none-macosx_11_0_arm64.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "9672da1119f94034d7173e6c8e2cd77a6299744458f0af3cb8e3a04d5cd419d1",
+        "md5": "afc95a4c8f6ed9fa8c735c6563918644",
+        "sha256": "a90f5d95716ab83091f0f73a8e7ec64e557abf2a28537fcd719b2ac88e6f725a"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.musllinux_1_1_aarch64.whl",
+      "has_sig": false,
+      "md5_digest": "afc95a4c8f6ed9fa8c735c6563918644",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 17656749,
+      "upload_time": "2026-11-03T02:41:52",
+      "upload_time_iso_8601": "2026-11-03T02:41:52.729348Z",
+      "url": "https://files.pythonhosted.org/packages/96/72/da1119f94034d7173e6c8e2cd77a6299744458f0af3cb8e3a04d5cd419d1/uv-0.13.7-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.musllinux_1_1_aarch64.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "f3a8d554d757e372d2dc8788e4c07601e440c09ce31535e3107180690233f4a2",
+        "md5": "c40956ea4ab77cfc7993767280913feb",
+        "sha256": "952dcae9b1a7742f2fab28e82391fbfabe8807e4e9363f674b0f6be1053b8dd4"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.musllinux_1_1_armv7l.whl",
+      "has_sig": false,
+      "md5_digest": "c40956ea4ab77cfc7993767280913feb",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 17815154,
+      "upload_time": "2026-11-03T02:41:55",
+      "upload_time_iso_8601": "2026-11-03T02:41:55.393378Z",
+      "url": "https://files.pythonhosted.org/packages/f3/a8/d554d757e372d2dc8788e4c07601e440c09ce31535e3107180690233f4a2/uv-0.13.7-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.musllinux_1_1_armv7l.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "19db70ad6aeef83b9566ec1cbfa345a1a976af13413863086aa85809cba16b53",
+        "md5": "4bd57cf670409ef185f7be1b70cb7008",
+        "sha256": "94f65a8ac5826dff76a93cb3cafbaad15def1788c63da2ce5ce09e0bd1303e7a"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+      "has_sig": false,
+      "md5_digest": "4bd57cf670409ef185f7be1b70cb7008",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 17827605,
+      "upload_time": "2026-11-03T02:41:58",
+      "upload_time_iso_8601": "2026-11-03T02:41:58.237078Z",
+      "url": "https://files.pythonhosted.org/packages/19/db/70ad6aeef83b9566ec1cbfa345a1a976af13413863086aa85809cba16b53/uv-0.13.7-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "7855fafeedc33a903456e7fd5fa442e7116331451c50e68e6fa985df47c06b3a",
+        "md5": "f1c3418ed71225ce37a859091f55fcaf",
+        "sha256": "57ff66891d9a738ec087c23fdde842ac8e5eb63189ffed6ee95caee1b82ceb54"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl",
+      "has_sig": false,
+      "md5_digest": "f1c3418ed71225ce37a859091f55fcaf",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 18466549,
+      "upload_time": "2026-11-03T02:42:01",
+      "upload_time_iso_8601": "2026-11-03T02:42:01.031207Z",
+      "url": "https://files.pythonhosted.org/packages/78/55/fafeedc33a903456e7fd5fa442e7116331451c50e68e6fa985df47c06b3a/uv-0.13.7-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "d05e50494a1cac0ff7030edc430c8ac86ee91ca43c54134d399b0f7a137930c7",
+        "md5": "481c1ff294a52e4edaad9c9c08645446",
+        "sha256": "917733990ebc178318af0321d6873823ed5da707e1c4b1e5060ac2065a81f1f3"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+      "has_sig": false,
+      "md5_digest": "481c1ff294a52e4edaad9c9c08645446",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 19781452,
+      "upload_time": "2026-11-03T02:42:03",
+      "upload_time_iso_8601": "2026-11-03T02:42:03.787429Z",
+      "url": "https://files.pythonhosted.org/packages/d0/5e/50494a1cac0ff7030edc430c8ac86ee91ca43c54134d399b0f7a137930c7/uv-0.13.7-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "28b27fc68c91580168907f557c8824521973a3f63d1e3629ae3478aaeeebef7f",
+        "md5": "e07761bdeaf769bc0ec1101b79a4c7c8",
+        "sha256": "1bc8543d930464bbb22ac01bb1a660a448235e558014914de1e1cd5b993361b8"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+      "has_sig": false,
+      "md5_digest": "e07761bdeaf769bc0ec1101b79a4c7c8",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 19493895,
+      "upload_time": "2026-11-03T02:42:06",
+      "upload_time_iso_8601": "2026-11-03T02:42:06.604622Z",
+      "url": "https://files.pythonhosted.org/packages/28/b2/7fc68c91580168907f557c8824521973a3f63d1e3629ae3478aaeeebef7f/uv-0.13.7-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "b9930e053a2ca4523ee9825ccbedeb7121470d0a188933f11688b6d90d7f5c08",
+        "md5": "3304c06f576157a053a54664e1768ab8",
+        "sha256": "2c9bdc4a872b60a93c5f26c0791089ea11585a4f9d3b3c017d78eb8487505e25"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "has_sig": false,
+      "md5_digest": "3304c06f576157a053a54664e1768ab8",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 17202345,
+      "upload_time": "2026-11-03T02:42:09",
+      "upload_time_iso_8601": "2026-11-03T02:42:09.344701Z",
+      "url": "https://files.pythonhosted.org/packages/b9/93/0e053a2ca4523ee9825ccbedeb7121470d0a188933f11688b6d90d7f5c08/uv-0.13.7-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "cfc82d0da4535b8607cf224023724cbf8d4572d1a3e33c2c9629100af6b522bb",
+        "md5": "08745ae8a83f6ebb6d44c1a44c196700",
+        "sha256": "08f16fd463926786b702b497473511deae4b3e17a2fa6d22180950d6059a120d"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-manylinux_2_28_aarch64.whl",
+      "has_sig": false,
+      "md5_digest": "08745ae8a83f6ebb6d44c1a44c196700",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 16636343,
+      "upload_time": "2026-11-03T02:42:12",
+      "upload_time_iso_8601": "2026-11-03T02:42:12.122081Z",
+      "url": "https://files.pythonhosted.org/packages/cf/c8/2d0da4535b8607cf224023724cbf8d4572d1a3e33c2c9629100af6b522bb/uv-0.13.7-py3-none-manylinux_2_28_aarch64.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "283de7db43beff8b219ec392346f11b8aad325bc87bb282eea57e64cbe0aba56",
+        "md5": "027043ea196a287c730f300162f65a1e",
+        "sha256": "d30cafb7070901ba35353ec64cf228ae46caf79ac0f6fae329f95468b1482531"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-manylinux_2_31_riscv64.musllinux_1_1_riscv64.whl",
+      "has_sig": false,
+      "md5_digest": "027043ea196a287c730f300162f65a1e",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 18026164,
+      "upload_time": "2026-11-03T02:42:14",
+      "upload_time_iso_8601": "2026-11-03T02:42:14.745258Z",
+      "url": "https://files.pythonhosted.org/packages/28/3d/e7db43beff8b219ec392346f11b8aad325bc87bb282eea57e64cbe0aba56/uv-0.13.7-py3-none-manylinux_2_31_riscv64.musllinux_1_1_riscv64.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "7d85dc25db684d7e8c8c1c6927d78a29b64c7ef5479e8f17c7a2d1b74af4af21",
+        "md5": "b8b6d2f65b9f400ce68ab77aa610d8de",
+        "sha256": "158953b8669bee6f4bc2babdd997e34ff9f0d57170093cfe907f64448292b7c3"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-manylinux_2_31_riscv64.whl",
+      "has_sig": false,
+      "md5_digest": "b8b6d2f65b9f400ce68ab77aa610d8de",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 17911506,
+      "upload_time": "2026-11-03T02:42:17",
+      "upload_time_iso_8601": "2026-11-03T02:42:17.752707Z",
+      "url": "https://files.pythonhosted.org/packages/7d/85/dc25db684d7e8c8c1c6927d78a29b64c7ef5479e8f17c7a2d1b74af4af21/uv-0.13.7-py3-none-manylinux_2_31_riscv64.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "04c30ca099ff442fb6a01a59b7582d8733f187183d491bc86e6f96c9203c3e1e",
+        "md5": "8f7bd2c1a3b44f23326aee4679f6732f",
+        "sha256": "8fc6019740794df995085f7b278d99dc11ccacffad9c63957278d3a6e272280b"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-musllinux_1_1_i686.whl",
+      "has_sig": false,
+      "md5_digest": "8f7bd2c1a3b44f23326aee4679f6732f",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 17946690,
+      "upload_time": "2026-11-03T02:42:20",
+      "upload_time_iso_8601": "2026-11-03T02:42:20.530204Z",
+      "url": "https://files.pythonhosted.org/packages/04/c3/0ca099ff442fb6a01a59b7582d8733f187183d491bc86e6f96c9203c3e1e/uv-0.13.7-py3-none-musllinux_1_1_i686.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "507c23b3a9f1163f536cf22e673779defab68318c82cff8d93551d773c056d62"
+      },
+      "digests": {
+        "blake2b_256": "2a22065e097ca6051ae7022d7c5c9d1591dcff97ed5609fb9eb450d8ee22fa17",
+        "md5": "a4b8669750cb1ae34cdabdf5698a5434",
+        "sha256": "8b8ac028ae4ebb2a3f9d04907c61794f2cf8d7a7002bfbb4019a3dee28351fb2"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-musllinux_1_1_x86_64.whl",
+      "has_sig": false,
+      "md5_digest": "a4b8669750cb1ae34cdabdf5698a5434",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 18949870,
+      "upload_time": "2026-11-03T02:42:23",
+      "upload_time_iso_8601": "2026-11-03T02:42:23.574789Z",
+      "url": "https://files.pythonhosted.org/packages/2a/22/065e097ca6051ae7022d7c5c9d1591dcff97ed5609fb9eb450d8ee22fa17/uv-0.13.7-py3-none-musllinux_1_1_x86_64.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "a3d059662855d8b49310947b4fd8887d60eeeca593bdde493e624d6955c7c5da"
+      },
+      "digests": {
+        "blake2b_256": "c4f23cfb8543acb8dc07b228d2517a0962b124ab97bd859690617d957248129c",
+        "md5": "bd8c605c0dde18f071f39bbca925347e",
+        "sha256": "5f37cc4d4660e4aee8a24d0dc179a0b0ce99506259c6796d37fa69bca9543a03"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-win32.whl",
+      "has_sig": false,
+      "md5_digest": "bd8c605c0dde18f071f39bbca925347e",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 16094323,
+      "upload_time": "2026-11-03T02:42:26",
+      "upload_time_iso_8601": "2026-11-03T02:42:26.697568Z",
+      "url": "https://files.pythonhosted.org/packages/c4/f2/3cfb8543acb8dc07b228d2517a0962b124ab97bd859690617d957248129c/uv-0.13.7-py3-none-win32.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "a3d059662855d8b49310947b4fd8887d60eeeca593bdde493e624d6955c7c5da"
+      },
+      "digests": {
+        "blake2b_256": "8e4f041b59d2a38807a3e31ef41064cf3e45d2752fe0409d89040d52778049ae",
+        "md5": "e0f713daca75e65bd7ba088c1c9841da",
+        "sha256": "2835e2ab397d0db86323b9975dce75ecd76aa9cfa0d6a2aea84734aae7f8c9b3"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-win_amd64.whl",
+      "has_sig": false,
+      "md5_digest": "e0f713daca75e65bd7ba088c1c9841da",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 15330939,
+      "upload_time": "2026-11-03T02:42:29",
+      "upload_time_iso_8601": "2026-11-03T02:42:29.422967Z",
+      "url": "https://files.pythonhosted.org/packages/8e/4f/041b59d2a38807a3e31ef41064cf3e45d2752fe0409d89040d52778049ae/uv-0.13.7-py3-none-win_amd64.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": {
+        "sha256": "a3d059662855d8b49310947b4fd8887d60eeeca593bdde493e624d6955c7c5da"
+      },
+      "digests": {
+        "blake2b_256": "448d1594dce4465d9699467a639b25aafd335ce1e5917f8bb60c9c0bed9e0859",
+        "md5": "e32e5aa192307e493b4d3f3e563e37f9",
+        "sha256": "55e741a380a98008fc4985cf069855f36bc50242ef438e21a466786f5bc84da8"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7-py3-none-win_arm64.whl",
+      "has_sig": false,
+      "md5_digest": "e32e5aa192307e493b4d3f3e563e37f9",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.8",
+      "size": 15633037,
+      "upload_time": "2026-11-03T02:42:32",
+      "upload_time_iso_8601": "2026-11-03T02:42:32.095070Z",
+      "url": "https://files.pythonhosted.org/packages/44/8d/1594dce4465d9699467a639b25aafd335ce1e5917f8bb60c9c0bed9e0859/uv-0.13.7-py3-none-win_arm64.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": null,
+      "core-metadata": false,
+      "digests": {
+        "blake2b_256": "71730021f6679b1b686f2fdb7cb9914a9d953428644e3057b173edc181d1590c",
+        "md5": "5ea191016c7d9d4515b537ee70e03b06",
+        "sha256": "5e766791cb825d7a07e2ef9e622d307b48754fb682a31ba7bc5f272fab9ea395"
+      },
+      "downloads": -1,
+      "filename": "uv-0.13.7.tar.gz",
+      "has_sig": false,
+      "md5_digest": "5ea191016c7d9d4515b537ee70e03b06",
+      "packagetype": "sdist",
+      "python_version": "source",
+      "requires_python": ">=3.8",
+      "size": 7550003,
+      "upload_time": "2026-11-03T02:42:34",
+      "upload_time_iso_8601": "2026-11-03T02:42:34.944854Z",
+      "url": "https://files.pythonhosted.org/packages/71/73/0021f6679b1b686f2fdb7cb9914a9d953428644e3057b173edc181d1590c/uv-0.13.7.tar.gz",
+      "yanked": false,
+      "yanked_reason": null
+    }
+  ]
+}

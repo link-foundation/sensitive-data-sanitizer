@@ -1,0 +1,54 @@
+8287: Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:05:49.8474270Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+8289: Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:05:49.8820510Z   ✔ keeps Error: boom
+8354: Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:05:50.0760870Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+8356: Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:05:50.0782890Z   ✔ keeps Error: boom
+8421: Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:05:50.1045460Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+8423: Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:05:50.1058170Z   ✔ keeps Error: boom
+10551: Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:05:49.7567979Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(157ms)^[[0m
+10552: Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:05:49.7570330Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(12ms)^[[0m
+10615: Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:05:49.7677292Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(35ms)^[[0m
+10616: Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:05:49.7679635Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(8ms)^[[0m
+10678: Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:05:49.7772901Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+10679: Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:05:49.7775105Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(4ms)^[[0m
+13748: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:06:32.1784935Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+13750: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:06:32.2067128Z   ✔ keeps Error: boom
+13815: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:06:32.4279542Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+13817: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:06:32.4281376Z   ✔ keeps Error: boom
+13882: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:06:32.5287455Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+13884: Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:06:32.5323244Z   ✔ keeps Error: boom
+20666: Test runtimes (macos-26-intel, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:07:31.1954690Z (pass) issues 87/88 (text) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+20668: Test runtimes (macos-26-intel, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:07:31.1960390Z (pass) issues 87/88 (text) > keeps Error: boom
+20731: Test runtimes (macos-26-intel, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:07:31.2073240Z (pass) issues 87/88 (json) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+20733: Test runtimes (macos-26-intel, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:07:31.2080220Z (pass) issues 87/88 (json) > keeps Error: boom
+20796: Test runtimes (macos-26-intel, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:07:31.2173810Z (pass) issues 87/88 (jsonl) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+20798: Test runtimes (macos-26-intel, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:07:31.2177280Z (pass) issues 87/88 (jsonl) > keeps Error: boom
+26379: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:05:12.9136207Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(62ms)^[[0m
+26380: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:05:12.9137786Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(5ms)^[[0m
+26443: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:05:13.9296211Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+26444: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:05:13.9297872Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(3ms)^[[0m
+26518: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:05:13.9394518Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(936µs)^[[0m
+26519: Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:05:13.9396363Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+28548: Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:05:45.5138071Z (pass) issues 87/88 (text) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+28550: Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:05:45.5139148Z (pass) issues 87/88 (text) > keeps Error: boom
+28613: Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:05:45.5175984Z (pass) issues 87/88 (json) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+28615: Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:05:45.5177088Z (pass) issues 87/88 (json) > keeps Error: boom
+28678: Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:05:45.5214674Z (pass) issues 87/88 (jsonl) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+28680: Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:05:45.5215989Z (pass) issues 87/88 (jsonl) > keeps Error: boom
+33391: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:05:45.1871870Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+33393: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:05:45.1874282Z   ✔ keeps Error: boom
+33458: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:05:45.1974437Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+33460: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:05:45.1976247Z   ✔ keeps Error: boom
+33525: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:05:45.2074968Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+33527: Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:05:45.2092603Z   ✔ keeps Error: boom
+37360: Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:08:16.2375590Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(339ms)^[[0m
+37363: Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:08:16.3474630Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(13ms)^[[0m
+37462: Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:08:18.7460370Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(6ms)^[[0m
+37463: Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:08:18.8517280Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(4ms)^[[0m
+37549: Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:08:23.3955360Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(4ms)^[[0m
+37550: Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:08:23.4559690Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(7ms)^[[0m
+41332: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:05:45.3704018Z (pass) issues 87/88 (text) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+41334: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:05:45.3705116Z (pass) issues 87/88 (text) > keeps Error: boom
+41397: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:05:45.3740448Z (pass) issues 87/88 (json) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+41399: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:05:45.3741288Z (pass) issues 87/88 (json) > keeps Error: boom
+41462: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:05:45.3772619Z (pass) issues 87/88 (jsonl) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+41464: Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:05:45.3773472Z (pass) issues 87/88 (jsonl) > keeps Error: boom

@@ -1,0 +1,3 @@
+1481: CodeQL (javascript-typescript)	Analyze	2026-11-05T18:38:58.1952060Z   expect-error: false
+4591: CodeQL (python)	Analyze	2026-11-05T18:39:01.9046773Z   expect-error: false
+7656: CodeQL (actions)	Analyze	2026-11-05T18:39:07.4482989Z   expect-error: false

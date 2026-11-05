@@ -1,0 +1,41 @@
+[
+  {
+    "job": "Regenerate Preview Images",
+    "path": ".github",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/510d98eb153144038b6e9904829b435bd85564b2/.github",
+    "start_line": 40,
+    "start_column": null,
+    "end_line": 40,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "",
+    "message": "Process completed with exit code 127.",
+    "raw_details": ""
+  },
+  {
+    "job": "Pipeline Status",
+    "path": ".github",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/510d98eb153144038b6e9904829b435bd85564b2/.github",
+    "start_line": 43,
+    "start_column": null,
+    "end_line": 43,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "",
+    "message": "Process completed with exit code 1.",
+    "raw_details": ""
+  },
+  {
+    "job": "Pipeline Status",
+    "path": ".github",
+    "blob_href": "https://github.com/link-foundation/sensitive-data-sanitizer/blob/510d98eb153144038b6e9904829b435bd85564b2/.github",
+    "start_line": 42,
+    "start_column": null,
+    "end_line": 42,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "Pipeline failed",
+    "message": "Failing jobs: preview-regen",
+    "raw_details": ""
+  }
+]

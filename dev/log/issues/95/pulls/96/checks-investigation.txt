@@ -1,0 +1,306 @@
+169:Release Preflight	Probe every release credential	2026-11-05T18:38:41.3316295Z Release preflight: 1 verified, 0 failed, 0 unknown
+5679:Test runtimes (macos-26-intel, deno, 4/4)	UNKNOWN STEP	2026-11-05T18:40:58.4425990Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+5680:Test runtimes (macos-26-intel, deno, 4/4)	UNKNOWN STEP	2026-11-05T18:40:58.4428160Z ^[[0m^[[38;5;245m./tests/wayback-retry.test.js => ^[[0mretries fetch failed then finds a snapshot ...^[[0m^[[38;5;245m----- post-test output end -----^[[0m
+5681:Test runtimes (macos-26-intel, deno, 4/4)	UNKNOWN STEP	2026-11-05T18:40:58.4431050Z ^[[0m^[[38;5;245m./tests/wayback-retry.test.js => ^[[0mretries fetch failed then finds a snapshot ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(716µs)^[[0m
+5704:Test runtimes (macos-26-intel, deno, 4/4)	UNKNOWN STEP	2026-11-05T18:40:58.4478090Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+5705:Test runtimes (macos-26-intel, deno, 4/4)	UNKNOWN STEP	2026-11-05T18:40:58.4479240Z   Retrying Wayback lookup (attempt 3/3) after: fetch failed: ECONNRESET
+5729:Test runtimes (macos-26-intel, deno, 4/4)	UNKNOWN STEP	2026-11-05T18:41:10.5571440Z ^[[0m^[[32mok^[[0m | 619 passed | 0 failed | 4 ignored ^[[0m^[[38;5;245m(34s)^[[0m
+6628:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:31.7643898Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence null ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(67ms)^[[0m
+6634:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:31.7661932Z ^[[0m^[[38;5;245m./tests/bootstrap-dependencies.test.js => ^[[0mdoes not run later loaders once one has failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(278µs)^[[0m
+6638:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:31.7671336Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(115ms)^[[0m
+6639:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:31.7673900Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "not a lychee report" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(56ms)^[[0m
+6646:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:31.7692383Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | broken |" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(53ms)^[[0m
+6648:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:31.7698047Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "malformed report\n- [404] https://broken.example/recovered\n" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(52ms)^[[0m
+6652:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:31.7713873Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | 0 |\n- [404] https://broken.example/recovered\n" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(58ms)^[[0m
+6653:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:31.7717346Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "unreadable-directory" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(50ms)^[[0m
+6693:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:33.8228130Z ^[[0m^[[38;5;245m./tests/check-web-archive.test.js => ^[[0maccepts the captured real failed report ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+6807:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:34.8655981Z ^[[0m^[[38;5;245m./tests/deploy-pages.test.js => ^[[0mcreates a new deployment when the earlier one of this commit failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(259µs)^[[0m
+6809:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:34.8660303Z ^[[0m^[[38;5;245m./tests/deploy-pages.test.js => ^[[0mfails the step on every final failed state ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(432µs)^[[0m
+6894:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:36.0281597Z ^[[0m^[[38;5;245m./tests/land-via-pull-request.test.js => ^[[0mpropagates a failed pull-request check without attempting a merge ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(14ms)^[[0m
+7030:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:39.0570480Z ^[[0m^[[38;5;245m./tests/pipeline-status.test.js => ^[[0mfails for a failed job on every ref ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(134ms)^[[0m
+7046:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:39.0663185Z ^[[0m^[[38;5;245m./tests/publish-retry.test.js => ^[[0mretries the publish command when the publish itself failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(245µs)^[[0m
+7065:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:39.0741273Z ^[[0m^[[38;5;245m./tests/pipeline-status.test.js => ^[[0madds nothing when every failed job ran on a runner ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(201ms)^[[0m
+7266:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:45.3871146Z ^[[0m^[[38;5;245m./tests/rerun-unacquired.test.js => ^[[0mreruns failed jobs when unacquired jobs explain the failure ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+7267:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:45.3873407Z ^[[0m^[[38;5;245m./tests/rerun-unacquired.test.js => ^[[0mnever reruns when a job failed after running steps ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(335µs)^[[0m
+7268:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:45.3875889Z ^[[0m^[[38;5;245m./tests/rerun-unacquired.test.js => ^[[0mleaves a run alone when every failed job ran ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(244µs)^[[0m
+7276:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:45.3894364Z ^[[0m^[[38;5;245m./tests/rerun-unacquired.test.js => ^[[0mruns only for failed runs below the attempt limit ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(99µs)^[[0m
+7815:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:39:56.8656166Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-32.test.js => ^[[0mkeeps Booking FAILED today ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+8318:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:03.0790673Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(121ms)^[[0m
+8319:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:03.0793850Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(5ms)^[[0m
+8385:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:03.0937616Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(3ms)^[[0m
+8387:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:03.0945104Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(6ms)^[[0m
+8448:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:03.1083743Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+8449:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:03.1087440Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(2ms)^[[0m
+8557:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:06.2226130Z ^[[0m^[[38;5;245m./tests/sanitizer-outbound.test.js => ^[[0msanitizes contextual JSON and drops failed Sentry events ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(15ms)^[[0m
+8918:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:14.6867402Z ^[[0m^[[38;5;245m./tests/status-gate-coverage.test.js => ^[[0mconfirms every other shipped workflow is fully covered ... ^[[0m^[[31mFAILED^[[0m ^[[0m^[[38;5;245m(82ms)^[[0m
+8926:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:14.6884698Z ^[[0m^[[38;5;245m./tests/test-sharding.test.js => ^[[0mcovers every runtime and OS once while distributing Windows Bun and Deno fixtures ... ^[[0m^[[31mFAILED^[[0m ^[[0m^[[38;5;245m(75ms)^[[0m
+9442:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:15.8462308Z ^[[0m^[[38;5;245m./tests/wait-for-npm.test.js => ^[[0masserts a failed release only when npm answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(103µs)^[[0m
+9468:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7833266Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+9469:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7865687Z ^[[0m^[[38;5;245m./tests/wayback-retry.test.js => ^[[0mretries fetch failed then finds a snapshot ...^[[0m^[[38;5;245m----- post-test output end -----^[[0m
+9470:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7867964Z ^[[0m^[[38;5;245m./tests/wayback-retry.test.js => ^[[0mretries fetch failed then finds a snapshot ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(333µs)^[[0m
+9493:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7910496Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+9494:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7911011Z   Retrying Wayback lookup (attempt 3/3) after: fetch failed: ECONNRESET
+9564:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:24.9168003Z ^[[0m^[[1m^[[31merror^[[0m: Error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+9572:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:24.9177033Z ^[[0m^[[1m^[[31merror^[[0m: Error: Expected false to be true
+9584:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:24.9186537Z ^[[0m^[[31mFAILED^[[0m | 2801 passed | 2 failed | 45 ignored ^[[0m^[[38;5;245m(53s)^[[0m
+9586:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:24.9213216Z ^[[0m^[[1m^[[31merror^[[0m: Test failed
+9588:Test runtimes (ubuntu-24.04, deno, 1/1)	UNKNOWN STEP	2026-11-05T18:40:24.9265663Z ##[error]Process completed with exit code 1.
+9866:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:48.9313830Z   ✔ rejects unusable failed-checker evidence null (91.7011ms)
+9867:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:48.9315247Z   ✔ rejects unusable failed-checker evidence "" (77.9383ms)
+9868:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:48.9316726Z   ✔ rejects unusable failed-checker evidence "not a lychee report" (76.798ms)
+9869:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:48.9318365Z   ✔ rejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | broken |" (92.0184ms)
+9870:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:48.9320687Z   ✔ rejects unusable failed-checker evidence "malformed report\n- [404] https://broken.example/recovered\n" (94.6199ms)
+9871:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:48.9323817Z   ✔ rejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | 0 |\n- [404] https://broken.example/recovered\n" (88.3564ms)
+9872:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:48.9325698Z   ✔ rejects unusable failed-checker evidence "unreadable-directory" (77.5608ms)
+9911:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:48.9428823Z   ✔ does not run later loaders once one has failed (0.5017ms)
+9996:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:51.3651315Z   ✔ accepts the captured real failed report (1.2124ms)
+10148:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:52.6680406Z   ✔ creates a new deployment when the earlier one of this commit failed (0.586ms)
+10152:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:52.6684553Z   ✔ fails the step on every final failed state (0.7669ms)
+10328:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:25.4294701Z   ✔ propagates a failed pull-request check without attempting a merge (2.3321ms)
+10464:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:25.4560530Z   ﹣ fails for a failed job on every ref [skipped: bash fixtures need a POSIX shell] (0.2633ms) # SKIP
+10470:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:25.4567728Z   ﹣ adds nothing when every failed job ran on a runner [skipped: bash fixtures need a POSIX shell] (0.6915ms) # SKIP
+10565:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:25.4702181Z   ✔ retries the publish command when the publish itself failed (0.3202ms)
+10819:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:36.5008063Z   ✔ reruns failed jobs when unacquired jobs explain the failure (2.4444ms)
+10820:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:36.5031954Z   ✔ never reruns when a job failed after running steps (0.5906ms)
+10821:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:36.5032919Z   ✔ leaves a run alone when every failed job ran (0.5533ms)
+10831:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:36.5048196Z   ✔ runs only for failed runs below the attempt limit (0.2087ms)
+11420:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:48.7450122Z   ✔ keeps Booking FAILED today (1.4977ms)
+11957:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:59.4833541Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+11959:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:59.4835525Z   ✔ keeps Error: boom
+12024:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:59.4925582Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+12026:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:59.4927747Z   ✔ keeps Error: boom
+12091:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:59.6078843Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+12093:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:59.6081768Z   ✔ keeps Error: boom
+12226:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:08.8824216Z   ✔ sanitizes contextual JSON and drops failed Sentry events (24.4859ms)
+12658:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:25.4586402Z   ✖ confirms every other shipped workflow is fully covered (143.8379ms)
+12659:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:25.4587458Z ✖ check-status-gate-covers-all-jobs.mjs shipped coverage (144.289ms)
+12674:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:25.4604229Z ✖ covers every runtime and OS once while distributing Windows Bun and Deno fixtures (75.1357ms)
+13239:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:28.9594744Z   ✔ asserts a failed release only when npm answered (0.1736ms)
+13251:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:34.5283461Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+13257:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:34.5287112Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+13258:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:34.5287618Z   Retrying Wayback lookup (attempt 3/3) after: fetch failed: ECONNRESET
+13262:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:34.5289197Z   ✔ retries fetch failed then finds a snapshot (0.669ms)
+13359:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:34.5334097Z ✖ failing tests:
+13362:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:34.5334920Z ✖ confirms every other shipped workflow is fully covered (143.8379ms)
+13363:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:34.5335767Z   Error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+13376:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:34.5342885Z ✖ covers every runtime and OS once while distributing Windows Bun and Deno fixtures (75.1357ms)
+13377:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:34.5343358Z   Error: Expected false to be true
+13387:Test runtimes (windows-2025, node, 1/1)	UNKNOWN STEP	2026-11-05T18:41:34.6330158Z ##[error]Process completed with exit code 1.
+13690:Test runtimes (macos-26-intel, deno, 3/4)	UNKNOWN STEP	2026-11-05T18:40:31.9652670Z ##[error]The operation was canceled.
+14595:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:33.0168954Z error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+14599:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:33.0194556Z ##[error]
+14620:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:37.0456437Z (pass) explicit public verification and outbound helpers > sanitizes contextual JSON and drops failed Sentry events [4.33ms]
+14908:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:38.1130891Z (pass) issue 32 public and code negatives > keeps Booking FAILED today [0.55ms]
+14947:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:40.1463166Z (pass) bootstrapDependencies > does not run later loaders once one has failed [0.12ms]
+15045:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:41.1843492Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence null [33.43ms]
+15046:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:41.1845847Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence "" [33.61ms]
+15047:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:41.1847864Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence "not a lychee report" [37.96ms]
+15048:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:41.1850362Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | broken |" [35.13ms]
+15049:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:41.1853226Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence "malformed report\n- [404] https://broken.example/recovered\n" [35.94ms]
+15050:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:41.1856329Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | 0 |\n- [404] https://broken.example/recovered\n" [32.76ms]
+15051:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:41.1858933Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence "unreadable-directory" [35.30ms]
+15074:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:41.1888903Z error: Expected false to be true
+15078:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:41.1899654Z ##[error]
+15292:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:42.1936447Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+15298:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:42.1942638Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+15299:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:42.1943292Z   Retrying Wayback lookup (attempt 3/3) after: fetch failed: ECONNRESET
+15323:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:42.2006535Z (pass) Wayback lookup outcomes > retries fetch failed then finds a snapshot [0.03ms]
+15357:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:39:42.2047058Z (pass) land-via-pull-request check enforcement > propagates a failed pull-request check without attempting a merge [0.94ms]
+15719:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:08.7230600Z (pass) deploy-pages: creating the deployment > creates a new deployment when the earlier one of this commit failed [0.18ms]
+15721:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:08.7232981Z (pass) deploy-pages: waiting for the deployment > fails the step on every final failed state [0.30ms]
+16125:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:20.9752000Z (pass) issues 87/88 (text) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+16127:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:20.9753093Z (pass) issues 87/88 (text) > keeps Error: boom
+16190:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:20.9791228Z (pass) issues 87/88 (json) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+16192:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:20.9792734Z (pass) issues 87/88 (json) > keeps Error: boom
+16255:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:20.9826196Z (pass) issues 87/88 (jsonl) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+16257:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:20.9827162Z (pass) issues 87/88 (jsonl) > keeps Error: boom
+16762:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:33.2383718Z (pass) pipeline status gate > fails for a failed job on every ref [58.62ms]
+16766:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:33.2387664Z (pass) pipeline status gate and runner acquisition > adds nothing when every failed job ran on a runner [97.01ms]
+16921:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:45.4966694Z (pass) rerun of runs that never got a runner > reruns failed jobs when unacquired jobs explain the failure [0.61ms]
+16922:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:45.4967943Z (pass) rerun of runs that never got a runner > never reruns when a job failed after running steps [0.20ms]
+16923:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:45.4969186Z (pass) rerun of runs that never got a runner > leaves a run alone when every failed job ran [0.14ms]
+16931:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:45.4980076Z (pass) rerun-unacquired workflow > runs only for failed runs below the attempt limit [0.02ms]
+17111:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:40:55.6904428Z (pass) formatFailureMessage > asserts a failed release only when npm answered [0.05ms]
+17165:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:41:01.8038427Z (pass) publishWithRetry > retries the publish command when the publish itself failed [0.13ms]
+17492:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:41:06.9347370Z (pass) lychee summary evidence > accepts the captured real failed report [0.15ms]
+17531:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:41:08.9457414Z 2 tests failed:
+17539:Test runtimes (ubuntu-24.04, bun, 1/1)	UNKNOWN STEP	2026-11-05T18:41:08.9487365Z ##[error]Process completed with exit code 1.
+17795:Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:40:30.4171800Z   ✔ rejects unusable failed-checker evidence null (258.597388ms)
+17796:Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:40:30.5163530Z   ✔ rejects unusable failed-checker evidence "" (130.711468ms)
+17797:Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:40:30.5371050Z   ✔ rejects unusable failed-checker evidence "not a lychee report" (144.166281ms)
+17798:Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:40:30.5435060Z   ✔ rejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | broken |" (134.982318ms)
+17799:Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:40:30.5442250Z   ✔ rejects unusable failed-checker evidence "malformed report\n- [404] https://broken.example/recovered\n" (148.897366ms)
+17800:Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:40:30.5472560Z   ✔ rejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | 0 |\n- [404] https://broken.example/recovered\n" (149.169148ms)
+17801:Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:40:30.5485250Z   ✔ rejects unusable failed-checker evidence "unreadable-directory" (270.476274ms)
+17811:Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:40:31.1732840Z   ✔ does not run later loaders once one has failed (0.714154ms)
+17835:Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:40:33.2539860Z   ✔ accepts the captured real failed report (2.128078ms)
+17940:Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:40:33.3136150Z   ✔ propagates a failed pull-request check without attempting a merge (3.262746ms)
+18207:Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:41:15.5441520Z   ✔ keeps Booking FAILED today (2.215005ms)
+18402:Test runtimes (macos-26-intel, node, 2/3)	UNKNOWN STEP	2026-11-05T18:41:24.9312290Z ##[error]The operation was canceled.
+18784:Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:20.5710180Z   ✔ creates a new deployment when the earlier one of this commit failed (0.581981ms)
+18788:Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:20.6583040Z   ✔ fails the step on every final failed state (0.591802ms)
+18937:Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:41.3749950Z   ✔ retries the publish command when the publish itself failed (0.393328ms)
+19549:Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:58.8196810Z   ✖ confirms every other shipped workflow is fully covered (188.350502ms)
+19550:Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:58.8199610Z ✖ check-status-gate-covers-all-jobs.mjs shipped coverage (188.674118ms)
+19552:Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:58.8204080Z ✖ covers every runtime and OS once while distributing Windows Bun and Deno fixtures (190.398027ms)
+19598:Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:58.8255110Z   ✔ asserts a failed release only when npm answered (0.158169ms)
+19621:Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:58.8274520Z ✖ failing tests:
+19624:Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:58.8277120Z ✖ confirms every other shipped workflow is fully covered (188.350502ms)
+19625:Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:58.8279670Z   Error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+19638:Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:58.8298510Z ✖ covers every runtime and OS once while distributing Windows Bun and Deno fixtures (190.398027ms)
+19639:Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:58.8300140Z   Error: Expected false to be true
+19649:Test runtimes (macos-26-intel, node, 1/3)	UNKNOWN STEP	2026-11-05T18:40:58.8383390Z ##[error]Process completed with exit code 1.
+20501:Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:02.4672900Z ^[[0m^[[38;5;245m./tests/bootstrap-dependencies.test.js => ^[[0mdoes not run later loaders once one has failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(587µs)^[[0m
+20532:Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:05.3756100Z ^[[0m^[[38;5;245m./tests/deploy-pages.test.js => ^[[0mcreates a new deployment when the earlier one of this commit failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(424µs)^[[0m
+20534:Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:05.3891600Z ^[[0m^[[38;5;245m./tests/deploy-pages.test.js => ^[[0mfails the step on every final failed state ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+20607:Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:09.6996550Z ^[[0m^[[38;5;245m./tests/rerun-unacquired.test.js => ^[[0mreruns failed jobs when unacquired jobs explain the failure ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(2ms)^[[0m
+20608:Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:09.7420690Z ^[[0m^[[38;5;245m./tests/rerun-unacquired.test.js => ^[[0mnever reruns when a job failed after running steps ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(529µs)^[[0m
+20609:Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:09.7562780Z ^[[0m^[[38;5;245m./tests/rerun-unacquired.test.js => ^[[0mleaves a run alone when every failed job ran ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(388µs)^[[0m
+20617:Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:10.0190270Z ^[[0m^[[38;5;245m./tests/rerun-unacquired.test.js => ^[[0mruns only for failed runs below the attempt limit ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(182µs)^[[0m
+20813:Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:22.0147420Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-32.test.js => ^[[0mkeeps Booking FAILED today ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(2ms)^[[0m
+21012:Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:27.2803360Z ^[[0m^[[38;5;245m./tests/test-sharding.test.js => ^[[0mcovers every runtime and OS once while distributing Windows Bun and Deno fixtures ... ^[[0m^[[31mFAILED^[[0m ^[[0m^[[38;5;245m(63ms)^[[0m
+21494:Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:29.5074830Z ^[[0m^[[1m^[[31merror^[[0m: Error: Expected false to be true
+21505:Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:29.5102450Z ^[[0m^[[31mFAILED^[[0m | 984 passed | 1 failed | 6 ignored ^[[0m^[[38;5;245m(27s)^[[0m
+21507:Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:29.5160030Z ^[[0m^[[1m^[[31merror^[[0m: Test failed
+21509:Test runtimes (macos-26-intel, deno, 1/4)	UNKNOWN STEP	2026-11-05T18:40:29.5373940Z ##[error]Process completed with exit code 1.
+22380:Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:40:06.2078172Z ^[[0m^[[38;5;245m./tests/bootstrap-dependencies.test.js => ^[[0mdoes not run later loaders once one has failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(485µs)^[[0m
+22387:Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:40:06.2428122Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence null ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(123ms)^[[0m
+22388:Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:40:06.2430131Z ^[[0m^[[38;5;245m./tests/check-web-archive.test.js => ^[[0maccepts the captured real failed report ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+22413:Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:40:06.2984685Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(136ms)^[[0m
+22414:Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:40:06.2997235Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "not a lychee report" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(113ms)^[[0m
+22416:Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:40:06.3034877Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | broken |" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(116ms)^[[0m
+22424:Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:40:06.3182692Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "malformed report\n- [404] https://broken.example/recovered\n" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(111ms)^[[0m
+22425:Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:40:06.3192105Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | 0 |\n- [404] https://broken.example/recovered\n" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(106ms)^[[0m
+22430:Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:40:06.3310556Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "unreadable-directory" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(104ms)^[[0m
+22475:Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:40:07.6897697Z ^[[0m^[[38;5;245m./tests/land-via-pull-request.test.js => ^[[0mpropagates a failed pull-request check without attempting a merge ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(29ms)^[[0m
+22676:Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:40:13.2230500Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-32.test.js => ^[[0mkeeps Booking FAILED today ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+22946:Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:40:19.3748815Z ^[[0m^[[38;5;245m./tests/sanitizer-outbound.test.js => ^[[0msanitizes contextual JSON and drops failed Sentry events ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(16ms)^[[0m
+23179:Test runtimes (windows-2025, deno, 2/3)	UNKNOWN STEP	2026-11-05T18:40:32.6379626Z ^[[0m^[[32mok^[[0m | 729 passed | 0 failed | 45 ignored ^[[0m^[[38;5;245m(26s)^[[0m
+24030:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:40:20.6099440Z ^[[0m^[[38;5;245m./tests/check-web-archive.test.js => ^[[0maccepts the captured real failed report ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+24036:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:40:20.9213320Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence null ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(189ms)^[[0m
+24044:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:40:22.1801030Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(312ms)^[[0m
+24049:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:40:22.5978680Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "not a lychee report" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(177ms)^[[0m
+24055:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:40:22.9730440Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | broken |" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(162ms)^[[0m
+24059:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:40:23.0326450Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "malformed report\n- [404] https://broken.example/recovered\n" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(154ms)^[[0m
+24063:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:40:23.2391910Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | 0 |\n- [404] https://broken.example/recovered\n" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(140ms)^[[0m
+24069:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:40:23.4109760Z ^[[0m^[[38;5;245m./tests/archive-and-discovery.test.js => ^[[0mrejects unusable failed-checker evidence "unreadable-directory" ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(329ms)^[[0m
+24104:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:40:24.7077170Z ^[[0m^[[38;5;245m./tests/land-via-pull-request.test.js => ^[[0mpropagates a failed pull-request check without attempting a merge ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(32ms)^[[0m
+24529:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:40:56.4751730Z ^[[0m^[[38;5;245m./tests/status-gate-coverage.test.js => ^[[0mconfirms every other shipped workflow is fully covered ... ^[[0m^[[31mFAILED^[[0m ^[[0m^[[38;5;245m(332ms)^[[0m
+24556:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:40:56.4863960Z ^[[0m^[[38;5;245m./tests/wait-for-npm.test.js => ^[[0masserts a failed release only when npm answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(358µs)^[[0m
+24598:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:41:05.3583610Z ^[[0m^[[1m^[[31merror^[[0m: Test failed
+24605:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:41:05.4187740Z ^[[0m^[[1m^[[31merror^[[0m: Error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+24616:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:41:05.4236370Z ^[[0m^[[31mFAILED^[[0m | 516 passed | 1 failed | 29 ignored ^[[0m^[[38;5;245m(44s)^[[0m
+24619:Test runtimes (macos-26-intel, deno, 2/4)	UNKNOWN STEP	2026-11-05T18:41:05.4271140Z ##[error]Process completed with exit code 1.
+24916:Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:39:56.3289881Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence null [76.14ms]
+24917:Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:39:56.3295406Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence "" [68.75ms]
+24918:Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:39:56.3300946Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence "not a lychee report" [63.50ms]
+24919:Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:39:56.3303563Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | broken |" [62.21ms]
+24920:Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:39:56.3305601Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence "malformed report\n- [404] https://broken.example/recovered\n" [63.15ms]
+24921:Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:39:56.3307632Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | 0 |\n- [404] https://broken.example/recovered\n" [64.09ms]
+24922:Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:39:56.3309636Z (pass) archive and test discovery boundaries > rejects unusable failed-checker evidence "unreadable-directory" [65.49ms]
+24934:Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:39:56.3320856Z (pass) bootstrapDependencies > does not run later loaders once one has failed [0.15ms]
+24964:Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:39:58.6787179Z (pass) lychee summary evidence > accepts the captured real failed report [0.32ms]
+25065:Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:39:59.8713146Z (pass) land-via-pull-request check enforcement > propagates a failed pull-request check without attempting a merge [1.07ms]
+25350:Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:40:20.8188496Z (pass) issue 32 public and code negatives > keeps Booking FAILED today [1.12ms]
+25638:Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:40:29.0132109Z (pass) explicit public verification and outbound helpers > sanitizes contextual JSON and drops failed Sentry events [3.38ms]
+25930:Test runtimes (windows-2025, bun, 2/3)	UNKNOWN STEP	2026-11-05T18:40:48.3744994Z Failed to save: Unable to reserve cache with key node-cache-Windows-x64-npm-fb8cb912c939db1f446f959cc9b67603bcfe866b95e5042edff1b849817bf24a, another job may be creating this cache.
+26420:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:18.9584352Z (skip) pipeline status gate > fails for a failed job on every ref [skipped: bash fixtures need a POSIX shell]
+26424:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:18.9588679Z (skip) pipeline status gate and runner acquisition > adds nothing when every failed job ran on a runner [skipped: bash fixtures need a POSIX shell]
+26554:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:35.2923975Z (pass) rerun of runs that never got a runner > reruns failed jobs when unacquired jobs explain the failure [0.67ms]
+26555:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:35.2925462Z (pass) rerun of runs that never got a runner > never reruns when a job failed after running steps [0.17ms]
+26556:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:35.2926768Z (pass) rerun of runs that never got a runner > leaves a run alone when every failed job ran [0.14ms]
+26564:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:35.2937356Z (pass) rerun-unacquired workflow > runs only for failed runs below the attempt limit [0.03ms]
+26900:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:38.7899381Z (pass) issues 87/88 (text) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+26902:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:38.7900815Z (pass) issues 87/88 (text) > keeps Error: boom
+26965:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:38.7948436Z (pass) issues 87/88 (json) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+26967:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:38.7950216Z (pass) issues 87/88 (json) > keeps Error: boom
+27030:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:38.8002997Z (pass) issues 87/88 (jsonl) > keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+27032:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:38.8004836Z (pass) issues 87/88 (jsonl) > keeps Error: boom
+27151:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:43.3987394Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+27157:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:43.3993755Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+27158:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:43.3994260Z   Retrying Wayback lookup (attempt 3/3) after: fetch failed: ECONNRESET
+27771:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:43.5324995Z (pass) Wayback lookup outcomes > retries fetch failed then finds a snapshot [0.05ms]
+27815:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:43.5354774Z (skip) pipeline status gate > fails for a failed job on every ref [skipped: bash fixtures need a POSIX shell]
+27819:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:43.5358634Z (skip) pipeline status gate and runner acquisition > adds nothing when every failed job ran on a runner [skipped: bash fixtures need a POSIX shell]
+27846:Test runtimes (windows-2025, bun, 3/3)	UNKNOWN STEP	2026-11-05T18:40:45.9182524Z Failed to save: Unable to reserve cache with key node-cache-Windows-x64-npm-fb8cb912c939db1f446f959cc9b67603bcfe866b95e5042edff1b849817bf24a, another job may be creating this cache.
+28127:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:26.3926514Z   ✔ rejects unusable failed-checker evidence null (34.807279ms)
+28128:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:26.3927259Z   ✔ rejects unusable failed-checker evidence "" (51.05995ms)
+28129:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:26.3928086Z   ✔ rejects unusable failed-checker evidence "not a lychee report" (73.874457ms)
+28130:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:26.3929277Z   ✔ rejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | broken |" (60.234961ms)
+28131:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:26.3932707Z   ✔ rejects unusable failed-checker evidence "malformed report\n- [404] https://broken.example/recovered\n" (46.882515ms)
+28132:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:26.3934186Z   ✔ rejects unusable failed-checker evidence "# Link Checker Report\n\n| Errors | 0 |\n- [404] https://broken.example/recovered\n" (30.218091ms)
+28133:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:26.3935204Z   ✔ rejects unusable failed-checker evidence "unreadable-directory" (25.488678ms)
+28172:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:26.3965472Z   ✔ does not run later loaders once one has failed (0.911322ms)
+28257:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:29.4569255Z   ✔ accepts the captured real failed report (0.927281ms)
+28409:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:29.4648747Z   ✔ creates a new deployment when the earlier one of this commit failed (0.2132ms)
+28413:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:29.4651002Z   ✔ fails the step on every final failed state (0.249034ms)
+28589:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:32.5448228Z   ✔ propagates a failed pull-request check without attempting a merge (1.235263ms)
+28725:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:32.5520454Z   ✔ fails for a failed job on every ref (53.300431ms)
+28731:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:32.5525173Z   ✔ adds nothing when every failed job ran on a runner (90.25804ms)
+28826:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:34.5797433Z   ✔ retries the publish command when the publish itself failed (0.209675ms)
+29080:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:39.7258217Z   ✔ reruns failed jobs when unacquired jobs explain the failure (1.649754ms)
+29081:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:39.7258722Z   ✔ never reruns when a job failed after running steps (0.347531ms)
+29082:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:39.7259197Z   ✔ leaves a run alone when every failed job ran (0.26002ms)
+29092:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:39.7263656Z   ✔ runs only for failed runs below the attempt limit (0.115193ms)
+29681:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:54.1988374Z   ✔ keeps Booking FAILED today (0.920821ms)
+30218:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:55.2207169Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+30220:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:55.2255641Z   ✔ keeps Error: boom
+30285:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:55.2644850Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+30287:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:55.2645504Z   ✔ keeps Error: boom
+30352:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:55.2909047Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+30354:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:55.2909847Z   ✔ keeps Error: boom
+30487:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:39:59.3840263Z   ✔ sanitizes contextual JSON and drops failed Sentry events (17.560281ms)
+30925:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:08.6308343Z   ✖ confirms every other shipped workflow is fully covered (51.459926ms)
+30926:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:08.6308684Z ✖ check-status-gate-covers-all-jobs.mjs shipped coverage (51.73489ms)
+30941:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:08.6312853Z ✖ covers every runtime and OS once while distributing Windows Bun and Deno fixtures (24.910353ms)
+31506:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:08.6513911Z   ✔ asserts a failed release only when npm answered (0.113911ms)
+31518:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7306563Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+31524:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7308494Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+31525:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7308770Z   Retrying Wayback lookup (attempt 3/3) after: fetch failed: ECONNRESET
+31529:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7309718Z   ✔ retries fetch failed then finds a snapshot (0.201302ms)
+31626:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7337692Z ✖ failing tests:
+31629:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7338211Z ✖ confirms every other shipped workflow is fully covered (51.459926ms)
+31630:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7338706Z   Error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+31643:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7342866Z ✖ covers every runtime and OS once while distributing Windows Bun and Deno fixtures (24.910353ms)
+31644:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7343137Z   Error: Expected false to be true
+31654:Test runtimes (ubuntu-24.04, node, 1/1)	UNKNOWN STEP	2026-11-05T18:40:16.7363642Z ##[error]Process completed with exit code 1.
+32606:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:39.6302606Z ^[[0m^[[38;5;245m./tests/pipeline-status.test.js => ^[[0mfails for a failed job on every ref [skipped: bash fixtures need a POSIX shell] ... ^[[0m^[[33mignored^[[0m ^[[0m^[[38;5;245m(0ms)^[[0m
+32610:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:39.6317448Z ^[[0m^[[38;5;245m./tests/pipeline-status.test.js => ^[[0madds nothing when every failed job ran on a runner [skipped: bash fixtures need a POSIX shell] ... ^[[0m^[[33mignored^[[0m ^[[0m^[[38;5;245m(0ms)^[[0m
+32687:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:39.7228866Z ^[[0m^[[38;5;245m./tests/rerun-unacquired.test.js => ^[[0mreruns failed jobs when unacquired jobs explain the failure ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(827µs)^[[0m
+32688:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:39.7230562Z ^[[0m^[[38;5;245m./tests/rerun-unacquired.test.js => ^[[0mnever reruns when a job failed after running steps ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(315µs)^[[0m
+32689:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:39.7232106Z ^[[0m^[[38;5;245m./tests/rerun-unacquired.test.js => ^[[0mleaves a run alone when every failed job ran ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(369µs)^[[0m
+32697:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:39.7245651Z ^[[0m^[[38;5;245m./tests/rerun-unacquired.test.js => ^[[0mruns only for failed runs below the attempt limit ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(80µs)^[[0m
+32999:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:46.4311459Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(109ms)^[[0m
+33000:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:46.4324805Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(7ms)^[[0m
+33061:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:46.5842684Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(4ms)^[[0m
+33062:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:46.5892194Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(7ms)^[[0m
+33127:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:46.7097487Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: connect ECONNREFUSED 127.0.0.1:5432\n    at TCPConnectWrap.afterConnect (node:net:1595:16) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+33128:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:46.7160538Z ^[[0m^[[38;5;245m./tests/sanitizer-issue-89.test.js => ^[[0mkeeps Error: boom\n    at f (/app/src/index.ts:10:5)\n    at async g (node:internal/process/task_queues:95:5) ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(2ms)^[[0m
+33499:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:54.0600082Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+33500:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:54.0601586Z ^[[0m^[[38;5;245m./tests/wayback-retry.test.js => ^[[0mretries fetch failed then finds a snapshot ...^[[0m^[[38;5;245m----- post-test output end -----^[[0m
+33501:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:54.0602907Z ^[[0m^[[38;5;245m./tests/wayback-retry.test.js => ^[[0mretries fetch failed then finds a snapshot ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(263µs)^[[0m
+33533:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:54.0651475Z   Retrying Wayback lookup (attempt 2/3) after: fetch failed: ECONNRESET
+33537:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:40:54.0654769Z   Retrying Wayback lookup (attempt 3/3) after: fetch failed: ECONNRESET
+33907:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:41:15.6092211Z ^[[0m^[[32mok^[[0m | 1324 passed | 0 failed | 40 ignored ^[[0m^[[38;5;245m(38s)^[[0m
+33914:Test runtimes (windows-2025, deno, 3/3)	UNKNOWN STEP	2026-11-05T18:41:18.0778644Z Failed to save: Unable to reserve cache with key node-cache-Windows-x64-npm-fb8cb912c939db1f446f959cc9b67603bcfe866b95e5042edff1b849817bf24a, another job may be creating this cache.
+34325:Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:10.3053513Z (pass) deploy-pages: creating the deployment > creates a new deployment when the earlier one of this commit failed [0.14ms]
+34327:Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:10.3056245Z (pass) deploy-pages: waiting for the deployment > fails the step on every final failed state [0.23ms]
+34470:Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:34.9894853Z (pass) publishWithRetry > retries the publish command when the publish itself failed [0.10ms]
+35093:Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:49.0650924Z error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+35097:Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:49.0674311Z ##[error]
+35113:Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:49.0685165Z error: Expected false to be true
+35117:Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:49.0688048Z ##[error]
+35161:Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:54.7346537Z (pass) formatFailureMessage > asserts a failed release only when npm answered [0.04ms]
+35208:Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:54.7396503Z 2 tests failed:
+35217:Test runtimes (windows-2025, bun, 1/3)	UNKNOWN STEP	2026-11-05T18:40:54.8035071Z ##[error]Process completed with exit code 1.
+36143:Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:01.9396387Z ^[[0m^[[38;5;245m./tests/deploy-pages.test.js => ^[[0mcreates a new deployment when the earlier one of this commit failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(285µs)^[[0m
+36145:Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:01.9404548Z ^[[0m^[[38;5;245m./tests/deploy-pages.test.js => ^[[0mfails the step on every final failed state ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(644µs)^[[0m
+36232:Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:04.3552277Z ^[[0m^[[38;5;245m./tests/publish-retry.test.js => ^[[0mretries the publish command when the publish itself failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(292µs)^[[0m
+36795:Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:17.7185012Z ^[[0m^[[38;5;245m./tests/test-sharding.test.js => ^[[0mcovers every runtime and OS once while distributing Windows Bun and Deno fixtures ... ^[[0m^[[31mFAILED^[[0m ^[[0m^[[38;5;245m(77ms)^[[0m
+36798:Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:17.7334902Z ^[[0m^[[38;5;245m./tests/status-gate-coverage.test.js => ^[[0mconfirms every other shipped workflow is fully covered ... ^[[0m^[[31mFAILED^[[0m ^[[0m^[[38;5;245m(341ms)^[[0m
+36821:Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:17.8574261Z ^[[0m^[[38;5;245m./tests/wait-for-npm.test.js => ^[[0masserts a failed release only when npm answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(153µs)^[[0m
+36867:Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:38.6906701Z ^[[0m^[[1m^[[31merror^[[0m: Error: Expected ".github/workflows/security.yml: pipeline-status covers all 5 other job(s).\n" to contain "security.yml: pipeline-status covers all 4 other job(s)."
+36875:Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:38.6922476Z ^[[0m^[[1m^[[31merror^[[0m: Error: Expected false to be true
+36887:Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:38.6938240Z ^[[0m^[[31mFAILED^[[0m | 664 passed | 2 failed | 44 ignored ^[[0m^[[38;5;245m(36s)^[[0m
+36889:Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:38.7633025Z ^[[0m^[[1m^[[31merror^[[0m: Test failed
+36891:Test runtimes (windows-2025, deno, 1/3)	UNKNOWN STEP	2026-11-05T18:40:38.8246637Z ##[error]Process completed with exit code 1.

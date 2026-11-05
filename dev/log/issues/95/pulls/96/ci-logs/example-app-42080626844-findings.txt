@@ -1,0 +1,151 @@
+228:Build web app	Upload web build artifact	2026-11-05T18:04:03.9652187Z   if-no-files-found: error
+241:Build web app	Upload web build artifact	2026-11-05T18:04:03.9740371Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+259:Build web app	Upload web build artifact	2026-11-05T18:04:07.0105607Z   if-no-files-found: error
+285:Build web app	Upload GitHub Pages artifact	2026-11-05T18:04:08.9707042Z   if-no-files-found: error
+296:Build web app	Upload GitHub Pages artifact	2026-11-05T18:04:08.9744290Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+314:Build web app	Upload GitHub Pages artifact	2026-11-05T18:04:11.4770722Z   if-no-files-found: error
+527:Package desktop app (windows-2025)	Verify desktop compatibility APIs	﻿2026-11-05T18:04:23.9826581Z ##[group]Run node --pending-deprecation --throw-deprecation scripts/check-desktop-compat.mjs
+528:Package desktop app (windows-2025)	Verify desktop compatibility APIs	2026-11-05T18:04:23.9827370Z ^[[36;1mnode --pending-deprecation --throw-deprecation scripts/check-desktop-compat.mjs^[[0m
+547:Package desktop app (windows-2025)	Package Electron app	2026-11-05T18:04:24.9124415Z ^[[36;1mecho "::error::Desktop package output was not created at examples/universal-app/out"^[[0m
+549:Package desktop app (windows-2025)	Package Electron app	2026-11-05T18:04:24.9689696Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+590:Package desktop app (windows-2025)	Package Electron app	2026-11-05T18:04:40.5029522Z   • no code signing certificate configured, signing is skipped  path=out\win-unpacked\Universal Example App.exe
+620:Package desktop app (windows-2025)	Upload desktop package	2026-11-05T18:04:40.7243827Z   if-no-files-found: error
+632:Package desktop app (windows-2025)	Upload desktop package	2026-11-05T18:04:40.7474704Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+649:Package desktop app (windows-2025)	Upload desktop package	2026-11-05T18:04:49.4617985Z   if-no-files-found: error
+875:Package desktop app (ubuntu-24.04)	Verify desktop compatibility APIs	﻿2026-11-05T18:04:04.9336314Z ##[group]Run node --pending-deprecation --throw-deprecation scripts/check-desktop-compat.mjs
+876:Package desktop app (ubuntu-24.04)	Verify desktop compatibility APIs	2026-11-05T18:04:04.9336910Z ^[[36;1mnode --pending-deprecation --throw-deprecation scripts/check-desktop-compat.mjs^[[0m
+895:Package desktop app (ubuntu-24.04)	Package Electron app	2026-11-05T18:04:05.1547710Z ^[[36;1mecho "::error::Desktop package output was not created at examples/universal-app/out"^[[0m
+897:Package desktop app (ubuntu-24.04)	Package Electron app	2026-11-05T18:04:05.1566870Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+964:Package desktop app (ubuntu-24.04)	Upload desktop package	2026-11-05T18:04:11.1866678Z   if-no-files-found: error
+976:Package desktop app (ubuntu-24.04)	Upload desktop package	2026-11-05T18:04:11.1957983Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+993:Package desktop app (ubuntu-24.04)	Upload desktop package	2026-11-05T18:04:14.3340663Z   if-no-files-found: error
+1028:Package desktop app (ubuntu-24.04)	Post Setup Node.js	2026-11-05T18:04:24.8386805Z Failed to save: Unable to reserve cache with key node-cache-Linux-x64-npm-1dc77cc52cd5e1899e85b71f2d37b654087c83b09e17c9136b94878a2e6088ce, another job may be creating this cache.
+1266:Regenerate Preview Images	Trust the checkout	2026-11-05T18:04:27.2898404Z shell: bash --noprofile --norc -e -o pipefail {0}
+1275:Regenerate Preview Images	Install example app dependencies	2026-11-05T18:04:27.3445261Z shell: bash --noprofile --norc -e -o pipefail {0}
+1286:Regenerate Preview Images	Install browser automation dependencies	2026-11-05T18:04:31.1990124Z shell: bash --noprofile --norc -e -o pipefail {0}
+1292:Regenerate Preview Images	Install browser automation dependencies	2026-11-05T18:04:31.1991388Z   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+1298:Regenerate Preview Images	Regenerate preview images	2026-11-05T18:04:43.2421536Z shell: bash --noprofile --norc -e -o pipefail {0}
+1338:Regenerate Preview Images	Detect drift	﻿2026-11-05T18:04:50.6370286Z ##[group]Run # The assignment fails the step when git fails; a test on $(...)
+1339:Regenerate Preview Images	Detect drift	2026-11-05T18:04:50.6371024Z ^[[36;1m# The assignment fails the step when git fails; a test on $(...)^[[0m
+1340:Regenerate Preview Images	Detect drift	2026-11-05T18:04:50.6371528Z ^[[36;1m# would read the failure as no drift.^[[0m
+1350:Regenerate Preview Images	Detect drift	2026-11-05T18:04:50.6375254Z shell: bash --noprofile --norc -e -o pipefail {0}
+1373:Regenerate Preview Images	Commit drift back to main	2026-11-05T18:04:50.8024456Z ^[[36;1m  echo "::notice::No tracked preview-image changes to commit (drift was outside expected paths)."^[[0m
+1378:Regenerate Preview Images	Commit drift back to main	2026-11-05T18:04:50.8026073Z ^[[36;1m# Do not add [skip ci]: a fallback PR needs its required checks.^[[0m
+1387:Regenerate Preview Images	Commit drift back to main	2026-11-05T18:04:50.8030232Z ^[[36;1m  echo "::error title=Preview images need RELEASE_PR_TOKEN::The preview images changed, but main refused a push with the built-in GITHUB_TOKEN (a ruleset requires a pull request, and pull requests opened by that token do not run checks). Add a fine-grained token with Contents and Pull requests read/write access as the RELEASE_PR_TOKEN secret at $SECRETS_URL and re-run this job, or run 'npm run example:web:preview-images' locally and commit docs/screenshots/example-app/*.png."^[[0m
+1391:Regenerate Preview Images	Commit drift back to main	2026-11-05T18:04:50.8032249Z shell: bash --noprofile --norc -e -o pipefail {0}
+1402:Regenerate Preview Images	Commit drift back to main	2026-11-05T18:04:50.8547790Z ##[error]Process completed with exit code 127.
+1403:Regenerate Preview Images	Upload screenshot failure artifacts	﻿2026-11-05T18:04:50.8702917Z Prepare all required actions
+1404:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8703609Z Getting action download info
+1405:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8919692Z ##[group]Run ./.github/actions/artifact-transport
+1406:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8920087Z with:
+1407:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8920341Z   name: preview-regen-failure-42080626844
+1408:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8920704Z   path: docs/screenshots/example-app/
+1409:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8921034Z   retention-days: 7
+1410:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8921295Z   if-no-files-found: error
+1411:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8921585Z   pages: false
+1412:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8921811Z   mode: upload
+1413:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8922025Z env:
+1414:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8922240Z   GIT_CONFIG_COUNT: 1
+1415:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8922508Z   GIT_CONFIG_KEY_0: init.defaultBranch
+1416:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8922812Z   GIT_CONFIG_VALUE_0: main
+1417:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8923101Z   PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+1418:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8923415Z ##[endgroup]
+1419:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.8996578Z ##[start-action display=Install pinned artifact SDK;id=__self.__run]
+1420:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.9335541Z ##[group]Run npm ci --prefix "$ACTION_DIRECTORY" --ignore-scripts --no-audit --no-fund
+1421:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.9336129Z ^[[36;1mnpm ci --prefix "$ACTION_DIRECTORY" --ignore-scripts --no-audit --no-fund^[[0m
+1422:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.9336639Z shell: bash --noprofile --norc -e -o pipefail {0}
+1423:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.9336878Z env:
+1424:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.9337040Z   GIT_CONFIG_COUNT: 1
+1425:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.9337233Z   GIT_CONFIG_KEY_0: init.defaultBranch
+1426:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.9337451Z   GIT_CONFIG_VALUE_0: main
+1427:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.9337860Z   PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+1428:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.9338573Z   ACTION_DIRECTORY: /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/./.github/actions/artifact-transport
+1429:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:50.9339036Z ##[endgroup]
+1430:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9244293Z 
+1431:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9244922Z added 224 packages in 3s
+1432:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9555042Z ##[end-action id=__self.__run;outcome=success;conclusion=success;duration_ms=3055]
+1433:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9557424Z ##[start-action display=Transfer artifact;id=__self.transport]
+1434:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9586463Z ##[group]Run ./.github/actions/artifact-transport/run
+1435:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9586730Z with:
+1436:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9586917Z   name: preview-regen-failure-42080626844
+1437:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9587162Z   path: docs/screenshots/example-app/
+1438:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9587369Z   pages: false
+1439:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9587539Z   retention-days: 7
+1440:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9587712Z   if-no-files-found: error
+1441:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9587909Z   mode: upload
+1442:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9588085Z env:
+1443:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9588438Z   GIT_CONFIG_COUNT: 1
+1444:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9588626Z   GIT_CONFIG_KEY_0: init.defaultBranch
+1445:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9588843Z   GIT_CONFIG_VALUE_0: main
+1446:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9589050Z   PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+1447:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9589274Z ##[endgroup]
+1448:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:53.9592562Z ##[command]/usr/bin/docker exec  d161d626d2c69757a2b4d6553f213aa123bcdae3651cc51da7cfe2eb5fd33b9e sh -c "cat /etc/*release | grep ^ID"
+1449:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:54.4921859Z Artifact name is valid!
+1450:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:54.4922510Z Root directory input is valid!
+1451:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:54.7111391Z Uploading artifact: preview-regen-failure-42080626844.zip
+1452:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:54.7146069Z Beginning upload of artifact content to blob storage
+1453:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:54.9105471Z Uploaded bytes 564945
+1454:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:54.9260222Z Finished uploading artifact content to blob storage!
+1455:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:54.9261388Z SHA256 digest of uploaded artifact is ba016b7b52339a61af44e44596a25681c2d45d80e0de0e5cb837ed1cc361a886
+1456:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:54.9262288Z Finalizing artifact upload
+1457:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:55.3888781Z Artifact preview-regen-failure-42080626844 successfully finalized. Artifact ID 13440024631
+1458:Regenerate Preview Images	Upload screenshot failure artifacts	2026-11-05T18:04:55.4120424Z ##[end-action id=__self.transport;outcome=success;conclusion=success;duration_ms=1456]
+1465:Regenerate Preview Images	Summarize regeneration result	2026-11-05T18:04:55.4188374Z ^[[36;1m  echo "::notice::Preview images are already up to date."^[[0m
+1467:Regenerate Preview Images	Summarize regeneration result	2026-11-05T18:04:55.4190784Z ^[[36;1m  echo "::notice::Regenerated preview images were committed to main."^[[0m
+1471:Regenerate Preview Images	Summarize regeneration result	2026-11-05T18:04:55.4236982Z shell: bash --noprofile --norc -e -o pipefail {0}
+1480:Regenerate Preview Images	Summarize regeneration result	2026-11-05T18:04:55.4241868Z   COMMIT: failure
+1483:Regenerate Preview Images	Summarize regeneration result	2026-11-05T18:04:55.4846060Z Regenerated preview images differ but were not committed (commit outcome: failure).
+1484:Regenerate Preview Images	Post Upload screenshot failure artifacts	﻿2026-11-05T18:04:55.4957569Z Post job cleanup.
+1749:Package desktop app (macos-26-intel)	Verify desktop compatibility APIs	﻿2026-11-05T18:04:57.3308380Z ##[group]Run node --pending-deprecation --throw-deprecation scripts/check-desktop-compat.mjs
+1750:Package desktop app (macos-26-intel)	Verify desktop compatibility APIs	2026-11-05T18:04:57.3310320Z ^[[36;1mnode --pending-deprecation --throw-deprecation scripts/check-desktop-compat.mjs^[[0m
+1769:Package desktop app (macos-26-intel)	Package Electron app	2026-11-05T18:04:58.1792060Z ^[[36;1mecho "::error::Desktop package output was not created at examples/universal-app/out"^[[0m
+1771:Package desktop app (macos-26-intel)	Package Electron app	2026-11-05T18:04:58.1879490Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+1811:Package desktop app (macos-26-intel)	Package Electron app	2026-11-05T18:05:24.9027570Z   • skipped macOS application code signing  reason=cannot find valid "Developer ID Application" identity or custom non-Apple code signing certificate, it could cause some undefined behaviour, e.g. macOS localized description not visible, see https://electron.build/code-signing allIdentities=     0 identities found
+1824:Package desktop app (macos-26-intel)	Upload desktop package	2026-11-05T18:05:25.0823120Z   if-no-files-found: error
+1836:Package desktop app (macos-26-intel)	Upload desktop package	2026-11-05T18:05:25.1285470Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+1853:Package desktop app (macos-26-intel)	Upload desktop package	2026-11-05T18:05:45.4264150Z   if-no-files-found: error
+2104:Deploy GitHub Pages	Deploy Pages artifact	﻿2026-11-05T18:05:11.6362418Z ##[group]Run node --throw-deprecation scripts/deploy-pages.mjs
+2105:Deploy GitHub Pages	Deploy Pages artifact	2026-11-05T18:05:11.6363059Z ^[[36;1mnode --throw-deprecation scripts/deploy-pages.mjs^[[0m
+2308:Pipeline Status	Fail the run when a required job was cancelled or failed	﻿2026-11-05T18:07:08.8816099Z ##[group]Run bash scripts/check-pipeline-status.sh
+2309:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.8816593Z ^[[36;1mbash scripts/check-pipeline-status.sh^[[0m
+2310:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.8848698Z shell: /usr/bin/bash -e {0}
+2311:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.8848979Z env:
+2312:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.8849178Z   GIT_CONFIG_COUNT: 1
+2313:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.8849425Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2314:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.8849728Z   GIT_CONFIG_VALUE_0: main
+2315:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.8851044Z   NEEDS_JSON: {
+2316:Pipeline Status	Fail the run when a required job was cancelled or failed	  "web-build": {
+2317:Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+2318:Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {
+2319:Pipeline Status	Fail the run when a required job was cancelled or failed	      "pages-artifact-id": "13440860819"
+2320:Pipeline Status	Fail the run when a required job was cancelled or failed	    }
+2321:Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+2322:Pipeline Status	Fail the run when a required job was cancelled or failed	  "pages-deploy": {
+2323:Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+2324:Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+2325:Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+2326:Pipeline Status	Fail the run when a required job was cancelled or failed	  "desktop-package": {
+2327:Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+2328:Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+2329:Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+2330:Pipeline Status	Fail the run when a required job was cancelled or failed	  "android-build": {
+2331:Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+2332:Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+2333:Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+2334:Pipeline Status	Fail the run when a required job was cancelled or failed	  "ios-build": {
+2335:Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+2336:Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+2337:Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+2338:Pipeline Status	Fail the run when a required job was cancelled or failed	  "preview-regen": {
+2339:Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "failure",
+2340:Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+2341:Pipeline Status	Fail the run when a required job was cancelled or failed	  }
+2342:Pipeline Status	Fail the run when a required job was cancelled or failed	}
+2343:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.8855331Z   GH_TOKEN: ***
+2344:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.8855601Z   RUN_SHA: 510d98eb153144038b6e9904829b435bd85564b2
+2345:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.8855957Z   HEAD_REF: refs/heads/main
+2346:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.8856190Z ##[endgroup]
+2347:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.9604026Z Failed jobs:    preview-regen
+2348:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.9605196Z Cancelled jobs: <none>
+2349:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:08.9627554Z ##[error]Failing jobs: preview-regen
+2350:Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T18:07:09.7245061Z ##[error]Process completed with exit code 1.

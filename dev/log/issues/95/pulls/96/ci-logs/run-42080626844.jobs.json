@@ -1,0 +1,865 @@
+[
+  {
+    "total_count": 9,
+    "jobs": [
+      {
+        "id": 127432411422,
+        "run_id": 42080626844,
+        "workflow_name": "Example app",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdq5BJHg",
+        "head_sha": "510d98eb153144038b6e9904829b435bd85564b2",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127432411422",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844/job/127432411422",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:03:51Z",
+        "started_at": "2026-11-05T18:03:52Z",
+        "completed_at": "2026-11-05T18:04:18Z",
+        "name": "Build web app",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:03:53Z",
+            "completed_at": "2026-11-05T18:03:54Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:03:54Z",
+            "completed_at": "2026-11-05T18:03:57Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:03:57Z",
+            "completed_at": "2026-11-05T18:03:57Z"
+          },
+          {
+            "name": "Check GitHub Pages source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:03:57Z",
+            "completed_at": "2026-11-05T18:03:58Z"
+          },
+          {
+            "name": "Configure GitHub Pages",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:03:58Z",
+            "completed_at": "2026-11-05T18:03:58Z"
+          },
+          {
+            "name": "Install app dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T18:03:58Z",
+            "completed_at": "2026-11-05T18:04:02Z"
+          },
+          {
+            "name": "Build app",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T18:04:02Z",
+            "completed_at": "2026-11-05T18:04:03Z"
+          },
+          {
+            "name": "Upload web build artifact",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T18:04:03Z",
+            "completed_at": "2026-11-05T18:04:08Z"
+          },
+          {
+            "name": "Upload GitHub Pages artifact",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T18:04:08Z",
+            "completed_at": "2026-11-05T18:04:13Z"
+          },
+          {
+            "name": "Post Upload GitHub Pages artifact",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-05T18:04:13Z",
+            "completed_at": "2026-11-05T18:04:13Z"
+          },
+          {
+            "name": "Post Upload web build artifact",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-11-05T18:04:13Z",
+            "completed_at": "2026-11-05T18:04:13Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-11-05T18:04:13Z",
+            "completed_at": "2026-11-05T18:04:16Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-11-05T18:04:16Z",
+            "completed_at": "2026-11-05T18:04:16Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-11-05T18:04:16Z",
+            "completed_at": "2026-11-05T18:04:16Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127432411422",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198803,
+        "runner_name": "GitHub Actions 1000198803",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127432411736,
+        "run_id": 42080626844,
+        "workflow_name": "Example app",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdq5BKWA",
+        "head_sha": "510d98eb153144038b6e9904829b435bd85564b2",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127432411736",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844/job/127432411736",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:03:51Z",
+        "started_at": "2026-11-05T18:03:53Z",
+        "completed_at": "2026-11-05T18:05:09Z",
+        "name": "Package desktop app (windows-2025)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:03:54Z",
+            "completed_at": "2026-11-05T18:03:54Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:03:54Z",
+            "completed_at": "2026-11-05T18:04:03Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:04:03Z",
+            "completed_at": "2026-11-05T18:04:09Z"
+          },
+          {
+            "name": "Install app dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:04:09Z",
+            "completed_at": "2026-11-05T18:04:23Z"
+          },
+          {
+            "name": "Verify desktop compatibility APIs",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:04:23Z",
+            "completed_at": "2026-11-05T18:04:24Z"
+          },
+          {
+            "name": "Package Electron app",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T18:04:24Z",
+            "completed_at": "2026-11-05T18:04:40Z"
+          },
+          {
+            "name": "Upload desktop package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T18:04:40Z",
+            "completed_at": "2026-11-05T18:05:04Z"
+          },
+          {
+            "name": "Post Upload desktop package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T18:05:04Z",
+            "completed_at": "2026-11-05T18:05:04Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T18:05:04Z",
+            "completed_at": "2026-11-05T18:05:05Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-05T18:05:05Z",
+            "completed_at": "2026-11-05T18:05:07Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-05T18:05:07Z",
+            "completed_at": "2026-11-05T18:05:08Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127432411736",
+        "labels": [
+          "windows-2025"
+        ],
+        "runner_id": 1000198809,
+        "runner_name": "GitHub Actions 1000198809",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127432411784,
+        "run_id": 42080626844,
+        "workflow_name": "Example app",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdq5BKiA",
+        "head_sha": "510d98eb153144038b6e9904829b435bd85564b2",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127432411784",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844/job/127432411784",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:03:51Z",
+        "started_at": "2026-11-05T18:03:52Z",
+        "completed_at": "2026-11-05T18:04:26Z",
+        "name": "Package desktop app (ubuntu-24.04)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:03:53Z",
+            "completed_at": "2026-11-05T18:03:54Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:03:54Z",
+            "completed_at": "2026-11-05T18:03:56Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:03:56Z",
+            "completed_at": "2026-11-05T18:03:59Z"
+          },
+          {
+            "name": "Install app dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:03:59Z",
+            "completed_at": "2026-11-05T18:04:04Z"
+          },
+          {
+            "name": "Verify desktop compatibility APIs",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:04:04Z",
+            "completed_at": "2026-11-05T18:04:05Z"
+          },
+          {
+            "name": "Package Electron app",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T18:04:05Z",
+            "completed_at": "2026-11-05T18:04:11Z"
+          },
+          {
+            "name": "Upload desktop package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T18:04:11Z",
+            "completed_at": "2026-11-05T18:04:24Z"
+          },
+          {
+            "name": "Post Upload desktop package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T18:04:24Z",
+            "completed_at": "2026-11-05T18:04:24Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T18:04:24Z",
+            "completed_at": "2026-11-05T18:04:24Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-05T18:04:24Z",
+            "completed_at": "2026-11-05T18:04:25Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-05T18:04:25Z",
+            "completed_at": "2026-11-05T18:04:25Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127432411784",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198807,
+        "runner_name": "GitHub Actions 1000198807",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127432411919,
+        "run_id": 42080626844,
+        "workflow_name": "Example app",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdq5BLDw",
+        "head_sha": "510d98eb153144038b6e9904829b435bd85564b2",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127432411919",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844/job/127432411919",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-11-05T18:03:51Z",
+        "started_at": "2026-11-05T18:03:52Z",
+        "completed_at": "2026-11-05T18:05:01Z",
+        "name": "Regenerate Preview Images",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:03:53Z",
+            "completed_at": "2026-11-05T18:03:53Z"
+          },
+          {
+            "name": "Initialize containers",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:03:53Z",
+            "completed_at": "2026-11-05T18:04:25Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:04:25Z",
+            "completed_at": "2026-11-05T18:04:27Z"
+          },
+          {
+            "name": "Trust the checkout",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:04:27Z",
+            "completed_at": "2026-11-05T18:04:27Z"
+          },
+          {
+            "name": "Install example app dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:04:27Z",
+            "completed_at": "2026-11-05T18:04:31Z"
+          },
+          {
+            "name": "Install browser automation dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T18:04:31Z",
+            "completed_at": "2026-11-05T18:04:43Z"
+          },
+          {
+            "name": "Regenerate preview images",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T18:04:43Z",
+            "completed_at": "2026-11-05T18:04:50Z"
+          },
+          {
+            "name": "Detect drift",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T18:04:50Z",
+            "completed_at": "2026-11-05T18:04:50Z"
+          },
+          {
+            "name": "Commit drift back to main",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 9,
+            "started_at": "2026-11-05T18:04:50Z",
+            "completed_at": "2026-11-05T18:04:50Z"
+          },
+          {
+            "name": "Upload screenshot failure artifacts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T18:04:50Z",
+            "completed_at": "2026-11-05T18:04:55Z"
+          },
+          {
+            "name": "Summarize regeneration result",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T18:04:55Z",
+            "completed_at": "2026-11-05T18:04:55Z"
+          },
+          {
+            "name": "Post Upload screenshot failure artifacts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-11-05T18:04:55Z",
+            "completed_at": "2026-11-05T18:04:55Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-11-05T18:04:55Z",
+            "completed_at": "2026-11-05T18:04:55Z"
+          },
+          {
+            "name": "Stop containers",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-11-05T18:04:55Z",
+            "completed_at": "2026-11-05T18:05:00Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-11-05T18:05:00Z",
+            "completed_at": "2026-11-05T18:05:00Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127432411919",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198808,
+        "runner_name": "GitHub Actions 1000198808",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127432411946,
+        "run_id": 42080626844,
+        "workflow_name": "Example app",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdq5BLKg",
+        "head_sha": "510d98eb153144038b6e9904829b435bd85564b2",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127432411946",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844/job/127432411946",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:03:51Z",
+        "started_at": "2026-11-05T18:03:57Z",
+        "completed_at": "2026-11-05T18:07:00Z",
+        "name": "Package desktop app (macos-26-intel)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:04:00Z",
+            "completed_at": "2026-11-05T18:04:03Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:04:03Z",
+            "completed_at": "2026-11-05T18:04:19Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:04:19Z",
+            "completed_at": "2026-11-05T18:04:28Z"
+          },
+          {
+            "name": "Install app dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:04:28Z",
+            "completed_at": "2026-11-05T18:04:57Z"
+          },
+          {
+            "name": "Verify desktop compatibility APIs",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T18:04:57Z",
+            "completed_at": "2026-11-05T18:04:58Z"
+          },
+          {
+            "name": "Package Electron app",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T18:04:58Z",
+            "completed_at": "2026-11-05T18:05:25Z"
+          },
+          {
+            "name": "Upload desktop package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T18:05:25Z",
+            "completed_at": "2026-11-05T18:06:50Z"
+          },
+          {
+            "name": "Post Upload desktop package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T18:06:50Z",
+            "completed_at": "2026-11-05T18:06:50Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T18:06:50Z",
+            "completed_at": "2026-11-05T18:06:55Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-05T18:06:55Z",
+            "completed_at": "2026-11-05T18:06:56Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-05T18:06:56Z",
+            "completed_at": "2026-11-05T18:06:58Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127432411946",
+        "labels": [
+          "macos-26-intel"
+        ],
+        "runner_id": 1000198810,
+        "runner_name": "GitHub Actions 1000198810",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127432413476,
+        "run_id": 42080626844,
+        "workflow_name": "Example app",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdq5BRJA",
+        "head_sha": "510d98eb153144038b6e9904829b435bd85564b2",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127432413476",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844/job/127432413476",
+        "status": "completed",
+        "conclusion": "skipped",
+        "created_at": "2026-11-05T18:03:51Z",
+        "started_at": "2026-11-05T18:03:51Z",
+        "completed_at": "2026-11-05T18:03:50Z",
+        "name": "Build iOS app",
+        "steps": [],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127432413476",
+        "labels": [
+          "macos-26-intel"
+        ],
+        "runner_id": null,
+        "runner_name": null,
+        "runner_group_id": null,
+        "runner_group_name": null
+      },
+      {
+        "id": 127432496698,
+        "run_id": 42080626844,
+        "workflow_name": "Example app",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdq5GWOg",
+        "head_sha": "510d98eb153144038b6e9904829b435bd85564b2",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127432496698",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844/job/127432496698",
+        "status": "completed",
+        "conclusion": "skipped",
+        "created_at": "2026-11-05T18:04:00Z",
+        "started_at": "2026-11-05T18:04:00Z",
+        "completed_at": "2026-11-05T18:03:50Z",
+        "name": "Build Android app",
+        "steps": [],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127432496698",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": null,
+        "runner_name": null,
+        "runner_group_id": null,
+        "runner_group_name": null
+      },
+      {
+        "id": 127432669215,
+        "run_id": 42080626844,
+        "workflow_name": "Example app",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdq5Q4Hw",
+        "head_sha": "510d98eb153144038b6e9904829b435bd85564b2",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127432669215",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844/job/127432669215",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T18:04:18Z",
+        "started_at": "2026-11-05T18:05:05Z",
+        "completed_at": "2026-11-05T18:05:57Z",
+        "name": "Deploy GitHub Pages",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:05:06Z",
+            "completed_at": "2026-11-05T18:05:06Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:05:06Z",
+            "completed_at": "2026-11-05T18:05:09Z"
+          },
+          {
+            "name": "Run actions/setup-node@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:05:09Z",
+            "completed_at": "2026-11-05T18:05:11Z"
+          },
+          {
+            "name": "Deploy Pages artifact",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T18:05:11Z",
+            "completed_at": "2026-11-05T18:05:55Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T18:05:55Z",
+            "completed_at": "2026-11-05T18:05:55Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T18:05:55Z",
+            "completed_at": "2026-11-05T18:05:55Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T18:05:55Z",
+            "completed_at": "2026-11-05T18:05:56Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127432669215",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198845,
+        "runner_name": "GitHub Actions 1000198845",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127434148467,
+        "run_id": 42080626844,
+        "workflow_name": "Example app",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOU_Omgc8AAAAdq6rKcw",
+        "head_sha": "510d98eb153144038b6e9904829b435bd85564b2",
+        "url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/actions/jobs/127434148467",
+        "html_url": "https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42080626844/job/127434148467",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-11-05T18:07:00Z",
+        "started_at": "2026-11-05T18:07:03Z",
+        "completed_at": "2026-11-05T18:07:11Z",
+        "name": "Pipeline Status",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T18:07:04Z",
+            "completed_at": "2026-11-05T18:07:04Z"
+          },
+          {
+            "name": "Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T18:07:04Z",
+            "completed_at": "2026-11-05T18:07:06Z"
+          },
+          {
+            "name": "Setup Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T18:07:06Z",
+            "completed_at": "2026-11-05T18:07:08Z"
+          },
+          {
+            "name": "Fail the run when a required job was cancelled or failed",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 4,
+            "started_at": "2026-11-05T18:07:08Z",
+            "completed_at": "2026-11-05T18:07:09Z"
+          },
+          {
+            "name": "Post Setup Node.js",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7,
+            "started_at": "2026-11-05T18:07:09Z",
+            "completed_at": "2026-11-05T18:07:09Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T18:07:09Z",
+            "completed_at": "2026-11-05T18:07:09Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T18:07:09Z",
+            "completed_at": "2026-11-05T18:07:10Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/link-foundation/sensitive-data-sanitizer/check-runs/127434148467",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000198853,
+        "runner_name": "GitHub Actions 1000198853",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ]
+  }
+]
