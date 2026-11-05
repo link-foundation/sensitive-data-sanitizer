@@ -337,3 +337,68 @@ further work. These numbers do not describe `createSanitizer` with Secretlint.
 
 The [complete issue 89 requirement inventory](case-studies/issue-89/README.md)
 records every row, root cause, alternative and regression mapping.
+
+## Document URL and field refinements (issues 91 and 94)
+
+The document profile detects `email=` and `phone=` query values in absolute and
+relative URLs and access-log text, retaining the label while percent-decoding.
+It replaces the same complete value for plain and percent-encoded contacts,
+without reserializing unaffected URL bytes. Invalid percent escapes do not
+qualify through this decoding rule. Personal `/u/`, `/in/`, `/user(s)/`,
+`/profile(s)/`, `/people/`, `/member(s)/` and `/home/` paths apply independently
+of the containing field label. These paths can also describe public accounts;
+the rule cannot establish identity or access permissions.
+
+An absolute HTTP(S) URL with a 24–128-character ASCII alphanumeric/underscore/
+hyphen path segment is treated as a possible share link and replaced, including
+Google Drive/Docs and generic `/s/<opaque-id>` links. This is a conservative
+shape rule, not a check of sharing permissions or entropy; public URLs with
+long segments may also match. Ordinary documentation paths and provider roots
+remain unchanged. Personal site roots such as
+`портфолио https://ivan-petrov.example.org/` remain a documented limit: a root
+alone cannot establish that the site belongs to a person.
+
+Structured document field aliases remove `_`/`-` and ignore case before matching
+this explicit vocabulary: `firstName`, `lastName`, `middleName`, `patronymic`,
+`birthday`, `birthDate`, `sex`, `citizenship`, `nationality`, `company`,
+`companyName`, `employer`, `university`, `school`, `contact`, `resumeUrl`,
+`alternateUrl`, `profileUrl`, `companyUrl`. Their nonempty string values are
+sensitive in full, including ISO birth timestamps. Thus `first_name` and
+`firstName`, or `birth_date` and `birthDate`, follow the same policy. These are
+schema assumptions: `contact` or `company` can hold operational data too.
+Existing native labels still apply. Unlisted URL-named fields have ordinary
+content detection; arbitrary names do not imply sensitivity. Declare them with
+[`sensitiveFields`](API.md#caller-declared-sensitive-fields) to replace complete
+values, including non-string values. Generic numeric primitives otherwise keep
+the existing type-preservation policy.
+
+Employer labels consume multi-word values to a comma or line/quote boundary.
+Dated CV entries additionally support compound titles, title parentheses/slashes,
+quoted group names, legal-form/location suffixes, empty/`null` range ends,
+multiple entries, employer-first role entries and pipe-separated entries.
+The supplemental grammar uses finite title cues and bounded entries. Undated
+`Менеджер, Ромашка Лютик`, `- Ромашка Лютик 5 лет` and
+`Последнее место работы Ромашка Лютик` remain explicit ambiguous limits, as
+permitted by #94. Use known values or schema declarations for them.
+
+Company prose recognizes `компании «…»`, `опыт в`, `Роль в`, `проекты для`,
+capitalized lists after those cues, `опыт (Company Name)`, and names followed
+by `(2 года)`/`(3 года)`-style durations. Arbitrary uncued company words remain
+ambiguous; synchronous callers can supply `knownPersonal` lists or precomputed
+`findings`. Custom `detectors` callbacks are still used by `createSanitizer`
+only. No model or network service is required for these native rules.
+
+`контакт:` and `пишите,` introduce domestic mobile numbers. A complete line
+consisting of an 11-digit `79…` or `89…` mobile shape is also sensitive. Arbitrary
+prose numbers such as `order 89161234567 shipped` and `id 79161234567` remain
+unchanged. This shape rule does not prove that a number is assigned.
+
+Additional forms cover Cyrillic acronyms after `Education:`, `учился в`,
+`Соискатель:`/`Сотрудник:` names and split-line `С уважением,` signatures.
+`Дети: нет` remains an empty attribute with later JSON string lines preserved.
+When mapped escaped fragments lose detecting context on recursive decoding,
+redaction replaces the fragment instead of repeating an unchanged result until
+`ERR_RESIDUAL`; the surrounding JSON remains parseable.
+
+The [requirement inventory and research](case-studies/issue-100/README.md)
+records the complete scope and regression evidence.

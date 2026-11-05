@@ -67,6 +67,8 @@ export interface SanitizerOptions {
   structured?: 'json' | 'jsonl';
   /** Property names whose metadata heuristics may be suppressed. */
   structuralFields?: string[];
+  /** Exact, case-sensitive property names whose entire values are redacted in JSON/JSONL. */
+  sensitiveFields?: string[];
   /** Personal replacement threshold, default 0.5. Inspect retains lower scores. */
   minConfidence?: number;
   /** Alias for minConfidence; specifying both requires equal values. */

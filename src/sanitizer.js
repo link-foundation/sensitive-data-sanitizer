@@ -31,6 +31,8 @@ import {
 } from './placeholders.js';
 import {
   structuredBatches,
+  structuredFieldFindings,
+  declaredFieldFindings,
   inspectStructuredValues,
   mapStructuredFindings,
   preserveIdentifierKeys,
@@ -71,6 +73,7 @@ const optionNames = new Set([
   'fakeValues',
   'structured',
   'structuralFields',
+  'sensitiveFields',
   'minConfidence',
   'threshold',
   'profile',
@@ -101,12 +104,18 @@ function validateCollections(options) {
     'detectors',
     'fakeValues',
     'structuralFields',
+    'sensitiveFields',
   ]) {
     if (options[key] !== undefined && !Array.isArray(options[key])) {
       throw failure('ERR_CONFIG');
     }
   }
-  for (const key of ['knownSecrets', 'fakeValues', 'structuralFields']) {
+  for (const key of [
+    'knownSecrets',
+    'fakeValues',
+    'structuralFields',
+    'sensitiveFields',
+  ]) {
     if (
       (options[key] ?? []).some((value) => typeof value !== 'string' || !value)
     ) {
@@ -394,6 +403,7 @@ function inspectText(text, options = {}) {
   validateInput(text, options);
   if (options.structured) {
     const findings = structuredBatches(text, options).flatMap((batch) => [
+      ...structuredFieldFindings(batch, options),
       ...mapStructuredFindings(
         batch,
         inspect(batch.text, {
@@ -407,7 +417,11 @@ function inspectText(text, options = {}) {
         inspect(value, { ...options, structured: undefined, findings: [] })
       ),
     ]);
-    return inspectFindingsOnly(text, findings, options);
+    return inspectFindingsOnly(
+      text,
+      [...findings, ...declaredFieldFindings(text, options)],
+      options
+    );
   }
   const findings = [];
   const emit = (f) => {
@@ -602,6 +616,9 @@ export function markFake(text, findings, options) {
     ),
   ];
   return findings.map((f) => {
+    if (f.type === 'JSON_VALUE') {
+      return { ...f, kept: undefined };
+    }
     if (
       trusted.some(
         (span) =>
@@ -660,7 +677,9 @@ function validatedSpans(text, findings, options) {
       if (f.category === 'credential') {
         last.category = 'credential';
       }
-      if (credentialRun) {
+      if (last.type === 'JSON_VALUE' || f.type === 'JSON_VALUE') {
+        last.type = 'JSON_VALUE';
+      } else if (credentialRun) {
         last.type = 'SECRET';
       } else if (preferredType(last.type, f.type, options)) {
         last.type = f.type;
@@ -673,6 +692,12 @@ function validatedSpans(text, findings, options) {
 }
 
 function preferredType(current, candidate, options) {
+  if (current === 'JSON_VALUE') {
+    return false;
+  }
+  if (candidate === 'JSON_VALUE') {
+    return true;
+  }
   if (current === 'ENCODED_SENSITIVE') {
     return false;
   }
@@ -810,7 +835,7 @@ export async function redactResultAsync(
       );
       replacements.set(
         `${span.start}:${span.end}`,
-        encodeRun(run, result.text)
+        encodeRun(run, result.text === run.text ? REDACTED : result.text)
       );
     }
   }
