@@ -202,3 +202,71 @@ Structured JSONL streaming supports 8 MiB records and ordered record workers;
 and reproducible throughput measurement. Realistic fake mode preserves supported
 scripts/formats/checksums and uses reserved contact ranges where available.
 Generated identities are pseudonyms; valid arithmetic does not prove non-issuance.
+
+## Document forms reviewed in issues 77–83
+
+Structured JSON/JSONL scans each decoded string at its own line start as well as
+with its field label. This includes array elements, multiline strings and up to
+two embedded JSON container layers. Both the synchronous API and asynchronous
+engine union use these views. Source offsets include original JSON escapes;
+unchanged values and whitespace remain byte-identical. Numeric primitives still
+require a caller schema policy. `debug` can observe `structured-value` events
+with finding counts, without logging the string contents.
+
+The `documents` profile additionally recognizes:
+
+- Russian mobile numbers with dashed, dotted, spaced or parenthesized forms,
+  including ten-digit `9xx` forms and domestic `8` prefixes; `тел.`, `моб.` and
+  WhatsApp labels; `wa.me` contact links.
+- Obfuscated email separators `(at)`, `[at]`, `собака`, and English `dot`/`at`.
+  This is a finite spelling grammar, not arbitrary email deobfuscation.
+- Personal paths on LinkedIn (`/in/`), GitHub, VK, Instagram and Telegram,
+  including scheme-less links; Telegram/телеграм/tg/skype/ник labels without `@`.
+  A provider root such as `https://github.com/` remains unchanged. These rules
+  cannot distinguish a person from an organization account on the same service.
+- Russian passport series/number phrases, ОГРНИП, subdivision codes, dated
+  ОВД/УВД/МВД issuer phrases, Russian/English driving licence labels, ОМС/полис,
+  Russian account numbers and numbered diplomas. These contextual patterns do
+  not validate issuance; digits are protected even with invalid checksums.
+- Numbered schools, gymnasiums, lyceums and colleges; school acronyms after
+  Образование/ВУЗ/Университет/окончил/окончила, with optional `им. Баумана`-style
+  suffixes. Acronym detection is contextual rather than a complete school list.
+- Surname/initial shapes in Cyrillic and selected Latin Slavic forms, known
+  given-name plus initial, Russian surname/given-name pairs using finite case
+  forms and lower case, and surnames after г-жа/господин/госпожа.
+- Birth years with д.р./г.р./год рождения/родился/родилась/Born in context;
+  Russian age expressions and Пол labels, English Sex, and gender beside age.
+  Age-in-years expressions can also describe nonpersonal durations.
+- Labelled citizenship, marital status, children, nationality, religion,
+  disability and criminal record, including the reported English labels.
+- Company/employer/workplace labels, capitalized company/holding/bank names,
+  employment prose and year-range employer lines; residence/metro/district
+  labels and contextual six-digit postal codes.
+- Russian street-plus-house/flat structures at line start or after
+  `проживает по адресу`. Public-place prose such as
+  `Музей находится на ул. Ленина, д. 5, кв. 12` stays unchanged. Public addresses
+  presented alone have the same shape as personal addresses and may be flagged;
+  inspect and review standalone public addresses before publication.
+
+Explicit limits accepted for the ambiguous examples in #82/#83:
+`Спасибо, Анна!`, `Анна, добрый день!`, `Менеджер Анна` and `Лютик, менеджер`
+remain unchanged without known values or additional context. Bare given names
+and unmarked employer/title fragments cannot reliably establish identity.
+`зарплата 150 000 руб.` and `Salary: 150000` also remain unchanged: salary is
+outside the native document rules. Supply `knownPersonal` or an additional
+recognizer when these fields must be removed. Initial/name rules do not cover
+all surnames, languages, cases or arbitrary lower-case names.
+
+Operational value policy (#79): a single-slash relative URL with no query,
+fragment, userinfo or explicit user/profile/member/home path stays unchanged
+under `url`; other detectors and known values still apply. An ISO-style
+`YYYY-MM-DDTHH:mm:ss[.fraction](Z|±HH:mm)` timestamp under `time` stays unchanged.
+This exemption is syntactic, not date validation. Userinfo, token-bearing URLs
+and personal paths still redact. Context-free 40-character hexadecimal values
+are treated as SHA-1-shaped identifiers in both text and structured modes,
+including quoted values. This does not prove they are harmless: actual bare
+40-hex secrets require `knownSecrets` or credential context. Credential labels,
+provider-specific rules and required external scanners remain authoritative.
+
+The [complete requirement inventory and alternatives](case-studies/issue-84/README.md)
+links every reported text row to its regression case.

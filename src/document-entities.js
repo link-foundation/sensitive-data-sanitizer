@@ -3,6 +3,7 @@ import { firstNames } from './names.js';
 import { organizationCore, personalRegex } from './personal-variants.js';
 import { documentVocabulary } from './document-vocabulary.js';
 import { months } from './personal-context.js';
+import { detectDocumentPatterns } from './document-patterns.js';
 
 const words = (column) =>
   [...new Set(documentVocabulary.flatMap((row) => row[column].split('|')))]
@@ -87,6 +88,7 @@ export function detectDocumentEntities(text, emit, options) {
   if (!options.documentEntities) {
     return;
   }
+  detectDocumentPatterns(text, emit);
   const found = [];
   const capture = (finding) => {
     found.push(finding);

@@ -31,6 +31,7 @@ import {
 } from './placeholders.js';
 import {
   structuredBatches,
+  inspectStructuredValues,
   mapStructuredFindings,
   preserveIdentifierKeys,
   structuredValueRanges,
@@ -392,8 +393,8 @@ function inspectText(text, options = {}) {
   validateOptions(options);
   validateInput(text, options);
   if (options.structured) {
-    const findings = structuredBatches(text, options).flatMap((batch) =>
-      mapStructuredFindings(
+    const findings = structuredBatches(text, options).flatMap((batch) => [
+      ...mapStructuredFindings(
         batch,
         inspect(batch.text, {
           ...options,
@@ -401,8 +402,11 @@ function inspectText(text, options = {}) {
           findings: [],
         }),
         options
-      )
-    );
+      ),
+      ...inspectStructuredValues(batch, options, (value) =>
+        inspect(value, { ...options, structured: undefined, findings: [] })
+      ),
+    ]);
     return inspectFindingsOnly(text, findings, options);
   }
   const findings = [];

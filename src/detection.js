@@ -185,7 +185,9 @@ export function nativeDetect(text, options, emit) {
     emit,
     { ...credential, rule: 'quoted-entropy' },
     1,
-    (value) => entropy(value) >= (/^[a-f0-9]+$/i.test(value) ? 3 : 4.5)
+    (value) =>
+      !/^[a-f0-9]{40}$/i.test(value) &&
+      entropy(value) >= (/^[a-f0-9]+$/i.test(value) ? 3 : 4.5)
   );
   collectMatches(
     text,
