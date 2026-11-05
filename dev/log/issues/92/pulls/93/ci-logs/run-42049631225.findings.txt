@@ -1,0 +1,109 @@
+157: Release Preflight	UNKNOWN STEP	2026-11-05T14:55:00.4625842Z Release preflight: 1 verified, 0 failed, 0 unknown
+3533: Test (deno on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T14:55:49.6942020Z ^[[0m^[[33m│^[[0m  The following packages are deprecated:
+3569: Test (deno on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T14:55:53.8833140Z propagates a failed pull-request check without attempting a merge ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(12ms)^[[0m
+4058: Test (deno on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T14:56:23.4358630Z ^[[0m^[[32mok^[[0m | 469 passed | 0 failed ^[[0m^[[38;5;245m(31s)^[[0m
+4396: Test (bun on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:57:00.5745660Z (pass) explicit public verification and outbound helpers > sanitizes contextual JSON and drops failed Sentry events [10.20ms]
+4534: Test (bun on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:57:04.2042630Z (pass) publishWithRetry > retries the publish command when the publish itself failed [0.15ms]
+4611: Test (bun on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:57:04.2142970Z (pass) npm user config cleanup > removes deprecated always-auth before npm commands in the release job [0.13ms]
+4612: Test (bun on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:57:04.2144560Z (pass) npm user config cleanup > removes deprecated always-auth before npm commands in the instant-release job [0.10ms]
+4623: Test (bun on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:57:05.4674830Z (pass) pipeline status gate > fails for a failed job on every ref [209.40ms]
+5141: Test (bun on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:57:39.8221000Z (pass) lychee report classification > marks ERROR, TIMEOUT, and UNKNOWN markers as never answered [0.13ms]
+5412: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:37.7321649Z   ✔ does not run later loaders once one has failed (0.314471ms)
+5646: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:41.8123710Z   ✔ propagates a failed pull-request check without attempting a merge (1.606718ms)
+5737: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:41.8167403Z   ✔ fails for a failed job on every ref (54.499206ms)
+5811: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:42.8284792Z   ✔ retries the publish command when the publish itself failed (0.077947ms)
+5831: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:42.8322739Z   ✔ marks ERROR, TIMEOUT, and UNKNOWN markers as never answered (0.31375ms)
+5999: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:55.1839250Z   ✔ removes only deprecated always-auth entries from npmrc content (0.796634ms)
+6555: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:55.3312162Z   ✔ keeps Booking ERROR today (1.117506ms)
+7150: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:04.4566066Z   ✔ sanitizes contextual JSON and drops failed Sentry events (20.060943ms)
+7696: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:18.8224492Z   ✔ asserts a failed release only when npm answered (0.058718ms)
+7744: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:18.8242182Z   ✔ removes deprecated always-auth before npm commands in the release job (0.185799ms)
+7745: Test (node on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:18.8242775Z   ✔ removes deprecated always-auth before npm commands in the instant-release job (0.087782ms)
+8136: Test (node on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:56:07.6035250Z   ✔ fails for a failed job on every ref (275.477889ms)
+8175: Test (node on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:56:08.7559740Z   ✔ retries the publish command when the publish itself failed (0.340768ms)
+8181: Test (node on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:56:09.1563810Z   ✔ marks ERROR, TIMEOUT, and UNKNOWN markers as never answered (0.722021ms)
+8682: Test (node on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:56:41.4370520Z   ✔ sanitizes contextual JSON and drops failed Sentry events (58.244703ms)
+8907: Test (node on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:56:44.9255660Z   ✔ removes deprecated always-auth before npm commands in the release job (0.327442ms)
+8908: Test (node on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:56:44.9256960Z   ✔ removes deprecated always-auth before npm commands in the instant-release job (0.245314ms)
+8925: Test (node on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:56:45.5001160Z Failed to save: Unable to reserve cache with key node-cache-macOS-x64-npm-acbfbaeecbd5cbdb0998f0b35d6fc25b0cdc3aaa51e65859d05e6a921fb894cc, another job may be creating this cache.
+9241: Test (node on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T14:56:09.6423400Z   ✔ propagates a failed pull-request check without attempting a merge (1.391001ms)
+10218: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:43.9900040Z (pass) explicit public verification and outbound helpers > sanitizes contextual JSON and drops failed Sentry events [3.56ms]
+10505: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:47.0376130Z (pass) issue 32 public and code negatives > keeps Booking ERROR today [0.41ms]
+10536: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:47.0389194Z (pass) bootstrapDependencies > does not run later loaders once one has failed [0.05ms]
+10864: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:49.0691883Z (pass) land-via-pull-request check enforcement > propagates a failed pull-request check without attempting a merge [0.51ms]
+10915: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:49.0707432Z (pass) npm user config cleanup > removes deprecated always-auth before npm commands in the release job [0.08ms]
+10916: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:49.0707812Z (pass) npm user config cleanup > removes deprecated always-auth before npm commands in the instant-release job [0.07ms]
+11566: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:12.4392248Z (pass) lychee report classification > marks ERROR, TIMEOUT, and UNKNOWN markers as never answered [0.04ms]
+11873: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:15.4923221Z (pass) pipeline status gate > fails for a failed job on every ref [42.33ms]
+12072: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:18.5498596Z (pass) formatFailureMessage > asserts a failed release only when npm answered [0.02ms]
+12126: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:21.5818046Z (pass) publishWithRetry > retries the publish command when the publish itself failed [0.06ms]
+12183: Test (bun on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:35.7848097Z (pass) npm user config sanitization > removes only deprecated always-auth entries from npmrc content [0.08ms]
+12720: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:58.5000039Z (pass) bootstrapDependencies > does not run later loaders once one has failed [0.09ms]
+12942: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:16.3917783Z (pass) land-via-pull-request check enforcement > propagates a failed pull-request check without attempting a merge [0.83ms]
+13095: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:29.7848674Z (pass) publishWithRetry > retries the publish command when the publish itself failed [0.10ms]
+13118: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:29.7855636Z (pass) lychee report classification > marks ERROR, TIMEOUT, and UNKNOWN markers as never answered [0.11ms]
+13262: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:43.3130208Z (pass) npm user config sanitization > removes only deprecated always-auth entries from npmrc content [0.11ms]
+13824: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:51.3643894Z (pass) issue 32 public and code negatives > keeps Booking ERROR today [0.72ms]
+14433: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:57:03.8022487Z (pass) explicit public verification and outbound helpers > sanitizes contextual JSON and drops failed Sentry events [2.58ms]
+14992: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:57:22.8332492Z (pass) formatFailureMessage > asserts a failed release only when npm answered [0.03ms]
+15030: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:57:22.8359540Z (pass) npm user config cleanup > removes deprecated always-auth before npm commands in the release job [0.31ms]
+15031: Test (bun on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:57:22.8360516Z (pass) npm user config cleanup > removes deprecated always-auth before npm commands in the instant-release job [0.26ms]
+15309: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:13.5634667Z   ✔ does not run later loaders once one has failed (0.3693ms)
+15520: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:53.6622689Z   ✔ propagates a failed pull-request check without attempting a merge (2.0815ms)
+15671: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:53.6737538Z   ✔ retries the publish command when the publish itself failed (0.1653ms)
+15687: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:53.6749322Z   ✔ marks ERROR, TIMEOUT, and UNKNOWN markers as never answered (0.3761ms)
+15851: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:53.6890244Z   ✔ removes only deprecated always-auth entries from npmrc content (1.2031ms)
+16407: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:57:00.9584924Z   ✔ keeps Booking ERROR today (1.8483ms)
+17002: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:57:15.2916642Z   ✔ sanitizes contextual JSON and drops failed Sentry events (18.8109ms)
+17546: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:57:29.2419256Z   ✔ asserts a failed release only when npm answered (0.107ms)
+17594: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:57:29.2436712Z   ✔ removes deprecated always-auth before npm commands in the release job (0.734ms)
+17595: Test (node on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:57:29.2437212Z   ✔ removes deprecated always-auth before npm commands in the instant-release job (0.3589ms)
+18431: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:55:50.6912000Z ^[[0m^[[33m│^[[0m  The following packages are deprecated:
+18451: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:55:53.5894160Z does not run later loaders once one has failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(495µs)^[[0m
+18560: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:55:56.2350540Z removes only deprecated always-auth entries from npmrc content ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(1ms)^[[0m
+18688: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:56:08.0314520Z keeps Booking ERROR today ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(3ms)^[[0m
+19100: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:56:26.8818490Z asserts a failed release only when npm answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(258µs)^[[0m
+19126: Test (deno on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:56:26.8872000Z ^[[0m^[[32mok^[[0m | 618 passed (8 steps) | 0 failed ^[[0m^[[38;5;245m(33s)^[[0m
+19864: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:38.9996341Z ^[[0m^[[33m│^[[0m  The following packages are deprecated:
+19885: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:40.0625983Z does not run later loaders once one has failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(204µs)^[[0m
+19999: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:42.1104487Z propagates a failed pull-request check without attempting a merge ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(8ms)^[[0m
+20088: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:43.1349434Z retries the publish command when the publish itself failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(153µs)^[[0m
+20102: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:43.1365315Z marks ERROR, TIMEOUT, and UNKNOWN markers as never answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(320µs)^[[0m
+20192: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:44.1567928Z removes only deprecated always-auth entries from npmrc content ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(759µs)^[[0m
+20699: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:57.4513222Z keeps Booking ERROR today ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(810µs)^[[0m
+21256: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:14.8122179Z sanitizes contextual JSON and drops failed Sentry events ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(10ms)^[[0m
+21719: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:33.2163229Z asserts a failed release only when npm answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(80µs)^[[0m
+21756: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:34.2207539Z removes deprecated always-auth before npm commands in the release job ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(209µs)^[[0m
+21757: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:34.2208359Z removes deprecated always-auth before npm commands in the instant-release job ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(221µs)^[[0m
+21778: Test (deno on ubuntu-24.04, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:34.2223708Z ^[[0m^[[32mok^[[0m | 1758 passed (8 steps) | 0 failed ^[[0m^[[38;5;245m(54s)^[[0m
+22366: Test (bun on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:57:37.2039110Z (pass) npm user config sanitization > removes only deprecated always-auth entries from npmrc content [0.22ms]
+22487: Test (bun on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:57:43.5965670Z (pass) formatFailureMessage > asserts a failed release only when npm answered [0.16ms]
+22555: Test (bun on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:57:46.6913670Z (pass) issue 32 public and code negatives > keeps Booking ERROR today [1.96ms]
+22629: Test (bun on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:57:49.9440390Z (pass) bootstrapDependencies > does not run later loaders once one has failed [0.19ms]
+23616: Test (deno on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:56:52.8774120Z ^[[0m^[[33m│^[[0m  The following packages are deprecated:
+23708: Test (deno on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:56:58.1820910Z retries the publish command when the publish itself failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(415µs)^[[0m
+23713: Test (deno on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:56:58.1833030Z marks ERROR, TIMEOUT, and UNKNOWN markers as never answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(498µs)^[[0m
+24147: Test (deno on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:57:16.9705970Z sanitizes contextual JSON and drops failed Sentry events ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(13ms)^[[0m
+24335: Test (deno on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:57:22.8531590Z removes deprecated always-auth before npm commands in the release job ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(488µs)^[[0m
+24336: Test (deno on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:57:22.8533330Z removes deprecated always-auth before npm commands in the instant-release job ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(396µs)^[[0m
+24340: Test (deno on macos-26-intel, shard 3/3)	UNKNOWN STEP	2026-11-05T14:57:22.8545530Z ^[[0m^[[32mok^[[0m | 671 passed | 0 failed ^[[0m^[[38;5;245m(28s)^[[0m
+24590: Test (node on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:57:10.3183990Z   ✔ does not run later loaders once one has failed (0.331987ms)
+24796: Test (node on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:57:22.6746810Z   ✔ removes only deprecated always-auth entries from npmrc content (1.541638ms)
+24937: Test (node on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:57:32.5288650Z   ✔ keeps Booking ERROR today (1.570297ms)
+25396: Test (node on macos-26-intel, shard 1/3)	UNKNOWN STEP	2026-11-05T14:57:45.5344420Z   ✔ asserts a failed release only when npm answered (0.152296ms)
+26168: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:55:59.7710361Z ^[[0m^[[33m│^[[0m  The following packages are deprecated:
+26189: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:17.5346488Z does not run later loaders once one has failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(193µs)^[[0m
+26303: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:19.8225949Z propagates a failed pull-request check without attempting a merge ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(13ms)^[[0m
+26392: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:19.8298843Z retries the publish command when the publish itself failed ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(178µs)^[[0m
+26406: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:20.9478670Z marks ERROR, TIMEOUT, and UNKNOWN markers as never answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(349µs)^[[0m
+26496: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:20.9559614Z removes only deprecated always-auth entries from npmrc content ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(706µs)^[[0m
+27003: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:33.4556180Z keeps Booking ERROR today ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(806µs)^[[0m
+27560: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:56:48.1088903Z sanitizes contextual JSON and drops failed Sentry events ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(9ms)^[[0m
+28023: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:57:03.7489449Z asserts a failed release only when npm answered ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(93µs)^[[0m
+28060: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:57:04.8729242Z removes deprecated always-auth before npm commands in the release job ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(415µs)^[[0m
+28061: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:57:04.8730304Z removes deprecated always-auth before npm commands in the instant-release job ... ^[[0m^[[32mok^[[0m ^[[0m^[[38;5;245m(417µs)^[[0m
+28082: Test (deno on windows-2025, shard 1/1)	UNKNOWN STEP	2026-11-05T14:57:04.8742405Z ^[[0m^[[32mok^[[0m | 1758 passed (8 steps) | 0 failed ^[[0m^[[38;5;245m(46s)^[[0m
+28618: Test (bun on macos-26-intel, shard 2/3)	UNKNOWN STEP	2026-11-05T14:57:34.8309650Z (pass) land-via-pull-request check enforcement > propagates a failed pull-request check without attempting a merge [2.41ms]
+29223: Release	UNKNOWN STEP	2026-11-05T15:06:13.5682035Z No deprecated always-auth entry found in /home/runner/work/_temp/.npmrc.
+29234: Release	UNKNOWN STEP	2026-11-05T15:06:13.6076905Z ##[warning]lockfile(s) for another package manager at the repository root: deno.lock. The npm declaration outranks them, but any tool embedding the same lockfile table without reading the declaration will pick the wrong agent.
+30013: Pipeline Status	UNKNOWN STEP	2026-11-05T15:08:48.6515056Z Failed jobs:    <none>

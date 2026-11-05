@@ -1,0 +1,381 @@
+Release	Set up job	﻿2026-11-05T16:03:24.4735714Z Current runner version: '2.338.2'
+Release	Set up job	2026-11-05T16:03:24.4756699Z ##[group]Runner Image Provisioner
+Release	Set up job	2026-11-05T16:03:24.4757491Z Hosted Compute Agent
+Release	Set up job	2026-11-05T16:03:24.4758012Z Version: 20261021.618
+Release	Set up job	2026-11-05T16:03:24.4758542Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+Release	Set up job	2026-11-05T16:03:24.4759187Z Build Date: 2026-10-21T00:45:21Z
+Release	Set up job	2026-11-05T16:03:24.4759832Z Worker ID: {5a27ecff-251e-45c5-8ca3-9522db0709ee}
+Release	Set up job	2026-11-05T16:03:24.4760480Z Region: westus2
+Release	Set up job	2026-11-05T16:03:24.4760965Z Cloud: Azure
+Release	Set up job	2026-11-05T16:03:24.4761434Z ##[endgroup]
+Release	Set up job	2026-11-05T16:03:24.4762583Z ##[group]Operating System
+Release	Set up job	2026-11-05T16:03:24.4763175Z Ubuntu
+Release	Set up job	2026-11-05T16:03:24.4763739Z 24.04.5
+Release	Set up job	2026-11-05T16:03:24.4764237Z LTS
+Release	Set up job	2026-11-05T16:03:24.4764690Z ##[endgroup]
+Release	Set up job	2026-11-05T16:03:24.4765189Z ##[group]Runner Image
+Release	Set up job	2026-11-05T16:03:24.4765799Z Image: ubuntu-24.04
+Release	Set up job	2026-11-05T16:03:24.4766276Z Version: 20261025.353.1
+Release	Set up job	2026-11-05T16:03:24.4767219Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+Release	Set up job	2026-11-05T16:03:24.4768633Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+Release	Set up job	2026-11-05T16:03:24.4769520Z ##[endgroup]
+Release	Set up job	2026-11-05T16:03:24.4770609Z ##[group]GITHUB_TOKEN Permissions
+Release	Set up job	2026-11-05T16:03:24.4772182Z Checks: write
+Release	Set up job	2026-11-05T16:03:24.4772683Z Contents: write
+Release	Set up job	2026-11-05T16:03:24.4773290Z Metadata: read
+Release	Set up job	2026-11-05T16:03:24.4773947Z PullRequests: write
+Release	Set up job	2026-11-05T16:03:24.4774470Z ##[endgroup]
+Release	Set up job	2026-11-05T16:03:24.4776135Z Secret source: Actions
+Release	Set up job	2026-11-05T16:03:24.4777024Z Cache mode: write
+Release	Set up job	2026-11-05T16:03:24.4777786Z Prepare workflow directory
+Release	Set up job	2026-11-05T16:03:24.5080503Z Prepare all required actions
+Release	Set up job	2026-11-05T16:03:24.5124778Z Getting action download info
+Release	Set up job	2026-11-05T16:03:24.8227171Z Download action repository 'actions/checkout@v6' (SHA:d23441a48e516b6c34aea4fa41551a30e30af803)
+Release	Set up job	2026-11-05T16:03:24.9484291Z Download action repository 'actions/setup-node@v6' (SHA:249970729cb0ef3589644e2896645e5dc5ba9c38)
+Release	Set up job	2026-11-05T16:03:25.1794519Z Complete job name: Release
+Release	Run actions/checkout@v6	﻿2026-11-05T16:03:25.2488099Z ##[group]Run actions/checkout@v6
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2488764Z with:
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2489125Z   persist-credentials: true
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2489539Z   fetch-depth: 0
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2489969Z   repository: link-foundation/sensitive-data-sanitizer
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2493293Z   token: ***
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2493804Z   ssh-strict: true
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2494168Z   ssh-user: git
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2494512Z   clean: true
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2494870Z   sparse-checkout-cone-mode: true
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2495301Z   fetch-tags: false
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2495658Z   show-progress: true
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2496013Z   lfs: false
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2496340Z   submodules: false
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2496696Z   set-safe-directory: true
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2497098Z   allow-unsafe-pr-checkout: false
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2497653Z env:
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2497982Z   GIT_CONFIG_COUNT: 1
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2498376Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2498832Z   GIT_CONFIG_VALUE_0: main
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.2499242Z ##[endgroup]
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4411397Z Syncing repository: link-foundation/sensitive-data-sanitizer
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4412910Z ##[group]Getting Git version info
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4413874Z Working directory is '/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer'
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4414816Z [command]/usr/bin/git version
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4552774Z git version 2.56.0
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4573336Z ##[endgroup]
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4586190Z Temporarily overriding HOME='/home/runner/work/_temp/bacfd63d-ab96-4475-9a9e-2be559425676' before making global git config changes
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4591599Z Adding repository directory to the temporary git global config as a safe directory
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4592831Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4636413Z Deleting the contents of '/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer'
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4645894Z ##[group]Determining repository object format
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4647058Z ##[endgroup]
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4657047Z ##[group]Initializing the repository
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.4658449Z [command]/usr/bin/git init /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.5515498Z Initialized empty Git repository in /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.5519030Z [command]/usr/bin/git remote add origin https://github.com/link-foundation/sensitive-data-sanitizer
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.5688027Z ##[endgroup]
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.5689132Z ##[group]Disabling automatic garbage collection
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.5701270Z [command]/usr/bin/git config --local gc.auto 0
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6060550Z ##[endgroup]
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6061451Z ##[group]Setting up auth
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6062104Z Removing SSH command configuration
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6067241Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6107211Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6395143Z Removing HTTP extra header
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6400164Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6436061Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6636667Z Removing includeIf entries pointing to credentials config files
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6642698Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6680715Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6888871Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6930099Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path /home/runner/work/_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.6965804Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.7007580Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.7042578Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.7074750Z ##[endgroup]
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.7075643Z ##[group]Fetching the repository
+Release	Run actions/checkout@v6	2026-11-05T16:03:25.7081899Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2975585Z From https://github.com/link-foundation/sensitive-data-sanitizer
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2976749Z  * [new branch]      issue-1-b188f503edf3  -> origin/issue-1-b188f503edf3
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2977682Z  * [new branch]      issue-13-ae4189325e07 -> origin/issue-13-ae4189325e07
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2978444Z  * [new branch]      issue-24-4efef94003ab -> origin/issue-24-4efef94003ab
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2979177Z  * [new branch]      issue-32-18721f994a02 -> origin/issue-32-18721f994a02
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2979934Z  * [new branch]      issue-34-979b472b0be1 -> origin/issue-34-979b472b0be1
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2981016Z  * [new branch]      issue-36-581486aaaa3f -> origin/issue-36-581486aaaa3f
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2981797Z  * [new branch]      issue-38-bc8becdd8d18 -> origin/issue-38-bc8becdd8d18
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2982538Z  * [new branch]      issue-43-840a44177950 -> origin/issue-43-840a44177950
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2983294Z  * [new branch]      issue-48-91ec9d5d4db8 -> origin/issue-48-91ec9d5d4db8
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2984387Z  * [new branch]      issue-52-5379832e5bd4 -> origin/issue-52-5379832e5bd4
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2985254Z  * [new branch]      issue-56-4276380c7297 -> origin/issue-56-4276380c7297
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2986329Z  * [new branch]      issue-65-41acbb882c38 -> origin/issue-65-41acbb882c38
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2987407Z  * [new branch]      issue-71-63a050a5595f -> origin/issue-71-63a050a5595f
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2988199Z  * [new branch]      issue-75-bf955ea89a1c -> origin/issue-75-bf955ea89a1c
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2989072Z  * [new branch]      issue-84-7c4f150def22 -> origin/issue-84-7c4f150def22
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2989830Z  * [new branch]      issue-89-9faef95b7b9a -> origin/issue-89-9faef95b7b9a
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2990508Z  * [new branch]      main                  -> origin/main
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2991095Z  * [new tag]         v0.12.0               -> v0.12.0
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2991727Z  * [new tag]         v0.12.1               -> v0.12.1
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2992281Z  * [new tag]         v0.12.2               -> v0.12.2
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2992839Z  * [new tag]         v0.13.0               -> v0.13.0
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2993390Z  * [new tag]         v0.14.0               -> v0.14.0
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2994200Z  * [new tag]         v0.15.0               -> v0.15.0
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2994750Z  * [new tag]         v0.16.0               -> v0.16.0
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2995296Z  * [new tag]         v0.16.1               -> v0.16.1
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.2996710Z [command]/usr/bin/git branch --list --remote origin/main
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3023374Z   origin/main
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3033251Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3061321Z c5b61aa68a3507927237cd2f348205650d1e9442
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3075311Z ##[endgroup]
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3076302Z ##[group]Determining the checkout info
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3077613Z ##[endgroup]
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3078729Z [command]/usr/bin/git sparse-checkout disable
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3118984Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3152536Z ##[group]Checking out the ref
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3156203Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3775326Z Reset branch 'main'
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3778299Z branch 'main' set up to track 'origin/main'.
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3787865Z ##[endgroup]
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3835095Z [command]/usr/bin/git log -1 --format=%H
+Release	Run actions/checkout@v6	2026-11-05T16:03:26.3865399Z c5b61aa68a3507927237cd2f348205650d1e9442
+Release	Setup Node.js	﻿2026-11-05T16:03:26.4197303Z ##[group]Run actions/setup-node@v6
+Release	Setup Node.js	2026-11-05T16:03:26.4197873Z with:
+Release	Setup Node.js	2026-11-05T16:03:26.4198251Z   node-version: 24.x
+Release	Setup Node.js	2026-11-05T16:03:26.4198720Z   registry-url: https://registry.npmjs.org
+Release	Setup Node.js	2026-11-05T16:03:26.4199288Z   check-latest: false
+Release	Setup Node.js	2026-11-05T16:03:26.4203748Z   token: ***
+Release	Setup Node.js	2026-11-05T16:03:26.4204171Z   package-manager-cache: true
+Release	Setup Node.js	2026-11-05T16:03:26.4204649Z env:
+Release	Setup Node.js	2026-11-05T16:03:26.4205018Z   GIT_CONFIG_COUNT: 1
+Release	Setup Node.js	2026-11-05T16:03:26.4205472Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release	Setup Node.js	2026-11-05T16:03:26.4206015Z   GIT_CONFIG_VALUE_0: main
+Release	Setup Node.js	2026-11-05T16:03:26.4206473Z ##[endgroup]
+Release	Setup Node.js	2026-11-05T16:03:26.5355248Z Found in cache @ /opt/hostedtoolcache/node/24.22.1/x64
+Release	Setup Node.js	2026-11-05T16:03:26.5356343Z ##[group]Environment details
+Release	Setup Node.js	2026-11-05T16:03:26.8351474Z node: v24.22.1
+Release	Setup Node.js	2026-11-05T16:03:26.8352296Z npm: 11.19.1
+Release	Setup Node.js	2026-11-05T16:03:26.8352847Z yarn: 1.22.22
+Release	Setup Node.js	2026-11-05T16:03:26.8354387Z ##[endgroup]
+Release	Setup Node.js	2026-11-05T16:03:26.8360998Z Detected npm as the package manager from package.json's packageManager field. Auto caching has been enabled for npm. If you want to disable it, set package-manager-cache input to false
+Release	Setup Node.js	2026-11-05T16:03:26.8375664Z [command]/opt/hostedtoolcache/node/24.22.1/x64/bin/npm config get cache
+Release	Setup Node.js	2026-11-05T16:03:26.9341389Z /home/runner/.npm
+Release	Setup Node.js	2026-11-05T16:03:27.1869316Z Cache hit for: node-cache-Linux-x64-npm-646165e7f89afc591daaa04a239ba42db335b9b70f30b3727c2c62cdcc18cb27
+Release	Setup Node.js	2026-11-05T16:03:28.3609267Z Received 1514032 of 1514032 (100.0%), 2.1 MBs/sec
+Release	Setup Node.js	2026-11-05T16:03:28.3609912Z Cache Size: ~1 MB (1514032 B)
+Release	Setup Node.js	2026-11-05T16:03:28.3635449Z [command]/usr/bin/tar -xf /home/runner/work/_temp/a8040e86-d8fa-4a10-87f1-b35afce04112/cache.tzst -P -C /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer --use-compress-program unzstd
+Release	Setup Node.js	2026-11-05T16:03:28.3791277Z Cache restored successfully
+Release	Setup Node.js	2026-11-05T16:03:28.3796370Z Cache restored from key: node-cache-Linux-x64-npm-646165e7f89afc591daaa04a239ba42db335b9b70f30b3727c2c62cdcc18cb27
+Release	Remove deprecated npm auth config	﻿2026-11-05T16:03:28.3934360Z ##[group]Run node scripts/sanitize-npm-userconfig.mjs
+Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3934815Z ^[[36;1mnode scripts/sanitize-npm-userconfig.mjs^[[0m
+Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3961468Z shell: /usr/bin/bash -e {0}
+Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3961716Z env:
+Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3961896Z   GIT_CONFIG_COUNT: 1
+Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3962105Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3962337Z   GIT_CONFIG_VALUE_0: main
+Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3962575Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3962922Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+Release	Remove deprecated npm auth config	2026-11-05T16:03:28.3963153Z ##[endgroup]
+Release	Remove deprecated npm auth config	2026-11-05T16:03:28.4270864Z No deprecated always-auth entry found in /home/runner/work/_temp/.npmrc.
+Release	Check package manager declaration and lockfiles	﻿2026-11-05T16:03:28.4336933Z ##[group]Run node scripts/check-package-manager.mjs
+Release	Check package manager declaration and lockfiles	2026-11-05T16:03:28.4337306Z ^[[36;1mnode scripts/check-package-manager.mjs^[[0m
+Release	Check package manager declaration and lockfiles	2026-11-05T16:03:28.4355527Z shell: /usr/bin/bash -e {0}
+Release	Check package manager declaration and lockfiles	2026-11-05T16:03:28.4355745Z env:
+Release	Check package manager declaration and lockfiles	2026-11-05T16:03:28.4355914Z   GIT_CONFIG_COUNT: 1
+Release	Check package manager declaration and lockfiles	2026-11-05T16:03:28.4356128Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release	Check package manager declaration and lockfiles	2026-11-05T16:03:28.4356392Z   GIT_CONFIG_VALUE_0: main
+Release	Check package manager declaration and lockfiles	2026-11-05T16:03:28.4356653Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+Release	Check package manager declaration and lockfiles	2026-11-05T16:03:28.4356932Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+Release	Check package manager declaration and lockfiles	2026-11-05T16:03:28.4357160Z ##[endgroup]
+Release	Check package manager declaration and lockfiles	2026-11-05T16:03:28.4635109Z ##[warning]lockfile(s) for another package manager at the repository root: deno.lock. The npm declaration outranks them, but any tool embedding the same lockfile table without reading the declaration will pick the wrong agent.
+Release	Check package manager declaration and lockfiles	2026-11-05T16:03:28.4644037Z Package manager check passed: declared "npm", 1 foreign lockfile(s) present (outranked by the declaration).
+Release	Install dependencies	﻿2026-11-05T16:03:28.4692188Z ##[group]Run bash scripts/run-with-budget-warning.sh 240 "Release dependency install" npm install
+Release	Install dependencies	2026-11-05T16:03:28.4692785Z ^[[36;1mbash scripts/run-with-budget-warning.sh 240 "Release dependency install" npm install^[[0m
+Release	Install dependencies	2026-11-05T16:03:28.4710465Z shell: /usr/bin/bash -e {0}
+Release	Install dependencies	2026-11-05T16:03:28.4710683Z env:
+Release	Install dependencies	2026-11-05T16:03:28.4710849Z   GIT_CONFIG_COUNT: 1
+Release	Install dependencies	2026-11-05T16:03:28.4711061Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release	Install dependencies	2026-11-05T16:03:28.4711300Z   GIT_CONFIG_VALUE_0: main
+Release	Install dependencies	2026-11-05T16:03:28.4711544Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+Release	Install dependencies	2026-11-05T16:03:28.4711837Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+Release	Install dependencies	2026-11-05T16:03:28.4712064Z ##[endgroup]
+Release	Install dependencies	2026-11-05T16:03:28.4864796Z Running Release dependency install with a 240s budget (warning at 168s).
+Release	Install dependencies	2026-11-05T16:03:31.5428025Z 
+Release	Install dependencies	2026-11-05T16:03:31.5428986Z > @link-foundation/sensitive-data-sanitizer@0.16.1 prepare
+Release	Install dependencies	2026-11-05T16:03:31.5429715Z > node scripts/install-git-hooks.mjs
+Release	Install dependencies	2026-11-05T16:03:31.5429998Z 
+Release	Install dependencies	2026-11-05T16:03:31.5430120Z 
+Release	Install dependencies	2026-11-05T16:03:31.5430507Z added 248 packages, and audited 249 packages in 3s
+Release	Install dependencies	2026-11-05T16:03:31.5430869Z 
+Release	Install dependencies	2026-11-05T16:03:31.5431004Z 77 packages are looking for funding
+Release	Install dependencies	2026-11-05T16:03:31.5431272Z   run `npm fund` for details
+Release	Install dependencies	2026-11-05T16:03:31.5431420Z 
+Release	Install dependencies	2026-11-05T16:03:31.5431532Z found 0 vulnerabilities
+Release	Install dependencies	2026-11-05T16:03:31.5500935Z Release dependency install finished in 3s of its 240s budget (exit 0).
+Release	Update npm for OIDC trusted publishing	﻿2026-11-05T16:03:31.5936720Z ##[group]Run node scripts/setup-npm.mjs
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:31.5937028Z ^[[36;1mnode scripts/setup-npm.mjs^[[0m
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:31.5955080Z shell: /usr/bin/bash -e {0}
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:31.5955295Z env:
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:31.5955460Z   GIT_CONFIG_COUNT: 1
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:31.5955657Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:31.5955888Z   GIT_CONFIG_VALUE_0: main
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:31.5956123Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:31.5956395Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:31.5956622Z ##[endgroup]
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:39.1585327Z Current Node.js version: v24.22.1
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:39.2276630Z 11.19.1
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:39.2323513Z Current npm version: 11.19.1
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:39.2324164Z Trying npm install -g npm@11...
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:42.5563503Z 
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:42.5564867Z changed 23 packages in 3s
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:42.5565369Z 
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:42.5565965Z 15 packages are looking for funding
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:42.5566434Z   run `npm fund` for details
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:42.6396627Z 11.21.2
+Release	Update npm for OIDC trusted publishing	2026-11-05T16:03:42.6457429Z Updated npm version: 11.21.2
+Release	Check for changesets	﻿2026-11-05T16:03:42.6583453Z ##[group]Run node scripts/check-changesets.mjs
+Release	Check for changesets	2026-11-05T16:03:42.6583984Z ^[[36;1mnode scripts/check-changesets.mjs^[[0m
+Release	Check for changesets	2026-11-05T16:03:42.6601922Z shell: /usr/bin/bash -e {0}
+Release	Check for changesets	2026-11-05T16:03:42.6602132Z env:
+Release	Check for changesets	2026-11-05T16:03:42.6602295Z   GIT_CONFIG_COUNT: 1
+Release	Check for changesets	2026-11-05T16:03:42.6602489Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release	Check for changesets	2026-11-05T16:03:42.6602711Z   GIT_CONFIG_VALUE_0: main
+Release	Check for changesets	2026-11-05T16:03:42.6602955Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+Release	Check for changesets	2026-11-05T16:03:42.6603231Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+Release	Check for changesets	2026-11-05T16:03:42.6603455Z ##[endgroup]
+Release	Check for changesets	2026-11-05T16:03:42.6886448Z Checking for pending changeset files...
+Release	Check for changesets	2026-11-05T16:03:42.6886817Z 
+Release	Check for changesets	2026-11-05T16:03:42.6888963Z Detected single-language repository (package.json in root)
+Release	Check for changesets	2026-11-05T16:03:42.6890762Z Package: @link-foundation/sensitive-data-sanitizer
+Release	Check for changesets	2026-11-05T16:03:42.6891321Z Changeset directory: ./.changeset
+Release	Check for changesets	2026-11-05T16:03:42.6895267Z Found 1 changeset file(s)
+Release	Check for changesets	2026-11-05T16:03:42.6896277Z has_changesets=true
+Release	Check for changesets	2026-11-05T16:03:42.6904367Z changeset_count=1
+Release	Check if release is needed	﻿2026-11-05T16:03:42.6997236Z ##[group]Run node scripts/check-release-needed.mjs
+Release	Check if release is needed	2026-11-05T16:03:42.6997550Z ^[[36;1mnode scripts/check-release-needed.mjs^[[0m
+Release	Check if release is needed	2026-11-05T16:03:42.7014888Z shell: /usr/bin/bash -e {0}
+Release	Check if release is needed	2026-11-05T16:03:42.7015097Z env:
+Release	Check if release is needed	2026-11-05T16:03:42.7015261Z   GIT_CONFIG_COUNT: 1
+Release	Check if release is needed	2026-11-05T16:03:42.7015458Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release	Check if release is needed	2026-11-05T16:03:42.7015689Z   GIT_CONFIG_VALUE_0: main
+Release	Check if release is needed	2026-11-05T16:03:42.7015921Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+Release	Check if release is needed	2026-11-05T16:03:42.7016202Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+Release	Check if release is needed	2026-11-05T16:03:42.7016427Z   HAS_CHANGESETS: true
+Release	Check if release is needed	2026-11-05T16:03:42.7019016Z   GITHUB_TOKEN: ***
+Release	Check if release is needed	2026-11-05T16:03:42.7019204Z ##[endgroup]
+Release	Check if release is needed	2026-11-05T16:03:42.7303674Z Detected single-language repository (package.json in root)
+Release	Check if release is needed	2026-11-05T16:03:42.7307520Z Package: @link-foundation/sensitive-data-sanitizer
+Release	Check if release is needed	2026-11-05T16:03:42.7307968Z Current version: 0.16.1
+Release	Check if release is needed	2026-11-05T16:03:42.7308298Z Has changesets: true
+Release	Check if release is needed	2026-11-05T16:03:42.7308592Z Found changesets, proceeding with release
+Release	Check if release is needed	2026-11-05T16:03:42.7309067Z Output: should_release=true
+Release	Check if release is needed	2026-11-05T16:03:42.7309467Z Output: skip_bump=false
+Release	Version packages and commit to main	﻿2026-11-05T16:03:42.7391504Z ##[group]Run node scripts/version-and-commit.mjs --mode changeset
+Release	Version packages and commit to main	2026-11-05T16:03:42.7391909Z ^[[36;1mnode scripts/version-and-commit.mjs --mode changeset^[[0m
+Release	Version packages and commit to main	2026-11-05T16:03:42.7409308Z shell: /usr/bin/bash -e {0}
+Release	Version packages and commit to main	2026-11-05T16:03:42.7409521Z env:
+Release	Version packages and commit to main	2026-11-05T16:03:42.7409682Z   GIT_CONFIG_COUNT: 1
+Release	Version packages and commit to main	2026-11-05T16:03:42.7409882Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Release	Version packages and commit to main	2026-11-05T16:03:42.7410117Z   GIT_CONFIG_VALUE_0: main
+Release	Version packages and commit to main	2026-11-05T16:03:42.7410354Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+Release	Version packages and commit to main	2026-11-05T16:03:42.7410634Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+Release	Version packages and commit to main	2026-11-05T16:03:42.7411029Z   RELEASE_PR_TOKEN: 
+Release	Version packages and commit to main	2026-11-05T16:03:42.7413668Z   GITHUB_TOKEN: ***
+Release	Version packages and commit to main	2026-11-05T16:03:42.7413872Z   RELEASE_METADATA_PATHS: 
+Release	Version packages and commit to main	2026-11-05T16:03:42.7414083Z ##[endgroup]
+Release	Version packages and commit to main	2026-11-05T16:03:44.3164461Z Detected single-language repository (package.json in root)
+Release	Version packages and commit to main	2026-11-05T16:03:44.3165669Z Parsed configuration: { mode: 'changeset', bumpType: '', jsRoot: '.' }
+Release	Version packages and commit to main	2026-11-05T16:03:44.3166196Z Description:
+Release	Version packages and commit to main	2026-11-05T16:03:44.3174156Z ::stop-commands::***
+Release	Version packages and commit to main	2026-11-05T16:03:44.3174562Z (none)
+Release	Version packages and commit to main	2026-11-05T16:03:44.3175010Z ::***::
+Release	Version packages and commit to main	2026-11-05T16:03:44.3301810Z Checking for remote changes...
+Release	Version packages and commit to main	2026-11-05T16:03:44.5817892Z From https://github.com/link-foundation/sensitive-data-sanitizer
+Release	Version packages and commit to main	2026-11-05T16:03:44.5818337Z  * branch            main       -> FETCH_HEAD
+Release	Version packages and commit to main	2026-11-05T16:03:44.5895385Z c5b61aa68a3507927237cd2f348205650d1e9442
+Release	Version packages and commit to main	2026-11-05T16:03:44.5942594Z c5b61aa68a3507927237cd2f348205650d1e9442
+Release	Version packages and commit to main	2026-11-05T16:03:44.5950738Z Current version: 0.16.1
+Release	Version packages and commit to main	2026-11-05T16:03:44.5951132Z Running changeset version...
+Release	Version packages and commit to main	2026-11-05T16:03:44.6763342Z 
+Release	Version packages and commit to main	2026-11-05T16:03:44.6764335Z > @link-foundation/sensitive-data-sanitizer@0.16.1 changeset:version
+Release	Version packages and commit to main	2026-11-05T16:03:44.6764768Z > node scripts/changeset-version.mjs
+Release	Version packages and commit to main	2026-11-05T16:03:44.6764927Z 
+Release	Version packages and commit to main	2026-11-05T16:03:45.1177253Z Detected single-language repository (package.json in root)
+Release	Version packages and commit to main	2026-11-05T16:03:45.1178274Z Running changeset version...
+Release	Version packages and commit to main	2026-11-05T16:03:45.3577215Z 🦋 changeset v3.0.3
+Release	Version packages and commit to main	2026-11-05T16:03:45.8608142Z 
+Release	Version packages and commit to main	2026-11-05T16:03:45.8609038Z All files have been updated. Review them and commit at your leisure
+Release	Version packages and commit to main	2026-11-05T16:03:45.8854254Z 
+Release	Version packages and commit to main	2026-11-05T16:03:45.8854873Z Synchronizing package-lock.json...
+Release	Version packages and commit to main	2026-11-05T16:03:46.2606384Z 
+Release	Version packages and commit to main	2026-11-05T16:03:46.2607217Z > @link-foundation/sensitive-data-sanitizer@0.16.2 prepare
+Release	Version packages and commit to main	2026-11-05T16:03:46.2607817Z > node scripts/install-git-hooks.mjs
+Release	Version packages and commit to main	2026-11-05T16:03:46.2608069Z 
+Release	Version packages and commit to main	2026-11-05T16:03:46.3000395Z 
+Release	Version packages and commit to main	2026-11-05T16:03:46.3000907Z up to date, audited 249 packages in 369ms
+Release	Version packages and commit to main	2026-11-05T16:03:46.3001365Z 
+Release	Version packages and commit to main	2026-11-05T16:03:46.3001747Z 77 packages are looking for funding
+Release	Version packages and commit to main	2026-11-05T16:03:46.3002172Z   run `npm fund` for details
+Release	Version packages and commit to main	2026-11-05T16:03:46.3010499Z 
+Release	Version packages and commit to main	2026-11-05T16:03:46.3010839Z found 0 vulnerabilities
+Release	Version packages and commit to main	2026-11-05T16:03:46.3101038Z 
+Release	Version packages and commit to main	2026-11-05T16:03:46.3101838Z ✅ Version bump complete with synchronized package-lock.json
+Release	Version packages and commit to main	2026-11-05T16:03:46.3265173Z New version: 0.16.2
+Release	Version packages and commit to main	2026-11-05T16:03:46.3648528Z  D .changeset/document-context-and-cost.md
+Release	Version packages and commit to main	2026-11-05T16:03:46.3649008Z  M CHANGELOG.md
+Release	Version packages and commit to main	2026-11-05T16:03:46.3649265Z  M package-lock.json
+Release	Version packages and commit to main	2026-11-05T16:03:46.3649639Z  M package.json
+Release	Version packages and commit to main	2026-11-05T16:03:46.3655202Z Changes detected, committing...
+Release	Version packages and commit to main	2026-11-05T16:03:46.3770039Z $ git diff --cached --name-only --diff-filter=ACMR -z
+Release	Version packages and commit to main	2026-11-05T16:03:46.3816562Z CHANGELOG.md^@package-lock.json^@package.json^@Checking formatting of 3 staged file(s) with prettier...
+Release	Version packages and commit to main	2026-11-05T16:03:46.3817347Z $ npx --no-install prettier --check CHANGELOG.md package-lock.json package.json
+Release	Version packages and commit to main	2026-11-05T16:03:46.6298640Z Checking formatting...
+Release	Version packages and commit to main	2026-11-05T16:03:46.7768892Z All matched files use Prettier code style!
+Release	Version packages and commit to main	2026-11-05T16:03:46.7960781Z $ git commit -m 0.16.2
+Release	Version packages and commit to main	2026-11-05T16:03:46.8059255Z [main d76cc4d] 0.16.2
+Release	Version packages and commit to main	2026-11-05T16:03:46.8059803Z  4 files changed, 9 insertions(+), 8 deletions(-)
+Release	Version packages and commit to main	2026-11-05T16:03:46.8060421Z  delete mode 100644 .changeset/document-context-and-cost.md
+Release	Version packages and commit to main	2026-11-05T16:03:46.8366564Z $ git push origin HEAD:main
+Release	Version packages and commit to main	2026-11-05T16:03:47.9534932Z remote: fatal error in commit_refs_rules        
+Release	Version packages and commit to main	2026-11-05T16:03:47.9535841Z To https://github.com/link-foundation/sensitive-data-sanitizer
+Release	Version packages and commit to main	2026-11-05T16:03:47.9536295Z  ! [remote rejected] HEAD -> main (fatal error in commit_refs_rules
+Release	Version packages and commit to main	2026-11-05T16:03:47.9536590Z )
+Release	Version packages and commit to main	2026-11-05T16:03:47.9537018Z error: failed to push some refs to 'https://github.com/link-foundation/sensitive-data-sanitizer'
+Release	Version packages and commit to main	2026-11-05T16:03:47.9555718Z Command failed (exit 1): git push origin HEAD:main
+Release	Version packages and commit to main	2026-11-05T16:03:47.9556194Z remote: fatal error in commit_refs_rules        
+Release	Version packages and commit to main	2026-11-05T16:03:47.9556588Z To https://github.com/link-foundation/sensitive-data-sanitizer
+Release	Version packages and commit to main	2026-11-05T16:03:47.9557202Z  ! [remote rejected] HEAD -> main (fatal error in commit_refs_rules
+Release	Version packages and commit to main	2026-11-05T16:03:47.9557500Z )
+Release	Version packages and commit to main	2026-11-05T16:03:47.9557906Z error: failed to push some refs to 'https://github.com/link-foundation/sensitive-data-sanitizer'
+Release	Version packages and commit to main	2026-11-05T16:03:47.9558213Z 
+Release	Version packages and commit to main	2026-11-05T16:03:47.9594156Z Error: Failed to push version 0.16.2 to main: Command failed with exit code 1
+Release	Version packages and commit to main	2026-11-05T16:03:47.9683329Z ##[error]Process completed with exit code 1.
+Release	Post Run actions/checkout@v6	﻿2026-11-05T16:03:47.9802690Z Post job cleanup.
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.0544202Z [command]/usr/bin/git version
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.0576622Z git version 2.56.0
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.0608763Z Temporarily overriding HOME='/home/runner/work/_temp/4fda1b6b-1ff4-439e-8d5c-fe7dd2c85299' before making global git config changes
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.0609961Z Adding repository directory to the temporary git global config as a safe directory
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.0612871Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.0641759Z Removing SSH command configuration
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.0647406Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.0685185Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.0904309Z Removing HTTP extra header
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.0910398Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.0950021Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1178887Z Removing includeIf entries pointing to credentials config files
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1186620Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1218523Z includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1219880Z includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1220912Z includeif.gitdir:/github/workspace/.git.path
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1221740Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1229634Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1258120Z /home/runner/work/_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1268153Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path /home/runner/work/_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1309627Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1340171Z /home/runner/work/_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1349044Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1385941Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1413031Z /github/runner_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1420321Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1457645Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1490657Z /github/runner_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1496972Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1535094Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Release	Post Run actions/checkout@v6	2026-11-05T16:03:48.1740406Z Removing credentials config '/home/runner/work/_temp/git-credentials-88111f33-0a00-4723-88ed-9e6b997e3c9e.config'
+Release	Complete job	﻿2026-11-05T16:03:48.1888683Z Evaluate and set job outputs
+Release	Complete job	2026-11-05T16:03:48.1893208Z Cleaning up orphan processes

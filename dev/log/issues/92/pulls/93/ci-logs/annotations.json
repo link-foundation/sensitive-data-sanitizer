@@ -1,0 +1,894 @@
+[
+  {
+    "log": "run-37679381132.log.gz",
+    "lines": 188,
+    "findings": []
+  },
+  {
+    "log": "run-41883360342.log.gz",
+    "lines": 866,
+    "findings": []
+  },
+  {
+    "log": "run-42049631225.log.gz",
+    "lines": 30033,
+    "findings": [
+      {
+        "line": 3533,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T14:55:49.6942020Z ^[[0m^[[33m\u2502^[[0m  The following packages are deprecated:"
+      },
+      {
+        "line": 3534,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T14:55:49.7060480Z ^[[0m^[[33m\u2502^[[0m  ^[[0m^[[38;5;245mnpm:eslint@9.39.4 (This version is no longer supported. Please see https://eslint.org/version-support for other options.)^[[0m"
+      },
+      {
+        "line": 3535,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T14:55:49.7075350Z ^[[0m^[[33m\u2570\u2500^[[0m"
+      },
+      {
+        "line": 3536,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T14:55:49.7196860Z ##[group]Run bash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\""
+      },
+      {
+        "line": 3537,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T14:55:49.7198820Z ^[[36;1mbash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\"^[[0m"
+      },
+      {
+        "line": 3538,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T14:55:49.7298080Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}"
+      },
+      {
+        "line": 3539,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T14:55:49.7298850Z env:"
+      },
+      {
+        "line": 3540,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T14:55:49.7299340Z   GIT_CONFIG_COUNT: 1"
+      },
+      {
+        "line": 3541,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T14:55:49.7299920Z   GIT_CONFIG_KEY_0: init.defaultBranch"
+      },
+      {
+        "line": 3542,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T14:55:49.7300630Z   GIT_CONFIG_VALUE_0: main"
+      },
+      {
+        "line": 18431,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T14:55:50.6912000Z ^[[0m^[[33m\u2502^[[0m  The following packages are deprecated:"
+      },
+      {
+        "line": 18432,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T14:55:50.6972040Z ^[[0m^[[33m\u2502^[[0m  ^[[0m^[[38;5;245mnpm:eslint@9.39.4 (This version is no longer supported. Please see https://eslint.org/version-support for other options.)^[[0m"
+      },
+      {
+        "line": 18433,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T14:55:50.7107600Z ^[[0m^[[33m\u2570\u2500^[[0m"
+      },
+      {
+        "line": 18434,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T14:55:50.7278980Z ##[group]Run bash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\""
+      },
+      {
+        "line": 18435,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T14:55:50.7282100Z ^[[36;1mbash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\"^[[0m"
+      },
+      {
+        "line": 18436,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T14:55:50.7410280Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}"
+      },
+      {
+        "line": 18437,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T14:55:50.7411300Z env:"
+      },
+      {
+        "line": 18438,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T14:55:50.7411870Z   GIT_CONFIG_COUNT: 1"
+      },
+      {
+        "line": 18439,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T14:55:50.7412580Z   GIT_CONFIG_KEY_0: init.defaultBranch"
+      },
+      {
+        "line": 18440,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T14:55:50.7413400Z   GIT_CONFIG_VALUE_0: main"
+      },
+      {
+        "line": 19864,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:38.9996341Z ^[[0m^[[33m\u2502^[[0m  The following packages are deprecated:"
+      },
+      {
+        "line": 19865,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:38.9997154Z ^[[0m^[[33m\u2502^[[0m  ^[[0m^[[38;5;245mnpm:eslint@9.39.4 (This version is no longer supported. Please see https://eslint.org/version-support for other options.)^[[0m"
+      },
+      {
+        "line": 19866,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:38.9997799Z ^[[0m^[[33m\u2570\u2500^[[0m"
+      },
+      {
+        "line": 19867,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:38.9998184Z Deno dependency preparation finished in 2s of its 120s budget (exit 0)."
+      },
+      {
+        "line": 19868,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:39.0048044Z ##[group]Run bash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\""
+      },
+      {
+        "line": 19869,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:39.0049205Z ^[[36;1mbash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\"^[[0m"
+      },
+      {
+        "line": 19870,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:39.0071079Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+      },
+      {
+        "line": 19871,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:39.0071426Z env:"
+      },
+      {
+        "line": 19872,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:39.0071648Z   GIT_CONFIG_COUNT: 1"
+      },
+      {
+        "line": 19873,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:39.0071904Z   GIT_CONFIG_KEY_0: init.defaultBranch"
+      },
+      {
+        "line": 23616,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T14:56:52.8774120Z ^[[0m^[[33m\u2502^[[0m  The following packages are deprecated:"
+      },
+      {
+        "line": 23617,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T14:56:52.8777210Z ^[[0m^[[33m\u2502^[[0m  ^[[0m^[[38;5;245mnpm:eslint@9.39.4 (This version is no longer supported. Please see https://eslint.org/version-support for other options.)^[[0m"
+      },
+      {
+        "line": 23618,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T14:56:52.8780110Z ^[[0m^[[33m\u2570\u2500^[[0m"
+      },
+      {
+        "line": 23619,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T14:56:52.8801430Z Deno dependency preparation finished in 5s of its 120s budget (exit 0)."
+      },
+      {
+        "line": 23620,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T14:56:52.9058380Z ##[group]Run bash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\""
+      },
+      {
+        "line": 23621,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T14:56:52.9060130Z ^[[36;1mbash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\"^[[0m"
+      },
+      {
+        "line": 23622,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T14:56:52.9166740Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}"
+      },
+      {
+        "line": 23623,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T14:56:52.9167740Z env:"
+      },
+      {
+        "line": 23624,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T14:56:52.9168190Z   GIT_CONFIG_COUNT: 1"
+      },
+      {
+        "line": 23625,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T14:56:52.9168910Z   GIT_CONFIG_KEY_0: init.defaultBranch"
+      },
+      {
+        "line": 26168,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:59.7710361Z ^[[0m^[[33m\u2502^[[0m  The following packages are deprecated:"
+      },
+      {
+        "line": 26169,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:59.7710980Z ^[[0m^[[33m\u2502^[[0m  ^[[0m^[[38;5;245mnpm:eslint@9.39.4 (This version is no longer supported. Please see https://eslint.org/version-support for other options.)^[[0m"
+      },
+      {
+        "line": 26170,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:59.7711439Z ^[[0m^[[33m\u2570\u2500^[[0m"
+      },
+      {
+        "line": 26171,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:59.8377901Z Deno dependency preparation finished in 15s of its 120s budget (exit 0)."
+      },
+      {
+        "line": 26172,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:59.9036378Z ##[group]Run bash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\""
+      },
+      {
+        "line": 26173,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:59.9037679Z ^[[36;1mbash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\"^[[0m"
+      },
+      {
+        "line": 26174,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:59.9049696Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+      },
+      {
+        "line": 26175,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:59.9049978Z env:"
+      },
+      {
+        "line": 26176,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:59.9050119Z   GIT_CONFIG_COUNT: 1"
+      },
+      {
+        "line": 26177,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T14:55:59.9050292Z   GIT_CONFIG_KEY_0: init.defaultBranch"
+      },
+      {
+        "line": 29234,
+        "text": "Release\tUNKNOWN STEP\t2026-11-05T15:06:13.6076905Z ##[warning]lockfile(s) for another package manager at the repository root: deno.lock. The npm declaration outranks them, but any tool embedding the same lockfile table without reading the declaration will pick the wrong agent."
+      }
+    ]
+  },
+  {
+    "log": "run-42049631256.log.gz",
+    "lines": 4807,
+    "findings": []
+  },
+  {
+    "log": "run-42049631320.log.gz",
+    "lines": 515,
+    "findings": []
+  },
+  {
+    "log": "run-42049631412.log.gz",
+    "lines": 2049,
+    "findings": [
+      {
+        "line": 225,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:32.0944907Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 226,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:32.1239804Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 227,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:32.6784475Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 228,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:32.7666598Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 241,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:41.6355911Z npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options."
+      },
+      {
+        "line": 254,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:43.5830166Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 255,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:43.6133851Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 256,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:43.6567821Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 257,
+        "text": "Regenerate Preview Images\tUNKNOWN STEP\t2026-11-05T14:55:43.8131757Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 533,
+        "text": "Package desktop app (windows-2025)\tUNKNOWN STEP\t2026-11-05T14:55:17.7936020Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 534,
+        "text": "Package desktop app (windows-2025)\tUNKNOWN STEP\t2026-11-05T14:55:18.0934478Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 535,
+        "text": "Package desktop app (windows-2025)\tUNKNOWN STEP\t2026-11-05T14:55:18.6356522Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 536,
+        "text": "Package desktop app (windows-2025)\tUNKNOWN STEP\t2026-11-05T14:55:19.4313611Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 539,
+        "text": "Package desktop app (windows-2025)\tUNKNOWN STEP\t2026-11-05T14:55:23.6804835Z npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:"
+      },
+      {
+        "line": 540,
+        "text": "Package desktop app (windows-2025)\tUNKNOWN STEP\t2026-11-05T14:55:23.6805463Z npm warn install-scripts   electron-winstaller@5.4.0 (install: node ./script/select-7z-arch.js)"
+      },
+      {
+        "line": 541,
+        "text": "Package desktop app (windows-2025)\tUNKNOWN STEP\t2026-11-05T14:55:23.6805986Z npm warn install-scripts   esbuild@0.25.12 (postinstall: node install.js)"
+      },
+      {
+        "line": 542,
+        "text": "Package desktop app (windows-2025)\tUNKNOWN STEP\t2026-11-05T14:55:23.6806297Z npm warn install-scripts"
+      },
+      {
+        "line": 543,
+        "text": "Package desktop app (windows-2025)\tUNKNOWN STEP\t2026-11-05T14:55:23.6806836Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow."
+      },
+      {
+        "line": 873,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:13.5644490Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 874,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:13.6640760Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 875,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:13.8159410Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 876,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:14.7256960Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 879,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:19.8945510Z npm warn allow-scripts 3 packages have install scripts not yet covered by allowScripts:"
+      },
+      {
+        "line": 880,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:19.8947270Z npm warn allow-scripts   electron-winstaller@5.4.0 (install: node ./script/select-7z-arch.js)"
+      },
+      {
+        "line": 881,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:19.8948770Z npm warn allow-scripts   esbuild@0.25.12 (postinstall: node install.js)"
+      },
+      {
+        "line": 882,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:19.8949970Z npm warn allow-scripts   fsevents@2.3.3 (install: (install scripts present))"
+      },
+      {
+        "line": 883,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:19.8950790Z npm warn allow-scripts"
+      },
+      {
+        "line": 884,
+        "text": "Package desktop app (macos-26-intel)\tUNKNOWN STEP\t2026-11-05T14:55:19.8952770Z npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow."
+      },
+      {
+        "line": 1211,
+        "text": "Package desktop app (ubuntu-24.04)\tUNKNOWN STEP\t2026-11-05T14:55:08.8725718Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 1212,
+        "text": "Package desktop app (ubuntu-24.04)\tUNKNOWN STEP\t2026-11-05T14:55:08.9189354Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 1213,
+        "text": "Package desktop app (ubuntu-24.04)\tUNKNOWN STEP\t2026-11-05T14:55:08.9717499Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 1214,
+        "text": "Package desktop app (ubuntu-24.04)\tUNKNOWN STEP\t2026-11-05T14:55:09.2074237Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 1217,
+        "text": "Package desktop app (ubuntu-24.04)\tUNKNOWN STEP\t2026-11-05T14:55:10.8706303Z npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:"
+      },
+      {
+        "line": 1218,
+        "text": "Package desktop app (ubuntu-24.04)\tUNKNOWN STEP\t2026-11-05T14:55:10.8707832Z npm warn install-scripts   electron-winstaller@5.4.0 (install: node ./script/select-7z-arch.js)"
+      },
+      {
+        "line": 1219,
+        "text": "Package desktop app (ubuntu-24.04)\tUNKNOWN STEP\t2026-11-05T14:55:10.8709152Z npm warn install-scripts   esbuild@0.25.12 (postinstall: node install.js)"
+      },
+      {
+        "line": 1220,
+        "text": "Package desktop app (ubuntu-24.04)\tUNKNOWN STEP\t2026-11-05T14:55:10.8710507Z npm warn install-scripts"
+      },
+      {
+        "line": 1221,
+        "text": "Package desktop app (ubuntu-24.04)\tUNKNOWN STEP\t2026-11-05T14:55:10.8711701Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow."
+      },
+      {
+        "line": 1560,
+        "text": "Build web app\tUNKNOWN STEP\t2026-11-05T14:55:05.8939835Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 1561,
+        "text": "Build web app\tUNKNOWN STEP\t2026-11-05T14:55:05.9279673Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 1562,
+        "text": "Build web app\tUNKNOWN STEP\t2026-11-05T14:55:05.9802568Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 1563,
+        "text": "Build web app\tUNKNOWN STEP\t2026-11-05T14:55:06.1464292Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 1566,
+        "text": "Build web app\tUNKNOWN STEP\t2026-11-05T14:55:07.3129224Z npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:"
+      },
+      {
+        "line": 1567,
+        "text": "Build web app\tUNKNOWN STEP\t2026-11-05T14:55:07.3130594Z npm warn install-scripts   electron-winstaller@5.4.0 (install: node ./script/select-7z-arch.js)"
+      },
+      {
+        "line": 1568,
+        "text": "Build web app\tUNKNOWN STEP\t2026-11-05T14:55:07.3131598Z npm warn install-scripts   esbuild@0.25.12 (postinstall: node install.js)"
+      },
+      {
+        "line": 1569,
+        "text": "Build web app\tUNKNOWN STEP\t2026-11-05T14:55:07.3132102Z npm warn install-scripts"
+      },
+      {
+        "line": 1570,
+        "text": "Build web app\tUNKNOWN STEP\t2026-11-05T14:55:07.3132866Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow."
+      },
+      {
+        "line": 1765,
+        "text": "Deploy GitHub Pages\tUNKNOWN STEP\t2026-11-05T14:56:02.6366024Z (node:2010) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead."
+      },
+      {
+        "line": 1822,
+        "text": "Deploy GitHub Pages\tUNKNOWN STEP\t2026-11-05T15:06:01.0149197Z ##[error]The operation was canceled."
+      },
+      {
+        "line": 2032,
+        "text": "Pipeline Status\tUNKNOWN STEP\t2026-11-05T15:06:16.2291976Z ##[error]pages-deploy. No supersede accounts for these cancellations; timeout-minutes would otherwise leave the run grey."
+      },
+      {
+        "line": 2033,
+        "text": "Pipeline Status\tUNKNOWN STEP\t2026-11-05T15:06:16.2304024Z ##[error]Process completed with exit code 1."
+      }
+    ]
+  },
+  {
+    "log": "run-42060440016.log.gz",
+    "lines": 31547,
+    "findings": [
+      {
+        "line": 7463,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T15:59:45.9671190Z ^[[0m^[[33m\u2502^[[0m  The following packages are deprecated:"
+      },
+      {
+        "line": 7464,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T15:59:45.9672620Z ^[[0m^[[33m\u2502^[[0m  ^[[0m^[[38;5;245mnpm:eslint@9.39.4 (This version is no longer supported. Please see https://eslint.org/version-support for other options.)^[[0m"
+      },
+      {
+        "line": 7465,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T15:59:45.9673890Z ^[[0m^[[33m\u2570\u2500^[[0m"
+      },
+      {
+        "line": 7466,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T15:59:45.9674490Z Deno dependency preparation finished in 4s of its 120s budget (exit 0)."
+      },
+      {
+        "line": 7467,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T15:59:45.9844190Z ##[group]Run bash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\""
+      },
+      {
+        "line": 7468,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T15:59:45.9845950Z ^[[36;1mbash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\"^[[0m"
+      },
+      {
+        "line": 7469,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T15:59:45.9913120Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}"
+      },
+      {
+        "line": 7470,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T15:59:45.9913690Z env:"
+      },
+      {
+        "line": 7471,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T15:59:45.9914010Z   GIT_CONFIG_COUNT: 1"
+      },
+      {
+        "line": 7472,
+        "text": "Test (deno on macos-26-intel, shard 2/3)\tUNKNOWN STEP\t2026-11-05T15:59:45.9914410Z   GIT_CONFIG_KEY_0: init.defaultBranch"
+      },
+      {
+        "line": 19848,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:35.2911538Z ^[[0m^[[33m\u2502^[[0m  The following packages are deprecated:"
+      },
+      {
+        "line": 19849,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:35.2912180Z ^[[0m^[[33m\u2502^[[0m  ^[[0m^[[38;5;245mnpm:eslint@9.39.4 (This version is no longer supported. Please see https://eslint.org/version-support for other options.)^[[0m"
+      },
+      {
+        "line": 19850,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:35.2912854Z ^[[0m^[[33m\u2570\u2500^[[0m"
+      },
+      {
+        "line": 19851,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:35.2926391Z Deno dependency preparation finished in 2s of its 120s budget (exit 0)."
+      },
+      {
+        "line": 19852,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:35.2976474Z ##[group]Run bash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\""
+      },
+      {
+        "line": 19853,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:35.2977154Z ^[[36;1mbash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\"^[[0m"
+      },
+      {
+        "line": 19854,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:35.2995460Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+      },
+      {
+        "line": 19855,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:35.2995723Z env:"
+      },
+      {
+        "line": 19856,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:35.2995882Z   GIT_CONFIG_COUNT: 1"
+      },
+      {
+        "line": 19857,
+        "text": "Test (deno on ubuntu-24.04, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:35.2996073Z   GIT_CONFIG_KEY_0: init.defaultBranch"
+      },
+      {
+        "line": 23731,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T15:59:51.7618040Z ^[[0m^[[33m\u2502^[[0m  The following packages are deprecated:"
+      },
+      {
+        "line": 23732,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T15:59:51.7652960Z ^[[0m^[[33m\u2502^[[0m  ^[[0m^[[38;5;245mnpm:eslint@9.39.4 (This version is no longer supported. Please see https://eslint.org/version-support for other options.)^[[0m"
+      },
+      {
+        "line": 23733,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T15:59:51.8030460Z ^[[0m^[[33m\u2570\u2500^[[0m"
+      },
+      {
+        "line": 23734,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T15:59:51.8170520Z ##[group]Run bash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\""
+      },
+      {
+        "line": 23735,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T15:59:51.8172480Z ^[[36;1mbash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\"^[[0m"
+      },
+      {
+        "line": 23736,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T15:59:51.8244130Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}"
+      },
+      {
+        "line": 23737,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T15:59:51.8244790Z env:"
+      },
+      {
+        "line": 23738,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T15:59:51.8245170Z   GIT_CONFIG_COUNT: 1"
+      },
+      {
+        "line": 23739,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T15:59:51.8245630Z   GIT_CONFIG_KEY_0: init.defaultBranch"
+      },
+      {
+        "line": 23740,
+        "text": "Test (deno on macos-26-intel, shard 3/3)\tUNKNOWN STEP\t2026-11-05T15:59:51.8246200Z   GIT_CONFIG_VALUE_0: main"
+      },
+      {
+        "line": 25125,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:56.6975749Z ^[[0m^[[33m\u2502^[[0m  The following packages are deprecated:"
+      },
+      {
+        "line": 25126,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:56.6976540Z ^[[0m^[[33m\u2502^[[0m  ^[[0m^[[38;5;245mnpm:eslint@9.39.4 (This version is no longer supported. Please see https://eslint.org/version-support for other options.)^[[0m"
+      },
+      {
+        "line": 25127,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:56.6978662Z ^[[0m^[[33m\u2570\u2500^[[0m"
+      },
+      {
+        "line": 25128,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:57.8403648Z Deno dependency preparation finished in 12s of its 120s budget (exit 0)."
+      },
+      {
+        "line": 25129,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:57.8872586Z ##[group]Run bash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\""
+      },
+      {
+        "line": 25130,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:57.8873526Z ^[[36;1mbash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\"^[[0m"
+      },
+      {
+        "line": 25131,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:57.8890240Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+      },
+      {
+        "line": 25132,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:57.8890622Z env:"
+      },
+      {
+        "line": 25133,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:57.8890802Z   GIT_CONFIG_COUNT: 1"
+      },
+      {
+        "line": 25134,
+        "text": "Test (deno on windows-2025, shard 1/1)\tUNKNOWN STEP\t2026-11-05T15:59:57.8891024Z   GIT_CONFIG_KEY_0: init.defaultBranch"
+      },
+      {
+        "line": 29122,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T16:01:07.7569260Z ^[[0m^[[33m\u2502^[[0m  The following packages are deprecated:"
+      },
+      {
+        "line": 29123,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T16:01:07.7595310Z ^[[0m^[[33m\u2502^[[0m  ^[[0m^[[38;5;245mnpm:eslint@9.39.4 (This version is no longer supported. Please see https://eslint.org/version-support for other options.)^[[0m"
+      },
+      {
+        "line": 29124,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T16:01:07.7627610Z ^[[0m^[[33m\u2570\u2500^[[0m"
+      },
+      {
+        "line": 29125,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T16:01:07.7811710Z ##[group]Run bash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\""
+      },
+      {
+        "line": 29126,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T16:01:07.7814910Z ^[[36;1mbash scripts/run-with-budget-warning.sh 100 \"Deno test suite\" node scripts/run-test-shard.mjs deno \"$TEST_SHARD\"^[[0m"
+      },
+      {
+        "line": 29127,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T16:01:07.7949710Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}"
+      },
+      {
+        "line": 29128,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T16:01:07.7950710Z env:"
+      },
+      {
+        "line": 29129,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T16:01:07.7951270Z   GIT_CONFIG_COUNT: 1"
+      },
+      {
+        "line": 29130,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T16:01:07.7951970Z   GIT_CONFIG_KEY_0: init.defaultBranch"
+      },
+      {
+        "line": 29131,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T16:01:07.7953290Z   GIT_CONFIG_VALUE_0: main"
+      },
+      {
+        "line": 29765,
+        "text": "Test (deno on macos-26-intel, shard 1/3)\tUNKNOWN STEP\t2026-11-05T16:02:17.3446780Z ##[warning]Deno test suite has run for 70s of its 100s budget."
+      },
+      {
+        "line": 31083,
+        "text": "Release\tCheck package manager declaration and lockfiles\t2026-11-05T16:03:28.4635109Z ##[warning]lockfile(s) for another package manager at the repository root: deno.lock. The npm declaration outranks them, but any tool embedding the same lockfile table without reading the declaration will pick the wrong agent."
+      },
+      {
+        "line": 31232,
+        "text": "Release\tVersion packages and commit to main\t2026-11-05T16:03:47.9534932Z remote: fatal error in commit_refs_rules        "
+      },
+      {
+        "line": 31234,
+        "text": "Release\tVersion packages and commit to main\t2026-11-05T16:03:47.9536295Z  ! [remote rejected] HEAD -> main (fatal error in commit_refs_rules"
+      },
+      {
+        "line": 31238,
+        "text": "Release\tVersion packages and commit to main\t2026-11-05T16:03:47.9556194Z remote: fatal error in commit_refs_rules        "
+      },
+      {
+        "line": 31240,
+        "text": "Release\tVersion packages and commit to main\t2026-11-05T16:03:47.9557202Z  ! [remote rejected] HEAD -> main (fatal error in commit_refs_rules"
+      },
+      {
+        "line": 31245,
+        "text": "Release\tVersion packages and commit to main\t2026-11-05T16:03:47.9683329Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 31530,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T16:03:57.5230654Z ##[error]Failing jobs: release"
+      },
+      {
+        "line": 31531,
+        "text": "Pipeline Status\tFail the run when a required job was cancelled or failed\t2026-11-05T16:03:57.5243184Z ##[error]Process completed with exit code 1."
+      }
+    ]
+  },
+  {
+    "log": "run-42060440544.log.gz",
+    "lines": 4813,
+    "findings": []
+  },
+  {
+    "log": "run-42060441049.log.gz",
+    "lines": 515,
+    "findings": []
+  },
+  {
+    "log": "run-42060441559.log.gz",
+    "lines": 2010,
+    "findings": [
+      {
+        "line": 200,
+        "text": "Build web app\tInstall app dependencies\t2026-11-05T15:59:05.4719471Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 201,
+        "text": "Build web app\tInstall app dependencies\t2026-11-05T15:59:05.5035540Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 202,
+        "text": "Build web app\tInstall app dependencies\t2026-11-05T15:59:05.5418879Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 203,
+        "text": "Build web app\tInstall app dependencies\t2026-11-05T15:59:05.7001595Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 206,
+        "text": "Build web app\tInstall app dependencies\t2026-11-05T15:59:06.8167580Z npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:"
+      },
+      {
+        "line": 207,
+        "text": "Build web app\tInstall app dependencies\t2026-11-05T15:59:06.8168973Z npm warn install-scripts   electron-winstaller@5.4.0 (install: node ./script/select-7z-arch.js)"
+      },
+      {
+        "line": 208,
+        "text": "Build web app\tInstall app dependencies\t2026-11-05T15:59:06.8170008Z npm warn install-scripts   esbuild@0.25.12 (postinstall: node install.js)"
+      },
+      {
+        "line": 209,
+        "text": "Build web app\tInstall app dependencies\t2026-11-05T15:59:06.8170861Z npm warn install-scripts"
+      },
+      {
+        "line": 210,
+        "text": "Build web app\tInstall app dependencies\t2026-11-05T15:59:06.8171582Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow."
+      },
+      {
+        "line": 588,
+        "text": "Regenerate Preview Images\tInstall example app dependencies\t2026-11-05T15:59:28.2336780Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 589,
+        "text": "Regenerate Preview Images\tInstall example app dependencies\t2026-11-05T15:59:28.2730756Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 590,
+        "text": "Regenerate Preview Images\tInstall example app dependencies\t2026-11-05T15:59:28.9710369Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 591,
+        "text": "Regenerate Preview Images\tInstall example app dependencies\t2026-11-05T15:59:29.0368506Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 604,
+        "text": "Regenerate Preview Images\tInstall browser automation dependencies\t2026-11-05T15:59:39.9079441Z npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options."
+      },
+      {
+        "line": 617,
+        "text": "Regenerate Preview Images\tRegenerate preview images\t2026-11-05T15:59:42.6487516Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 618,
+        "text": "Regenerate Preview Images\tRegenerate preview images\t2026-11-05T15:59:42.6962299Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 619,
+        "text": "Regenerate Preview Images\tRegenerate preview images\t2026-11-05T15:59:42.7543849Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 620,
+        "text": "Regenerate Preview Images\tRegenerate preview images\t2026-11-05T15:59:43.0060574Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 897,
+        "text": "Package desktop app (ubuntu-24.04)\tInstall app dependencies\t2026-11-05T15:59:03.1669517Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 898,
+        "text": "Package desktop app (ubuntu-24.04)\tInstall app dependencies\t2026-11-05T15:59:03.2001215Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 899,
+        "text": "Package desktop app (ubuntu-24.04)\tInstall app dependencies\t2026-11-05T15:59:03.2351225Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 900,
+        "text": "Package desktop app (ubuntu-24.04)\tInstall app dependencies\t2026-11-05T15:59:03.3897990Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 903,
+        "text": "Package desktop app (ubuntu-24.04)\tInstall app dependencies\t2026-11-05T15:59:04.4866686Z npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:"
+      },
+      {
+        "line": 904,
+        "text": "Package desktop app (ubuntu-24.04)\tInstall app dependencies\t2026-11-05T15:59:04.4867758Z npm warn install-scripts   electron-winstaller@5.4.0 (install: node ./script/select-7z-arch.js)"
+      },
+      {
+        "line": 905,
+        "text": "Package desktop app (ubuntu-24.04)\tInstall app dependencies\t2026-11-05T15:59:04.4868887Z npm warn install-scripts   esbuild@0.25.12 (postinstall: node install.js)"
+      },
+      {
+        "line": 906,
+        "text": "Package desktop app (ubuntu-24.04)\tInstall app dependencies\t2026-11-05T15:59:04.4869255Z npm warn install-scripts"
+      },
+      {
+        "line": 907,
+        "text": "Package desktop app (ubuntu-24.04)\tInstall app dependencies\t2026-11-05T15:59:04.4869820Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow."
+      },
+      {
+        "line": 1221,
+        "text": "Package desktop app (windows-2025)\tInstall app dependencies\t2026-11-05T15:59:19.0278931Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 1222,
+        "text": "Package desktop app (windows-2025)\tInstall app dependencies\t2026-11-05T15:59:19.4235363Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 1223,
+        "text": "Package desktop app (windows-2025)\tInstall app dependencies\t2026-11-05T15:59:19.4998599Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 1224,
+        "text": "Package desktop app (windows-2025)\tInstall app dependencies\t2026-11-05T15:59:20.2762230Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 1227,
+        "text": "Package desktop app (windows-2025)\tInstall app dependencies\t2026-11-05T15:59:24.4111990Z npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:"
+      },
+      {
+        "line": 1228,
+        "text": "Package desktop app (windows-2025)\tInstall app dependencies\t2026-11-05T15:59:24.4112609Z npm warn install-scripts   electron-winstaller@5.4.0 (install: node ./script/select-7z-arch.js)"
+      },
+      {
+        "line": 1229,
+        "text": "Package desktop app (windows-2025)\tInstall app dependencies\t2026-11-05T15:59:24.4113132Z npm warn install-scripts   esbuild@0.25.12 (postinstall: node install.js)"
+      },
+      {
+        "line": 1230,
+        "text": "Package desktop app (windows-2025)\tInstall app dependencies\t2026-11-05T15:59:24.4113452Z npm warn install-scripts"
+      },
+      {
+        "line": 1231,
+        "text": "Package desktop app (windows-2025)\tInstall app dependencies\t2026-11-05T15:59:26.6512104Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow."
+      },
+      {
+        "line": 1563,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:18.3582020Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful."
+      },
+      {
+        "line": 1564,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:18.4593190Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported"
+      },
+      {
+        "line": 1565,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:18.6176720Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me"
+      },
+      {
+        "line": 1566,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:19.4716810Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info."
+      },
+      {
+        "line": 1569,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:25.9167490Z npm warn allow-scripts 3 packages have install scripts not yet covered by allowScripts:"
+      },
+      {
+        "line": 1570,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:25.9170270Z npm warn allow-scripts   electron-winstaller@5.4.0 (install: node ./script/select-7z-arch.js)"
+      },
+      {
+        "line": 1571,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:25.9172720Z npm warn allow-scripts   esbuild@0.25.12 (postinstall: node install.js)"
+      },
+      {
+        "line": 1572,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:25.9174960Z npm warn allow-scripts   fsevents@2.3.3 (install: (install scripts present))"
+      },
+      {
+        "line": 1573,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:25.9178060Z npm warn allow-scripts"
+      },
+      {
+        "line": 1574,
+        "text": "Package desktop app (macos-26-intel)\tInstall app dependencies\t2026-11-05T15:59:25.9180040Z npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow."
+      },
+      {
+        "line": 1772,
+        "text": "Deploy GitHub Pages\tDeploy Pages artifact\t2026-11-05T15:59:59.6832872Z (node:2205) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead."
+      }
+    ]
+  },
+  {
+    "log": "run-42061941635.log.gz",
+    "lines": 4279,
+    "findings": []
+  },
+  {
+    "log": "run-42061941885.log.gz",
+    "lines": 895,
+    "findings": []
+  }
+]

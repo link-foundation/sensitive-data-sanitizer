@@ -1,0 +1,88 @@
+200: Build web app	Install app dependencies	2026-11-05T15:59:05.4719471Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+201: Build web app	Install app dependencies	2026-11-05T15:59:05.5035540Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+202: Build web app	Install app dependencies	2026-11-05T15:59:05.5418879Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+203: Build web app	Install app dependencies	2026-11-05T15:59:05.7001595Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+206: Build web app	Install app dependencies	2026-11-05T15:59:06.8167580Z npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:
+207: Build web app	Install app dependencies	2026-11-05T15:59:06.8168973Z npm warn install-scripts   electron-winstaller@5.4.0 (install: node ./script/select-7z-arch.js)
+208: Build web app	Install app dependencies	2026-11-05T15:59:06.8170008Z npm warn install-scripts   esbuild@0.25.12 (postinstall: node install.js)
+209: Build web app	Install app dependencies	2026-11-05T15:59:06.8170861Z npm warn install-scripts
+210: Build web app	Install app dependencies	2026-11-05T15:59:06.8171582Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+588: Regenerate Preview Images	Install example app dependencies	2026-11-05T15:59:28.2336780Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+589: Regenerate Preview Images	Install example app dependencies	2026-11-05T15:59:28.2730756Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+590: Regenerate Preview Images	Install example app dependencies	2026-11-05T15:59:28.9710369Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+591: Regenerate Preview Images	Install example app dependencies	2026-11-05T15:59:29.0368506Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+604: Regenerate Preview Images	Install browser automation dependencies	2026-11-05T15:59:39.9079441Z npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+617: Regenerate Preview Images	Regenerate preview images	2026-11-05T15:59:42.6487516Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+618: Regenerate Preview Images	Regenerate preview images	2026-11-05T15:59:42.6962299Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+619: Regenerate Preview Images	Regenerate preview images	2026-11-05T15:59:42.7543849Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+620: Regenerate Preview Images	Regenerate preview images	2026-11-05T15:59:43.0060574Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+897: Package desktop app (ubuntu-24.04)	Install app dependencies	2026-11-05T15:59:03.1669517Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+898: Package desktop app (ubuntu-24.04)	Install app dependencies	2026-11-05T15:59:03.2001215Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+899: Package desktop app (ubuntu-24.04)	Install app dependencies	2026-11-05T15:59:03.2351225Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+900: Package desktop app (ubuntu-24.04)	Install app dependencies	2026-11-05T15:59:03.3897990Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+903: Package desktop app (ubuntu-24.04)	Install app dependencies	2026-11-05T15:59:04.4866686Z npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:
+904: Package desktop app (ubuntu-24.04)	Install app dependencies	2026-11-05T15:59:04.4867758Z npm warn install-scripts   electron-winstaller@5.4.0 (install: node ./script/select-7z-arch.js)
+905: Package desktop app (ubuntu-24.04)	Install app dependencies	2026-11-05T15:59:04.4868887Z npm warn install-scripts   esbuild@0.25.12 (postinstall: node install.js)
+906: Package desktop app (ubuntu-24.04)	Install app dependencies	2026-11-05T15:59:04.4869255Z npm warn install-scripts
+907: Package desktop app (ubuntu-24.04)	Install app dependencies	2026-11-05T15:59:04.4869820Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+1221: Package desktop app (windows-2025)	Install app dependencies	2026-11-05T15:59:19.0278931Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+1222: Package desktop app (windows-2025)	Install app dependencies	2026-11-05T15:59:19.4235363Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+1223: Package desktop app (windows-2025)	Install app dependencies	2026-11-05T15:59:19.4998599Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+1224: Package desktop app (windows-2025)	Install app dependencies	2026-11-05T15:59:20.2762230Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+1227: Package desktop app (windows-2025)	Install app dependencies	2026-11-05T15:59:24.4111990Z npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:
+1228: Package desktop app (windows-2025)	Install app dependencies	2026-11-05T15:59:24.4112609Z npm warn install-scripts   electron-winstaller@5.4.0 (install: node ./script/select-7z-arch.js)
+1229: Package desktop app (windows-2025)	Install app dependencies	2026-11-05T15:59:24.4113132Z npm warn install-scripts   esbuild@0.25.12 (postinstall: node install.js)
+1230: Package desktop app (windows-2025)	Install app dependencies	2026-11-05T15:59:24.4113452Z npm warn install-scripts
+1231: Package desktop app (windows-2025)	Install app dependencies	2026-11-05T15:59:26.6512104Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+1563: Package desktop app (macos-26-intel)	Install app dependencies	2026-11-05T15:59:18.3582020Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+1564: Package desktop app (macos-26-intel)	Install app dependencies	2026-11-05T15:59:18.4593190Z npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+1565: Package desktop app (macos-26-intel)	Install app dependencies	2026-11-05T15:59:18.6176720Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+1566: Package desktop app (macos-26-intel)	Install app dependencies	2026-11-05T15:59:19.4716810Z npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+1569: Package desktop app (macos-26-intel)	Install app dependencies	2026-11-05T15:59:25.9167490Z npm warn allow-scripts 3 packages have install scripts not yet covered by allowScripts:
+1570: Package desktop app (macos-26-intel)	Install app dependencies	2026-11-05T15:59:25.9170270Z npm warn allow-scripts   electron-winstaller@5.4.0 (install: node ./script/select-7z-arch.js)
+1571: Package desktop app (macos-26-intel)	Install app dependencies	2026-11-05T15:59:25.9172720Z npm warn allow-scripts   esbuild@0.25.12 (postinstall: node install.js)
+1572: Package desktop app (macos-26-intel)	Install app dependencies	2026-11-05T15:59:25.9174960Z npm warn allow-scripts   fsevents@2.3.3 (install: (install scripts present))
+1573: Package desktop app (macos-26-intel)	Install app dependencies	2026-11-05T15:59:25.9178060Z npm warn allow-scripts
+1574: Package desktop app (macos-26-intel)	Install app dependencies	2026-11-05T15:59:25.9180040Z npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+1772: Deploy GitHub Pages	Deploy Pages artifact	2026-11-05T15:59:59.6832872Z (node:2205) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+1952: Pipeline Status	Fail the run when a required job was cancelled or failed	﻿2026-11-05T16:01:00.4957923Z ##[group]Run bash scripts/check-pipeline-status.sh
+1953: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:00.4958474Z ^[[36;1mbash scripts/check-pipeline-status.sh^[[0m
+1954: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:00.5171994Z shell: /usr/bin/bash -e {0}
+1955: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:00.5172364Z env:
+1956: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:00.5172622Z   GIT_CONFIG_COUNT: 1
+1957: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:00.5172890Z   GIT_CONFIG_KEY_0: init.defaultBranch
+1958: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:00.5173234Z   GIT_CONFIG_VALUE_0: main
+1959: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:00.5174764Z   NEEDS_JSON: {
+1960: Pipeline Status	Fail the run when a required job was cancelled or failed	  "web-build": {
+1961: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+1962: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {
+1963: Pipeline Status	Fail the run when a required job was cancelled or failed	      "pages_enabled": "true"
+1964: Pipeline Status	Fail the run when a required job was cancelled or failed	    }
+1965: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+1966: Pipeline Status	Fail the run when a required job was cancelled or failed	  "pages-deploy": {
+1967: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+1968: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+1969: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+1970: Pipeline Status	Fail the run when a required job was cancelled or failed	  "desktop-package": {
+1971: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+1972: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+1973: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+1974: Pipeline Status	Fail the run when a required job was cancelled or failed	  "android-build": {
+1975: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+1976: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+1977: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+1978: Pipeline Status	Fail the run when a required job was cancelled or failed	  "ios-build": {
+1979: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+1980: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+1981: Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+1982: Pipeline Status	Fail the run when a required job was cancelled or failed	  "preview-regen": {
+1983: Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+1984: Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+1985: Pipeline Status	Fail the run when a required job was cancelled or failed	  }
+1986: Pipeline Status	Fail the run when a required job was cancelled or failed	}
+1987: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:00.5176444Z   RUN_SHA: c5b61aa68a3507927237cd2f348205650d1e9442
+1988: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:00.5176791Z   BRANCH_NAME: main
+1989: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:00.5177087Z ##[endgroup]
+1990: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:00.5824275Z Failed jobs:    <none>
+1991: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:00.5824877Z Cancelled jobs: <none>
+1992: Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-05T16:01:00.5825618Z All required jobs succeeded or were legitimately skipped.
