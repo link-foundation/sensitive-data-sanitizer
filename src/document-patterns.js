@@ -30,13 +30,13 @@ const rules = [
   [
     'PHONE',
     'document-phone-label',
-    /(?<![\p{L}\p{N}_])(?:тел\.?|моб\.?|WhatsApp)[ \t]*:?[ \t]+((?:[78][ () .-]*)?9\d{2}[ () .-]*\d{3}[ .-]*\d{2}[ .-]*\d{2})(?!\d)/giu,
+    /(?<![\p{L}\p{N}_])(?:тел\.?|моб\.?|WhatsApp)(?:[ \t]*:[ \t]*|[ \t]+)((?:[78][ () .-]*)?9\d{2}[ () .-]*\d{3}[ .-]*\d{2}[ .-]*\d{2})(?!\d)/giu,
     1,
   ],
   [
     'EMAIL',
     'obfuscated-email',
-    /(?<![\p{L}\p{N}_.])[\p{L}\p{N}_+-]+(?:[.]|[ \t]+dot[ \t]+)?[\p{L}\p{N}_.+-]*(?:[ \t]*\(at\)[ \t]*|[ \t]*\[at\][ \t]*|[ \t]+(?:at|собака)[ \t]+)[\p{L}\p{N}-]+(?:(?:\.|[ \t]+dot[ \t]+)[\p{L}\p{N}-]+){1,8}(?![\p{L}\p{N}_])/giu,
+    /(?<![\p{L}\p{N}_.+-])[\p{L}\p{N}_+-]{1,64}(?:(?:\.|[ \t]{1,8}dot[ \t]{1,8})[\p{L}\p{N}_+-]{1,64}){0,4}(?:[ \t]{0,8}\(at\)[ \t]{0,8}|[ \t]{0,8}\[at\][ \t]{0,8}|[ \t]{1,8}(?:at|собака)[ \t]{1,8})[\p{L}\p{N}-]{1,63}(?:(?:\.|[ \t]{1,8}dot[ \t]{1,8})[\p{L}\p{N}-]{1,63}){1,8}(?![\p{L}\p{N}_])/giu,
     0,
   ],
   [
@@ -166,14 +166,7 @@ export function detectDocumentPatterns(text, emit) {
         group === -1
           ? match.slice(1).find((part) => part !== undefined)
           : match[group].trim();
-      if (
-        (rule === 'school-acronym-context' &&
-          !/^[А-ЯЁ]{2,12}(?![А-ЯЁа-яё])/.test(value)) ||
-        !value ||
-        value === '[REDACTED]' ||
-        (rule === 'messenger-label' &&
-          /^(?:недоступен|unavailable)$/i.test(value))
-      ) {
+      if (!documentValueAllowed(rule, value)) {
         continue;
       }
       const start =
@@ -216,4 +209,16 @@ export function detectDocumentPatterns(text, emit) {
       confidence: 0.85,
     });
   }
+}
+
+function documentValueAllowed(rule, value) {
+  return (
+    Boolean(value) &&
+    value !== '[REDACTED]' &&
+    !(
+      rule === 'school-acronym-context' &&
+      !/^[А-ЯЁ]{2,12}(?![А-ЯЁа-яё])/.test(value)
+    ) &&
+    !(rule === 'messenger-label' && /^(?:недоступен|unavailable)$/i.test(value))
+  );
 }

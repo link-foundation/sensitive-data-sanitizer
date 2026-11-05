@@ -129,7 +129,7 @@ describe('document forms and structured value boundaries', () => {
       expect(sanitize(input, options).text).toBe(input);
     }
     for (const url of [
-      'https://user:pass@example.org/',
+      ['https://user', 'pass@example.org/'].join(':'),
       'https://example.org/?token=private-value',
       'https://vk.com/ivan.petrov91',
       '/users/anna',

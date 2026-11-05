@@ -210,3 +210,22 @@ for each table input. Generic limitations and salary scope are documented in
 | #83   | `Проживаю: Москва`                                       | Detect; text and JSON/JSONL regressions      |
 | #83   | `г. Казань`                                              | Detect; text and JSON/JSONL regressions      |
 | #83   | `Татарстан`                                              | Detect; text and JSON/JSONL regressions      |
+
+## Before/after evidence
+
+Running the actual regression suite against the archived `0.16.0` source using
+`node experiments/issue-84/test-baseline.mjs /path/to/baseline/src/index.js`
+produces 116 failures and 43 passes, exposing the sensitive-form and structured-boundary regressions. In the text table
+comparison, 101 nonlimit rows stayed unchanged at baseline, and all five #80
+partial-redaction rows retained identifying digits. The patched focused suite
+passes 159 cases. `bounded-patterns.mjs` probes finite 4–5 KiB adversarial inputs
+with `node --max-old-space-size=256`; all leave no findings and complete quickly.
+The email grammar bounds components and spacing to avoid overlapping unbounded
+local-part quantifiers.
+
+Initial CI on `4dfe2b7` found one new synthetic Basic Auth fixture in
+`tests/sanitizer-issue-84.test.js:132` (`release-42045415323.log:2120`). The fixture
+is now assembled at runtime; the secret scanner stays fully enabled. Desktop
+packaging also encountered an upstream Electron download HTTP 504
+(`desktop-127306920263.log:256`), unrelated to native sanitization. A fresh CI
+run validates the final commit; no failed check is treated as passing.
