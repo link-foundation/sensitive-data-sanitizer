@@ -78,6 +78,33 @@ it('rejects invalid shard selection and empty or unknown runtime commands', () =
   expect(() => testCommand('bun', [])).toThrow();
 });
 
+it('keeps measured expensive suites apart as unrelated files are added', () => {
+  const expensive = [
+    'pr-guards.test.js',
+    'release-api-integrity.test.js',
+    'detect-code-changes.test.js',
+  ];
+  for (const count of [3, 4]) {
+    for (let extra = 0; extra <= 12; extra++) {
+      const files = [
+        ...expensive,
+        ...Array.from(
+          { length: extra },
+          (_, index) => `extra-${index}.test.js`
+        ),
+      ];
+      const shards = Array.from({ length: count }, (_, index) =>
+        selectTests(files, `${index + 1}/${count}`)
+      );
+      for (const shard of shards) {
+        expect(
+          shard.filter((file) => expensive.includes(file.slice(6))).length <= 1
+        ).toBe(true);
+      }
+    }
+  }
+});
+
 it('preserves per-test limits and explicit file selection for each runtime', () => {
   const files = ['tests/a.test.js'];
   expect(testCommand('node', files)).toEqual([
