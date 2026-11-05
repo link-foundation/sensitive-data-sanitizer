@@ -19,7 +19,10 @@ Plan and verification checklist:
 - [x] Measure finite serial benchmarks against both released versions; document
       remaining cost instead of claiming the optional 2x performance target.
 - [x] Add a patch changeset, review the full diff and run focused compatibility checks.
-- [ ] Push, inspect current-commit CI, address failures, update PR and mark ready.
+- [x] Push the implementation and update PR #90 with the full scope and evidence.
+
+Final current-commit CI and ready status are tracked on
+[PR #90](https://github.com/link-foundation/sensitive-data-sanitizer/pull/90).
 
 ## Requirement inventory and solutions
 
@@ -131,6 +134,12 @@ and ordinary prose can still share these shapes: coverage remains heuristic.
 No new package or model download is required.
 
 ## Reproduction and evidence
+
+The new suite passes all 195 cases. Against archived 0.16.1 it reports 119
+failures and 76 passes, demonstrating the regressions before this fix. The focused
+existing document, context, escape-integrity and structured compatibility suites
+pass all 227 cases. Changed-file lint/format checks and the patch changeset
+validation also pass; full runtime/platform matrices run in CI.
 
 Run `node experiments/issue-89/test-baseline.mjs /path/to/0.16.1/src/index.js`
 against an archived release source tree with access to installed dependencies.
