@@ -55,4 +55,4 @@ No library was adopted: the package is a JavaScript library with finite rules, a
 
 ## Reproduction
 
-`experiments/issue-75/` holds the scripts: `trace-73.mjs` for the issue rows, `edge-73.mjs` for adjacent cases, `optin-73.mjs` for stored parts, and `lines-74.mjs` for the experience table and hostile timing.
+`experiments/issue-75/` holds the scripts: `trace-73.mjs` for the issue rows, `compare-73.mjs` to run them against another checkout, `edge-73.mjs` for adjacent cases, `optin-73.mjs` for stored parts, and `lines-74.mjs` for the experience table and hostile timing.
