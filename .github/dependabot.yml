@@ -1,0 +1,36 @@
+# Weekly grouped updates follow the Python template's maintenance policy.
+# Security updates retain Dependabot's separate, immediate advisory policy.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ['*']
+
+  - package-ecosystem: npm
+    directories:
+      - /
+      - /.github/actions/artifact-transport
+      - /examples/universal-app
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      npm:
+        patterns: ['*']
+
+  - package-ecosystem: pip
+    directory: /experiments/benchmark
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      benchmark:
+        patterns: ['*']
