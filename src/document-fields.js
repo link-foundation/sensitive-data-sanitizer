@@ -15,5 +15,7 @@ const types = new Map(
   )
 );
 export function documentFieldType(field) {
-  return types.get(field.replace(/[_-]/g, '').toLowerCase());
+  return types.get(normalizeFieldName(field));
 }
+export const normalizeFieldName = (field) =>
+  field.replace(/[_-]/g, '').toLowerCase();

@@ -140,7 +140,9 @@ and a shared map; such conflicting occurrence metadata is refused. Choose
 separate maps for those documents if exact independent restoration is needed.
 
 JSON/JSONL keys and values participate equally in placeholder mode, including
-ordinary identifier keys and declared structural fields. Parseability and
+ordinary identifier keys and declared structural fields. With `properNames`,
+JSON keys remain unchanged by automatic personal detection in all transformation
+modes. Explicit known values and credentials retain priority. Parseability and
 duplicate-key checks remain enforced. Plain redact/fake policies retain their
 existing metadata/key behavior. Use `structured` for valid structured input.
 The normal encoding limits and credential redaction policy continue to apply.
@@ -157,6 +159,8 @@ new document recognizers; `documentEntities: false` turns them off explicitly.
 | Option             | Default / meaning                                                                                                                                           |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `documentEntities` | Off; bounded organization, education and location rules; enabled by the documents profile                                                                   |
+| `properNames`      | Off; `'capitalized'` enables structural name redaction in activated prose strings                                                                           |
+| `scripts`          | `['Cyrillic']`; Unicode Script aliases that activate the prose rule; `[]` disables only script activation                                                   |
 | `profile`          | Off; `'publication'` sets a 0.3 threshold and identity masking; `'documents'` enables document entities                                                     |
 | `knownOnly`        | `false`; disable all automatic detection (including credentials, Secretlint and custom detectors); use only explicit known values and reused map identities |
 | `knownSecrets`     | `[]`; exact literal credential values, regardless of length or format                                                                                       |
@@ -176,7 +180,7 @@ new document recognizers; `documentEntities: false` turns them off explicitly.
 | `fakeIdentity`     | Off; `'specimen-and-synthetic'` retains explicitly fake identity values                                                                                     |
 | `fakeValues`       | `[]`; exact caller-reviewed identity values to retain, regardless of fakeIdentity                                                                           |
 | `structured`       | Off; `'json'` or `'jsonl'` validates and sanitizes string keys/values separately                                                                            |
-| `sensitiveFields`  | `[]`; exact JSON/JSONL property names whose complete values become a redaction string; supports synchronous calls                                           |
+| `sensitiveFields`  | `[]`; JSON/JSONL names normalized for case and `_`/`-`; complete values become a redaction string; supports synchronous calls                               |
 | `structuralFields` | `[]`; declared property names suppress weak name/ID/entropy heuristics in their string values                                                               |
 
 Unknown options and invalid limits are errors. `knownSecretsFromEnv(env, names?)` discovers credential-named variables (excluding auth configuration names) when names are omitted, or uses an explicit selection, deduplicating nonempty values. It never invokes shell commands or reads auth files. `personalVariants(entries)` generates numeric and ISO/day-first date spellings; name case variants are already handled by detection. Neither helper invents transliterations.
@@ -478,8 +482,9 @@ Authorization headers (including Proxy-Authorization) redact the scheme and one 
 
 ## Caller-declared sensitive fields
 
-In structured JSON/JSONL, `sensitiveFields: string[]` matches exact,
-case-sensitive property names at any depth. The complete property value becomes
+In structured JSON/JSONL, `sensitiveFields: string[]` ignores case and removes
+underscores and hyphens at any depth, like built-in document fields. For example,
+`fooBar` also matches `foo_bar`, `FooBar` and `foo-bar`. The complete property value becomes
 `"[REDACTED]"`, including empty strings, numbers, booleans, null, arrays and
 objects. This deliberate schema policy can change value types. It takes
 priority over `structuralFields` and transformations, preserves property names
@@ -505,3 +510,58 @@ sanitize('Lyutik работал', {
 context. For computed synchronous detection, callers can supply validated
 `findings` for the exact input. `detectors` remains an asynchronous-engine
 option; `sanitize` does not invoke these callbacks.
+
+## Structural prose redaction
+
+`properNames: 'capitalized'` is an optional, deliberately aggressive native rule
+for stored prose. It works with any profile; the examples use `documents` for
+its other document rules. It is off by default.
+
+```js
+sanitize('Работал в Ромашке менеджером по продажам.', {
+  profile: 'documents',
+  properNames: 'capitalized',
+}).text;
+// [REDACTED] в [REDACTED] менеджером по продажам.
+```
+
+Each string activates independently if it contains a letter from `scripts`, a
+parenthesized document date range, a comma followed by an 11-digit `79…`/`89…`
+mobile shape, or an HTTP(S)/bare-domain link with a `/d/<id>` path. `scripts`
+defaults to `['Cyrillic']`, suitable for English operational logs; choose Unicode
+Script aliases such as `['Greek', 'Cyrillic']` for your workload. Script names
+are case-sensitive runtime Unicode property aliases, not language codes.
+`scripts: []` disables script activation while retaining the other triggers.
+
+Inside activated values, the rule replaces words containing an uppercase letter
+anywhere (`iPhone`, `A.B`, `Санкт-Петербург`), typographic quoted spans (including
+lowercase `«ромашка лютик»`), links including `example.org/path`, and bare domestic
+mobile shapes. Labels immediately before a colon (also `Label :`), lowercase
+words, numbers, date ranges and path tokens stay. A path can still match existing
+personal-path or credential rules. Numeric primitives and JSON keys stay; string
+escapes and surrounding source formatting are retained. JSON/JSONL activation
+also applies independently within serialized JSON strings, to the existing
+bounded decoding depth. Findings do not seed document-wide name propagation.
+Repeated redaction is stable. Reusing a placeholder map for the same original
+produces stable tokens and exact restoration; the existing placeholder-namespace
+collision checks still reject input that already contains typed placeholders.
+
+This is a structural heuristic, so capitalized ordinary words also disappear.
+Lowercase organizations and `Ромашка: менеджер` stay. English prose without a
+trigger (`Worked at Romashka for three years.`), isolated neutral-key values
+`{"note":"Romashka"}` / `{"note":"1991-03-12"}`, and a personal website root
+without a trigger stay under this rule. The existing detectors and explicit
+known/sensitive-field policies still run: an unactivated value is byte-for-byte
+unchanged by this additional rule, not exempt from credential detection.
+`credentialsOnly` and `knownOnly` suppress automatic prose detection.
+
+The new scanner uses a fixed number of forward passes over maximal tokens,
+including long tokens without spaces. This does not impose a linear-time bound
+on optional external engines or every preexisting detection rule. Debugging is
+off by default; `debug` receives value-free `proper-name-prose` and
+`document-experience` hit counts when those scans run.
+
+CLI equivalents: `--proper-names capitalized --scripts Cyrillic,Greek`.
+Configuration files accept the same `properNames` and `scripts` API options;
+use a configuration file for `scripts: []`. See the runnable
+[prose-log example](../examples/prose-logs.mjs).

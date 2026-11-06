@@ -264,7 +264,11 @@ export function personalValueAllowed(text, range, type, labelStart) {
   if (!plausibleLabel(value, type)) {
     return false;
   }
-  if (['LOCATION', 'ADDRESS'].includes(type) && servicePath(value)) {
+  if (
+    ['LOCATION', 'ADDRESS'].includes(type) &&
+    (servicePath(value) ||
+      /^(?:\.?\.?\/)?[\w.-]+(?:\/[\w.-]+)+\/?$/.test(value))
+  ) {
     return false;
   }
   if (type === 'PHONE') {

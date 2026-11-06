@@ -43,6 +43,10 @@ export interface SanitizerOptions {
   profile?: 'publication' | 'documents';
   /** Opt in to bounded employer, school, city/region heuristics. */
   documentEntities?: boolean;
+  /** Aggressive structural proper names in prose values; opt-in, off by default. */
+  properNames?: 'capitalized';
+  /** Unicode Script aliases that activate prose detection; default ['Cyrillic']. */
+  scripts?: string[];
   confirmedPersonal?: Array<{ value: string; type: string }>;
   knownSecrets?: string[];
   knownPersonal?: PersonalValue[];
@@ -63,7 +67,7 @@ export interface SanitizerOptions {
   structured?: 'json' | 'jsonl';
   /** Property names whose metadata heuristics may be suppressed. */
   structuralFields?: string[];
-  /** Exact, case-sensitive property names whose entire values are redacted in JSON/JSONL. */
+  /** Property names normalized across case/underscores/hyphens; entire JSON/JSONL values redact. */
   sensitiveFields?: string[];
   /** Personal replacement threshold, default 0.5. Inspect retains lower scores. */
   minConfidence?: number;
@@ -88,6 +92,7 @@ export interface SanitizerOptions {
 /** Value-free diagnostics; enabled only when a debug callback is supplied. */
 export type DebugEvent =
   | { event: 'detected'; count: number }
+  | { event: 'document-experience' | 'proper-name-prose'; count: number }
   | { event: 'residual-redaction'; round: number }
   | { event: 'two-pass-confirmation'; type: string }
   | { event: 'propagation-skipped'; reason: 'length'; type: string }

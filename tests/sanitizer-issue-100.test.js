@@ -174,7 +174,7 @@ describe('structured document field policy', () => {
       ).toBe(expected);
     });
   }
-  it('supports exact caller-declared properties with any JSON value in JSON and JSONL', async () => {
+  it('supports normalized caller-declared properties with any JSON value in JSON and JSONL', async () => {
     for (const value of [
       'private words\nsecond line',
       '',
@@ -197,7 +197,7 @@ describe('structured document field policy', () => {
         };
         const expected = JSON.stringify({
           privateNote: '[REDACTED]',
-          PrivateNote: 'keep',
+          PrivateNote: '[REDACTED]',
           metadata: 42,
         });
         expect(sanitize(input, config).text).toBe(expected);

@@ -1,4 +1,5 @@
 import { generatedValues } from './fake.js';
+import { validateProperNames } from './proper-names.js';
 import { prepareFakeText } from './fake-entities.js';
 import { alignEscapes } from './escape-spans.js';
 import { actionable } from './confidence.js';
@@ -78,6 +79,8 @@ const optionNames = new Set([
   'threshold',
   'profile',
   'documentEntities',
+  'properNames',
+  'scripts',
 ]);
 
 export function applyProfile(options = {}) {
@@ -191,6 +194,7 @@ export function validateOptions(options = {}) {
     }
   }
   validateConfidence(options);
+  validateProperNames(options);
   validatePolicy(options);
   if (
     options.verifyPublic !== undefined &&
@@ -410,11 +414,20 @@ function inspectText(text, options = {}) {
           ...options,
           structured: undefined,
           findings: [],
+          properNames: undefined,
+          documentEntities: options.properNames
+            ? false
+            : options.documentEntities,
         }),
         options
       ),
-      ...inspectStructuredValues(batch, options, (value) =>
-        inspect(value, { ...options, structured: undefined, findings: [] })
+      ...inspectStructuredValues(batch, options, (value, prose) =>
+        inspect(value, {
+          ...options,
+          structured: undefined,
+          findings: [],
+          properNames: prose ? options.properNames : undefined,
+        })
       ),
     ]);
     return inspectFindingsOnly(
