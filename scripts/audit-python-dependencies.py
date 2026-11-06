@@ -35,6 +35,9 @@ def discover():
 
 def audit(manifests):
     status = 0
+    python_version = (
+        (Path(__file__).resolve().parents[1] / ".python-version").read_text().strip()
+    )
     with tempfile.TemporaryDirectory(prefix="python-audit-") as directory:
         for index, manifest in enumerate(manifests):
             print(f"Auditing resolved Python dependencies: {manifest}", flush=True)
@@ -50,7 +53,7 @@ def audit(manifests):
                         "compile",
                         "--no-build",
                         "--python-version",
-                        "3.15",
+                        python_version,
                         "--generate-hashes",
                         "--no-annotate",
                         "--quiet",

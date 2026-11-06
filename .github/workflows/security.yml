@@ -176,8 +176,9 @@ jobs:
           pipx install pip-audit==2.10.1
       - name: Audit every tracked Python requirements file
         run: python scripts/audit-python-dependencies.py
-      # PyYAML 6.0.3 has no cp315 wheel yet; its source build is required.
-      # The hashes cover the complete graph, including that source archive.
+      # Presidio 2.2.366 caps preshed below the Python 3.15 runtime fix.
+      # Use the current 3.14 security release until upstream removes that cap:
+      # https://github.com/data-privacy-stack/presidio/issues/2431
       - name: Verify locked benchmark dependencies on current Python
         run: |
           uv pip install --system --require-hashes -r experiments/benchmark/requirements.lock -c experiments/benchmark/requirements.txt

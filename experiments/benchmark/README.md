@@ -15,7 +15,7 @@ Every engine receives the same plain UTF-8 case files. Gitleaks uses its default
 
 Full-span recall requires the union of predicted ranges to cover the entire annotated sensitive span. Partial coverage is a miss for recall. Overlap precision counts a deduplicated prediction as true if it intersects any annotated span; it does not penalize excess characters in an overlapping prediction. Therefore neither precision nor these results prove absence of over-redaction. `predictions-*.json` retains UTF-16 ranges for independent review. `results.json` records corpus SHA256, source/lock fingerprint, version pins and counts; `corpus*.json` records the exact synthetic input and truth. Inspect per-case results when comparing secret and PII scopes.
 
-Run from the repository root with Python 3.15, installed binary tools from their official release assets, and finite Node heap:
+Run from the repository root with the Python version in `.python-version`, installed binary tools from their official release assets, and finite Node heap. Python 3.14.10 is the latest compatible security release: Presidio 2.2.366 requires preshed <3.0.14, whose source build crashes when spaCy loads a model on Python 3.15. [Upstream issue 2431](https://github.com/data-privacy-stack/presidio/issues/2431) tracks removing the cap; Python 3.15.2 and preshed 3.0.15 remain blocked by that dependency constraint.
 
 ```sh
 npm ci

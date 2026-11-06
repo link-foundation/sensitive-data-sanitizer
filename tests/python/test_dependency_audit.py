@@ -64,6 +64,10 @@ class DependencyAuditTests(unittest.TestCase):
         self.assertEqual(resolve[:3], ["uv", "pip", "compile"])
         self.assertIn("--no-build", resolve)
         self.assertIn("--generate-hashes", resolve)
+        self.assertEqual(
+            resolve[resolve.index("--python-version") + 1],
+            (SCRIPT.parents[1] / ".python-version").read_text().strip(),
+        )
         self.assertEqual(scan[0], "pip-audit")
         for flag in ("--disable-pip", "--require-hashes"):
             self.assertIn(flag, scan)
