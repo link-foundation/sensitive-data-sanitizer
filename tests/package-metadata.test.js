@@ -123,6 +123,7 @@ describe('publishable package metadata', () => {
       'README.md',
       'examples/shared-tool-logs.mjs',
       'examples/reversible-placeholders.mjs',
+      'examples/prose-logs.mjs',
     ]);
   });
 });

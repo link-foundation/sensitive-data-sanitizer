@@ -73,6 +73,11 @@ const cases = [
     `${lead}, [REDACTED], жду ответа`,
   ]),
   ['Анна, 89161234567', 'Анна, [REDACTED]'],
+  ['Anna, 89161234567', 'Anna, [REDACTED]'],
+  [
+    'Letter, 89161234567, waiting for a reply',
+    'Letter, [REDACTED], waiting for a reply',
+  ],
   ['Иванова А., 79161234567, Москва', '[REDACTED], [REDACTED], [REDACTED]'],
   ['(МГУ, 2012)', '([REDACTED], 2012)'],
   ['Образование (МГУ)', 'Образование ([REDACTED])'],
@@ -118,15 +123,17 @@ describe('issue 104 complete reported document forms', () => {
     });
   }
   it('normalizes declared sensitive names and keeps relative location paths', async () => {
+    expect(sanitize('{"location":"apps/api"}').text).toBe(
+      '{"location":"apps/api"}'
+    );
     const input =
-      '{"fooBar":"Иван","foo_bar":{"private":42},"FooBar":123,"location":"apps/api","ok":42}';
+      '{"fooBar":"Иван","foo_bar":{"private":42},"FooBar":123,"foo-bar":false,"location":"apps/api","ok":42}';
     const config = {
-      ...options,
       structured: 'json',
       sensitiveFields: ['fooBar'],
     };
     const expected =
-      '{"fooBar":"[REDACTED]","foo_bar":"[REDACTED]","FooBar":"[REDACTED]","location":"apps/api","ok":42}';
+      '{"fooBar":"[REDACTED]","foo_bar":"[REDACTED]","FooBar":"[REDACTED]","foo-bar":"[REDACTED]","location":"apps/api","ok":42}';
     expect(sanitize(input, config).text).toBe(expected);
     expect(
       (await createSanitizer({ ...config, secretlint: false }).sanitize(input))

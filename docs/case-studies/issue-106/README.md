@@ -91,11 +91,11 @@ retained; already-tokenized placeholder input remains rejected by that mode.
 Reproduce the focused checks:
 
 ```sh
-node --max-old-space-size=384 --test --test-timeout=30000 tests/sanitizer-issue-106.test.js tests/sanitizer-prose-integration.test.js tests/sanitizer-experience-lines.test.js tests/sanitizer-issue-100.test.js tests/sanitizer-placeholders.test.js tests/sanitizer-profiles.test.js
+node --max-old-space-size=384 --test --test-timeout=30000 tests/package-metadata.test.js tests/sanitizer-issue-106.test.js tests/sanitizer-prose-integration.test.js tests/sanitizer-experience-lines.test.js tests/sanitizer-issue-100.test.js tests/sanitizer-placeholders.test.js tests/sanitizer-profiles.test.js
 node_modules/.bin/eslint . --max-warnings 0
 ```
 
-The focused selection passes all **252 tests**. The compatibility regression also
+The focused selection passes all **260 tests**, including package metadata. The compatibility regression also
 checks that Chinese and Arabic document entities remain protected alongside
 activated uppercase prose. Nonoverlapping existing document findings are retained.
 
@@ -152,3 +152,13 @@ folder and inspected before changing code:
   the tab-run shape to the bounded automated probe.
 - The same commit passed the example-app and broken-link workflows. These
   results do not substitute for checks of the final commit, tracked on PR 107.
+
+The follow-up commit `eccb68e` passed full lint, security (including all CodeQL
+languages), example-app builds and links. Its runtime matrix exposed a stale
+exact package-file assertion after adding the runnable prose example:
+`bun-127727417376.log` lines 3679–3686 and `deno-127727417238.log` lines 4077–4090.
+Deno reported 3,011 passing tests and this single failure. Update the package
+metadata fixture to include the new example; reproduce the failure and pass
+locally with `node --test tests/package-metadata.test.js`. The focused suite also
+checks the exact English phone examples, hyphen normalization and default-profile
+relative location handling.
