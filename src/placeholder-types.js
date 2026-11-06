@@ -22,6 +22,7 @@ export const reservedPlaceholderTypes = () => [
   'PASSPORT_MRZ',
   'PASSPORT_NUMBER',
   'PERSON',
+  'PROPER_NAME',
   'PHONE',
   'PL_PESEL',
   'RU_INN',

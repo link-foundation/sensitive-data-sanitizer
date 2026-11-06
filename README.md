@@ -22,6 +22,23 @@ sensitive-data-sanitizer redact session.jsonl --stream --jsonl --two-pass --outp
 
 ## Quick Start
 
+For stored prose that can tolerate extra redaction, opt into structural proper
+names independently for each string value:
+
+```js
+sanitize('Работал в Ромашке менеджером по продажам.', {
+  profile: 'documents',
+  properNames: 'capitalized',
+}).text;
+// [REDACTED] в [REDACTED] менеджером по продажам.
+```
+
+The rule defaults to Cyrillic or structural data triggers, keeps JSON keys and
+numbers, and supports caller-selected Unicode `scripts`. It is off by default.
+See [activation rules and limits](docs/API.md#structural-prose-redaction) and the
+[prose-log example](examples/prose-logs.mjs). CLI:
+`redact input.jsonl --jsonl --proper-names capitalized --profile documents`.
+
 ### Readable placeholders and document profiles
 
 Use the opt-in `documents` profile for CVs and similar prose. It adds bounded

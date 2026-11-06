@@ -140,7 +140,13 @@ async function analyzeStructured(
         batch.text,
         [],
         true,
-        options,
+        {
+          ...options,
+          properNames: undefined,
+          documentEntities: options.properNames
+            ? false
+            : options.documentEntities,
+        },
         nativeFindings === undefined ? undefined : []
       ),
       options
@@ -152,7 +158,11 @@ async function analyzeStructured(
         view.text,
         [],
         true,
-        { ...options, structured: undefined },
+        {
+          ...options,
+          structured: undefined,
+          properNames: view.prose ? options.properNames : undefined,
+        },
         nativeFindings === undefined ? undefined : []
       );
       for (const finding of detected) {

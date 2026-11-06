@@ -60,7 +60,7 @@ The `documents` profile also reads employers from CV experience lines anchored o
 a date range: `Title, Employer (2019-05 – 2021-03)`, `Title — Employer, 2019–2021`
 and `Title (Employer), 2019–2021`. Ranges use years, `YYYY-MM`, `MM.YYYY`, full
 dates or `month YYYY`, with `по настоящее время`, `н.в.`, `по н.в.`, `present` and
-similar open ends. Titles have one to nine words. A label of one or two words
+similar open ends. For the non-parenthesized layouts, titles have one to nine words. A label of one or two words
 before the title (`Опыт: `, `Опыт работы - `, `Опыт — `) is read like a list marker,
 and a segment after `|` is read like a line start, so
 `Должность: Менеджер | Опыт: Аналитик, Ромашка (2018 – 2020)` also yields the
@@ -68,9 +68,9 @@ employer. The date range stays the anchor and the employer must still start with
 capital letter, a digit or a quote. Confidence is 0.60, and the employer then
 propagates through the document like other organizations. The default profile
 ignores these lines. Lines
-with more fields (`Title, Employer, City (dates)`) and titles containing a comma
-are not targeted and can leave the employer in place; date-anchored prose with
-the same shape can be flagged.
+with parenthesized ranges additionally support arbitrary title prefixes,
+comma-containing employers and titles, as described below. Date-anchored prose
+with the same shape can be flagged.
 
 The gazetteer has only the cities/regions explicitly listed in that module,
 including Springfield and Riverton. It is not a worldwide geocoder. Location
@@ -376,7 +376,8 @@ Employer labels consume multi-word values to a comma or line/quote boundary.
 Dated CV entries additionally support compound titles, title parentheses/slashes,
 quoted group names, legal-form/location suffixes, empty/`null` range ends,
 multiple entries, employer-first role entries and pipe-separated entries.
-The supplemental grammar uses finite title cues and bounded entries. Undated
+The parenthesized date-anchor scanner accepts arbitrary forward titles and
+lead-ins. The reversed `Company, manager` layout retains finite role cues. Undated
 `Менеджер, Ромашка Лютик`, `- Ромашка Лютик 5 лет` and
 `Последнее место работы Ромашка Лютик` remain explicit ambiguous limits, as
 permitted by #94. Use known values or schema declarations for them.
@@ -402,3 +403,48 @@ redaction replaces the fragment instead of repeating an unchanged result until
 
 The [requirement inventory and research](case-studies/issue-100/README.md)
 records the complete scope and regression evidence.
+
+## Dated entries and optional prose (issues 104–106)
+
+Parenthesized date anchors now delimit successive entries on the same line,
+including arbitrary title words and lead-ins (`Стаж = 5 лет:`, `= 3 года,`).
+Employers can contain comma suffixes, nested parentheses, slash-separated names,
+legal forms and multiple words. A pipe after the employer preserves the industry
+suffix. `Founder, consultant, Romashka (2019–2021)` and equivalent Russian entries
+share the parser. The employer must start with a capital letter, a quote, or a
+company-style digit/letter combination. **Lowercase employers remain a limit**:
+`Менеджер, romashka (2019–2021)` / `Менеджер, ромашка (2019–2021)` stay, preserving
+ambiguous controls such as `Встреча, понедельник (2019–2021)`.
+
+`ГК` and `группа компаний` introduce quoted or unquoted group names. Employment
+lists continue through repeated `, потом в` and `, затем в` items. Domestic
+`79…`/`89…` mobile shapes after a comma work in Russian and English text; plain
+`order`/`id` numbers stay. School detection also covers `(МГУ, 2012)`,
+`Образование (МГУ)`, `в МГТУ им. Баумана` and `Обучение: Skillbox, 2020`.
+The acronym vocabulary remains finite.
+
+Weak organization experience/duration cues preserve a small explicit technology
+set: Python, Go, SQL, Excel, Power BI, Kubernetes, PostgreSQL, Telegram and Scrum.
+This is an ambiguity policy, not general recognition of every product; a real
+employer with one of those names needs `knownPersonal` or a declared sensitive
+field. Explicit private values/fields and stronger legal-form cues still win.
+
+Document share-link detection also recognizes HTTP(S) URLs containing `/d/<id>`
+for any host and nonempty id length. Ordinary website roots remain a limit.
+Relative operational paths such as `{"location":"apps/api"}` stay; explicit
+personal paths and credential rules remain active. Caller-sensitive field names
+now use the same case/underscore/hyphen normalization as built-in document names.
+
+For no-cue prose, enable [`properNames: 'capitalized'`](API.md#structural-prose-redaction).
+It activates per value, defaults to Cyrillic script letters or structural data
+triggers, and supports configurable Unicode scripts. It intentionally loses
+capitalized ordinary words. Labels, lowercase words, dates, paths, JSON keys and
+untriggered values are outside this additional rule. English untriggered prose,
+lowercase names and a name immediately before a colon remain documented limits.
+The API describes the interaction with existing detectors and placeholder modes.
+
+The date-anchor scan visits each preceding entry once; the optional prose scanner
+classifies maximal tokens in fixed passes, avoiding repeated suffix searches on
+long unspaced input. This is not a latency guarantee for the whole pipeline.
+[The requirement inventory](case-studies/issue-106/README.md) records alternatives,
+research, regression evidence and reproducible bounded performance measurements.

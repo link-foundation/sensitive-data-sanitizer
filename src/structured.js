@@ -1,5 +1,5 @@
 import { failure } from './detection.js';
-import { documentFieldType } from './document-fields.js';
+import { documentFieldType, normalizeFieldName } from './document-fields.js';
 import { hasPlaceholders } from './placeholders.js';
 
 // Session metadata is opt-in at the CLI; library callers choose their own
@@ -182,10 +182,10 @@ function weakStructuralFinding(finding, entry, batchText) {
   }
   return false;
 }
-function ordinaryPersonalKey(entry, finding) {
+function ordinaryPersonalKey(entry, finding, options = {}) {
   return (
     entry.key &&
-    /^[A-Za-z_$][\w$]*$/.test(JSON.parse(entry.raw)) &&
+    (options.properNames || /^[A-Za-z_$][\w$]*$/.test(JSON.parse(entry.raw))) &&
     finding.category === 'personal' &&
     finding.rule !== 'known-personal'
   );
@@ -193,12 +193,17 @@ function ordinaryPersonalKey(entry, finding) {
 // Propagation runs again at source offsets. Apply the same key policy after it
 // so a name confirmed in a value cannot rename an ordinary identifier key.
 export function preserveIdentifierKeys(text, findings, options) {
-  if (!options.structured || hasPlaceholders(options)) {
+  if (
+    !options.structured ||
+    (hasPlaceholders(options) && !options.properNames)
+  ) {
     return findings;
   }
   const keys = structuredBatches(text, options).flatMap((batch) =>
     batch.entries
-      .filter((entry) => ordinaryPersonalKey(entry, { category: 'personal' }))
+      .filter((entry) =>
+        ordinaryPersonalKey(entry, { category: 'personal' }, options)
+      )
       .map((entry) => ({
         start: entry.start,
         end: entry.start + entry.raw.length,
@@ -222,13 +227,16 @@ export function preserveIdentifierKeys(text, findings, options) {
   });
 }
 function preserveStructuredEntry(entry, finding, text, options) {
+  if (options.properNames && ordinaryPersonalKey(entry, finding, options)) {
+    return true;
+  }
   if (hasPlaceholders(options)) {
     return false;
   }
   return (
     (entry.key &&
       ['confirmed-personal', 'document-propagation'].includes(finding.rule)) ||
-    ordinaryPersonalKey(entry, finding) ||
+    ordinaryPersonalKey(entry, finding, options) ||
     (!entry.key &&
       options.structuralFields?.includes(entry.field) &&
       weakStructuralFinding(finding, entry, text))
@@ -346,28 +354,28 @@ export function* structuredValueViews(
         end: entry.start + raw.end,
       });
     };
-    yield { text: value, map };
-    // Match the encoded detector's finite depth; arbitrary nesting is a limit.
+    // A serialized container is a transport envelope, not one prose value.
+    // Activate the optional scanner only in its independently decoded leaves.
+    let batches = [];
     if (depth < 2 && /^[ \t\r\n]*[[{]/.test(value)) {
-      let batches;
       try {
         batches = structuredBatches(value, { ...options, structured: 'json' });
       } catch (error) {
         if (error.code !== 'ERR_JSON') {
           throw error;
         }
-        batches = [];
       }
-      for (const nested of batches) {
-        yield* structuredValueViews(nested, options, depth + 1, map);
-      }
+    }
+    yield { text: value, map, prose: !entry.key && batches.length === 0 };
+    for (const nested of batches) {
+      yield* structuredValueViews(nested, options, depth + 1, map);
     }
   }
 }
 export function inspectStructuredValues(batch, options, inspectValue) {
   const result = [];
   for (const view of structuredValueViews(batch, options)) {
-    const findings = inspectValue(view.text);
+    const findings = inspectValue(view.text, view.prose);
     options.debug?.({ event: 'structured-value', count: findings.length });
     for (const finding of findings) {
       const mapped = view.map(finding);
@@ -399,13 +407,13 @@ export function declaredFieldFindings(text, options) {
   if (!options.sensitiveFields?.length) {
     return [];
   }
-  const fields = new Set(options.sensitiveFields);
+  const fields = new Set(options.sensitiveFields.map(normalizeFieldName));
   const findings = [];
   for (const token of lexemes(text)) {
     if (
       token.index < (findings.at(-1)?.end ?? 0) ||
       !token.key ||
-      !fields.has(JSON.parse(token.raw))
+      !fields.has(normalizeFieldName(JSON.parse(token.raw)))
     ) {
       continue;
     }

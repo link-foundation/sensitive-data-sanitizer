@@ -60,6 +60,8 @@ history rewrite SOURCE --output DIRECTORY [--apply]
 --jsonl             Sanitize JSONL records; combine with --stream for sessions
 --identity-mask     First/last 2 identity mask (publication profile default)
 --profile NAME      publication (redact default) or documents (CV/entity rules)
+--proper-names MODE Structural prose rule: capitalized (off by default)
+--scripts LIST      Comma-separated Unicode Script names (default Cyrillic)
 --placeholder       Typed numbered placeholders; requires --map or --no-map
 --map PATH          Private JSON/.lino restore map; reuse it across files/runs
 --no-map            Discard placeholder mapping after full anonymization
@@ -122,6 +124,8 @@ function parseArgs(argv) {
     ['--worker-timeout-ms', 'workerTimeoutMs'],
     ['--filter-repo', 'filterRepo'],
     ['--profile', 'profile'],
+    ['--proper-names', 'properNames'],
+    ['--scripts', 'scripts'],
     ['--map', 'map'],
     ['--map-format', 'mapFormat'],
     ['--placeholder-format', 'placeholderFormat'],
@@ -341,6 +345,10 @@ async function loadOptions(config) {
 
 async function featureOptions(config, options) {
   await localCredentials(config, options);
+  options.properNames = config.properNames ?? options.properNames;
+  if (config.scripts !== undefined) {
+    options.scripts = config.scripts.split(',');
+  }
   if (config.knownOnly) {
     options.knownOnly = true;
   }

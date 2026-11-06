@@ -36,7 +36,11 @@ function eligibleSeed(finding, options) {
     !options.knownOnly &&
     finding.category === 'personal' &&
     finding.type !== 'ENCODED_SENSITIVE' &&
-    !['confirmed-personal', 'document-propagation'].includes(finding.rule) &&
+    ![
+      'confirmed-personal',
+      'document-propagation',
+      'proper-name-prose',
+    ].includes(finding.rule) &&
     actionable(finding, options) &&
     ((options.documentEntities && finding.type === 'ORGANIZATION') ||
       finding.confidence >= 0.85 ||

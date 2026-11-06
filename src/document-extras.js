@@ -1,8 +1,14 @@
 import { collectMatches } from './detection.js';
+import {
+  detectDatedEmployers,
+  isDocumentTechnology,
+} from './document-experience.js';
+import { isDocumentShareLink } from './proper-names.js';
 
 const boundary = '[\\p{L}\\p{N}_]';
 const proper = '[\\p{Lu}][\\p{L}\\p{M}\\p{N}.-]{0,46}[\\p{L}\\p{M}\\p{N}]';
 const name = `${proper}(?:[ \\t]+${proper}){0,5}`;
+const employerName = `(?:«[^«»\\r\\n]{1,160}»|“[^“”\\r\\n]{1,160}”|"[^"\\r\\n]{1,160}"|${name})`;
 const orgList = `(?:«[^«»\\r\\n]{1,160}»|${name})(?:[ \\t]*(?:,|и|and)[ \\t]+${name}){0,5}`;
 const cues = new RegExp(
   `(?<!${boundary})(?:компании|опыт[ \\t]+в|проекты[ \\t]+для|[Рр]оль[ \\t]+в)[ \\t]+(${orgList})(?!${boundary})`,
@@ -12,13 +18,42 @@ const duration = new RegExp(
   `(?<!${boundary})(${name})(?=[ \\t]*\\(\\d{1,2}[ \\t]+(?:год|года|лет|years?)\\))`,
   'gu'
 );
-// JavaScript's \b is ASCII-only; Cyrillic titles use a Unicode lookahead.
-const role =
-  /^(?:менеджер|директор|руководитель|инженер|аналитик|разработчик)(?![\p{L}])|^(?:manager|director|engineer|developer|senior|qa)\b/iu;
-
-export function detectDocumentExtras(text, emit, range) {
+export function detectDocumentExtras(text, emit, range, debug) {
   for (const [type, rule, pattern, group] of [
     ['PHONE', 'document-mobile-bare', /^[78]9\d{9}$/gm, 0],
+    [
+      'PHONE',
+      'document-mobile-comma',
+      /,[ \t]*([78]9\d{9})(?![\p{L}\p{N}_])/gu,
+      1,
+    ],
+    [
+      'ORGANIZATION',
+      'organization-group-cue',
+      new RegExp(
+        `(?<!${boundary})(?:ГК|[Гг]руппа компаний)[ \\t]+${employerName}`,
+        'gu'
+      ),
+      0,
+    ],
+    [
+      'EDUCATION',
+      'education-bracket',
+      /(?<=\()(МГУ|СПбГУ|МГТУ|РГГУ|ВШЭ)(?=[,)])/gu,
+      1,
+    ],
+    [
+      'EDUCATION',
+      'education-named-acronym',
+      /(?<![\p{L}\p{N}_])(?:МГУ|СПбГУ|МГТУ|РГГУ|ВШЭ)[ \t]+им\.[ \t]+[А-ЯЁ][а-яё-]{2,40}/gu,
+      0,
+    ],
+    [
+      'EDUCATION',
+      'education-training',
+      /(?<![\p{L}\p{N}_])(?:Обучение|Training)[ \t]*:[ \t]*([\p{Lu}][\p{L}\p{M}.-]{1,47})/gu,
+      1,
+    ],
     [
       'PHONE',
       'document-mobile-context',
@@ -56,7 +91,8 @@ export function detectDocumentExtras(text, emit, range) {
       pattern,
       emit,
       { type, rule, category: 'personal', confidence: 0.85 },
-      group
+      group,
+      (value) => type !== 'ORGANIZATION' || !isDocumentTechnology(value)
     );
   }
   for (const match of text.matchAll(cues)) {
@@ -64,6 +100,9 @@ export function detectDocumentExtras(text, emit, range) {
     for (const company of match[1].matchAll(
       new RegExp(`«[^«»\\r\\n]{1,160}»|${name}`, 'gu')
     )) {
+      if (isDocumentTechnology(company[0])) {
+        continue;
+      }
       emit({
         start: offset + company.index,
         end: offset + company.index + company[0].length,
@@ -75,7 +114,57 @@ export function detectDocumentExtras(text, emit, range) {
     }
   }
   detectQueryContacts(text, emit);
-  detectExperience(text, emit, range);
+  collectMatches(
+    text,
+    /https?:\/\/[^\s"<>\\]+/gu,
+    emit,
+    {
+      type: 'URL',
+      category: 'personal',
+      rule: 'document-share-path',
+      confidence: 0.85,
+    },
+    0,
+    isDocumentShareLink
+  );
+  detectEmployerContinuation(text, emit);
+  detectDatedEmployers(text, emit, range, debug);
+}
+
+function detectEmployerContinuation(text, emit) {
+  const continuation = new RegExp(
+    `,[ \\t]*(?:потом|затем)[ \\t]+в[ \\t]+(${employerName})`,
+    'uy'
+  );
+  for (const match of text.matchAll(
+    new RegExp(
+      `(?<!${boundary})[Рр]аботал[аи]?[ \\t]+в[ \\t]+(${employerName})`,
+      'gu'
+    )
+  )) {
+    continuation.lastIndex = match.index + match[0].length;
+    let next = continuation.exec(text);
+    if (next) {
+      emitEmployer(match);
+    }
+    while (next) {
+      emitEmployer(next);
+      next = continuation.exec(text);
+    }
+  }
+  function emitEmployer(match) {
+    const end = match.index + match[0].length;
+    if (!isDocumentTechnology(match[1])) {
+      emit({
+        start: end - match[1].length,
+        end,
+        type: 'ORGANIZATION',
+        category: 'personal',
+        rule: 'organization-continuation',
+        confidence: 0.85,
+      });
+    }
+  }
 }
 
 function detectQueryContacts(text, emit) {
@@ -108,63 +197,6 @@ function detectQueryContacts(text, emit) {
       category: 'personal',
       rule: 'label',
       confidence: 0.95,
-    });
-  }
-}
-
-function detectExperience(text, emit, range) {
-  // Date anchors bound each entry; do not guess at undated employer/title fragments.
-  collectMatches(
-    text,
-    new RegExp(
-      `(?:^|[\\r\\n])[ \\t]*[^|\\r\\n]{1,120}\\|[ \\t]*(${name})[ \\t]*\\|[ \\t]*${range}`,
-      'gu'
-    ),
-    emit,
-    {
-      type: 'ORGANIZATION',
-      rule: 'organization-experience',
-      category: 'personal',
-      confidence: 0.85,
-    },
-    1
-  );
-  const dated = new RegExp(`([^\\r\\n;|]{1,320}?)\\((${range})\\)`, 'gu');
-  for (const match of text.matchAll(dated)) {
-    const prefix = match[1];
-    const content = prefix
-      .replace(/^.*\(\d[^)]*\)[, \t]*/, '')
-      .replace(/^[, \t]+/, '');
-    const chunks = [...content.matchAll(/[^,]+/g)];
-    const parts = chunks.map((part) => part[0].trim());
-    let value;
-    if (parts.length > 1 && role.test(parts[0])) {
-      let index = 1;
-      while (index < parts.length - 1 && /^[\p{Ll}]/u.test(parts[index])) {
-        index++;
-      }
-      value = content.slice(chunks[index].index).trim();
-    } else if (parts.length === 2 && role.test(parts[1])) {
-      value = parts[0].trim();
-    }
-    if (
-      !value ||
-      !/^[\p{Lu}«“"]/u.test(value) ||
-      value.includes('[REDACTED]')
-    ) {
-      continue;
-    }
-    const start = match.index + prefix.lastIndexOf(value);
-    if (start < match.index) {
-      continue;
-    }
-    emit({
-      start,
-      end: start + value.length,
-      type: 'ORGANIZATION',
-      category: 'personal',
-      rule: 'organization-experience',
-      confidence: 0.85,
     });
   }
 }

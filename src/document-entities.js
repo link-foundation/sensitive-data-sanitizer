@@ -2,9 +2,10 @@ import { collectMatches, escapePattern } from './detection.js';
 import { firstNames } from './names.js';
 import { organizationCore, personalRegex } from './personal-variants.js';
 import { documentVocabulary } from './document-vocabulary.js';
-import { months } from './personal-context.js';
+import { documentDateRange as range } from './document-dates.js';
 import { detectDocumentExtras } from './document-extras.js';
 import { detectDocumentPatterns } from './document-patterns.js';
+import { isDocumentTechnology } from './document-experience.js';
 
 const words = (column) =>
   [...new Set(documentVocabulary.flatMap((row) => row[column].split('|')))]
@@ -58,17 +59,6 @@ const groupOrganization = new RegExp(
 // CV experience lines: the date range anchors the employer slot, so prose with
 // a comma is untouched. Titles are not required to be lowercase because English
 // ones are often title case (`Senior QA Engineer`).
-const capitalized = (word) => word[0].toUpperCase() + word.slice(1);
-const month = [
-  ...new Set(months.split('|').flatMap((word) => [word, capitalized(word)])),
-].join('|');
-const rangeStart = `(?:(?:19|20)\\d{2}(?:-\\d{2}){0,2}|\\d{2}[./](?:\\d{2}\\.)?\\d{4}|(?:${month})\\.?[ \\t]+(?:19|20)\\d{2})`;
-const rangeOpen = ['по настоящее время', 'настоящее время', 'сейчас', 'по н.в.']
-  .concat(['н.в.', 'по н/в', 'н/в', 'present', 'now', 'current'])
-  .flatMap((word) => [word, capitalized(word)])
-  .map(escapePattern)
-  .join('|');
-const range = `${rangeStart}(?:[ \\t]*[-–—][ \\t]*|[ \\t]+(?:по|to)[ \\t]+)(?:${rangeStart}|${rangeOpen}|null|(?=\\)))(?!${boundary})`;
 const titleWord = '[\\p{L}\\p{N}][\\p{L}\\p{N}/+#.&-]{0,39}';
 // A segment starts a line or follows `|`. `Опыт:` or `Опыт -` before the title
 // reads like a list marker: the date range remains the anchor of the rule.
@@ -90,7 +80,23 @@ export function detectDocumentEntities(text, emit, options) {
     return;
   }
   detectDocumentPatterns(text, emit);
-  detectDocumentExtras(text, emit, range);
+  detectDocumentExtras(text, emit, range, options.debug);
+  collectMatches(
+    text,
+    new RegExp(
+      `(?:^|[\\r\\n])[ \\t]*[^|\\r\\n]{1,120}\\|[ \\t]*(${name})[ \\t]*\\|[ \\t]*${range}`,
+      'gu'
+    ),
+    emit,
+    {
+      type: 'ORGANIZATION',
+      rule: 'organization-experience',
+      category: 'personal',
+      confidence: 0.85,
+    },
+    1,
+    (value) => !isDocumentTechnology(value)
+  );
   const found = [];
   const capture = (finding) => {
     found.push(finding);
@@ -113,7 +119,8 @@ export function detectDocumentEntities(text, emit, options) {
       pattern,
       capture,
       { type, rule, category: 'personal', confidence },
-      group
+      group,
+      (value) => type !== 'ORGANIZATION' || !isDocumentTechnology(value)
     );
   }
   for (const match of text.matchAll(ruResidence)) {
