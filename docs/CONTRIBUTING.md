@@ -38,7 +38,7 @@ bun run check
 ```
 
 Python helpers in `scripts/`, `examples/`, and `experiments/` also pass pinned
-Ruff lint and formatting checks. Use Python 3.11 or newer; importing optional
+Ruff lint and formatting checks. Use the Python release in `.python-version`; importing optional
 benchmark or example dependencies is not required for these static checks:
 
 ```bash
