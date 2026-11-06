@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.17.1
+
+### Patch Changes
+
+- 8029dd8: Refresh dependencies and supported development tooling, and repair upgrade regressions in workflow validation, formatting and reproducible example installs.
+
 ## 0.17.0
 
 ### Minor Changes
