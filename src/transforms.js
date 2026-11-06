@@ -1,9 +1,10 @@
 import { realisticFake } from './fake.js';
 import { createHmac } from 'node:crypto';
 import { failure, REDACTED } from './detection.js';
-import { encodedValue, encodeRun } from './encoded.js';
+import { encodedValue, encodeRun, decodedRuns } from './encoded.js';
 import { isIdentityType } from './identity.js';
 import { validatePlaceholder, placeholderReplacement } from './placeholders.js';
+import { projectText } from './projection.js';
 
 const modes = new Set([
   'redact',
@@ -58,6 +59,9 @@ function validPools(pools) {
   );
 }
 function validateTransform(transform) {
+  if (typeof transform === 'function') {
+    return;
+  }
   if (!transform || !modes.has(transform.mode)) {
     throw failure('ERR_CONFIG');
   }
@@ -148,6 +152,14 @@ function masked(value, finding, transform) {
     : `${chars.slice(0, start).join('')}${transform.marker ?? '*'.repeat(chars.length - start - end)}${end ? chars.slice(-end).join('') : ''}`;
 }
 function transformed(value, finding, transform, options) {
+  if (typeof transform === 'function') {
+    const result = transform(Object.freeze({ ...finding, value }));
+    if (result && typeof result.then === 'function') {
+      Promise.resolve(result).catch(() => {});
+      throw failure('ERR_CONFIG');
+    }
+    return verifiedCallback(value, result);
+  }
   if (!transform || transform.mode === 'redact') {
     return REDACTED;
   }
@@ -182,7 +194,13 @@ function transformed(value, finding, transform, options) {
   const lower = Math.floor(number / transform.size) * transform.size;
   return `${lower}–${lower + transform.size - 1}`;
 }
-export function renderReplacement(text, finding, options, encodedSanitize) {
+export function renderReplacement(
+  text,
+  finding,
+  options,
+  encodedSanitize,
+  jsonRanges
+) {
   if (finding.type === 'JSON_VALUE') {
     return JSON.stringify(REDACTED);
   }
@@ -205,22 +223,82 @@ export function renderReplacement(text, finding, options, encodedSanitize) {
       throw failure('ERR_ENCODING');
     }
   }
-  return renderValue(text, finding, transform, options);
+  return renderValue(text, finding, transform, options, jsonRanges);
 }
-function renderValue(text, finding, transform, options) {
+function replacementInput(
+  text,
+  finding,
+  jsonRanges = [],
+  decodeQuoted = false
+) {
   let raw = text.slice(finding.start, finding.end);
+  const inJsonString = jsonRanges.some(
+    (range) => range.start <= finding.start && range.end >= finding.end
+  );
   const jsonQuoted =
-    text[finding.start - 1] === '"' && text[finding.end] === '"';
-  if (jsonQuoted) {
+    (text[finding.start - 1] === '"' && text[finding.end] === '"') ||
+    inJsonString;
+  // Quotes can also surround ordinary decoded prose containing literal tabs.
+  // Decode escapes only when the structured walker confirmed a JSON string.
+  if (inJsonString || (decodeQuoted && jsonQuoted)) {
     try {
       raw = JSON.parse(`"${raw}"`);
     } catch {
-      return REDACTED;
+      if (decodeQuoted) {
+        return { invalid: true };
+      }
+      throw failure('ERR_JSON');
     }
+  }
+  return { raw, jsonQuoted };
+}
+function renderValue(text, finding, transform, options, jsonRanges) {
+  const { raw, jsonQuoted, invalid } = replacementInput(
+    text,
+    finding,
+    typeof transform === 'function' ? jsonRanges : undefined,
+    typeof transform !== 'function'
+  );
+  if (invalid) {
+    return REDACTED;
   }
   const result =
     transform?.mode === 'placeholder'
       ? placeholderReplacement(raw, finding, transform, options)
       : transformed(raw, finding, transform, options);
+  return jsonQuoted ? JSON.stringify(result).slice(1, -1) : result;
+}
+
+export const hasCustomTransforms = (options) =>
+  [
+    options.transformation,
+    ...Object.values(options.transformations ?? {}),
+  ].some((t) => typeof t === 'function');
+function verifiedCallback(value, result) {
+  if (typeof result !== 'string') {
+    throw failure('ERR_CONFIG');
+  }
+  const normalize = (s) => projectText(s).text.toLowerCase();
+  const originals = [
+    value,
+    ...Array.from(decodedRuns(value), (run) => run.text),
+  ]
+    .map(normalize)
+    .filter(Boolean);
+  if (
+    [result, ...Array.from(decodedRuns(result), (run) => run.text)].some(
+      (view) => originals.some((original) => normalize(view).includes(original))
+    )
+  ) {
+    throw failure('ERR_RESIDUAL');
+  }
+  return result;
+}
+export async function renderCallbackAsync(text, finding, callback, jsonRanges) {
+  const { raw, jsonQuoted } = replacementInput(text, finding, jsonRanges);
+  const result = verifiedCallback(
+    raw,
+    await callback(Object.freeze({ ...finding, value: raw }))
+  );
   return jsonQuoted ? JSON.stringify(result).slice(1, -1) : result;
 }

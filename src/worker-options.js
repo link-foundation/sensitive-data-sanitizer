@@ -1,4 +1,16 @@
 // Node normally inherits flags while excluding process/V8-only options.
+export function hasWorkerCallbacks(options) {
+  return Boolean(
+    options.debug ||
+    options.verifyPublic ||
+    options.detectors?.length ||
+    [
+      options.transformation,
+      ...Object.values(options.transformations ?? {}),
+    ].some((value) => typeof value === 'function')
+  );
+}
+
 // An explicit execArgv bypasses that filtering, so only override it when
 // parent stdin parsing would reject the file worker's module URL.
 export function workerExecArgv() {

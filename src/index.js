@@ -2,6 +2,11 @@
 
 export { inspect, sanitize, redact } from './sanitizer.js';
 export { createSanitizer } from './engines.js';
+export { compileKnown } from './compiled-known.js';
+export { builtInRules } from './rule-catalog.js';
+export { defaultVocabulary } from './vocabulary.js';
+export { documentVocabulary } from './document-vocabulary.js';
+export { createSyncSanitizer } from './sync-sanitizer.js';
 export { REDACTED, entropy, luhn } from './detection.js';
 export { codePointRange } from './projection.js';
 export {

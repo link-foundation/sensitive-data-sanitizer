@@ -16,6 +16,8 @@ import { localAddress } from './public.js';
 import { detectKnownPersonal } from './personal-variants.js';
 import { detectDocumentEntities } from './document-entities.js';
 import { detectProseAndDocuments } from './proper-names.js';
+import { builtInEnabled } from './policy.js';
+import { detectStrict } from './strict.js';
 
 export const REDACTED = '[REDACTED]';
 export const failure = (code = 'ERR_SANITIZATION', location = {}) =>
@@ -137,6 +139,12 @@ function detectCookies(text, emit) {
 }
 
 export function nativeDetect(text, options, emit) {
+  const output = emit;
+  emit = (finding) => {
+    if (builtInEnabled(finding, options)) {
+      output(finding);
+    }
+  };
   const credential = { type: 'SECRET', category: 'credential' };
   for (const value of options.knownSecrets ?? []) {
     collectMatches(text, new RegExp(escapePattern(value), 'g'), emit, {
@@ -179,6 +187,7 @@ export function nativeDetect(text, options, emit) {
     detectIdentity(text, emit);
     detectNational(text, emit);
     detectPersonalContext(text, emit);
+    detectStrict(text, emit, options);
   }
   detectCredentialFormats(text, emit);
   // detect-secrets-style quoted entropy detection; bare commit hashes and

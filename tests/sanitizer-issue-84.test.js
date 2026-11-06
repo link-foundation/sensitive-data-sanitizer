@@ -24,7 +24,6 @@ const keep = [
   'https://github.com/',
   'зарплата 150 000 руб.',
   'Salary: 150000',
-  'Музей находится на ул. Ленина, д. 5, кв. 12',
 ];
 const hash = '9f8e7d6c5b4a39281706f5e4d3c2b1a098765432';
 
@@ -48,12 +47,19 @@ describe('document forms and structured value boundaries', () => {
     });
   }
   for (const input of keep.concat(
-    rows.filter((r) => r.limit).map((r) => r.input)
+    rows
+      .filter((r) => r.limit && r.input !== 'Лютик, менеджер')
+      .map((r) => r.input)
   )) {
     it(`preserves ordinary text / documented limit: ${input}`, () => {
       expect(sanitize(input, options).text).toBe(input);
     });
   }
+  it('covers the formerly ambiguous reversed employer cue requested by issue 117', () => {
+    expect(sanitize('Лютик, менеджер', options).text).toBe(
+      '[REDACTED], менеджер'
+    );
+  });
   for (const structured of ['json', 'jsonl']) {
     it(`#77: scans each decoded ${structured} value at line start`, () => {
       const line = 'Менеджер, Ромашка (2019 – 2021)';

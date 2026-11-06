@@ -1,5 +1,11 @@
 import { parentPort, workerData } from 'node:worker_threads';
 import { createSanitizer, prepareStreamEngine } from './engines.js';
+import { compileKnown } from './compiled-known.js';
+
+// Structured cloning discards the caller's weak compilation metadata.
+if (workerData.knownPersonal) {
+  workerData.knownPersonal = compileKnown(workerData.knownPersonal);
+}
 
 parentPort.on(
   'message',

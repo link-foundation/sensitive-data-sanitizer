@@ -20,7 +20,7 @@ import {
 } from './engines.js';
 import { failure, internalFailure } from './detection.js';
 import { sanitizeJsonlStream } from './jsonl-stream.js';
-import { workerExecArgv } from './worker-options.js';
+import { workerExecArgv, hasWorkerCallbacks } from './worker-options.js';
 import { streamIdentity } from './stream-identity.js';
 import { workerResult } from './file-worker-result.js';
 import {
@@ -439,11 +439,7 @@ export async function sanitizeFileToFile(
   }
 }
 export async function sanitizeFileBounded(source, target, options = {}) {
-  if (
-    options.worker === false ||
-    options.sanitizer ||
-    hasPlaceholders(options.sanitizerOptions ?? options)
-  ) {
+  if (useCoordinator(options)) {
     return sanitizeFileToFile(source, target, options);
   }
   const workerHeapMb = options.workerHeapMb ?? 256,
@@ -483,4 +479,13 @@ export async function sanitizeFileBounded(source, target, options = {}) {
     await worker?.terminate();
     await rm(staging, { recursive: true, force: true });
   }
+}
+function useCoordinator(options) {
+  const policy = options.sanitizerOptions ?? options;
+  return (
+    options.worker === false ||
+    options.sanitizer ||
+    hasWorkerCallbacks(policy) ||
+    hasPlaceholders(policy)
+  );
 }

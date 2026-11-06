@@ -10,9 +10,11 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 | `engine.inspect(text)`                 | Detect, validate, deduplicate, apply public policy, and return metadata                                      |
 | `engine.sanitize(text)`                | Detect, union overlapping spans, mask completely, verify every engine, return `{text, findings, redactions}` |
 | `engine.sanitizeJsonl(text)`           | Batched structured JSONL sanitization using the same options and required engines                            |
-| `inspect(text, options)`               | Synchronous native detection and caller findings                                                             |
-| `sanitize(text, options)`              | Synchronous native redaction and native residual verification                                                |
+| `inspect(text, options)`               | Synchronous native + array-returning detectors and caller findings                                           |
+| `sanitize(text, options)`              | Synchronous native + array-returning detectors and residual verification                                     |
 | `redact(text, findings, options)`      | Apply validated ranges without automatic detection/verification                                              |
+| `createSyncSanitizer(options)`         | Reusable synchronous `inspect` / `sanitize` with the same policies                                           |
+| `compileKnown(...lists)`               | Copy, freeze, merge and precompile caller-known personal values                                              |
 | `auditGitHistory(repository, options)` | Read-only audit of local reachable text objects                                                              |
 
 `redactions` counts merged replacement spans. `findings` can contain several detector hits for one replacement. Findings have `{start, end, type, category, rule, line, column}`; no text, quote, match, entropy score, provider details, or raw diagnostic is copied. Debugging is off by default; `debug(event)` receives value-free counts, rule timings, residual rounds and registry event metadata (see `DebugEvent` in the TypeScript declarations).
@@ -156,38 +158,45 @@ derived model answer. Input, output and map paths must be separate. Maps are
 saved separately before stdout publication. `--profile documents` enables the
 new document recognizers; `documentEntities: false` turns them off explicitly.
 
-| Option             | Default / meaning                                                                                                                                           |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `documentEntities` | Off; bounded organization, education and location rules; enabled by the documents profile                                                                   |
-| `properNames`      | Off; `'capitalized'` enables structural name redaction in activated prose strings                                                                           |
-| `scripts`          | `['Cyrillic']`; Unicode Script aliases that activate the prose rule; `[]` disables only script activation                                                   |
-| `profile`          | Off; `'publication'` sets a 0.3 threshold and identity masking; `'documents'` enables document entities                                                     |
-| `knownOnly`        | `false`; disable all automatic detection (including credentials, Secretlint and custom detectors); use only explicit known values and reused map identities |
-| `knownSecrets`     | `[]`; exact literal credential values, regardless of length or format                                                                                       |
-| `knownPersonal`    | `[]`; `{type, value}` values with whole-word Unicode case-insensitive matching and bounded Russian forms; list parts to match them alone                    |
-| `publicEntities`   | `[]`; exact PERSON/ORGANIZATION/EDUCATION/LOCATION/EMAIL exception with HTTPS evidence and review date                                                      |
-| `findings`         | `[]`; validated detections for the original input, supplied by the caller                                                                                   |
-| `detectors`        | `[]`; additional required callbacks in the asynchronous engine                                                                                              |
-| `secretlint`       | `true` in the asynchronous engine                                                                                                                           |
-| `decode`           | `true`; bounded base64/base64url, hex and percent decoding                                                                                                  |
-| `paranoid`         | `false`; entropy-based supplemental credential heuristic                                                                                                    |
-| `maxInputLength`   | 33,554,432 UTF-16 units                                                                                                                                     |
-| `maxFindings`      | 100,000 detector hits before deduplication                                                                                                                  |
-| `minConfidence`    | 0.5; personal findings below this score remain visible to inspect but are not replaced                                                                      |
-| `threshold`        | Alias for minConfidence; both options must agree when supplied                                                                                              |
-| `debug`            | Optional trusted callback for value-free counts, timing and event metadata                                                                                  |
-| `identityMask`     | `false`; identity types keep 2+2 Unicode characters with fixed `***`, or redact below five                                                                  |
-| `fakeIdentity`     | Off; `'specimen-and-synthetic'` retains explicitly fake identity values                                                                                     |
-| `fakeValues`       | `[]`; exact caller-reviewed identity values to retain, regardless of fakeIdentity                                                                           |
-| `structured`       | Off; `'json'` or `'jsonl'` validates and sanitizes string keys/values separately                                                                            |
-| `sensitiveFields`  | `[]`; JSON/JSONL names normalized for case and `_`/`-`; complete values become a redaction string; supports synchronous calls                               |
-| `structuralFields` | `[]`; declared property names suppress weak name/ID/entropy heuristics in their string values                                                               |
+| Option                   | Default / meaning                                                                                                                                                |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `documentEntities`       | Off; bounded organization, education and location rules; enabled by the documents profile                                                                        |
+| `properNames`            | Off; `'capitalized'` enables structural name redaction in activated prose strings                                                                                |
+| `scripts`                | `['Cyrillic']`; Unicode Script aliases that activate the prose rule; `[]` disables only script activation                                                        |
+| `profile`                | Off; `'publication'` sets a 0.3 threshold and identity masking; `'documents'` enables document entities                                                          |
+| `knownOnly`              | `false`; disable all automatic detection (including credentials, Secretlint and custom detectors); use explicit findings, known values and reused map identities |
+| `knownSecrets`           | `[]`; exact literal credential values, regardless of length or format                                                                                            |
+| `knownPersonal`          | `[]`; `{type, value}` values with whole-word Unicode case-insensitive matching and bounded Russian forms; list parts to match them alone                         |
+| `publicEntities`         | `[]`; exact PERSON/ORGANIZATION/EDUCATION/LOCATION/EMAIL exception with HTTPS evidence and review date                                                           |
+| `findings`               | `[]`; validated detections for the original input, supplied by the caller                                                                                        |
+| `detectors`              | `[]`; required callbacks in both engines; sync methods require arrays                                                                                            |
+| `secretlint`             | `true` in the asynchronous engine                                                                                                                                |
+| `decode`                 | `true`; bounded base64/base64url, hex and percent decoding                                                                                                       |
+| `paranoid`               | `false`; entropy-based supplemental credential heuristic                                                                                                         |
+| `maxInputLength`         | 33,554,432 UTF-16 units                                                                                                                                          |
+| `maxFindings`            | 100,000 detector hits before deduplication                                                                                                                       |
+| `minConfidence`          | 0.5; personal findings below this score remain visible to inspect but are not replaced                                                                           |
+| `threshold`              | Alias for minConfidence; both options must agree when supplied                                                                                                   |
+| `debug`                  | Optional trusted callback for value-free counts, timing and event metadata                                                                                       |
+| `identityMask`           | `false`; identity types keep 2+2 Unicode characters with fixed `***`, or redact below five                                                                       |
+| `fakeIdentity`           | Off; `'specimen-and-synthetic'` retains explicitly fake identity values                                                                                          |
+| `fakeValues`             | `[]`; exact caller-reviewed identity values to retain, regardless of fakeIdentity                                                                                |
+| `structured`             | Off; `'json'` or `'jsonl'` validates and sanitizes string keys/values separately                                                                                 |
+| `sensitiveFields`        | `[]`; JSON/JSONL names normalized for case and `_`/`-`; complete values become a redaction string; supports synchronous calls                                    |
+| `exactFields`            | `false`; sensitive/allowed selectors use exact case/punctuation when true                                                                                        |
+| `allowedFields`          | Off; redact unlisted JSON/JSONL string leaves, scan listed leaves normally                                                                                       |
+| `rules` / `types`        | Per-rule / per-type booleans for automatic built-in findings                                                                                                     |
+| `fields`                 | `{location: 'scan'}` skips whole-field inference and still scans content                                                                                         |
+| `allowCredentialDisable` | `false`; explicit permission required to suppress credential rules/types                                                                                         |
+| `vocabulary`             | Optional additive document cue lists; see below                                                                                                                  |
+| `strict`                 | `false`; aggressive stored-log personal attributes and bare values                                                                                               |
+| `structuralFields`       | `[]`; declared property names suppress weak name/ID/entropy heuristics in their string values                                                                    |
 
 Unknown options and invalid limits are errors. `knownSecretsFromEnv(env, names?)` discovers credential-named variables (excluding auth configuration names) when names are omitted, or uses an explicit selection, deduplicating nonempty values. It never invokes shell commands or reads auth files. `personalVariants(entries)` generates numeric and ISO/day-first date spellings; name case variants are already handled by detection. Neither helper invents transliterations.
 
 ## Required detectors
 
-A detector supplies `detect(text)`, returning an array of `{start, end, type, category, rule}` or a Promise of that array. Every range must refer to the exact input passed to that invocation. `category` is `credential` or `personal`; types are uppercase identifiers, rules are bounded lowercase identifiers. Throw if analysis is incomplete. The framework invokes engines on original input, normalized input when changed, bounded decoded views, and finally the sanitized output. Decoded matches redact the entire original encoded run. Malformed findings and engine errors block publication with generic error codes.
+A detector supplies `detect(text)`, returning an array of `{start, end, type, category, rule}` or, in `createSanitizer`, a Promise of that array. Sync `inspect`, `sanitize` and `createSyncSanitizer` require an array; returning a thenable throws `ERR_CONFIG` (its rejection is observed). Every range must refer to the exact input passed to that invocation. `category` is `credential` or `personal`; types are uppercase identifiers, rules are bounded lowercase identifiers. Throw if analysis is incomplete. The framework invokes engines on original input, normalized input when changed, bounded decoded views, and finally the sanitized output. Structured callbacks receive each decoded string separately, including escaped Unicode and nested serialized strings, with mapped original offsets. Decoded matches redact the entire original encoded run. Malformed findings and engine errors block publication with generic error codes.
 
 Callbacks, policies, binaries, model packages, and their rule identifiers are trusted code/configuration. A malicious adapter can omit findings, leak input through its own logging/network calls, or never resolve. Local subprocess helpers use 30-second termination and 10 MiB output caps; arbitrary callback time budgets belong to the embedding application. Pin binary/model versions in deployments. Do not convert a failed scan into an empty result.
 
@@ -486,10 +495,10 @@ In structured JSON/JSONL, `sensitiveFields: string[]` ignores case and removes
 underscores and hyphens at any depth, like built-in document fields. For example,
 `fooBar` also matches `foo_bar`, `FooBar` and `foo-bar`. The complete property value becomes
 `"[REDACTED]"`, including empty strings, numbers, booleans, null, arrays and
-objects. This deliberate schema policy can change value types. It takes
+objects. `exactFields: true` preserves exact case and punctuation in selectors. A single name matches at any depth; dotted paths such as `a.b` match from the root, and `items.*.name` matches array elements (or one object segment). This deliberate schema policy can change value types. It takes
 priority over `structuralFields` and transformations, preserves property names
 and surrounding whitespace, and works in both `sanitize` and `createSanitizer`.
-It has no effect without `structured`. The personal-data switch
+`allowedFields: ['msg', 'level']` instead replaces every unlisted **string leaf**, including empty strings, while retaining keys, numeric/boolean/null primitives and containers. Listed strings still undergo normal detection. It supports the same paths, wildcard and exact matching; `sensitiveFields` takes priority on overlap. These selectors have no effect without `structured`. The personal-data switch
 `credentialsOnly` still suppresses personal findings.
 
 ```js
@@ -508,8 +517,7 @@ sanitize('Lyutik работал', {
 
 `knownPersonal` is the synchronous custom-value list, including names without
 context. For computed synchronous detection, callers can supply validated
-`findings` for the exact input. `detectors` remains an asynchronous-engine
-option; `sanitize` does not invoke these callbacks.
+`findings` for the exact input. `detectors` is supported in both engines; synchronous methods reject Promise-returning callbacks.
 
 ## Structural prose redaction
 
@@ -565,3 +573,167 @@ CLI equivalents: `--proper-names capitalized --scripts Cyrillic,Greek`.
 Configuration files accept the same `properNames` and `scripts` API options;
 use a configuration file for `scripts: []`. See the runnable
 [prose-log example](../examples/prose-logs.mjs).
+
+## Rule, type and field policy
+
+`builtInRules` is a frozen list of accepted stable `Finding.rule` ids; the complete
+[rule reference](RULES.md) is generated from the bundled catalog. Unknown ids
+throw `ERR_CONFIG`. For example:
+
+```js
+sanitize('Работала в компании Ромашка', {
+  rules: { 'organization-context': false },
+});
+sanitize('{"location":"apps/api"}', {
+  structured: 'json',
+  fields: { location: 'scan' },
+});
+```
+
+`types: { ORGANIZATION: false }` suppresses automatic built-in organization
+findings. Independently matching rules can overlap: disabling one rule does not
+suppress another rule's evidence. Explicit `findings` and custom detectors are
+caller policy and remain active. `fields` skips built-in whole-field inference,
+then scans the value normally, so a credential or email inside `location` still
+gets replaced. Field names use normal case/underscore/hyphen normalization.
+
+Credential types and rules require `allowCredentialDisable: true` before accepting
+`false`. Credential findings cannot be suppressed through personal type controls
+without that permission. This includes mixed encoded rules and Secretlint. The
+permission intentionally reduces verification coverage; `true` enables an
+already active recognizer and does not load optional detectors.
+
+`documentEntities: false` turns off the additional document recognizers. The older
+`organization-context`, `organization-cue`, personal-name/contact and multilingual
+label recognizers still run. Thus `Работала в компании Ромашка` still redacts
+`Ромашка`; use its rule or type control for that policy. `strict` is independent
+of `documentEntities`. Defaults retain the existing policy, with the additional
+catalog formats documented in COVERAGE.
+
+## Caller document vocabulary
+
+```js
+const vocabulary = {
+  roles: ['маркетолог'],
+  organizationCues: ['артель'],
+  educationCues: ['альма-матер'],
+  personalLabels: ['личный контакт'],
+  personalFields: ['contactPerson'],
+};
+sanitize('работаю в артели Лютик', { profile: 'documents', vocabulary }).text;
+// работаю в артели [REDACTED]
+```
+
+Arrays extend the corresponding list. `{values: [...], replace: true}` replaces
+one list, including an empty list. Other lists retain defaults. Replacement
+changes that list's cue-based recognizers; independent legal forms, dated work
+history, full names, identifiers and known values still count as evidence.
+`defaultVocabulary` exposes frozen default cue lists; `documentVocabulary` exposes
+the frozen multilingual document rows. Neither is modified by an operation.
+Cues ignore case and support bounded Russian noun/adjective forms; personal fields
+use normalized field names. Capitalized proper values are required after prose
+cues. Inputs allow at most 256 nonempty strings of 128 code units per list, with
+no line breaks/NUL. Unknown lists and malformed replacement records fail with
+`ERR_CONFIG`. Compilation uses a bounded 64-configuration cache.
+
+## Callback transformations and stages
+
+```js
+const sync = createSyncSanitizer({
+  transformations: { PERSON: (finding) => `Person-${finding.start}` },
+});
+sync.sanitize('Анна Смирнова').text; // Person-0
+```
+
+`transformation(finding)` applies globally; `transformations[type](finding)` takes
+precedence for that type. Each callback receives a frozen finding plus `value`,
+the matched surface (decoded JSON string content when applicable), and must
+return a string. Callbacks receive private data: keep it out of diagnostics.
+JSON replacements are escaped, including partial string spans. Overlapping spans
+are unioned and receive one callback for the selected type. Schema-level
+`JSON_VALUE` denials always produce a complete redaction string.
+
+Sync methods reject thenables with `ERR_CONFIG`; the asynchronous engine awaits
+callbacks. Throws block publication. Returning the original, its normalized or
+bounded encoded representation fails with `ERR_RESIDUAL`. The emitted text also
+passes all configured residual detectors, so returning a new email/secret blocks.
+This is bounded heuristic verification, not proof against arbitrary encodings.
+Unlike built-in partial transforms, a callback deliberately controls credential
+replacement too; the same checks apply. `preserveEncoding` recursively transforms
+decoded content then re-encodes it.
+
+The stages are detection → validated finding union/policy → transformation →
+residual verification. `redact` exposes only the transformation stage and does not
+perform residual scanning. To replace automatic detection while keeping the
+sanitizer's verification step:
+
+```js
+const input = 'private customer name';
+const findings = myDetector.detect(input); // exact UTF-16 offsets
+const result = sanitize(input, {
+  knownOnly: true,
+  findings,
+  knownSecrets: ['explicit-private-token'],
+});
+```
+
+`knownOnly` disables automatic detectors during both detection and verification;
+only configured known values and findings remain. For custom detector verification,
+pass it in `detectors` with automatic detection enabled, and tune built-in rules
+as needed. `createSyncSanitizer(options)` implements the exported `SyncSanitizer`
+interface (`inspect` / `sanitize`); Promise-returning detectors/transforms need
+`createSanitizer` instead.
+
+## Compiled caller-known values
+
+```js
+const known = compileKnown(
+  [{ type: 'ORGANIZATION', value: 'Ромашка' }],
+  [{ type: 'URL', value: 'https://example.org/anna' }]
+);
+const merged = compileKnown(known, [{ type: 'LOCATION', value: 'Тверь' }]);
+sanitize('Живу в Твери', { knownPersonal: merged });
+```
+
+Compilation copies only `{type, value, properCase?}`, deduplicates and freezes the
+entries/array, and precompiles normalized projections and matching expressions.
+There is no process-wide registry of caller values; weak metadata is released
+with the compiled list. Mutating the input cannot change it. Compiled arrays
+work with the same APIs as plain arrays, with identical output.
+
+| Type                             | Matching behavior                                                                                                                                                                     |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PERSON`                         | Unicode whole-word, case-insensitive; Russian cases, ё/е, reversed two-part names, supported full-name orders/initials and contiguous parts; list a part separately to match it alone |
+| `ORGANIZATION`                   | Russian word forms, legal-form/quote-free core for names of at least three characters                                                                                                 |
+| `EDUCATION`, `LOCATION`          | Whole-word case-insensitive with bounded Russian noun/adjective forms (e.g. МГУ / мгу, Тверь / Твери)                                                                                 |
+| `URL`                            | Optional HTTP(S) scheme; query, fragment and trailing slash are consumed with the known path                                                                                          |
+| `DATE`, `DATE_OF_BIRTH`, `PHONE` | Literal spellings by default; use `personalVariants(entries)` before compilation for ISO/day-first date and numeric phone variants                                                    |
+| Other uppercase type ids         | Same whole-word case-insensitive and bounded Russian word forms; type labels the finding/transform and does not activate a new parser                                                 |
+
+No helper invents transliterations. Values longer than 256 code units use literal
+matching instead of word-form expansion. `properCase: true` rejects a lower-case
+first character (used by reused map identities). Explicit private values remain
+private despite public exceptions. The 500-entry measurement and reproduction
+script are linked from COVERAGE; matching remains linear in list size.
+
+## Optional offline recognition
+
+Install `@nlpjs/ner@4.27.0` alongside this package, then load the separate entry:
+
+```js
+import { createNerDetector } from '@link-foundation/sensitive-data-sanitizer/ner';
+const detector = await createNerDetector({ languages: ['ru', 'en'] });
+const sync = createSyncSanitizer({ detectors: [detector] });
+sync.sanitize('Worked at Romashka for three years.');
+```
+
+The factory loads the optional peer dependency once. Detection is synchronous,
+in process and offline, with no model download or subprocess. This recognizer
+uses NLP.js regex extraction with finite dictionaries and context rules; it is
+not a neural model. It supports PERSON, ORGANIZATION, EDUCATION and LOCATION in
+Russian/English. Unknown cue-free names can remain; see the published exact-span
+precision/recall, challenge misses and per-KiB cost in COVERAGE. `languages` selects
+one or both languages. Each invocation is limited to 1 Mi UTF-16 units; larger
+inputs throw `ERR_LIMIT`. `debug` is off by default and emits counts only. Core
+imports never load the optional entry or NLP.js; leaving it off adds no optional
+runtime/module cost.

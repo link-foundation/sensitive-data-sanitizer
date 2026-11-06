@@ -177,6 +177,10 @@ const proseCases = [
   ['Anna, 89161234567', '[REDACTED], [REDACTED]'],
   ['https://docs.example/d/x Anna', '[REDACTED] [REDACTED]'],
   [
+    'Worked at Romashka for three years.',
+    'Worked at [REDACTED] for three years.',
+  ],
+  [
     'текст apps/SomePath /Opt/Apps C:\\Some\\Path Label: слово',
     'текст apps/SomePath /Opt/Apps C:\\Some\\Path Label: слово',
   ],
@@ -185,7 +189,6 @@ const proseCases = [
     'order 89161234567 shipped',
     'Window Closed (2026-01-15T10:30:00.000Z)',
     'Ромашка: менеджер',
-    'Worked at Romashka for three years.',
     'https://anna-smirnova.example.org/',
     'ромашка работает',
     '1991-03-12',

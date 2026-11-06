@@ -1,5 +1,6 @@
 import { escapePattern, failure } from './detection.js';
 import { russianNameRoles } from './russian-names.js';
+import { compiledPatterns } from './compiled-known.js';
 
 const boundary = '[\\p{L}\\p{M}\\p{N}_]';
 export function organizationCore(value) {
@@ -143,6 +144,22 @@ export function personalPatterns(value, type) {
   return [...patterns];
 }
 export function personalRegex(value, type) {
+  if (type === 'URL') {
+    let core = value.replace(/^https?:\/\//iu, '');
+    const suffix = core.search(/[?#]/u);
+    if (suffix >= 0) {
+      core = core.slice(0, suffix);
+    }
+    let end = core.length;
+    while (end > 0 && core[end - 1] === '/') {
+      end--;
+    }
+    core = core.slice(0, end);
+    return new RegExp(
+      `(?<![\\p{L}\\p{N}_./-])(?:https?:\\/\\/)?${escapePattern(core)}(?:\\/)?(?:[?#][^\\s"<>\\\\]*)?(?![\\p{L}\\p{N}_-])`,
+      'giu'
+    );
+  }
   return new RegExp(
     `(?<!${boundary})(?:${personalPatterns(value, type).join('|')})(?!${boundary})`,
     'giu'
@@ -153,17 +170,21 @@ export function samePersonal(value, original, type) {
     new RegExp(`^(?:${pattern})$`, 'iu').test(value)
   );
 }
+function confirmedFamily(entry, rule, options) {
+  return rule === 'confirmed-personal' &&
+    options.documentEntities &&
+    !options.knownOnly &&
+    entry.type === 'ORGANIZATION'
+    ? organizationFamily(organizationCore(entry.value))
+    : undefined;
+}
 export function detectKnownPersonal(text, entries, rule, emit, options) {
   let count = 0;
-  for (const entry of entries ?? []) {
-    const family =
-      rule === 'confirmed-personal' &&
-      options.documentEntities &&
-      !options.knownOnly &&
-      entry.type === 'ORGANIZATION' &&
-      organizationFamily(organizationCore(entry.value));
+  for (const [index, entry] of (entries ?? []).entries()) {
+    const family = confirmedFamily(entry, rule, options);
     for (const pattern of [
-      personalRegex(entry.value, entry.type),
+      compiledPatterns(entries)?.[index] ??
+        personalRegex(entry.value, entry.type),
       ...(family ? [family.pattern] : []),
     ]) {
       for (const match of text.matchAll(pattern)) {

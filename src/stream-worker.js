@@ -1,6 +1,11 @@
 import { parentPort, workerData } from 'node:worker_threads';
 import { sanitizeFileToFile } from './stream.js';
+import { compileKnown } from './compiled-known.js';
 try {
+  const options = workerData.options.sanitizerOptions ?? workerData.options;
+  if (options.knownPersonal) {
+    options.knownPersonal = compileKnown(options.knownPersonal);
+  }
   parentPort.postMessage({
     value: await sanitizeFileToFile(
       workerData.source,
