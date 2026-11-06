@@ -2,6 +2,7 @@
 
 import os
 import subprocess
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -13,21 +14,33 @@ for name, directory in (
     ("artifact", ".github/actions/artifact-transport"),
 ):
     path = ROOT / directory
-    (path / "package-lock.json").unlink(missing_ok=True)
-    with (LOGS / f"{name}-fresh-lock.log").open("w") as log:
-        subprocess.run(
-            [
-                "npm",
-                "install",
-                "--package-lock-only",
-                "--ignore-scripts",
-                "--no-audit",
-                "--no-fund",
-            ],
-            cwd=path,
-            env=os.environ | {"NODE_OPTIONS": "--max-old-space-size=512"},
-            stdout=log,
-            stderr=subprocess.STDOUT,
-            check=True,
-        )
+    # An existing installation can seed Arborist with stale versions and omit
+    # registry integrity metadata. Resolve with no node_modules, restoring it
+    # afterwards without deleting or duplicating the installed tree.
+    with tempfile.TemporaryDirectory(prefix="issue-102-npm-") as temporary:
+        modules = path / "node_modules"
+        backup = Path(temporary) / "node_modules"
+        if modules.exists():
+            modules.rename(backup)
+        try:
+            (path / "package-lock.json").unlink(missing_ok=True)
+            with (LOGS / f"{name}-fresh-lock.log").open("w") as log:
+                subprocess.run(
+                    [
+                        "npm",
+                        "install",
+                        "--package-lock-only",
+                        "--ignore-scripts",
+                        "--no-audit",
+                        "--no-fund",
+                    ],
+                    cwd=path,
+                    env=os.environ | {"NODE_OPTIONS": "--max-old-space-size=512"},
+                    stdout=log,
+                    stderr=subprocess.STDOUT,
+                    check=True,
+                )
+        finally:
+            if backup.exists():
+                backup.rename(modules)
     print(f"Resolved {directory}", flush=True)

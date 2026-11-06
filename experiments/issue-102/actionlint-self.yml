@@ -1,0 +1,9 @@
+name: Self-repository syntax reproduction
+on:
+  workflow_dispatch:
+permissions: {}
+jobs:
+  example:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: $/.github/actions/setup-node

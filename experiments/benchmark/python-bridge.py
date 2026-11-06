@@ -12,13 +12,13 @@ from detect_secrets.settings import default_settings
 from presidio_analyzer import AnalyzerEngine
 from presidio_analyzer.nlp_engine import NlpEngineProvider
 
-for package, version in {
-    "detect-secrets": "1.5.0",
-    "presidio-analyzer": "2.2.366",
-    "scrubadub": "2.0.1",
-    "spacy": "3.8.16",
-    "en-core-web-sm": "3.8.0",
-}.items():
+pins = dict(
+    line.split("==")
+    for line in Path(__file__).with_name("requirements.txt").read_text().splitlines()
+    if line and not line.startswith("#")
+)
+pins["en-core-web-sm"] = "3.8.0"
+for package, version in pins.items():
     if importlib.metadata.version(package) != version:
         raise RuntimeError("Install the pinned benchmark version of " + package)
 

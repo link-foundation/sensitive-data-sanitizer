@@ -185,6 +185,20 @@ jobs:
           uv pip install --system --no-index --no-deps -r experiments/benchmark/requirements.txt
           uv pip check --system
           python -c 'import detect_secrets, presidio_analyzer, scrubadub, spacy'
+      - name: Exercise the pinned offline benchmark scanners
+        run: |
+          uv pip install --system --no-deps 'https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl#sha256=1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85'
+          uv pip check --system
+          python experiments/benchmark/python-bridge.py < experiments/benchmark/smoke.json > "$RUNNER_TEMP/benchmark-smoke.json"
+          python - "$RUNNER_TEMP/benchmark-smoke.json" <<'PY'
+          import json
+          import sys
+          with open(sys.argv[1]) as stream:
+              result = json.load(stream)["email"]
+          assert set(result) == {"detect-secrets", "presidio", "scrubadub"}
+          for scanner in ("presidio", "scrubadub"):
+              assert {"start": 8, "end": 25} in result[scanner], result
+          PY
 
   # Terminal status gate: runs even when the jobs above fail or are
   # cancelled, and turns a `timeout-minutes` kill (reported as cancelled)

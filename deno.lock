@@ -1708,7 +1708,7 @@
         "npm:yaml@^2.9.1"
       ],
       "overrides": {
-        "minimatch@>=7 <11": "^11.0.4"
+        "minimatch@>=7 <11": "^11.0.5"
       }
     }
   }

@@ -40,6 +40,8 @@ def npm_metadata(name):
             "name",
             "version",
             "engines",
+            "type",
+            "exports",
             "deprecated",
             "dependencies",
             "peerDependencies",
@@ -70,7 +72,8 @@ def npm_inventory():
                     names.add(name)
     for contents in (baseline("deno.lock"), (ROOT / "deno.lock").read_text()):
         names.update(
-            key.rsplit("@", 1)[0] for key in json.loads(contents).get("npm", {})
+            re.match(r"^(@[^/]+/[^@]+|[^@]+)@", key)[1]
+            for key in json.loads(contents).get("npm", {})
         )
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
         metadata = dict(executor.map(npm_metadata, sorted(names)))
@@ -101,6 +104,10 @@ def python_inventory():
             (ROOT / "experiments/benchmark/requirements.lock").read_text(),
             re.MULTILINE,
         )
+    )
+    names.update(
+        item["name"]
+        for item in json.loads((OUTPUT / "python-tooling-installed.json").read_text())
     )
 
     def metadata(name):
