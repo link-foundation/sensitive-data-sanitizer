@@ -15,7 +15,7 @@ import {
 import { localAddress } from './public.js';
 import { detectKnownPersonal } from './personal-variants.js';
 import { detectDocumentEntities } from './document-entities.js';
-import { detectProperNames } from './proper-names.js';
+import { detectProseAndDocuments } from './proper-names.js';
 
 export const REDACTED = '[REDACTED]';
 export const failure = (code = 'ERR_SANITIZATION', location = {}) =>
@@ -174,9 +174,7 @@ export function nativeDetect(text, options, emit) {
   detectContext(text, emit, options.credentialsOnly);
   if (!options.credentialsOnly) {
     detectPersonal(text, emit);
-    if (!detectProperNames(text, emit, options)) {
-      detectDocumentEntities(text, emit, options);
-    }
+    detectProseAndDocuments(text, emit, options, detectDocumentEntities);
     detectCatalog(text, emit);
     detectIdentity(text, emit);
     detectNational(text, emit);

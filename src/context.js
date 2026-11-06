@@ -257,6 +257,11 @@ function operationalValue(value, type) {
   );
 }
 
+function operationalLocationPath(value) {
+  return (
+    servicePath(value) || /^(?:\.?\.?\/)?[\w.-]+(?:\/[\w.-]+)+\/?$/.test(value)
+  );
+}
 // Shared by native labels and the vendor catalogs. Code expressions and
 // line escapes are not personal field values, even when a key is familiar.
 export function personalValueAllowed(text, range, type, labelStart) {
@@ -266,8 +271,7 @@ export function personalValueAllowed(text, range, type, labelStart) {
   }
   if (
     ['LOCATION', 'ADDRESS'].includes(type) &&
-    (servicePath(value) ||
-      /^(?:\.?\.?\/)?[\w.-]+(?:\/[\w.-]+)+\/?$/.test(value))
+    operationalLocationPath(value)
   ) {
     return false;
   }

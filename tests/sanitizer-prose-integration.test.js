@@ -21,6 +21,15 @@ const options = {
 };
 
 describe('structural prose across entry points', () => {
+  it('retains uncased-script document entities alongside uppercase prose', async () => {
+    const source = 'текст Acme; 蓝天有限公司; جامعة النور';
+    const expected = 'текст [REDACTED]; [REDACTED]; [REDACTED]';
+    const config = { ...options, structured: undefined };
+    expect(sanitize(source, config).text).toBe(expected);
+    expect((await createSanitizer(config).sanitize(source)).text).toBe(
+      expected
+    );
+  });
   it('keeps nested serialized JSON keys and isolates its leaves', async () => {
     const nested =
       '{"Ромашка":"текст Acme","operational":"Connection to Acme lost","n":42}';

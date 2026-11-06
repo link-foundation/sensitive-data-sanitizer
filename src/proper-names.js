@@ -3,7 +3,6 @@ import { documentDateRange } from './document-dates.js';
 
 const scriptPatterns = new Map();
 const dateRange = new RegExp(`\\(${documentDateRange}\\)`, 'u');
-const labelSuffix = /[ \t]*:/y;
 const commaMobile = /,[ \t]*[78]9\d{9}(?![\p{L}\p{N}_])/u;
 const mobile = /^[78]9\d{9}$/u;
 const tokenPattern = /[\p{L}\p{M}\p{N}_./:\\?&#%=@+'’~+-]+/gu;
@@ -101,6 +100,49 @@ function quotedSpans(text, emit) {
 function pathToken(value) {
   return value.includes('/') || value.includes('\\');
 }
+// Keep existing document coverage outside the new replacements. Two naturally
+// ordered runs (quotes, then tokens) provide an interval index without sorting.
+// Overlapping broad document spans must not merge separate prose replacements.
+export function detectProseAndDocuments(text, emit, options, detectDocuments) {
+  if (options.properNames !== 'capitalized') {
+    detectDocuments(text, emit, options);
+    return;
+  }
+  const runs = [[]];
+  detectProperNames(
+    text,
+    (finding) => {
+      if (runs.at(-1).at(-1)?.end > finding.start) {
+        runs.push([]);
+      }
+      runs.at(-1).push(finding);
+      emit(finding);
+    },
+    options
+  );
+  detectDocuments(
+    text,
+    (finding) => {
+      if (!runs.some((run) => overlapsRun(run, finding))) {
+        emit(finding);
+      }
+    },
+    options
+  );
+}
+function overlapsRun(run, finding) {
+  let low = 0,
+    high = run.length;
+  while (low < high) {
+    const mid = (low + high) >>> 1;
+    if (run[mid].end <= finding.start) {
+      low = mid + 1;
+    } else {
+      high = mid;
+    }
+  }
+  return low < run.length && run[low].start < finding.end;
+}
 export function detectProperNames(text, emit, options) {
   if (options.properNames !== 'capitalized' || !proseData(text, options)) {
     return false;
@@ -147,13 +189,16 @@ export function detectProperNames(text, emit, options) {
 }
 
 function preserveToken(text, raw, value, start, end, range) {
-  labelSuffix.lastIndex = start + raw.length;
+  let next = start + raw.length;
+  while (text[next] === ' ' || text[next] === '\t') {
+    next++;
+  }
   return (
     !value ||
     (range && start >= range.index && end <= range.index + range[0].length) ||
     (value === 'REDACTED' && text[start - 1] === '[' && text[end] === ']') ||
     raw.endsWith(':') ||
-    labelSuffix.test(text)
+    text[next] === ':'
   );
 }
 function tokenType(value) {

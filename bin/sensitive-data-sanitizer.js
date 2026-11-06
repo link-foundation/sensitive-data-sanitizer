@@ -323,10 +323,6 @@ async function loadOptions(config) {
     config.profile ??
     options.profile ??
     (config.command === 'redact' ? 'publication' : undefined);
-  options.properNames = config.properNames ?? options.properNames;
-  if (config.scripts !== undefined) {
-    options.scripts = config.scripts.split(',');
-  }
   if (config.nativeOnly) {
     options.secretlint = false;
   }
@@ -349,6 +345,10 @@ async function loadOptions(config) {
 
 async function featureOptions(config, options) {
   await localCredentials(config, options);
+  options.properNames = config.properNames ?? options.properNames;
+  if (config.scripts !== undefined) {
+    options.scripts = config.scripts.split(',');
+  }
   if (config.knownOnly) {
     options.knownOnly = true;
   }

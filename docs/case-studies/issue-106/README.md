@@ -65,8 +65,8 @@ child has further sub-issues. All examples use synthetic data.
 - [x] Draft regression coverage and demonstrate baseline failures.
 - [x] Implement all requirements and public option/type/documentation surfaces.
 - [x] Run focused regressions and bounded probes; review compatibility.
-- [ ] Commit release fragment and implementation; push only the prepared branch.
-- [ ] Update PR description, inspect diff and integrate latest main.
+- [x] Commit release fragment and implementation; push only the prepared branch.
+- [x] Update PR description, inspect diff and integrate latest main.
 - [ ] Verify all current-commit CI, ready PR and clean tree.
 
 ## Implementation and local evidence
@@ -92,15 +92,19 @@ Reproduce the focused checks:
 
 ```sh
 node --max-old-space-size=384 --test --test-timeout=30000 tests/sanitizer-issue-106.test.js tests/sanitizer-prose-integration.test.js tests/sanitizer-experience-lines.test.js tests/sanitizer-issue-100.test.js tests/sanitizer-placeholders.test.js tests/sanitizer-profiles.test.js
-node scripts/lint.mjs
+node_modules/.bin/eslint . --max-warnings 0
 ```
 
-The finite probe in `experiments/issue-106/prose-cost.mjs` tests six hostile shapes
+The focused selection passes all **252 tests**. The compatibility regression also
+checks that Chinese and Arabic document entities remain protected alongside
+activated uppercase prose. Nonoverlapping existing document findings are retained.
+
+The finite probe in `experiments/issue-106/prose-cost.mjs` tests seven hostile shapes
 at 50K, 100K and 200K characters: unspaced lowercase, dotted, hyphenated, an
-unclosed quote, a slash run and a long interior dot run. The automated integration
+unclosed quote, a slash run, a long interior dot run and a long tab suffix. The automated integration
 check forks it with a **128 MiB heap, 1 MiB stack and two-second matching limit**.
-An illustrative Node 26 run measured 34/46/76 ms for the six shapes at each size,
-156 ms total. These measurements are evidence of bounded practical cost, not a
+An illustrative Node 26 run measured 31/48/95 ms for the seven shapes at each size,
+175 ms total. These measurements are evidence of bounded practical cost, not a
 hardware-independent timing promise or formal proof of every surrounding rule.
 The scanner strips punctuation by walking backward once; an end-anchored suffix
 regexp could otherwise retry on each interior punctuation character.
@@ -129,3 +133,22 @@ comparison. The synthetic runnable example is `examples/prose-logs.mjs`.
 The explicitly permitted lower-case ambiguity and finite technology/acronym
 policies are documented in COVERAGE; they are deliberate supported limits.
 No requested implementation is deferred to an external library or model.
+
+## CI investigation
+
+The first implementation commit, `f0016ea`, was tested by runs created on
+2026-11-06 at 05:07:53 UTC. The logs were downloaded into the ignored `ci-logs/`
+folder and inspected before changing code:
+
+- [Checks and release run 42166557324](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42166557324)
+  failed full lint: `checks-42166557324.log` lines 2118–2125 identified complexity
+  16 (limit 15) in `loadOptions` and `personalValueAllowed`. Move CLI feature
+  assignments into the existing feature helper and extract location-path
+  classification; run full ESLint with zero warnings locally.
+- [Security run 42166557443](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42166557443)
+  reported one CodeQL `js/polynomial-redos` finding (log lines 7943–7957). The
+  downloaded SARIF points to the whitespace label-suffix expression in
+  `proper-names.js`. Replace it with an explicit forward whitespace scan and add
+  the tab-run shape to the bounded automated probe.
+- The same commit passed the example-app and broken-link workflows. These
+  results do not substitute for checks of the final commit, tracked on PR 107.

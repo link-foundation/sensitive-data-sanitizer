@@ -17,6 +17,7 @@ for (const size of sizes) {
     'A-'.repeat(size / 2),
     `«${'a'.repeat(size)}`,
     `a${'/'.repeat(size)}a`,
+    `A${'\t'.repeat(size)}x`,
   ]) {
     detectProperNames(`текст ${token}`, () => {}, options);
   }
