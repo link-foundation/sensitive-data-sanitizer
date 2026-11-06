@@ -14,6 +14,7 @@ import {
 import { tmpdir } from 'node:os';
 import { delimiter, join, resolve } from 'node:path';
 import { describe, it, expect } from 'test-anywhere';
+import cmdShim from 'cmd-shim';
 import {
   HANG_GUARD_MS,
   removeFixture,
@@ -22,20 +23,6 @@ import {
 import { itUnless, sandboxed } from './helpers/skip.js';
 
 const config = JSON.parse(readFileSync('.changeset/config.json', 'utf8'));
-
-function createPrettierBins(dependencies) {
-  const bin = join(dependencies, '.bin');
-  mkdirSync(bin);
-  writeFileSync(
-    join(bin, 'prettier'),
-    '#!/bin/sh\nexec node "$(dirname "$0")/../prettier/bin/prettier.cjs" "$@"\n',
-    { mode: 0o755 }
-  );
-  writeFileSync(
-    join(bin, 'prettier.cmd'),
-    '@echo off\r\nnode "%~dp0..\\prettier\\bin\\prettier.cjs" %*\r\n'
-  );
-}
 
 function cleanupLinkedFixture(cwd, links, failure) {
   removeFixture(cwd, failure, (path, options) => {
@@ -115,7 +102,19 @@ describe('Changesets release formatter', () => {
           const relative = link.slice(dependencies.length + 1);
           symlinkSync(resolve('node_modules', relative), link, 'junction');
         }
-        createPrettierBins(dependencies);
+        // npm's shims handle cmd.exe's quoted invocation and PATH lookup.
+        // A hand-written %~dp0 wrapper resolves against the wrong directory
+        // when invoked by npm 12 on Windows.
+        const formatterBin = join(dependencies, '.bin/prettier');
+        if (process.platform === 'win32') {
+          await cmdShim(
+            join(dependencies, 'prettier/bin/prettier.cjs'),
+            formatterBin
+          );
+        } else {
+          mkdirSync(join(dependencies, '.bin'));
+          symlinkSync('../prettier/bin/prettier.cjs', formatterBin);
+        }
         const env = { ...process.env };
         const pathKey = Object.keys(env).find(
           (key) => key.toUpperCase() === 'PATH'

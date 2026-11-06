@@ -1,0 +1,72 @@
+▶ repository-wide workflow audit coverage
+  ✔ triggers on all GitHub configs/actions and every script the jobs execute (2.371405ms)
+  ✔ reproduces the regular action audit against the entire repository (0.413662ms)
+  ✔ authenticates the pedantic audit and scans the entire repository (0.650544ms)
+✔ repository-wide workflow audit coverage (5.623791ms)
+▶ link checker input selection
+  ✔ walks hidden Markdown and HTML while retaining ignore/exclusion rules (2.991462ms)
+✔ link checker input selection (3.440668ms)
+▶ Deno lock and npm install script policies
+  ✔ keeps Deno workspace dependency ranges synchronized with package.json (2.969109ms)
+  ✔ requires an explicit decision for every install script, including optional OS packages (7.698133ms)
+✔ Deno lock and npm install script policies (11.623536ms)
+▶ npm propagation tail
+  ✔ verifies a version visible after 950 seconds without publishing twice (4.281467ms)
+  ✔ bounds absent-version verification at 25.5 minutes and reports elapsed wait (1.295157ms)
+  ✔ gives smoke/Docker waits the same 25.5-minute polling span (4.9263ms)
+✔ npm propagation tail (11.188844ms)
+▶ quiet, effective tooling configuration
+  ✔ uses jscpd 5 weak mode to omit comments (1.134477ms)
+  ✔ the installed jscpd parser accepts every config field (205.72057ms)
+  ✔ retains captured failure analysis without replaying live publish output (0.54151ms)
+✔ quiet, effective tooling configuration (207.895346ms)
+▶ upstream Buildx retries and registry fallback
+  ✔ delegates both pulls and bootstrap to the same reviewed upstream release (8.670986ms)
+  ✔ recovers only a failed canonical setup and propagates exhausted retries (0.401229ms)
+  ✔ keeps mirror opt-out and forwards verbose and runner debug settings (0.447504ms)
+✔ upstream Buildx retries and registry fallback (24.395402ms)
+▶ check-status-gate-covers-all-jobs.mjs
+  ✔ accepts comments and blank lines in block needs (103.25165ms)
+  ✔ confirms the shipped release workflow is fully covered (89.433501ms)
+  ✔ names the uncovered job when a job is dropped from needs (91.404047ms)
+  ✔ exits 2 when the workflow has no terminal status gate at all (73.504172ms)
+  ✔ accepts a differently named gate via --gate (67.849542ms)
+  ✔ parses the flow form of needs (70.59759ms)
+  ✔ wires the checker into the workflows meta-workflow for every workflow (0.652408ms)
+✔ check-status-gate-covers-all-jobs.mjs (499.572471ms)
+▶ check-status-gate-covers-all-jobs.mjs shipped coverage
+  ✔ confirms every other shipped workflow is fully covered (272.682917ms)
+✔ check-status-gate-covers-all-jobs.mjs shipped coverage (273.432466ms)
+▶ workflow linting job
+  ✔ uses the supported Ubuntu 24.04 label for every Linux job (5.738026ms)
+  ✔ runs actionlint from the Docker image that bundles shellcheck (0.411427ms)
+  ✔ pins the actionlint image to a digest, not a tag (0.875785ms)
+  ✔ documents the local actionlint reproduction against the pinned release (0.310079ms)
+  ✔ runs zizmor against the repository configuration (0.303125ms)
+  ✔ pins the zizmor version the action installs (1.018811ms)
+  ✔ adds a narrow pedantic pass for the pedantic-only audits (0.233866ms)
+  ✔ bounds every job with a timeout backstop (0.678175ms)
+  ✔ gates Python-only changes with pinned lint and format checks (1.373593ms)
+✔ workflow linting job (13.984179ms)
+▶ shell blocks under shellcheck
+  ✔ builds the manifest digest list as an array (0.531392ms)
+  ✔ reports the packaging attempt number (0.237473ms)
+✔ shell blocks under shellcheck (1.240133ms)
+▶ third-party actions
+  ✔ pins actions outside the trusted publishers to a commit hash (4.493814ms)
+  ✔ pins every container image reference to a digest (3.49444ms)
+✔ third-party actions (8.352012ms)
+▶ reproducible workflow tooling and runner policy
+  ✔ keeps both zizmor passes and the reproduction comment on the action-supported version (2.748559ms)
+  ✔ pins both secretlint packages to the same exact version (1.840916ms)
+  ✔ pins every hosted OS image in every workflow (1.422344ms)
+  ✔ runs a workflow policy guard in CI (0.232795ms)
+✔ reproducible workflow tooling and runner policy (6.904141ms)
+ℹ tests 40
+ℹ suites 12
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1008.355064

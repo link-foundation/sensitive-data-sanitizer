@@ -8,6 +8,7 @@ import {
   isSupportedNodeVersion,
   isSupportedNpmVersion,
   selectLatestSupportedNpmRelease,
+  setupNpm,
 } from '../scripts/setup-npm.mjs';
 
 function makeNpmMetadata(versions) {
@@ -30,37 +31,56 @@ describe('setup-npm version requirements', () => {
     expect(compareVersions('11.10.0', '11.9.9')).toBe(1);
     expect(compareVersions('11.5.1', '11.5.1')).toBe(0);
     expect(compareVersions('11.5.0', '11.5.1')).toBe(-1);
+    expect(compareVersions('12.2.3-rc.10', '12.2.3-rc.2')).toBe(1);
   });
 
   it(`requires npm ${NPM_MIN_VERSION} or later`, () => {
     expect(isSupportedNpmVersion('11.4.2')).toBe(false);
     expect(isSupportedNpmVersion('11.5.0')).toBe(false);
-    expect(isSupportedNpmVersion('11.5.1')).toBe(true);
-    expect(isSupportedNpmVersion('11.12.1')).toBe(true);
+    expect(isSupportedNpmVersion('11.5.1')).toBe(false);
+    expect(isSupportedNpmVersion('12.2.2')).toBe(true);
   });
 
   it(`requires Node.js ${NODE_MIN_VERSION} or later`, () => {
     expect(isSupportedNodeVersion('v22.13.1')).toBe(false);
-    expect(isSupportedNodeVersion('v22.14.0')).toBe(true);
-    expect(isSupportedNodeVersion('v24.0.0')).toBe(true);
+    expect(isSupportedNodeVersion('v22.22.2')).toBe(true);
+    expect(isSupportedNodeVersion('v24.15.0')).toBe(true);
+    expect(isSupportedNodeVersion('v23.0.0')).toBe(false);
+    expect(isSupportedNodeVersion('v24.14.0')).toBe(false);
+    expect(isSupportedNodeVersion('v26.13.0')).toBe(true);
   });
 
-  it('selects the latest npm 11 tarball that satisfies trusted publishing', () => {
+  it('selects the latest npm 12 tarball that satisfies trusted publishing', () => {
     const release = selectLatestSupportedNpmRelease(
       makeNpmMetadata([
         '11.4.2',
         '11.5.0',
         '11.5.1',
         '11.6.0-beta.0',
-        '11.10.0',
-        '12.0.0',
+        '12.2.2',
+        '12.2.3',
+        '12.2.4-beta.0',
+        '13.0.0',
+        'invalid-version',
       ])
     );
 
     expect(release).toEqual({
-      version: '11.10.0',
-      tarballUrl: 'https://registry.npmjs.org/npm/-/npm-11.10.0.tgz',
+      version: '12.2.3',
+      tarballUrl: 'https://registry.npmjs.org/npm/-/npm-12.2.3.tgz',
     });
+  });
+
+  it('uses the installed reviewed release without another network install', async () => {
+    const commands = [];
+    const shell = (strings) => {
+      commands.push(strings.join(''));
+      return { run: async () => ({ stdout: NPM_MIN_VERSION }) };
+    };
+    await setupNpm(shell, () => {
+      throw new Error('The current release must not fetch metadata');
+    });
+    expect(commands).toEqual(['npm --version']);
   });
 });
 

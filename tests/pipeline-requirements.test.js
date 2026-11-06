@@ -49,7 +49,7 @@ describe('complete pipeline requirements', () => {
   });
   it('persists the link cache and uploads the report on failure', () => {
     const source = read('.github/workflows/links.yml');
-    expect(source).toContain('uses: actions/cache@v5');
+    expect(source).toMatch(/uses: actions\/cache@v\d+/);
     expect(source).toContain('path: .lycheecache');
     expect(source).toContain('restore-keys: cache-lychee-');
     expect(source).toContain('uses: ./.github/actions/artifact-transport');

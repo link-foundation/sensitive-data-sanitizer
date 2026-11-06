@@ -1,0 +1,18 @@
+npm warn EBADDEVENGINES The developer of this package has specified the following through devEngines
+npm warn EBADDEVENGINES Invalid devEngines.packageManager
+npm warn EBADDEVENGINES Invalid semver version ">=12.2.2" does not match "11.20.0" for "packageManager"
+npm warn EBADDEVENGINES {
+npm warn EBADDEVENGINES   current: { name: 'npm', version: '11.20.0' },
+npm warn EBADDEVENGINES   required: { name: 'npm', version: '>=12.2.2', onFail: 'warn' }
+npm warn EBADDEVENGINES }
+
+up to date in 5s
+npm warn EBADDEVENGINES The developer of this package has specified the following through devEngines
+npm warn EBADDEVENGINES Invalid devEngines.packageManager
+npm warn EBADDEVENGINES Invalid semver version ">=12.2.2" does not match "11.20.0" for "packageManager"
+npm warn EBADDEVENGINES {
+npm warn EBADDEVENGINES   current: { name: 'npm', version: '11.20.0' },
+npm warn EBADDEVENGINES   required: { name: 'npm', version: '>=12.2.2', onFail: 'warn' }
+npm warn EBADDEVENGINES }
+
+up to date in 15s

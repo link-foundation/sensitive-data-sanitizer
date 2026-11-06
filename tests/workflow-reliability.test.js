@@ -381,11 +381,14 @@ describe('workflow reliability policy', () => {
     const imageVersion = previewRegenJob.match(
       /image:\s*mcr\.microsoft\.com\/playwright@sha256:[0-9a-f]{64} # v([0-9.]+)-noble/
     )?.[1];
-    const packageVersion = previewRegenJob.match(/playwright@([0-9.]+)/)?.[1];
+    const { devDependencies } = JSON.parse(
+      readFileSync('package.json', 'utf8')
+    );
 
     expect(previewRegenJob).toContain('container:');
-    expect(imageVersion).toBe('1.59.1');
-    expect(packageVersion).toBe(imageVersion);
+    expect(imageVersion).toBe('1.65.0');
+    expect(devDependencies.playwright).toBe(imageVersion);
+    expect(previewRegenJob).toContain('run: npm ci --no-audit --no-fund');
     expect(previewRegenJob).toContain("PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'");
     expect(previewRegenJob).not.toContain('npx playwright install');
     expect(previewRegenJob).not.toContain('~/.cache/ms-playwright');
@@ -468,7 +471,7 @@ describe('workflow artifact and writer reliability', () => {
 
     expect(packageStepIndex).toBeGreaterThanOrEqual(0);
     expect(uploadStepIndex).toBeGreaterThan(packageStepIndex);
-    expect(desktopPackageJob).toContain("node-version: '24.x'");
+    expect(desktopPackageJob).toContain('uses: ./.github/actions/setup-node');
     expect(desktopPackageJob).not.toContain("node-version: '20.x'");
     expect(desktopPackageJob).toContain('shell: bash');
     expect(desktopPackageJob).toContain('npm run example:desktop:package');
@@ -663,7 +666,7 @@ describe('npm user config cleanup', () => {
       const job = getJobBlock(workflow, jobName);
 
       expectOrdered(job, [
-        'uses: actions/setup-node@v7',
+        'uses: ./.github/actions/setup-node',
         '- name: Remove deprecated npm auth config',
         '- name: Install dependencies',
       ]);

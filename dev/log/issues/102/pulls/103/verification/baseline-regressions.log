@@ -1,0 +1,95 @@
+▶ action versions
+  ✔ use one ref per action across every workflow and composite action (6.617815ms)
+✔ action versions (11.67026ms)
+▶ workflow policy regression protection
+  ✔ rejects unpinned package -p secretlint (2.489284ms)
+  ✔ rejects unpinned package --package=secretlint (0.321129ms)
+  ✔ rejects unpinned package -p @secretlint/preset (0.163855ms)
+  ✔ rejects unpinned package --package=@secretlint/preset (0.253503ms)
+  ✔ rejects unpinned package -p secretlint@latest (0.45048ms)
+  ✔ rejects unpinned package --package=secretlint@latest (0.244136ms)
+  ✔ rejects unpinned package -p secretlint@^13.0.7 (0.249446ms)
+  ✔ rejects unpinned package --package=secretlint@^13.0.7 (0.640115ms)
+  ✔ checks every package option and a continued shell command (1.032596ms)
+  ✔ rejects floating matrix and direct runner labels but ignores comments (1.089552ms)
+  ✔ rejects zizmor version drift and versions unsupported by the pinned action (0.538075ms)
+✔ workflow policy regression protection (10.841946ms)
+▶ complete pipeline requirements
+  ✔ queues every writer without cancellation (6.143471ms)
+  ✔ uses only the narrow documented actionlint schema exception (0.426344ms)
+  ✔ provides defaults for required dispatch inputs (0.705486ms)
+  ✔ checks the Dependabot author and enforces warnings on main (2.174387ms)
+  ✖ persists the link cache and uploads the report on failure (0.397181ms)
+  ✔ gives skipped matrix jobs static names (1.323178ms)
+  ✔ deploys Pages without npm dependencies or hidden warnings (0.394796ms)
+  ✔ covers standalone scripts and hooks with pinned ShellCheck (5.966851ms)
+  ✔ declares a shell in every tracked script and hook (17.407201ms)
+  ✔ declares every ESLint configuration import (1.265169ms)
+✖ complete pipeline requirements (39.086433ms)
+▶ workflow concurrency policy
+  ✔ detects unsupported keys in a concurrency block (2.809651ms)
+  ✔ keeps every waiting main writer in the queue (4.640557ms)
+  ✔ uses only keys supported by GitHub Actions (5.562296ms)
+  ✔ uses job-level concurrency so stale checks cannot cancel active writers (14.417145ms)
+✔ workflow concurrency policy (29.861544ms)
+▶ workflow reliability policy
+  ✔ sets Git default branch config before checkout initializes repositories (1.42036ms)
+  ✔ excludes Vite source HTML from raw lychee file scans (2.078427ms)
+  ✔ uploads preview regeneration artifacts when screenshot rendering fails (2.253874ms)
+  ✔ uses the official Playwright image for preview regeneration with browser downloads disabled (1.01312ms)
+✔ workflow reliability policy (7.956743ms)
+▶ workflow artifact and writer reliability
+  ✔ serializes main writers and retries generated pushes after rebasing (2.022233ms)
+  ✔ verifies desktop package output before uploading artifacts (0.884169ms)
+✔ workflow artifact and writer reliability (3.434617ms)
+▶ release workflow change gates
+  ✔ skips the slow test matrix for pull requests with no code changes (1.686796ms)
+  ✔ runs the slow test matrix for workflow changes after fast checks pass (0.984537ms)
+  ✔ skips test-compilation for excluded-only pushes (0.645685ms)
+  ✔ skips check-file-line-limits for excluded-only pushes (0.463806ms)
+  ✔ skips lint for excluded-only pushes (0.50353ms)
+  ✔ skips test for excluded-only pushes (0.44994ms)
+  ✔ skips validate-docs for excluded-only pushes (0.441563ms)
+✔ release workflow change gates (5.866794ms)
+▶ manual release quality gates
+  ✔ runs lint and tests before an instant manual release (2.220873ms)
+  ✔ blocks an instant manual release after either quality gate fails (0.884461ms)
+  ✔ blocks an instant manual release from a branch other than main (0.484784ms)
+  ✔ waits for successful lint before creating a manual changeset PR (0.910689ms)
+  ✔ does not run instant-release after cancellation (0.409654ms)
+  ✔ does not run changeset-pr after cancellation (0.3377ms)
+✔ manual release quality gates (5.771226ms)
+▶ npm publish token bootstrap
+  ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the release publish step (0.382924ms)
+  ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the instant-release publish step (0.232393ms)
+✔ npm publish token bootstrap (0.809711ms)
+▶ npm user config cleanup
+  ✔ removes deprecated always-auth before npm commands in the release job (0.471118ms)
+  ✔ removes deprecated always-auth before npm commands in the instant-release job (0.463354ms)
+✔ npm user config cleanup (1.106684ms)
+▶ install-from-package smoke test
+  ✔ smoke-tests the published npm package in the release job (0.454738ms)
+  ✔ smoke-tests the published npm package in the instant-release job (1.201892ms)
+✔ install-from-package smoke test (1.870279ms)
+ℹ tests 51
+ℹ suites 11
+ℹ pass 50
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 370.978792
+
+✖ failing tests:
+
+test at node_modules/test-anywhere/src/index.js:174:12
+✖ persists the link cache and uploads the report on failure (0.397181ms)
+  Error: Expected "name: Broken Link Checker\n\non:\n  push:\n    branches:\n      - main\n    paths:\n      - '**.md'\n      - '**.html'\n      - '.github/workflows/links.yml'\n      - '.github/actions/artifact-transport/**'\n      - 'scripts/artifact-transport.mjs'\n      - 'scripts/artifact-files.mjs'\n      - '.lycheeignore'\n      - 'scripts/check-web-archive.mjs'\n      - 'scripts/lychee-report.mjs'\n      - 'scripts/recheck-broken-links.mjs'\n      - 'tests/fixtures/lychee-report.md'\n      - 'tests/links-workflow.test.js'\n      - 'tests/recheck-broken-links.test.js'\n  pull_request:\n    types: [opened, synchronize, reopened]\n    paths:\n      - '**.md'\n      - '**.html'\n      - '.github/workflows/links.yml'\n      - '.github/actions/artifact-transport/**'\n      - 'scripts/artifact-transport.mjs'\n      - 'scripts/artifact-files.mjs'\n      - '.lycheeignore'\n      - 'scripts/check-web-archive.mjs'\n      - 'scripts/lychee-report.mjs'\n      - 'scripts/recheck-broken-links.mjs'\n      - 'tests/fixtures/lychee-report.md'\n      - 'tests/links-workflow.test.js'\n      - 'tests/recheck-broken-links.test.js'\n  # External URLs rot without any commit here; recheck them weekly so a dead\n  # link is reported by this run instead of by the next unrelated docs PR.\n  schedule:\n    - cron: '0 6 * * 1'\n  workflow_dispatch:\n\n# Least-privilege default; jobs escalate individually when needed.\npermissions:\n  contents: read\n\n# Provide Git config to actions/checkout itself; checkout runs git init before\n# any workflow step can configure Git.\nenv:\n  GIT_CONFIG_COUNT: '1'\n  GIT_CONFIG_KEY_0: init.defaultBranch\n  GIT_CONFIG_VALUE_0: main\n\njobs:\n  link-checker:\n    name: Check Links\n    runs-on: ubuntu-24.04\n    # Typical run: <1min with lychee cache. 10min prevents slow\n    # external hosts or Wayback Machine probes from hanging the workflow.\n    timeout-minutes: 10\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-link-checker\n      cancel-in-progress: true\n    permissions:\n      contents: read\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      # lychee keeps results for --max-cache-age 1d. Scoping the cache to the\n      # UTC day restores only a cache saved today, so lychee never has to\n      # discard a restored cache as \"too old\".\n      - name: Name today's link cache\n        id: link-cache\n        run: echo \"day=$(date -u +%F)\" >> \"$GITHUB_OUTPUT\"\n\n      - name: Restore link cache\n        uses: actions/cache@v6\n        with:\n          path: .lycheecache\n          key: cache-lychee-${{ runner.os }}-${{ steps.link-cache.outputs.day }}-${{ github.sha }}\n          restore-keys: cache-lychee-${{ runner.os }}-${{ steps.link-cache.outputs.day }}-\n\n      - name: Check links with lychee\n        id: lychee\n        uses: lycheeverse/lychee-action@v2\n        with:\n          # Check all Markdown and HTML files\n          # Exclude case-studies directory - these are research documents from\n          # external repos with references to files and issues that don't exist\n          # in this repository (similar exclusion pattern as eslint.config.js)\n          # Exclude the Vite source HTML because its root-relative app asset\n          # URLs are only valid when served by Vite.\n          # Exclude tests/fixtures - the captured lychee reports there contain\n          # deliberately broken links used as parser test input.\n          args: >-\n            --verbose\n            --no-progress\n            --cache\n            --max-cache-age 1d\n            --max-retries 3\n            --timeout 30\n            --hidden\n            --extensions md,html\n            --exclude-path docs/case-studies\n            --exclude-path dev/log\n            --exclude-path examples/universal-app/index.html\n            --exclude-path tests/fixtures\n            .\n          # Don't fail the workflow immediately - we want to check web archive first\n          fail: false\n          # Output file for broken links report (used by check-web-archive.mjs)\n          output: lychee/out.md\n          # Write a job summary\n          jobSummary: true\n        env:\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n\n      - name: Re-check transient link failures\n        # Retry transport errors, 429, and 5xx within a shared budget.\n        # GitHub blob/tree pages also use the authenticated contents API.\n        if: steps.lychee.outputs.exit_code != 0\n        id: recheck\n        run: node scripts/recheck-broken-links.mjs\n        env:\n          LYCHEE_OUTPUT: lychee/out.md\n          RECOVERED_OUTPUT: lychee/recovered.txt\n          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n\n      - name: Check broken links against Web Archive\n        # `!= 'true'`, never `== 'false'`: a skipped re-check leaves the\n        # output empty, and only the != form fails safe.\n        if: >-\n          steps.lychee.outputs.exit_code != 0 &&\n          steps.recheck.outputs.all_recovered != 'true'\n        id: webarchive\n        run: node scripts/check-web-archive.mjs\n        env:\n          LYCHEE_OUTPUT: lychee/out.md\n          RECOVERED_URLS: lychee/recovered.txt\n          LYCHEE_EXIT_CODE: ${{ steps.lychee.outputs.exit_code }}\n\n      - name: Upload broken-link diagnostics\n        if: \"!cancelled() && steps.lychee.outputs.exit_code != '0'\"\n        uses: ./.github/actions/artifact-transport\n        with:\n          name: lychee-report\n          path: lychee/\n          required-file: lychee/out.md\n          if-no-files-found: error\n\n      - name: Fail if broken links were found\n        if: >-\n          !cancelled() &&\n          steps.lychee.outputs.exit_code != 0 &&\n          steps.recheck.outputs.all_recovered != 'true'\n        run: |\n          echo \"::error::Broken live links were detected.\"\n          echo \"\"\n          echo \"What happened:\"\n          echo \"  lychee found one or more broken links in the *.md and *.html files of this repository.\"\n          echo \"  An archive is a suggested replacement; it does not make the live link valid.\"\n          echo \"\"\n          echo \"How to fix:\"\n          echo \"  1. Review the 'Check links with lychee' step above for a full list of broken links.\"\n          echo \"  2. For links marked with a '::notice::' annotation above, a Web Archive replacement exists.\"\n          echo \"     Replace those broken links with the suggested archive.org URL.\"\n          echo \"  3. For links with no archive version, either:\"\n          echo \"     a. Find an updated URL that points to the same or equivalent content.\"\n          echo \"     b. Remove the link if the content is no longer relevant.\"\n          echo \"     c. Add the URL to .lycheeignore if it is a known false positive.\"\n          echo \"\"\n          echo \"Report location: lychee/out.md (download the lychee-report workflow artifact).\"\n          exit 1\n\n  # Terminal status gate: runs even when the jobs above fail or are\n  # cancelled, and turns a `timeout-minutes` kill (reported as cancelled)\n  # into a red run. needs is derived and checked by the status-gate-coverage\n  # job in workflows.yml.\n  pipeline-status:\n    name: Pipeline Status\n    runs-on: ubuntu-24.04\n    timeout-minutes: 5\n    concurrency:\n      group: check-${{ github.workflow }}-${{ github.ref }}-pipeline-status\n      cancel-in-progress: true\n    # A status function is required: without one the gate inherits the\n    # implicit \"every dependency succeeded\" condition and is skipped in\n    # exactly the runs it exists to report.\n    if: >-\n      !cancelled()\n    needs:\n      - link-checker\n    # actions: read lets the gate list this run's jobs and name the ones\n    # GitHub never acquired a runner for.\n    permissions:\n      actions: read\n      contents: read\n    steps:\n      - uses: actions/checkout@v7\n        with:\n          persist-credentials: false\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v7\n        with:\n          node-version: '24.x'\n\n      - name: Fail the run when a required job was cancelled or failed\n        env:\n          NEEDS_JSON: ${{ toJSON(needs) }}\n          GH_TOKEN: ${{ github.token }}\n          RUN_SHA: ${{ github.event.pull_request.head.sha || github.sha }}\n          HEAD_REF: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/head', github.event.number) || github.ref }}\n        run: bash scripts/check-pipeline-status.sh\n" to contain "uses: actions/cache@v5"
+      at Object.toContain (file:///tmp/gh-issue-solver-1793920231277/node_modules/test-anywhere/src/index.js:566:15)
+      at TestContext.<anonymous> (file:///tmp/gh-issue-solver-1793920231277/tests/pipeline-requirements.test.js:52:20)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7)

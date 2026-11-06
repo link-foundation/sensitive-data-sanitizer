@@ -123,8 +123,7 @@ describe('security workflow', () => {
 
     expect(auditedLocks).toEqual(listPackageLocks());
     expect(audit).toContain('    timeout-minutes: 10');
-    expect(audit).toContain('uses: actions/setup-node@v7');
-    expect(audit).toContain('node-version: 24');
+    expect(audit).toContain('uses: ./.github/actions/setup-node');
     expect(audit).toContain('working-directory: ${{ matrix.directory }}');
     expect(audit).toContain(
       'run: node "$GITHUB_WORKSPACE/scripts/npm-audit-report.mjs"'

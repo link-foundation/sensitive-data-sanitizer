@@ -1,0 +1,98 @@
+tests/publish-failure-classifier.test.js:14:      "The requested resource '@scope/pkg@0.8.1' could not be found",
+tests/ci-workflow-policy.test.js:43:  it('rejects zizmor version drift and versions unsupported by the pinned action', () => {
+tests/ci-workflow-policy.test.js:45:      'uses: zizmorcore/zizmor-action@v0.8.0\nwith:\n  version: 1.30.1\nrun: pipx run zizmor==1.30.1\n# pipx run zizmor==1.30.1';
+tests/ci-workflow-policy.test.js:48:      checkWorkflowPolicy(workflow.replace('zizmor==1.30.1', 'zizmor==1.29.0'))
+tests/transient-links.test.js:126:    expect(workflow).not.toContain('bun-version: latest');
+tests/transient-links.test.js:127:    expect(workflow).toContain("bun-version: '1.x'");
+tests/security-workflow.test.js:127:    expect(audit).toContain('node-version: 24');
+tests/docker-build.test.js:48:    // Without a scope every build writes the same default `buildkit` cache
+tests/workflow-reliability.test.js:387:    expect(imageVersion).toBe('1.59.1');
+tests/workflow-reliability.test.js:471:    expect(desktopPackageJob).toContain("node-version: '24.x'");
+tests/workflow-reliability.test.js:472:    expect(desktopPackageJob).not.toContain("node-version: '20.x'");
+tests/setup-buildx-resilient.test.js:91:        BUILDKIT_IMAGE: 'moby/buildkit:buildx-stable-1',
+tests/setup-buildx-resilient.test.js:124:      expect(result.pulled).toContain('moby/buildkit:buildx-stable-1');
+tests/setup-buildx-resilient.test.js:137:        'mirror.gcr.io/moby/buildkit:buildx-stable-1'
+tests/setup-buildx-resilient.test.js:140:        'tag mirror.gcr.io/moby/buildkit:buildx-stable-1 moby/buildkit:buildx-stable-1'
+tests/setup-buildx-resilient.test.js:163:    expect(action).toContain('driver-opts: image=${{ inputs.buildkit-image }}');
+.github/zizmor.yml:1:# zizmor configuration — https://docs.zizmor.sh/configuration/
+.github/zizmor.yml:14:        zizmorcore/*: ref-pin
+.github/zizmor.yml:17:  # zizmor >= 1.30.0 asks for GitHub's `uses: $/...` self-repository syntax
+.github/zizmor.yml:21:  # in workflows.yml contradict each other: satisfying zizmor makes
+.github/workflows/rerun-unacquired.yml:11:  workflow_run: # zizmor: ignore[dangerous-triggers]
+.github/workflows/rerun-unacquired.yml:51:          node-version: '24.x'
+.github/workflows/example-app.yml:96:          node-version: '24.x'
+.github/workflows/example-app.yml:167:          node-version: '24.x'
+.github/workflows/example-app.yml:200:          node-version: '24.x'
+.github/workflows/example-app.yml:251:          node-version: '24.x'
+.github/workflows/example-app.yml:259:          java-version: '21'
+.github/workflows/example-app.yml:298:          node-version: '24.x'
+.github/workflows/example-app.yml:316:      image: mcr.microsoft.com/playwright@sha256:b0ab6f3cb99aa7803adbc14d9027ec1785fc6e433b97e134e0f8fe61683b6b53 # v1.59.1-noble
+.github/workflows/example-app.yml:347:      image: mcr.microsoft.com/playwright@sha256:b0ab6f3cb99aa7803adbc14d9027ec1785fc6e433b97e134e0f8fe61683b6b53 # v1.59.1-noble
+.github/workflows/example-app.yml:393:        run: npm install --no-save --package-lock=false --no-audit --no-fund browser-commander@0.8.1 playwright@1.59.1 # zizmor: ignore[adhoc-packages]
+.github/workflows/example-app.yml:523:          node-version: '24.x'
+tests/docker-publish.test.js:89:    // workflow expression out of the shell (zizmor template-injection).
+.github/workflows/workflows.yml:71:      # .github/zizmor.yml). Re-resolve when bumping:
+.github/workflows/workflows.yml:105:        run: pipx run --spec ruff==0.17.3 ruff check --output-format=github .
+.github/workflows/workflows.yml:107:        run: pipx run --spec ruff==0.17.3 ruff format --check .
+.github/workflows/workflows.yml:141:  zizmor:
+.github/workflows/workflows.yml:142:    name: zizmor
+.github/workflows/workflows.yml:146:      group: check-${{ github.workflow }}-${{ github.ref }}-zizmor
+.github/workflows/workflows.yml:157:      # `latest` entry is its own frozen table (v0.6.4 -> zizmor 1.30.1), not
+.github/workflows/workflows.yml:158:      # the latest zizmor. Naming it keeps the next bump a visible line in the
+.github/workflows/workflows.yml:161:      #   pipx run zizmor==1.30.1 --config .github/zizmor.yml \
+.github/workflows/workflows.yml:163:      - uses: zizmorcore/zizmor-action@v0.8.0
+.github/workflows/workflows.yml:167:          config: .github/zizmor.yml
+.github/workflows/workflows.yml:180:      # .github/zizmor.yml is not enforced against `uses: docker://` or
+.github/workflows/workflows.yml:190:          pipx run zizmor==1.30.1 --config .github/zizmor.yml \
+.github/workflows/workflows.yml:208:          node-version: '24.x'
+.github/workflows/workflows.yml:284:      - zizmor
+.github/workflows/workflows.yml:301:          node-version: '24.x'
+.github/workflows/links.yml:208:          node-version: '24.x'
+.github/workflows/release.yml:110:          node-version: '24.x'
+.github/workflows/release.yml:171:          node-version: '24.x'
+.github/workflows/release.yml:225:          node-version: '24.x'
+.github/workflows/release.yml:283:          node-version: '24.x'
+.github/workflows/release.yml:407:          node-version: '24.x'
+.github/workflows/release.yml:429:          bun-version: '1.x'
+.github/workflows/release.yml:445:          deno-version: v2.x
+.github/workflows/release.yml:508:          # unscoped default `buildkit` scope: the GitHub Actions cache is a
+.github/workflows/release.yml:644:          node-version: '24.x'
+.github/workflows/release.yml:794:          node-version: '24.x'
+.github/workflows/release.yml:1068:          node-version: '24.x'
+.github/workflows/release.yml:1153:          node-version: '24.x'
+.github/workflows/security.yml:146:          node-version: 24
+.github/workflows/security.yml:174:          python-version: '3.13'
+.github/workflows/security.yml:217:          node-version: '24.x'
+tests/rerun-unacquired.test.js:263:      '  workflow_run: # zizmor: ignore[dangerous-triggers]\n'
+.github/actions/setup-buildx-resilient/action.yml:7:  reference. Booting the docker-container driver otherwise pulls moby/buildkit
+.github/actions/setup-buildx-resilient/action.yml:15:  buildkit-image:
+.github/actions/setup-buildx-resilient/action.yml:18:    default: 'moby/buildkit:buildx-stable-1'
+.github/actions/setup-buildx-resilient/action.yml:41:        BUILDKIT_IMAGE: ${{ inputs.buildkit-image }}
+.github/actions/setup-buildx-resilient/action.yml:109:        driver-opts: image=${{ inputs.buildkit-image }}
+tests/workflows-lint.test.js:20:const zizmorConfig = readFileSync('.github/zizmor.yml', 'utf8');
+tests/workflows-lint.test.js:39:  // the `'*': hash-pin` policy in .github/zizmor.yml, because the audit
+tests/workflows-lint.test.js:61:  it('runs zizmor against the repository configuration', () => {
+tests/workflows-lint.test.js:62:    expect(workflowsWorkflow).toContain('uses: zizmorcore/zizmor-action@');
+tests/workflows-lint.test.js:63:    expect(workflowsWorkflow).toContain('config: .github/zizmor.yml');
+tests/workflows-lint.test.js:64:    expect(zizmorConfig).toContain('unpinned-uses');
+tests/workflows-lint.test.js:67:  // zizmor-action resolves the version from a static table shipped inside
+tests/workflows-lint.test.js:69:  // the action was tagged (v0.6.4 -> zizmor 1.30.1). Naming the version
+tests/workflows-lint.test.js:71:  it('pins the zizmor version the action installs', () => {
+tests/workflows-lint.test.js:72:    const zizmorStep = workflowsWorkflow.slice(
+tests/workflows-lint.test.js:73:      workflowsWorkflow.indexOf('zizmorcore/zizmor-action@')
+tests/workflows-lint.test.js:76:    expect(zizmorStep).toMatch(/version: \d+\.\d+\.\d+/);
+tests/workflows-lint.test.js:77:    expect(zizmorStep).toMatch(/min-confidence: low/);
+tests/workflows-lint.test.js:108:    const versions = [...workflowsWorkflow.matchAll(/--spec ruff==(\S+)/g)].map(
+tests/workflows-lint.test.js:119:      'pipx run --spec ruff==0.17.3 ruff check --fix --force-exclude'
+tests/workflows-lint.test.js:145:  // zizmor unpinned-uses: only the publishers listed in .github/zizmor.yml may
+tests/workflows-lint.test.js:149:      /^(actions|github|docker|astral-sh|lycheeverse|zizmorcore|changesets)\//;
+tests/workflows-lint.test.js:184:  // Same reasoning as the `'*': hash-pin` policy in .github/zizmor.yml,
+tests/workflows-lint.test.js:229:  it('keeps both zizmor passes and the reproduction comment on the action-supported version', () => {
+tests/workflows-lint.test.js:234:      workflowsWorkflow.matchAll(/zizmor==(\d+\.\d+\.\d+)/g),
+scripts/check-ci-workflows.mjs:8:// https://github.com/zizmorcore/zizmor-action/blob/v0.8.0/support/locks/zizmor-1.30.1.txt
+scripts/check-ci-workflows.mjs:30:  const action = text.match(/zizmorcore\/zizmor-action@(\S+)/)?.[1];
+scripts/check-ci-workflows.mjs:33:      .slice(text.indexOf('zizmorcore/zizmor-action@'))
+scripts/check-ci-workflows.mjs:36:      text.matchAll(/zizmor==(\d+\.\d+\.\d+)/g),
+scripts/check-ci-workflows.mjs:41:        'Every zizmor pass and reproduction command must use the action version'
+scripts/check-ci-workflows.mjs:45:      errors.push(`Verify zizmor ${version} is supported by action ${action}`);
+scripts/check-ci-workflows.mjs:90:    console.log('Workflow package, zizmor, and hosted runner pins verified');

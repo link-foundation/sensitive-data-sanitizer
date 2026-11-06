@@ -1,0 +1,46 @@
+▶ repository-wide workflow audit coverage
+  ✔ triggers on all GitHub configs/actions and every script the jobs execute (2.416197ms)
+  ✔ reproduces the regular action audit against the entire repository (0.82011ms)
+  ✔ authenticates the pedantic audit and scans the entire repository (0.609477ms)
+✔ repository-wide workflow audit coverage (6.363031ms)
+▶ link checker input selection
+  ✔ walks hidden Markdown and HTML while retaining ignore/exclusion rules (1.396866ms)
+✔ link checker input selection (1.786574ms)
+▶ Deno lock and npm install script policies
+  ✔ keeps Deno workspace dependency ranges synchronized with package.json (2.972645ms)
+  ✔ requires an explicit decision for every install script, including optional OS packages (4.616583ms)
+✔ Deno lock and npm install script policies (8.694561ms)
+▶ npm propagation tail
+  ✔ verifies a version visible after 950 seconds without publishing twice (6.041171ms)
+  ✔ bounds absent-version verification at 25.5 minutes and reports elapsed wait (1.347112ms)
+  ✔ gives smoke/Docker waits the same 25.5-minute polling span (7.271285ms)
+✔ npm propagation tail (15.68937ms)
+▶ quiet, effective tooling configuration
+  ✔ uses jscpd 5 weak mode to omit comments (0.807105ms)
+  ✔ the installed jscpd parser accepts every config field (133.340121ms)
+  ✔ retains captured failure analysis without replaying live publish output (0.646856ms)
+✔ quiet, effective tooling configuration (135.392199ms)
+▶ security workflow
+  ✔ runs on main pushes, pull requests, weekly schedules, and manual dispatches (2.2569ms)
+  ✔ analyzes JavaScript, GitHub Actions, and shipped Python helpers with CodeQL (1.04518ms)
+  ✔ rejects high-severity dependency changes only on pull requests (0.668848ms)
+  ✔ probes the graph on every event, requiring it outside PRs (0.73418ms)
+  ✔ fails closed on high-severity advisories in every npm lock (31.191791ms)
+  ✔ audits every Python requirements surface without installing NLP packages (0.479905ms)
+  ✔ reports advisories below the gate and fails fixable ones weekly (0.467542ms)
+✔ security workflow (39.619214ms)
+✔ excludes historical experiments while scanning shipped examples (1.556625ms)
+▶ temp cleanup native adapter
+  ✔ keeps local override metadata complete for npm ci in container jobs (13.355937ms)
+  ✔ supports callback and synchronous recursive cleanup of literal paths (37.282234ms)
+  ✔ does not follow cleanup symlinks into another owned fixture (15.602748ms)
+  ✔ refuses unsupported options and invalid retry counts before deletion (0.913394ms)
+✔ temp cleanup native adapter (69.963976ms)
+ℹ tests 24
+ℹ suites 7
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 362.964411

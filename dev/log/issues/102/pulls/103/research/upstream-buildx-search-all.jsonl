@@ -1,0 +1,7 @@
+[{"html_url":"https://github.com/docker/setup-buildx-action/pull/624","number":624,"state":"closed","title":"skip BuildKit image pre-pulls for explicit endpoints"},{"html_url":"https://github.com/docker/setup-buildx-action/pull/609","number":609,"state":"closed","title":"pull BuildKit image before builder creation"}]
+[{"html_url":"https://github.com/docker/setup-buildx-action/issues/510","number":510,"state":"closed","title":"Track workflow-level retry support for transient image pull failures"},{"html_url":"https://github.com/docker/setup-buildx-action/pull/490","number":490,"state":"closed","title":"Feature/dockerhub proxy mirror"}]
+[{"html_url":"https://github.com/docker/setup-buildx-action/issues/430","number":430,"state":"closed","title":"Docker Hub mirror configuration is ignored"},{"html_url":"https://github.com/docker/setup-buildx-action/pull/424","number":424,"state":"closed","title":"FIX: Add retry mechanism with exponential backoff for buildkit bootstrap step"}]
+[{"html_url":"https://github.com/docker/setup-buildx-action/issues/232","number":232,"state":"closed","title":"Using config-inline to declare a Dockerhub mirror has no effect"}]
+[]
+[]
+[]

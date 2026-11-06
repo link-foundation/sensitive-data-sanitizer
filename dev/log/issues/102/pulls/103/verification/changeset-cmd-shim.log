@@ -1,0 +1,16 @@
+▶ Changesets release formatter
+  ✔ uses the same formatter as the project formatting check (1.717554ms)
+  ✔ references the release Changesets config schema (0.699284ms)
+  ✔ versions and formats the real package with Deno absent from PATH (2776.45176ms)
+✔ Changesets release formatter (2782.205193ms)
+▶ credential-free PR release versioning
+  ✔ checks the fresh merge in the independent lint job and discards changes (1.009084ms)
+✔ credential-free PR release versioning (1.49031ms)
+ℹ tests 4
+ℹ suites 2
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2980.114236

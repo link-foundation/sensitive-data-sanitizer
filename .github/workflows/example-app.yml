@@ -8,6 +8,7 @@ on:
       - 'src/**'
       - 'package.json'
       - 'package-lock.json'
+      - '.nvmrc'
       - 'scripts/update-preview-images.mjs'
       - 'scripts/check-pages.sh'
       - 'scripts/check-desktop-compat.mjs'
@@ -25,6 +26,7 @@ on:
       - 'tests/preview-tools.test.js'
       - 'tests/container-jobs.test.js'
       - '.github/workflows/example-app.yml'
+      - '.github/actions/setup-node/**'
       - '.github/actions/artifact-transport/**'
       - 'scripts/artifact-transport.mjs'
       - 'scripts/artifact-files.mjs'
@@ -36,6 +38,7 @@ on:
       - 'src/**'
       - 'package.json'
       - 'package-lock.json'
+      - '.nvmrc'
       - 'scripts/update-preview-images.mjs'
       - 'scripts/check-pages.sh'
       - 'scripts/check-desktop-compat.mjs'
@@ -53,6 +56,7 @@ on:
       - 'tests/preview-tools.test.js'
       - 'tests/container-jobs.test.js'
       - '.github/workflows/example-app.yml'
+      - '.github/actions/setup-node/**'
       - '.github/actions/artifact-transport/**'
       - 'scripts/artifact-transport.mjs'
       - 'scripts/artifact-files.mjs'
@@ -86,14 +90,13 @@ jobs:
     outputs:
       pages-artifact-id: ${{ steps.pages-artifact.outputs.artifact-id }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: ./.github/actions/setup-node
         with:
-          node-version: '24.x'
           cache: npm
           cache-dependency-path: examples/universal-app/package-lock.json
 
@@ -108,7 +111,7 @@ jobs:
 
       - name: Configure GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/configure-pages@v6
+        uses: actions/configure-pages@v6.0.0
 
       - name: Install app dependencies
         run: npm ci --prefix examples/universal-app --no-audit --no-fund
@@ -158,13 +161,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.x'
+      - uses: ./.github/actions/setup-node
 
       # The REST protocol of actions/deploy-pages@v5, which sends one
       # creation request and fails the job on a single transient HTTP 500.
@@ -190,14 +191,13 @@ jobs:
       matrix:
         os: [ubuntu-24.04, macos-26-intel, windows-2025]
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: ./.github/actions/setup-node
         with:
-          node-version: '24.x'
           cache: npm
           cache-dependency-path: examples/universal-app/package-lock.json
 
@@ -241,22 +241,21 @@ jobs:
       group: check-${{ github.workflow }}-${{ github.ref }}-android-build
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: ./.github/actions/setup-node
         with:
-          node-version: '24.x'
           cache: npm
           cache-dependency-path: examples/universal-app/package-lock.json
 
       - name: Setup Java
-        uses: actions/setup-java@v6
+        uses: actions/setup-java@v6.2.0
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: '21.0.13+9'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd # v4.0.4
@@ -288,14 +287,13 @@ jobs:
       group: check-${{ github.workflow }}-${{ github.ref }}-ios-build
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: ./.github/actions/setup-node
         with:
-          node-version: '24.x'
           cache: npm
           cache-dependency-path: examples/universal-app/package-lock.json
 
@@ -313,7 +311,7 @@ jobs:
     name: Verify preview container tools
     runs-on: ubuntu-24.04
     container:
-      image: mcr.microsoft.com/playwright@sha256:b0ab6f3cb99aa7803adbc14d9027ec1785fc6e433b97e134e0f8fe61683b6b53 # v1.59.1-noble
+      image: mcr.microsoft.com/playwright@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d # v1.65.0-noble
     timeout-minutes: 5
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-preview-tools
@@ -322,15 +320,26 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
       - name: Trust the checkout
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - uses: ./.github/actions/setup-node
       - name: Install pinned GitHub CLI
         run: bash scripts/setup-preview-gh.sh
       - name: Verify publishing tools without repository writes
         run: bash scripts/check-preview-tools.sh
+
+      # Exercise the main-only writer's install/build/browser path on PRs too.
+      - name: Install locked preview dependencies
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+        run: npm ci --no-audit --no-fund
+      - name: Install locked example dependencies
+        run: npm ci --prefix examples/universal-app --no-audit --no-fund
+      - name: Verify preview generation
+        run: node scripts/update-preview-images.mjs
 
   # Regenerate example-app preview screenshots (docs/screenshots/example-app/*)
   # using browser-commander + Playwright so README/site images always reflect
@@ -344,7 +353,7 @@ jobs:
       # Pinned by digest (a mutable tag is arbitrary code execution in a job
       # that holds contents: write). Re-resolve when bumping:
       #   docker buildx imagetools inspect mcr.microsoft.com/playwright:<tag>
-      image: mcr.microsoft.com/playwright@sha256:b0ab6f3cb99aa7803adbc14d9027ec1785fc6e433b97e134e0f8fe61683b6b53 # v1.59.1-noble
+      image: mcr.microsoft.com/playwright@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d # v1.65.0-noble
     timeout-minutes: 20
     concurrency:
       group: main-writer-${{ github.repository }}-main
@@ -362,7 +371,7 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           # Regenerate against main HEAD so the bot commit lands on a
           # fast-forward parent regardless of which trigger started the job.
@@ -376,6 +385,7 @@ jobs:
       - name: Trust the checkout
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
+      - uses: ./.github/actions/setup-node
       - name: Install pinned GitHub CLI
         run: bash scripts/setup-preview-gh.sh
 
@@ -385,12 +395,11 @@ jobs:
       - name: Install example app dependencies
         run: npm ci --prefix examples/universal-app --no-audit --no-fund
 
-      # Deliberately installed outside the lockfile: these tools are only used
-      # by this preview-image job and both versions are pinned exactly.
+      # Preview tools and their transitive dependencies share the reviewed root lock.
       - name: Install browser automation dependencies
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
-        run: npm install --no-save --package-lock=false --no-audit --no-fund browser-commander@0.8.1 playwright@1.59.1 # zizmor: ignore[adhoc-packages]
+        run: npm ci --no-audit --no-fund
 
       - name: Regenerate preview images
         id: regenerate
@@ -513,14 +522,12 @@ jobs:
       actions: read
       contents: read
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: '24.x'
+        uses: ./.github/actions/setup-node
 
       - name: Fail the run when a required job was cancelled or failed
         env:

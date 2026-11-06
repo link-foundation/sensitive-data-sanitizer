@@ -1,0 +1,11 @@
+Upgrading /tmp/gh-issue-solver-1793920231277/examples/universal-app/package.json
+
+
+Patch   Backwards-compatible bug fixes
+ vite  ^8.3.5  →  ^8.3.6
+
+Minor   Backwards-compatible features
+ @vitejs/plugin-react   ^6.1.2  →   ^6.2.1
+ electron              ^45.1.0  →  ^45.2.3
+
+Run npm install to install new versions.

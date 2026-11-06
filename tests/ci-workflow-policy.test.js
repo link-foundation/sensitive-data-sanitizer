@@ -42,14 +42,14 @@ describe('workflow policy regression protection', () => {
   });
   it('rejects zizmor version drift and versions unsupported by the pinned action', () => {
     const workflow =
-      'uses: zizmorcore/zizmor-action@v0.6.4\nwith:\n  version: 1.30.1\nrun: pipx run zizmor==1.30.1\n# pipx run zizmor==1.30.1';
+      'uses: zizmorcore/zizmor-action@v0.8.1\nwith:\n  version: 1.32.0\nrun: pipx run zizmor==1.32.0\n# pipx run zizmor==1.32.0';
     expect(checkWorkflowPolicy(workflow)).toEqual([]);
     expect(
-      checkWorkflowPolicy(workflow.replace('zizmor==1.30.1', 'zizmor==1.29.0'))
+      checkWorkflowPolicy(workflow.replace('zizmor==1.32.0', 'zizmor==1.29.0'))
         .length
     ).toBeGreaterThan(0);
     expect(
-      checkWorkflowPolicy(workflow.replaceAll('1.30.1', '9.0.0')).length
+      checkWorkflowPolicy(workflow.replaceAll('1.32.0', '9.0.0')).length
     ).toBeGreaterThan(0);
   });
 });

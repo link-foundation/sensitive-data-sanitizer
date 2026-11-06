@@ -1,0 +1,227 @@
+dependency,before,latest,resolved,location,reason,registry
+@actions/artifact,6.3.1,6.3.1,6.3.1,node_modules/@actions/artifact,Current registry release,https://registry.npmjs.org/%40actions%2Fartifact/latest
+@actions/core,3.0.1,3.0.1,3.0.1,node_modules/@actions/core,Current registry release,https://registry.npmjs.org/%40actions%2Fcore/latest
+@actions/exec,3.0.0,3.0.0,3.0.0,node_modules/@actions/exec,Current registry release,https://registry.npmjs.org/%40actions%2Fexec/latest
+@actions/github,9.1.1,9.1.1,9.1.1,node_modules/@actions/github,Current registry release,https://registry.npmjs.org/%40actions%2Fgithub/latest
+@actions/http-client,3.0.2,4.0.1,3.0.2,node_modules/@actions/github/node_modules/@actions/http-client,Upstream consumer API/range constraint: @actions/github@9.1.1: ^3.0.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40actions%2Fhttp-client/latest
+@actions/glob,0.7.0,0.7.0,0.7.0,node_modules/@actions/glob,Current registry release,https://registry.npmjs.org/%40actions%2Fglob/latest
+minimatch,11.0.4,11.0.5,removed/hoisted,node_modules/@actions/glob/node_modules/minimatch,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/minimatch/latest
+@actions/http-client,4.0.1,4.0.1,4.0.1,node_modules/@actions/http-client,Current registry release,https://registry.npmjs.org/%40actions%2Fhttp-client/latest
+@actions/io,3.0.2,3.0.2,3.0.2,node_modules/@actions/io,Current registry release,https://registry.npmjs.org/%40actions%2Fio/latest
+@azure/abort-controller,2.2.0,2.2.0,2.2.0,node_modules/@azure/abort-controller,Current registry release,https://registry.npmjs.org/%40azure%2Fabort-controller/latest
+@azure/core-auth,1.11.0,1.11.0,1.11.0,node_modules/@azure/core-auth,Current registry release,https://registry.npmjs.org/%40azure%2Fcore-auth/latest
+@azure/core-client,1.11.1,1.11.1,1.11.1,node_modules/@azure/core-client,Current registry release,https://registry.npmjs.org/%40azure%2Fcore-client/latest
+@azure/core-http-compat,2.5.0,2.5.0,2.5.0,node_modules/@azure/core-http-compat,Current registry release,https://registry.npmjs.org/%40azure%2Fcore-http-compat/latest
+@azure/core-lro,2.7.2,3.4.1,2.7.2,node_modules/@azure/core-lro,Upstream consumer API/range constraint: @azure/storage-blob@12.34.0: ^2.2.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40azure%2Fcore-lro/latest
+@azure/core-paging,1.7.0,1.7.0,1.7.0,node_modules/@azure/core-paging,Current registry release,https://registry.npmjs.org/%40azure%2Fcore-paging/latest
+@azure/core-rest-pipeline,1.25.0,1.25.0,1.25.0,node_modules/@azure/core-rest-pipeline,Current registry release,https://registry.npmjs.org/%40azure%2Fcore-rest-pipeline/latest
+@azure/core-tracing,1.4.0,1.4.0,1.4.0,node_modules/@azure/core-tracing,Current registry release,https://registry.npmjs.org/%40azure%2Fcore-tracing/latest
+@azure/core-util,1.14.0,1.14.0,1.14.0,node_modules/@azure/core-util,Current registry release,https://registry.npmjs.org/%40azure%2Fcore-util/latest
+@azure/core-xml,1.6.0,1.6.0,1.6.0,node_modules/@azure/core-xml,Current registry release,https://registry.npmjs.org/%40azure%2Fcore-xml/latest
+@azure/logger,1.4.0,1.4.0,1.4.0,node_modules/@azure/logger,Current registry release,https://registry.npmjs.org/%40azure%2Flogger/latest
+@azure/storage-blob,12.34.0,12.34.0,12.34.0,node_modules/@azure/storage-blob,Current registry release,https://registry.npmjs.org/%40azure%2Fstorage-blob/latest
+@azure/storage-common,12.5.0,12.5.0,12.5.0,node_modules/@azure/storage-common,Current registry release,https://registry.npmjs.org/%40azure%2Fstorage-common/latest
+@isaacs/nonrecursive-glob-match,1.0.3,1.1.0,1.1.0,node_modules/@isaacs/nonrecursive-glob-match,Current registry release,https://registry.npmjs.org/%40isaacs%2Fnonrecursive-glob-match/latest
+@nodable/entities,3.1.0,3.1.0,3.1.0,node_modules/@nodable/entities,Current registry release,https://registry.npmjs.org/%40nodable%2Fentities/latest
+@octokit/auth-token,6.0.0,6.0.0,6.0.0,node_modules/@octokit/auth-token,Current registry release,https://registry.npmjs.org/%40octokit%2Fauth-token/latest
+@octokit/core,7.0.8,7.0.8,7.0.8,node_modules/@octokit/core,Current registry release,https://registry.npmjs.org/%40octokit%2Fcore/latest
+@octokit/endpoint,11.0.5,11.0.5,11.0.5,node_modules/@octokit/endpoint,Current registry release,https://registry.npmjs.org/%40octokit%2Fendpoint/latest
+@octokit/graphql,9.0.5,9.0.5,9.0.5,node_modules/@octokit/graphql,Current registry release,https://registry.npmjs.org/%40octokit%2Fgraphql/latest
+@octokit/openapi-types,29.0.1,29.0.1,29.0.1,node_modules/@octokit/openapi-types,Current registry release,https://registry.npmjs.org/%40octokit%2Fopenapi-types/latest
+@octokit/plugin-paginate-rest,14.0.0,16.0.0,14.0.0,node_modules/@octokit/plugin-paginate-rest,Upstream consumer API/range constraint: @actions/github@9.1.1: ^14.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40octokit%2Fplugin-paginate-rest/latest
+@octokit/openapi-types,27.0.0,29.0.1,27.0.0,node_modules/@octokit/plugin-paginate-rest/node_modules/@octokit/openapi-types,Upstream consumer API/range constraint: @octokit/types@16.0.0: ^27.0.0,https://registry.npmjs.org/%40octokit%2Fopenapi-types/latest
+@octokit/types,16.0.0,18.0.0,16.0.0,node_modules/@octokit/plugin-paginate-rest/node_modules/@octokit/types,Upstream consumer API/range constraint: @octokit/plugin-paginate-rest@14.0.0: ^16.0.0,https://registry.npmjs.org/%40octokit%2Ftypes/latest
+@octokit/plugin-request-log,6.0.0,6.0.0,6.0.0,node_modules/@octokit/plugin-request-log,Current registry release,https://registry.npmjs.org/%40octokit%2Fplugin-request-log/latest
+@octokit/plugin-rest-endpoint-methods,17.0.0,18.0.0,17.0.0,node_modules/@octokit/plugin-rest-endpoint-methods,Upstream consumer API/range constraint: @actions/github@9.1.1: ^17.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40octokit%2Fplugin-rest-endpoint-methods/latest
+@octokit/openapi-types,27.0.0,29.0.1,27.0.0,node_modules/@octokit/plugin-rest-endpoint-methods/node_modules/@octokit/openapi-types,Upstream consumer API/range constraint: @octokit/types@16.0.0: ^27.0.0,https://registry.npmjs.org/%40octokit%2Fopenapi-types/latest
+@octokit/types,16.0.0,18.0.0,16.0.0,node_modules/@octokit/plugin-rest-endpoint-methods/node_modules/@octokit/types,Upstream consumer API/range constraint: @octokit/plugin-rest-endpoint-methods@17.0.0: ^16.0.0,https://registry.npmjs.org/%40octokit%2Ftypes/latest
+@octokit/plugin-retry,8.1.1,8.1.1,8.1.1,node_modules/@octokit/plugin-retry,Current registry release,https://registry.npmjs.org/%40octokit%2Fplugin-retry/latest
+@octokit/openapi-types,28.0.0,29.0.1,28.0.0,node_modules/@octokit/plugin-retry/node_modules/@octokit/openapi-types,Upstream consumer API/range constraint: @octokit/types@17.0.0: ^28.0.0,https://registry.npmjs.org/%40octokit%2Fopenapi-types/latest
+@octokit/types,17.0.0,18.0.0,17.0.0,node_modules/@octokit/plugin-retry/node_modules/@octokit/types,Upstream consumer API/range constraint: @octokit/plugin-retry@8.1.1: ^17.0.0,https://registry.npmjs.org/%40octokit%2Ftypes/latest
+@octokit/request,10.0.16,10.0.16,10.0.16,node_modules/@octokit/request,Current registry release,https://registry.npmjs.org/%40octokit%2Frequest/latest
+@octokit/request-error,7.1.2,7.1.2,7.1.2,node_modules/@octokit/request-error,Current registry release,https://registry.npmjs.org/%40octokit%2Frequest-error/latest
+@octokit/types,18.0.0,18.0.0,18.0.0,node_modules/@octokit/types,Current registry release,https://registry.npmjs.org/%40octokit%2Ftypes/latest
+@protobuf-ts/runtime,2.11.1,2.11.1,2.11.1,node_modules/@protobuf-ts/runtime,Current registry release,https://registry.npmjs.org/%40protobuf-ts%2Fruntime/latest
+@protobuf-ts/runtime-rpc,2.11.1,2.11.1,2.11.1,node_modules/@protobuf-ts/runtime-rpc,Current registry release,https://registry.npmjs.org/%40protobuf-ts%2Fruntime-rpc/latest
+@types/node,25.9.9,26.6.6,25.9.9,node_modules/@types/node,Upstream consumer API/range constraint: apache-arrow@21.2.0: ^25.2.0,https://registry.npmjs.org/%40types%2Fnode/latest
+@typespec/ts-http-runtime,0.3.9,0.3.9,0.3.9,node_modules/@typespec/ts-http-runtime,Current registry release,https://registry.npmjs.org/%40typespec%2Fts-http-runtime/latest
+@zip.js/zip.js,2.24.0,2.24.0,2.24.0,node_modules/@zip.js/zip.js,Current registry release,https://registry.npmjs.org/%40zip.js%2Fzip.js/latest
+abort-controller,3.0.0,3.0.0,3.0.0,node_modules/abort-controller,Current registry release,https://registry.npmjs.org/abort-controller/latest
+agent-base,7.1.4,9.0.0,7.1.4,node_modules/agent-base,Upstream consumer API/range constraint: http-proxy-agent@7.0.2: ^7.1.0; https-proxy-agent@7.0.6: ^7.1.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/agent-base/latest
+anynum,1.0.1,1.0.1,1.0.1,node_modules/anynum,Current registry release,https://registry.npmjs.org/anynum/latest
+apache-arrow,21.2.0,21.2.0,21.2.0,node_modules/apache-arrow,Current registry release,https://registry.npmjs.org/apache-arrow/latest
+archiver,7.0.1,8.0.0,7.0.1,node_modules/archiver,Upstream consumer API/range constraint: @actions/artifact@6.3.1: ^7.0.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/archiver/latest
+archiver-utils,5.0.2,5.0.2,5.0.2,node_modules/archiver-utils,Current registry release,https://registry.npmjs.org/archiver-utils/latest
+array-buffer-byte-length,1.0.2,1.0.2,1.0.2,node_modules/array-buffer-byte-length,Current registry release,https://registry.npmjs.org/array-buffer-byte-length/latest
+arraybuffer.prototype.slice,1.0.4,1.0.4,1.0.4,node_modules/arraybuffer.prototype.slice,Current registry release,https://registry.npmjs.org/arraybuffer.prototype.slice/latest
+async,3.2.6,3.2.6,3.2.6,node_modules/async,Current registry release,https://registry.npmjs.org/async/latest
+async-function,1.0.0,1.0.0,1.0.0,node_modules/async-function,Current registry release,https://registry.npmjs.org/async-function/latest
+available-typed-arrays,1.0.7,1.0.7,1.0.7,node_modules/available-typed-arrays,Current registry release,https://registry.npmjs.org/available-typed-arrays/latest
+b4a,1.9.0,1.9.0,1.9.0,node_modules/b4a,Current registry release,https://registry.npmjs.org/b4a/latest
+balanced-match,4.0.4,5.0.0,4.0.4,node_modules/balanced-match,Upstream consumer API/range constraint: brace-expansion@5.0.12: ^4.0.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/balanced-match/latest
+bare-buffer,new/unlocked,3.7.1,3.7.1,node_modules/bare-buffer,Current registry release,https://registry.npmjs.org/bare-buffer/latest
+bare-events,2.9.2,2.9.2,2.9.2,node_modules/bare-events,Current registry release,https://registry.npmjs.org/bare-events/latest
+bare-fs,4.8.4,4.8.4,4.8.4,node_modules/bare-fs,Current registry release,https://registry.npmjs.org/bare-fs/latest
+bare-path,3.1.2,3.1.2,3.1.2,node_modules/bare-path,Current registry release,https://registry.npmjs.org/bare-path/latest
+bare-stream,2.13.4,2.13.4,2.13.4,node_modules/bare-stream,Current registry release,https://registry.npmjs.org/bare-stream/latest
+bare-url,2.5.5,2.5.6,2.5.6,node_modules/bare-url,Current registry release,https://registry.npmjs.org/bare-url/latest
+base64-js,1.5.1,1.5.1,1.5.1,node_modules/base64-js,Current registry release,https://registry.npmjs.org/base64-js/latest
+before-after-hook,4.0.0,4.0.0,4.0.0,node_modules/before-after-hook,Current registry release,https://registry.npmjs.org/before-after-hook/latest
+binary,0.3.0,0.3.0,0.3.0,node_modules/binary,Current registry release,https://registry.npmjs.org/binary/latest
+bottleneck,2.19.5,2.19.5,2.19.5,node_modules/bottleneck,Current registry release,https://registry.npmjs.org/bottleneck/latest
+brace-expansion,5.0.12,5.0.12,5.0.12,node_modules/brace-expansion,Current registry release,https://registry.npmjs.org/brace-expansion/latest
+buffer,6.0.3,6.0.3,6.0.3,node_modules/buffer,Current registry release,https://registry.npmjs.org/buffer/latest
+buffer-crc32,1.0.0,1.0.0,1.0.0,node_modules/buffer-crc32,Current registry release,https://registry.npmjs.org/buffer-crc32/latest
+buffers,0.1.1,0.1.1,0.1.1,node_modules/buffers,Current registry release,https://registry.npmjs.org/buffers/latest
+call-bind,1.0.9,1.0.9,1.0.9,node_modules/call-bind,Current registry release,https://registry.npmjs.org/call-bind/latest
+call-bind-apply-helpers,1.0.2,1.0.2,1.0.2,node_modules/call-bind-apply-helpers,Current registry release,https://registry.npmjs.org/call-bind-apply-helpers/latest
+call-bound,1.0.4,1.0.4,1.0.4,node_modules/call-bound,Current registry release,https://registry.npmjs.org/call-bound/latest
+chainsaw,0.1.0,0.1.0,0.1.0,node_modules/chainsaw,Current registry release,https://registry.npmjs.org/chainsaw/latest
+compress-commons,6.0.2,7.0.1,6.0.2,node_modules/compress-commons,Upstream consumer API/range constraint: zip-stream@6.0.1: ^6.0.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/compress-commons/latest
+content-type,3.1.1,3.1.1,3.1.1,node_modules/content-type,Current registry release,https://registry.npmjs.org/content-type/latest
+core-util-is,1.0.3,1.0.3,1.0.3,node_modules/core-util-is,Current registry release,https://registry.npmjs.org/core-util-is/latest
+crc-32,1.2.2,1.2.2,1.2.2,node_modules/crc-32,Current registry release,https://registry.npmjs.org/crc-32/latest
+crc32-stream,6.0.0,7.0.1,6.0.0,node_modules/crc32-stream,Upstream consumer API/range constraint: compress-commons@6.0.2: ^6.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/crc32-stream/latest
+data-view-buffer,1.0.2,1.0.2,1.0.2,node_modules/data-view-buffer,Current registry release,https://registry.npmjs.org/data-view-buffer/latest
+data-view-byte-length,1.0.2,1.0.2,1.0.2,node_modules/data-view-byte-length,Current registry release,https://registry.npmjs.org/data-view-byte-length/latest
+data-view-byte-offset,1.0.1,1.0.1,1.0.1,node_modules/data-view-byte-offset,Current registry release,https://registry.npmjs.org/data-view-byte-offset/latest
+debug,4.4.3,4.4.3,4.4.3,node_modules/debug,Current registry release,https://registry.npmjs.org/debug/latest
+define-data-property,1.1.4,1.1.4,1.1.4,node_modules/define-data-property,Current registry release,https://registry.npmjs.org/define-data-property/latest
+define-properties,1.2.1,1.2.1,1.2.1,node_modules/define-properties,Current registry release,https://registry.npmjs.org/define-properties/latest
+dunder-proto,1.0.1,1.0.1,1.0.1,node_modules/dunder-proto,Current registry release,https://registry.npmjs.org/dunder-proto/latest
+es-abstract,1.24.2,1.24.2,1.24.2,node_modules/es-abstract,Current registry release,https://registry.npmjs.org/es-abstract/latest
+es-abstract-get,1.0.0,1.0.0,1.0.0,node_modules/es-abstract-get,Current registry release,https://registry.npmjs.org/es-abstract-get/latest
+es-define-property,1.0.1,1.0.1,1.0.1,node_modules/es-define-property,Current registry release,https://registry.npmjs.org/es-define-property/latest
+es-errors,1.3.0,1.3.0,1.3.0,node_modules/es-errors,Current registry release,https://registry.npmjs.org/es-errors/latest
+es-object-atoms,1.1.2,1.1.2,1.1.2,node_modules/es-object-atoms,Current registry release,https://registry.npmjs.org/es-object-atoms/latest
+es-set-tostringtag,2.1.0,2.1.0,2.1.0,node_modules/es-set-tostringtag,Current registry release,https://registry.npmjs.org/es-set-tostringtag/latest
+es-to-primitive,1.3.4,1.3.4,1.3.4,node_modules/es-to-primitive,Current registry release,https://registry.npmjs.org/es-to-primitive/latest
+event-target-shim,5.0.1,6.0.2,5.0.1,node_modules/event-target-shim,Upstream consumer API/range constraint: abort-controller@3.0.0: ^5.0.0,https://registry.npmjs.org/event-target-shim/latest
+events,3.3.0,3.3.0,3.3.0,node_modules/events,Current registry release,https://registry.npmjs.org/events/latest
+events-universal,1.0.1,1.0.1,1.0.1,node_modules/events-universal,Current registry release,https://registry.npmjs.org/events-universal/latest
+fast-fifo,1.3.2,1.3.2,1.3.2,node_modules/fast-fifo,Current registry release,https://registry.npmjs.org/fast-fifo/latest
+fast-xml-builder,1.3.1,1.3.1,1.3.1,node_modules/fast-xml-builder,Current registry release,https://registry.npmjs.org/fast-xml-builder/latest
+fast-xml-parser,5.11.2,5.12.0,5.12.0,node_modules/fast-xml-parser,Current registry release,https://registry.npmjs.org/fast-xml-parser/latest
+flatbuffers,25.9.23,25.9.23,25.9.23,node_modules/flatbuffers,Current registry release,https://registry.npmjs.org/flatbuffers/latest
+for-each,0.3.5,0.3.5,0.3.5,node_modules/for-each,Current registry release,https://registry.npmjs.org/for-each/latest
+function-bind,1.1.2,1.1.2,1.1.2,node_modules/function-bind,Current registry release,https://registry.npmjs.org/function-bind/latest
+function.prototype.name,1.2.0,1.2.0,1.2.0,node_modules/function.prototype.name,Current registry release,https://registry.npmjs.org/function.prototype.name/latest
+functions-have-names,1.2.3,1.2.3,1.2.3,node_modules/functions-have-names,Current registry release,https://registry.npmjs.org/functions-have-names/latest
+generator-function,2.0.1,2.0.1,2.0.1,node_modules/generator-function,Current registry release,https://registry.npmjs.org/generator-function/latest
+get-intrinsic,1.3.0,1.3.0,1.3.0,node_modules/get-intrinsic,Current registry release,https://registry.npmjs.org/get-intrinsic/latest
+get-proto,1.0.1,1.0.1,1.0.1,node_modules/get-proto,Current registry release,https://registry.npmjs.org/get-proto/latest
+get-symbol-description,1.1.0,1.1.0,1.1.0,node_modules/get-symbol-description,Current registry release,https://registry.npmjs.org/get-symbol-description/latest
+glob,14.0.3,14.0.3,14.0.3,node_modules/glob,Current registry release,https://registry.npmjs.org/glob/latest
+minimatch,11.0.4,11.0.5,removed/hoisted,node_modules/glob/node_modules/minimatch,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/minimatch/latest
+globalthis,1.0.4,1.0.4,1.0.4,node_modules/globalthis,Current registry release,https://registry.npmjs.org/globalthis/latest
+gopd,1.2.0,1.2.0,1.2.0,node_modules/gopd,Current registry release,https://registry.npmjs.org/gopd/latest
+graceful-fs,4.2.11,4.2.11,4.2.11,node_modules/graceful-fs,Current registry release,https://registry.npmjs.org/graceful-fs/latest
+has-bigints,1.1.0,1.1.0,1.1.0,node_modules/has-bigints,Current registry release,https://registry.npmjs.org/has-bigints/latest
+has-property-descriptors,1.0.2,1.0.2,1.0.2,node_modules/has-property-descriptors,Current registry release,https://registry.npmjs.org/has-property-descriptors/latest
+has-proto,1.2.0,1.2.0,1.2.0,node_modules/has-proto,Current registry release,https://registry.npmjs.org/has-proto/latest
+has-symbols,1.1.0,1.1.0,1.1.0,node_modules/has-symbols,Current registry release,https://registry.npmjs.org/has-symbols/latest
+has-tostringtag,1.0.2,1.0.2,1.0.2,node_modules/has-tostringtag,Current registry release,https://registry.npmjs.org/has-tostringtag/latest
+hasown,2.0.4,2.0.4,2.0.4,node_modules/hasown,Current registry release,https://registry.npmjs.org/hasown/latest
+http-proxy-agent,7.0.2,9.1.0,7.0.2,node_modules/http-proxy-agent,Upstream consumer API/range constraint: @typespec/ts-http-runtime@0.3.9: ^7.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/http-proxy-agent/latest
+https-proxy-agent,7.0.6,9.1.0,7.0.6,node_modules/https-proxy-agent,Upstream consumer API/range constraint: @typespec/ts-http-runtime@0.3.9: ^7.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/https-proxy-agent/latest
+ieee754,1.2.1,1.2.1,1.2.1,node_modules/ieee754,Current registry release,https://registry.npmjs.org/ieee754/latest
+inherits,2.0.4,2.0.4,2.0.4,node_modules/inherits,Current registry release,https://registry.npmjs.org/inherits/latest
+internal-slot,1.1.0,1.1.0,1.1.0,node_modules/internal-slot,Current registry release,https://registry.npmjs.org/internal-slot/latest
+is-array-buffer,3.0.5,3.0.5,3.0.5,node_modules/is-array-buffer,Current registry release,https://registry.npmjs.org/is-array-buffer/latest
+is-async-function,2.1.1,2.1.1,2.1.1,node_modules/is-async-function,Current registry release,https://registry.npmjs.org/is-async-function/latest
+is-bigint,1.1.0,1.1.0,1.1.0,node_modules/is-bigint,Current registry release,https://registry.npmjs.org/is-bigint/latest
+is-boolean-object,1.2.2,1.2.2,1.2.2,node_modules/is-boolean-object,Current registry release,https://registry.npmjs.org/is-boolean-object/latest
+is-callable,1.2.7,1.2.7,1.2.7,node_modules/is-callable,Current registry release,https://registry.npmjs.org/is-callable/latest
+is-data-view,1.0.2,1.0.2,1.0.2,node_modules/is-data-view,Current registry release,https://registry.npmjs.org/is-data-view/latest
+is-date-object,1.1.0,1.1.0,1.1.0,node_modules/is-date-object,Current registry release,https://registry.npmjs.org/is-date-object/latest
+is-document.all,1.0.0,1.0.0,1.0.0,node_modules/is-document.all,Current registry release,https://registry.npmjs.org/is-document.all/latest
+is-finalizationregistry,1.1.1,1.1.1,1.1.1,node_modules/is-finalizationregistry,Current registry release,https://registry.npmjs.org/is-finalizationregistry/latest
+is-generator-function,1.1.2,1.1.2,1.1.2,node_modules/is-generator-function,Current registry release,https://registry.npmjs.org/is-generator-function/latest
+is-map,2.0.3,2.0.3,2.0.3,node_modules/is-map,Current registry release,https://registry.npmjs.org/is-map/latest
+is-negative-zero,2.0.3,2.0.3,2.0.3,node_modules/is-negative-zero,Current registry release,https://registry.npmjs.org/is-negative-zero/latest
+is-number-object,1.1.1,1.1.1,1.1.1,node_modules/is-number-object,Current registry release,https://registry.npmjs.org/is-number-object/latest
+is-regex,1.2.1,1.2.1,1.2.1,node_modules/is-regex,Current registry release,https://registry.npmjs.org/is-regex/latest
+is-set,2.0.3,2.0.3,2.0.3,node_modules/is-set,Current registry release,https://registry.npmjs.org/is-set/latest
+is-shared-array-buffer,1.0.4,1.0.4,1.0.4,node_modules/is-shared-array-buffer,Current registry release,https://registry.npmjs.org/is-shared-array-buffer/latest
+is-stream,2.0.1,4.0.1,2.0.1,node_modules/is-stream,Upstream consumer API/range constraint: archiver-utils@5.0.2: ^2.0.1; compress-commons@6.0.2: ^2.0.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/is-stream/latest
+is-string,1.1.1,1.1.1,1.1.1,node_modules/is-string,Current registry release,https://registry.npmjs.org/is-string/latest
+is-symbol,1.1.1,1.1.1,1.1.1,node_modules/is-symbol,Current registry release,https://registry.npmjs.org/is-symbol/latest
+is-typed-array,1.1.15,1.1.15,1.1.15,node_modules/is-typed-array,Current registry release,https://registry.npmjs.org/is-typed-array/latest
+is-unsafe,2.0.2,2.0.3,2.0.3,node_modules/is-unsafe,Current registry release,https://registry.npmjs.org/is-unsafe/latest
+is-weakmap,2.0.2,2.0.2,2.0.2,node_modules/is-weakmap,Current registry release,https://registry.npmjs.org/is-weakmap/latest
+is-weakref,1.1.1,1.1.1,1.1.1,node_modules/is-weakref,Current registry release,https://registry.npmjs.org/is-weakref/latest
+is-weakset,2.0.4,2.0.4,2.0.4,node_modules/is-weakset,Current registry release,https://registry.npmjs.org/is-weakset/latest
+isarray,2.0.5,2.0.5,2.0.5,node_modules/isarray,Current registry release,https://registry.npmjs.org/isarray/latest
+json-with-bigint,3.5.12,3.5.12,3.5.12,node_modules/json-with-bigint,Current registry release,https://registry.npmjs.org/json-with-bigint/latest
+jwt-decode,4.0.0,4.0.0,4.0.0,node_modules/jwt-decode,Current registry release,https://registry.npmjs.org/jwt-decode/latest
+lazystream,1.0.1,1.0.1,1.0.1,node_modules/lazystream,Current registry release,https://registry.npmjs.org/lazystream/latest
+isarray,1.0.0,2.0.5,1.0.0,node_modules/lazystream/node_modules/isarray,Upstream consumer API/range constraint: readable-stream@2.3.8: ~1.0.0,https://registry.npmjs.org/isarray/latest
+readable-stream,2.3.8,4.8.0,2.3.8,node_modules/lazystream/node_modules/readable-stream,Upstream consumer API/range constraint: lazystream@1.0.1: ^2.0.5,https://registry.npmjs.org/readable-stream/latest
+safe-buffer,5.1.2,5.2.1,5.1.2,node_modules/lazystream/node_modules/safe-buffer,Upstream consumer API/range constraint: readable-stream@2.3.8: ~5.1.1; string_decoder@1.1.1: ~5.1.0,https://registry.npmjs.org/safe-buffer/latest
+string_decoder,1.1.1,1.3.0,1.1.1,node_modules/lazystream/node_modules/string_decoder,Upstream consumer API/range constraint: readable-stream@2.3.8: ~1.1.1,https://registry.npmjs.org/string_decoder/latest
+lodash,4.18.1,4.18.1,4.18.1,node_modules/lodash,Current registry release,https://registry.npmjs.org/lodash/latest
+lru-cache,11.5.3,11.5.3,11.5.3,node_modules/lru-cache,Current registry release,https://registry.npmjs.org/lru-cache/latest
+math-intrinsics,1.1.0,1.1.0,1.1.0,node_modules/math-intrinsics,Current registry release,https://registry.npmjs.org/math-intrinsics/latest
+minimatch,new/unlocked,11.0.5,11.0.5,node_modules/minimatch,Current registry release,https://registry.npmjs.org/minimatch/latest
+minimist,1.2.8,1.2.8,1.2.8,node_modules/minimist,Current registry release,https://registry.npmjs.org/minimist/latest
+minipass,7.1.3,7.1.3,7.1.3,node_modules/minipass,Current registry release,https://registry.npmjs.org/minipass/latest
+mkdirp,0.5.6,3.0.1,0.5.6,node_modules/mkdirp,Upstream consumer API/range constraint: unzip-stream@0.3.4: ^0.5.1,https://registry.npmjs.org/mkdirp/latest
+ms,2.1.3,2.1.3,2.1.3,node_modules/ms,Current registry release,https://registry.npmjs.org/ms/latest
+normalize-path,3.0.0,3.0.0,3.0.0,node_modules/normalize-path,Current registry release,https://registry.npmjs.org/normalize-path/latest
+object-inspect,1.13.4,1.13.4,1.13.4,node_modules/object-inspect,Current registry release,https://registry.npmjs.org/object-inspect/latest
+object-keys,1.1.1,1.1.1,1.1.1,node_modules/object-keys,Current registry release,https://registry.npmjs.org/object-keys/latest
+object.assign,4.1.7,4.1.7,4.1.7,node_modules/object.assign,Current registry release,https://registry.npmjs.org/object.assign/latest
+own-keys,1.0.2,1.0.2,1.0.2,node_modules/own-keys,Current registry release,https://registry.npmjs.org/own-keys/latest
+path-expression-matcher,1.6.2,1.6.2,1.6.2,node_modules/path-expression-matcher,Current registry release,https://registry.npmjs.org/path-expression-matcher/latest
+path-scurry,3.0.0,3.0.0,3.0.0,node_modules/path-scurry,Current registry release,https://registry.npmjs.org/path-scurry/latest
+possible-typed-array-names,1.1.0,1.1.0,1.1.0,node_modules/possible-typed-array-names,Current registry release,https://registry.npmjs.org/possible-typed-array-names/latest
+process,0.11.10,0.11.10,0.11.10,node_modules/process,Current registry release,https://registry.npmjs.org/process/latest
+process-nextick-args,2.0.1,2.0.1,2.0.1,node_modules/process-nextick-args,Current registry release,https://registry.npmjs.org/process-nextick-args/latest
+readable-stream,4.8.0,4.8.0,4.8.0,node_modules/readable-stream,Current registry release,https://registry.npmjs.org/readable-stream/latest
+readdir-glob,1.1.3,3.0.0,1.1.3,node_modules/readdir-glob,Upstream consumer API/range constraint: archiver@7.0.1: ^1.1.2,https://registry.npmjs.org/readdir-glob/latest
+balanced-match,1.0.2,5.0.0,1.0.2,node_modules/readdir-glob/node_modules/balanced-match,Upstream consumer API/range constraint: brace-expansion@2.1.7: ^1.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/balanced-match/latest
+brace-expansion,2.1.7,5.0.12,2.1.7,node_modules/readdir-glob/node_modules/brace-expansion,Upstream consumer API/range constraint: minimatch@5.1.9: ^2.0.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/brace-expansion/latest
+minimatch,5.1.9,11.0.5,5.1.9,node_modules/readdir-glob/node_modules/minimatch,Upstream consumer API/range constraint: readdir-glob@1.1.3: ^5.1.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/minimatch/latest
+reflect.getprototypeof,1.0.10,1.0.10,1.0.10,node_modules/reflect.getprototypeof,Current registry release,https://registry.npmjs.org/reflect.getprototypeof/latest
+regexp.prototype.flags,1.5.4,1.5.4,1.5.4,node_modules/regexp.prototype.flags,Current registry release,https://registry.npmjs.org/regexp.prototype.flags/latest
+safe-array-concat,1.1.4,1.1.4,1.1.4,node_modules/safe-array-concat,Current registry release,https://registry.npmjs.org/safe-array-concat/latest
+safe-buffer,5.2.1,5.2.1,5.2.1,node_modules/safe-buffer,Current registry release,https://registry.npmjs.org/safe-buffer/latest
+safe-push-apply,1.0.0,1.0.0,1.0.0,node_modules/safe-push-apply,Current registry release,https://registry.npmjs.org/safe-push-apply/latest
+safe-regex-test,1.1.0,1.1.0,1.1.0,node_modules/safe-regex-test,Current registry release,https://registry.npmjs.org/safe-regex-test/latest
+set-function-length,1.2.2,1.2.2,1.2.2,node_modules/set-function-length,Current registry release,https://registry.npmjs.org/set-function-length/latest
+set-function-name,2.0.2,2.0.2,2.0.2,node_modules/set-function-name,Current registry release,https://registry.npmjs.org/set-function-name/latest
+set-proto,1.0.0,1.0.0,1.0.0,node_modules/set-proto,Current registry release,https://registry.npmjs.org/set-proto/latest
+side-channel,1.1.1,1.1.1,1.1.1,node_modules/side-channel,Current registry release,https://registry.npmjs.org/side-channel/latest
+side-channel-list,1.0.1,1.0.1,1.0.1,node_modules/side-channel-list,Current registry release,https://registry.npmjs.org/side-channel-list/latest
+side-channel-map,1.0.1,1.0.1,1.0.1,node_modules/side-channel-map,Current registry release,https://registry.npmjs.org/side-channel-map/latest
+side-channel-weakmap,1.0.2,1.0.2,1.0.2,node_modules/side-channel-weakmap,Current registry release,https://registry.npmjs.org/side-channel-weakmap/latest
+stop-iteration-iterator,1.1.0,1.1.0,1.1.0,node_modules/stop-iteration-iterator,Current registry release,https://registry.npmjs.org/stop-iteration-iterator/latest
+streamx,2.28.1,2.28.1,2.28.1,node_modules/streamx,Current registry release,https://registry.npmjs.org/streamx/latest
+string.prototype.trim,1.2.11,1.2.11,1.2.11,node_modules/string.prototype.trim,Current registry release,https://registry.npmjs.org/string.prototype.trim/latest
+string.prototype.trimend,1.0.10,1.0.10,1.0.10,node_modules/string.prototype.trimend,Current registry release,https://registry.npmjs.org/string.prototype.trimend/latest
+string.prototype.trimstart,1.0.8,1.0.8,1.0.8,node_modules/string.prototype.trimstart,Current registry release,https://registry.npmjs.org/string.prototype.trimstart/latest
+string_decoder,1.3.0,1.3.0,1.3.0,node_modules/string_decoder,Current registry release,https://registry.npmjs.org/string_decoder/latest
+strnum,2.5.1,2.5.1,2.5.1,node_modules/strnum,Current registry release,https://registry.npmjs.org/strnum/latest
+tar-stream,3.2.2,3.2.2,3.2.2,node_modules/tar-stream,Current registry release,https://registry.npmjs.org/tar-stream/latest
+teex,1.0.1,1.0.1,1.0.1,node_modules/teex,Current registry release,https://registry.npmjs.org/teex/latest
+text-decoder,1.2.7,1.2.7,1.2.7,node_modules/text-decoder,Current registry release,https://registry.npmjs.org/text-decoder/latest
+traverse,0.3.10,0.6.14,0.3.10,node_modules/traverse,Upstream consumer API/range constraint: chainsaw@0.1.0: >=0.3.0 <0.4,https://registry.npmjs.org/traverse/latest
+tslib,2.8.1,2.9.1,2.9.1,node_modules/tslib,Current registry release,https://registry.npmjs.org/tslib/latest
+tunnel,0.0.6,0.0.6,0.0.6,node_modules/tunnel,Current registry release,https://registry.npmjs.org/tunnel/latest
+typed-array-buffer,1.0.3,1.0.3,1.0.3,node_modules/typed-array-buffer,Current registry release,https://registry.npmjs.org/typed-array-buffer/latest
+typed-array-byte-length,1.0.3,1.0.3,1.0.3,node_modules/typed-array-byte-length,Current registry release,https://registry.npmjs.org/typed-array-byte-length/latest
+typed-array-byte-offset,1.0.5,1.0.5,1.0.5,node_modules/typed-array-byte-offset,Current registry release,https://registry.npmjs.org/typed-array-byte-offset/latest
+typed-array-length,1.0.8,1.0.8,1.0.8,node_modules/typed-array-length,Current registry release,https://registry.npmjs.org/typed-array-length/latest
+typedarray.prototype.slice,1.0.6,1.0.6,1.0.6,node_modules/typedarray.prototype.slice,Current registry release,https://registry.npmjs.org/typedarray.prototype.slice/latest
+unbox-primitive,1.1.0,1.1.0,1.1.0,node_modules/unbox-primitive,Current registry release,https://registry.npmjs.org/unbox-primitive/latest
+undici,6.29.1,8.12.4,6.29.1,node_modules/undici,Upstream consumer API/range constraint: @actions/github@9.1.1: ^6.23.0; @actions/http-client@3.0.2: ^6.23.0; @actions/http-client@4.0.1: ^6.23.0,https://registry.npmjs.org/undici/latest
+undici-types,7.24.6,8.12.4,7.24.6,node_modules/undici-types,Upstream consumer API/range constraint: @types/node@25.9.9: >=7.24.0 <7.24.7,https://registry.npmjs.org/undici-types/latest
+universal-user-agent,7.0.3,7.0.3,7.0.3,node_modules/universal-user-agent,Current registry release,https://registry.npmjs.org/universal-user-agent/latest
+unzip-stream,0.3.4,0.3.4,0.3.4,node_modules/unzip-stream,Current registry release,https://registry.npmjs.org/unzip-stream/latest
+util-deprecate,1.0.2,1.0.2,1.0.2,node_modules/util-deprecate,Current registry release,https://registry.npmjs.org/util-deprecate/latest
+which-boxed-primitive,1.1.1,1.1.1,1.1.1,node_modules/which-boxed-primitive,Current registry release,https://registry.npmjs.org/which-boxed-primitive/latest
+which-builtin-type,1.2.1,1.2.1,1.2.1,node_modules/which-builtin-type,Current registry release,https://registry.npmjs.org/which-builtin-type/latest
+which-collection,1.0.2,1.0.2,1.0.2,node_modules/which-collection,Current registry release,https://registry.npmjs.org/which-collection/latest
+which-typed-array,1.1.24,1.1.24,1.1.24,node_modules/which-typed-array,Current registry release,https://registry.npmjs.org/which-typed-array/latest
+xml-naming,0.3.0,0.3.0,0.3.0,node_modules/xml-naming,Current registry release,https://registry.npmjs.org/xml-naming/latest
+zip-stream,6.0.1,7.0.5,6.0.1,node_modules/zip-stream,Upstream consumer API/range constraint: archiver@7.0.1: ^6.0.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/zip-stream/latest

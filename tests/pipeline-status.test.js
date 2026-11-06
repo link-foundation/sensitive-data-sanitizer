@@ -185,7 +185,7 @@ describe('pipeline status gate', () => {
     const gate = getJobBlock(workflow, 'pipeline-status');
 
     expect(gate).toContain('      !cancelled()');
-    expect(gate).toContain('uses: actions/setup-node@v7');
+    expect(gate).toContain('uses: ./.github/actions/setup-node');
     expect(gate).toContain('NEEDS_JSON: ${{ toJSON(needs) }}');
     expect(gate).toContain(
       'RUN_SHA: ${{ github.event.pull_request.head.sha || github.sha }}'

@@ -1,0 +1,17 @@
+
+> @link-foundation/sensitive-data-sanitizer@0.17.0 lint:all
+> eslint . --max-warnings 0
+
+
+/tmp/gh-issue-solver-1793920231277/scripts/pr-comparison.mjs
+  50:49  error  Delete `·`  prettier/prettier
+
+/tmp/gh-issue-solver-1793920231277/src/log-bytes.js
+  16:38  error  Delete `·`  prettier/prettier
+
+/tmp/gh-issue-solver-1793920231277/src/structured.js
+  387:38  error  Delete `·`  prettier/prettier
+
+✖ 3 problems (3 errors, 0 warnings)
+  3 errors and 0 warnings potentially fixable with the `--fix` option.
+

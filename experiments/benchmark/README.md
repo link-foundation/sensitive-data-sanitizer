@@ -15,12 +15,12 @@ Every engine receives the same plain UTF-8 case files. Gitleaks uses its default
 
 Full-span recall requires the union of predicted ranges to cover the entire annotated sensitive span. Partial coverage is a miss for recall. Overlap precision counts a deduplicated prediction as true if it intersects any annotated span; it does not penalize excess characters in an overlapping prediction. Therefore neither precision nor these results prove absence of over-redaction. `predictions-*.json` retains UTF-16 ranges for independent review. `results.json` records corpus SHA256, source/lock fingerprint, version pins and counts; `corpus*.json` records the exact synthetic input and truth. Inspect per-case results when comparing secret and PII scopes.
 
-Run from the repository root with Python 3.12, installed binary tools from their official release assets, and finite Node heap:
+Run from the repository root with the Python version in `.python-version`, installed binary tools from their official release assets, and finite Node heap. Python 3.14.10 is the latest compatible security release: Presidio 2.2.366 requires preshed <3.0.14, whose source build crashes when spaCy loads a model on Python 3.15. [Upstream issue 2431](https://github.com/data-privacy-stack/presidio/issues/2431) tracks removing the cap; Python 3.15.2 and preshed 3.0.15 remain blocked by that dependency constraint.
 
 ```sh
 npm ci
 python3 -m venv /tmp/sanitizer-benchmark
-/tmp/sanitizer-benchmark/bin/pip install -r experiments/benchmark/requirements.txt
+/tmp/sanitizer-benchmark/bin/pip install --require-hashes -r experiments/benchmark/requirements.lock
 /tmp/sanitizer-benchmark/bin/pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
 BENCHMARK_PYTHON=/tmp/sanitizer-benchmark/bin/python \
 BENCHMARK_GITLEAKS=/path/to/gitleaks \
@@ -28,6 +28,8 @@ BENCHMARK_TRUFFLEHOG=/path/to/trufflehog \
 node --max-old-space-size=512 experiments/benchmark/run.mjs
 ```
 
-Use [Gitleaks v8.30.1](https://github.com/gitleaks/gitleaks/releases/tag/v8.30.1) and [TruffleHog v3.99.0](https://github.com/trufflesecurity/trufflehog/releases/tag/v3.99.0); verify downloaded release checksums and each tool's version before running. Python package pins and the separate model pin are required. The script cleans its temporary case directory after completion. It runs no credential validation/network lookup; package installation and model/binary downloads require network access. Generated synthetic token JSON is the only benchmark path excluded from repository Secretlint checks; production source remains scanned.
+The table above records the original run; rerun with the current pins below before making new comparisons.
+
+Use [Gitleaks v8.30.1](https://github.com/gitleaks/gitleaks/releases/tag/v8.30.1) and [TruffleHog v3.99.8](https://github.com/trufflesecurity/trufflehog/releases/tag/v3.99.8); verify downloaded release checksums and each tool's version before running. Python package pins and the separate model pin are required. The script cleans its temporary case directory after completion. It runs no credential validation/network lookup; package installation and model/binary downloads require network access. Generated synthetic token JSON is the only benchmark path excluded from repository Secretlint checks; production source remains scanned.
 
 Future comparative claims need larger independent/held-out corpora, native-language models for each baseline, false-positive/over-redaction and failure-rate measurements, and runtime/RSS statistics. Proprietary services were not executed. Their catalog labels and local transforms are implemented from documented interfaces, not their undisclosed classifiers.

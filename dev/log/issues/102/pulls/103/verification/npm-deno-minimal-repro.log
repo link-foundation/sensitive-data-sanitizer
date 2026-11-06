@@ -1,0 +1,11 @@
+Running: npm install --ignore-scripts --no-audit --no-fund
+
+added 1 package in 1s
+Exit: 0
+Running: /tmp/issue-102-tools/bin/deno test -A --no-run --minimum-dependency-age 0 --v8-flags=--max-old-space-size=512 repro.mjs
+Initialize links-notation@0.31.0
+Exit: 0
+Running: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+
+up to date in 4s
+Exit: 0

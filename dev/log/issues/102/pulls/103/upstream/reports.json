@@ -1,0 +1,89 @@
+[
+  {
+    "report": "temp-100",
+    "repository": "bruce/node-temp",
+    "issue": 100,
+    "exit": 0,
+    "url": "https://github.com/bruce/node-temp/issues/100#issuecomment-6672682111",
+    "error": ""
+  },
+  {
+    "report": "artifact-2003",
+    "repository": "actions/toolkit",
+    "issue": 2003,
+    "exit": 0,
+    "url": "https://github.com/actions/toolkit/issues/2003#issuecomment-6672682500",
+    "error": ""
+  },
+  {
+    "report": "actionlint-711",
+    "repository": "rhysd/actionlint",
+    "issue": 711,
+    "exit": 0,
+    "url": "https://github.com/rhysd/actionlint/issues/711#issuecomment-6672682896",
+    "error": ""
+  },
+  {
+    "report": "actionlint-657",
+    "repository": "rhysd/actionlint",
+    "issue": 657,
+    "exit": 0,
+    "url": "https://github.com/rhysd/actionlint/issues/657#issuecomment-6672683280",
+    "error": ""
+  },
+  {
+    "report": "setup-node-1553",
+    "repository": "actions/setup-node",
+    "issue": 1553,
+    "exit": 0,
+    "url": "https://github.com/actions/setup-node/issues/1553#issuecomment-6672683784",
+    "error": ""
+  },
+  {
+    "report": "pyyaml-951",
+    "repository": "yaml/pyyaml",
+    "issue": 951,
+    "exit": 0,
+    "url": "https://github.com/yaml/pyyaml/issues/951#issuecomment-6672684219",
+    "error": ""
+  },
+  {
+    "report": "buildx-490",
+    "repository": "docker/setup-buildx-action",
+    "issue": 490,
+    "exit": 0,
+    "url": "https://github.com/docker/setup-buildx-action/pull/490#issuecomment-6672972223",
+    "error": ""
+  },
+  {
+    "report": "upload-531",
+    "repository": "actions/upload-artifact",
+    "issue": 531,
+    "exit": 0,
+    "url": "https://github.com/actions/upload-artifact/issues/531#issuecomment-6672972696",
+    "error": ""
+  },
+  {
+    "report": "archiver-822",
+    "repository": "archiverjs/node-archiver",
+    "issue": 822,
+    "exit": 0,
+    "url": "https://github.com/archiverjs/node-archiver/issues/822#issuecomment-6672973126",
+    "error": ""
+  },
+  {
+    "report": "pages-create",
+    "repository": "actions/deploy-pages",
+    "exit": 0,
+    "url": "https://github.com/actions/deploy-pages/issues/454",
+    "error": ""
+  },
+  {
+    "report": "presidio-2431",
+    "repository": "data-privacy-stack/presidio",
+    "issue": 2431,
+    "exit": 0,
+    "url": "https://github.com/data-privacy-stack/presidio/issues/2431#issuecomment-6673100519",
+    "error": ""
+  }
+]

@@ -1,0 +1,127 @@
+▶ CI audit regressions
+  ✔ records a decision for every dependency install script in . (16.148402ms)
+  ✔ records a decision for every dependency install script in examples/universal-app (11.416216ms)
+  ✔ records a decision for every dependency install script in .github/actions/artifact-transport (7.92369ms)
+  ✔ records Deno decisions separately from npm install-script decisions (7.916948ms)
+  ✔ includes shipped applications in CodeQL analysis (1.047263ms)
+  ✔ keeps Pages deployment permissions and preconditions (3.555802ms)
+  ✔ installs artifact dependencies without deprecated packages (9.038449ms)
+  ✔ syntax gate rejects incomplete evidence: src/index.js (268.99771ms)
+  ✔ syntax gate rejects incomplete evidence: scripts/nested/adapter.cjs (201.436013ms)
+  ✔ syntax gate rejects incomplete evidence: tests/nested/check.mjs (218.730164ms)
+  ✔ syntax gate rejects incomplete evidence: empty repository (138.66376ms)
+  ✔ syntax gate accepts valid nested shipped code (212.228245ms)
+✔ CI audit regressions (1101.615906ms)
+▶ workflow policy regression protection
+  ✔ rejects unpinned package -p secretlint (3.992638ms)
+  ✔ rejects unpinned package --package=secretlint (0.496887ms)
+  ✔ rejects unpinned package -p @secretlint/preset (0.227324ms)
+  ✔ rejects unpinned package --package=@secretlint/preset (0.244666ms)
+  ✔ rejects unpinned package -p secretlint@latest (0.267669ms)
+  ✔ rejects unpinned package --package=secretlint@latest (0.222204ms)
+  ✔ rejects unpinned package -p secretlint@^13.0.7 (0.206906ms)
+  ✔ rejects unpinned package --package=secretlint@^13.0.7 (0.87392ms)
+  ✔ checks every package option and a continued shell command (1.294545ms)
+  ✔ rejects floating matrix and direct runner labels but ignores comments (0.944522ms)
+  ✔ rejects zizmor version drift and versions unsupported by the pinned action (0.658017ms)
+✔ workflow policy regression protection (13.679518ms)
+▶ complete pipeline requirements
+  ✔ queues every writer without cancellation (6.961626ms)
+  ✔ uses only the narrow documented actionlint schema exception (0.534287ms)
+  ✔ provides defaults for required dispatch inputs (0.799001ms)
+  ✔ checks the Dependabot author and enforces warnings on main (4.705116ms)
+  ✔ persists the link cache and uploads the report on failure (0.725313ms)
+  ✔ gives skipped matrix jobs static names (2.938632ms)
+  ✔ deploys Pages without npm dependencies or hidden warnings (0.801635ms)
+  ✔ covers standalone scripts and hooks with pinned ShellCheck (2.650314ms)
+  ✔ declares a shell in every tracked script and hook (55.124899ms)
+  ✔ declares every ESLint configuration import (5.482467ms)
+✔ complete pipeline requirements (84.336258ms)
+▶ setup-npm version requirements
+  ✔ compares semantic versions numerically (7.796643ms)
+  ✔ requires npm 12.2.2 or later (1.139546ms)
+  ✔ requires Node.js 22.22.2 or later (14.135047ms)
+  ✔ selects the latest npm 12 tarball that satisfies trusted publishing (1.331954ms)
+✔ setup-npm version requirements (35.307031ms)
+▶ setup-npm tarball strategy
+  ✔ downloads to a file with retries, then extracts (1.157279ms)
+  ✔ clears the staging directory before extracting (0.32705ms)
+✔ setup-npm tarball strategy (1.943646ms)
+▶ workflow concurrency policy
+  ✔ detects unsupported keys in a concurrency block (2.562992ms)
+  ✔ keeps every waiting main writer in the queue (6.005573ms)
+  ✔ uses only keys supported by GitHub Actions (8.559587ms)
+  ✔ uses job-level concurrency so stale checks cannot cancel active writers (9.426595ms)
+✔ workflow concurrency policy (39.615007ms)
+▶ workflow reliability policy
+  ✔ sets Git default branch config before checkout initializes repositories (1.23864ms)
+  ✔ excludes Vite source HTML from raw lychee file scans (4.838835ms)
+  ✔ uploads preview regeneration artifacts when screenshot rendering fails (1.856052ms)
+  ✔ uses the official Playwright image for preview regeneration with browser downloads disabled (1.178549ms)
+✔ workflow reliability policy (10.878412ms)
+▶ workflow artifact and writer reliability
+  ✔ serializes main writers and retries generated pushes after rebasing (2.618043ms)
+  ✔ verifies desktop package output before uploading artifacts (1.015855ms)
+✔ workflow artifact and writer reliability (5.146009ms)
+▶ release workflow change gates
+  ✔ skips the slow test matrix for pull requests with no code changes (2.354042ms)
+  ✔ runs the slow test matrix for workflow changes after fast checks pass (0.94868ms)
+  ✔ skips test-compilation for excluded-only pushes (0.710265ms)
+  ✔ skips check-file-line-limits for excluded-only pushes (0.614957ms)
+  ✔ skips lint for excluded-only pushes (0.547071ms)
+  ✔ skips test for excluded-only pushes (0.872257ms)
+  ✔ skips validate-docs for excluded-only pushes (0.674539ms)
+✔ release workflow change gates (7.492606ms)
+▶ manual release quality gates
+  ✔ runs lint and tests before an instant manual release (3.025765ms)
+  ✔ blocks an instant manual release after either quality gate fails (0.949752ms)
+  ✔ blocks an instant manual release from a branch other than main (0.43916ms)
+  ✔ waits for successful lint before creating a manual changeset PR (0.512476ms)
+  ✔ does not run instant-release after cancellation (0.409514ms)
+  ✔ does not run changeset-pr after cancellation (1.661891ms)
+✔ manual release quality gates (7.834284ms)
+▶ npm publish token bootstrap
+  ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the release publish step (0.539476ms)
+  ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the instant-release publish step (0.312493ms)
+✔ npm publish token bootstrap (1.089603ms)
+▶ npm user config cleanup
+  ✔ removes deprecated always-auth before npm commands in the release job (0.396169ms)
+  ✔ removes deprecated always-auth before npm commands in the instant-release job (0.200534ms)
+✔ npm user config cleanup (0.816352ms)
+▶ install-from-package smoke test
+  ✔ smoke-tests the published npm package in the release job (0.366193ms)
+  ✔ smoke-tests the published npm package in the instant-release job (0.287276ms)
+✔ install-from-package smoke test (0.828616ms)
+▶ workflow linting job
+  ✔ uses the supported Ubuntu 24.04 label for every Linux job (4.140694ms)
+  ✔ runs actionlint from the Docker image that bundles shellcheck (0.376092ms)
+  ✔ pins the actionlint image to a digest, not a tag (0.618804ms)
+  ✔ documents the local actionlint reproduction against the pinned release (0.228206ms)
+  ✔ runs zizmor against the repository configuration (0.522315ms)
+  ✔ pins the zizmor version the action installs (0.482169ms)
+  ✔ adds a narrow pedantic pass for the pedantic-only audits (0.267038ms)
+  ✔ bounds every job with a timeout backstop (0.426355ms)
+  ✔ gates Python-only changes with pinned lint and format checks (2.435754ms)
+✔ workflow linting job (12.494288ms)
+▶ shell blocks under shellcheck
+  ✔ builds the manifest digest list as an array (2.295361ms)
+  ✔ reports the packaging attempt number (0.285062ms)
+✔ shell blocks under shellcheck (3.170233ms)
+▶ third-party actions
+  ✔ pins actions outside the trusted publishers to a commit hash (1.865741ms)
+  ✔ pins every container image reference to a digest (1.700853ms)
+✔ third-party actions (3.86451ms)
+▶ reproducible workflow tooling and runner policy
+  ✔ keeps both zizmor passes and the reproduction comment on the action-supported version (2.336969ms)
+  ✔ pins both secretlint packages to the same exact version (0.500603ms)
+  ✔ pins every hosted OS image in every workflow (1.300686ms)
+  ✔ runs a workflow policy guard in CI (0.223486ms)
+✔ reproducible workflow tooling and runner policy (4.806656ms)
+ℹ tests 85
+ℹ suites 17
+ℹ pass 85
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1381.009279

@@ -1,0 +1,13 @@
+name: Queue syntax reproduction
+on:
+  workflow_dispatch:
+permissions: {}
+concurrency:
+  group: actionlint-queue-reproduction
+  cancel-in-progress: false
+  queue: max
+jobs:
+  example:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "Queue syntax reproduction"

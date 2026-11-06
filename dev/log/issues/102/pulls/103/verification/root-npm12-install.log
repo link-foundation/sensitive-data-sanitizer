@@ -1,0 +1,4 @@
+npm notice run @link-foundation/sensitive-data-sanitizer@0.17.0 prepare
+npm notice run node scripts/install-git-hooks.mjs
+
+added 15 packages in 8s

@@ -1,0 +1,3160 @@
+diff --git a/.changeset/current-dependencies.md b/.changeset/current-dependencies.md
+new file mode 100644
+index 0000000..dd10b06
+--- /dev/null
++++ b/.changeset/current-dependencies.md
+@@ -0,0 +1,5 @@
++---
++'@link-foundation/sensitive-data-sanitizer': patch
++---
++
++Refresh dependencies and supported development tooling, and repair upgrade regressions in workflow validation, formatting and reproducible example installs.
+diff --git a/.github/actions/artifact-transport/action.yml b/.github/actions/artifact-transport/action.yml
+index d09c772..fb30e3b 100644
+--- a/.github/actions/artifact-transport/action.yml
++++ b/.github/actions/artifact-transport/action.yml
+@@ -29,6 +29,7 @@ outputs:
+ runs:
+   using: composite
+   steps:
++    - uses: ./.github/actions/setup-node
+     - name: Install pinned artifact SDK
+       shell: bash
+       env:
+diff --git a/.github/actions/artifact-transport/package.json b/.github/actions/artifact-transport/package.json
+index f837ed4..9ebd771 100644
+--- a/.github/actions/artifact-transport/package.json
++++ b/.github/actions/artifact-transport/package.json
+@@ -15,6 +15,6 @@
+     "@actions/artifact": {
+       "unzip-stream": "0.3.4"
+     },
+-    "minimatch@>=7 <11": "^11.0.4"
++    "minimatch@>=7 <11": "^11.0.5"
+   }
+ }
+diff --git a/.github/actions/publish-dockerhub/action.yml b/.github/actions/publish-dockerhub/action.yml
+index ae70008..27910cd 100644
+--- a/.github/actions/publish-dockerhub/action.yml
++++ b/.github/actions/publish-dockerhub/action.yml
+@@ -38,14 +38,14 @@ runs:
+       uses: ./.github/actions/setup-buildx-resilient
+ 
+     - name: Log in to Docker Hub
+-      uses: docker/login-action@v4
++      uses: docker/login-action@v4.8.0
+       with:
+         username: ${{ inputs.username }}
+         password: ${{ inputs.token }}
+ 
+     - name: Extract Docker metadata
+       id: metadata
+-      uses: docker/metadata-action@v6
++      uses: docker/metadata-action@v6.2.0
+       with:
+         images: ${{ inputs.image }}
+         labels: |
+@@ -53,7 +53,7 @@ runs:
+ 
+     - name: Publish Docker image by digest
+       id: build
+-      uses: docker/build-push-action@v7
++      uses: docker/build-push-action@v7.4.0
+       with:
+         context: ${{ inputs.context }}
+         file: ${{ inputs.file }}
+diff --git a/.github/actions/setup-buildx-resilient/action.yml b/.github/actions/setup-buildx-resilient/action.yml
+index 375a1f7..ab92710 100644
+--- a/.github/actions/setup-buildx-resilient/action.yml
++++ b/.github/actions/setup-buildx-resilient/action.yml
+@@ -1,109 +1,42 @@
+ name: 'Set up Docker Buildx (resilient)'
+ description: >
+-  Wrapper around docker/setup-buildx-action that first pre-pulls the pinned
+-  BuildKit image with retries and exponential backoff, and — when Docker Hub
+-  itself is unreachable — falls back to a pull-through registry mirror
+-  (mirror.gcr.io by default) before re-tagging the image to its canonical
+-  reference. Booting the docker-container driver otherwise pulls moby/buildkit
+-  straight from Docker Hub, and a transient registry timeout there fails the
+-  whole publish job (see issue #75, and the upstream investigations in
+-  link-foundation/box issues #97 and #100). Seeding the image locally first
+-  means the boot reuses the cached image instead of hitting the registry, and
+-  the mirror fallback keeps the seed working even during a full Docker Hub
+-  registry outage.
++  Use upstream BuildKit pull retries, then fall back to an independent registry
++  mirror when Docker Hub remains unavailable (issue #75).
+ inputs:
+   buildkit-image:
+     description: 'Pinned BuildKit image used by the docker-container driver.'
+     required: false
+-    default: 'moby/buildkit:buildx-stable-1'
++    default: 'moby/buildkit:v0.34.2'
+   registry-mirror:
+-    description: >
+-      Pull-through Docker Hub mirror host used as a fallback when the canonical
+-      registry (registry-1.docker.io) is unreachable. mirror.gcr.io is Google's
+-      public pull-through cache of Docker Hub and is served from independent
+-      infrastructure, so it typically stays reachable during Docker Hub
+-      registry outages. Set to an empty string to disable the mirror fallback.
++    description: 'Fallback Docker Hub mirror host; empty disables fallback.'
+     required: false
+     default: 'mirror.gcr.io'
+   verbose:
+-    description: >
+-      Set to "true" to enable shell tracing (set -x) in the pre-pull step for
+-      debugging. Tracing is also enabled automatically when the workflow is run
+-      with step debug logging (RUNNER_DEBUG=1).
++    description: 'Enable upstream debug logging; RUNNER_DEBUG is also honored.'
+     required: false
+     default: 'false'
+ runs:
+-  using: 'composite'
++  using: composite
+   steps:
+-    - name: Pre-pull BuildKit image (retry + registry-mirror fallback)
+-      shell: bash
++    # v4.4.1 pre-pulls through actions-toolkit's bounded transient-error retry.
++    # Let the official action own that policy instead of duplicating it here.
++    - name: Set up Docker Buildx from canonical registry
++      id: canonical
++      continue-on-error: ${{ inputs.registry-mirror != '' }}
++      uses: docker/setup-buildx-action@v4.4.1
+       env:
+-        BUILDKIT_IMAGE: ${{ inputs.buildkit-image }}
+-        REGISTRY_MIRROR: ${{ inputs.registry-mirror }}
+-        VERBOSE: ${{ inputs.verbose }}
+-      run: |
+-        set -u
+-        # Verbose/debug tracing: opt-in via input, or automatic when the run is
+-        # started with "Enable debug logging" (RUNNER_DEBUG=1). Kept off by
+-        # default so normal logs stay readable.
+-        if [ "${VERBOSE}" = "true" ] || [ "${RUNNER_DEBUG:-}" = "1" ]; then
+-          echo "==> Verbose tracing enabled"
+-          set -x
+-        fi
+-
+-        # Pull a reference with bounded retries and exponential backoff.
+-        # Returns 0 on the first successful pull, non-zero if all attempts fail.
+-        pull_with_retries() {
+-          ref="$1"
+-          # Attempts/backoff are overridable via env so the unit test can run
+-          # fast; the CI defaults stay at 5 attempts / 5s exponential backoff.
+-          attempts="${PREPULL_ATTEMPTS:-5}"
+-          delay="${PREPULL_DELAY:-5}"
+-          for attempt in $(seq 1 "$attempts"); do
+-            echo "==> Pulling ${ref} (attempt ${attempt}/${attempts})..."
+-            if docker pull "${ref}"; then
+-              return 0
+-            fi
+-            if [ "$attempt" -lt "$attempts" ]; then
+-              echo "==> Pull failed, waiting ${delay}s before next attempt..."
+-              sleep "$delay"
+-              delay=$((delay * 2))
+-            fi
+-          done
+-          return 1
+-        }
+-
+-        # 1) Canonical Docker Hub. The common transient-blip case recovers here.
+-        if pull_with_retries "${BUILDKIT_IMAGE}"; then
+-          echo "==> BuildKit image cached locally from canonical registry; boot will not need a registry pull"
+-          exit 0
+-        fi
+-
+-        # 2) Registry-mirror fallback. When Docker Hub's registry endpoint is
+-        #    fully unreachable (issue #75 / box #100: registry-1.docker.io timed
+-        #    out for ~2.5 minutes), the canonical pull above cannot recover no
+-        #    matter how many times it retries. mirror.gcr.io is a pull-through
+-        #    cache of Docker Hub on independent infrastructure, so it usually
+-        #    still serves the image. We pull from there and re-tag to the
+-        #    canonical reference so the docker-container driver boot finds it
+-        #    locally and never touches the failing registry.
+-        if [ -n "${REGISTRY_MIRROR}" ]; then
+-          mirror_ref="${REGISTRY_MIRROR}/${BUILDKIT_IMAGE}"
+-          echo "==> Canonical pull failed; trying registry mirror ${mirror_ref}"
+-          if pull_with_retries "${mirror_ref}"; then
+-            docker tag "${mirror_ref}" "${BUILDKIT_IMAGE}"
+-            echo "==> BuildKit image cached locally via mirror and tagged as ${BUILDKIT_IMAGE}; boot will reuse it"
+-            exit 0
+-          fi
+-          echo "==> Mirror pull from ${REGISTRY_MIRROR} also failed"
+-        fi
+-
+-        # Non-fatal: fall through to setup-buildx, which will attempt its own
+-        # pull during boot. This preserves the previous behaviour in the worst
+-        # case while making the common transient-failure case recover.
+-        echo "==> WARNING: could not pre-pull ${BUILDKIT_IMAGE} from canonical registry or mirror; letting setup-buildx try its own boot pull"
+-
+-    - name: Set up Docker Buildx
+-      uses: docker/setup-buildx-action@v4
++        RUNNER_DEBUG: ${{ inputs.verbose == 'true' && '1' || env.RUNNER_DEBUG }}
+       with:
++        version: v0.38.2
+         driver-opts: image=${{ inputs.buildkit-image }}
++
++    # The mirror must be the actual driver image: pre-seeding the canonical
++    # tag no longer avoids the upstream action's explicit canonical pull.
++    - name: Set up Docker Buildx from fallback mirror
++      if: steps.canonical.outcome == 'failure' && inputs.registry-mirror != ''
++      uses: docker/setup-buildx-action@v4.4.1
++      env:
++        RUNNER_DEBUG: ${{ inputs.verbose == 'true' && '1' || env.RUNNER_DEBUG }}
++      with:
++        version: v0.38.2
++        driver-opts: image=${{ inputs.registry-mirror }}/${{ inputs.buildkit-image }}
+diff --git a/.github/actions/setup-node/action.yml b/.github/actions/setup-node/action.yml
+new file mode 100644
+index 0000000..3c5424c
+--- /dev/null
++++ b/.github/actions/setup-node/action.yml
+@@ -0,0 +1,32 @@
++name: Set up reviewed Node.js and npm
++description: Use the repository's Node.js release and npm lockfile tooling consistently.
++inputs:
++  cache:
++    description: Optional setup-node package manager cache
++  cache-dependency-path:
++    description: Optional lockfile paths used by the cache
++  registry-url:
++    description: Optional registry for publishing authentication
++runs:
++  using: composite
++  steps:
++    - uses: actions/setup-node@v7.1.0
++      with:
++        node-version-file: .nvmrc
++        # Cache discovery runs npm before setup-node returns. The bundled
++        # npm cannot satisfy devEngines yet (actions/setup-node#1553).
++        package-manager-cache: false
++        registry-url: ${{ inputs.registry-url }}
++    # setup-node selects Node's bundled npm, which currently predates npm 12.
++    # npm ships its own bundled dependency tree; this exact reviewed release
++    # also disables lifecycle scripts. Keep this exception on this install only.
++    - name: Install reviewed npm
++      shell: bash
++      run: npm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund # zizmor: ignore[adhoc-packages]
++    - name: Restore requested package cache with current npm
++      if: inputs.cache != ''
++      uses: actions/setup-node@v7.1.0
++      with:
++        node-version-file: .nvmrc
++        cache: ${{ inputs.cache }}
++        cache-dependency-path: ${{ inputs.cache-dependency-path }}
+diff --git a/.github/workflows/example-app.yml b/.github/workflows/example-app.yml
+index 998e6ac..6a8dfe3 100644
+--- a/.github/workflows/example-app.yml
++++ b/.github/workflows/example-app.yml
+@@ -8,6 +8,7 @@ on:
+       - 'src/**'
+       - 'package.json'
+       - 'package-lock.json'
++      - '.nvmrc'
+       - 'scripts/update-preview-images.mjs'
+       - 'scripts/check-pages.sh'
+       - 'scripts/check-desktop-compat.mjs'
+@@ -25,6 +26,7 @@ on:
+       - 'tests/preview-tools.test.js'
+       - 'tests/container-jobs.test.js'
+       - '.github/workflows/example-app.yml'
++      - '.github/actions/setup-node/**'
+       - '.github/actions/artifact-transport/**'
+       - 'scripts/artifact-transport.mjs'
+       - 'scripts/artifact-files.mjs'
+@@ -36,6 +38,7 @@ on:
+       - 'src/**'
+       - 'package.json'
+       - 'package-lock.json'
++      - '.nvmrc'
+       - 'scripts/update-preview-images.mjs'
+       - 'scripts/check-pages.sh'
+       - 'scripts/check-desktop-compat.mjs'
+@@ -53,6 +56,7 @@ on:
+       - 'tests/preview-tools.test.js'
+       - 'tests/container-jobs.test.js'
+       - '.github/workflows/example-app.yml'
++      - '.github/actions/setup-node/**'
+       - '.github/actions/artifact-transport/**'
+       - 'scripts/artifact-transport.mjs'
+       - 'scripts/artifact-files.mjs'
+@@ -86,14 +90,13 @@ jobs:
+     outputs:
+       pages-artifact-id: ${{ steps.pages-artifact.outputs.artifact-id }}
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
++        uses: ./.github/actions/setup-node
+         with:
+-          node-version: '24.x'
+           cache: npm
+           cache-dependency-path: examples/universal-app/package-lock.json
+ 
+@@ -108,7 +111,7 @@ jobs:
+ 
+       - name: Configure GitHub Pages
+         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+-        uses: actions/configure-pages@v6
++        uses: actions/configure-pages@v6.0.0
+ 
+       - name: Install app dependencies
+         run: npm ci --prefix examples/universal-app --no-audit --no-fund
+@@ -158,13 +161,11 @@ jobs:
+       name: github-pages
+       url: ${{ steps.deployment.outputs.page_url }}
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+-      - uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++      - uses: ./.github/actions/setup-node
+ 
+       # The REST protocol of actions/deploy-pages@v5, which sends one
+       # creation request and fails the job on a single transient HTTP 500.
+@@ -190,14 +191,13 @@ jobs:
+       matrix:
+         os: [ubuntu-24.04, macos-26-intel, windows-2025]
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
++        uses: ./.github/actions/setup-node
+         with:
+-          node-version: '24.x'
+           cache: npm
+           cache-dependency-path: examples/universal-app/package-lock.json
+ 
+@@ -241,22 +241,21 @@ jobs:
+       group: check-${{ github.workflow }}-${{ github.ref }}-android-build
+       cancel-in-progress: true
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
++        uses: ./.github/actions/setup-node
+         with:
+-          node-version: '24.x'
+           cache: npm
+           cache-dependency-path: examples/universal-app/package-lock.json
+ 
+       - name: Setup Java
+-        uses: actions/setup-java@v6
++        uses: actions/setup-java@v6.2.0
+         with:
+           distribution: temurin
+-          java-version: '21'
++          java-version: '21.0.13+9'
+ 
+       - name: Setup Android SDK
+         uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd # v4.0.4
+@@ -288,14 +287,13 @@ jobs:
+       group: check-${{ github.workflow }}-${{ github.ref }}-ios-build
+       cancel-in-progress: true
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
++        uses: ./.github/actions/setup-node
+         with:
+-          node-version: '24.x'
+           cache: npm
+           cache-dependency-path: examples/universal-app/package-lock.json
+ 
+@@ -313,7 +311,7 @@ jobs:
+     name: Verify preview container tools
+     runs-on: ubuntu-24.04
+     container:
+-      image: mcr.microsoft.com/playwright@sha256:b0ab6f3cb99aa7803adbc14d9027ec1785fc6e433b97e134e0f8fe61683b6b53 # v1.59.1-noble
++      image: mcr.microsoft.com/playwright@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d # v1.65.0-noble
+     timeout-minutes: 5
+     concurrency:
+       group: check-${{ github.workflow }}-${{ github.ref }}-preview-tools
+@@ -322,16 +320,27 @@ jobs:
+       run:
+         shell: bash
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+       - name: Trust the checkout
+         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
++      - uses: ./.github/actions/setup-node
+       - name: Install pinned GitHub CLI
+         run: bash scripts/setup-preview-gh.sh
+       - name: Verify publishing tools without repository writes
+         run: bash scripts/check-preview-tools.sh
+ 
++      # Exercise the main-only writer's install/build/browser path on PRs too.
++      - name: Install locked preview dependencies
++        env:
++          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
++        run: npm ci --no-audit --no-fund
++      - name: Install locked example dependencies
++        run: npm ci --prefix examples/universal-app --no-audit --no-fund
++      - name: Verify preview generation
++        run: node scripts/update-preview-images.mjs
++
+   # Regenerate example-app preview screenshots (docs/screenshots/example-app/*)
+   # using browser-commander + Playwright so README/site images always reflect
+   # the current UI. Issue: #62. Implementation: scripts/update-preview-images.mjs.
+@@ -344,7 +353,7 @@ jobs:
+       # Pinned by digest (a mutable tag is arbitrary code execution in a job
+       # that holds contents: write). Re-resolve when bumping:
+       #   docker buildx imagetools inspect mcr.microsoft.com/playwright:<tag>
+-      image: mcr.microsoft.com/playwright@sha256:b0ab6f3cb99aa7803adbc14d9027ec1785fc6e433b97e134e0f8fe61683b6b53 # v1.59.1-noble
++      image: mcr.microsoft.com/playwright@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d # v1.65.0-noble
+     timeout-minutes: 20
+     concurrency:
+       group: main-writer-${{ github.repository }}-main
+@@ -362,7 +371,7 @@ jobs:
+       run:
+         shell: bash
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           # Regenerate against main HEAD so the bot commit lands on a
+           # fast-forward parent regardless of which trigger started the job.
+@@ -376,6 +385,7 @@ jobs:
+       - name: Trust the checkout
+         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+ 
++      - uses: ./.github/actions/setup-node
+       - name: Install pinned GitHub CLI
+         run: bash scripts/setup-preview-gh.sh
+ 
+@@ -385,12 +395,11 @@ jobs:
+       - name: Install example app dependencies
+         run: npm ci --prefix examples/universal-app --no-audit --no-fund
+ 
+-      # Deliberately installed outside the lockfile: these tools are only used
+-      # by this preview-image job and both versions are pinned exactly.
++      # Preview tools and their transitive dependencies share the reviewed root lock.
+       - name: Install browser automation dependencies
+         env:
+           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+-        run: npm install --no-save --package-lock=false --no-audit --no-fund browser-commander@0.8.1 playwright@1.59.1 # zizmor: ignore[adhoc-packages]
++        run: npm ci --no-audit --no-fund
+ 
+       - name: Regenerate preview images
+         id: regenerate
+@@ -513,14 +522,12 @@ jobs:
+       actions: read
+       contents: read
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++        uses: ./.github/actions/setup-node
+ 
+       - name: Fail the run when a required job was cancelled or failed
+         env:
+diff --git a/.github/workflows/links.yml b/.github/workflows/links.yml
+index 655bf88..47cee52 100644
+--- a/.github/workflows/links.yml
++++ b/.github/workflows/links.yml
+@@ -64,7 +64,7 @@ jobs:
+     permissions:
+       contents: read
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+@@ -76,7 +76,7 @@ jobs:
+         run: echo "day=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+ 
+       - name: Restore link cache
+-        uses: actions/cache@v6
++        uses: actions/cache@v6.1.0
+         with:
+           path: .lycheecache
+           key: cache-lychee-${{ runner.os }}-${{ steps.link-cache.outputs.day }}-${{ github.sha }}
+@@ -84,7 +84,7 @@ jobs:
+ 
+       - name: Check links with lychee
+         id: lychee
+-        uses: lycheeverse/lychee-action@v2
++        uses: lycheeverse/lychee-action@v2.9.0
+         with:
+           # Check all Markdown and HTML files
+           # Exclude case-studies directory - these are research documents from
+@@ -198,14 +198,12 @@ jobs:
+       actions: read
+       contents: read
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++        uses: ./.github/actions/setup-node
+ 
+       - name: Fail the run when a required job was cancelled or failed
+         env:
+diff --git a/.github/workflows/release.yml b/.github/workflows/release.yml
+index e372c4f..7972cfe 100644
+--- a/.github/workflows/release.yml
++++ b/.github/workflows/release.yml
+@@ -69,7 +69,7 @@ jobs:
+       docs-changed: ${{ steps.changes.outputs.docs-changed }}
+       any-code-changed: ${{ steps.changes.outputs.any-code-changed }}
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           fetch-depth: 0
+           persist-credentials: false
+@@ -101,13 +101,11 @@ jobs:
+       !cancelled() &&
+       (needs.detect-changes.outputs.js-changed == 'true' || github.event_name == 'workflow_dispatch')
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+-      - uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++      - uses: ./.github/actions/setup-node
+ 
+       - name: Check JavaScript syntax
+         run: bash scripts/check-mjs-syntax.sh
+@@ -127,7 +125,7 @@ jobs:
+       (needs.detect-changes.outputs.docs-changed == 'true' ||
+        needs.detect-changes.outputs.any-code-changed == 'true' || github.event_name == 'workflow_dispatch')
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           fetch-depth: 0
+           persist-credentials: false
+@@ -157,7 +155,7 @@ jobs:
+       (needs.detect-changes.outputs.any-code-changed == 'true' ||
+        (github.event_name == 'workflow_dispatch' && github.event.inputs.release_mode == 'instant'))
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           fetch-depth: 0
+           persist-credentials: false
+@@ -166,9 +164,7 @@ jobs:
+         env:
+           BASE_REF: ${{ github.base_ref }}
+         run: bash scripts/simulate-fresh-merge.sh
+-      - uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++      - uses: ./.github/actions/setup-node
+       - name: Install corpus dependencies
+         run: npm ci
+       - name: Publish Codex and Claude session corpus with zero residuals
+@@ -186,7 +182,7 @@ jobs:
+       cancel-in-progress: true
+     if: github.event_name == 'pull_request'
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           fetch-depth: 0
+           persist-credentials: false
+@@ -214,15 +210,13 @@ jobs:
+     needs: [detect-changes]
+     if: github.event_name == 'pull_request' && needs.detect-changes.outputs.any-code-changed == 'true'
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           fetch-depth: 0
+           persist-credentials: false
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++        uses: ./.github/actions/setup-node
+ 
+       - name: Install dependencies
+         run: npm ci
+@@ -265,7 +259,7 @@ jobs:
+         needs.detect-changes.outputs.any-code-changed == 'true'
+       )
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           # For PRs, fetch enough history to merge with base branch
+           fetch-depth: 0
+@@ -278,12 +272,10 @@ jobs:
+         run: bash scripts/simulate-fresh-merge.sh
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++        uses: ./.github/actions/setup-node
+ 
+       - name: Check for secrets
+-        run: npx --yes -p secretlint@13.0.7 -p @secretlint/secretlint-rule-preset-recommend@13.0.7 secretlint "**/*"
++        run: npx --yes -p secretlint@13.1.0 -p @secretlint/secretlint-rule-preset-recommend@13.1.0 secretlint "**/*"
+ 
+       - name: Install dependencies
+         run: npm ci
+@@ -388,7 +380,7 @@ jobs:
+           - { os: macos-26-intel, runtime: deno, shard: '5/6' }
+           - { os: macos-26-intel, runtime: deno, shard: '6/6' }
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           # For PRs, fetch enough history to merge with base branch
+           fetch-depth: 0
+@@ -402,9 +394,7 @@ jobs:
+         run: bash scripts/simulate-fresh-merge.sh
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++        uses: ./.github/actions/setup-node
+ 
+       - name: Install dependencies (Node.js)
+         run: npm ci
+@@ -426,7 +416,7 @@ jobs:
+         if: matrix.runtime == 'bun'
+         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+         with:
+-          bun-version: '1.x'
++          bun-version: '1.4.4'
+ 
+       - name: Run tests (Bun)
+         if: matrix.runtime == 'bun'
+@@ -442,7 +432,7 @@ jobs:
+         if: matrix.runtime == 'deno'
+         uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
+         with:
+-          deno-version: v2.x
++          deno-version: v2.9.8
+ 
+       - name: Prepare Deno dependencies
+         if: matrix.runtime == 'deno'
+@@ -478,7 +468,7 @@ jobs:
+       DOCKER_CONTEXT: ${{ vars.DOCKER_CONTEXT }}
+       DOCKERFILE: ${{ vars.DOCKERFILE }}
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+@@ -497,7 +487,7 @@ jobs:
+         # exhausted step budget fails the step, while an exhausted job cap
+         # only cancels the job.
+         timeout-minutes: 20
+-        uses: docker/build-push-action@v7
++        uses: docker/build-push-action@v7.4.0
+         with:
+           context: ${{ steps.docker_config.outputs.context }}
+           file: ${{ steps.docker_config.outputs.dockerfile }}
+@@ -526,7 +516,7 @@ jobs:
+     if: |
+       needs.detect-changes.outputs.docs-changed == 'true'
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+@@ -560,7 +550,7 @@ jobs:
+       # finding.
+       id-token: write
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+@@ -633,15 +623,14 @@ jobs:
+       # `git push origin main` to publish the version bump, which needs the
+       # token wired into the remote. Every other checkout in this
+       # repository sets persist-credentials: false.
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: true
+           fetch-depth: 0
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
++        uses: ./.github/actions/setup-node
+         with:
+-          node-version: '24.x'
+           registry-url: 'https://registry.npmjs.org'
+ 
+       - name: Remove deprecated npm auth config
+@@ -783,15 +772,14 @@ jobs:
+       # commit to main, which needs the token wired into the remote.
+       # Every other checkout in this repository sets
+       # persist-credentials: false.
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: true
+           fetch-depth: 0
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
++        uses: ./.github/actions/setup-node
+         with:
+-          node-version: '24.x'
+           registry-url: 'https://registry.npmjs.org'
+ 
+       - name: Remove deprecated npm auth config
+@@ -882,7 +870,7 @@ jobs:
+       DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
+       RELEASE_VERSION: ${{ needs.release.outputs.published_version || needs.instant-release.outputs.published_version }}
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+@@ -921,7 +909,7 @@ jobs:
+     permissions:
+       contents: read
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+@@ -968,7 +956,7 @@ jobs:
+     permissions:
+       contents: read
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+@@ -976,7 +964,7 @@ jobs:
+         uses: ./.github/actions/setup-buildx-resilient
+ 
+       - name: Log in to Docker Hub
+-        uses: docker/login-action@v4
++        uses: docker/login-action@v4.8.0
+         with:
+           username: ${{ vars.DOCKERHUB_USERNAME }}
+           password: ${{ secrets.DOCKERHUB_TOKEN }}
+@@ -1048,7 +1036,7 @@ jobs:
+     steps:
+       # peter-evans/create-pull-request receives the dedicated token directly;
+       # dependency installation does not need a credential in .git/config.
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+           fetch-depth: 0
+@@ -1063,9 +1051,7 @@ jobs:
+           fi
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++        uses: ./.github/actions/setup-node
+ 
+       - name: Install dependencies
+         run: npm ci
+@@ -1143,14 +1129,12 @@ jobs:
+       actions: read
+       contents: read
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++        uses: ./.github/actions/setup-node
+ 
+       - name: Fail the run when a required job was cancelled or failed
+         env:
+diff --git a/.github/workflows/rerun-unacquired.yml b/.github/workflows/rerun-unacquired.yml
+index 40c3376..5bf295d 100644
+--- a/.github/workflows/rerun-unacquired.yml
++++ b/.github/workflows/rerun-unacquired.yml
+@@ -41,14 +41,12 @@ jobs:
+       actions: write
+       contents: read
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++        uses: ./.github/actions/setup-node
+ 
+       - name: Rerun the run when only runner acquisition failed
+         env:
+diff --git a/.github/workflows/security.yml b/.github/workflows/security.yml
+index f1ba94c..d2d3ea6 100644
+--- a/.github/workflows/security.yml
++++ b/.github/workflows/security.yml
+@@ -39,21 +39,21 @@ jobs:
+       matrix:
+         language: [javascript-typescript, actions, python]
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+       - name: Initialize CodeQL
+-        uses: github/codeql-action/init@v4
++        uses: github/codeql-action/init@v4.39.3
+         with:
+           languages: ${{ matrix.language }}
+           config-file: ./.github/codeql/codeql-config.yml
+ 
+       - name: Autobuild
+-        uses: github/codeql-action/autobuild@v4
++        uses: github/codeql-action/autobuild@v4.39.3
+ 
+       - name: Analyze
+-        uses: github/codeql-action/analyze@v4
++        uses: github/codeql-action/analyze@v4.39.3
+         with:
+           output: codeql-results
+ 
+@@ -79,7 +79,7 @@ jobs:
+     outputs:
+       enabled: ${{ steps.graph.outputs.enabled }}
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+       - name: Check dependency graph availability
+@@ -108,12 +108,12 @@ jobs:
+       contents: read
+       pull-requests: write
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+       - name: Review dependency changes
+-        uses: actions/dependency-review-action@v5
++        uses: actions/dependency-review-action@v5.0.0
+         with:
+           # Same level as the npm-audit gate; npm-audit annotates the lower
+           # severities this accepts.
+@@ -137,13 +137,11 @@ jobs:
+         directory:
+           ['.', examples/universal-app, .github/actions/artifact-transport]
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+-      - uses: actions/setup-node@v7
+-        with:
+-          node-version: 24
++      - uses: ./.github/actions/setup-node
+ 
+       # Every advisory is annotated and listed in the step summary; only
+       # `high` and above fail pull requests, so a moderate advisory with no
+@@ -166,18 +164,42 @@ jobs:
+       group: check-${{ github.workflow }}-${{ github.ref }}-python-audit
+       cancel-in-progress: true
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+-      - uses: actions/setup-python@v7
++      - uses: actions/setup-python@v7.1.0
+         with:
+-          python-version: '3.13'
++          python-version-file: .python-version
+       - name: Install pinned metadata resolver and auditor
+         run: |
+           pipx install uv==0.13.7
+           pipx install pip-audit==2.10.1
+       - name: Audit every tracked Python requirements file
+         run: python scripts/audit-python-dependencies.py
++      # Presidio 2.2.366 caps preshed below the Python 3.15 runtime fix.
++      # Use the current 3.14 security release until upstream removes that cap:
++      # https://github.com/data-privacy-stack/presidio/issues/2431
++      - name: Verify locked benchmark dependencies on current Python
++        run: |
++          uv pip install --system --require-hashes -r experiments/benchmark/requirements.lock -c experiments/benchmark/requirements.txt
++          # Check that every direct requirement is actually present in the lock.
++          uv pip install --system --no-index --no-deps -r experiments/benchmark/requirements.txt
++          uv pip check --system
++          python -c 'import detect_secrets, presidio_analyzer, scrubadub, spacy'
++      - name: Exercise the pinned offline benchmark scanners
++        run: |
++          uv pip install --system --no-deps 'https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl#sha256=1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85'
++          uv pip check --system
++          python experiments/benchmark/python-bridge.py < experiments/benchmark/smoke.json > "$RUNNER_TEMP/benchmark-smoke.json"
++          python - "$RUNNER_TEMP/benchmark-smoke.json" <<'PY'
++          import json
++          import sys
++          with open(sys.argv[1]) as stream:
++              result = json.load(stream)["email"]
++          assert set(result) == {"detect-secrets", "presidio", "scrubadub"}
++          for scanner in ("presidio", "scrubadub"):
++              assert {"start": 8, "end": 25} in result[scanner], result
++          PY
+ 
+   # Terminal status gate: runs even when the jobs above fail or are
+   # cancelled, and turns a `timeout-minutes` kill (reported as cancelled)
+@@ -207,14 +229,12 @@ jobs:
+       actions: read
+       contents: read
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++        uses: ./.github/actions/setup-node
+ 
+       - name: Fail the run when a required job was cancelled or failed
+         env:
+diff --git a/.github/workflows/workflows.yml b/.github/workflows/workflows.yml
+index b124df4..59e6740 100644
+--- a/.github/workflows/workflows.yml
++++ b/.github/workflows/workflows.yml
+@@ -9,6 +9,8 @@ on:
+       - '**.sh'
+       - '**.py'
+       - 'ruff.toml'
++      - '.python-version'
++      - '.nvmrc'
+       - '.husky/**'
+       - 'scripts/check-ci-workflows.mjs'
+       - 'scripts/check-status-gate-covers-all-jobs.mjs'
+@@ -25,6 +27,8 @@ on:
+       - '**.sh'
+       - '**.py'
+       - 'ruff.toml'
++      - '.python-version'
++      - '.nvmrc'
+       - '.husky/**'
+       - 'scripts/check-ci-workflows.mjs'
+       - 'scripts/check-status-gate-covers-all-jobs.mjs'
+@@ -56,7 +60,7 @@ jobs:
+       group: check-${{ github.workflow }}-${{ github.ref }}-actionlint
+       cancel-in-progress: true
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+@@ -84,7 +88,7 @@ jobs:
+       group: check-${{ github.workflow }}-${{ github.ref }}-shellcheck
+       cancel-in-progress: true
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+       - name: Check standalone shell scripts and hooks
+@@ -98,13 +102,16 @@ jobs:
+       group: check-${{ github.workflow }}-${{ github.ref }}-python-check
+       cancel-in-progress: true
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
++      - uses: actions/setup-python@v7.1.0
++        with:
++          python-version-file: .python-version
+       - name: Lint every maintained Python helper
+-        run: pipx run --spec ruff==0.17.3 ruff check --output-format=github .
++        run: pipx run --spec ruff==0.17.4 ruff check --output-format=github .
+       - name: Check Python formatting
+-        run: pipx run --spec ruff==0.17.3 ruff format --check .
++        run: pipx run --spec ruff==0.17.4 ruff format --check .
+       - name: Test Python dependency audit failures and discovery
+         run: python3 -m unittest discover -s tests/python -v
+ 
+@@ -120,7 +127,7 @@ jobs:
+       group: check-${{ github.workflow }}-${{ github.ref }}-status-gate-coverage
+       cancel-in-progress: true
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+@@ -146,7 +153,7 @@ jobs:
+       group: check-${{ github.workflow }}-${{ github.ref }}-zizmor
+       cancel-in-progress: true
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+@@ -154,13 +161,13 @@ jobs:
+       # have code scanning enabled, and the job should fail loudly either way.
+       #
+       # Named `version` rather than left at the default, because the action's
+-      # `latest` entry is its own frozen table (v0.6.4 -> zizmor 1.30.1), not
++      # `latest` entry is its own frozen table (v0.8.1 -> zizmor 1.32.0), not
+       # the latest zizmor. Naming it keeps the next bump a visible line in the
+       # diff rather than a side effect of bumping the action, and documents
+       # exactly which analyser reproduces a finding:
+-      #   pipx run zizmor==1.30.1 --config .github/zizmor.yml \
++      #   pipx run zizmor==1.32.0 --config .github/zizmor.yml \
+       #     --min-confidence low --persona regular .
+-      - uses: zizmorcore/zizmor-action@v0.8.0
++      - uses: zizmorcore/zizmor-action@v0.8.1
+         with:
+           advanced-security: false
+           annotations: true
+@@ -171,7 +178,7 @@ jobs:
+           # pins the same invariant in-repo, so the floor only needs to catch
+           # the workflows the test cannot see.
+           min-confidence: low
+-          version: 1.30.1
++          version: 1.32.0
+ 
+       # The job above runs `--persona regular`, which is the right default:
+       # pedantic surfaces dozens of stylistic findings. But the audits that
+@@ -187,7 +194,7 @@ jobs:
+         env:
+           GH_TOKEN: ${{ github.token }}
+         run: |
+-          pipx run zizmor==1.30.1 --config .github/zizmor.yml \
++          pipx run zizmor==1.32.0 --config .github/zizmor.yml \
+             --persona pedantic --min-severity high --min-confidence high \
+             .
+ 
+@@ -199,13 +206,11 @@ jobs:
+       group: check-${{ github.workflow }}-${{ github.ref }}-artifacts
+       cancel-in-progress: true
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+-      - uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++      - uses: ./.github/actions/setup-node
+ 
+       - name: Install pinned artifact dependencies
+         run: npm ci --prefix .github/actions/artifact-transport --ignore-scripts --no-audit --no-fund
+@@ -262,6 +267,50 @@ jobs:
+           tar -xf "$RUNNER_TEMP/pages-downloaded/artifact.tar" -C "$RUNNER_TEMP/pages-unpacked"
+           diff -r "$RUNNER_TEMP/pages-evidence" "$RUNNER_TEMP/pages-unpacked"
+ 
++  buildx-resilience:
++    name: Buildx registry recovery (${{ matrix.mode }})
++    runs-on: ubuntu-24.04
++    timeout-minutes: 5
++    concurrency:
++      group: check-${{ github.workflow }}-${{ github.ref }}-buildx-${{ matrix.mode }}
++      cancel-in-progress: true
++    strategy:
++      fail-fast: false
++      matrix:
++        mode: [recovered, exhausted]
++    steps:
++      - uses: actions/checkout@v7.0.1
++        with:
++          persist-credentials: false
++      - name: Inject bounded registry failures into the actual upstream action
++        env:
++          MODE: ${{ matrix.mode }}
++        run: |
++          {
++            echo "BUILDX_REAL_DOCKER=$(command -v docker)"
++            echo "BUILDX_MOCK_MODE=$MODE"
++            echo "BUILDX_PULL_LOG=$RUNNER_TEMP/buildx-pulls"
++          } >> "$GITHUB_ENV"
++          mkdir -p "$RUNNER_TEMP/buildx-bin"
++          cp experiments/issue-102/mock-buildx-docker.sh "$RUNNER_TEMP/buildx-bin/docker"
++          echo "$RUNNER_TEMP/buildx-bin" >> "$GITHUB_PATH"
++      - name: Exercise upstream retries and fallback
++        id: buildx
++        continue-on-error: true # The exhausted fixture must fail; asserted below.
++        uses: ./.github/actions/setup-buildx-resilient
++      - name: Require real recovery or an explicit exhausted failure
++        env:
++          MODE: ${{ matrix.mode }}
++          OUTCOME: ${{ steps.buildx.outcome }}
++        run: |
++          expected=success
++          if [[ "$MODE" == exhausted ]]; then expected=failure; fi
++          [[ "$OUTCOME" == "$expected" ]]
++          [[ $(grep -c '^moby/buildkit:' "$BUILDX_PULL_LOG") == 5 ]]
++          mirror_attempts=1
++          if [[ "$MODE" == exhausted ]]; then mirror_attempts=5; fi
++          [[ $(grep -c '^mirror.gcr.io/moby/buildkit:' "$BUILDX_PULL_LOG") == "$mirror_attempts" ]]
++
+   # Terminal status gate: runs even when the jobs above fail or are
+   # cancelled, and turns a `timeout-minutes` kill (reported as cancelled)
+   # into a red run. needs is derived and checked by the
+@@ -285,20 +334,19 @@ jobs:
+       - shellcheck
+       - python-check
+       - artifact-roundtrip
++      - buildx-resilience
+     # actions: read lets the gate list this run's jobs and name the ones
+     # GitHub never acquired a runner for.
+     permissions:
+       actions: read
+       contents: read
+     steps:
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@v7.0.1
+         with:
+           persist-credentials: false
+ 
+       - name: Setup Node.js
+-        uses: actions/setup-node@v7
+-        with:
+-          node-version: '24.x'
++        uses: ./.github/actions/setup-node
+ 
+       - name: Fail the run when a required job was cancelled or failed
+         env:
+diff --git a/.github/zizmor.yml b/.github/zizmor.yml
+index ad9f4b3..665184f 100644
+--- a/.github/zizmor.yml
++++ b/.github/zizmor.yml
+@@ -30,3 +30,4 @@ rules:
+       - links.yml
+       - security.yml
+       - workflows.yml
++      - rerun-unacquired.yml
+diff --git a/.gitkeep b/.gitkeep
+new file mode 100644
+index 0000000..70f5541
+--- /dev/null
++++ b/.gitkeep
+@@ -0,0 +1 @@
++# .gitkeep file auto-generated at 2026-11-05T23:10:36.329Z for PR creation at branch issue-102-b6ecf86c9f05 for issue https://github.com/link-foundation/sensitive-data-sanitizer/issues/102
+\ No newline at end of file
+diff --git a/.nvmrc b/.nvmrc
+new file mode 100644
+index 0000000..1dda03d
+--- /dev/null
++++ b/.nvmrc
+@@ -0,0 +1 @@
++26.13.0
+diff --git a/.python-version b/.python-version
+new file mode 100644
+index 0000000..6345df5
+--- /dev/null
++++ b/.python-version
+@@ -0,0 +1 @@
++3.14.10
+diff --git a/docs/CONTRIBUTING.md b/docs/CONTRIBUTING.md
+index 6628265..c172e50 100644
+--- a/docs/CONTRIBUTING.md
++++ b/docs/CONTRIBUTING.md
+@@ -2,7 +2,7 @@
+ 
+ ## Development Workflow
+ 
+-Use Node.js 24 with npm 10.9 or newer for development and release tooling.
++Use Node.js 26.13.0 with npm 12.2.2 for development and release tooling.
+ Changesets 3 requires a supported Node.js 22.11, 24, or 26+ runtime.
+ 
+ 1. **Fork the repository** and clone your fork
+@@ -42,10 +42,10 @@ Ruff lint and formatting checks. Use Python 3.11 or newer; importing optional
+ benchmark or example dependencies is not required for these static checks:
+ 
+ ```bash
+-pipx run --spec ruff==0.17.3 ruff check .
+-pipx run --spec ruff==0.17.3 ruff format --check .
++pipx run --spec ruff==0.17.4 ruff check .
++pipx run --spec ruff==0.17.4 ruff format --check .
+ # Apply formatting locally
+-pipx run --spec ruff==0.17.3 ruff format .
++pipx run --spec ruff==0.17.4 ruff format .
+ ```
+ 
+ Immutable downloaded evidence under `dev/log/` and `docs/case-studies/` is
+diff --git a/examples/universal-app/package.json b/examples/universal-app/package.json
+index a149814..0db1f9e 100644
+--- a/examples/universal-app/package.json
++++ b/examples/universal-app/package.json
+@@ -31,10 +31,10 @@
+   },
+   "devDependencies": {
+     "@capacitor/cli": "^8.6.0",
+-    "@vitejs/plugin-react": "^6.1.2",
+-    "electron": "^45.1.0",
++    "@vitejs/plugin-react": "^6.2.1",
++    "electron": "^45.2.3",
+     "electron-builder": "^26.18.0",
+-    "vite": "^8.3.5"
++    "vite": "^8.3.6"
+   },
+   "build": {
+     "appId": "foundation.link.template.example",
+@@ -64,18 +64,18 @@
+     }
+   },
+   "allowScripts": {
+-    "electron-winstaller@5.4.0": true,
+-    "esbuild@0.25.12": true,
++    "electron-winstaller@5.4.4": true,
+     "fsevents@2.3.3": true
+   },
+   "overrides": {
+-    "global-agent": "^4.1.3",
++    "global-agent": "^4.1.6",
+     "@electron/asar": "4.3.1",
+     "temp": {
+       "rimraf": "file:../../compat/temp-rimraf"
+     },
+-    "minimatch@>=7 <11": "^11.0.4",
+-    "glob@>=9 <=14.0.1": "^14.0.2"
++    "electron-winstaller": "5.4.4",
++    "minimatch@>=7 <11": "^11.0.5",
++    "glob@>=9 <=14.0.2": "^14.0.3"
+   },
+   "author": "Link Foundation"
+ }
+diff --git a/experiments/benchmark/README.md b/experiments/benchmark/README.md
+index eecbb8b..5640f53 100644
+--- a/experiments/benchmark/README.md
++++ b/experiments/benchmark/README.md
+@@ -15,12 +15,12 @@ Every engine receives the same plain UTF-8 case files. Gitleaks uses its default
+ 
+ Full-span recall requires the union of predicted ranges to cover the entire annotated sensitive span. Partial coverage is a miss for recall. Overlap precision counts a deduplicated prediction as true if it intersects any annotated span; it does not penalize excess characters in an overlapping prediction. Therefore neither precision nor these results prove absence of over-redaction. `predictions-*.json` retains UTF-16 ranges for independent review. `results.json` records corpus SHA256, source/lock fingerprint, version pins and counts; `corpus*.json` records the exact synthetic input and truth. Inspect per-case results when comparing secret and PII scopes.
+ 
+-Run from the repository root with Python 3.12, installed binary tools from their official release assets, and finite Node heap:
++Run from the repository root with the Python version in `.python-version`, installed binary tools from their official release assets, and finite Node heap. Python 3.14.10 is the latest compatible security release: Presidio 2.2.366 requires preshed <3.0.14, whose source build crashes when spaCy loads a model on Python 3.15. [Upstream issue 2431](https://github.com/data-privacy-stack/presidio/issues/2431) tracks removing the cap; Python 3.15.2 and preshed 3.0.15 remain blocked by that dependency constraint.
+ 
+ ```sh
+ npm ci
+ python3 -m venv /tmp/sanitizer-benchmark
+-/tmp/sanitizer-benchmark/bin/pip install -r experiments/benchmark/requirements.txt
++/tmp/sanitizer-benchmark/bin/pip install --require-hashes -r experiments/benchmark/requirements.lock
+ /tmp/sanitizer-benchmark/bin/pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
+ BENCHMARK_PYTHON=/tmp/sanitizer-benchmark/bin/python \
+ BENCHMARK_GITLEAKS=/path/to/gitleaks \
+@@ -28,6 +28,8 @@ BENCHMARK_TRUFFLEHOG=/path/to/trufflehog \
+ node --max-old-space-size=512 experiments/benchmark/run.mjs
+ ```
+ 
+-Use [Gitleaks v8.30.1](https://github.com/gitleaks/gitleaks/releases/tag/v8.30.1) and [TruffleHog v3.99.0](https://github.com/trufflesecurity/trufflehog/releases/tag/v3.99.0); verify downloaded release checksums and each tool's version before running. Python package pins and the separate model pin are required. The script cleans its temporary case directory after completion. It runs no credential validation/network lookup; package installation and model/binary downloads require network access. Generated synthetic token JSON is the only benchmark path excluded from repository Secretlint checks; production source remains scanned.
++The table above records the original run; rerun with the current pins below before making new comparisons.
++
++Use [Gitleaks v8.30.1](https://github.com/gitleaks/gitleaks/releases/tag/v8.30.1) and [TruffleHog v3.99.8](https://github.com/trufflesecurity/trufflehog/releases/tag/v3.99.8); verify downloaded release checksums and each tool's version before running. Python package pins and the separate model pin are required. The script cleans its temporary case directory after completion. It runs no credential validation/network lookup; package installation and model/binary downloads require network access. Generated synthetic token JSON is the only benchmark path excluded from repository Secretlint checks; production source remains scanned.
+ 
+ Future comparative claims need larger independent/held-out corpora, native-language models for each baseline, false-positive/over-redaction and failure-rate measurements, and runtime/RSS statistics. Proprietary services were not executed. Their catalog labels and local transforms are implemented from documented interfaces, not their undisclosed classifiers.
+diff --git a/experiments/benchmark/python-bridge.py b/experiments/benchmark/python-bridge.py
+index e84c864..8d2bd35 100644
+--- a/experiments/benchmark/python-bridge.py
++++ b/experiments/benchmark/python-bridge.py
+@@ -12,13 +12,13 @@ from detect_secrets.settings import default_settings
+ from presidio_analyzer import AnalyzerEngine
+ from presidio_analyzer.nlp_engine import NlpEngineProvider
+ 
+-for package, version in {
+-    "detect-secrets": "1.5.0",
+-    "presidio-analyzer": "2.2.364",
+-    "scrubadub": "2.0.1",
+-    "spacy": "3.8.16",
+-    "en-core-web-sm": "3.8.0",
+-}.items():
++pins = dict(
++    line.split("==")
++    for line in Path(__file__).with_name("requirements.txt").read_text().splitlines()
++    if line and not line.startswith("#")
++)
++pins["en-core-web-sm"] = "3.8.0"
++for package, version in pins.items():
+     if importlib.metadata.version(package) != version:
+         raise RuntimeError("Install the pinned benchmark version of " + package)
+ 
+diff --git a/experiments/benchmark/requirements.txt b/experiments/benchmark/requirements.txt
+index 61efe60..d909f21 100644
+--- a/experiments/benchmark/requirements.txt
++++ b/experiments/benchmark/requirements.txt
+@@ -1,4 +1,4 @@
+ detect-secrets==1.5.0
+-presidio-analyzer==2.2.364
++presidio-analyzer==2.2.366
+ scrubadub==2.0.1
+ spacy==3.8.18
+diff --git a/experiments/benchmark/run.mjs b/experiments/benchmark/run.mjs
+index 5e1bb22..1798345 100644
+--- a/experiments/benchmark/run.mjs
++++ b/experiments/benchmark/run.mjs
+@@ -27,7 +27,7 @@ function occurrences(text, value) {
+ }
+ try {
+   verifyVersion(gitleaks, ['version'], '8.30.1');
+-  verifyVersion(trufflehog, ['--version'], '3.99.0');
++  verifyVersion(trufflehog, ['--version'], '3.99.8');
+   const foreign = JSON.parse(
+     execFileSync(python, ['experiments/benchmark/python-bridge.py'], {
+       input: JSON.stringify(corpus),
+@@ -178,10 +178,10 @@ try {
+         versions: {
+           sanitizer: 'review implementation',
+           gitleaks: '8.30.1',
+-          trufflehog: '3.99.0',
++          trufflehog: '3.99.8',
+           'detect-secrets': '1.5.0',
+-          presidio: '2.2.364',
+-          spacy: '3.8.16 / en_core_web_sm 3.8.0',
++          presidio: '2.2.366',
++          spacy: '3.8.18 / en_core_web_sm 3.8.0',
+           scrubadub: '2.0.1',
+         },
+         metrics,
+diff --git a/experiments/benchmark/smoke.json b/experiments/benchmark/smoke.json
+new file mode 100644
+index 0000000..47778a1
+--- /dev/null
++++ b/experiments/benchmark/smoke.json
+@@ -0,0 +1 @@
++[{ "id": "email", "text": "Contact alice@example.com" }]
+diff --git a/experiments/issue-102/action-inventory.py b/experiments/issue-102/action-inventory.py
+new file mode 100644
+index 0000000..0482f97
+--- /dev/null
++++ b/experiments/issue-102/action-inventory.py
+@@ -0,0 +1,55 @@
++"""Record action releases from GitHub before changing active workflow pins."""
++
++import concurrent.futures
++import json
++import re
++import subprocess
++from pathlib import Path
++
++ROOT = Path(__file__).resolve().parents[2]
++OUTPUT = ROOT / "dev/log/issues/102/pulls/103/research/actions-registry.json"
++
++
++def latest(repo):
++    command = ["gh", "api", f"repos/{repo}/releases/latest"]
++    result = subprocess.run(command, capture_output=True, text=True, check=False)
++    if result.returncode:
++        raise RuntimeError(f"Could not query {repo}: {result.stderr}")
++    release = json.loads(result.stdout)
++    return repo, {
++        key: release[key]
++        for key in ("tag_name", "published_at", "html_url", "body", "target_commitish")
++    }
++
++
++if __name__ == "__main__":
++    actions = {}
++    for file in (ROOT / ".github").rglob("*.yml"):
++        if "node_modules" in file.parts:
++            continue
++        for action, ref in re.findall(
++            r"uses: ([\w.-]+/[\w./-]+)@([\w.-]+)", file.read_text()
++        ):
++            repo = "/".join(action.split("/")[:2])
++            actions.setdefault(repo, []).append(
++                {"file": str(file.relative_to(ROOT)), "action": action, "before": ref}
++            )
++    actions.update(
++        {
++            name: []
++            for name in (
++                "rhysd/actionlint",
++                "oven-sh/bun",
++                "denoland/deno",
++                "moby/buildkit",
++                "microsoft/playwright",
++                "adoptium/temurin25-binaries",
++            )
++        }
++    )
++    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
++        releases = dict(executor.map(latest, sorted(actions)))
++    for repo, release in releases.items():
++        release["occurrences"] = actions[repo]
++    OUTPUT.write_text(json.dumps(releases, indent=2) + "\n")
++    print("\n".join(f"{repo}: {info['tag_name']}" for repo, info in releases.items()))
+diff --git a/experiments/issue-102/actionlint-queue.yml b/experiments/issue-102/actionlint-queue.yml
+new file mode 100644
+index 0000000..f6dfa7b
+--- /dev/null
++++ b/experiments/issue-102/actionlint-queue.yml
+@@ -0,0 +1,13 @@
++name: Queue syntax reproduction
++on:
++  workflow_dispatch:
++permissions: {}
++concurrency:
++  group: actionlint-queue-reproduction
++  cancel-in-progress: false
++  queue: max
++jobs:
++  example:
++    runs-on: ubuntu-24.04
++    steps:
++      - run: echo "Queue syntax reproduction"
+diff --git a/experiments/issue-102/actionlint-self.yml b/experiments/issue-102/actionlint-self.yml
+new file mode 100644
+index 0000000..adb76fd
+--- /dev/null
++++ b/experiments/issue-102/actionlint-self.yml
+@@ -0,0 +1,9 @@
++name: Self-repository syntax reproduction
++on:
++  workflow_dispatch:
++permissions: {}
++jobs:
++  example:
++    runs-on: ubuntu-24.04
++    steps:
++      - uses: $/.github/actions/setup-node
+diff --git a/experiments/issue-102/dependency-inventory.py b/experiments/issue-102/dependency-inventory.py
+new file mode 100644
+index 0000000..e46b3b7
+--- /dev/null
++++ b/experiments/issue-102/dependency-inventory.py
+@@ -0,0 +1,133 @@
++"""Snapshot published dependency metadata without installing dependency trees."""
++
++import concurrent.futures
++import csv
++import json
++import re
++import subprocess
++import urllib.parse
++import urllib.request
++from pathlib import Path
++
++ROOT = Path(__file__).resolve().parents[2]
++OUTPUT = ROOT / "dev/log/issues/102/pulls/103/research"
++BASE = "6889e9373817a664d13bdaa5c51627f8ba773bef"
++LOCKS = [
++    "package-lock.json",
++    ".github/actions/artifact-transport/package-lock.json",
++    "examples/universal-app/package-lock.json",
++]
++
++
++def baseline(path):
++    return subprocess.check_output(
++        ["git", "show", f"{BASE}:{path}"], cwd=ROOT, text=True
++    )
++
++
++def get_json(url):
++    request = urllib.request.Request(url, headers={"User-Agent": "issue-102-research"})
++    with urllib.request.urlopen(request) as response:
++        return json.load(response)
++
++
++def npm_metadata(name):
++    url = f"https://registry.npmjs.org/{urllib.parse.quote(name, safe='')}/latest"
++    data = get_json(url)
++    return name, {
++        key: data[key]
++        for key in (
++            "name",
++            "version",
++            "engines",
++            "type",
++            "exports",
++            "deprecated",
++            "dependencies",
++            "peerDependencies",
++            "repository",
++        )
++        if key in data
++    } | {"source": url}
++
++
++def npm_inventory():
++    records = []
++    names = {"npm", "npm-check-updates", "playwright", "browser-commander"}
++    for path in LOCKS:
++        packages = json.loads(baseline(path))["packages"]
++        for location, info in packages.items():
++            if "node_modules/" not in location or info.get("link"):
++                continue
++            name = info.get("name") or location.rsplit("node_modules/", 1)[1]
++            if info.get("resolved", "").startswith("file:"):
++                continue
++            names.add(name)
++            records.append((path, location, name, info.get("version", "MISSING")))
++    for path in (ROOT / lock for lock in LOCKS):
++        for location, info in json.loads(path.read_text())["packages"].items():
++            if "node_modules/" in location and not info.get("link"):
++                name = info.get("name") or location.rsplit("node_modules/", 1)[1]
++                if not info.get("resolved", "").startswith("file:"):
++                    names.add(name)
++    for contents in (baseline("deno.lock"), (ROOT / "deno.lock").read_text()):
++        names.update(
++            re.match(r"^(@[^/]+/[^@]+|[^@]+)@", key)[1]
++            for key in json.loads(contents).get("npm", {})
++        )
++    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
++        metadata = dict(executor.map(npm_metadata, sorted(names)))
++    (OUTPUT / "npm-registry.json").write_text(json.dumps(metadata, indent=2) + "\n")
++    with (OUTPUT / "npm-before.csv").open("w") as stream:
++        writer = csv.writer(stream)
++        writer.writerow(["lockfile", "location", "dependency", "before", "latest"])
++        for path, location, name, version in records:
++            writer.writerow([path, location, name, version, metadata[name]["version"]])
++    print(f"Queried {len(metadata)} npm releases; inventoried {len(records)} entries")
++
++
++def python_inventory():
++    names = {
++        "ruff",
++        "uv",
++        "pip-audit",
++        "shellcheck-py",
++        "git-filter-repo",
++        "zizmor",
++        "pip",
++    }
++    requirements = baseline("experiments/benchmark/requirements.txt")
++    names.update(re.findall(r"^([\w-]+)==", requirements, re.MULTILINE))
++    names.update(
++        re.findall(
++            r"^([\w.-]+)==",
++            (ROOT / "experiments/benchmark/requirements.lock").read_text(),
++            re.MULTILINE,
++        )
++    )
++    names.update(
++        item["name"]
++        for item in json.loads((OUTPUT / "python-tooling-installed.json").read_text())
++    )
++
++    def metadata(name):
++        url = f"https://pypi.org/pypi/{name}/json"
++        package = get_json(url)
++        info = package["info"]
++        return name, {
++            key: info[key]
++            for key in ("version", "requires_python", "requires_dist", "project_urls")
++        } | {"source": url, "vulnerabilities": package.get("vulnerabilities", [])}
++
++    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
++        data = dict(executor.map(metadata, sorted(names)))
++    (OUTPUT / "python-registry.json").write_text(json.dumps(data, indent=2) + "\n")
++    print(
++        "PyPI: " + ", ".join(f"{name}={info['version']}" for name, info in data.items())
++    )
++
++
++if __name__ == "__main__":
++    OUTPUT.mkdir(parents=True, exist_ok=True)
++    npm_inventory()
++    python_inventory()
+diff --git a/experiments/issue-102/dependency-tables.py b/experiments/issue-102/dependency-tables.py
+new file mode 100644
+index 0000000..d051d5b
+--- /dev/null
++++ b/experiments/issue-102/dependency-tables.py
+@@ -0,0 +1,302 @@
++"""Build exhaustive before/latest/resolved tables from saved registry evidence."""
++
++import csv
++import json
++import re
++import subprocess
++from pathlib import Path
++
++ROOT = Path(__file__).resolve().parents[2]
++EVIDENCE = ROOT / "dev/log/issues/102/pulls/103"
++RESEARCH = EVIDENCE / "research"
++OUTPUT = EVIDENCE / "dependencies"
++BASE = "6889e9373817a664d13bdaa5c51627f8ba773bef"
++LOCKS = {
++    "npm-root": "package-lock.json",
++    "npm-example": "examples/universal-app/package-lock.json",
++    "npm-artifact": ".github/actions/artifact-transport/package-lock.json",
++}
++
++
++def before(path):
++    return subprocess.check_output(["git", "show", f"{BASE}:{path}"], text=True)
++
++
++def name_at(location, package):
++    return package.get("name") or location.rsplit("node_modules/", 1)[1]
++
++
++def resolve(packages, location, name):
++    base = Path(location)
++    while True:
++        key = str(base / "node_modules" / name)
++        if key in packages:
++            return key
++        if base == Path("."):
++            return None
++        base = base.parent
++
++
++def parents(packages, target, name):
++    found = []
++    for location, package in packages.items():
++        for field in ("dependencies", "devDependencies", "optionalDependencies"):
++            requirement = package.get(field, {}).get(name)
++            if requirement and resolve(packages, location, name) == target:
++                parent = package.get("name") or location.rsplit("node_modules/", 1)[-1]
++                found.append(
++                    f"{parent or '(root)'}@{package.get('version', '')}: {requirement}"
++                )
++    return sorted(set(found))
++
++
++def write_table(filename, rows):
++    columns = [
++        "dependency",
++        "before",
++        "latest",
++        "resolved",
++        "location",
++        "reason",
++        "registry",
++    ]
++    with (OUTPUT / f"{filename}.csv").open("w") as stream:
++        writer = csv.DictWriter(stream, fieldnames=columns)
++        writer.writeheader()
++        writer.writerows(rows)
++    # The CSV is the complete occurrence-level table; this grouped Markdown
++    # keeps review comfortably below the repository's 1500-line file limit.
++    grouped = {}
++    for row in rows:
++        key = row["dependency"]
++        item = grouped.setdefault(
++            key,
++            {
++                "before": set(),
++                "latest": row["latest"],
++                "resolved": set(),
++                "reasons": set(),
++            },
++        )
++        item["before"].add(row["before"])
++        item["resolved"].add(row["resolved"])
++        if row["reason"] != "Current registry release":
++            item["reasons"].add(row["reason"])
++    lines = [
++        f"# {filename}: registry snapshot 2026-11-06 UTC",
++        "",
++        "Every lock location and its consumer constraints are in the matching CSV.",
++        "",
++        "| Dependency | Before | Registry latest | Resolved | Reason for retained version / removal |",
++        "| --- | --- | --- | --- | --- |",
++    ]
++    for name, item in sorted(grouped.items()):
++        values = [
++            name,
++            ", ".join(sorted(item["before"])),
++            item["latest"],
++            ", ".join(sorted(item["resolved"])),
++            "; ".join(sorted(item["reasons"])) or "Current registry release",
++        ]
++        lines.append(
++            "| " + " | ".join(value.replace("|", "&#124;") for value in values) + " |"
++        )
++    (OUTPUT / f"{filename}.md").write_text("\n".join(lines) + "\n")
++    print(f"{filename}: {len(rows)} locations, {len(grouped)} packages")
++
++
++def npm_tables():
++    registry = json.loads((RESEARCH / "npm-registry.json").read_text())
++    for label, path in LOCKS.items():
++        old = json.loads(before(path))["packages"]
++        new = json.loads((ROOT / path).read_text())["packages"]
++        rows = []
++        for location in sorted(old.keys() | new.keys()):
++            if "node_modules/" not in location:
++                continue
++            package = new.get(location, old.get(location))
++            if package.get("link"):
++                continue
++            name = name_at(location, package)
++            info = registry[name]
++            version = new.get(location, {}).get("version", "removed/hoisted")
++            reason = "Current registry release"
++            if version == "removed/hoisted":
++                reason = "Fresh resolution removed this location; no direct feature or manifest dependency was removed"
++            elif version != info["version"]:
++                consumers = "; ".join(parents(new, location, name))
++                reason = f"Upstream consumer API/range constraint: {consumers or 'optional/peer subtree'}"
++                if info.get("type") == "module" and int(version.split(".")[0]) < int(
++                    info["version"].split(".")[0]
++                ):
++                    reason += "; latest also changes the module/API major; a forced override would bypass the consumer's declared integration"
++                if info.get("deprecated"):
++                    reason += f"; upstream deprecation: {info['deprecated']}"
++            rows.append(
++                dict(
++                    dependency=name,
++                    before=old.get(location, {}).get("version", "new/unlocked"),
++                    latest=info["version"],
++                    resolved=version,
++                    location=location,
++                    reason=reason,
++                    registry=info["source"],
++                )
++            )
++        write_table(label, rows)
++
++    old = json.loads(before("deno.lock"))["npm"]
++    new = json.loads((ROOT / "deno.lock").read_text())["npm"]
++    old_versions = {}
++    for key in old:
++        match = re.match(r"^(@[^/]+/[^@]+|[^@]+)@([^_]+)", key)
++        old_versions.setdefault(match[1], set()).add(match[2])
++    rows = []
++    for key in sorted(new):
++        match = re.match(r"^(@[^/]+/[^@]+|[^@]+)@([^_]+)", key)
++        name, version = match.groups()
++        info = registry[name]
++        consumers = [
++            parent
++            for parent, value in new.items()
++            if key in value.get("dependencies", [])
++        ]
++        reason = (
++            "Current registry release"
++            if version == info["version"]
++            else f"Deno resolves the upstream consumer's declared API range; consumers: {', '.join(consumers) or 'root package'}"
++        )
++        rows.append(
++            dict(
++                dependency=name,
++                before=", ".join(sorted(old_versions.get(name, {"new/unlocked"}))),
++                latest=info["version"],
++                resolved=version,
++                location=key,
++                reason=reason,
++                registry=info["source"],
++            )
++        )
++    for name in sorted(old_versions.keys() - {row["dependency"] for row in rows}):
++        info = registry[name]
++        rows.append(
++            dict(
++                dependency=name,
++                before=", ".join(sorted(old_versions[name])),
++                latest=info["version"],
++                resolved="removed",
++                location="deno.lock",
++                reason="Fresh graph no longer requires this transitive package",
++                registry=info["source"],
++            )
++        )
++    write_table("deno", rows)
++
++
++def python_table():
++    registry = json.loads((RESEARCH / "python-registry.json").read_text())
++    old = dict(
++        re.findall(
++            r"^([\w.-]+)==([^\s]+)",
++            before("experiments/benchmark/requirements.txt"),
++            re.M,
++        )
++    )
++    current = dict(
++        re.findall(
++            r"^([\w.-]+)==([^\s]+)",
++            (ROOT / "experiments/benchmark/requirements.lock").read_text(),
++            re.M,
++        )
++    )
++    rows = []
++    for name, version in sorted(current.items()):
++        info = registry[name]
++        consumers = []
++        for parent, metadata in registry.items():
++            for requirement in metadata.get("requires_dist") or []:
++                if re.match(rf"{re.escape(name)}\b", requirement, re.I):
++                    consumers.append(f"{parent}: {requirement}")
++        reason = (
++            "Current registry release"
++            if version == info["version"]
++            else f"Resolver's upstream version/platform constraints: {'; '.join(consumers)}"
++        )
++        rows.append(
++            dict(
++                dependency=name,
++                before=old.get(name, "previously unlocked"),
++                latest=info["version"],
++                resolved=version,
++                location="experiments/benchmark/requirements.lock",
++                reason=reason,
++                registry=info["source"],
++            )
++        )
++    write_table("python-benchmark", rows)
++
++    rows = []
++    installed = json.loads((RESEARCH / "python-tooling-installed.json").read_text())
++    normalized = {
++        re.sub(r"[-_.]+", "-", name).lower(): metadata
++        for name, metadata in registry.items()
++    }
++    for item in installed:
++        name, version = item["name"], item["version"]
++        info = normalized[re.sub(r"[-_.]+", "-", name).lower()]
++        reason = "Current registry release"
++        if version != info["version"]:
++            reason = "pip-audit's supported dependency API range; isolated CI tooling is resolved separately from benchmark NLP dependencies"
++        rows.append(
++            dict(
++                dependency=name,
++                before="runner-provided/unlocked",
++                latest=info["version"],
++                resolved=version,
++                location="isolated Python CI tooling environment",
++                reason=reason,
++                registry=info["source"],
++            )
++        )
++    write_table("python-tooling", rows)
++
++
++def actions_table():
++    registry = json.loads((RESEARCH / "actions-registry.json").read_text())
++    files = [
++        path
++        for path in (ROOT / ".github").rglob("*.yml")
++        if "node_modules" not in path.parts
++    ]
++    rows = []
++    for file in files:
++        for action, ref in re.findall(
++            r"uses: ([\w.-]+/[\w./-]+)@([\w.-]+)", file.read_text()
++        ):
++            repo = "/".join(action.split("/")[:2])
++            info = registry[repo]
++            # CodeQL's releases/latest is a bundle, not a runnable Action.
++            latest = "v4.39.3" if repo == "github/codeql-action" else info["tag_name"]
++            old = sorted({item["before"] for item in info["occurrences"]})
++            reason = "Current registry release"
++            if len(ref) == 40:
++                reason = "Immutable SHA of the current release; retained reviewed supply-chain pin"
++            rows.append(
++                dict(
++                    dependency=action,
++                    before=", ".join(old),
++                    latest=latest,
++                    resolved=ref,
++                    location=str(file.relative_to(ROOT)),
++                    reason=reason,
++                    registry=f"https://github.com/{repo}/releases/tag/{latest}",
++                )
++            )
++    write_table("github-actions", rows)
++
++
++if __name__ == "__main__":
++    OUTPUT.mkdir(parents=True, exist_ok=True)
++    npm_tables()
++    python_table()
++    actions_table()
+diff --git a/experiments/issue-102/mock-buildx-docker.sh b/experiments/issue-102/mock-buildx-docker.sh
+new file mode 100755
+index 0000000..a87c512
+--- /dev/null
++++ b/experiments/issue-102/mock-buildx-docker.sh
+@@ -0,0 +1,25 @@
++#!/usr/bin/env bash
++# Exercise the actual upstream action's retry and mirror orchestration in CI.
++# All commands except the deliberately failing image pulls use the real daemon.
++set -eu
++if [[ "${1:-}" == pull ]]; then
++  printf '%s\n' "$2" >> "$BUILDX_PULL_LOG"
++  case "$2" in
++    moby/buildkit:*)
++      echo '500 Internal Server Error: simulated canonical registry outage' >&2
++      exit 1
++      ;;
++    mirror.gcr.io/moby/buildkit:*)
++      if [[ "$BUILDX_MOCK_MODE" == exhausted ]]; then
++        echo '502 Bad Gateway: simulated mirror outage' >&2
++        exit 1
++      fi
++      # Resolve the mirror fixture through a healthy real source, then give
++      # the daemon the exact reference upstream bootstrap will request.
++      "$BUILDX_REAL_DOCKER" pull "${2#mirror.gcr.io/}"
++      "$BUILDX_REAL_DOCKER" tag "${2#mirror.gcr.io/}" "$2"
++      exit 0
++      ;;
++  esac
++fi
++exec "$BUILDX_REAL_DOCKER" "$@"
+diff --git a/experiments/issue-102/npm-deno-repro.py b/experiments/issue-102/npm-deno-repro.py
+new file mode 100644
+index 0000000..6f130c6
+--- /dev/null
++++ b/experiments/issue-102/npm-deno-repro.py
+@@ -0,0 +1,57 @@
++"""Bounded reproduction for npm's handling of an existing Deno module tree."""
++
++import json
++import os
++import subprocess
++import tempfile
++from pathlib import Path
++
++with tempfile.TemporaryDirectory(prefix="npm-deno-repro-") as directory:
++    root = Path(directory)
++    (root / "package.json").write_text(
++        json.dumps(
++            {
++                "name": "npm-deno-link-reproduction",
++                "private": True,
++                "type": "module",
++                "dependencies": {"links-notation": "0.31.0"},
++                "overrides": {"minimatch@>=7 <11": "^11.0.4"},
++            }
++        )
++    )
++    (root / "deno.json").write_text('{"nodeModulesDir":"auto"}')
++    (root / "repro.mjs").write_text('import "links-notation";\n')
++    commands = [
++        ["npm", "install", "--ignore-scripts", "--no-audit", "--no-fund"],
++        [
++            os.environ.get("ISSUE_102_DENO", "deno"),
++            "test",
++            "-A",
++            "--no-run",
++            "--minimum-dependency-age",
++            "0",
++            "--v8-flags=--max-old-space-size=512",
++            "repro.mjs",
++        ],
++        [
++            "npm",
++            "install",
++            "--package-lock-only",
++            "--ignore-scripts",
++            "--no-audit",
++            "--no-fund",
++        ],
++    ]
++    for index, command in enumerate(commands):
++        if index == 2:
++            (root / "package-lock.json").unlink()
++        print("Running: " + " ".join(command), flush=True)
++        result = subprocess.run(
++            command,
++            cwd=root,
++            env=os.environ | {"NODE_OPTIONS": "--max-old-space-size=512"},
++            check=False,
++        )
++        print(f"Exit: {result.returncode}", flush=True)
++        if result.returncode:
++            break
+diff --git a/experiments/issue-102/spacy-load.py b/experiments/issue-102/spacy-load.py
+new file mode 100644
+index 0000000..0792569
+--- /dev/null
++++ b/experiments/issue-102/spacy-load.py
+@@ -0,0 +1,18 @@
++"""Minimal reproducer for Presidio's preshed cap on CPython 3.15.
++
++Install experiments/benchmark/requirements.lock and the model specified in that
++benchmark's README in an isolated environment, then run this script. Python 3.14
++loads successfully; the 3.15/preshed 3.0.13 combination raises OverflowError.
++"""
++
++import importlib.metadata
++import sys
++
++import spacy
++
++print(sys.version)
++for package in ("presidio-analyzer", "spacy", "preshed", "en-core-web-sm"):
++    print(package, importlib.metadata.version(package))
++nlp = spacy.load("en_core_web_sm")
++assert nlp("Contact alice@example.com").ents
++print("Model loaded and NER executed")
+diff --git a/package.json b/package.json
+index 07226c0..81e5691 100644
+--- a/package.json
++++ b/package.json
+@@ -77,7 +77,9 @@
+   "license": "Unlicense",
+   "devEngines": {
+     "packageManager": {
+-      "name": "npm"
++      "name": "npm",
++      "version": ">=12.2.2",
++      "onFail": "error"
+     }
+   },
+   "publishConfig": {
+@@ -92,19 +94,23 @@
+   },
+   "devDependencies": {
+     "@changesets/cli": "^3.0.3",
+-    "eslint": "^10.13.0",
++    "@eslint/js": "^10.0.1",
++    "browser-commander": "0.34.1",
++    "cmd-shim": "^9.0.2",
++    "command-stream": "2.6.0",
++    "eslint": "^10.14.0",
+     "eslint-config-prettier": "^10.1.8",
+-    "eslint-plugin-prettier": "^5.5.4",
++    "eslint-plugin-prettier": "^5.5.7",
+     "husky": "^9.1.7",
+-    "jscpd": "^5.4.0",
++    "jscpd": "^5.4.2",
++    "lino-arguments": "0.4.0",
+     "lint-staged": "^17.6.0",
+     "mrz": "^5.0.2",
+-    "prettier": "^3.6.2",
++    "playwright": "1.65.0",
++    "prettier": "^3.9.10",
+     "secretlint": "13.1.0",
+-    "test-anywhere": "^0.9.1",
+-    "@eslint/js": "^10.0.1",
+-    "command-stream": "2.6.0",
+-    "lino-arguments": "0.4.0"
++    "semver": "^7.8.6",
++    "test-anywhere": "^0.9.1"
+   },
+   "lint-staged": {
+     "*.{js,mjs,cjs}": [
+@@ -120,9 +126,9 @@
+       "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
+     ],
+     "*.py": [
+-      "pipx run --spec ruff==0.17.3 ruff check --fix --force-exclude",
+-      "pipx run --spec ruff==0.17.3 ruff format --force-exclude",
+-      "pipx run --spec ruff==0.17.3 ruff format --check --force-exclude"
++      "pipx run --spec ruff==0.17.4 ruff check --fix --force-exclude",
++      "pipx run --spec ruff==0.17.4 ruff format --force-exclude",
++      "pipx run --spec ruff==0.17.4 ruff format --check --force-exclude"
+     ],
+     ".husky/*": [
+       "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
+@@ -134,15 +140,15 @@
+     "@secretlint/profiler": "13.1.0",
+     "@secretlint/secretlint-rule-preset-recommend": "13.1.0",
+     "libphonenumber-js": "1.13.15",
+-    "links-notation": "0.30.0",
++    "links-notation": "0.31.0",
+     "re2-wasm": "1.0.2",
+-    "re2js": "^2.9.0",
++    "re2js": "^2.9.1",
+     "yaml": "^2.9.1"
+   },
+   "allowScripts": {
+     "node-pty": false
+   },
+   "overrides": {
+-    "minimatch@>=7 <11": "^11.0.4"
++    "minimatch@>=7 <11": "^11.0.5"
+   }
+ }
+diff --git a/ruff.toml b/ruff.toml
+index 5a3dc1b..04aa37f 100644
+--- a/ruff.toml
++++ b/ruff.toml
+@@ -1,5 +1,5 @@
+ # Check maintained helpers without rewriting immutable downloaded evidence.
+-target-version = "py311"
++target-version = "py315"
+ extend-exclude = ["dev/log", "docs/case-studies"]
+ 
+ [lint]
+diff --git a/scripts/audit-python-dependencies.py b/scripts/audit-python-dependencies.py
+index 0eff9bd..d31d92a 100644
+--- a/scripts/audit-python-dependencies.py
++++ b/scripts/audit-python-dependencies.py
+@@ -1,8 +1,8 @@
+ #!/usr/bin/env python3
+ """Audit every tracked Python requirements file without installing its packages.
+ 
+-uv resolves transitive dependencies from wheel metadata; --no-build prevents
+-executing package build hooks. pip-audit reads the complete hashed resolution,
++Committed locks are audited directly. For unlocked manifests uv resolves wheel
++metadata; --no-build prevents executing package build hooks. pip-audit reads the complete hashed resolution,
+ so its own environment (including pip) is not mistaken for project dependencies.
+ Set CI_SCRIPTS_DEBUG=1 to print the commands and discovered dependency surfaces.
+ """
+@@ -35,25 +35,35 @@ def discover():
+ 
+ def audit(manifests):
+     status = 0
++    python_version = (
++        (Path(__file__).resolve().parents[1] / ".python-version").read_text().strip()
++    )
+     with tempfile.TemporaryDirectory(prefix="python-audit-") as directory:
+         for index, manifest in enumerate(manifests):
+             print(f"Auditing resolved Python dependencies: {manifest}", flush=True)
+             resolved = str(Path(directory) / f"resolved-{index}.txt")
+-            commands = [
+-                [
+-                    "uv",
+-                    "pip",
+-                    "compile",
+-                    "--no-build",
+-                    "--python-version",
+-                    "3.13",
+-                    "--generate-hashes",
+-                    "--no-annotate",
+-                    "--quiet",
+-                    manifest,
+-                    "--output-file",
+-                    resolved,
+-                ],
++            lock = Path(manifest).with_suffix(".lock")
++            commands = (
++                []
++                if lock.is_file()
++                else [
++                    [
++                        "uv",
++                        "pip",
++                        "compile",
++                        "--no-build",
++                        "--python-version",
++                        python_version,
++                        "--generate-hashes",
++                        "--no-annotate",
++                        "--quiet",
++                        manifest,
++                        "--output-file",
++                        resolved,
++                    ],
++                ]
++            )
++            commands.append(
+                 [
+                     "pip-audit",
+                     "--disable-pip",
+@@ -61,9 +71,9 @@ def audit(manifests):
+                     "--progress-spinner",
+                     "off",
+                     "--requirement",
+-                    resolved,
+-                ],
+-            ]
++                    str(lock) if lock.is_file() else resolved,
++                ]
++            )
+             for command in commands:
+                 if os.environ.get("CI_SCRIPTS_DEBUG") == "1":
+                     print(f"[python-audit] {command!r}", flush=True)
+diff --git a/scripts/check-ci-workflows.mjs b/scripts/check-ci-workflows.mjs
+index 78701d9..733d0d8 100644
+--- a/scripts/check-ci-workflows.mjs
++++ b/scripts/check-ci-workflows.mjs
+@@ -5,8 +5,8 @@ import { join, resolve } from 'node:path';
+ import { pathToFileURL } from 'node:url';
+ 
+ // Verified against the action tag's support/versions table, without network in CI:
+-// https://github.com/zizmorcore/zizmor-action/blob/v0.6.4/support/versions
+-const supportedZizmor = { 'v0.6.4': '1.30.1' };
++// https://github.com/zizmorcore/zizmor-action/blob/v0.8.1/support/locks/zizmor-1.32.0.txt
++const supportedZizmor = { 'v0.8.1': '1.32.0' };
+ 
+ export function checkWorkflowPolicy(text) {
+   const errors = [];
+diff --git a/scripts/pr-comparison.mjs b/scripts/pr-comparison.mjs
+index 52309c8..ecf5a8d 100644
+--- a/scripts/pr-comparison.mjs
++++ b/scripts/pr-comparison.mjs
+@@ -47,7 +47,7 @@ export function getPrChanges(comparison) {
+     '--',
+   ]).split('\0');
+   const changes = [];
+-  for (let index = 0; index < fields.length - 1; ) {
++  for (let index = 0; index < fields.length - 1;) {
+     const status = fields[index++];
+     const path = fields[index++];
+     // Exact moves are not additions, but both paths still affect package code.
+diff --git a/scripts/setup-npm.mjs b/scripts/setup-npm.mjs
+index 46f9715..363a2d8 100644
+--- a/scripts/setup-npm.mjs
++++ b/scripts/setup-npm.mjs
+@@ -3,69 +3,27 @@
+ import { resolve } from 'node:path';
+ import process from 'node:process';
+ import { fileURLToPath } from 'node:url';
++import semver from 'semver';
+ 
+ /**
+- * Update npm for OIDC trusted publishing
+- * npm trusted publishing requires npm >= 11.5.1
+- * Node.js 20.x ships with npm 10.x, so we need to update
++ * Keep the reviewed npm release available for OIDC trusted publishing.
++ * The workflow normally installs it through the shared setup-node action;
++ * these bounded fallback strategies also support older Node.js installations.
+  *
+  * Uses link-foundation libraries:
+  * - Lockfile-installed command-stream and lino-arguments helpers
+  * - command-stream: Modern shell command execution with streaming support
+  */
+ 
+-export const NPM_MIN_VERSION = '11.5.1';
+-export const NODE_MIN_VERSION = '22.14.0';
+-export const NPM_TARGET_MAJOR = 11;
++export const NPM_MIN_VERSION = '12.2.2';
++export const NODE_MIN_VERSION = '22.22.2';
++export const NPM_TARGET_MAJOR = 12;
+ export const NPM_REGISTRY_METADATA_URL = 'https://registry.npmjs.org/npm';
+ 
+-export function parseVersion(version) {
+-  const match = String(version)
+-    .trim()
+-    .match(
+-      /^v?(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z-.]+))?(?:\+[0-9A-Za-z-.]+)?$/
+-    );
+-
+-  if (!match) {
+-    throw new Error(`Invalid semantic version: ${version}`);
+-  }
+-
+-  return {
+-    major: Number(match[1]),
+-    minor: Number(match[2]),
+-    patch: Number(match[3]),
+-    prerelease: match[4] || '',
+-  };
+-}
+-
+-export function compareVersions(leftVersion, rightVersion) {
+-  const left = parseVersion(leftVersion);
+-  const right = parseVersion(rightVersion);
+-  const keys = ['major', 'minor', 'patch'];
+-
+-  for (const key of keys) {
+-    if (left[key] !== right[key]) {
+-      return left[key] > right[key] ? 1 : -1;
+-    }
+-  }
+-
+-  if (left.prerelease === right.prerelease) {
+-    return 0;
+-  }
+-
+-  if (!left.prerelease) {
+-    return 1;
+-  }
+-
+-  if (!right.prerelease) {
+-    return -1;
+-  }
+-
+-  return left.prerelease > right.prerelease ? 1 : -1;
+-}
++export const compareVersions = semver.compare;
+ 
+ export function isVersionAtLeast(version, minimumVersion) {
+-  return compareVersions(version, minimumVersion) >= 0;
++  return semver.gte(version, minimumVersion);
+ }
+ 
+ export function isSupportedNpmVersion(version) {
+@@ -73,16 +31,17 @@ export function isSupportedNpmVersion(version) {
+ }
+ 
+ export function isSupportedNodeVersion(version) {
+-  return isVersionAtLeast(version, NODE_MIN_VERSION);
++  return semver.satisfies(version, '^22.22.2 || ^24.15.0 || >=26.0.0');
+ }
+ 
+ export function selectLatestSupportedNpmRelease(metadata) {
+   const releases = Object.entries(metadata?.versions || {})
+     .filter(([version, release]) => {
+-      const parsed = parseVersion(version);
++      const parsed = semver.parse(version);
+       return (
++        parsed &&
+         parsed.major === NPM_TARGET_MAJOR &&
+-        !parsed.prerelease &&
++        parsed.prerelease.length === 0 &&
+         isSupportedNpmVersion(version) &&
+         release?.dist?.tarball
+       );
+@@ -121,7 +80,7 @@ async function resolveLatestSupportedNpmRelease(fetchFn) {
+ }
+ 
+ // Update npm for OIDC trusted publishing (requires >= 11.5.1)
+-// Pin to npm@11 to avoid breaking changes from future major versions
++// Pin the reviewed release consistently across every installation strategy
+ //
+ // Known issue: Node.js 22.22.2 on GitHub Actions (ubuntu-24.04 image >= 20260329.72.1)
+ // ships with a broken npm 10.9.7 that is missing the 'promise-retry' module,
+@@ -131,13 +90,12 @@ async function resolveLatestSupportedNpmRelease(fetchFn) {
+ // See: https://github.com/npm/cli/issues/9151
+ //
+ // Workaround strategies in order of preference:
+-// 1. npm install -g npm@11 (standard approach)
++// 1. npm install -g npm@12.2.2 (standard approach)
+ // 2. curl tarball download (bypasses broken npm entirely)
+-// 3. npx npm@11 install (uses npx cache, bypasses arborist)
+-// 4. corepack as last resort
++// 3. npx npm@12.2.2 install (uses npx cache, bypasses arborist)
+ 
+ async function tryStandardInstall($) {
+-  await $`npm install -g npm@11`;
++  await $`npm install -g npm@12.2.2`;
+ }
+ 
+ async function tryCurlTarball($, fetchFn) {
+@@ -164,12 +122,7 @@ async function tryCurlTarball($, fetchFn) {
+ }
+ 
+ async function tryNpxInstall($) {
+-  await $`npx --yes npm@11 install -g npm@11`;
+-}
+-
+-async function tryCorepack($) {
+-  await $`corepack enable`;
+-  await $`corepack prepare npm@11 --activate`;
++  await $`npx --yes npm@12.2.2 install -g npm@12.2.2`;
+ }
+ 
+ async function tryStrategy(name, fn) {
+@@ -211,11 +164,17 @@ export async function setupNpm($, fetchFn = fetch) {
+   const currentVersion = currentResult.stdout.trim();
+   console.log(`Current npm version: ${currentVersion}`);
+ 
++  if (isSupportedNpmVersion(currentVersion)) {
++    console.log(
++      'Current npm version satisfies the reviewed tooling requirement'
++    );
++    return;
++  }
++
+   const strategies = [
+-    ['npm install -g npm@11', () => tryStandardInstall($)],
++    ['npm install -g npm@12.2.2', () => tryStandardInstall($)],
+     ['curl-based tarball download', () => tryCurlTarball($, fetchFn)],
+     ['npx-based install', () => tryNpxInstall($)],
+-    ['corepack', () => tryCorepack($)],
+   ];
+ 
+   let success = false;
+diff --git a/src/index.d.ts b/src/index.d.ts
+index f681d25..a7aa474 100644
+--- a/src/index.d.ts
++++ b/src/index.d.ts
+@@ -9,11 +9,7 @@ export interface Finding {
+   /** Detector confidence, not a cross-engine probability calibration. */
+   confidence?: number;
+   likelihood?:
+-    | 'VERY_UNLIKELY'
+-    | 'UNLIKELY'
+-    | 'POSSIBLE'
+-    | 'LIKELY'
+-    | 'VERY_LIKELY';
++    'VERY_UNLIKELY' | 'UNLIKELY' | 'POSSIBLE' | 'LIKELY' | 'VERY_LIKELY';
+   /** One-based line and UTF-16 column, populated by inspect. */
+   line?: number;
+   column?: number;
+diff --git a/src/log-bytes.js b/src/log-bytes.js
+index cf3c04f..aa7db43 100644
+--- a/src/log-bytes.js
++++ b/src/log-bytes.js
+@@ -13,7 +13,7 @@ export function decodeLogBytes(input) {
+   } catch {
+     const parts = [];
+     let start = 0;
+-    for (let i = 0; i < bytes.length; ) {
++    for (let i = 0; i < bytes.length;) {
+       const width = sequenceWidth(bytes[i]);
+       if (validSequence(bytes, i, width)) {
+         i += width;
+diff --git a/src/structured.js b/src/structured.js
+index cb97f35..0f18a3d 100644
+--- a/src/structured.js
++++ b/src/structured.js
+@@ -384,7 +384,7 @@ function stringOffsets(raw) {
+   }
+   const starts = [],
+     ends = [];
+-  for (let i = 1; i < raw.length - 1; ) {
++  for (let i = 1; i < raw.length - 1;) {
+     const start = i;
+     i += raw[i] === '\\' ? (raw[i + 1] === 'u' ? 6 : 2) : 1;
+     starts.push(start);
+diff --git a/tests/changeset-config.test.js b/tests/changeset-config.test.js
+index 96d4a8d..73365b7 100644
+--- a/tests/changeset-config.test.js
++++ b/tests/changeset-config.test.js
+@@ -14,6 +14,7 @@ import {
+ import { tmpdir } from 'node:os';
+ import { delimiter, join, resolve } from 'node:path';
+ import { describe, it, expect } from 'test-anywhere';
++import cmdShim from 'cmd-shim';
+ import {
+   HANG_GUARD_MS,
+   removeFixture,
+@@ -23,20 +24,6 @@ import { itUnless, sandboxed } from './helpers/skip.js';
+ 
+ const config = JSON.parse(readFileSync('.changeset/config.json', 'utf8'));
+ 
+-function createPrettierBins(dependencies) {
+-  const bin = join(dependencies, '.bin');
+-  mkdirSync(bin);
+-  writeFileSync(
+-    join(bin, 'prettier'),
+-    '#!/bin/sh\nexec node "$(dirname "$0")/../prettier/bin/prettier.cjs" "$@"\n',
+-    { mode: 0o755 }
+-  );
+-  writeFileSync(
+-    join(bin, 'prettier.cmd'),
+-    '@echo off\r\nnode "%~dp0..\\prettier\\bin\\prettier.cjs" %*\r\n'
+-  );
+-}
+-
+ function cleanupLinkedFixture(cwd, links, failure) {
+   removeFixture(cwd, failure, (path, options) => {
+     for (const link of links) {
+@@ -115,7 +102,19 @@ describe('Changesets release formatter', () => {
+           const relative = link.slice(dependencies.length + 1);
+           symlinkSync(resolve('node_modules', relative), link, 'junction');
+         }
+-        createPrettierBins(dependencies);
++        // npm's shims handle cmd.exe's quoted invocation and PATH lookup.
++        // A hand-written %~dp0 wrapper resolves against the wrong directory
++        // when invoked by npm 12 on Windows.
++        const formatterBin = join(dependencies, '.bin/prettier');
++        if (process.platform === 'win32') {
++          await cmdShim(
++            join(dependencies, 'prettier/bin/prettier.cjs'),
++            formatterBin
++          );
++        } else {
++          mkdirSync(join(dependencies, '.bin'));
++          symlinkSync('../prettier/bin/prettier.cjs', formatterBin);
++        }
+         const env = { ...process.env };
+         const pathKey = Object.keys(env).find(
+           (key) => key.toUpperCase() === 'PATH'
+diff --git a/tests/ci-workflow-policy.test.js b/tests/ci-workflow-policy.test.js
+index b8086b0..4205041 100644
+--- a/tests/ci-workflow-policy.test.js
++++ b/tests/ci-workflow-policy.test.js
+@@ -42,14 +42,14 @@ describe('workflow policy regression protection', () => {
+   });
+   it('rejects zizmor version drift and versions unsupported by the pinned action', () => {
+     const workflow =
+-      'uses: zizmorcore/zizmor-action@v0.6.4\nwith:\n  version: 1.30.1\nrun: pipx run zizmor==1.30.1\n# pipx run zizmor==1.30.1';
++      'uses: zizmorcore/zizmor-action@v0.8.1\nwith:\n  version: 1.32.0\nrun: pipx run zizmor==1.32.0\n# pipx run zizmor==1.32.0';
+     expect(checkWorkflowPolicy(workflow)).toEqual([]);
+     expect(
+-      checkWorkflowPolicy(workflow.replace('zizmor==1.30.1', 'zizmor==1.29.0'))
++      checkWorkflowPolicy(workflow.replace('zizmor==1.32.0', 'zizmor==1.29.0'))
+         .length
+     ).toBeGreaterThan(0);
+     expect(
+-      checkWorkflowPolicy(workflow.replaceAll('1.30.1', '9.0.0')).length
++      checkWorkflowPolicy(workflow.replaceAll('1.32.0', '9.0.0')).length
+     ).toBeGreaterThan(0);
+   });
+ });
+diff --git a/tests/issue-228-regressions.test.js b/tests/issue-228-regressions.test.js
+index 47a9a81..2368550 100644
+--- a/tests/issue-228-regressions.test.js
++++ b/tests/issue-228-regressions.test.js
+@@ -97,8 +97,7 @@ describe('Deno lock and npm install script policies', () => {
+       expect(typeof pkg.allowScripts?.[name]).toBe('boolean');
+     }
+     expect(pkg.allowScripts).toEqual({
+-      'electron-winstaller@5.4.0': true,
+-      'esbuild@0.25.12': true,
++      'electron-winstaller@5.4.4': true,
+       'fsevents@2.3.3': true,
+     });
+   });
+diff --git a/tests/issue-262-regressions.test.js b/tests/issue-262-regressions.test.js
+index 4f72f56..4199ab0 100644
+--- a/tests/issue-262-regressions.test.js
++++ b/tests/issue-262-regressions.test.js
+@@ -18,7 +18,7 @@ describe('issue 262 repository regressions', () => {
+     const workflow = readFileSync('.github/workflows/release.yml', 'utf8');
+     const lint = workflow.split('\n  lint:')[1].split('\n  test:')[0];
+     const scan = lint.indexOf('secretlint "**/*"');
+-    assert.ok(scan > lint.indexOf('uses: actions/setup-node@'));
++    assert.ok(scan > lint.indexOf('uses: ./.github/actions/setup-node'));
+     assert.ok(scan < lint.indexOf('- name: Install dependencies'));
+   });
+ 
+@@ -74,7 +74,10 @@ describe('issue 262 repository regressions', () => {
+       );
+     }
+     const workflow = readFileSync('.github/workflows/release.yml', 'utf8');
+-    assert.doesNotMatch(workflow, /\bnpm install\b|\bbun install\b/);
++    assert.doesNotMatch(
++      workflow,
++      /\bnpm install\b(?![^\n]*--global)|\bbun install\b/
++    );
+   });
+ 
+   itUnless(sandboxed)(
+diff --git a/tests/node-toolchain.test.js b/tests/node-toolchain.test.js
+new file mode 100644
+index 0000000..9adc92a
+--- /dev/null
++++ b/tests/node-toolchain.test.js
+@@ -0,0 +1,23 @@
++import assert from 'node:assert/strict';
++import { readFileSync } from 'node:fs';
++import { it } from 'test-anywhere';
++import { parse } from 'yaml';
++import semver from 'semver';
++
++it('installs the npm release required by the manifest on the reviewed Node release', () => {
++  const manifest = JSON.parse(readFileSync('package.json', 'utf8'));
++  const action = parse(
++    readFileSync('.github/actions/setup-node/action.yml', 'utf8')
++  );
++  const node = action.runs.steps[0];
++  const install = action.runs.steps[1];
++  const npmVersion = install.run.match(/npm@([\d.]+)/)[1];
++  assert.equal(node.with['node-version-file'], '.nvmrc');
++  assert.ok(semver.valid(readFileSync('.nvmrc', 'utf8').trim()));
++  assert.ok(
++    semver.satisfies(npmVersion, manifest.devEngines.packageManager.version)
++  );
++  assert.match(install.run, /--global.*--ignore-scripts/);
++  assert.equal(node.with['package-manager-cache'], false);
++  assert.equal(action.runs.steps[2].with.cache, '${{ inputs.cache }}');
++});
+diff --git a/tests/pipeline-requirements.test.js b/tests/pipeline-requirements.test.js
+index bfd85e0..49043ce 100644
+--- a/tests/pipeline-requirements.test.js
++++ b/tests/pipeline-requirements.test.js
+@@ -49,7 +49,7 @@ describe('complete pipeline requirements', () => {
+   });
+   it('persists the link cache and uploads the report on failure', () => {
+     const source = read('.github/workflows/links.yml');
+-    expect(source).toContain('uses: actions/cache@v5');
++    expect(source).toMatch(/uses: actions\/cache@v\d+/);
+     expect(source).toContain('path: .lycheecache');
+     expect(source).toContain('restore-keys: cache-lychee-');
+     expect(source).toContain('uses: ./.github/actions/artifact-transport');
+diff --git a/tests/pipeline-status.test.js b/tests/pipeline-status.test.js
+index bfd1406..c21e10f 100644
+--- a/tests/pipeline-status.test.js
++++ b/tests/pipeline-status.test.js
+@@ -185,7 +185,7 @@ describe('pipeline status gate', () => {
+     const gate = getJobBlock(workflow, 'pipeline-status');
+ 
+     expect(gate).toContain('      !cancelled()');
+-    expect(gate).toContain('uses: actions/setup-node@v7');
++    expect(gate).toContain('uses: ./.github/actions/setup-node');
+     expect(gate).toContain('NEEDS_JSON: ${{ toJSON(needs) }}');
+     expect(gate).toContain(
+       'RUN_SHA: ${{ github.event.pull_request.head.sha || github.sha }}'
+diff --git a/tests/python/test_benchmark_versions.py b/tests/python/test_benchmark_versions.py
+new file mode 100644
+index 0000000..217f199
+--- /dev/null
++++ b/tests/python/test_benchmark_versions.py
+@@ -0,0 +1,44 @@
++"""Run the bridge's version gate without installing NLP models."""
++
++import importlib.metadata
++import io
++import json
++import runpy
++import sys
++import types
++import unittest
++from pathlib import Path
++from unittest.mock import Mock, patch
++
++ROOT = Path(__file__).resolve().parents[2]
++BRIDGE = ROOT / "experiments/benchmark/python-bridge.py"
++
++
++class BenchmarkVersionTests(unittest.TestCase):
++    def test_bridge_accepts_the_installed_manifest_versions(self):
++        pins = dict(
++            line.split("==")
++            for line in BRIDGE.with_name("requirements.txt").read_text().splitlines()
++        )
++        pins["en-core-web-sm"] = "3.8.0"
++        modules = {}
++        for name, attributes in {
++            "scrubadub": ["Scrubber"],
++            "detect_secrets.core.scan": ["scan_file"],
++            "detect_secrets.settings": ["default_settings"],
++            "presidio_analyzer": ["AnalyzerEngine"],
++            "presidio_analyzer.nlp_engine": ["NlpEngineProvider"],
++        }.items():
++            module = types.ModuleType(name)
++            for attribute in attributes:
++                setattr(module, attribute, Mock())
++            modules[name] = module
++        output = io.StringIO()
++        with (
++            patch.dict(sys.modules, modules),
++            patch.object(importlib.metadata, "version", side_effect=pins.__getitem__),
++            patch.object(sys, "stdin", io.StringIO("[]")),
++            patch.object(sys, "stdout", output),
++        ):
++            runpy.run_path(str(BRIDGE))
++        self.assertEqual(json.loads(output.getvalue()), {})
+diff --git a/tests/python/test_dependency_audit.py b/tests/python/test_dependency_audit.py
+index 4b36924..c87b75c 100644
+--- a/tests/python/test_dependency_audit.py
++++ b/tests/python/test_dependency_audit.py
+@@ -64,6 +64,10 @@ class DependencyAuditTests(unittest.TestCase):
+         self.assertEqual(resolve[:3], ["uv", "pip", "compile"])
+         self.assertIn("--no-build", resolve)
+         self.assertIn("--generate-hashes", resolve)
++        self.assertEqual(
++            resolve[resolve.index("--python-version") + 1],
++            (SCRIPT.parents[1] / ".python-version").read_text().strip(),
++        )
+         self.assertEqual(scan[0], "pip-audit")
+         for flag in ("--disable-pip", "--require-hashes"):
+             self.assertIn(flag, scan)
+@@ -88,6 +92,20 @@ class DependencyAuditTests(unittest.TestCase):
+                 with patch.object(audit.subprocess, "run", side_effect=results):
+                     self.assertEqual(audit.audit(["requirements.txt"]), 1)
+ 
++    def test_audits_committed_transitive_lock_without_building_source_metadata(self):
++        with (
++            patch.object(audit.Path, "is_file", return_value=True),
++            patch.object(
++                audit.subprocess, "run", return_value=subprocess.CompletedProcess([], 0)
++            ) as run,
++        ):
++            self.assertEqual(audit.audit(["requirements.txt"]), 0)
++        self.assertEqual(run.call_count, 1)
++        command = run.call_args.args[0]
++        self.assertEqual(command[0], "pip-audit")
++        self.assertIn("--require-hashes", command)
++        self.assertEqual(command[-1], "requirements.lock")
++
+ 
+ if __name__ == "__main__":
+     unittest.main()
+diff --git a/tests/security-workflow.test.js b/tests/security-workflow.test.js
+index 754a1fc..6cc9e78 100644
+--- a/tests/security-workflow.test.js
++++ b/tests/security-workflow.test.js
+@@ -123,8 +123,7 @@ describe('security workflow', () => {
+ 
+     expect(auditedLocks).toEqual(listPackageLocks());
+     expect(audit).toContain('    timeout-minutes: 10');
+-    expect(audit).toContain('uses: actions/setup-node@v7');
+-    expect(audit).toContain('node-version: 24');
++    expect(audit).toContain('uses: ./.github/actions/setup-node');
+     expect(audit).toContain('working-directory: ${{ matrix.directory }}');
+     expect(audit).toContain(
+       'run: node "$GITHUB_WORKSPACE/scripts/npm-audit-report.mjs"'
+diff --git a/tests/setup-buildx-resilient.test.js b/tests/setup-buildx-resilient.test.js
+index 3bdbf58..10f9ec7 100644
+--- a/tests/setup-buildx-resilient.test.js
++++ b/tests/setup-buildx-resilient.test.js
+@@ -1,170 +1,44 @@
+ import { describe, it, expect } from 'test-anywhere';
+-import { readFileSync, mkdtempSync, writeFileSync, chmodSync } from 'node:fs';
+-import { execFileSync } from 'node:child_process';
+-import { tmpdir } from 'node:os';
+-import { join } from 'node:path';
+-import { itUnless, sandboxed, noPosixShell } from './helpers/skip.js';
+-
+-const ACTION_PATH = '.github/actions/setup-buildx-resilient/action.yml';
+-const action = readFileSync(ACTION_PATH, 'utf8');
+-
+-// Extract the first `run: |` block verbatim from the action so the test drives
+-// the real pre-pull script (not a copy that can drift out of sync). The block
+-// starts after the first `run: |` line and ends at the next step (`    - name:`
+-// at 4-space indent). The body is dedented by its own indentation.
+-function extractPrepullScript(yaml) {
+-  const lines = yaml.replaceAll('\r\n', '\n').split('\n');
+-  const start = lines.findIndex((line) => /^\s*run: \|\s*$/.test(line));
+-  if (start === -1) {
+-    throw new Error("could not find 'run: |' in action.yml");
+-  }
+-
+-  const body = [];
+-  let indent = null;
+-  for (const line of lines.slice(start + 1)) {
+-    if (/^\s{0,4}- name:/.test(line)) {
+-      break;
+-    }
+-    if (line.trim() === '') {
+-      body.push('');
+-      continue;
+-    }
+-    if (indent === null) {
+-      indent = line.match(/^\s*/)[0].length;
+-    }
+-    body.push(line.slice(indent));
+-  }
+-  return body.join('\n');
+-}
+-
+-// A mock `docker` CLI placed on PATH. CANONICAL_OK / MIRROR_OK env fixtures
+-// decide whether each source serves pulls. It records calls/pulls/tags so the
+-// test can assert exactly which registry the script reached for.
+-const MOCK_DOCKER = `#!/usr/bin/env bash
+-echo "$*" >> "$DOCKER_CALLS"
+-case "$1" in
+-  pull)
+-    ref="$2"
+-    case "$ref" in
+-      mirror.gcr.io/*)
+-        [ "\${MIRROR_OK:-0}" = "1" ] && { echo "$ref" >> "$DOCKER_PULLED"; exit 0; }
+-        echo 'Error response from daemon: Get "https://mirror.gcr.io/v2/": timeout' >&2
+-        exit 1 ;;
+-      *)
+-        [ "\${CANONICAL_OK:-0}" = "1" ] && { echo "$ref" >> "$DOCKER_PULLED"; exit 0; }
+-        echo 'Error response from daemon: Get "https://registry-1.docker.io/v2/": timeout' >&2
+-        exit 1 ;;
+-    esac ;;
+-  tag)
+-    echo "tag $2 $3" >> "$DOCKER_TAGGED"; exit 0 ;;
+-  *) exit 0 ;;
+-esac
+-`;
+-
+-function runCase({ canonicalOk, mirrorOk }) {
+-  const work = mkdtempSync(join(tmpdir(), 'buildx-resilient-'));
+-  const bin = join(work, 'bin');
+-  execFileSync('mkdir', ['-p', bin]);
+-
+-  const scriptPath = join(work, 'prepull.sh');
+-  writeFileSync(scriptPath, extractPrepullScript(action));
+-
+-  const dockerPath = join(bin, 'docker');
+-  writeFileSync(dockerPath, MOCK_DOCKER);
+-  chmodSync(dockerPath, 0o755);
+-
+-  const calls = join(work, 'calls');
+-  const pulled = join(work, 'pulled');
+-  const tagged = join(work, 'tagged');
+-  for (const file of [calls, pulled, tagged]) {
+-    writeFileSync(file, '');
+-  }
+-
+-  let status = 0;
+-  let output;
+-  try {
+-    output = execFileSync('bash', [scriptPath], {
+-      encoding: 'utf8',
+-      env: {
+-        ...process.env,
+-        PATH: `${bin}:${process.env.PATH}`,
+-        BUILDKIT_IMAGE: 'moby/buildkit:buildx-stable-1',
+-        REGISTRY_MIRROR: 'mirror.gcr.io',
+-        VERBOSE: 'false',
+-        PREPULL_ATTEMPTS: '2',
+-        PREPULL_DELAY: '1',
+-        CANONICAL_OK: canonicalOk ? '1' : '0',
+-        MIRROR_OK: mirrorOk ? '1' : '0',
+-        DOCKER_CALLS: calls,
+-        DOCKER_PULLED: pulled,
+-        DOCKER_TAGGED: tagged,
+-      },
+-    });
+-  } catch (error) {
+-    status = error.status ?? 1;
+-    output = `${error.stdout ?? ''}${error.stderr ?? ''}`;
+-  }
+-
+-  return {
+-    status,
+-    output,
+-    calls: readFileSync(calls, 'utf8'),
+-    pulled: readFileSync(pulled, 'utf8'),
+-    tagged: readFileSync(tagged, 'utf8'),
+-  };
+-}
+-
+-describe('setup-buildx-resilient pre-pull script', () => {
+-  itUnless(sandboxed, noPosixShell)(
+-    'caches the canonical image and never touches the mirror when Docker Hub is healthy',
+-    () => {
+-      const result = runCase({ canonicalOk: true, mirrorOk: false });
+-
+-      expect(result.status).toBe(0);
+-      expect(result.pulled).toContain('moby/buildkit:buildx-stable-1');
+-      expect(result.calls).not.toContain('mirror.gcr.io');
+-      expect(result.tagged.trim()).toBe('');
+-    }
+-  );
+-
+-  itUnless(sandboxed, noPosixShell)(
+-    'recovers via the mirror and re-tags to canonical when Docker Hub is down',
+-    () => {
+-      const result = runCase({ canonicalOk: false, mirrorOk: true });
+-
+-      expect(result.status).toBe(0);
+-      expect(result.pulled).toContain(
+-        'mirror.gcr.io/moby/buildkit:buildx-stable-1'
+-      );
+-      expect(result.tagged).toContain(
+-        'tag mirror.gcr.io/moby/buildkit:buildx-stable-1 moby/buildkit:buildx-stable-1'
+-      );
+-    }
+-  );
+-
+-  itUnless(sandboxed, noPosixShell)(
+-    'falls through non-fatally when both the registry and the mirror are down',
+-    () => {
+-      const result = runCase({ canonicalOk: false, mirrorOk: false });
+-
+-      // Non-fatal by design: the step still exits 0 so the buildx boot can try
+-      // its own pull, preserving the previous worst-case behaviour.
+-      expect(result.status).toBe(0);
+-      expect(result.calls).toContain('mirror.gcr.io');
+-      expect(result.output).toContain('could not pre-pull');
+-    }
+-  );
+-});
++import { readFileSync } from 'node:fs';
++import { parse } from 'yaml';
++
++const action = parse(
++  readFileSync('.github/actions/setup-buildx-resilient/action.yml', 'utf8')
++);
++const [canonical, mirror] = action.runs.steps;
++
++describe('upstream Buildx retries and registry fallback', () => {
++  it('delegates both pulls and bootstrap to the same reviewed upstream release', () => {
++    expect(canonical.uses).toBe('docker/setup-buildx-action@v4.4.1');
++    expect(mirror.uses).toBe(canonical.uses);
++    expect(canonical.with.version).toBe('v0.38.2');
++    expect(mirror.with.version).toBe(canonical.with.version);
++    expect(canonical.with['driver-opts']).toBe(
++      'image=${{ inputs.buildkit-image }}'
++    );
++    expect(mirror.with['driver-opts']).toBe(
++      'image=${{ inputs.registry-mirror }}/${{ inputs.buildkit-image }}'
++    );
++  });
+ 
+-describe('setup-buildx-resilient action.yml', () => {
+-  it('declares the mirror fallback and pins the boot driver image', () => {
+-    expect(action).toContain('registry-mirror:');
+-    expect(action).toContain("default: 'mirror.gcr.io'");
+-    expect(action).toContain('driver-opts: image=${{ inputs.buildkit-image }}');
++  it('recovers only a failed canonical setup and propagates exhausted retries', () => {
++    expect(canonical['continue-on-error']).toBe(
++      "${{ inputs.registry-mirror != '' }}"
++    );
++    expect(mirror.if).toBe(
++      "steps.canonical.outcome == 'failure' && inputs.registry-mirror != ''"
++    );
++    expect(mirror['continue-on-error']).toBeUndefined();
+   });
+ 
+-  it('supports verbose tracing and honours RUNNER_DEBUG', () => {
+-    expect(action).toContain('set -x');
+-    expect(action).toContain('RUNNER_DEBUG');
++  it('keeps mirror opt-out and forwards verbose and runner debug settings', () => {
++    expect(action.inputs['registry-mirror'].default).toBe('mirror.gcr.io');
++    expect(action.inputs['buildkit-image'].default).toBe(
++      'moby/buildkit:v0.34.2'
++    );
++    for (const step of action.runs.steps) {
++      expect(step.env.RUNNER_DEBUG).toContain("inputs.verbose == 'true'");
++      expect(step.env.RUNNER_DEBUG).toContain('env.RUNNER_DEBUG');
++    }
+   });
+ });
+diff --git a/tests/setup-npm.test.js b/tests/setup-npm.test.js
+index 2c61cd3..82a42b7 100644
+--- a/tests/setup-npm.test.js
++++ b/tests/setup-npm.test.js
+@@ -8,6 +8,7 @@ import {
+   isSupportedNodeVersion,
+   isSupportedNpmVersion,
+   selectLatestSupportedNpmRelease,
++  setupNpm,
+ } from '../scripts/setup-npm.mjs';
+ 
+ function makeNpmMetadata(versions) {
+@@ -30,38 +31,57 @@ describe('setup-npm version requirements', () => {
+     expect(compareVersions('11.10.0', '11.9.9')).toBe(1);
+     expect(compareVersions('11.5.1', '11.5.1')).toBe(0);
+     expect(compareVersions('11.5.0', '11.5.1')).toBe(-1);
++    expect(compareVersions('12.2.3-rc.10', '12.2.3-rc.2')).toBe(1);
+   });
+ 
+   it(`requires npm ${NPM_MIN_VERSION} or later`, () => {
+     expect(isSupportedNpmVersion('11.4.2')).toBe(false);
+     expect(isSupportedNpmVersion('11.5.0')).toBe(false);
+-    expect(isSupportedNpmVersion('11.5.1')).toBe(true);
+-    expect(isSupportedNpmVersion('11.12.1')).toBe(true);
++    expect(isSupportedNpmVersion('11.5.1')).toBe(false);
++    expect(isSupportedNpmVersion('12.2.2')).toBe(true);
+   });
+ 
+   it(`requires Node.js ${NODE_MIN_VERSION} or later`, () => {
+     expect(isSupportedNodeVersion('v22.13.1')).toBe(false);
+-    expect(isSupportedNodeVersion('v22.14.0')).toBe(true);
+-    expect(isSupportedNodeVersion('v24.0.0')).toBe(true);
++    expect(isSupportedNodeVersion('v22.22.2')).toBe(true);
++    expect(isSupportedNodeVersion('v24.15.0')).toBe(true);
++    expect(isSupportedNodeVersion('v23.0.0')).toBe(false);
++    expect(isSupportedNodeVersion('v24.14.0')).toBe(false);
++    expect(isSupportedNodeVersion('v26.13.0')).toBe(true);
+   });
+ 
+-  it('selects the latest npm 11 tarball that satisfies trusted publishing', () => {
++  it('selects the latest npm 12 tarball that satisfies trusted publishing', () => {
+     const release = selectLatestSupportedNpmRelease(
+       makeNpmMetadata([
+         '11.4.2',
+         '11.5.0',
+         '11.5.1',
+         '11.6.0-beta.0',
+-        '11.10.0',
+-        '12.0.0',
++        '12.2.2',
++        '12.2.3',
++        '12.2.4-beta.0',
++        '13.0.0',
++        'invalid-version',
+       ])
+     );
+ 
+     expect(release).toEqual({
+-      version: '11.10.0',
+-      tarballUrl: 'https://registry.npmjs.org/npm/-/npm-11.10.0.tgz',
++      version: '12.2.3',
++      tarballUrl: 'https://registry.npmjs.org/npm/-/npm-12.2.3.tgz',
+     });
+   });
++
++  it('uses the installed reviewed release without another network install', async () => {
++    const commands = [];
++    const shell = (strings) => {
++      commands.push(strings.join(''));
++      return { run: async () => ({ stdout: NPM_MIN_VERSION }) };
++    };
++    await setupNpm(shell, () => {
++      throw new Error('The current release must not fetch metadata');
++    });
++    expect(commands).toEqual(['npm --version']);
++  });
+ });
+ 
+ describe('setup-npm tarball strategy', () => {
+diff --git a/tests/status-gate-coverage.test.js b/tests/status-gate-coverage.test.js
+index 41da206..85fca02 100644
+--- a/tests/status-gate-coverage.test.js
++++ b/tests/status-gate-coverage.test.js
+@@ -195,7 +195,7 @@ describe('check-status-gate-covers-all-jobs.mjs shipped coverage', () => {
+       const expectedJobs = {
+         'links.yml': 'covers all 1 other job(s).',
+         'security.yml': 'covers all 5 other job(s).',
+-        'workflows.yml': 'covers all 6 other job(s).',
++        'workflows.yml': 'covers all 7 other job(s).',
+         'example-app.yml': 'covers all 7 other job(s).',
+       };
+ 
+diff --git a/tests/temp-cleanup.test.js b/tests/temp-cleanup.test.js
+index bbecb95..7a59c2f 100644
+--- a/tests/temp-cleanup.test.js
++++ b/tests/temp-cleanup.test.js
+@@ -14,6 +14,20 @@ import { describe, it } from 'test-anywhere';
+ import remove from '../examples/universal-app/compat/temp-rimraf/index.cjs';
+ 
+ describe('temp cleanup native adapter', () => {
++  it('keeps local override metadata complete for npm ci in container jobs', async () => {
++    const root = 'examples/universal-app/';
++    const lock = JSON.parse(await readFile(`${root}package-lock.json`, 'utf8'));
++    const manifest = JSON.parse(
++      await readFile(`${root}compat/temp-rimraf/package.json`, 'utf8')
++    );
++    const entry = lock.packages['compat/temp-rimraf'];
++    assert.equal(entry.name, manifest.name);
++    assert.equal(entry.version, manifest.version);
++    const link = lock.packages['node_modules/temp/node_modules/rimraf'];
++    assert.equal(link.link, true);
++    assert.equal(link.resolved, 'compat/temp-rimraf');
++  });
++
+   it('supports callback and synchronous recursive cleanup of literal paths', async () => {
+     const root = await mkdtemp(join(tmpdir(), 'temp-cleanup-'));
+     try {
+diff --git a/tests/transient-links.test.js b/tests/transient-links.test.js
+index 67efd1b..501b368 100644
+--- a/tests/transient-links.test.js
++++ b/tests/transient-links.test.js
+@@ -124,6 +124,6 @@ describe('transient link failures', () => {
+   it('pins every Bun setup to the supported major line', () => {
+     const workflow = readFileSync('.github/workflows/release.yml', 'utf8');
+     expect(workflow).not.toContain('bun-version: latest');
+-    expect(workflow).toContain("bun-version: '1.x'");
++    expect(workflow).toContain("bun-version: '1.4.4'");
+   });
+ });
+diff --git a/tests/universal-app.test.js b/tests/universal-app.test.js
+index b3c2e64..55da137 100644
+--- a/tests/universal-app.test.js
++++ b/tests/universal-app.test.js
+@@ -120,7 +120,7 @@ describe('universal React example app', () => {
+     expect(workflow).toContain('preview-regen:');
+     // Pinned by digest; the tag lives in the trailing comment.
+     expect(workflow).toMatch(
+-      /image: mcr\.microsoft\.com\/playwright@sha256:[0-9a-f]{64} # v1\.59\.1-noble/
++      /image: mcr\.microsoft\.com\/playwright@sha256:[0-9a-f]{64} # v1\.65\.0-noble/
+     );
+     expect(workflow).toContain('browser-commander');
+     expect(workflow).not.toContain('npx playwright install');
+diff --git a/tests/workflow-reliability.test.js b/tests/workflow-reliability.test.js
+index b94817f..ede6f6a 100644
+--- a/tests/workflow-reliability.test.js
++++ b/tests/workflow-reliability.test.js
+@@ -381,11 +381,14 @@ describe('workflow reliability policy', () => {
+     const imageVersion = previewRegenJob.match(
+       /image:\s*mcr\.microsoft\.com\/playwright@sha256:[0-9a-f]{64} # v([0-9.]+)-noble/
+     )?.[1];
+-    const packageVersion = previewRegenJob.match(/playwright@([0-9.]+)/)?.[1];
++    const { devDependencies } = JSON.parse(
++      readFileSync('package.json', 'utf8')
++    );
+ 
+     expect(previewRegenJob).toContain('container:');
+-    expect(imageVersion).toBe('1.59.1');
+-    expect(packageVersion).toBe(imageVersion);
++    expect(imageVersion).toBe('1.65.0');
++    expect(devDependencies.playwright).toBe(imageVersion);
++    expect(previewRegenJob).toContain('run: npm ci --no-audit --no-fund');
+     expect(previewRegenJob).toContain("PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'");
+     expect(previewRegenJob).not.toContain('npx playwright install');
+     expect(previewRegenJob).not.toContain('~/.cache/ms-playwright');
+@@ -468,7 +471,7 @@ describe('workflow artifact and writer reliability', () => {
+ 
+     expect(packageStepIndex).toBeGreaterThanOrEqual(0);
+     expect(uploadStepIndex).toBeGreaterThan(packageStepIndex);
+-    expect(desktopPackageJob).toContain("node-version: '24.x'");
++    expect(desktopPackageJob).toContain('uses: ./.github/actions/setup-node');
+     expect(desktopPackageJob).not.toContain("node-version: '20.x'");
+     expect(desktopPackageJob).toContain('shell: bash');
+     expect(desktopPackageJob).toContain('npm run example:desktop:package');
+@@ -663,7 +666,7 @@ describe('npm user config cleanup', () => {
+       const job = getJobBlock(workflow, jobName);
+ 
+       expectOrdered(job, [
+-        'uses: actions/setup-node@v7',
++        'uses: ./.github/actions/setup-node',
+         '- name: Remove deprecated npm auth config',
+         '- name: Install dependencies',
+       ]);
+diff --git a/tests/workflows-lint.test.js b/tests/workflows-lint.test.js
+index 22ecbfd..1ee1318 100644
+--- a/tests/workflows-lint.test.js
++++ b/tests/workflows-lint.test.js
+@@ -1,5 +1,6 @@
+ import { readFileSync } from 'node:fs';
+ import { describe, expect, it } from 'test-anywhere';
++import { checkWorkflowPolicy } from '../scripts/check-ci-workflows.mjs';
+ 
+ function readWorkflow(filePath) {
+   return readFileSync(filePath, 'utf8').replaceAll('\r\n', '\n');
+@@ -95,6 +96,7 @@ describe('workflow linting job', () => {
+       '    timeout-minutes: 10',
+       '    timeout-minutes: 10',
+       '    timeout-minutes: 5',
++      '    timeout-minutes: 5',
+     ]);
+   });
+ 
+@@ -107,7 +109,7 @@ describe('workflow linting job', () => {
+     const versions = [...workflowsWorkflow.matchAll(/--spec ruff==(\S+)/g)].map(
+       (match) => match[1]
+     );
+-    expect(versions).toEqual(['0.17.3', '0.17.3']);
++    expect(versions).toEqual(['0.17.4', '0.17.4']);
+     const config = readFileSync('ruff.toml', 'utf8');
+     expect(config).toContain('"E4", "E7", "E9", "F", "I"');
+     expect(config).toContain('"dev/log"');
+@@ -115,7 +117,7 @@ describe('workflow linting job', () => {
+       'lint-staged'
+     ];
+     expect(hooks['*.py']).toContain(
+-      'pipx run --spec ruff==0.17.3 ruff check --fix --force-exclude'
++      'pipx run --spec ruff==0.17.4 ruff check --fix --force-exclude'
+     );
+   });
+ });
+@@ -235,15 +237,17 @@ describe('reproducible workflow tooling and runner policy', () => {
+     );
+     expect(versions.length).toBe(2);
+     expect(versions).toEqual([version, version]);
+-    expect(workflowsWorkflow).toContain('zizmorcore/zizmor-action@v0.6.4');
+-    expect(['1.30.0', '1.30.1']).toContain(version);
++    expect(checkWorkflowPolicy(workflowsWorkflow)).toEqual([]);
+   });
+   it('pins both secretlint packages to the same exact version', () => {
+     const cli = releaseWorkflow.match(/-p secretlint@(\d+\.\d+\.\d+)/)?.[1];
+     const preset = releaseWorkflow.match(
+       /-p @secretlint\/secretlint-rule-preset-recommend@(\d+\.\d+\.\d+)/
+     )?.[1];
+-    expect(cli).toBe('13.0.7');
++    expect(cli).toBe(
++      JSON.parse(readFileSync('package.json', 'utf8')).devDependencies
++        .secretlint
++    );
+     expect(preset).toBe(cli);
+   });
+   it('pins every hosted OS image in every workflow', () => {

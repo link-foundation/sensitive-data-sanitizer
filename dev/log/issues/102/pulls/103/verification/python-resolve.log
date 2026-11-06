@@ -1,0 +1,1109 @@
+DEBUG Searching for user configuration in: /home/box/.config/uv/uv.toml
+DEBUG uv 0.13.7 (x86_64-unknown-linux-gnu)
+DEBUG Starting Python discovery for Python 3.15
+DEBUG Looking for Python 3.15
+DEBUG Searching for Python 3.15 in virtual environments, managed installations, or search path
+DEBUG Searching for managed installations at `/home/box/.local/share/uv/python`
+DEBUG Found `cpython-3.15.0-linux-x86_64-gnu` at `/home/box/.pyenv/shims/python3.15` (first executable in the search path)
+DEBUG Using Python 3.15.0 interpreter at `/home/box/.pyenv/versions/3.15.0/bin/python3.15` for builds
+DEBUG Using request connect timeout of 10s and read timeout of 30s
+DEBUG Solving with installed Python version: 3.15.0
+DEBUG Solving with target Python version: >=3.15
+DEBUG Adding direct dependency: detect-secrets>=1.5.0, <1.5.0+
+DEBUG Adding direct dependency: presidio-analyzer>=2.2.366, <2.2.366+
+DEBUG Adding direct dependency: scrubadub>=2.0.1, <2.0.1+
+DEBUG Adding direct dependency: spacy>=3.8.18, <3.8.18+
+INFO add_decision: Id::<PubGrubPackage>(0) @ 0a0.dev0 without checking dependencies    
+DEBUG No cache entry for: https://pypi.org/simple/presidio-analyzer/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/presidio-analyzer/
+DEBUG starting new connection 'Some("pypi.org")'    
+DEBUG No cache entry for: https://pypi.org/simple/scrubadub/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/scrubadub/
+DEBUG starting new connection 'Some("pypi.org")'    
+DEBUG No cache entry for: https://pypi.org/simple/detect-secrets/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/detect-secrets/
+DEBUG starting new connection 'Some("pypi.org")'    
+DEBUG No cache entry for: https://pypi.org/simple/spacy/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/spacy/
+DEBUG starting new connection 'Some("pypi.org")'    
+DEBUG connecting to 151.101.192.223:443
+DEBUG connecting to 151.101.0.223:443
+DEBUG connecting to 151.101.0.223:443
+DEBUG connecting to 151.101.192.223:443
+DEBUG connected to 151.101.192.223:443
+DEBUG No cached session for DnsName("pypi.org")    
+DEBUG Not resuming any session    
+DEBUG connected to 151.101.192.223:443
+DEBUG No cached session for DnsName("pypi.org")    
+DEBUG Not resuming any session    
+DEBUG connected to 151.101.0.223:443
+DEBUG No cached session for DnsName("pypi.org")    
+DEBUG Not resuming any session    
+DEBUG connected to 151.101.0.223:443
+DEBUG No cached session for DnsName("pypi.org")    
+DEBUG Not resuming any session    
+DEBUG Using ciphersuite TLS13_AES_128_GCM_SHA256    
+DEBUG Not resuming    
+DEBUG TLS1.3 encrypted extensions: ServerExtensions { server_name_ack: (), selected_protocol: SingleProtocolName(ProtocolName(6832)), unknown_extensions: {}, .. }    
+DEBUG ALPN protocol is Some(b"h2")    
+DEBUG binding client connection
+DEBUG client connection bound
+DEBUG send frame=Settings { flags: (0x0), enable_push: 0, initial_window_size: 2097152, max_frame_size: 16384, max_header_list_size: 16384 }
+DEBUG pooling idle connection for ("https", pypi.org)
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG send frame=WindowUpdate { stream_id: StreamId(0), size_increment: 5177345 }
+DEBUG send frame=Headers { stream_id: StreamId(1), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(3), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(5), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(7), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG received frame=Settings { flags: (0x0), header_table_size: 8192, max_concurrent_streams: 100 }
+DEBUG send frame=Settings { flags: (0x1: ACK) }
+DEBUG received frame=WindowUpdate { stream_id: StreamId(0), size_increment: 16711681 }
+DEBUG received frame=Settings { flags: (0x1: ACK) }
+DEBUG received settings ACK; applying Settings { flags: (0x0), enable_push: 0, initial_window_size: 2097152, max_frame_size: 16384, max_header_list_size: 16384 }
+DEBUG Using ciphersuite TLS13_AES_128_GCM_SHA256    
+DEBUG Not resuming    
+DEBUG TLS1.3 encrypted extensions: ServerExtensions { server_name_ack: (), selected_protocol: SingleProtocolName(ProtocolName(6832)), unknown_extensions: {}, .. }    
+DEBUG ALPN protocol is Some(b"h2")    
+DEBUG binding client connection
+DEBUG client connection bound
+DEBUG send frame=Settings { flags: (0x0), enable_push: 0, initial_window_size: 2097152, max_frame_size: 16384, max_header_list_size: 16384 }
+DEBUG received frame=Headers { stream_id: StreamId(1), flags: (0x4: END_HEADERS) }
+DEBUG Using ciphersuite TLS13_AES_128_GCM_SHA256    
+DEBUG Not resuming    
+DEBUG TLS1.3 encrypted extensions: ServerExtensions { server_name_ack: (), selected_protocol: SingleProtocolName(ProtocolName(6832)), unknown_extensions: {}, .. }    
+DEBUG ALPN protocol is Some(b"h2")    
+DEBUG binding client connection
+DEBUG client connection bound
+DEBUG send frame=Settings { flags: (0x0), enable_push: 0, initial_window_size: 2097152, max_frame_size: 16384, max_header_list_size: 16384 }
+DEBUG send frame=WindowUpdate { stream_id: StreamId(0), size_increment: 5177345 }
+DEBUG send frame=WindowUpdate { stream_id: StreamId(0), size_increment: 5177345 }
+DEBUG send frame=GoAway { error_code: NO_ERROR, last_stream_id: StreamId(0) }
+DEBUG Connection::poll; connection error error=GoAway(b"", NO_ERROR, Library)
+DEBUG Sending warning alert CloseNotify    
+DEBUG send frame=GoAway { error_code: NO_ERROR, last_stream_id: StreamId(0) }
+DEBUG Connection::poll; connection error error=GoAway(b"", NO_ERROR, Library)
+DEBUG Sending warning alert CloseNotify    
+DEBUG Using ciphersuite TLS13_AES_128_GCM_SHA256    
+DEBUG Not resuming    
+DEBUG TLS1.3 encrypted extensions: ServerExtensions { server_name_ack: (), selected_protocol: SingleProtocolName(ProtocolName(6832)), unknown_extensions: {}, .. }    
+DEBUG ALPN protocol is Some(b"h2")    
+DEBUG binding client connection
+DEBUG client connection bound
+DEBUG send frame=Settings { flags: (0x0), enable_push: 0, initial_window_size: 2097152, max_frame_size: 16384, max_header_list_size: 16384 }
+DEBUG send frame=WindowUpdate { stream_id: StreamId(0), size_increment: 5177345 }
+DEBUG send frame=GoAway { error_code: NO_ERROR, last_stream_id: StreamId(0) }
+DEBUG Connection::poll; connection error error=GoAway(b"", NO_ERROR, Library)
+DEBUG Sending warning alert CloseNotify    
+DEBUG received frame=Data { stream_id: StreamId(1), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(3), flags: (0x4: END_HEADERS) }
+DEBUG Searching for a compatible version of detect-secrets (>=1.5.0, <1.5.0+)
+DEBUG Selecting: detect-secrets==1.5.0 [compatible] (detect_secrets-1.5.0-py3-none-any.whl)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/4e/5e/4f5fe4b89fde1dc3ed0eb51bd4ce4c0bca406246673d370ea2ad0c58d747/detect_secrets-1.5.0-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/4e/5e/4f5fe4b89fde1dc3ed0eb51bd4ce4c0bca406246673d370ea2ad0c58d747/detect_secrets-1.5.0-py3-none-any.whl.metadata
+DEBUG starting new connection 'Some("files.pythonhosted.org")'    
+DEBUG received frame=Data { stream_id: StreamId(3) }
+DEBUG connecting to 151.101.0.223:443
+DEBUG received frame=Data { stream_id: StreamId(3), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(7), flags: (0x4: END_HEADERS) }
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/ac/15/1963007bc880b48c733b4bb3802e7001a3f831d117b5f6f82ca46f2e9b10/presidio_analyzer-2.2.366-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/ac/15/1963007bc880b48c733b4bb3802e7001a3f831d117b5f6f82ca46f2e9b10/presidio_analyzer-2.2.366-py3-none-any.whl.metadata
+DEBUG starting new connection 'Some("files.pythonhosted.org")'    
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG connecting to 151.101.0.223:443
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG connected to 151.101.0.223:443
+DEBUG No cached session for DnsName("files.pythonhosted.org")    
+DEBUG Not resuming any session    
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG connected to 151.101.0.223:443
+DEBUG No cached session for DnsName("files.pythonhosted.org")    
+DEBUG Not resuming any session    
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG Using ciphersuite TLS13_AES_128_GCM_SHA256    
+DEBUG Not resuming    
+DEBUG TLS1.3 encrypted extensions: ServerExtensions { server_name_ack: (), selected_protocol: SingleProtocolName(ProtocolName(6832)), unknown_extensions: {}, .. }    
+DEBUG ALPN protocol is Some(b"h2")    
+DEBUG binding client connection
+DEBUG client connection bound
+DEBUG send frame=Settings { flags: (0x0), enable_push: 0, initial_window_size: 2097152, max_frame_size: 16384, max_header_list_size: 16384 }
+DEBUG pooling idle connection for ("https", files.pythonhosted.org)
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG received frame=Data { stream_id: StreamId(7) }
+DEBUG received frame=Data { stream_id: StreamId(7), flags: (0x1: END_STREAM) }
+DEBUG send frame=WindowUpdate { stream_id: StreamId(0), size_increment: 5177345 }
+DEBUG send frame=Headers { stream_id: StreamId(1), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(3), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG Using ciphersuite TLS13_AES_128_GCM_SHA256    
+DEBUG Not resuming    
+DEBUG TLS1.3 encrypted extensions: ServerExtensions { server_name_ack: (), selected_protocol: SingleProtocolName(ProtocolName(6832)), unknown_extensions: {}, .. }    
+DEBUG ALPN protocol is Some(b"h2")    
+DEBUG binding client connection
+DEBUG client connection bound
+DEBUG send frame=Settings { flags: (0x0), enable_push: 0, initial_window_size: 2097152, max_frame_size: 16384, max_header_list_size: 16384 }
+DEBUG send frame=WindowUpdate { stream_id: StreamId(0), size_increment: 5177345 }
+DEBUG send frame=GoAway { error_code: NO_ERROR, last_stream_id: StreamId(0) }
+DEBUG Connection::poll; connection error error=GoAway(b"", NO_ERROR, Library)
+DEBUG Sending warning alert CloseNotify    
+DEBUG received frame=Settings { flags: (0x0), header_table_size: 8192, max_concurrent_streams: 100 }
+DEBUG send frame=Settings { flags: (0x1: ACK) }
+DEBUG received frame=WindowUpdate { stream_id: StreamId(0), size_increment: 16711681 }
+DEBUG received frame=Settings { flags: (0x1: ACK) }
+DEBUG received settings ACK; applying Settings { flags: (0x0), enable_push: 0, initial_window_size: 2097152, max_frame_size: 16384, max_header_list_size: 16384 }
+DEBUG received frame=Headers { stream_id: StreamId(1), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(3), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(3), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(1), flags: (0x1: END_STREAM) }
+DEBUG Adding transitive dependency for detect-secrets==1.5.0: pyyaml*
+DEBUG Adding transitive dependency for detect-secrets==1.5.0: requests*
+INFO add_decision: Id::<PubGrubPackage>(1) @ 1.5.0 without checking dependencies    
+DEBUG Searching for a compatible version of presidio-analyzer (>=2.2.366, <2.2.366+)
+DEBUG Selecting: presidio-analyzer==2.2.366 [compatible] (presidio_analyzer-2.2.366-py3-none-any.whl)
+DEBUG Adding transitive dependency for presidio-analyzer==2.2.366: click>=8.1.0, <9.0.0
+DEBUG Adding transitive dependency for presidio-analyzer==2.2.366: numpy>=1.19.0, <2.5.0
+DEBUG Adding transitive dependency for presidio-analyzer==2.2.366: phonenumbers>=9.0.28, <10.0.0
+DEBUG Adding transitive dependency for presidio-analyzer==2.2.366: preshed<3.0.14
+DEBUG Adding transitive dependency for presidio-analyzer==2.2.366: pydantic>=2.12.5, <3.0.0
+DEBUG Adding transitive dependency for presidio-analyzer==2.2.366: pyyaml>=6.0.3, <7.0.0
+DEBUG Adding transitive dependency for presidio-analyzer==2.2.366: regex>=2023.0.0
+DEBUG Adding transitive dependency for presidio-analyzer==2.2.366: spacy{python_full_version >= '3.14'}>=3.4.4, <3.7.0 | >=3.7.0+, <3.8.14 | >=3.8.14+, <4.0.0
+DEBUG Adding transitive dependency for presidio-analyzer==2.2.366: tldextract>=5.3.1, <6.0.0
+INFO add_decision: Id::<PubGrubPackage>(2) @ 2.2.366 without checking dependencies    
+DEBUG No cache entry for: https://pypi.org/simple/pyyaml/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/pyyaml/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/requests/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/requests/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG send frame=Headers { stream_id: StreamId(9), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(11), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG No cache entry for: https://pypi.org/simple/click/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/click/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/numpy/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/numpy/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/phonenumbers/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/phonenumbers/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/preshed/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/preshed/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/pydantic/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/pydantic/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/regex/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/regex/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG send frame=Headers { stream_id: StreamId(13), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(15), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(17), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(19), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(21), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(23), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG No cache entry for: https://pypi.org/simple/tldextract/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/tldextract/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/9f/ec/cd23612934a08872efd6e8f8077565a618c19911e6de14f6405892b34067/spacy-3.8.18-cp315-cp315-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/9f/ec/cd23612934a08872efd6e8f8077565a618c19911e6de14f6405892b34067/spacy-3.8.18-cp315-cp315-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG send frame=Headers { stream_id: StreamId(25), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(5), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(11), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(11) }
+DEBUG received frame=Data { stream_id: StreamId(11), flags: (0x1: END_STREAM) }
+DEBUG Skipping file for requests: "requests-2.23.0-py2.7.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG received frame=Headers { stream_id: StreamId(9), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(9) }
+DEBUG received frame=Data { stream_id: StreamId(9) }
+DEBUG received frame=Data { stream_id: StreamId(9) }
+DEBUG received frame=Data { stream_id: StreamId(9), flags: (0x1: END_STREAM) }
+DEBUG Skipping file for pyyaml: "PyYAML-3.10.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.10.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.10.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.10.win32-py3.0.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.10.win32-py3.1.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.10.win32-py3.2.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.11.win-amd64-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.11.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.11.win-amd64-py3.1.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.11.win-amd64-py3.2.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.11.win-amd64-py3.3.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.11.win-amd64-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.11.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.11.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.11.win32-py3.1.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.11.win32-py3.2.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.11.win32-py3.3.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.11.win32-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.12.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.12.win-amd64-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.12.win-amd64-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.12.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.12.win32-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-3.12.win32-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-4.2b4.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-4.2b4.win-amd64-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-4.2b4.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for pyyaml: "PyYAML-4.2b4.win32-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG received frame=Headers { stream_id: StreamId(13), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(15), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(13) }
+DEBUG received frame=Headers { stream_id: StreamId(17), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(17) }
+DEBUG received frame=Data { stream_id: StreamId(13), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/a0/f4/c67b0b3f1b9245e8d266f0f112c500d50e5b4e83cb6f3b71b6528104182a/requests-2.34.2-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/a0/f4/c67b0b3f1b9245e8d266f0f112c500d50e5b4e83cb6f3b71b6528104182a/requests-2.34.2-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG send frame=Headers { stream_id: StreamId(7), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(21), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(19), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/58/50/6c0d534c5f134586a8e1ba4e330569e32f057e33372ae556463212fb4cd3/click-8.5.0-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/58/50/6c0d534c5f134586a8e1ba4e330569e32f057e33372ae556463212fb4cd3/click-8.5.0-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG send frame=Headers { stream_id: StreamId(9), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(17) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(17) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(17) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(17), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(25), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Data { stream_id: StreamId(19) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Data { stream_id: StreamId(19) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Data { stream_id: StreamId(19) }
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/33/92/517a82af51c58601d3e9c2e5757587f1d8201143ce98ac62f262d47f3355/phonenumbers-9.0.42-py2.py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/33/92/517a82af51c58601d3e9c2e5757587f1d8201143ce98ac62f262d47f3355/phonenumbers-9.0.42-py2.py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG send frame=Headers { stream_id: StreamId(11), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(23), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(7), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(7), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(25), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Headers { stream_id: StreamId(9), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(9), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(19) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(19) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(19), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/b8/e0/d5760e222a7e3f3aec7ef59f6dff952af27d09ec168bcca50751d9698151/tldextract-5.4.0-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/b8/e0/d5760e222a7e3f3aec7ef59f6dff952af27d09ec168bcca50751d9698151/tldextract-5.4.0-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG send frame=Headers { stream_id: StreamId(13), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Headers { stream_id: StreamId(11), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(11), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(21) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(21), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Headers { stream_id: StreamId(5), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(13), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(13), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(5), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG Skipping file for pydantic: "pydantic-0.18-py36+-none-any.whl" (The wheel filename `pydantic-0.18-py36+-none-any.whl` is invalid: Tag components must contain only ASCII letters, digits, underscores, and periods)
+DEBUG Skipping file for pydantic: "pydantic-0.18.1-py36+-none-any.whl" (The wheel filename `pydantic-0.18.1-py36+-none-any.whl` is invalid: Tag components must contain only ASCII letters, digits, underscores, and periods)
+DEBUG Skipping file for pydantic: "pydantic-0.18.2-py36+-none-any.whl" (The wheel filename `pydantic-0.18.2-py36+-none-any.whl` is invalid: Tag components must contain only ASCII letters, digits, underscores, and periods)
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(15) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(15), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG Searching for a compatible version of scrubadub (>=2.0.1, <2.0.1+)
+DEBUG Selecting: scrubadub==2.0.1 [compatible] (scrubadub-2.0.1-py3-none-any.whl)
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/f4/c5/04b959566c85914b17327e40d25b0535b0209a5a5216006443b769bebe25/scrubadub-2.0.1-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/f4/c5/04b959566c85914b17327e40d25b0535b0209a5a5216006443b769bebe25/scrubadub-2.0.1-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG send frame=WindowUpdate { stream_id: StreamId(0), size_increment: 1817023 }
+DEBUG send frame=Headers { stream_id: StreamId(15), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/72/b8/b864503789ef5c58597d2a7b4adbee62c26440ab1e682581fc6838df8947/pydantic-2.14.3-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/72/b8/b864503789ef5c58597d2a7b4adbee62c26440ab1e682581fc6838df8947/pydantic-2.14.3-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG send frame=Headers { stream_id: StreamId(17), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG Skipping file for numpy: "numpy-1.0.1.dev3460.win32-py2.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.3.0.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.5.0.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.5.1.win32-py2.5-nosse.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.5.1.win32-py2.6-nosse.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.5.1.win32-py2.7-nosse.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.5.1.win32-py3.1-nosse.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.0.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.0.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.0.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.0.win32-py3.1.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.0.win32-py3.2.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.1.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.1.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.1.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.1.win32-py3.1.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.1.win32-py3.2.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.2.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.2.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.2.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.2.win32-py3.1.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.6.2.win32-py3.2.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.7.0.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.7.0.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.7.0.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.7.0.win32-py3.1.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.7.0.win32-py3.2.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.7.0.win32-py3.3.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.7.1.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.7.1.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.7.1.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.7.1.win32-py3.1.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.7.1.win32-py3.2.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for numpy: "numpy-1.7.1.win32-py3.3.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG send frame=WindowUpdate { stream_id: StreamId(23), size_increment: 781312 }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23) }
+DEBUG received frame=Data { stream_id: StreamId(23), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(15), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(15), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(17), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(17) }
+DEBUG received frame=Data { stream_id: StreamId(17), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(5), flags: (0x4: END_HEADERS) }
+DEBUG Adding transitive dependency for scrubadub==2.0.1: textblob>=0.15.3, <0.15.3+
+DEBUG Adding transitive dependency for scrubadub==2.0.1: phonenumbers*
+DEBUG Adding transitive dependency for scrubadub==2.0.1: python-stdnum*
+DEBUG Adding transitive dependency for scrubadub==2.0.1: dateparser*
+DEBUG Adding transitive dependency for scrubadub==2.0.1: catalogue*
+DEBUG Adding transitive dependency for scrubadub==2.0.1: scikit-learn*
+DEBUG Adding transitive dependency for scrubadub==2.0.1: typing-extensions*
+DEBUG Adding transitive dependency for scrubadub==2.0.1: faker*
+INFO add_decision: Id::<PubGrubPackage>(3) @ 2.0.1 without checking dependencies    
+DEBUG Searching for a compatible version of spacy (>=3.8.18, <3.8.18+)
+DEBUG Selecting: spacy==3.8.18 [compatible] (spacy-3.8.18-cp315-cp315-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl)
+DEBUG No cache entry for: https://pypi.org/simple/dateparser/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/dateparser/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/textblob/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/textblob/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/python-stdnum/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/python-stdnum/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/catalogue/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/catalogue/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/scikit-learn/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/scikit-learn/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/faker/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/faker/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/typing-extensions/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/typing-extensions/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG send frame=Headers { stream_id: StreamId(27), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(29), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(31), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(33), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(35), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(37), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(39), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(5), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(39), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(39) }
+DEBUG received frame=Data { stream_id: StreamId(39), flags: (0x1: END_STREAM) }
+DEBUG Adding transitive dependency for spacy==3.8.18: spacy-legacy>=3.0.11, <3.1.0
+DEBUG Adding transitive dependency for spacy==3.8.18: spacy-loggers>=1.0.0, <2.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: murmurhash>=0.28.0, <1.1.0
+DEBUG Adding transitive dependency for spacy==3.8.18: cymem>=2.0.2, <2.1.0
+DEBUG Adding transitive dependency for spacy==3.8.18: preshed>=3.0.2, <3.0.14 | >=3.0.14+, <3.1.0
+DEBUG Adding transitive dependency for spacy==3.8.18: thinc>=8.3.12, <8.4.0
+DEBUG received frame=Headers { stream_id: StreamId(27), flags: (0x4: END_HEADERS) }
+DEBUG Adding transitive dependency for spacy==3.8.18: wasabi>=0.9.1, <1.2.0
+DEBUG Adding transitive dependency for spacy==3.8.18: srsly>=2.5.3, <3.0.0
+DEBUG received frame=Data { stream_id: StreamId(27), flags: (0x1: END_STREAM) }
+DEBUG Adding transitive dependency for spacy==3.8.18: catalogue>=2.0.6, <2.1.0
+DEBUG Adding transitive dependency for spacy==3.8.18: weasel>=1.0.1, <2.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: confection>=1.3.4, <2.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: typer>=0.3.0, <1.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: click>=8.2.1, <9.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: tqdm>=4.38.0, <5.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: numpy{python_full_version >= '3.9'}>=1.19.0
+DEBUG Adding transitive dependency for spacy==3.8.18: requests>=2.13.0, <3.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: pydantic>=2.0.0, <3.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: jinja2*
+DEBUG Adding transitive dependency for spacy==3.8.18: setuptools*
+DEBUG Adding transitive dependency for spacy==3.8.18: packaging>=20.0
+INFO add_decision: Id::<PubGrubPackage>(4) @ 3.8.18 without checking dependencies    
+DEBUG Searching for a compatible version of spacy{python_full_version >= '3.14'} (>=3.4.4, <3.7.0 | >=3.7.0+, <3.8.14 | >=3.8.14+, <4.0.0)
+DEBUG Selecting: spacy==3.8.18 [compatible] (spacy-3.8.18-cp315-cp315-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl)
+DEBUG Adding transitive dependency for spacy==3.8.18: spacy==3.8.18
+DEBUG Adding transitive dependency for spacy==3.8.18: spacy{python_full_version >= '3.14'}==3.8.18
+INFO add_decision: Id::<PubGrubPackage>(7) @ 3.8.18 without checking dependencies    
+DEBUG Searching for a compatible version of spacy{python_full_version >= '3.14'} (==3.8.18)
+DEBUG Selecting: spacy==3.8.18 [compatible] (spacy-3.8.18-cp315-cp315-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl)
+DEBUG Adding transitive dependency for spacy==3.8.18: spacy-legacy>=3.0.11, <3.1.0
+DEBUG Adding transitive dependency for spacy==3.8.18: spacy-loggers>=1.0.0, <2.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: murmurhash>=0.28.0, <1.1.0
+DEBUG Adding transitive dependency for spacy==3.8.18: cymem>=2.0.2, <2.1.0
+DEBUG Adding transitive dependency for spacy==3.8.18: preshed>=3.0.2, <3.0.14 | >=3.0.14+, <3.1.0
+DEBUG Adding transitive dependency for spacy==3.8.18: thinc>=8.3.12, <8.4.0
+DEBUG Adding transitive dependency for spacy==3.8.18: wasabi>=0.9.1, <1.2.0
+DEBUG Adding transitive dependency for spacy==3.8.18: srsly>=2.5.3, <3.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: catalogue>=2.0.6, <2.1.0
+DEBUG Adding transitive dependency for spacy==3.8.18: weasel>=1.0.1, <2.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: confection>=1.3.4, <2.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: typer>=0.3.0, <1.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: click>=8.2.1, <9.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: tqdm>=4.38.0, <5.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: numpy{python_full_version >= '3.9'}>=1.19.0
+DEBUG Adding transitive dependency for spacy==3.8.18: requests>=2.13.0, <3.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: pydantic>=2.0.0, <3.0.0
+DEBUG Adding transitive dependency for spacy==3.8.18: jinja2*
+DEBUG Adding transitive dependency for spacy==3.8.18: setuptools*
+DEBUG Adding transitive dependency for spacy==3.8.18: packaging>=20.0
+INFO add_decision: Id::<PubGrubPackage>(37) @ 3.8.18 without checking dependencies    
+DEBUG No cache entry for: https://pypi.org/simple/spacy-legacy/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/spacy-legacy/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/weasel/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/weasel/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/tqdm/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/tqdm/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/setuptools/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/setuptools/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/packaging/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/packaging/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/spacy-loggers/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/spacy-loggers/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/murmurhash/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/murmurhash/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/cymem/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/cymem/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/wasabi/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/wasabi/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/thinc/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/thinc/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/srsly/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/srsly/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/confection/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/confection/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/typer/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/typer/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://pypi.org/simple/jinja2/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/jinja2/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/7f/58/73739bc1e168f309aeb8cc29b5866a134da8dbd4f69af947fc93462f1e33/dateparser-1.5.0-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/7f/58/73739bc1e168f309aeb8cc29b5866a134da8dbd4f69af947fc93462f1e33/dateparser-1.5.0-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/49/d3/b8441a820a491ddfc024b0b0cf0393375b75ea13866d9c66727e54c2fc80/typing_extensions-4.16.0-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/49/d3/b8441a820a491ddfc024b0b0cf0393375b75ea13866d9c66727e54c2fc80/typing_extensions-4.16.0-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG received frame=Headers { stream_id: StreamId(29), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(35), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(35) }
+DEBUG received frame=Data { stream_id: StreamId(29), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(35) }
+DEBUG received frame=Data { stream_id: StreamId(35) }
+DEBUG received frame=Data { stream_id: StreamId(35) }
+DEBUG received frame=Data { stream_id: StreamId(35) }
+DEBUG received frame=Data { stream_id: StreamId(35) }
+DEBUG received frame=Data { stream_id: StreamId(35) }
+DEBUG received frame=Data { stream_id: StreamId(35) }
+DEBUG received frame=Data { stream_id: StreamId(35) }
+DEBUG received frame=Data { stream_id: StreamId(35) }
+DEBUG received frame=Data { stream_id: StreamId(35), flags: (0x1: END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(41), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(43), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(45), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(47), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(49), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(51), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(53), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(55), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(57), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(59), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(61), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(63), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(65), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(67), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(19), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(21), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG Skipping file for textblob: "textblob-0.1.macosx-10.7-x86_64.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG received frame=Headers { stream_id: StreamId(33), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(33), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(37), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(37) }
+DEBUG received frame=Data { stream_id: StreamId(37) }
+DEBUG received frame=Data { stream_id: StreamId(37) }
+DEBUG Searching for a compatible version of textblob (>=0.15.3, <0.15.3+)
+DEBUG Selecting: textblob==0.15.3 [compatible] (textblob-0.15.3-py2.py3-none-any.whl)
+DEBUG received frame=Data { stream_id: StreamId(37) }
+DEBUG received frame=Data { stream_id: StreamId(37) }
+DEBUG received frame=Data { stream_id: StreamId(37) }
+DEBUG received frame=Data { stream_id: StreamId(37) }
+DEBUG received frame=Data { stream_id: StreamId(37) }
+DEBUG received frame=Data { stream_id: StreamId(37), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(31), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(31), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(67), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(65), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(65) }
+DEBUG received frame=Data { stream_id: StreamId(67), flags: (0x1: END_STREAM) }
+DEBUG Skipping file for jinja2: "Jinja2-2.0rc1-py2.4-linux-i686.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for jinja2: "Jinja2-2.0rc1-py2.4-linux-x86_64.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for jinja2: "Jinja2-2.0rc1-py2.4-macosx-10.3-i386.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for jinja2: "Jinja2-2.0rc1-py2.4-win32.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for jinja2: "Jinja2-2.0rc1-py2.5-linux-i686.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for jinja2: "Jinja2-2.0rc1-py2.5-linux-x86_64.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for jinja2: "Jinja2-2.0rc1-py2.5-macosx-10.3-i386.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for jinja2: "Jinja2-2.0rc1-py2.5-win32.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for jinja2: "Jinja2-2.1-py2.4-win32.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for jinja2: "Jinja2-2.1-py2.5-win32.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for jinja2: "Jinja2-2.1-py2.6-win32.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for jinja2: "Jinja2-2.1.1-py2.4-win32.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for jinja2: "Jinja2-2.1.1-py2.5-win32.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for jinja2: "Jinja2-2.1.1-py2.6-win32.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/60/f0/1d9bfcc8ee6b83472ec571406bd0dd51c0e6330ff1a51b2d29861d389e85/textblob-0.15.3-py2.py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/60/f0/1d9bfcc8ee6b83472ec571406bd0dd51c0e6330ff1a51b2d29861d389e85/textblob-0.15.3-py2.py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/9e/96/d32b941a501ab566a16358d68b6eb4e4acc373fab3c3c4d7d9e649f7b4bb/catalogue-2.0.10-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/9e/96/d32b941a501ab566a16358d68b6eb4e4acc373fab3c3c4d7d9e649f7b4bb/catalogue-2.0.10-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG send frame=Headers { stream_id: StreamId(23), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(25), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(65), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(49), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(49), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(47), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(47) }
+DEBUG received frame=Data { stream_id: StreamId(47) }
+DEBUG received frame=Data { stream_id: StreamId(47) }
+DEBUG received frame=Data { stream_id: StreamId(47) }
+DEBUG received frame=Headers { stream_id: StreamId(63), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(63), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(47) }
+DEBUG received frame=Data { stream_id: StreamId(47) }
+DEBUG received frame=Data { stream_id: StreamId(47) }
+DEBUG received frame=Data { stream_id: StreamId(47) }
+DEBUG received frame=Data { stream_id: StreamId(47) }
+DEBUG received frame=Data { stream_id: StreamId(47) }
+DEBUG received frame=Headers { stream_id: StreamId(19), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(21), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(21), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(19) }
+DEBUG received frame=Data { stream_id: StreamId(19), flags: (0x1: END_STREAM) }
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/2f/61/aa32d9c79f83a2fae033cd6496fb2a24aba918d31c73704271dfcfb48375/python_stdnum-2.2-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/2f/61/aa32d9c79f83a2fae033cd6496fb2a24aba918d31c73704271dfcfb48375/python_stdnum-2.2-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG Skipping file for regex: "regex-2013-02-16.tar.gz" (Failed to parse source distribution filename `regex-2013-02-16.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-02-23.tar.gz" (Failed to parse source distribution filename `regex-2013-02-23.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-03-11.tar.gz" (Failed to parse source distribution filename `regex-2013-03-11.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-05-21.tar.gz" (Failed to parse source distribution filename `regex-2013-05-21.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-06-05.tar.gz" (Failed to parse source distribution filename `regex-2013-06-05.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-06-26.tar.gz" (Failed to parse source distribution filename `regex-2013-06-26.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-08-04.tar.gz" (Failed to parse source distribution filename `regex-2013-08-04.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-10-04.tar.gz" (Failed to parse source distribution filename `regex-2013-10-04.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-10-12.tar.gz" (Failed to parse source distribution filename `regex-2013-10-12.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-10-21.tar.gz" (Failed to parse source distribution filename `regex-2013-10-21.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-10-22.tar.gz" (Failed to parse source distribution filename `regex-2013-10-22.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-10-23.tar.gz" (Failed to parse source distribution filename `regex-2013-10-23.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-10-24.tar.gz" (Failed to parse source distribution filename `regex-2013-10-24.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-10-25.tar.gz" (Failed to parse source distribution filename `regex-2013-10-25.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-10-26.tar.gz" (Failed to parse source distribution filename `regex-2013-10-26.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-11-29.tar.gz" (Failed to parse source distribution filename `regex-2013-11-29.tar.gz`: Version section is invalid)
+DEBUG Skipping file for regex: "regex-2013-12-31.tar.gz" (Failed to parse source distribution filename `regex-2013-12-31.tar.gz`: Version section is invalid)
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.9.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.9.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.10.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.10.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.11.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.11.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.12.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.12.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.12.1.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.12.1.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.13.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.13.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.13.1.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.13.1.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.14.1.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.14.1.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.14.1.win32-py3.3.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.15.0.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.15.0.win-amd64-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.15.0.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.15.0.win32-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.15.1.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.15.1.win-amd64-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.15.1.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.15.1.win32-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.15.2.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.15.2.win-amd64-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.15.2.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.15.2.win32-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.16.0.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.16.0.win-amd64-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.16.0.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.16.0.win32-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.16.1.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.16.1.win-amd64-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.16.1.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.16.1.win32-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.17.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.17.win-amd64-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.17.win-amd64-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.17.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.17.win32-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.17.win32-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.17.1.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.17.1.win-amd64-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.17.1.win-amd64-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.17.1.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.17.1.win32-py3.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.17.1.win32-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.18.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.18.win-amd64-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.18.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.18.win32-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.18.1.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.18.1.win-amd64-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.18.1.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.18.1.win32-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.18.2.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.18.2.win-amd64-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.18.2.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.18.2.win32-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.19.1.win-amd64-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.19.1.win-amd64-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.19.1.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for scikit-learn: "scikit-learn-0.19.1.win32-py3.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/58/9e/3da962809aefa00ddf457d1b11bba41d7766373a0ad9e537fa0804604361/faker-40.44.0-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/58/9e/3da962809aefa00ddf457d1b11bba41d7766373a0ad9e537fa0804604361/faker-40.44.0-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/62/a1/3d680cbfd5f4b8f15abc1d571870c5fc3e594bb582bc3b64ea099db13e56/jinja2-3.1.6-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/62/a1/3d680cbfd5f4b8f15abc1d571870c5fc3e594bb582bc3b64ea099db13e56/jinja2-3.1.6-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/63/34/ba1c580383c9eada3711951fef0795c80b829a078d72188184bcab9dd527/packaging-26.3-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/63/34/ba1c580383c9eada3711951fef0795c80b829a078d72188184bcab9dd527/packaging-26.3-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/07/ea/2e31b67051e91a133189e9c000c222502ddc6969856416de0d095de4c0b0/typer-0.27.3-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/07/ea/2e31b67051e91a133189e9c000c222502ddc6969856416de0d095de4c0b0/typer-0.27.3-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG send frame=Headers { stream_id: StreamId(27), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(29), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(31), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(33), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(35), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/1d/65/411a5a4a83c98c907c5a76906fad35c6841e7ca9370165a625696ffdc71a/confection-1.3.4-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/1d/65/411a5a4a83c98c907c5a76906fad35c6841e7ca9370165a625696ffdc71a/confection-1.3.4-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG received frame=Data { stream_id: StreamId(47) }
+DEBUG received frame=Data { stream_id: StreamId(47), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(45), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(45) }
+DEBUG received frame=Data { stream_id: StreamId(45) }
+DEBUG received frame=Data { stream_id: StreamId(45), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(41), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(41), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(53), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(55), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(61), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(57), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(59), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(53) }
+DEBUG received frame=Data { stream_id: StreamId(55) }
+DEBUG received frame=Data { stream_id: StreamId(61) }
+DEBUG received frame=Data { stream_id: StreamId(57), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(53) }
+DEBUG received frame=Data { stream_id: StreamId(53) }
+DEBUG received frame=Data { stream_id: StreamId(53) }
+DEBUG received frame=Headers { stream_id: StreamId(51), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(43), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(51), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(43), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(55) }
+DEBUG received frame=Data { stream_id: StreamId(61) }
+DEBUG received frame=Headers { stream_id: StreamId(25), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(25), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(23), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(23), flags: (0x1: END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(37), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG Skipping file for tqdm: "tqdm-2.0.0.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-2.2.3.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-2.2.4.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-3.1.3.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-3.1.4.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-3.4.0.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-3.7.0.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-3.7.1.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-3.8.0.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-4.4.0.win-amd64.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-4.4.0.win-amd64.msi" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-4.4.0.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-4.4.0.win32.msi" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-4.6.1.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-4.6.2.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for tqdm: "tqdm-4.11.1.win-amd64.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6b1-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6b1-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6b2-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6b2-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6b3-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6b3-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6b4-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6b4-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c1-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c1-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c2-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c2-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c3-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c3-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c3-py2.5.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c4-1.src.rpm" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c4-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c4-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c4-py2.5.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c4.win32-py2.3.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c4.win32-py2.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c4.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c5-1.src.rpm" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c5-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c5-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c5-py2.5.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c5.win32-py2.3.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c5.win32-py2.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c5.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c6-1.src.rpm" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c6-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c6-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c6-py2.5.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c6.win32-py2.3.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c6.win32-py2.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c6.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c7-1.src.rpm" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c7-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c7-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c7-py2.5.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c7.win32-py2.3.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c7.win32-py2.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c7.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c8-1.src.rpm" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c8-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c8-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c8-py2.5.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c8.win32-py2.3.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c8.win32-py2.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c8.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c9-1.src.rpm" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c9-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c9-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c9-py2.5.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c9-py2.6.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c9.win32-py2.3.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c9.win32-py2.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c9.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c10-1.src.rpm" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c10-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c10-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c10-py2.5.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c10-py2.6.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c10.win32-py2.3.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c10.win32-py2.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c10.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c10.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c11-1.src.rpm" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c11-py2.3.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c11-py2.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c11-py2.5.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c11-py2.6.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c11-py2.7.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c11.win32-py2.3.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c11.win32-py2.4.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c11.win32-py2.5.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c11.win32-py2.6.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-0.6c11.win32-py2.7.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for setuptools: "setuptools-18.3.1-py3.4.egg" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Adding transitive dependency for textblob==0.15.3: nltk>=3.1
+INFO add_decision: Id::<PubGrubPackage>(15) @ 0.15.3 without checking dependencies    
+DEBUG Searching for a compatible version of pyyaml (>=6.0.3, <7.0.0)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/c3/55/12e842c70ff8828e34e543a2c7176dac4da006ca6901c9e8b43efab8bc6b/spacy_legacy-3.0.12-py2.py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/c3/55/12e842c70ff8828e34e543a2c7176dac4da006ca6901c9e8b43efab8bc6b/spacy_legacy-3.0.12-py2.py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+INFO Start conflict resolution because incompat satisfied:
+   pyyaml >6.0.2 is forbidden    
+INFO backtrack to DecisionLevel(2)    
+INFO Start conflict resolution because incompat satisfied:
+   presidio-analyzer >2.2.365 depends on pyyaml >=6.0.3, <7.0.0    
+INFO prior cause: presidio-analyzer >2.2.365 is forbidden    
+INFO prior cause: root ==0a0.dev0 is forbidden    
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/a7/03/921a3d3c75785aca9ebfbfcabfbc3a1be12e2ab5265deb026d55a5a3f83e/tqdm-4.70.1-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/a7/03/921a3d3c75785aca9ebfbfcabfbc3a1be12e2ab5265deb026d55a5a3f83e/tqdm-4.70.1-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/89/66/53b57003567d506e2f0f7b9859a4d2e6e748d3f0ed8f494b98f684d6696d/weasel-1.0.1-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/89/66/53b57003567d506e2f0f7b9859a4d2e6e748d3f0ed8f494b98f684d6696d/weasel-1.0.1-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/33/78/d1a1a026ef3af911159398c939b1509d5c36fe524c7b644f34a5146c4e16/spacy_loggers-1.0.5-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/33/78/d1a1a026ef3af911159398c939b1509d5c36fe524c7b644f34a5146c4e16/spacy_loggers-1.0.5-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/47/bb/98a31f10fffbd39edcc2f8bf4119b29652248bb110b7d45c84e68aa293ab/scikit_learn-1.9.1-cp315-cp315-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/47/bb/98a31f10fffbd39edcc2f8bf4119b29652248bb110b7d45c84e68aa293ab/scikit_learn-1.9.1-cp315-cp315-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG No cache entry for: https://pypi.org/simple/nltk/
+DEBUG Sending fresh GET request for: https://pypi.org/simple/nltk/
+DEBUG reuse idle connection for ("https", pypi.org)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/06/7c/34330a89da55610daa5f245ddce5aab81244321101614751e7537f125133/wasabi-1.1.3-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/06/7c/34330a89da55610daa5f245ddce5aab81244321101614751e7537f125133/wasabi-1.1.3-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG send frame=Headers { stream_id: StreamId(39), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(41), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(43), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(45), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(47), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(49), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(69), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/ef/55/6dc6d6bb953bdfc52519a0059592c52b6e3b8ad51cf8256dffceb55b0610/setuptools-84.2.1-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/ef/55/6dc6d6bb953bdfc52519a0059592c52b6e3b8ad51cf8256dffceb55b0610/setuptools-84.2.1-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(53), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(55) }
+DEBUG received frame=Data { stream_id: StreamId(61) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(55) }
+DEBUG received frame=Data { stream_id: StreamId(61) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(55), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(61) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(61) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(61) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(61), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Headers { stream_id: StreamId(35), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(31), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(29), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(33), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(31), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(29), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(33), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(35), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(27), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(27), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(37), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(37), flags: (0x1: END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(51), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/47/27/1ea4e10de2e47da376340762c10459a2d7b8d7e762d95aa31c85a08bfd60/murmurhash-1.0.16-cp315-cp315-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/47/27/1ea4e10de2e47da376340762c10459a2d7b8d7e762d95aa31c85a08bfd60/murmurhash-1.0.16-cp315-cp315-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/c4/4b/e12365be9db96ae9d7b9f016786eb6640cfb4bfdd61d4b93a82306779142/cymem-2.0.16-cp315-cp315-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/c4/4b/e12365be9db96ae9d7b9f016786eb6640cfb4bfdd61d4b93a82306779142/cymem-2.0.16-cp315-cp315-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG send frame=Headers { stream_id: StreamId(53), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(55), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(59) }
+DEBUG received frame=Data { stream_id: StreamId(59), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(69), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(69) }
+DEBUG received frame=Data { stream_id: StreamId(69), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(41), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(41) }
+DEBUG received frame=Headers { stream_id: StreamId(39), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(45), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(49), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(39), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(45), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(49), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(41), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(43), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(43), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(47), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(47), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(51), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(51), flags: (0x1: END_STREAM) }
+WARN Fixing invalid version specifier by removing star after comparison operator other than equal and not equal (before: `>=3.5.*`; after: `>=3.5`)
+DEBUG Skipping file for nltk: "nltk-2.0.1rc2-git.tar.gz" (Failed to parse source distribution filename `nltk-2.0.1rc2-git.tar.gz`: Version section is invalid)
+DEBUG Skipping file for nltk: "nltk-2.0.1rc2-git.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-2.0b8.macosx-10.5-i386.tar.gz" (Failed to parse source distribution filename `nltk-2.0b8.macosx-10.5-i386.tar.gz`: Version section is invalid)
+DEBUG Skipping file for nltk: "nltk-2.0.1rc1.macosx-10.6-x86_64.tar.gz" (Failed to parse source distribution filename `nltk-2.0.1rc1.macosx-10.6-x86_64.tar.gz`: Version section is invalid)
+DEBUG Skipping file for nltk: "nltk-2.0.1rc3.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-2.0.1rc4.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-2.0.1.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-2.0.2.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-2.0.3.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-2.0.4.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-2.0.5.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.0.0b1.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.0.0b2.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.0.0.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.0.1.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.0.2.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.0.3.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.0.4.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.0.5.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.1.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.2.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.2.1.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.2.2.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.2.3.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.2.4.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.2.5.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.3.0.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.4.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.4.1.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.4.2.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.4.3.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.4.4.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG Skipping file for nltk: "nltk-3.4.5.win32.exe" (not a wheel or source distribution archive (expected one of `.whl`, `.tar.gz`, `.zip`, `.tar.bz2`, `.tar.lz`, `.tar.lzma`, `.tar.xz`, `.tar.zst`, `.tar`, `.tbz`, `.tgz`, `.tlz`, or `.txz`))
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/81/42/a8c480f6dd5ac59fa28ddae79afd9d7ac7e596fdb61813adc65bb6e674b8/regex-2026.9.29-cp315-cp315-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/81/42/a8c480f6dd5ac59fa28ddae79afd9d7ac7e596fdb61813adc65bb6e674b8/regex-2026.9.29-cp315-cp315-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG send frame=Headers { stream_id: StreamId(57), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/a2/04/e7816813e409ca874ba2fcc35455db0e4130b79eb277e1f9edd270ca3c69/nltk-3.10.4-py3-none-any.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/a2/04/e7816813e409ca874ba2fcc35455db0e4130b79eb277e1f9edd270ca3c69/nltk-3.10.4-py3-none-any.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/51/25/9278afa75098f6b06d55e947b234b7e0bf0892be8a4142cdb34e1ad1bdc8/srsly-2.5.6-cp315-cp315-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/51/25/9278afa75098f6b06d55e947b234b7e0bf0892be8a4142cdb34e1ad1bdc8/srsly-2.5.6-cp315-cp315-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG received frame=Headers { stream_id: StreamId(55), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Headers { stream_id: StreamId(53), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(53), flags: (0x1: END_STREAM) }
+DEBUG received frame=Data { stream_id: StreamId(55), flags: (0x1: END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(59), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG send frame=Headers { stream_id: StreamId(61), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(57), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(57), flags: (0x1: END_STREAM) }
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/99/2c/1f0f994f00c11fd31de1eddbea174da6ef993fd21512e71299cb22bb0942/thinc-8.3.14-cp315-cp315-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata
+DEBUG Sending fresh GET request for: https://files.pythonhosted.org/packages/99/2c/1f0f994f00c11fd31de1eddbea174da6ef993fd21512e71299cb22bb0942/thinc-8.3.14-cp315-cp315-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata
+DEBUG reuse idle connection for ("https", files.pythonhosted.org)
+DEBUG send frame=Headers { stream_id: StreamId(63), flags: (0x5: END_HEADERS | END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(59), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(59), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(61), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(61), flags: (0x1: END_STREAM) }
+DEBUG received frame=Headers { stream_id: StreamId(63), flags: (0x4: END_HEADERS) }
+DEBUG received frame=Data { stream_id: StreamId(63), flags: (0x1: END_STREAM) }
+error: No solution found when resolving dependencies
+  cause: Because pyyaml==6.0.3 has no usable wheels and only pyyaml<=6.0.3 is available, we can conclude that pyyaml>=6.0.3 cannot be used.
+         And because presidio-analyzer>=2.2.366 depends on pyyaml>=6.0.3 and you require presidio-analyzer==2.2.366, we can conclude that your requirements are unsatisfiable.
+
+hint: Wheels are required for `pyyaml` because building from source is disabled for all packages (i.e., with `--no-build`)

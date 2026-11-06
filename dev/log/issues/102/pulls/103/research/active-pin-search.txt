@@ -1,0 +1,164 @@
+docs/CONTRIBUTING.md:5:Use Node.js 26.13.0 with npm 12.2.2 for development and release tooling.
+docs/CONTRIBUTING.md:45:pipx run --spec ruff==0.17.4 ruff check .
+docs/CONTRIBUTING.md:46:pipx run --spec ruff==0.17.4 ruff format --check .
+docs/CONTRIBUTING.md:48:pipx run --spec ruff==0.17.4 ruff format .
+docs/CONTRIBUTING.md:58:`uv==0.13.7`, then checks that complete resolution with `pip-audit==2.10.1`.
+scripts/check-package-manager.mjs:52: * `packageManager` carries a version ("npm@10.9.1", or "@scope/pkg@1.0.0");
+.github/zizmor.yml:19:  # `$/` yet -- v1.7.12 is the newest release and support is still open
+.github/workflows/rerun-unacquired.yml:35:    runs-on: ubuntu-24.04
+.github/workflows/rerun-unacquired.yml:44:      - uses: actions/checkout@v7.0.1
+.github/workflows/example-app.yml:76:    runs-on: ubuntu-24.04
+.github/workflows/example-app.yml:91:      - uses: actions/checkout@v7.0.1
+.github/workflows/example-app.yml:146:    runs-on: ubuntu-24.04
+.github/workflows/example-app.yml:162:      - uses: actions/checkout@v7.0.1
+.github/workflows/example-app.yml:190:        os: [ubuntu-24.04, macos-26-intel, windows-2025]
+.github/workflows/example-app.yml:192:      - uses: actions/checkout@v7.0.1
+.github/workflows/example-app.yml:236:    runs-on: ubuntu-24.04
+.github/workflows/example-app.yml:242:      - uses: actions/checkout@v7.0.1
+.github/workflows/example-app.yml:288:      - uses: actions/checkout@v7.0.1
+.github/workflows/example-app.yml:310:    runs-on: ubuntu-24.04
+.github/workflows/example-app.yml:321:      - uses: actions/checkout@v7.0.1
+.github/workflows/example-app.yml:348:    runs-on: ubuntu-24.04
+.github/workflows/example-app.yml:372:      - uses: actions/checkout@v7.0.1
+.github/workflows/example-app.yml:499:    runs-on: ubuntu-24.04
+.github/workflows/example-app.yml:523:      - uses: actions/checkout@v7.0.1
+.github/workflows/workflows.yml:53:    runs-on: ubuntu-24.04
+.github/workflows/workflows.yml:59:      - uses: actions/checkout@v7.0.1
+.github/workflows/workflows.yml:67:      #   docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:1.7.12 -color
+.github/workflows/workflows.yml:74:      - uses: docker://rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667 # v1.7.12
+.github/workflows/workflows.yml:81:    runs-on: ubuntu-24.04
+.github/workflows/workflows.yml:87:      - uses: actions/checkout@v7.0.1
+.github/workflows/workflows.yml:95:    runs-on: ubuntu-24.04
+.github/workflows/workflows.yml:101:      - uses: actions/checkout@v7.0.1
+.github/workflows/workflows.yml:105:        run: pipx run --spec ruff==0.17.4 ruff check --output-format=github .
+.github/workflows/workflows.yml:107:        run: pipx run --spec ruff==0.17.4 ruff format --check .
+.github/workflows/workflows.yml:117:    runs-on: ubuntu-24.04
+.github/workflows/workflows.yml:123:      - uses: actions/checkout@v7.0.1
+.github/workflows/workflows.yml:143:    runs-on: ubuntu-24.04
+.github/workflows/workflows.yml:149:      - uses: actions/checkout@v7.0.1
+.github/workflows/workflows.yml:196:    runs-on: ubuntu-24.04
+.github/workflows/workflows.yml:202:      - uses: actions/checkout@v7.0.1
+.github/workflows/workflows.yml:269:    runs-on: ubuntu-24.04
+.github/workflows/workflows.yml:292:      - uses: actions/checkout@v7.0.1
+.github/workflows/links.yml:57:    runs-on: ubuntu-24.04
+.github/workflows/links.yml:67:      - uses: actions/checkout@v7.0.1
+.github/workflows/links.yml:183:    runs-on: ubuntu-24.04
+.github/workflows/links.yml:201:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:52:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:72:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:93:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:104:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:116:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:128:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:147:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:158:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:177:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:185:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:204:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:213:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:246:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:262:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:278:        run: npx --yes -p secretlint@13.0.7 -p @secretlint/secretlint-rule-preset-recommend@13.0.7 secretlint "**/*"
+.github/workflows/release.yml:351:        os: [ubuntu-24.04, windows-2025]
+.github/workflows/release.yml:383:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:408:        if: matrix.runtime == 'node' && matrix.os == 'ubuntu-24.04'
+.github/workflows/release.yml:419:          bun-version: '1.4.4'
+.github/workflows/release.yml:435:          deno-version: v2.9.8
+.github/workflows/release.yml:456:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:471:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:490:        uses: docker/build-push-action@v7.4.0
+.github/workflows/release.yml:509:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:519:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:543:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:553:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:610:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:626:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:753:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:775:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:856:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:873:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:905:            runner: ubuntu-24.04
+.github/workflows/release.yml:907:            runner: ubuntu-24.04-arm
+.github/workflows/release.yml:912:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:955:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:959:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:1027:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:1039:      - uses: actions/checkout@v7.0.1
+.github/workflows/release.yml:1103:    runs-on: ubuntu-24.04
+.github/workflows/release.yml:1132:      - uses: actions/checkout@v7.0.1
+.github/workflows/security.yml:26:    runs-on: ubuntu-24.04
+.github/workflows/security.yml:42:      - uses: actions/checkout@v7.0.1
+.github/workflows/security.yml:74:    runs-on: ubuntu-24.04
+.github/workflows/security.yml:82:      - uses: actions/checkout@v7.0.1
+.github/workflows/security.yml:102:    runs-on: ubuntu-24.04
+.github/workflows/security.yml:111:      - uses: actions/checkout@v7.0.1
+.github/workflows/security.yml:129:    runs-on: ubuntu-24.04
+.github/workflows/security.yml:140:      - uses: actions/checkout@v7.0.1
+.github/workflows/security.yml:161:    runs-on: ubuntu-24.04
+.github/workflows/security.yml:167:      - uses: actions/checkout@v7.0.1
+.github/workflows/security.yml:170:      - uses: actions/setup-python@v7.1.0
+.github/workflows/security.yml:172:          python-version: '3.15.0'
+.github/workflows/security.yml:175:          pipx install uv==0.13.7
+.github/workflows/security.yml:193:    runs-on: ubuntu-24.04
+.github/workflows/security.yml:215:      - uses: actions/checkout@v7.0.1
+.github/actions/setup-node/action.yml:13:    - uses: actions/setup-node@v7.1.0
+.github/actions/setup-node/action.yml:15:        node-version-file: .nvmrc
+.github/actions/setup-node/action.yml:20:    # setup-node selects Node's bundled npm, which currently predates npm 12.
+.github/actions/setup-node/action.yml:25:      run: npm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund # zizmor: ignore[adhoc-packages]
+.github/actions/setup-node/action.yml:28:      uses: actions/setup-node@v7.1.0
+.github/actions/setup-node/action.yml:30:        node-version-file: .nvmrc
+.github/actions/publish-dockerhub/action.yml:56:      uses: docker/build-push-action@v7.4.0
+.github/actions/artifact-transport/package.json:9:    "@zip.js/zip.js": "2.24.0"
+.github/actions/artifact-transport/README.md:11:downloaded archive. `zip.js` 2.24.0 then extracts it. The SDK's own reader,
+tests/workflows-lint.test.js:23:  it('uses the supported Ubuntu 24.04 label for every Linux job', () => {
+tests/workflows-lint.test.js:57:      'docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:1.7.12 -color'
+tests/workflows-lint.test.js:108:    const versions = [...workflowsWorkflow.matchAll(/--spec ruff==(\S+)/g)].map(
+tests/workflows-lint.test.js:119:      'pipx run --spec ruff==0.17.4 ruff check --fix --force-exclude'
+tests/workflows-lint.test.js:246:    expect(cli).toBe('13.0.7');
+scripts/setup-npm.mjs:11: * Node.js 20.x ships with npm 10.x, so we need to update
+scripts/setup-npm.mjs:34:  return semver.satisfies(version, '^22.22.2 || ^24.15.0 || >=26.0.0');
+scripts/setup-npm.mjs:85:// Known issue: Node.js 22.22.2 on GitHub Actions (ubuntu-24.04 image >= 20260329.72.1)
+scripts/setup-npm.mjs:86:// ships with a broken npm 10.9.7 that is missing the 'promise-retry' module,
+scripts/setup-npm.mjs:93:// 1. npm install -g npm@12.2.2 (standard approach)
+scripts/setup-npm.mjs:95:// 3. npx npm@12.2.2 install (uses npx cache, bypasses arborist)
+scripts/setup-npm.mjs:98:  await $`npm install -g npm@12.2.2`;
+scripts/setup-npm.mjs:125:  await $`npx --yes npm@12.2.2 install -g npm@12.2.2`;
+scripts/setup-npm.mjs:168:    ['npm install -g npm@12.2.2', () => tryStandardInstall($)],
+tests/issue-262-regressions.test.js:32:        writeFileSync(workflow, 'jobs:\n  test:\n    runs-on: ubuntu-24.04\n');
+tests/package-manager.test.js:47:        { name: 'fixture', packageManager: 'npm@11.19.0' },
+tests/package-manager.test.js:147:      packageManager: 'npm@10.9.1',
+tests/package-manager.test.js:154:      expect(result.stdout).toContain('declared "npm@10.9.1"');
+tests/docker-publish.test.js:127:    expect(dockerHubAction).toContain('uses: docker/build-push-action@v7');
+tests/docker-publish.test.js:134:    expect(buildJob).toContain('runner: ubuntu-24.04');
+tests/docker-publish.test.js:136:    expect(buildJob).toContain('runner: ubuntu-24.04-arm');
+tests/setup-npm.test.js:46:    expect(isSupportedNodeVersion('v24.15.0')).toBe(true);
+tests/setup-npm.test.js:52:  it('selects the latest npm 12 tarball that satisfies trusted publishing', () => {
+tests/docker-build.test.js:37:    expect(dockerBuildJob).toContain('uses: docker/build-push-action@v7');
+scripts/audit-python-dependencies.py:52:                        "--python-version",
+scripts/audit-python-dependencies.py:53:                        "3.15",
+tests/action-versions.test.js:24:      '3d3c42e5aac5ba805825da76410c181273ba90b1': 'v7',
+tests/action-versions.test.js:25:      '949feb2413d6458794dcd2491c4babbbce0c15c1': 'v7',
+tests/action-versions.test.js:39:    expect(refs.get('actions/checkout')).toEqual(new Set(['v7']));
+tests/workflow-reliability.test.js:5:// GitHub documents `queue` although actionlint 1.7.12 does not know it yet:
+tests/workflow-reliability.test.js:329:        '- uses: actions/checkout@v7',
+tests/workflow-reliability.test.js:475:    expect(desktopPackageJob).not.toContain("node-version: '20.x'");
+tests/node-toolchain.test.js:15:  assert.equal(node.with['node-version-file'], '.nvmrc');
+scripts/sanitize-npm-userconfig.mjs:12: * npm 11 warns about this key, while setup-node may still write it.
+tests/ci-workflow-policy.test.js:9:    'secretlint@^13.0.7',
+tests/ci-workflow-policy.test.js:29:        'run: npx -p secretlint@13.0.7 -p @secretlint/preset@13.0.7 scan'
+tests/ci-workflow-policy.test.js:35:      checkWorkflowPolicy('os: [ubuntu-24.04, macos-latest, windows-latest]')
+tests/test-sharding.test.js:37:  for (const os of ['ubuntu-24.04', 'windows-2025', 'macos-26-intel']) {
+tests/transient-links.test.js:126:    expect(workflow).not.toContain('bun-version: latest');
+tests/transient-links.test.js:127:    expect(workflow).toContain("bun-version: '1.4.4'");
+tests/release-badge.test.js:15:    expect(normalizeReleaseVersionForBadge('v1.7.12')).toBe('1.7.12');
+tests/release-badge.test.js:19:    expect(normalizeReleaseVersionForBadge('js-v1.7.12')).toBe('1.7.12');
+tests/release-badge.test.js:23:    expect(normalizeReleaseVersionForBadge('js_v1.7.12')).toBe('1.7.12');
+tests/release-badge.test.js:41:    const badge = buildNpmVersionBadge('my-package', 'js_v1.7.12');
+tests/release-badge.test.js:43:    expect(badge.includes('/badge/npm-1.7.12-blue.svg')).toBe(true);
+tests/release-badge.test.js:44:    expect(badge.includes('/badge/npm-js_v1.7.12-blue.svg')).toBe(false);
+tests/release-badge.test.js:45:    expect(badge.includes('/my-package/v/1.7.12')).toBe(true);
+tests/security-workflow.test.js:65:    expect(codeql).toContain('uses: actions/checkout@v7');
+tests/security-workflow.test.js:137:    expect(audit).toContain('pipx install uv==0.13.7');
+experiments/benchmark/README.md:18:Run from the repository root with Python 3.15, installed binary tools from their official release assets, and finite Node heap:
+experiments/benchmark/requirements.lock:2:#    uv pip compile --python-version 3.15 --generate-hashes --no-annotate experiments/benchmark/requirements.txt --output-file experiments/benchmark/requirements.lock
+experiments/benchmark/requirements.lock:1373:thinc==8.3.14 \

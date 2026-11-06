@@ -1,0 +1,9 @@
+While updating a downstream consumer to `docker/setup-buildx-action@v4.4.1`, I reviewed this closed mirror proposal and the now-released upstream pull retry implementation. The five transient pull attempts already solve our local retry loop, so we removed that loop.
+
+The remaining reusable feature is an ordered fallback for the **BuildKit bootstrap image**. A BuildKit `[registry."docker.io"]` mirror only takes effect after the daemon starts; it cannot recover the Docker Engine's initial pull of `moby/buildkit`.
+
+Minimal fault injection: make `docker pull moby/buildkit:v0.34.2` return `500 Internal Server Error`, while allowing `docker pull mirror.gcr.io/moby/buildkit:v0.34.2`. v4.4.1 exhausts its five canonical attempts and fails even though the mirror is healthy. Pre-seeding the canonical tag is insufficient now that the action explicitly pulls it before bootstrap.
+
+Our retained workaround calls the official action twice: canonical with `continue-on-error`, then on failure a second invocation whose `driver-opts` uses the actual mirror reference. Both use upstream retries. CI runs the actual action against a real Docker daemon with a bounded pull fault shim; it verifies five canonical failures, mirror recovery, and a separate exhausted case that must propagate failure. Reproducer and workflow: https://github.com/link-foundation/sensitive-data-sanitizer/pull/103 (`experiments/issue-102/mock-buildx-docker.sh`, `.github/workflows/workflows.yml`). No registry push is involved.
+
+Suggested upstream feature: an optional ordered `buildkit-image-fallbacks` input, applying the existing retry policy to each image and constructing the builder with the successful reference. Empty/default input would preserve current behavior. This would let consumers remove the remaining two-step orchestration. Is that narrower feature acceptable even though this earlier proxy proposal was closed?
