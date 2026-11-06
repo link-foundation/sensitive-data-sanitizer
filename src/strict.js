@@ -4,17 +4,21 @@ import { months } from './personal-context.js';
 const boundary = '[\\p{L}\\p{N}_]';
 const attributes =
   /(?<![\p{L}\p{N}_])(?:женщин[аыуеой]{1,2}|мужчин[аыуеой]{1,2}|замужем|женат(?:а|ы)?|(?:один|одна|двое|трое|четверо|пятеро|\d{1,2})[ \t]+(?:детей|реб[её]нок|реб[её]нка)|русск(?:ая|ий|ого|ой|ие)|татар(?:ин|ка|ы)|православн(?:ый|ая|ого|ой)|мусульман(?:ин|ка)|инвалидност[ьи](?:[ \t]+\d[ \t]+группы)?|беременн(?:а|ая|ость)|судимость(?:[ \t]+погашена)?|член[ \t]+партии|woman|women|man|men|male|female|married|divorced|pregnant|pregnancy|disabled|disability|christian|muslim|jewish|orthodox|russian|hispanic|asian|criminal[ \t]+record|party[ \t]+member|(?:one|two|three|\d{1,2})[ \t]+children)(?![\p{L}\p{N}_])/giu;
+const additionalAttributes =
+  /(?<![\p{L}\p{N}_])(?:диабет(?:ом|а|у|е)?|ВИЧ(?:-положительн(?:ый|ая|ого|ой))?|болен|больна|больны|католик(?:ом|а|и)?|католичк(?:а|ой|и)|буддист(?:ка|кой|ом|а|ы)?|атеист(?:ка|кой|ом|а|ы)?|украин(?:ец|ка|цы|цем|кой)|белорус(?:ка|кой|ом|а|ы)?|несудим(?:а|ы)?|судим(?:а|ы)?|член[ \t]+политической[ \t]+партии|холост(?:а|ы)?|развед[её]н(?:а|ы)?|в[ \t]+разводе|diabetes|diabetic|HIV(?:[ \t-]+positive)?|cancer|buddhist|catholic|atheist|ukrainian|belarusian|previous[ \t]+conviction|member[ \t]+of[ \t]+(?:a[ \t]+)?(?:political[ \t]+)?party|single|unmarried|widowed)(?![\p{L}\p{N}_])/giu;
 
 export function detectStrict(text, emit, options) {
   if (!options.strict) {
     return;
   }
-  collectMatches(text, attributes, emit, {
-    type: 'PERSONAL_ATTRIBUTE',
-    rule: 'strict-attribute',
-    category: 'personal',
-    confidence: 0.9,
-  });
+  for (const pattern of [attributes, additionalAttributes]) {
+    collectMatches(text, pattern, emit, {
+      type: 'PERSONAL_ATTRIBUTE',
+      rule: 'strict-attribute',
+      category: 'personal',
+      confidence: 0.9,
+    });
+  }
   const date = new RegExp(
     `(?<!${boundary})(?:\\d{4}-\\d{2}-\\d{2}|\\d{1,2}[./]\\d{1,2}[./]\\d{4}|\\d{1,2}[ \\t]+(?:${months})[ \\t]+\\d{4})(?!${boundary}|[Tt]\\d)`,
     'giu'

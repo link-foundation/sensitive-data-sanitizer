@@ -124,9 +124,12 @@ cp tests/sanitizer-issue-118-catalog.test.js ci-logs/baseline/tests/
 node --max-old-space-size=384 --test --test-concurrency=1 --test-timeout=30000 ci-logs/baseline/tests/sanitizer-issue-118-catalog.test.js
 ```
 
-The final focused selections passed **394/394** API/catalog/escape and older
+The focused selections passed **394/394** API/catalog/escape and older
 document regression tests, plus **118/118** integration, offline recognition,
 17-locale, issue-100 and packaging tests. Public declarations passed Deno checking.
+A final requirement review added 15 common Russian/English attribute cases;
+the complete expanded catalog passed **131/131** tests, bringing focused coverage
+to 527 passing cases across those selections.
 Run the focused selection:
 
 ```sh

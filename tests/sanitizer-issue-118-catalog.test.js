@@ -157,6 +157,21 @@ describe('issue 116 strict stored-log policy', () => {
     'criminal record',
     'party member',
     'two children',
+    'диабетом',
+    'ВИЧ-положительный',
+    'католичка',
+    'буддисткой',
+    'украинка',
+    'несудим',
+    'член политической партии',
+    'разведена',
+    'diabetes',
+    'HIV positive',
+    'buddhist',
+    'ukrainian',
+    'previous conviction',
+    'member of a political party',
+    'single',
   ];
   for (const input of positives) {
     it(`strict: ${input}`, async () => {
