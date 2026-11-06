@@ -286,9 +286,11 @@ jobs:
         env:
           MODE: ${{ matrix.mode }}
         run: |
-          echo "BUILDX_REAL_DOCKER=$(command -v docker)" >> "$GITHUB_ENV"
-          echo "BUILDX_MOCK_MODE=$MODE" >> "$GITHUB_ENV"
-          echo "BUILDX_PULL_LOG=$RUNNER_TEMP/buildx-pulls" >> "$GITHUB_ENV"
+          {
+            echo "BUILDX_REAL_DOCKER=$(command -v docker)"
+            echo "BUILDX_MOCK_MODE=$MODE"
+            echo "BUILDX_PULL_LOG=$RUNNER_TEMP/buildx-pulls"
+          } >> "$GITHUB_ENV"
           mkdir -p "$RUNNER_TEMP/buildx-bin"
           cp experiments/issue-102/mock-buildx-docker.sh "$RUNNER_TEMP/buildx-bin/docker"
           echo "$RUNNER_TEMP/buildx-bin" >> "$GITHUB_PATH"
