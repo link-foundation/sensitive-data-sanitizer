@@ -1,0 +1,461 @@
+﻿2026-11-06T00:24:11.2750551Z Current runner version: '2.338.2'
+2026-11-06T00:24:11.2769631Z ##[group]Runner Image Provisioner
+2026-11-06T00:24:11.2770303Z Hosted Compute Agent
+2026-11-06T00:24:11.2770656Z Version: 20261028.624
+2026-11-06T00:24:11.2771167Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-06T00:24:11.2771591Z Build Date: 2026-10-28T21:51:42Z
+2026-11-06T00:24:11.2772206Z Worker ID: {aa4ab799-18bd-4aaf-88b6-920cddab1f83}
+2026-11-06T00:24:11.2772668Z Region: centralus
+2026-11-06T00:24:11.2773004Z Cloud: Azure
+2026-11-06T00:24:11.2773353Z ##[endgroup]
+2026-11-06T00:24:11.2774184Z ##[group]Operating System
+2026-11-06T00:24:11.2774613Z Ubuntu
+2026-11-06T00:24:11.2774982Z 24.04.5
+2026-11-06T00:24:11.2775296Z LTS
+2026-11-06T00:24:11.2775632Z ##[endgroup]
+2026-11-06T00:24:11.2775982Z ##[group]Runner Image
+2026-11-06T00:24:11.2776362Z Image: ubuntu-24.04
+2026-11-06T00:24:11.2776739Z Version: 20261101.360.1
+2026-11-06T00:24:11.2777501Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-06T00:24:11.2778397Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-06T00:24:11.2778972Z ##[endgroup]
+2026-11-06T00:24:11.2779677Z ##[group]GITHUB_TOKEN Permissions
+2026-11-06T00:24:11.2780856Z Contents: read
+2026-11-06T00:24:11.2781248Z Metadata: read
+2026-11-06T00:24:11.2781619Z ##[endgroup]
+2026-11-06T00:24:11.2783328Z Secret source: Actions
+2026-11-06T00:24:11.2783892Z Cache mode: write
+2026-11-06T00:24:11.2784304Z Prepare workflow directory
+2026-11-06T00:24:11.3024845Z Prepare all required actions
+2026-11-06T00:24:11.3055540Z Getting action download info
+2026-11-06T00:24:11.5268789Z Download action repository 'actions/checkout@v7.0.1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-06T00:24:11.6548507Z Complete job name: Package desktop app (ubuntu-24.04)
+2026-11-06T00:24:11.7050178Z ##[group]Run actions/checkout@v7.0.1
+2026-11-06T00:24:11.7050599Z with:
+2026-11-06T00:24:11.7050841Z   persist-credentials: false
+2026-11-06T00:24:11.7051189Z   repository: link-foundation/sensitive-data-sanitizer
+2026-11-06T00:24:11.7053393Z   token: ***
+2026-11-06T00:24:11.7053627Z   ssh-strict: true
+2026-11-06T00:24:11.7053866Z   ssh-user: git
+2026-11-06T00:24:11.7054095Z   clean: true
+2026-11-06T00:24:11.7054340Z   sparse-checkout-cone-mode: true
+2026-11-06T00:24:11.7054623Z   fetch-depth: 1
+2026-11-06T00:24:11.7054858Z   fetch-tags: false
+2026-11-06T00:24:11.7055100Z   show-progress: true
+2026-11-06T00:24:11.7055342Z   lfs: false
+2026-11-06T00:24:11.7055569Z   submodules: false
+2026-11-06T00:24:11.7055816Z   set-safe-directory: true
+2026-11-06T00:24:11.7056093Z   allow-unsafe-pr-checkout: false
+2026-11-06T00:24:11.7056452Z env:
+2026-11-06T00:24:11.7056675Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:11.7056937Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:11.7057258Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:11.7057516Z ##[endgroup]
+2026-11-06T00:24:11.9337382Z Syncing repository: link-foundation/sensitive-data-sanitizer
+2026-11-06T00:24:11.9338852Z ##[group]Getting Git version info
+2026-11-06T00:24:11.9339338Z Working directory is '/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer'
+2026-11-06T00:24:11.9339981Z [command]/usr/bin/git version
+2026-11-06T00:24:11.9422924Z git version 2.56.0
+2026-11-06T00:24:11.9436698Z ##[endgroup]
+2026-11-06T00:24:11.9443950Z Temporarily overriding HOME='/home/runner/work/_temp/f0f02267-5054-4116-8e91-d4dc89d705d2' before making global git config changes
+2026-11-06T00:24:11.9445250Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-06T00:24:11.9448792Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+2026-11-06T00:24:11.9495126Z Deleting the contents of '/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer'
+2026-11-06T00:24:11.9503036Z ##[group]Determining repository object format
+2026-11-06T00:24:11.9504054Z ##[endgroup]
+2026-11-06T00:24:11.9505403Z ##[group]Initializing the repository
+2026-11-06T00:24:11.9513753Z [command]/usr/bin/git init /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+2026-11-06T00:24:11.9641486Z Initialized empty Git repository in /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/
+2026-11-06T00:24:11.9650217Z [command]/usr/bin/git remote add origin https://github.com/link-foundation/sensitive-data-sanitizer
+2026-11-06T00:24:11.9710462Z ##[endgroup]
+2026-11-06T00:24:11.9711304Z ##[group]Disabling automatic garbage collection
+2026-11-06T00:24:11.9713331Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-06T00:24:11.9748919Z ##[endgroup]
+2026-11-06T00:24:11.9749688Z ##[group]Setting up auth
+2026-11-06T00:24:11.9750299Z Removing SSH command configuration
+2026-11-06T00:24:11.9753229Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-06T00:24:11.9796517Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-06T00:24:12.0129323Z Removing HTTP extra header
+2026-11-06T00:24:12.0134319Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-06T00:24:12.0173951Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-06T00:24:12.0357836Z Removing includeIf entries pointing to credentials config files
+2026-11-06T00:24:12.0362481Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-06T00:24:12.0400648Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-06T00:24:12.0595226Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-e4a6e860-0531-49ec-b856-faf348e330ce.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-06T00:24:12.0640183Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path /home/runner/work/_temp/git-credentials-e4a6e860-0531-49ec-b856-faf348e330ce.config
+2026-11-06T00:24:12.0678597Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-e4a6e860-0531-49ec-b856-faf348e330ce.config
+2026-11-06T00:24:12.0715485Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-e4a6e860-0531-49ec-b856-faf348e330ce.config
+2026-11-06T00:24:12.0753332Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-e4a6e860-0531-49ec-b856-faf348e330ce.config
+2026-11-06T00:24:12.0788235Z ##[endgroup]
+2026-11-06T00:24:12.0788733Z ##[group]Fetching the repository
+2026-11-06T00:24:12.0792699Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +9e44c7e97f153396af7416fc3fb0b3880e56b71d:refs/remotes/pull/103/merge
+2026-11-06T00:24:13.1755545Z From https://github.com/link-foundation/sensitive-data-sanitizer
+2026-11-06T00:24:13.1756959Z  * [new ref]         9e44c7e97f153396af7416fc3fb0b3880e56b71d -> pull/103/merge
+2026-11-06T00:24:13.1762186Z ##[endgroup]
+2026-11-06T00:24:13.1763319Z ##[group]Determining the checkout info
+2026-11-06T00:24:13.1764504Z ##[endgroup]
+2026-11-06T00:24:13.1765087Z [command]/usr/bin/git sparse-checkout disable
+2026-11-06T00:24:13.1815277Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-06T00:24:13.1854510Z ##[group]Checking out the ref
+2026-11-06T00:24:13.1855613Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/103/merge
+2026-11-06T00:24:13.3047287Z Note: switching to 'refs/remotes/pull/103/merge'.
+2026-11-06T00:24:13.3048315Z 
+2026-11-06T00:24:13.3048774Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-06T00:24:13.3049944Z changes and commit them, and you can discard any commits you make in this
+2026-11-06T00:24:13.3051111Z state without impacting any branches by switching back to a branch.
+2026-11-06T00:24:13.3051975Z 
+2026-11-06T00:24:13.3052426Z If you want to create a new branch to retain commits you create, you may
+2026-11-06T00:24:13.3053467Z do so (now or later) by using -c with the switch command. Example:
+2026-11-06T00:24:13.3054069Z 
+2026-11-06T00:24:13.3054367Z   git switch -c <new-branch-name>
+2026-11-06T00:24:13.3054854Z 
+2026-11-06T00:24:13.3055200Z Or undo this operation with:
+2026-11-06T00:24:13.3055691Z 
+2026-11-06T00:24:13.3055995Z   git switch -
+2026-11-06T00:24:13.3056407Z 
+2026-11-06T00:24:13.3057060Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-06T00:24:13.3057894Z 
+2026-11-06T00:24:13.3058852Z HEAD is now at 9e44c7e Merge f52f39156884a6d10882e28c9b898a1b21b417a3 into 15f86c08069a53c65020fdb760512aac37929976
+2026-11-06T00:24:13.3116027Z ##[endgroup]
+2026-11-06T00:24:13.3118340Z [command]/usr/bin/git log -1 --format=%H
+2026-11-06T00:24:13.3152656Z 9e44c7e97f153396af7416fc3fb0b3880e56b71d
+2026-11-06T00:24:13.3160127Z ##[group]Removing auth
+2026-11-06T00:24:13.3161219Z Removing SSH command configuration
+2026-11-06T00:24:13.3163009Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-06T00:24:13.3199391Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-06T00:24:13.3388320Z Removing HTTP extra header
+2026-11-06T00:24:13.3390519Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-06T00:24:13.3427911Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-06T00:24:13.3614769Z Removing includeIf entries pointing to credentials config files
+2026-11-06T00:24:13.3616576Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-06T00:24:13.3653131Z includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path
+2026-11-06T00:24:13.3655494Z includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path
+2026-11-06T00:24:13.3657014Z includeif.gitdir:/github/workspace/.git.path
+2026-11-06T00:24:13.3658072Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-06T00:24:13.3661340Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path
+2026-11-06T00:24:13.3691034Z /home/runner/work/_temp/git-credentials-e4a6e860-0531-49ec-b856-faf348e330ce.config
+2026-11-06T00:24:13.3701618Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-e4a6e860\-0531\-49ec\-b856\-faf348e330ce\.config
+2026-11-06T00:24:13.3749446Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path
+2026-11-06T00:24:13.3779758Z /home/runner/work/_temp/git-credentials-e4a6e860-0531-49ec-b856-faf348e330ce.config
+2026-11-06T00:24:13.3789929Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-e4a6e860\-0531\-49ec\-b856\-faf348e330ce\.config
+2026-11-06T00:24:13.3828199Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-06T00:24:13.3861636Z /github/runner_temp/git-credentials-e4a6e860-0531-49ec-b856-faf348e330ce.config
+2026-11-06T00:24:13.3867701Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-e4a6e860\-0531\-49ec\-b856\-faf348e330ce\.config
+2026-11-06T00:24:13.3906015Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-06T00:24:13.3935973Z /github/runner_temp/git-credentials-e4a6e860-0531-49ec-b856-faf348e330ce.config
+2026-11-06T00:24:13.3941716Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-e4a6e860\-0531\-49ec\-b856\-faf348e330ce\.config
+2026-11-06T00:24:13.3979521Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-06T00:24:13.4166866Z Removing credentials config '/home/runner/work/_temp/git-credentials-e4a6e860-0531-49ec-b856-faf348e330ce.config'
+2026-11-06T00:24:13.4174852Z ##[endgroup]
+2026-11-06T00:24:13.4429433Z Prepare all required actions
+2026-11-06T00:24:13.4430438Z Getting action download info
+2026-11-06T00:24:13.5531372Z Download action repository 'actions/setup-node@v7.1.0' (SHA:949feb2413d6458794dcd2491c4babbbce0c15c1)
+2026-11-06T00:24:13.6690766Z ##[group]Run ./.github/actions/setup-node
+2026-11-06T00:24:13.6691379Z with:
+2026-11-06T00:24:13.6691948Z   cache: npm
+2026-11-06T00:24:13.6692598Z   cache-dependency-path: examples/universal-app/package-lock.json
+2026-11-06T00:24:13.6693326Z env:
+2026-11-06T00:24:13.6693770Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:13.6694295Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:13.6694891Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:13.6695408Z ##[endgroup]
+2026-11-06T00:24:13.6736883Z ##[start-action display=Run actions/setup-node@v7.1.0;id=__self.__actions_setup-node]
+2026-11-06T00:24:13.6823973Z ##[group]Run actions/setup-node@v7.1.0
+2026-11-06T00:24:13.6824580Z with:
+2026-11-06T00:24:13.6825039Z   node-version-file: .nvmrc
+2026-11-06T00:24:13.6825613Z   package-manager-cache: false
+2026-11-06T00:24:13.6826158Z   check-latest: false
+2026-11-06T00:24:13.6829867Z   token: ***
+2026-11-06T00:24:13.6830317Z env:
+2026-11-06T00:24:13.6830750Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:13.6831266Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:13.6832023Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:13.6832569Z ##[endgroup]
+2026-11-06T00:24:13.7670531Z Node version file is not JSON file
+2026-11-06T00:24:13.7673776Z Node version file is not TOML file
+2026-11-06T00:24:13.7674617Z Resolved .nvmrc as 26.13.0
+2026-11-06T00:24:13.7688488Z Attempting to download 26.13.0...
+2026-11-06T00:24:14.5327051Z Acquiring 26.13.0 - x64 from https://github.com/actions/node-versions/releases/download/26.13.0-41378513395/node-26.13.0-linux-x64.tar.gz
+2026-11-06T00:24:15.0505772Z Extracting ...
+2026-11-06T00:24:15.0612671Z [command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/1c0c6e37-936d-454b-af28-f06de0c20163 -f /home/runner/work/_temp/1f9ef2ed-4cb4-49d0-b841-f69de737d474
+2026-11-06T00:24:16.0680491Z Adding to the cache ...
+2026-11-06T00:24:17.8843506Z ##[group]Environment details
+2026-11-06T00:24:18.0419543Z node: v26.13.0
+2026-11-06T00:24:18.0421319Z npm: 11.20.0
+2026-11-06T00:24:18.0421507Z yarn: 1.22.22
+2026-11-06T00:24:18.0422227Z ##[endgroup]
+2026-11-06T00:24:18.0549950Z ##[end-action id=__self.__actions_setup-node;outcome=success;conclusion=success;duration_ms=4381]
+2026-11-06T00:24:18.0553205Z ##[start-action display=Install reviewed npm;id=__self.__run]
+2026-11-06T00:24:18.0586123Z ##[group]Run npm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund
+2026-11-06T00:24:18.0586563Z [36;1mnpm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund[0m
+2026-11-06T00:24:18.0607684Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-06T00:24:18.0607892Z env:
+2026-11-06T00:24:18.0608033Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:18.0608368Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:18.0608517Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:18.0608644Z ##[endgroup]
+2026-11-06T00:24:21.0751653Z 
+2026-11-06T00:24:21.0757952Z removed 8 packages, and changed 77 packages in 3s
+2026-11-06T00:24:21.1113079Z ##[end-action id=__self.__run;outcome=success;conclusion=success;duration_ms=3055]
+2026-11-06T00:24:21.1115220Z ##[start-action display=Restore requested package cache with current npm;id=__self.__actions_setup-node_2]
+2026-11-06T00:24:21.1161376Z ##[group]Run actions/setup-node@v7.1.0
+2026-11-06T00:24:21.1161539Z with:
+2026-11-06T00:24:21.1161653Z   node-version-file: .nvmrc
+2026-11-06T00:24:21.1161981Z   cache: npm
+2026-11-06T00:24:21.1162206Z   cache-dependency-path: examples/universal-app/package-lock.json
+2026-11-06T00:24:21.1162400Z   check-latest: false
+2026-11-06T00:24:21.1163613Z   token: ***
+2026-11-06T00:24:21.1163747Z   package-manager-cache: true
+2026-11-06T00:24:21.1163920Z env:
+2026-11-06T00:24:21.1164041Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:21.1164347Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:21.1164493Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:21.1164615Z ##[endgroup]
+2026-11-06T00:24:21.1980695Z Node version file is not JSON file
+2026-11-06T00:24:21.1983632Z Node version file is not TOML file
+2026-11-06T00:24:21.1984344Z Resolved .nvmrc as 26.13.0
+2026-11-06T00:24:21.1990133Z Found in cache @ /opt/hostedtoolcache/node/26.13.0/x64
+2026-11-06T00:24:21.2156459Z ##[group]Environment details
+2026-11-06T00:24:21.3287411Z node: v26.13.0
+2026-11-06T00:24:21.3287718Z npm: 12.2.2
+2026-11-06T00:24:21.3287920Z yarn: 1.22.22
+2026-11-06T00:24:21.3288462Z ##[endgroup]
+2026-11-06T00:24:21.3303229Z [command]/opt/hostedtoolcache/node/26.13.0/x64/bin/npm config get cache
+2026-11-06T00:24:21.4039274Z /home/runner/.npm
+2026-11-06T00:24:21.5505216Z Cache hit for: node-cache-Linux-x64-npm-d05f896eaa4f7a99700492386e1e2bfee3dab5098806897ad39d6a3ffdc104eb
+2026-11-06T00:24:22.4443723Z Received 62054878 of 62054878 (100.0%), 81.0 MBs/sec
+2026-11-06T00:24:22.4444943Z Cache Size: ~59 MB (62054878 B)
+2026-11-06T00:24:22.4465315Z [command]/usr/bin/tar -xf /home/runner/work/_temp/7e4ac572-aec1-4ea8-a6a3-cb6969b38cf0/cache.tzst -P -C /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer --use-compress-program unzstd
+2026-11-06T00:24:22.5977319Z Cache restored successfully
+2026-11-06T00:24:22.6010393Z Cache restored from key: node-cache-Linux-x64-npm-d05f896eaa4f7a99700492386e1e2bfee3dab5098806897ad39d6a3ffdc104eb
+2026-11-06T00:24:22.6168754Z ##[end-action id=__self.__actions_setup-node_2;outcome=success;conclusion=success;duration_ms=1505]
+2026-11-06T00:24:22.6196890Z ##[group]Run npm ci --prefix examples/universal-app --no-audit --no-fund
+2026-11-06T00:24:22.6197175Z [36;1mnpm ci --prefix examples/universal-app --no-audit --no-fund[0m
+2026-11-06T00:24:22.6213525Z shell: /usr/bin/bash -e {0}
+2026-11-06T00:24:22.6213659Z env:
+2026-11-06T00:24:22.6213769Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:22.6213917Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:22.6214065Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:22.6214190Z ##[endgroup]
+2026-11-06T00:24:24.3352157Z 
+2026-11-06T00:24:24.3352770Z added 342 packages in 2s
+2026-11-06T00:24:24.3715285Z ##[group]Run node --pending-deprecation --throw-deprecation scripts/check-desktop-compat.mjs
+2026-11-06T00:24:24.3715923Z [36;1mnode --pending-deprecation --throw-deprecation scripts/check-desktop-compat.mjs[0m
+2026-11-06T00:24:24.3743156Z shell: /usr/bin/bash -e {0}
+2026-11-06T00:24:24.3743382Z env:
+2026-11-06T00:24:24.3743556Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:24.3743767Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:24.3744002Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:24.3744203Z ##[endgroup]
+2026-11-06T00:24:24.5202394Z Desktop consumers: ASAR packed/unpacked bytes and temp cleanup passed.
+2026-11-06T00:24:24.5466178Z ##[group]Run npm run example:desktop:package
+2026-11-06T00:24:24.5466513Z [36;1mnpm run example:desktop:package[0m
+2026-11-06T00:24:24.5466911Z [36;1mfor attempt in {1..30}; do[0m
+2026-11-06T00:24:24.5467216Z [36;1m  echo "Waiting for the packaged app (attempt ${attempt}/30)"[0m
+2026-11-06T00:24:24.5467566Z [36;1m  if [[ -d examples/universal-app/out ]] &&[0m
+2026-11-06T00:24:24.5467959Z [36;1m    [[ -n "$(find examples/universal-app/out -mindepth 1 -print -quit)" ]]; then[0m
+2026-11-06T00:24:24.5468413Z [36;1m    find examples/universal-app/out -maxdepth 2 -mindepth 1 -print[0m
+2026-11-06T00:24:24.5468737Z [36;1m    exit 0[0m
+2026-11-06T00:24:24.5468915Z [36;1m  fi[0m
+2026-11-06T00:24:24.5469087Z [36;1m  sleep 1[0m
+2026-11-06T00:24:24.5469261Z [36;1mdone[0m
+2026-11-06T00:24:24.5469577Z [36;1mecho "::error::Desktop package output was not created at examples/universal-app/out"[0m
+2026-11-06T00:24:24.5469948Z [36;1mexit 1[0m
+2026-11-06T00:24:24.5489532Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-06T00:24:24.5489819Z env:
+2026-11-06T00:24:24.5489986Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:24.5490199Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:24.5490434Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:24.5490779Z   VITE_REPOSITORY_URL: https://github.com/link-foundation/sensitive-data-sanitizer
+2026-11-06T00:24:24.5491137Z ##[endgroup]
+2026-11-06T00:24:24.6194701Z npm notice run @link-foundation/sensitive-data-sanitizer@0.17.0 example:desktop:package
+2026-11-06T00:24:24.6195472Z npm notice run npm --prefix examples/universal-app run desktop:package
+2026-11-06T00:24:24.6914007Z npm notice run universal-example-app@0.1.0 desktop:package
+2026-11-06T00:24:24.6922749Z npm notice run npm run build && electron-builder --dir
+2026-11-06T00:24:24.7607385Z npm notice run universal-example-app@0.1.0 build
+2026-11-06T00:24:24.7608050Z npm notice run vite build
+2026-11-06T00:24:24.9063558Z [36mvite v8.3.6 [32mbuilding client environment for production...[36m[39m
+2026-11-06T00:24:24.9143186Z transforming...
+2026-11-06T00:24:24.9573892Z ✓ 16 modules transformed.
+2026-11-06T00:24:24.9716272Z rendering chunks...
+2026-11-06T00:24:24.9937493Z computing gzip size...
+2026-11-06T00:24:24.9971602Z dist/index.html                   0.59 kB │ gzip:  0.35 kB
+2026-11-06T00:24:24.9972235Z dist/assets/index-DVUJmfo1.css    2.34 kB │ gzip:  1.02 kB
+2026-11-06T00:24:24.9972690Z dist/assets/index-DcbTXCP1.js   221.62 kB │ gzip: 69.33 kB
+2026-11-06T00:24:24.9972910Z 
+2026-11-06T00:24:24.9977909Z [32m✓ built in 91ms[39m
+2026-11-06T00:24:25.3183498Z   • electron-builder  version=26.18.0 os=7.0.0-1017-azure
+2026-11-06T00:24:25.3184451Z   • publishing will be skipped  reason=current build is a part of pull request solution=set env PUBLISH_FOR_PULL_REQUEST to true to force code signing
+2026-11-06T00:24:25.3185639Z There are serious security concerns with PUBLISH_FOR_PULL_REQUEST=true (see the  CircleCI documentation (https://circleci.com/docs/1.0/fork-pr-builds/) for details)
+2026-11-06T00:24:25.3186855Z If you have SSH keys, sensitive env vars or AWS credentials stored in your project settings and untrusted forks can make pull requests against your repo, then this option isn't for you.
+2026-11-06T00:24:25.3212697Z   • loaded configuration  file=package.json ("build" field)
+2026-11-06T00:24:25.7543986Z   • executing @electron/rebuild  electronVersion=45.2.3 arch=x64 buildFromSource=false workspaceRoot=/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/examples/universal-app projectDir=./ appDir=./
+2026-11-06T00:24:25.7545186Z   • installing native dependencies  arch=x64
+2026-11-06T00:24:25.8242473Z   • completed installing native dependencies
+2026-11-06T00:24:25.8269616Z   • packaging       platform=linux arch=x64 electron=45.2.3 appOutDir=out/linux-unpacked
+2026-11-06T00:24:26.0262323Z   • downloaded      label=electron progress=100%
+2026-11-06T00:24:28.1955067Z   • downloaded electron zip extracted successfully  output=/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/examples/universal-app/out/linux-unpacked
+2026-11-06T00:24:28.2029598Z   • searching for node modules  pm=npm searchDir=/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/examples/universal-app
+2026-11-06T00:24:28.4753295Z   • duplicate dependency references  dependencies=["@capacitor/core@8.6.0","@capacitor/core@8.6.0"]
+2026-11-06T00:24:28.7813244Z Waiting for the packaged app (attempt 1/30)
+2026-11-06T00:24:28.7840141Z examples/universal-app/out/builder-debug.yml
+2026-11-06T00:24:28.7841016Z examples/universal-app/out/linux-unpacked
+2026-11-06T00:24:28.7841283Z examples/universal-app/out/linux-unpacked/chrome_200_percent.pak
+2026-11-06T00:24:28.7841558Z examples/universal-app/out/linux-unpacked/chrome_100_percent.pak
+2026-11-06T00:24:28.7842674Z examples/universal-app/out/linux-unpacked/LICENSES.chromium.html
+2026-11-06T00:24:28.7842978Z examples/universal-app/out/linux-unpacked/universal-example-app
+2026-11-06T00:24:28.7843395Z examples/universal-app/out/linux-unpacked/LICENSE.electron.txt
+2026-11-06T00:24:28.7843767Z examples/universal-app/out/linux-unpacked/resources
+2026-11-06T00:24:28.7844148Z examples/universal-app/out/linux-unpacked/chrome-sandbox
+2026-11-06T00:24:28.7844543Z examples/universal-app/out/linux-unpacked/v8_context_snapshot.bin
+2026-11-06T00:24:28.7844968Z examples/universal-app/out/linux-unpacked/vk_swiftshader_icd.json
+2026-11-06T00:24:28.7845258Z examples/universal-app/out/linux-unpacked/icudtl.dat
+2026-11-06T00:24:28.7845487Z examples/universal-app/out/linux-unpacked/libvulkan.so.1
+2026-11-06T00:24:28.7845732Z examples/universal-app/out/linux-unpacked/libvk_swiftshader.so
+2026-11-06T00:24:28.7845996Z examples/universal-app/out/linux-unpacked/chrome_crashpad_handler
+2026-11-06T00:24:28.7846240Z examples/universal-app/out/linux-unpacked/libffmpeg.so
+2026-11-06T00:24:28.7846479Z examples/universal-app/out/linux-unpacked/snapshot_blob.bin
+2026-11-06T00:24:28.7846718Z examples/universal-app/out/linux-unpacked/resources.pak
+2026-11-06T00:24:28.7846938Z examples/universal-app/out/linux-unpacked/locales
+2026-11-06T00:24:28.7884038Z Prepare all required actions
+2026-11-06T00:24:28.7884339Z Getting action download info
+2026-11-06T00:24:28.7922750Z ##[group]Run ./.github/actions/artifact-transport
+2026-11-06T00:24:28.7922919Z with:
+2026-11-06T00:24:28.7923054Z   name: universal-example-desktop-ubuntu-24.04
+2026-11-06T00:24:28.7923232Z   path: examples/universal-app/out
+2026-11-06T00:24:28.7923379Z   if-no-files-found: error
+2026-11-06T00:24:28.7923505Z   pages: false
+2026-11-06T00:24:28.7923613Z   retention-days: 0
+2026-11-06T00:24:28.7923726Z   mode: upload
+2026-11-06T00:24:28.7923832Z env:
+2026-11-06T00:24:28.7923938Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:28.7924068Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:28.7924219Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:28.7924342Z ##[endgroup]
+2026-11-06T00:24:28.7926914Z ##[start-action display=Run ./.github/actions/setup-node;id=__self_2.__self]
+2026-11-06T00:24:28.7942817Z Prepare all required actions
+2026-11-06T00:24:28.7943112Z Getting action download info
+2026-11-06T00:24:28.9067801Z ##[group]Run ./.github/actions/setup-node
+2026-11-06T00:24:28.9067976Z with:
+2026-11-06T00:24:28.9068080Z env:
+2026-11-06T00:24:28.9068186Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:28.9068312Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:28.9068461Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:28.9068589Z ##[endgroup]
+2026-11-06T00:24:28.9071202Z ##[start-action display=Run actions/setup-node@v7.1.0;id=__self_2.__self.__actions_setup-node]
+2026-11-06T00:24:28.9147279Z ##[group]Run actions/setup-node@v7.1.0
+2026-11-06T00:24:28.9147433Z with:
+2026-11-06T00:24:28.9147548Z   node-version-file: .nvmrc
+2026-11-06T00:24:28.9147689Z   package-manager-cache: false
+2026-11-06T00:24:28.9147827Z   check-latest: false
+2026-11-06T00:24:28.9148996Z   token: ***
+2026-11-06T00:24:28.9149101Z env:
+2026-11-06T00:24:28.9149205Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:28.9149328Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:28.9149475Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:28.9149609Z ##[endgroup]
+2026-11-06T00:24:28.9958894Z Node version file is not JSON file
+2026-11-06T00:24:28.9961382Z Node version file is not TOML file
+2026-11-06T00:24:28.9962104Z Resolved .nvmrc as 26.13.0
+2026-11-06T00:24:28.9967547Z Found in cache @ /opt/hostedtoolcache/node/26.13.0/x64
+2026-11-06T00:24:29.0112321Z ##[group]Environment details
+2026-11-06T00:24:29.1220135Z node: v26.13.0
+2026-11-06T00:24:29.1220398Z npm: 12.2.2
+2026-11-06T00:24:29.1220522Z yarn: 1.22.22
+2026-11-06T00:24:29.1220881Z ##[endgroup]
+2026-11-06T00:24:29.1303155Z ##[end-action id=__self_2.__self.__actions_setup-node;outcome=success;conclusion=success;duration_ms=223]
+2026-11-06T00:24:29.1304974Z ##[start-action display=Install reviewed npm;id=__self_2.__self.__run]
+2026-11-06T00:24:29.1320371Z ##[group]Run npm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund
+2026-11-06T00:24:29.1320702Z [36;1mnpm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund[0m
+2026-11-06T00:24:29.1337548Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-06T00:24:29.1337745Z env:
+2026-11-06T00:24:29.1337858Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:29.1337993Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:29.1338145Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:29.1338279Z ##[endgroup]
+2026-11-06T00:24:30.1296999Z 
+2026-11-06T00:24:30.1297531Z changed 10 packages in 958ms
+2026-11-06T00:24:30.1538397Z ##[end-action id=__self_2.__self.__run;outcome=success;conclusion=success;duration_ms=1023]
+2026-11-06T00:24:30.1542693Z ##[start-action display=Restore requested package cache with current npm;id=__self_2.__self.__actions_setup-node_2]
+2026-11-06T00:24:30.1549559Z ##[end-action id=__self_2.__self.__actions_setup-node_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-11-06T00:24:30.1553401Z ##[end-action id=__self_2.__self;outcome=success;conclusion=success;duration_ms=1362]
+2026-11-06T00:24:30.1555227Z ##[start-action display=Install pinned artifact SDK;id=__self_2.__run]
+2026-11-06T00:24:30.1568886Z ##[group]Run npm ci --prefix "$ACTION_DIRECTORY" --ignore-scripts --no-audit --no-fund
+2026-11-06T00:24:30.1569247Z [36;1mnpm ci --prefix "$ACTION_DIRECTORY" --ignore-scripts --no-audit --no-fund[0m
+2026-11-06T00:24:30.1588987Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-06T00:24:30.1589174Z env:
+2026-11-06T00:24:30.1589292Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:30.1589433Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:30.1589587Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:30.1589890Z   ACTION_DIRECTORY: /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/./.github/actions/artifact-transport
+2026-11-06T00:24:30.1590207Z ##[endgroup]
+2026-11-06T00:24:31.7216901Z 
+2026-11-06T00:24:31.7217516Z added 224 packages in 2s
+2026-11-06T00:24:31.7479953Z ##[end-action id=__self_2.__run;outcome=success;conclusion=success;duration_ms=1592]
+2026-11-06T00:24:31.7482026Z ##[start-action display=Transfer artifact;id=__self_2.transport]
+2026-11-06T00:24:31.7503709Z ##[group]Run ./.github/actions/artifact-transport/run
+2026-11-06T00:24:31.7503901Z with:
+2026-11-06T00:24:31.7504038Z   name: universal-example-desktop-ubuntu-24.04
+2026-11-06T00:24:31.7504212Z   path: examples/universal-app/out
+2026-11-06T00:24:31.7504352Z   pages: false
+2026-11-06T00:24:31.7504460Z   retention-days: 0
+2026-11-06T00:24:31.7504584Z   if-no-files-found: error
+2026-11-06T00:24:31.7504707Z   mode: upload
+2026-11-06T00:24:31.7504811Z env:
+2026-11-06T00:24:31.7504914Z   GIT_CONFIG_COUNT: 1
+2026-11-06T00:24:31.7505043Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-06T00:24:31.7505189Z   GIT_CONFIG_VALUE_0: main
+2026-11-06T00:24:31.7505309Z ##[endgroup]
+2026-11-06T00:24:32.0435908Z Artifact name is valid!
+2026-11-06T00:24:32.0436170Z Root directory input is valid!
+2026-11-06T00:24:32.3297571Z Uploading artifact: universal-example-desktop-ubuntu-24.04.zip
+2026-11-06T00:24:32.3326273Z Beginning upload of artifact content to blob storage
+2026-11-06T00:24:33.3064007Z Uploaded bytes 8388608
+2026-11-06T00:24:33.6139125Z Uploaded bytes 16777216
+2026-11-06T00:24:33.7762247Z Uploaded bytes 25165824
+2026-11-06T00:24:33.9578108Z Uploaded bytes 33554432
+2026-11-06T00:24:34.4910243Z Uploaded bytes 41943040
+2026-11-06T00:24:34.8031707Z Uploaded bytes 50331648
+2026-11-06T00:24:35.2099866Z Uploaded bytes 58720256
+2026-11-06T00:24:35.6010359Z Uploaded bytes 67108864
+2026-11-06T00:24:36.0837219Z Uploaded bytes 75497472
+2026-11-06T00:24:36.5648315Z Uploaded bytes 83886080
+2026-11-06T00:24:36.9686055Z Uploaded bytes 92274688
+2026-11-06T00:24:37.3833357Z Uploaded bytes 100663296
+2026-11-06T00:24:37.7669134Z Uploaded bytes 109051904
+2026-11-06T00:24:38.2507792Z Uploaded bytes 117440512
+2026-11-06T00:24:38.6089208Z Uploaded bytes 125829120
+2026-11-06T00:24:38.7166678Z Uploaded bytes 127442587
+2026-11-06T00:24:38.7555256Z Finished uploading artifact content to blob storage!
+2026-11-06T00:24:38.7557045Z SHA256 digest of uploaded artifact is 25b5c0331233b5b1166ac7b8b0a94089918c170c0b4b2d64767934381048c3df
+2026-11-06T00:24:38.7558521Z Finalizing artifact upload
+2026-11-06T00:24:39.2485800Z Artifact universal-example-desktop-ubuntu-24.04 successfully finalized. Artifact ID 13466426670
+2026-11-06T00:24:39.2689258Z ##[end-action id=__self_2.transport;outcome=success;conclusion=success;duration_ms=7520]
+2026-11-06T00:24:39.2770646Z Post job cleanup.
+2026-11-06T00:24:39.2773610Z ##[start-action display=Run actions/setup-node@v7.1.0;id=__fd7de26d-048e-4ec2-a443-a0c6bed4b640.__actions_setup-node]
+2026-11-06T00:24:39.2816197Z Post job cleanup.
+2026-11-06T00:24:39.3714124Z ##[end-action id=__fd7de26d-048e-4ec2-a443-a0c6bed4b640.__actions_setup-node;outcome=success;conclusion=success;duration_ms=93]
+2026-11-06T00:24:39.3754045Z Post job cleanup.
+2026-11-06T00:24:39.3756772Z ##[start-action display=Restore requested package cache with current npm;id=__e58921be-b0d5-4776-b3ae-405bfc331ce9.__actions_setup-node_2]
+2026-11-06T00:24:39.3783886Z Post job cleanup.
+2026-11-06T00:24:39.4623622Z Cache hit occurred on the primary key node-cache-Linux-x64-npm-d05f896eaa4f7a99700492386e1e2bfee3dab5098806897ad39d6a3ffdc104eb, not saving cache.
+2026-11-06T00:24:39.4695224Z ##[end-action id=__e58921be-b0d5-4776-b3ae-405bfc331ce9.__actions_setup-node_2;outcome=success;conclusion=success;duration_ms=93]
+2026-11-06T00:24:39.4697550Z ##[start-action display=Run actions/setup-node@v7.1.0;id=__e58921be-b0d5-4776-b3ae-405bfc331ce9.__actions_setup-node]
+2026-11-06T00:24:39.4726951Z Post job cleanup.
+2026-11-06T00:24:39.5620606Z ##[end-action id=__e58921be-b0d5-4776-b3ae-405bfc331ce9.__actions_setup-node;outcome=success;conclusion=success;duration_ms=92]
+2026-11-06T00:24:39.5666879Z Post job cleanup.
+2026-11-06T00:24:39.6307518Z [command]/usr/bin/git version
+2026-11-06T00:24:39.6345942Z git version 2.56.0
+2026-11-06T00:24:39.6370966Z Temporarily overriding HOME='/home/runner/work/_temp/ba8d376c-60ee-48a9-a84f-f4230b61e3a1' before making global git config changes
+2026-11-06T00:24:39.6372054Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-06T00:24:39.6373511Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+2026-11-06T00:24:39.6408580Z Removing SSH command configuration
+2026-11-06T00:24:39.6414048Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-06T00:24:39.6448700Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-06T00:24:39.6672515Z Removing HTTP extra header
+2026-11-06T00:24:39.6673250Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-06T00:24:39.6714129Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-06T00:24:39.6944278Z Removing includeIf entries pointing to credentials config files
+2026-11-06T00:24:39.6951925Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-06T00:24:39.7001077Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-06T00:24:39.7335917Z Cleaning up orphan processes

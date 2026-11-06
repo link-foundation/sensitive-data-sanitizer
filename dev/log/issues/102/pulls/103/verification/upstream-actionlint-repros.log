@@ -1,0 +1,8 @@
+experiments/issue-102/actionlint-queue.yml:8:3: unexpected key "queue" for "concurrency" section. expected one of "cancel-in-progress", "group" [syntax-check]
+  |
+8 |   queue: max
+  |   ^~~~~~
+experiments/issue-102/actionlint-self.yml:9:15: specifying action "$/.github/actions/setup-node" in invalid format because ref is missing. available formats are "{owner}/{repo}@{ref}" or "{owner}/{repo}/{path}@{ref}" [action]
+  |
+9 |       - uses: $/.github/actions/setup-node
+  |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~

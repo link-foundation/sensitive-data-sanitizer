@@ -1,0 +1,22 @@
+Current Node.js version: v26.13.0
+Current npm version: 12.2.2
+Current npm version satisfies the reviewed tooling requirement
+▶ setup-npm version requirements
+  ✔ compares semantic versions numerically (2.659483ms)
+  ✔ requires npm 12.2.2 or later (0.6216ms)
+  ✔ requires Node.js 22.22.2 or later (8.207175ms)
+  ✔ selects the latest npm 12 tarball that satisfies trusted publishing (1.364216ms)
+  ✔ uses the installed reviewed release without another network install (2.174117ms)
+✔ setup-npm version requirements (17.557293ms)
+▶ setup-npm tarball strategy
+  ✔ downloads to a file with retries, then extracts (0.627461ms)
+  ✔ clears the staging directory before extracting (0.851749ms)
+✔ setup-npm tarball strategy (3.286813ms)
+ℹ tests 7
+ℹ suites 2
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 204.471391

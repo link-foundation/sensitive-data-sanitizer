@@ -1,0 +1,70 @@
+dependency,before,latest,resolved,location,reason,registry
+annotated-doc,previously unlocked,0.0.5,0.0.5,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/annotated-doc/json
+annotated-types,previously unlocked,0.8.0,0.8.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/annotated-types/json
+anyio,previously unlocked,4.16.0,4.16.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/anyio/json
+blis,previously unlocked,1.3.4,1.3.4,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/blis/json
+catalogue,previously unlocked,2.0.10,2.0.10,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/catalogue/json
+certifi,previously unlocked,2026.10.23,2026.10.23,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/certifi/json
+charset-normalizer,previously unlocked,3.5.2,3.5.2,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/charset-normalizer/json
+click,previously unlocked,8.5.0,8.5.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/click/json
+cloudpathlib,previously unlocked,0.26.0,0.26.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/cloudpathlib/json
+cloudpickle,previously unlocked,3.1.2,3.1.2,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/cloudpickle/json
+confection,previously unlocked,1.3.4,1.3.4,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/confection/json
+cymem,previously unlocked,2.0.16,2.0.16,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/cymem/json
+dateparser,previously unlocked,1.5.0,1.5.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/dateparser/json
+defusedxml,previously unlocked,0.7.1,0.7.1,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/defusedxml/json
+detect-secrets,1.5.0,1.5.0,1.5.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/detect-secrets/json
+faker,previously unlocked,40.44.0,40.44.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/faker/json
+filelock,previously unlocked,4.2.9,4.2.9,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/filelock/json
+h11,previously unlocked,0.16.0,0.16.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/h11/json
+httpcore,previously unlocked,1.0.9,1.0.9,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/httpcore/json
+httpx,previously unlocked,0.28.1,0.28.1,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/httpx/json
+idna,previously unlocked,3.20,3.20,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/idna/json
+jinja2,previously unlocked,3.1.6,3.1.6,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/jinja2/json
+joblib,previously unlocked,1.6.0,1.6.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/joblib/json
+markdown-it-py,previously unlocked,4.2.0,4.2.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/markdown-it-py/json
+markupsafe,previously unlocked,3.0.4,3.0.4,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/markupsafe/json
+mdurl,previously unlocked,0.1.2,0.1.2,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/mdurl/json
+murmurhash,previously unlocked,1.0.16,1.0.16,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/murmurhash/json
+narwhals,previously unlocked,2.28.0,2.28.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/narwhals/json
+nltk,previously unlocked,3.10.4,3.10.4,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/nltk/json
+numpy,previously unlocked,2.5.4,2.4.6,experiments/benchmark/requirements.lock,"Resolver's upstream version/platform constraints: blis: numpy<3.0.0,>=1.21.2; joblib: numpy; extra == ""test""; joblib: numpy; extra == ""docs""; nltk: numpy; extra == ""machine-learning""; nltk: numpy; extra == ""all""; presidio-analyzer: numpy<2.5.0,>=1.19.0; scikit-learn: numpy>=1.24.1; scipy: numpy<2.8,>=2.0.0; smart-open: numpy; extra == ""dev""; spacy: numpy>=1.15.0; python_version < ""3.9""; spacy: numpy>=1.19.0; python_version >= ""3.9""; thinc: numpy<3.0.0,>=1.21.0",https://pypi.org/pypi/numpy/json
+packaging,previously unlocked,26.3,26.3,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/packaging/json
+phonenumbers,previously unlocked,9.0.42,9.0.42,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/phonenumbers/json
+preshed,previously unlocked,3.0.15,3.0.13,experiments/benchmark/requirements.lock,"Resolver's upstream version/platform constraints: presidio-analyzer: preshed<3.0.14; spacy: preshed!=3.0.14,<3.1.0,>=3.0.2; thinc: preshed<3.1.0,>=3.0.2",https://pypi.org/pypi/preshed/json
+presidio-analyzer,2.2.364,2.2.366,2.2.366,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/presidio-analyzer/json
+pydantic,previously unlocked,2.14.3,2.14.3,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/pydantic/json
+pydantic-core,previously unlocked,2.50.4,2.50.4,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/pydantic-core/json
+pygments,previously unlocked,2.21.0,2.21.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/pygments/json
+python-dateutil,previously unlocked,4.0.0,4.0.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/python-dateutil/json
+python-stdnum,previously unlocked,2.2,2.2,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/python-stdnum/json
+pytz,previously unlocked,2026.6,2026.6,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/pytz/json
+pyyaml,previously unlocked,6.0.3,6.0.3,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/pyyaml/json
+regex,previously unlocked,2026.9.29,2026.9.29,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/regex/json
+requests,previously unlocked,2.34.2,2.34.2,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/requests/json
+requests-file,previously unlocked,3.0.1,3.0.1,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/requests-file/json
+rich,previously unlocked,15.0.0,15.0.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/rich/json
+scikit-learn,previously unlocked,1.9.1,1.9.1,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/scikit-learn/json
+scipy,previously unlocked,1.18.1,1.18.1,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/scipy/json
+scrubadub,2.0.1,2.0.1,2.0.1,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/scrubadub/json
+setuptools,previously unlocked,84.2.1,84.2.1,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/setuptools/json
+shellingham,previously unlocked,1.5.4,1.5.4,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/shellingham/json
+smart-open,previously unlocked,9.0.2,9.0.2,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/smart-open/json
+spacy,3.8.18,3.8.18,3.8.18,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/spacy/json
+spacy-legacy,previously unlocked,3.0.12,3.0.12,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/spacy-legacy/json
+spacy-loggers,previously unlocked,1.0.5,1.0.5,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/spacy-loggers/json
+srsly,previously unlocked,3.0.1,2.5.6,experiments/benchmark/requirements.lock,"Resolver's upstream version/platform constraints: spacy: srsly<3.0.0,>=2.5.3; thinc: srsly<3.1.0,>=2.4.0; weasel: srsly>=2.4.3",https://pypi.org/pypi/srsly/json
+textblob,previously unlocked,0.20.1,0.15.3,experiments/benchmark/requirements.lock,Resolver's upstream version/platform constraints: scrubadub: textblob ==0.15.3,https://pypi.org/pypi/textblob/json
+thinc,previously unlocked,10.0.0,8.3.14,experiments/benchmark/requirements.lock,"Resolver's upstream version/platform constraints: spacy: thinc<8.4.0,>=8.3.12; spacy: thinc-apple-ops<2.0.0,>=1.0.0; extra == ""apple""; thinc: thinc-apple-ops<2.0.0,>=1.0.0; extra == ""apple""",https://pypi.org/pypi/thinc/json
+threadpoolctl,previously unlocked,3.8.0,3.8.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/threadpoolctl/json
+tldextract,previously unlocked,5.4.0,5.4.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/tldextract/json
+tqdm,previously unlocked,4.70.1,4.70.1,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/tqdm/json
+typer,previously unlocked,0.27.3,0.27.3,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/typer/json
+typing-extensions,previously unlocked,4.16.0,4.16.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/typing-extensions/json
+typing-inspection,previously unlocked,0.4.5,0.4.5,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/typing-inspection/json
+tzdata,previously unlocked,2026.6,2026.6,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/tzdata/json
+tzlocal,previously unlocked,5.4.5,5.4.5,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/tzlocal/json
+urllib3,previously unlocked,2.8.0,2.8.0,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/urllib3/json
+wasabi,previously unlocked,1.1.3,1.1.3,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/wasabi/json
+weasel,previously unlocked,1.0.1,1.0.1,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/weasel/json
+wrapt,previously unlocked,2.5.2,2.5.2,experiments/benchmark/requirements.lock,Current registry release,https://pypi.org/pypi/wrapt/json

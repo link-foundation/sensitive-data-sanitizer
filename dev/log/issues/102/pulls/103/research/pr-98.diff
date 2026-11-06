@@ -1,0 +1,39 @@
+diff --git a/.github/workflows/example-app.yml b/.github/workflows/example-app.yml
+index 309fbb0..998e6ac 100644
+--- a/.github/workflows/example-app.yml
++++ b/.github/workflows/example-app.yml
+@@ -259,7 +259,7 @@ jobs:
+           java-version: '21'
+ 
+       - name: Setup Android SDK
+-        uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3.2.2
++        uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd # v4.0.4
+ 
+       - name: Install app dependencies
+         run: npm ci --prefix examples/universal-app --no-audit --no-fund
+diff --git a/.github/workflows/links.yml b/.github/workflows/links.yml
+index 8bf4414..655bf88 100644
+--- a/.github/workflows/links.yml
++++ b/.github/workflows/links.yml
+@@ -76,7 +76,7 @@ jobs:
+         run: echo "day=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+ 
+       - name: Restore link cache
+-        uses: actions/cache@v5
++        uses: actions/cache@v6
+         with:
+           path: .lycheecache
+           key: cache-lychee-${{ runner.os }}-${{ steps.link-cache.outputs.day }}-${{ github.sha }}
+diff --git a/.github/workflows/workflows.yml b/.github/workflows/workflows.yml
+index a91c90e..b124df4 100644
+--- a/.github/workflows/workflows.yml
++++ b/.github/workflows/workflows.yml
+@@ -160,7 +160,7 @@ jobs:
+       # exactly which analyser reproduces a finding:
+       #   pipx run zizmor==1.30.1 --config .github/zizmor.yml \
+       #     --min-confidence low --persona regular .
+-      - uses: zizmorcore/zizmor-action@v0.6.4
++      - uses: zizmorcore/zizmor-action@v0.8.0
+         with:
+           advanced-security: false
+           annotations: true

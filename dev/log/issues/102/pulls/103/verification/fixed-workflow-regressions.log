@@ -1,0 +1,59 @@
+▶ workflow policy regression protection
+  ✔ rejects unpinned package -p secretlint (3.194479ms)
+  ✔ rejects unpinned package --package=secretlint (0.460869ms)
+  ✔ rejects unpinned package -p @secretlint/preset (0.268252ms)
+  ✔ rejects unpinned package --package=@secretlint/preset (0.212105ms)
+  ✔ rejects unpinned package -p secretlint@latest (0.518377ms)
+  ✔ rejects unpinned package --package=secretlint@latest (0.293207ms)
+  ✔ rejects unpinned package -p secretlint@^13.0.7 (0.272808ms)
+  ✔ rejects unpinned package --package=secretlint@^13.0.7 (0.822124ms)
+  ✔ checks every package option and a continued shell command (1.2975ms)
+  ✔ rejects floating matrix and direct runner labels but ignores comments (0.42901ms)
+  ✔ rejects zizmor version drift and versions unsupported by the pinned action (1.043457ms)
+✔ workflow policy regression protection (12.599985ms)
+▶ complete pipeline requirements
+  ✔ queues every writer without cancellation (5.248601ms)
+  ✔ uses only the narrow documented actionlint schema exception (0.483071ms)
+  ✔ provides defaults for required dispatch inputs (0.707791ms)
+  ✔ checks the Dependabot author and enforces warnings on main (3.294376ms)
+  ✔ persists the link cache and uploads the report on failure (0.544636ms)
+  ✔ gives skipped matrix jobs static names (4.001784ms)
+  ✔ deploys Pages without npm dependencies or hidden warnings (0.619947ms)
+  ✔ covers standalone scripts and hooks with pinned ShellCheck (1.471645ms)
+  ✔ declares a shell in every tracked script and hook (17.764398ms)
+  ✔ declares every ESLint configuration import (0.800222ms)
+✔ complete pipeline requirements (38.156568ms)
+▶ workflow linting job
+  ✔ uses the supported Ubuntu 24.04 label for every Linux job (6.046339ms)
+  ✔ runs actionlint from the Docker image that bundles shellcheck (0.739589ms)
+  ✔ pins the actionlint image to a digest, not a tag (0.802226ms)
+  ✔ documents the local actionlint reproduction against the pinned release (0.454207ms)
+  ✔ runs zizmor against the repository configuration (0.45094ms)
+  ✔ pins the zizmor version the action installs (0.764046ms)
+  ✔ adds a narrow pedantic pass for the pedantic-only audits (0.24715ms)
+  ✔ bounds every job with a timeout backstop (0.841048ms)
+  ✔ gates Python-only changes with pinned lint and format checks (1.348075ms)
+✔ workflow linting job (15.383968ms)
+▶ shell blocks under shellcheck
+  ✔ builds the manifest digest list as an array (2.600862ms)
+  ✔ reports the packaging attempt number (0.274582ms)
+✔ shell blocks under shellcheck (3.258038ms)
+▶ third-party actions
+  ✔ pins actions outside the trusted publishers to a commit hash (2.222617ms)
+  ✔ pins every container image reference to a digest (3.006859ms)
+✔ third-party actions (5.522281ms)
+▶ reproducible workflow tooling and runner policy
+  ✔ keeps both zizmor passes and the reproduction comment on the action-supported version (2.333713ms)
+  ✔ pins both secretlint packages to the same exact version (0.388985ms)
+  ✔ pins every hosted OS image in every workflow (1.092968ms)
+  ✔ runs a workflow policy guard in CI (0.178223ms)
+✔ reproducible workflow tooling and runner policy (4.378018ms)
+ℹ tests 38
+ℹ suites 6
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 392.708269
+Workflow package, zizmor, and hosted runner pins verified

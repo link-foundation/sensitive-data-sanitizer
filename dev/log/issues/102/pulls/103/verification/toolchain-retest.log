@@ -1,0 +1,42 @@
+▶ Changesets release formatter
+  ✔ uses the same formatter as the project formatting check (2.064724ms)
+  ✔ references the release Changesets config schema (0.870935ms)
+  ✔ versions and formats the real package with Deno absent from PATH (2004.650827ms)
+✔ Changesets release formatter (2010.483854ms)
+▶ credential-free PR release versioning
+  ✔ checks the fresh merge in the independent lint job and discards changes (0.645795ms)
+✔ credential-free PR release versioning (0.961315ms)
+✔ installs the npm release required by the manifest on the reviewed Node release (37.608815ms)
+▶ workflow linting job
+  ✔ uses the supported Ubuntu 24.04 label for every Linux job (7.515558ms)
+  ✔ runs actionlint from the Docker image that bundles shellcheck (0.574061ms)
+  ✔ pins the actionlint image to a digest, not a tag (0.837333ms)
+  ✔ documents the local actionlint reproduction against the pinned release (0.472942ms)
+  ✔ runs zizmor against the repository configuration (0.950615ms)
+  ✔ pins the zizmor version the action installs (0.850027ms)
+  ✔ adds a narrow pedantic pass for the pedantic-only audits (0.340365ms)
+  ✔ bounds every job with a timeout backstop (0.757744ms)
+  ✔ gates Python-only changes with pinned lint and format checks (1.894196ms)
+✔ workflow linting job (21.011628ms)
+▶ shell blocks under shellcheck
+  ✔ builds the manifest digest list as an array (2.019508ms)
+  ✔ reports the packaging attempt number (1.260042ms)
+✔ shell blocks under shellcheck (4.021777ms)
+▶ third-party actions
+  ✔ pins actions outside the trusted publishers to a commit hash (8.533508ms)
+  ✔ pins every container image reference to a digest (2.134985ms)
+✔ third-party actions (11.034095ms)
+▶ reproducible workflow tooling and runner policy
+  ✔ keeps both zizmor passes and the reproduction comment on the action-supported version (2.324448ms)
+  ✔ pins both secretlint packages to the same exact version (0.62636ms)
+  ✔ pins every hosted OS image in every workflow (1.99858ms)
+  ✔ runs a workflow policy guard in CI (0.260837ms)
+✔ reproducible workflow tooling and runner policy (5.650927ms)
+ℹ tests 22
+ℹ suites 6
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2726.768725

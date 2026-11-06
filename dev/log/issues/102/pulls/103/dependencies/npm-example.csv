@@ -1,0 +1,380 @@
+dependency,before,latest,resolved,location,reason,registry
+@capacitor/android,8.6.0,8.6.0,8.6.0,node_modules/@capacitor/android,Current registry release,https://registry.npmjs.org/%40capacitor%2Fandroid/latest
+@capacitor/cli,8.6.0,8.6.0,8.6.0,node_modules/@capacitor/cli,Current registry release,https://registry.npmjs.org/%40capacitor%2Fcli/latest
+@capacitor/core,8.6.0,8.6.0,8.6.0,node_modules/@capacitor/core,Current registry release,https://registry.npmjs.org/%40capacitor%2Fcore/latest
+@capacitor/ios,8.6.0,8.6.0,8.6.0,node_modules/@capacitor/ios,Current registry release,https://registry.npmjs.org/%40capacitor%2Fios/latest
+@electron-internal/extract-zip,1.0.5,1.0.8,1.0.8,node_modules/@electron-internal/extract-zip,Current registry release,https://registry.npmjs.org/%40electron-internal%2Fextract-zip/latest
+@electron/asar,4.3.1,4.3.1,4.3.1,node_modules/@electron/asar,Current registry release,https://registry.npmjs.org/%40electron%2Fasar/latest
+@electron/fuses,1.8.0,2.1.3,1.8.0,node_modules/@electron/fuses,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^1.8.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40electron%2Ffuses/latest
+fs-extra,9.1.0,11.4.1,9.1.0,node_modules/@electron/fuses/node_modules/fs-extra,Upstream consumer API/range constraint: @electron/fuses@1.8.0: ^9.0.1,https://registry.npmjs.org/fs-extra/latest
+@electron/get,3.1.0,5.1.0,5.1.0,node_modules/@electron/get,Current registry release,https://registry.npmjs.org/%40electron%2Fget/latest
+env-paths,new/unlocked,4.0.0,3.0.0,node_modules/@electron/get/node_modules/env-paths,Upstream consumer API/range constraint: @electron/get@5.1.0: ^3.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/env-paths/latest
+fs-extra,8.1.0,11.4.1,removed/hoisted,node_modules/@electron/get/node_modules/fs-extra,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/fs-extra/latest
+jsonfile,4.0.0,6.2.1,removed/hoisted,node_modules/@electron/get/node_modules/jsonfile,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/jsonfile/latest
+semver,6.3.1,7.8.6,removed/hoisted,node_modules/@electron/get/node_modules/semver,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/semver/latest
+universalify,0.1.2,2.0.1,removed/hoisted,node_modules/@electron/get/node_modules/universalify,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/universalify/latest
+@electron/notarize,2.5.0,3.1.2,2.5.0,node_modules/@electron/notarize,Upstream consumer API/range constraint: app-builder-lib@26.18.0: 2.5.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40electron%2Fnotarize/latest
+fs-extra,9.1.0,11.4.1,9.1.0,node_modules/@electron/notarize/node_modules/fs-extra,Upstream consumer API/range constraint: @electron/notarize@2.5.0: ^9.0.1,https://registry.npmjs.org/fs-extra/latest
+@electron/osx-sign,1.3.3,2.7.2,1.3.3,node_modules/@electron/osx-sign,Upstream consumer API/range constraint: app-builder-lib@26.18.0: 1.3.3; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40electron%2Fosx-sign/latest
+fs-extra,10.1.0,11.4.1,10.1.0,node_modules/@electron/osx-sign/node_modules/fs-extra,Upstream consumer API/range constraint: @electron/osx-sign@1.3.3: ^10.0.0,https://registry.npmjs.org/fs-extra/latest
+isbinaryfile,4.0.10,6.0.0,4.0.10,node_modules/@electron/osx-sign/node_modules/isbinaryfile,Upstream consumer API/range constraint: @electron/osx-sign@1.3.3: ^4.0.8; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/isbinaryfile/latest
+@electron/rebuild,4.2.1,4.2.1,4.2.1,node_modules/@electron/rebuild,Current registry release,https://registry.npmjs.org/%40electron%2Frebuild/latest
+@electron/universal,2.0.3,3.0.6,2.0.3,node_modules/@electron/universal,Upstream consumer API/range constraint: app-builder-lib@26.18.0: 2.0.3; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40electron%2Funiversal/latest
+@electron/windows-sign,1.2.2,2.1.0,1.2.2,node_modules/@electron/windows-sign,Upstream consumer API/range constraint: electron-winstaller@5.4.4: ^1.1.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40electron%2Fwindows-sign/latest
+@ionic/cli-framework-output,2.2.8,2.2.8,2.2.8,node_modules/@ionic/cli-framework-output,Current registry release,https://registry.npmjs.org/%40ionic%2Fcli-framework-output/latest
+@ionic/utils-array,2.1.6,2.1.6,2.1.6,node_modules/@ionic/utils-array,Current registry release,https://registry.npmjs.org/%40ionic%2Futils-array/latest
+@ionic/utils-fs,3.1.7,3.1.7,3.1.7,node_modules/@ionic/utils-fs,Current registry release,https://registry.npmjs.org/%40ionic%2Futils-fs/latest
+fs-extra,9.1.0,11.4.1,9.1.0,node_modules/@ionic/utils-fs/node_modules/fs-extra,Upstream consumer API/range constraint: @ionic/utils-fs@3.1.7: ^9.0.0,https://registry.npmjs.org/fs-extra/latest
+@ionic/utils-object,2.1.6,2.1.6,2.1.6,node_modules/@ionic/utils-object,Current registry release,https://registry.npmjs.org/%40ionic%2Futils-object/latest
+@ionic/utils-process,2.1.12,2.1.12,2.1.12,node_modules/@ionic/utils-process,Current registry release,https://registry.npmjs.org/%40ionic%2Futils-process/latest
+@ionic/utils-stream,3.1.7,3.1.7,3.1.7,node_modules/@ionic/utils-stream,Current registry release,https://registry.npmjs.org/%40ionic%2Futils-stream/latest
+@ionic/utils-subprocess,3.0.1,3.0.1,3.0.1,node_modules/@ionic/utils-subprocess,Current registry release,https://registry.npmjs.org/%40ionic%2Futils-subprocess/latest
+@ionic/utils-terminal,2.3.5,2.3.5,2.3.5,node_modules/@ionic/utils-terminal,Current registry release,https://registry.npmjs.org/%40ionic%2Futils-terminal/latest
+wrap-ansi,7.0.0,10.0.2,removed/hoisted,node_modules/@ionic/utils-terminal/node_modules/wrap-ansi,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/wrap-ansi/latest
+@isaacs/fs-minipass,4.0.1,4.0.1,4.0.1,node_modules/@isaacs/fs-minipass,Current registry release,https://registry.npmjs.org/%40isaacs%2Ffs-minipass/latest
+@isaacs/nonrecursive-glob-match,1.0.3,1.1.0,1.1.0,node_modules/@isaacs/nonrecursive-glob-match,Current registry release,https://registry.npmjs.org/%40isaacs%2Fnonrecursive-glob-match/latest
+@malept/cross-spawn-promise,2.0.0,2.0.0,2.0.0,node_modules/@malept/cross-spawn-promise,Current registry release,https://registry.npmjs.org/%40malept%2Fcross-spawn-promise/latest
+@malept/flatpak-bundler,0.4.0,0.4.0,0.4.0,node_modules/@malept/flatpak-bundler,Current registry release,https://registry.npmjs.org/%40malept%2Fflatpak-bundler/latest
+fs-extra,9.1.0,11.4.1,9.1.0,node_modules/@malept/flatpak-bundler/node_modules/fs-extra,Upstream consumer API/range constraint: @malept/flatpak-bundler@0.4.0: ^9.0.0,https://registry.npmjs.org/fs-extra/latest
+@noble/hashes,1.8.0,2.4.0,1.8.0,node_modules/@noble/hashes,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^1.8.0; pkijs@3.4.3: 1.8.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40noble%2Fhashes/latest
+@oxc-project/types,0.156.0,0.157.0,0.156.0,node_modules/@oxc-project/types,Upstream consumer API/range constraint: rolldown@1.2.16: =0.156.0,https://registry.npmjs.org/%40oxc-project%2Ftypes/latest
+@peculiar/asn1-schema,2.11.1,3.0.0,2.11.1,node_modules/@peculiar/asn1-schema,Upstream consumer API/range constraint: @peculiar/webcrypto@1.7.2: ^2.7.0; webcrypto-core@1.9.2: ^2.7.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40peculiar%2Fasn1-schema/latest
+@peculiar/json-schema,1.1.12,3.0.0,1.1.12,node_modules/@peculiar/json-schema,Upstream consumer API/range constraint: @peculiar/webcrypto@1.7.2: ^1.1.12; webcrypto-core@1.9.2: ^1.1.12; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40peculiar%2Fjson-schema/latest
+@peculiar/utils,2.0.3,4.1.0,2.0.3,node_modules/@peculiar/utils,Upstream consumer API/range constraint: @peculiar/asn1-schema@2.11.1: ^2.0.2; @peculiar/webcrypto@1.7.2: ^2.0.2; webcrypto-core@1.9.2: ^2.0.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40peculiar%2Futils/latest
+@peculiar/webcrypto,1.7.2,2.0.0,1.7.2,node_modules/@peculiar/webcrypto,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^1.7.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40peculiar%2Fwebcrypto/latest
+@rolldown/binding-android-arm-eabi,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-android-arm-eabi,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-android-arm-eabi/latest
+@rolldown/binding-android-arm64,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-android-arm64,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-android-arm64/latest
+@rolldown/binding-darwin-arm64,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-darwin-arm64,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-darwin-arm64/latest
+@rolldown/binding-darwin-x64,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-darwin-x64,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-darwin-x64/latest
+@rolldown/binding-freebsd-x64,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-freebsd-x64,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-freebsd-x64/latest
+@rolldown/binding-linux-arm-gnueabihf,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-linux-arm-gnueabihf,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-linux-arm-gnueabihf/latest
+@rolldown/binding-linux-arm64-gnu,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-linux-arm64-gnu,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-linux-arm64-gnu/latest
+@rolldown/binding-linux-arm64-musl,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-linux-arm64-musl,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-linux-arm64-musl/latest
+@rolldown/binding-linux-ppc64-gnu,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-linux-ppc64-gnu,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-linux-ppc64-gnu/latest
+@rolldown/binding-linux-s390x-gnu,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-linux-s390x-gnu,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-linux-s390x-gnu/latest
+@rolldown/binding-linux-x64-gnu,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-linux-x64-gnu,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-linux-x64-gnu/latest
+@rolldown/binding-linux-x64-musl,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-linux-x64-musl,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-linux-x64-musl/latest
+@rolldown/binding-openharmony-arm64,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-openharmony-arm64,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-openharmony-arm64/latest
+@rolldown/binding-win32-arm64-msvc,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-win32-arm64-msvc,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-win32-arm64-msvc/latest
+@rolldown/binding-win32-x64-msvc,1.2.16,1.3.0,1.2.16,node_modules/@rolldown/binding-win32-x64-msvc,Upstream consumer API/range constraint: rolldown@1.2.16: 1.2.16,https://registry.npmjs.org/%40rolldown%2Fbinding-win32-x64-msvc/latest
+@rolldown/pluginutils,1.0.1,1.0.1,1.0.1,node_modules/@rolldown/pluginutils,Current registry release,https://registry.npmjs.org/%40rolldown%2Fpluginutils/latest
+@sindresorhus/is,4.6.0,8.1.0,4.6.0,node_modules/@sindresorhus/is,Upstream consumer API/range constraint: got@11.8.6: ^4.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40sindresorhus%2Fis/latest
+@szmarczak/http-timer,4.0.6,5.0.1,4.0.6,node_modules/@szmarczak/http-timer,Upstream consumer API/range constraint: got@11.8.6: ^4.0.5; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40szmarczak%2Fhttp-timer/latest
+@types/cacheable-request,6.0.3,8.3.6,6.0.3,node_modules/@types/cacheable-request,"Upstream consumer API/range constraint: got@11.8.6: ^6.0.1; upstream deprecation: This is a stub types definition. cacheable-request provides its own type definitions, so you do not need this installed.",https://registry.npmjs.org/%40types%2Fcacheable-request/latest
+@types/debug,4.1.13,4.1.13,4.1.13,node_modules/@types/debug,Current registry release,https://registry.npmjs.org/%40types%2Fdebug/latest
+@types/fs-extra,8.1.5,11.0.4,8.1.5,node_modules/@types/fs-extra,Upstream consumer API/range constraint: @ionic/utils-fs@3.1.7: ^8.0.0,https://registry.npmjs.org/%40types%2Ffs-extra/latest
+@types/http-cache-semantics,4.2.0,4.2.0,4.2.0,node_modules/@types/http-cache-semantics,Current registry release,https://registry.npmjs.org/%40types%2Fhttp-cache-semantics/latest
+@types/keyv,3.1.4,4.2.0,3.1.4,node_modules/@types/keyv,"Upstream consumer API/range constraint: @types/cacheable-request@6.0.3: ^3.1.4; upstream deprecation: This is a stub types definition. keyv provides its own type definitions, so you do not need this installed.",https://registry.npmjs.org/%40types%2Fkeyv/latest
+@types/ms,2.1.0,2.1.0,2.1.0,node_modules/@types/ms,Current registry release,https://registry.npmjs.org/%40types%2Fms/latest
+@types/node,22.19.19,26.6.6,26.6.6,node_modules/@types/node,Current registry release,https://registry.npmjs.org/%40types%2Fnode/latest
+@types/responselike,1.0.3,3.0.1,1.0.3,node_modules/@types/responselike,"Upstream consumer API/range constraint: @types/cacheable-request@6.0.3: ^1.0.0; got@11.8.6: ^1.0.0; upstream deprecation: This is a stub types definition. responselike provides its own type definitions, so you do not need this installed.",https://registry.npmjs.org/%40types%2Fresponselike/latest
+@types/slice-ansi,4.0.0,7.1.0,4.0.0,node_modules/@types/slice-ansi,"Upstream consumer API/range constraint: @ionic/utils-terminal@2.3.5: ^4.0.0; upstream deprecation: This is a stub types definition. slice-ansi provides its own type definitions, so you do not need this installed.",https://registry.npmjs.org/%40types%2Fslice-ansi/latest
+@vitejs/plugin-react,6.1.2,6.2.1,6.2.1,node_modules/@vitejs/plugin-react,Current registry release,https://registry.npmjs.org/%40vitejs%2Fplugin-react/latest
+@xmldom/xmldom,0.9.12,0.9.12,0.9.12,node_modules/@xmldom/xmldom,Current registry release,https://registry.npmjs.org/%40xmldom%2Fxmldom/latest
+abbrev,4.0.0,5.0.0,4.0.0,node_modules/abbrev,Upstream consumer API/range constraint: nopt@9.0.0: ^4.0.0,https://registry.npmjs.org/abbrev/latest
+agent-base,7.1.4,9.0.0,7.1.4,node_modules/agent-base,Upstream consumer API/range constraint: http-proxy-agent@7.0.2: ^7.1.0; https-proxy-agent@7.0.6: ^7.1.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/agent-base/latest
+ajv,8.20.0,8.20.0,8.20.0,node_modules/ajv,Current registry release,https://registry.npmjs.org/ajv/latest
+ansi-regex,5.0.1,6.5.0,5.0.1,node_modules/ansi-regex,Upstream consumer API/range constraint: strip-ansi@6.0.1: ^5.0.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/ansi-regex/latest
+ansi-styles,4.3.0,7.0.0,4.3.0,node_modules/ansi-styles,Upstream consumer API/range constraint: chalk@4.1.2: ^4.1.0; slice-ansi@4.0.0: ^4.0.0; wrap-ansi@7.0.0: ^4.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/ansi-styles/latest
+app-builder-lib,26.18.0,26.18.0,26.18.0,node_modules/app-builder-lib,Current registry release,https://registry.npmjs.org/app-builder-lib/latest
+@electron/get,new/unlocked,5.1.0,3.1.0,node_modules/app-builder-lib/node_modules/@electron/get,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^3.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/%40electron%2Fget/latest
+fs-extra,new/unlocked,11.4.1,8.1.0,node_modules/app-builder-lib/node_modules/@electron/get/node_modules/fs-extra,Upstream consumer API/range constraint: @electron/get@3.1.0: ^8.1.0,https://registry.npmjs.org/fs-extra/latest
+jsonfile,new/unlocked,6.2.1,4.0.0,node_modules/app-builder-lib/node_modules/@electron/get/node_modules/jsonfile,Upstream consumer API/range constraint: fs-extra@8.1.0: ^4.0.0,https://registry.npmjs.org/jsonfile/latest
+semver,new/unlocked,7.8.6,6.3.2,node_modules/app-builder-lib/node_modules/@electron/get/node_modules/semver,Upstream consumer API/range constraint: @electron/get@3.1.0: ^6.2.0,https://registry.npmjs.org/semver/latest
+universalify,new/unlocked,2.0.1,0.1.2,node_modules/app-builder-lib/node_modules/@electron/get/node_modules/universalify,Upstream consumer API/range constraint: fs-extra@8.1.0: ^0.1.0,https://registry.npmjs.org/universalify/latest
+@types/fs-extra,9.0.13,11.0.4,9.0.13,node_modules/app-builder-lib/node_modules/@types/fs-extra,Upstream consumer API/range constraint: app-builder-lib@26.18.0: 9.0.13,https://registry.npmjs.org/%40types%2Ffs-extra/latest
+@xmldom/xmldom,0.8.15,0.9.12,0.8.15,node_modules/app-builder-lib/node_modules/@xmldom/xmldom,Upstream consumer API/range constraint: plist@3.1.0: ^0.8.8,https://registry.npmjs.org/%40xmldom%2Fxmldom/latest
+ci-info,4.3.1,4.4.0,4.3.1,node_modules/app-builder-lib/node_modules/ci-info,Upstream consumer API/range constraint: app-builder-lib@26.18.0: 4.3.1,https://registry.npmjs.org/ci-info/latest
+fs-extra,10.1.0,11.4.1,10.1.0,node_modules/app-builder-lib/node_modules/fs-extra,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^10.1.0,https://registry.npmjs.org/fs-extra/latest
+isexe,3.1.5,4.0.0,3.1.5,node_modules/app-builder-lib/node_modules/isexe,Upstream consumer API/range constraint: which@5.0.0: ^3.1.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/isexe/latest
+plist,3.1.0,5.0.0,3.1.0,node_modules/app-builder-lib/node_modules/plist,Upstream consumer API/range constraint: app-builder-lib@26.18.0: 3.1.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/plist/latest
+semver,7.7.4,7.8.6,7.7.4,node_modules/app-builder-lib/node_modules/semver,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ~7.7.3,https://registry.npmjs.org/semver/latest
+which,5.0.0,7.0.0,5.0.0,node_modules/app-builder-lib/node_modules/which,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^5.0.0,https://registry.npmjs.org/which/latest
+argparse,2.0.1,3.0.4,2.0.1,node_modules/argparse,Upstream consumer API/range constraint: js-yaml@4.3.2: ^2.0.1,https://registry.npmjs.org/argparse/latest
+asn1js,3.1.0,4.0.0,3.1.0,node_modules/asn1js,Upstream consumer API/range constraint: @peculiar/asn1-schema@2.11.1: ^3.0.10; app-builder-lib@26.18.0: ^3.0.10; pkijs@3.4.3: ^3.0.6; webcrypto-core@1.9.2: ^3.0.10; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/asn1js/latest
+astral-regex,2.0.0,2.0.0,2.0.0,node_modules/astral-regex,Current registry release,https://registry.npmjs.org/astral-regex/latest
+async,3.2.6,3.2.6,3.2.6,node_modules/async,Current registry release,https://registry.npmjs.org/async/latest
+async-exit-hook,2.0.1,2.0.1,2.0.1,node_modules/async-exit-hook,Current registry release,https://registry.npmjs.org/async-exit-hook/latest
+asynckit,0.4.0,0.5.0,0.4.0,node_modules/asynckit,Upstream consumer API/range constraint: form-data@4.0.6: ^0.4.0,https://registry.npmjs.org/asynckit/latest
+at-least-node,1.0.0,1.0.0,1.0.0,node_modules/at-least-node,Current registry release,https://registry.npmjs.org/at-least-node/latest
+aws4,1.13.2,1.13.2,1.13.2,node_modules/aws4,Current registry release,https://registry.npmjs.org/aws4/latest
+balanced-match,4.0.4,5.0.0,4.0.4,node_modules/balanced-match,Upstream consumer API/range constraint: brace-expansion@5.0.12: ^4.0.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/balanced-match/latest
+base64-js,1.5.1,1.5.1,1.5.1,node_modules/base64-js,Current registry release,https://registry.npmjs.org/base64-js/latest
+big-integer,1.6.52,1.6.52,1.6.52,node_modules/big-integer,Current registry release,https://registry.npmjs.org/big-integer/latest
+bluebird,3.7.2,3.7.2,3.7.2,node_modules/bluebird,Current registry release,https://registry.npmjs.org/bluebird/latest
+bplist-creator,0.1.0,0.3.0,0.1.0,node_modules/bplist-creator,Upstream consumer API/range constraint: simple-plist@1.3.1: 0.1.0,https://registry.npmjs.org/bplist-creator/latest
+bplist-parser,0.3.2,0.5.0,0.3.2,node_modules/bplist-parser,Upstream consumer API/range constraint: native-run@2.1.0: ^0.3.2,https://registry.npmjs.org/bplist-parser/latest
+brace-expansion,5.0.12,5.0.12,5.0.12,node_modules/brace-expansion,Current registry release,https://registry.npmjs.org/brace-expansion/latest
+buffer-crc32,0.2.13,1.0.0,0.2.13,node_modules/buffer-crc32,Upstream consumer API/range constraint: yauzl@2.10.0: ~0.2.3,https://registry.npmjs.org/buffer-crc32/latest
+buffer-from,1.1.2,1.1.2,1.1.2,node_modules/buffer-from,Current registry release,https://registry.npmjs.org/buffer-from/latest
+builder-util,26.16.0,26.16.0,26.16.0,node_modules/builder-util,Current registry release,https://registry.npmjs.org/builder-util/latest
+builder-util-runtime,9.7.0,9.7.0,9.7.0,node_modules/builder-util-runtime,Current registry release,https://registry.npmjs.org/builder-util-runtime/latest
+sax,1.6.1,1.6.1,removed/hoisted,node_modules/builder-util-runtime/node_modules/sax,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/sax/latest
+fs-extra,10.1.0,11.4.1,10.1.0,node_modules/builder-util/node_modules/fs-extra,Upstream consumer API/range constraint: builder-util@26.16.0: ^10.1.0,https://registry.npmjs.org/fs-extra/latest
+bytestreamjs,2.0.1,3.0.0,2.0.1,node_modules/bytestreamjs,Upstream consumer API/range constraint: pkijs@3.4.3: ^2.0.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/bytestreamjs/latest
+cacheable-lookup,5.0.4,7.0.0,5.0.4,node_modules/cacheable-lookup,Upstream consumer API/range constraint: got@11.8.6: ^5.0.3; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/cacheable-lookup/latest
+cacheable-request,7.0.4,13.0.19,7.0.4,node_modules/cacheable-request,Upstream consumer API/range constraint: got@11.8.6: ^7.0.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/cacheable-request/latest
+call-bind-apply-helpers,1.0.2,1.0.2,1.0.2,node_modules/call-bind-apply-helpers,Current registry release,https://registry.npmjs.org/call-bind-apply-helpers/latest
+chalk,4.1.2,6.0.1,4.1.2,node_modules/chalk,Upstream consumer API/range constraint: @electron/fuses@1.8.0: ^4.1.1; builder-util@26.16.0: ^4.1.2; electron-builder@26.18.0: ^4.1.2; electron-publish@26.18.0: ^4.1.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/chalk/latest
+chownr,new/unlocked,3.0.0,3.0.0,node_modules/chownr,Current registry release,https://registry.npmjs.org/chownr/latest
+chromium-pickle-js,0.2.0,0.2.0,0.2.0,node_modules/chromium-pickle-js,Current registry release,https://registry.npmjs.org/chromium-pickle-js/latest
+ci-info,4.4.0,4.4.0,4.4.0,node_modules/ci-info,Current registry release,https://registry.npmjs.org/ci-info/latest
+cliui,8.0.1,9.0.1,8.0.1,node_modules/cliui,Upstream consumer API/range constraint: yargs@17.7.3: ^8.0.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/cliui/latest
+wrap-ansi,7.0.0,10.0.2,removed/hoisted,node_modules/cliui/node_modules/wrap-ansi,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/wrap-ansi/latest
+clone-response,1.0.3,2.0.0,1.0.3,node_modules/clone-response,Upstream consumer API/range constraint: cacheable-request@7.0.4: ^1.0.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/clone-response/latest
+color-convert,2.0.1,3.1.3,2.0.1,node_modules/color-convert,Upstream consumer API/range constraint: ansi-styles@4.3.0: ^2.0.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/color-convert/latest
+color-name,1.1.4,2.1.1,1.1.4,node_modules/color-name,Upstream consumer API/range constraint: color-convert@2.0.1: ~1.1.4; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/color-name/latest
+combined-stream,1.0.8,1.0.8,1.0.8,node_modules/combined-stream,Current registry release,https://registry.npmjs.org/combined-stream/latest
+commander,12.1.0,15.0.0,12.1.0,node_modules/commander,Upstream consumer API/range constraint: @capacitor/cli@8.6.0: ^12.1.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/commander/latest
+compare-version,0.1.2,0.1.2,0.1.2,node_modules/compare-version,Current registry release,https://registry.npmjs.org/compare-version/latest
+concat-map,0.0.1,0.0.2,0.0.1,node_modules/concat-map,Upstream consumer API/range constraint: brace-expansion@1.1.21: 0.0.1,https://registry.npmjs.org/concat-map/latest
+core-util-is,1.0.3,1.0.3,1.0.3,node_modules/core-util-is,Current registry release,https://registry.npmjs.org/core-util-is/latest
+cross-dirname,0.1.0,0.1.0,0.1.0,node_modules/cross-dirname,Current registry release,https://registry.npmjs.org/cross-dirname/latest
+cross-spawn,7.0.6,7.0.6,7.0.6,node_modules/cross-spawn,Current registry release,https://registry.npmjs.org/cross-spawn/latest
+debug,4.4.3,4.4.3,4.4.3,node_modules/debug,Current registry release,https://registry.npmjs.org/debug/latest
+decompress-response,6.0.0,10.0.0,6.0.0,node_modules/decompress-response,Upstream consumer API/range constraint: got@11.8.6: ^6.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/decompress-response/latest
+mimic-response,3.1.0,4.0.0,3.1.0,node_modules/decompress-response/node_modules/mimic-response,Upstream consumer API/range constraint: decompress-response@6.0.0: ^3.1.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/mimic-response/latest
+defer-to-connect,2.0.1,2.0.1,2.0.1,node_modules/defer-to-connect,Current registry release,https://registry.npmjs.org/defer-to-connect/latest
+define-data-property,1.1.4,1.1.4,1.1.4,node_modules/define-data-property,Current registry release,https://registry.npmjs.org/define-data-property/latest
+define-lazy-prop,2.0.0,3.0.0,2.0.0,node_modules/define-lazy-prop,Upstream consumer API/range constraint: open@8.4.2: ^2.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/define-lazy-prop/latest
+define-properties,1.2.1,1.2.1,1.2.1,node_modules/define-properties,Current registry release,https://registry.npmjs.org/define-properties/latest
+delayed-stream,1.0.0,1.0.0,1.0.0,node_modules/delayed-stream,Current registry release,https://registry.npmjs.org/delayed-stream/latest
+detect-libc,2.1.2,2.1.2,2.1.2,node_modules/detect-libc,Current registry release,https://registry.npmjs.org/detect-libc/latest
+dir-compare,4.2.0,5.0.0,4.2.0,node_modules/dir-compare,Upstream consumer API/range constraint: @electron/universal@2.0.3: ^4.2.0,https://registry.npmjs.org/dir-compare/latest
+balanced-match,1.0.2,5.0.0,1.0.2,node_modules/dir-compare/node_modules/balanced-match,Upstream consumer API/range constraint: brace-expansion@1.1.21: ^1.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/balanced-match/latest
+brace-expansion,1.1.21,5.0.12,1.1.21,node_modules/dir-compare/node_modules/brace-expansion,Upstream consumer API/range constraint: minimatch@3.1.5: ^1.1.7; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/brace-expansion/latest
+minimatch,3.1.5,11.0.5,3.1.5,node_modules/dir-compare/node_modules/minimatch,Upstream consumer API/range constraint: dir-compare@4.2.0: ^3.0.5; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/minimatch/latest
+dmg-builder,26.18.0,26.18.0,26.18.0,node_modules/dmg-builder,Current registry release,https://registry.npmjs.org/dmg-builder/latest
+fs-extra,10.1.0,11.4.1,10.1.0,node_modules/dmg-builder/node_modules/fs-extra,Upstream consumer API/range constraint: dmg-builder@26.18.0: ^10.1.0,https://registry.npmjs.org/fs-extra/latest
+dotenv,16.6.1,18.0.9,16.6.1,node_modules/dotenv,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^16.4.5; dotenv-expand@11.0.7: ^16.4.5,https://registry.npmjs.org/dotenv/latest
+dotenv-expand,11.0.7,1000.0.0,11.0.7,node_modules/dotenv-expand,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^11.0.6,https://registry.npmjs.org/dotenv-expand/latest
+dunder-proto,1.0.1,1.0.1,1.0.1,node_modules/dunder-proto,Current registry release,https://registry.npmjs.org/dunder-proto/latest
+duplexer2,0.1.4,0.1.4,0.1.4,node_modules/duplexer2,Current registry release,https://registry.npmjs.org/duplexer2/latest
+readable-stream,2.3.8,4.8.0,2.3.8,node_modules/duplexer2/node_modules/readable-stream,Upstream consumer API/range constraint: duplexer2@0.1.4: ^2.0.2,https://registry.npmjs.org/readable-stream/latest
+safe-buffer,5.1.2,5.2.1,5.1.2,node_modules/duplexer2/node_modules/safe-buffer,Upstream consumer API/range constraint: readable-stream@2.3.8: ~5.1.1; string_decoder@1.1.1: ~5.1.0,https://registry.npmjs.org/safe-buffer/latest
+string_decoder,1.1.1,1.3.0,1.1.1,node_modules/duplexer2/node_modules/string_decoder,Upstream consumer API/range constraint: readable-stream@2.3.8: ~1.1.1,https://registry.npmjs.org/string_decoder/latest
+ejs,3.1.10,7.0.2,3.1.10,node_modules/ejs,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^3.1.8,https://registry.npmjs.org/ejs/latest
+electron,45.1.0,45.2.3,45.2.3,node_modules/electron,Current registry release,https://registry.npmjs.org/electron/latest
+electron-builder,26.18.0,26.18.0,26.18.0,node_modules/electron-builder,Current registry release,https://registry.npmjs.org/electron-builder/latest
+electron-builder-squirrel-windows,26.18.0,26.18.0,26.18.0,node_modules/electron-builder-squirrel-windows,Current registry release,https://registry.npmjs.org/electron-builder-squirrel-windows/latest
+fs-extra,10.1.0,11.4.1,10.1.0,node_modules/electron-builder/node_modules/fs-extra,Upstream consumer API/range constraint: electron-builder@26.18.0: ^10.1.0,https://registry.npmjs.org/fs-extra/latest
+electron-publish,26.18.0,26.18.0,26.18.0,node_modules/electron-publish,Current registry release,https://registry.npmjs.org/electron-publish/latest
+@types/fs-extra,9.0.13,11.0.4,9.0.13,node_modules/electron-publish/node_modules/@types/fs-extra,Upstream consumer API/range constraint: electron-publish@26.18.0: ^9.0.11,https://registry.npmjs.org/%40types%2Ffs-extra/latest
+fs-extra,10.1.0,11.4.1,10.1.0,node_modules/electron-publish/node_modules/fs-extra,Upstream consumer API/range constraint: electron-publish@26.18.0: ^10.1.0,https://registry.npmjs.org/fs-extra/latest
+electron-winstaller,5.4.0,5.4.4,5.4.4,node_modules/electron-winstaller,Current registry release,https://registry.npmjs.org/electron-winstaller/latest
+fs-extra,7.0.1,11.4.1,7.0.1,node_modules/electron-winstaller/node_modules/fs-extra,Upstream consumer API/range constraint: electron-winstaller@5.4.4: ^7.0.1,https://registry.npmjs.org/fs-extra/latest
+jsonfile,4.0.0,6.2.1,4.0.0,node_modules/electron-winstaller/node_modules/jsonfile,Upstream consumer API/range constraint: fs-extra@7.0.1: ^4.0.0,https://registry.npmjs.org/jsonfile/latest
+universalify,0.1.2,2.0.1,0.1.2,node_modules/electron-winstaller/node_modules/universalify,Upstream consumer API/range constraint: fs-extra@7.0.1: ^0.1.0,https://registry.npmjs.org/universalify/latest
+@electron/get,5.1.0,5.1.0,removed/hoisted,node_modules/electron/node_modules/@electron/get,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/%40electron%2Fget/latest
+@types/node,24.13.3,26.6.6,24.19.2,node_modules/electron/node_modules/@types/node,Upstream consumer API/range constraint: electron@45.2.3: ^24.9.0,https://registry.npmjs.org/%40types%2Fnode/latest
+env-paths,3.0.0,4.0.0,removed/hoisted,node_modules/electron/node_modules/env-paths,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/env-paths/latest
+undici-types,7.18.2,8.12.4,7.24.6,node_modules/electron/node_modules/undici-types,Upstream consumer API/range constraint: @types/node@24.19.2: >=7.24.0 <7.24.7,https://registry.npmjs.org/undici-types/latest
+elementtree,0.1.7,0.1.7,0.1.7,node_modules/elementtree,Current registry release,https://registry.npmjs.org/elementtree/latest
+sax,new/unlocked,1.6.1,1.1.4,node_modules/elementtree/node_modules/sax,Upstream consumer API/range constraint: elementtree@0.1.7: 1.1.4,https://registry.npmjs.org/sax/latest
+emoji-regex,8.0.0,11.0.0,8.0.0,node_modules/emoji-regex,Upstream consumer API/range constraint: string-width@4.2.3: ^8.0.0,https://registry.npmjs.org/emoji-regex/latest
+end-of-stream,1.4.5,1.4.5,1.4.5,node_modules/end-of-stream,Current registry release,https://registry.npmjs.org/end-of-stream/latest
+env-paths,2.2.1,4.0.0,2.2.1,node_modules/env-paths,Upstream consumer API/range constraint: @capacitor/cli@8.6.0: ^2.2.0; @electron/get@3.1.0: ^2.2.0; node-gyp@12.4.0: ^2.2.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/env-paths/latest
+err-code,2.0.3,3.0.1,2.0.3,node_modules/err-code,Upstream consumer API/range constraint: promise-retry@2.0.1: ^2.0.2,https://registry.npmjs.org/err-code/latest
+es-define-property,1.0.1,1.0.1,1.0.1,node_modules/es-define-property,Current registry release,https://registry.npmjs.org/es-define-property/latest
+es-errors,1.3.0,1.3.0,1.3.0,node_modules/es-errors,Current registry release,https://registry.npmjs.org/es-errors/latest
+es-object-atoms,1.1.2,1.1.2,1.1.2,node_modules/es-object-atoms,Current registry release,https://registry.npmjs.org/es-object-atoms/latest
+es-set-tostringtag,2.1.0,2.1.0,2.1.0,node_modules/es-set-tostringtag,Current registry release,https://registry.npmjs.org/es-set-tostringtag/latest
+escalade,3.2.0,3.2.0,3.2.0,node_modules/escalade,Current registry release,https://registry.npmjs.org/escalade/latest
+escape-string-regexp,4.0.0,5.0.0,4.0.0,node_modules/escape-string-regexp,Upstream consumer API/range constraint: matcher@4.0.0: ^4.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/escape-string-regexp/latest
+exponential-backoff,3.1.3,3.1.3,3.1.3,node_modules/exponential-backoff,Current registry release,https://registry.npmjs.org/exponential-backoff/latest
+fast-deep-equal,3.1.3,3.1.3,3.1.3,node_modules/fast-deep-equal,Current registry release,https://registry.npmjs.org/fast-deep-equal/latest
+fast-uri,3.1.9,4.2.3,3.1.9,node_modules/fast-uri,Upstream consumer API/range constraint: ajv@8.20.0: ^3.0.1,https://registry.npmjs.org/fast-uri/latest
+fd-slicer,1.1.0,1.1.0,1.1.0,node_modules/fd-slicer,Current registry release,https://registry.npmjs.org/fd-slicer/latest
+fdir,new/unlocked,6.5.0,6.5.0,node_modules/fdir,Current registry release,https://registry.npmjs.org/fdir/latest
+filelist,1.0.6,2.0.2,1.0.6,node_modules/filelist,Upstream consumer API/range constraint: jake@10.9.4: ^1.0.4,https://registry.npmjs.org/filelist/latest
+balanced-match,1.0.2,5.0.0,1.0.2,node_modules/filelist/node_modules/balanced-match,Upstream consumer API/range constraint: brace-expansion@2.1.7: ^1.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/balanced-match/latest
+brace-expansion,2.1.7,5.0.12,2.1.7,node_modules/filelist/node_modules/brace-expansion,Upstream consumer API/range constraint: minimatch@5.1.9: ^2.0.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/brace-expansion/latest
+minimatch,5.1.9,11.0.5,5.1.9,node_modules/filelist/node_modules/minimatch,Upstream consumer API/range constraint: filelist@1.0.6: ^5.0.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/minimatch/latest
+form-data,4.0.6,4.0.6,4.0.6,node_modules/form-data,Current registry release,https://registry.npmjs.org/form-data/latest
+fs-extra,11.3.5,11.4.1,11.4.1,node_modules/fs-extra,Current registry release,https://registry.npmjs.org/fs-extra/latest
+fsevents,2.3.3,2.3.3,2.3.3,node_modules/fsevents,Current registry release,https://registry.npmjs.org/fsevents/latest
+function-bind,1.1.2,1.1.2,1.1.2,node_modules/function-bind,Current registry release,https://registry.npmjs.org/function-bind/latest
+get-caller-file,2.0.5,2.0.5,2.0.5,node_modules/get-caller-file,Current registry release,https://registry.npmjs.org/get-caller-file/latest
+get-intrinsic,1.3.0,1.3.0,1.3.0,node_modules/get-intrinsic,Current registry release,https://registry.npmjs.org/get-intrinsic/latest
+get-proto,1.0.1,1.0.1,1.0.1,node_modules/get-proto,Current registry release,https://registry.npmjs.org/get-proto/latest
+get-stream,5.2.0,9.0.1,5.2.0,node_modules/get-stream,Upstream consumer API/range constraint: cacheable-request@7.0.4: ^5.1.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/get-stream/latest
+glob,14.0.3,14.0.3,14.0.3,node_modules/glob,Current registry release,https://registry.npmjs.org/glob/latest
+global-agent,4.1.6,4.1.6,4.1.6,node_modules/global-agent,Current registry release,https://registry.npmjs.org/global-agent/latest
+globalthis,1.0.4,1.0.4,1.0.4,node_modules/globalthis,Current registry release,https://registry.npmjs.org/globalthis/latest
+gopd,1.2.0,1.2.0,1.2.0,node_modules/gopd,Current registry release,https://registry.npmjs.org/gopd/latest
+got,11.8.6,16.2.0,11.8.6,node_modules/got,Upstream consumer API/range constraint: @electron/get@3.1.0: ^11.8.5; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/got/latest
+graceful-fs,4.2.11,4.2.11,4.2.11,node_modules/graceful-fs,Current registry release,https://registry.npmjs.org/graceful-fs/latest
+has-flag,4.0.0,5.0.1,4.0.0,node_modules/has-flag,Upstream consumer API/range constraint: supports-color@7.2.0: ^4.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/has-flag/latest
+has-property-descriptors,1.0.2,1.0.2,1.0.2,node_modules/has-property-descriptors,Current registry release,https://registry.npmjs.org/has-property-descriptors/latest
+has-symbols,1.1.0,1.1.0,1.1.0,node_modules/has-symbols,Current registry release,https://registry.npmjs.org/has-symbols/latest
+has-tostringtag,1.0.2,1.0.2,1.0.2,node_modules/has-tostringtag,Current registry release,https://registry.npmjs.org/has-tostringtag/latest
+hasown,2.0.4,2.0.4,2.0.4,node_modules/hasown,Current registry release,https://registry.npmjs.org/hasown/latest
+hosted-git-info,4.1.0,10.1.1,4.1.0,node_modules/hosted-git-info,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^4.1.0,https://registry.npmjs.org/hosted-git-info/latest
+http-cache-semantics,4.3.0,4.3.0,4.3.0,node_modules/http-cache-semantics,Current registry release,https://registry.npmjs.org/http-cache-semantics/latest
+http-proxy-agent,7.0.2,9.1.0,7.0.2,node_modules/http-proxy-agent,Upstream consumer API/range constraint: builder-util@26.16.0: ^7.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/http-proxy-agent/latest
+http2-wrapper,1.0.3,2.2.4,1.0.3,node_modules/http2-wrapper,Upstream consumer API/range constraint: got@11.8.6: ^1.0.0-beta.5.2,https://registry.npmjs.org/http2-wrapper/latest
+https-proxy-agent,7.0.6,9.1.0,7.0.6,node_modules/https-proxy-agent,Upstream consumer API/range constraint: builder-util@26.16.0: ^7.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/https-proxy-agent/latest
+inherits,2.0.4,2.0.4,2.0.4,node_modules/inherits,Current registry release,https://registry.npmjs.org/inherits/latest
+ini,new/unlocked,7.0.0,4.1.3,node_modules/ini,Upstream consumer API/range constraint: native-run@2.1.0: ^4.1.1,https://registry.npmjs.org/ini/latest
+is-docker,2.2.1,4.0.0,2.2.1,node_modules/is-docker,Upstream consumer API/range constraint: is-wsl@2.2.0: ^2.0.0; open@8.4.2: ^2.1.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/is-docker/latest
+is-fullwidth-code-point,3.0.0,5.1.0,3.0.0,node_modules/is-fullwidth-code-point,Upstream consumer API/range constraint: slice-ansi@4.0.0: ^3.0.0; string-width@4.2.3: ^3.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/is-fullwidth-code-point/latest
+is-wsl,2.2.0,3.1.1,2.2.0,node_modules/is-wsl,Upstream consumer API/range constraint: open@8.4.2: ^2.2.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/is-wsl/latest
+isarray,1.0.0,2.0.5,1.0.0,node_modules/isarray,Upstream consumer API/range constraint: readable-stream@2.3.8: ~1.0.0,https://registry.npmjs.org/isarray/latest
+isbinaryfile,5.0.7,6.0.0,5.0.7,node_modules/isbinaryfile,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^5.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/isbinaryfile/latest
+isexe,2.0.0,4.0.0,2.0.0,node_modules/isexe,Upstream consumer API/range constraint: which@2.0.2: ^2.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/isexe/latest
+jake,10.9.4,13.0.3,10.9.4,node_modules/jake,Upstream consumer API/range constraint: ejs@3.1.10: ^10.8.5,https://registry.npmjs.org/jake/latest
+jiti,2.7.0,2.7.0,2.7.0,node_modules/jiti,Current registry release,https://registry.npmjs.org/jiti/latest
+js-yaml,4.3.2,5.5.0,4.3.2,node_modules/js-yaml,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^4.1.0; builder-util@26.16.0: ^4.1.0; dmg-builder@26.18.0: ^4.1.0,https://registry.npmjs.org/js-yaml/latest
+json-buffer,3.0.1,3.0.1,3.0.1,node_modules/json-buffer,Current registry release,https://registry.npmjs.org/json-buffer/latest
+json-schema-traverse,1.0.0,1.0.0,1.0.0,node_modules/json-schema-traverse,Current registry release,https://registry.npmjs.org/json-schema-traverse/latest
+json5,2.2.3,2.2.3,2.2.3,node_modules/json5,Current registry release,https://registry.npmjs.org/json5/latest
+jsonfile,6.2.1,6.2.1,6.2.1,node_modules/jsonfile,Current registry release,https://registry.npmjs.org/jsonfile/latest
+keyv,4.5.4,6.1.0,4.5.4,node_modules/keyv,Upstream consumer API/range constraint: cacheable-request@7.0.4: ^4.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/keyv/latest
+kleur,4.1.5,4.1.5,4.1.5,node_modules/kleur,Current registry release,https://registry.npmjs.org/kleur/latest
+lazy-val,1.0.5,1.0.5,1.0.5,node_modules/lazy-val,Current registry release,https://registry.npmjs.org/lazy-val/latest
+lightningcss,1.33.0,1.33.0,1.33.0,node_modules/lightningcss,Current registry release,https://registry.npmjs.org/lightningcss/latest
+lightningcss-android-arm64,1.33.0,1.33.0,1.33.0,node_modules/lightningcss-android-arm64,Current registry release,https://registry.npmjs.org/lightningcss-android-arm64/latest
+lightningcss-darwin-arm64,1.33.0,1.33.0,1.33.0,node_modules/lightningcss-darwin-arm64,Current registry release,https://registry.npmjs.org/lightningcss-darwin-arm64/latest
+lightningcss-darwin-x64,1.33.0,1.33.0,1.33.0,node_modules/lightningcss-darwin-x64,Current registry release,https://registry.npmjs.org/lightningcss-darwin-x64/latest
+lightningcss-freebsd-x64,1.33.0,1.33.0,1.33.0,node_modules/lightningcss-freebsd-x64,Current registry release,https://registry.npmjs.org/lightningcss-freebsd-x64/latest
+lightningcss-linux-arm-gnueabihf,1.33.0,1.33.0,1.33.0,node_modules/lightningcss-linux-arm-gnueabihf,Current registry release,https://registry.npmjs.org/lightningcss-linux-arm-gnueabihf/latest
+lightningcss-linux-arm64-gnu,1.33.0,1.33.0,1.33.0,node_modules/lightningcss-linux-arm64-gnu,Current registry release,https://registry.npmjs.org/lightningcss-linux-arm64-gnu/latest
+lightningcss-linux-arm64-musl,1.33.0,1.33.0,1.33.0,node_modules/lightningcss-linux-arm64-musl,Current registry release,https://registry.npmjs.org/lightningcss-linux-arm64-musl/latest
+lightningcss-linux-x64-gnu,1.33.0,1.33.0,1.33.0,node_modules/lightningcss-linux-x64-gnu,Current registry release,https://registry.npmjs.org/lightningcss-linux-x64-gnu/latest
+lightningcss-linux-x64-musl,1.33.0,1.33.0,1.33.0,node_modules/lightningcss-linux-x64-musl,Current registry release,https://registry.npmjs.org/lightningcss-linux-x64-musl/latest
+lightningcss-win32-arm64-msvc,1.33.0,1.33.0,1.33.0,node_modules/lightningcss-win32-arm64-msvc,Current registry release,https://registry.npmjs.org/lightningcss-win32-arm64-msvc/latest
+lightningcss-win32-x64-msvc,1.33.0,1.33.0,1.33.0,node_modules/lightningcss-win32-x64-msvc,Current registry release,https://registry.npmjs.org/lightningcss-win32-x64-msvc/latest
+lodash,4.18.1,4.18.1,4.18.1,node_modules/lodash,Current registry release,https://registry.npmjs.org/lodash/latest
+lowercase-keys,2.0.0,4.0.1,2.0.0,node_modules/lowercase-keys,Upstream consumer API/range constraint: cacheable-request@7.0.4: ^2.0.0; got@11.8.6: ^2.0.0; responselike@2.0.1: ^2.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/lowercase-keys/latest
+lru-cache,6.0.0,11.5.3,6.0.0,node_modules/lru-cache,Upstream consumer API/range constraint: hosted-git-info@4.1.0: ^6.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/lru-cache/latest
+matcher,4.0.0,7.0.0,4.0.0,node_modules/matcher,Upstream consumer API/range constraint: global-agent@4.1.6: ^4.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/matcher/latest
+math-intrinsics,1.1.0,1.1.0,1.1.0,node_modules/math-intrinsics,Current registry release,https://registry.npmjs.org/math-intrinsics/latest
+mime,2.6.0,4.1.2,2.6.0,node_modules/mime,Upstream consumer API/range constraint: electron-publish@26.18.0: ^2.5.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/mime/latest
+mime-db,1.52.0,1.54.0,1.52.0,node_modules/mime-db,Upstream consumer API/range constraint: mime-types@2.1.35: 1.52.0,https://registry.npmjs.org/mime-db/latest
+mime-types,2.1.35,3.0.2,2.1.35,node_modules/mime-types,Upstream consumer API/range constraint: form-data@4.0.6: ^2.1.35,https://registry.npmjs.org/mime-types/latest
+mimic-response,1.0.1,4.0.0,1.0.1,node_modules/mimic-response,Upstream consumer API/range constraint: clone-response@1.0.3: ^1.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/mimic-response/latest
+minimatch,11.0.4,11.0.5,11.0.5,node_modules/minimatch,Current registry release,https://registry.npmjs.org/minimatch/latest
+minimist,1.2.8,1.2.8,1.2.8,node_modules/minimist,Current registry release,https://registry.npmjs.org/minimist/latest
+minipass,7.1.3,7.1.3,7.1.3,node_modules/minipass,Current registry release,https://registry.npmjs.org/minipass/latest
+minizlib,new/unlocked,3.1.0,3.1.0,node_modules/minizlib,Current registry release,https://registry.npmjs.org/minizlib/latest
+mkdirp,0.5.6,3.0.1,0.5.6,node_modules/mkdirp,Upstream consumer API/range constraint: temp@0.9.4: ^0.5.1,https://registry.npmjs.org/mkdirp/latest
+ms,2.1.3,2.1.3,2.1.3,node_modules/ms,Current registry release,https://registry.npmjs.org/ms/latest
+nanoid,3.3.20,6.0.2,3.3.20,node_modules/nanoid,Upstream consumer API/range constraint: postcss@8.5.32: ^3.3.20; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/nanoid/latest
+native-run,2.0.3,2.1.0,2.1.0,node_modules/native-run,Current registry release,https://registry.npmjs.org/native-run/latest
+ini,4.1.3,7.0.0,removed/hoisted,node_modules/native-run/node_modules/ini,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/ini/latest
+node-abi,4.40.0,4.40.0,4.40.0,node_modules/node-abi,Current registry release,https://registry.npmjs.org/node-abi/latest
+node-api-version,0.2.1,0.2.1,0.2.1,node_modules/node-api-version,Current registry release,https://registry.npmjs.org/node-api-version/latest
+node-gyp,12.4.0,13.1.0,12.4.0,node_modules/node-gyp,Upstream consumer API/range constraint: @electron/rebuild@4.2.1: ^12.2.0,https://registry.npmjs.org/node-gyp/latest
+isexe,4.0.0,4.0.0,4.0.0,node_modules/node-gyp/node_modules/isexe,Current registry release,https://registry.npmjs.org/isexe/latest
+undici,6.29.1,8.12.4,6.29.1,node_modules/node-gyp/node_modules/undici,Upstream consumer API/range constraint: node-gyp@12.4.0: ^6.25.0,https://registry.npmjs.org/undici/latest
+which,6.0.1,7.0.0,6.0.1,node_modules/node-gyp/node_modules/which,Upstream consumer API/range constraint: node-gyp@12.4.0: ^6.0.0,https://registry.npmjs.org/which/latest
+node-int64,0.4.0,0.4.0,0.4.0,node_modules/node-int64,Current registry release,https://registry.npmjs.org/node-int64/latest
+nopt,9.0.0,10.0.1,9.0.0,node_modules/nopt,Upstream consumer API/range constraint: node-gyp@12.4.0: ^9.0.0,https://registry.npmjs.org/nopt/latest
+normalize-url,6.1.0,10.0.0,6.1.0,node_modules/normalize-url,Upstream consumer API/range constraint: cacheable-request@7.0.4: ^6.0.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/normalize-url/latest
+object-keys,1.1.1,1.1.1,1.1.1,node_modules/object-keys,Current registry release,https://registry.npmjs.org/object-keys/latest
+once,1.4.0,1.4.0,1.4.0,node_modules/once,Current registry release,https://registry.npmjs.org/once/latest
+open,8.4.2,11.0.4,8.4.2,node_modules/open,Upstream consumer API/range constraint: @capacitor/cli@8.6.0: ^8.4.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/open/latest
+p-cancelable,2.1.1,5.0.0,2.1.1,node_modules/p-cancelable,Upstream consumer API/range constraint: got@11.8.6: ^2.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/p-cancelable/latest
+p-limit,3.1.0,7.3.3,3.1.0,node_modules/p-limit,Upstream consumer API/range constraint: dir-compare@4.2.0: ^3.1.0 ; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/p-limit/latest
+package-json-from-dist,1.0.1,1.0.1,1.0.1,node_modules/package-json-from-dist,Current registry release,https://registry.npmjs.org/package-json-from-dist/latest
+path-key,3.1.1,4.0.0,3.1.1,node_modules/path-key,Upstream consumer API/range constraint: cross-spawn@7.0.6: ^3.1.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/path-key/latest
+path-scurry,3.0.0,3.0.0,3.0.0,node_modules/path-scurry,Current registry release,https://registry.npmjs.org/path-scurry/latest
+lru-cache,11.5.3,11.5.3,11.5.3,node_modules/path-scurry/node_modules/lru-cache,Current registry release,https://registry.npmjs.org/lru-cache/latest
+pe-library,0.4.1,2.0.1,0.4.1,node_modules/pe-library,Upstream consumer API/range constraint: resedit@1.7.2: ^0.4.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/pe-library/latest
+pend,1.2.0,1.2.0,1.2.0,node_modules/pend,Current registry release,https://registry.npmjs.org/pend/latest
+picocolors,1.1.1,1.1.1,1.1.1,node_modules/picocolors,Current registry release,https://registry.npmjs.org/picocolors/latest
+picomatch,4.0.7,4.0.7,4.0.7,node_modules/picomatch,Current registry release,https://registry.npmjs.org/picomatch/latest
+pkijs,3.4.3,4.0.1,3.4.3,node_modules/pkijs,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^3.4.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/pkijs/latest
+plist,3.1.1,5.0.0,3.1.1,node_modules/plist,Upstream consumer API/range constraint: @capacitor/cli@8.6.0: ^3.1.0; @electron/osx-sign@1.3.3: ^3.0.5; @electron/universal@2.0.3: ^3.1.0; native-run@2.1.0: ^3.1.0; simple-plist@1.3.1: ^3.0.5; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/plist/latest
+postcss,8.5.32,8.5.32,8.5.32,node_modules/postcss,Current registry release,https://registry.npmjs.org/postcss/latest
+postject,1.0.0-alpha.6,1.0.0-alpha.6,1.0.0-alpha.6,node_modules/postject,Current registry release,https://registry.npmjs.org/postject/latest
+commander,9.5.0,15.0.0,9.5.0,node_modules/postject/node_modules/commander,Upstream consumer API/range constraint: postject@1.0.0-alpha.6: ^9.4.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/commander/latest
+proc-log,6.1.0,7.0.0,6.1.0,node_modules/proc-log,Upstream consumer API/range constraint: node-gyp@12.4.0: ^6.0.0,https://registry.npmjs.org/proc-log/latest
+process-nextick-args,2.0.1,2.0.1,2.0.1,node_modules/process-nextick-args,Current registry release,https://registry.npmjs.org/process-nextick-args/latest
+progress,2.0.3,2.0.3,2.0.3,node_modules/progress,Current registry release,https://registry.npmjs.org/progress/latest
+promise-retry,2.0.1,2.0.1,2.0.1,node_modules/promise-retry,Current registry release,https://registry.npmjs.org/promise-retry/latest
+prompts,2.4.2,2.4.2,2.4.2,node_modules/prompts,Current registry release,https://registry.npmjs.org/prompts/latest
+kleur,3.0.3,4.1.5,3.0.3,node_modules/prompts/node_modules/kleur,Upstream consumer API/range constraint: prompts@2.4.2: ^3.0.3,https://registry.npmjs.org/kleur/latest
+proper-lockfile,4.1.2,4.1.2,4.1.2,node_modules/proper-lockfile,Current registry release,https://registry.npmjs.org/proper-lockfile/latest
+pump,3.0.4,3.0.4,3.0.4,node_modules/pump,Current registry release,https://registry.npmjs.org/pump/latest
+pvtsutils,1.3.6,1.3.6,1.3.6,node_modules/pvtsutils,Current registry release,https://registry.npmjs.org/pvtsutils/latest
+pvutils,1.2.0,2.0.0,1.2.0,node_modules/pvutils,Upstream consumer API/range constraint: asn1js@3.1.0: ^1.2.0; pkijs@3.4.3: ^1.1.3; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/pvutils/latest
+quick-lru,5.1.1,7.3.0,5.1.1,node_modules/quick-lru,Upstream consumer API/range constraint: http2-wrapper@1.0.3: ^5.1.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/quick-lru/latest
+react,19.3.1,19.3.1,19.3.1,node_modules/react,Current registry release,https://registry.npmjs.org/react/latest
+react-dom,19.3.1,19.3.1,19.3.1,node_modules/react-dom,Current registry release,https://registry.npmjs.org/react-dom/latest
+read-binary-file-arch,1.0.6,1.0.6,1.0.6,node_modules/read-binary-file-arch,Current registry release,https://registry.npmjs.org/read-binary-file-arch/latest
+readable-stream,3.6.2,4.8.0,3.6.2,node_modules/readable-stream,Upstream consumer API/range constraint: through2@4.0.2: 3,https://registry.npmjs.org/readable-stream/latest
+require-directory,2.1.1,2.1.1,2.1.1,node_modules/require-directory,Current registry release,https://registry.npmjs.org/require-directory/latest
+require-from-string,2.0.2,2.0.2,2.0.2,node_modules/require-from-string,Current registry release,https://registry.npmjs.org/require-from-string/latest
+resedit,1.7.2,3.1.0,1.7.2,node_modules/resedit,Upstream consumer API/range constraint: app-builder-lib@26.18.0: ^1.7.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/resedit/latest
+resolve-alpn,1.2.1,1.2.1,1.2.1,node_modules/resolve-alpn,Current registry release,https://registry.npmjs.org/resolve-alpn/latest
+responselike,2.0.1,4.0.2,2.0.1,node_modules/responselike,Upstream consumer API/range constraint: cacheable-request@7.0.4: ^2.0.0; got@11.8.6: ^2.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/responselike/latest
+retry,0.12.0,0.13.1,0.12.0,node_modules/retry,Upstream consumer API/range constraint: promise-retry@2.0.1: ^0.12.0; proper-lockfile@4.1.2: ^0.12.0,https://registry.npmjs.org/retry/latest
+rimraf,6.1.3,6.1.4,6.1.4,node_modules/rimraf,Current registry release,https://registry.npmjs.org/rimraf/latest
+rolldown,1.2.16,1.3.0,1.2.16,node_modules/rolldown,Upstream consumer API/range constraint: vite@8.3.6: ~1.2.16,https://registry.npmjs.org/rolldown/latest
+safe-buffer,5.2.1,5.2.1,5.2.1,node_modules/safe-buffer,Current registry release,https://registry.npmjs.org/safe-buffer/latest
+sanitize-filename,1.6.4,1.6.4,1.6.4,node_modules/sanitize-filename,Current registry release,https://registry.npmjs.org/sanitize-filename/latest
+sax,1.1.4,1.6.1,1.6.1,node_modules/sax,Current registry release,https://registry.npmjs.org/sax/latest
+scheduler,0.28.0,0.28.0,0.28.0,node_modules/scheduler,Current registry release,https://registry.npmjs.org/scheduler/latest
+semver,7.8.0,7.8.6,7.8.6,node_modules/semver,Current registry release,https://registry.npmjs.org/semver/latest
+serialize-error,8.1.0,13.1.0,8.1.0,node_modules/serialize-error,Upstream consumer API/range constraint: global-agent@4.1.6: ^8.1.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/serialize-error/latest
+shebang-command,2.0.0,2.0.0,2.0.0,node_modules/shebang-command,Current registry release,https://registry.npmjs.org/shebang-command/latest
+shebang-regex,3.0.0,4.0.0,3.0.0,node_modules/shebang-regex,Upstream consumer API/range constraint: shebang-command@2.0.0: ^3.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/shebang-regex/latest
+signal-exit,3.0.7,4.1.0,3.0.7,node_modules/signal-exit,Upstream consumer API/range constraint: @ionic/utils-process@2.1.12: ^3.0.3; @ionic/utils-terminal@2.3.5: ^3.0.3; proper-lockfile@4.1.2: ^3.0.2,https://registry.npmjs.org/signal-exit/latest
+simple-plist,1.3.1,1.3.1,1.3.1,node_modules/simple-plist,Current registry release,https://registry.npmjs.org/simple-plist/latest
+bplist-parser,0.3.1,0.5.0,0.3.1,node_modules/simple-plist/node_modules/bplist-parser,Upstream consumer API/range constraint: simple-plist@1.3.1: 0.3.1,https://registry.npmjs.org/bplist-parser/latest
+simple-update-notifier,2.0.0,2.0.0,2.0.0,node_modules/simple-update-notifier,Current registry release,https://registry.npmjs.org/simple-update-notifier/latest
+sisteransi,1.0.5,2.0.0,1.0.5,node_modules/sisteransi,Upstream consumer API/range constraint: prompts@2.4.2: ^1.0.5; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/sisteransi/latest
+slice-ansi,4.0.0,10.0.0,4.0.0,node_modules/slice-ansi,Upstream consumer API/range constraint: @ionic/utils-terminal@2.3.5: ^4.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/slice-ansi/latest
+source-map,0.6.1,0.8.0,0.6.1,node_modules/source-map,Upstream consumer API/range constraint: source-map-support@0.5.21: ^0.6.0,https://registry.npmjs.org/source-map/latest
+source-map-js,1.2.2,1.2.2,1.2.2,node_modules/source-map-js,Current registry release,https://registry.npmjs.org/source-map-js/latest
+source-map-support,0.5.21,0.5.21,0.5.21,node_modules/source-map-support,Current registry release,https://registry.npmjs.org/source-map-support/latest
+split2,4.2.0,4.2.0,4.2.0,node_modules/split2,Current registry release,https://registry.npmjs.org/split2/latest
+stat-mode,1.0.0,1.0.0,1.0.0,node_modules/stat-mode,Current registry release,https://registry.npmjs.org/stat-mode/latest
+stream-buffers,2.2.0,3.0.3,2.2.0,node_modules/stream-buffers,Upstream consumer API/range constraint: bplist-creator@0.1.0: 2.2.x,https://registry.npmjs.org/stream-buffers/latest
+string-width,4.2.3,8.3.0,4.2.3,node_modules/string-width,Upstream consumer API/range constraint: @ionic/utils-terminal@2.3.5: ^4.1.0; cliui@8.0.1: ^4.2.0; wrap-ansi@7.0.0: ^4.1.0; yargs@17.7.3: ^4.2.3; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/string-width/latest
+string_decoder,1.3.0,1.3.0,1.3.0,node_modules/string_decoder,Current registry release,https://registry.npmjs.org/string_decoder/latest
+strip-ansi,6.0.1,7.2.0,6.0.1,node_modules/strip-ansi,Upstream consumer API/range constraint: @ionic/utils-terminal@2.3.5: ^6.0.0; cliui@8.0.1: ^6.0.1; string-width@4.2.3: ^6.0.1; wrap-ansi@7.0.0: ^6.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/strip-ansi/latest
+sumchecker,3.0.1,3.0.1,3.0.1,node_modules/sumchecker,Current registry release,https://registry.npmjs.org/sumchecker/latest
+supports-color,7.2.0,11.0.0,7.2.0,node_modules/supports-color,Upstream consumer API/range constraint: chalk@4.1.2: ^7.1.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/supports-color/latest
+tar,7.5.22,7.5.22,7.5.22,node_modules/tar,Current registry release,https://registry.npmjs.org/tar/latest
+chownr,3.0.0,3.0.0,removed/hoisted,node_modules/tar/node_modules/chownr,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/chownr/latest
+minizlib,3.1.0,3.1.0,removed/hoisted,node_modules/tar/node_modules/minizlib,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/minizlib/latest
+yallist,5.0.0,5.0.0,5.0.0,node_modules/tar/node_modules/yallist,Current registry release,https://registry.npmjs.org/yallist/latest
+temp,0.9.4,0.9.4,0.9.4,node_modules/temp,Current registry release,https://registry.npmjs.org/temp/latest
+temp-file,3.4.0,3.4.0,3.4.0,node_modules/temp-file,Current registry release,https://registry.npmjs.org/temp-file/latest
+fs-extra,10.1.0,11.4.1,10.1.0,node_modules/temp-file/node_modules/fs-extra,Upstream consumer API/range constraint: temp-file@3.4.0: ^10.0.0,https://registry.npmjs.org/fs-extra/latest
+through2,4.0.2,5.0.12,4.0.2,node_modules/through2,Upstream consumer API/range constraint: native-run@2.1.0: ^4.0.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/through2/latest
+tiny-async-pool,1.3.0,2.1.0,1.3.0,node_modules/tiny-async-pool,Upstream consumer API/range constraint: app-builder-lib@26.18.0: 1.3.0; builder-util@26.16.0: 1.3.0,https://registry.npmjs.org/tiny-async-pool/latest
+semver,5.7.2,7.8.6,5.7.3,node_modules/tiny-async-pool/node_modules/semver,Upstream consumer API/range constraint: tiny-async-pool@1.3.0: ^5.5.0,https://registry.npmjs.org/semver/latest
+tinyglobby,0.2.17,0.2.17,0.2.17,node_modules/tinyglobby,Current registry release,https://registry.npmjs.org/tinyglobby/latest
+fdir,6.5.0,6.5.0,removed/hoisted,node_modules/tinyglobby/node_modules/fdir,Fresh resolution removed this location; no direct feature or manifest dependency was removed,https://registry.npmjs.org/fdir/latest
+tmp,0.2.7,0.2.7,0.2.7,node_modules/tmp,Current registry release,https://registry.npmjs.org/tmp/latest
+tmp-promise,3.0.3,3.0.3,3.0.3,node_modules/tmp-promise,Current registry release,https://registry.npmjs.org/tmp-promise/latest
+tree-kill,1.2.2,1.2.2,1.2.2,node_modules/tree-kill,Current registry release,https://registry.npmjs.org/tree-kill/latest
+truncate-utf8-bytes,1.0.2,1.0.2,1.0.2,node_modules/truncate-utf8-bytes,Current registry release,https://registry.npmjs.org/truncate-utf8-bytes/latest
+tslib,2.8.1,2.9.1,2.9.1,node_modules/tslib,Current registry release,https://registry.npmjs.org/tslib/latest
+type-fest,0.20.2,5.10.0,0.20.2,node_modules/type-fest,Upstream consumer API/range constraint: serialize-error@8.1.0: ^0.20.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/type-fest/latest
+undici,7.30.1,8.12.4,7.30.2,node_modules/undici,Upstream consumer API/range constraint: @electron/get@5.1.0: ^7.24.4,https://registry.npmjs.org/undici/latest
+undici-types,6.21.0,8.12.4,8.9.0,node_modules/undici-types,Upstream consumer API/range constraint: @types/node@26.6.6: ~8.9.0,https://registry.npmjs.org/undici-types/latest
+universalify,2.0.1,2.0.1,2.0.1,node_modules/universalify,Current registry release,https://registry.npmjs.org/universalify/latest
+untildify,4.0.0,6.0.0,4.0.0,node_modules/untildify,Upstream consumer API/range constraint: @ionic/utils-terminal@2.3.5: ^4.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/untildify/latest
+unzipper,0.12.5,0.12.5,0.12.5,node_modules/unzipper,Current registry release,https://registry.npmjs.org/unzipper/latest
+fs-extra,11.3.1,11.4.1,11.3.1,node_modules/unzipper/node_modules/fs-extra,Upstream consumer API/range constraint: unzipper@0.12.5: 11.3.1,https://registry.npmjs.org/fs-extra/latest
+utf8-byte-length,1.0.5,1.0.5,1.0.5,node_modules/utf8-byte-length,Current registry release,https://registry.npmjs.org/utf8-byte-length/latest
+util-deprecate,1.0.2,1.0.2,1.0.2,node_modules/util-deprecate,Current registry release,https://registry.npmjs.org/util-deprecate/latest
+vite,8.3.5,8.3.6,8.3.6,node_modules/vite,Current registry release,https://registry.npmjs.org/vite/latest
+webcrypto-core,1.9.2,2.0.0,1.9.2,node_modules/webcrypto-core,Upstream consumer API/range constraint: @peculiar/webcrypto@1.7.2: ^1.9.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/webcrypto-core/latest
+which,2.0.2,7.0.0,2.0.2,node_modules/which,Upstream consumer API/range constraint: cross-spawn@7.0.6: ^2.0.1,https://registry.npmjs.org/which/latest
+wrap-ansi,new/unlocked,10.0.2,7.0.0,node_modules/wrap-ansi,Upstream consumer API/range constraint: @ionic/utils-terminal@2.3.5: ^7.0.0; cliui@8.0.1: ^7.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/wrap-ansi/latest
+wrappy,1.0.2,1.0.2,1.0.2,node_modules/wrappy,Current registry release,https://registry.npmjs.org/wrappy/latest
+xcode,4.0.0,4.0.0,4.0.0,node_modules/xcode,Current registry release,https://registry.npmjs.org/xcode/latest
+xml2js,0.6.2,0.6.2,0.6.2,node_modules/xml2js,Current registry release,https://registry.npmjs.org/xml2js/latest
+xmlbuilder,11.0.1,15.1.1,11.0.1,node_modules/xml2js/node_modules/xmlbuilder,Upstream consumer API/range constraint: xml2js@0.6.2: ~11.0.0,https://registry.npmjs.org/xmlbuilder/latest
+xmlbuilder,15.1.1,15.1.1,15.1.1,node_modules/xmlbuilder,Current registry release,https://registry.npmjs.org/xmlbuilder/latest
+y18n,5.0.8,5.0.8,5.0.8,node_modules/y18n,Current registry release,https://registry.npmjs.org/y18n/latest
+yallist,4.0.0,5.0.0,4.0.0,node_modules/yallist,Upstream consumer API/range constraint: lru-cache@6.0.0: ^4.0.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/yallist/latest
+yargs,17.7.3,18.2.0,17.7.3,node_modules/yargs,Upstream consumer API/range constraint: electron-builder@26.18.0: ^17.6.2; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/yargs/latest
+yargs-parser,21.1.1,22.0.0,21.1.1,node_modules/yargs-parser,Upstream consumer API/range constraint: yargs@17.7.3: ^21.1.1; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/yargs-parser/latest
+yauzl,2.10.0,3.4.0,2.10.0,node_modules/yauzl,Upstream consumer API/range constraint: native-run@2.1.0: ^2.10.0,https://registry.npmjs.org/yauzl/latest
+yocto-queue,0.1.0,1.2.2,0.1.0,node_modules/yocto-queue,Upstream consumer API/range constraint: p-limit@3.1.0: ^0.1.0; latest also changes the module/API major; a forced override would bypass the consumer's declared integration,https://registry.npmjs.org/yocto-queue/latest

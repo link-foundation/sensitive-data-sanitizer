@@ -1,0 +1,23 @@
+Download https://registry.npmjs.org/@secretlint%2fcore
+Download https://registry.npmjs.org/@secretlint%2fprofiler
+Download https://registry.npmjs.org/@secretlint%2fsecretlint-rule-preset-recommend
+Download https://registry.npmjs.org/browser-commander
+Download https://registry.npmjs.org/command-stream
+Download https://registry.npmjs.org/eslint
+Download https://registry.npmjs.org/eslint-plugin-prettier
+Download https://registry.npmjs.org/jscpd
+Download https://registry.npmjs.org/libphonenumber-js
+Download https://registry.npmjs.org/links-notation
+Download https://registry.npmjs.org/lint-staged
+Download https://registry.npmjs.org/playwright
+Download https://registry.npmjs.org/prettier
+Download https://registry.npmjs.org/re2js
+Download https://registry.npmjs.org/secretlint
+Download https://registry.npmjs.org/semver
+Download https://registry.npmjs.org/test-anywhere
+error: Could not find npm package 'links-notation' matching '0.31.0'.
+
+A newer matching version was found, but it was not used because it was newer than the specified minimum dependency date of 2026-11-04 23:26:14.394893900 UTC.
+
+hint: This version is blocked by the minimum dependency age policy, which avoids installing recently published versions to reduce supply chain risk (the default is 24 hours). To use this version now, pass the --minimum-dependency-age (or --min-dep-age) flag (for example 0 to disable it, or a shorter duration like 60 minutes) or set "minimumDependencyAge" in your deno.json, or wait until the version is old enough.
+docs: https://docs.deno.com/go/minimum-dependency-age

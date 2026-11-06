@@ -1,0 +1,13 @@
+▶ upstream Buildx retries and registry fallback
+  ✔ delegates both pulls and bootstrap to the same reviewed upstream release (6.955036ms)
+  ✔ recovers only a failed canonical setup and propagates exhausted retries (0.499052ms)
+  ✔ keeps mirror opt-out and forwards verbose and runner debug settings (0.454858ms)
+✔ upstream Buildx retries and registry fallback (12.600538ms)
+ℹ tests 3
+ℹ suites 1
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 824.660342

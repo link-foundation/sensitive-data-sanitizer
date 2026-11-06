@@ -1,0 +1,18 @@
+Collecting pipx
+  Downloading pipx-1.18.14-py3-none-any.whl.metadata (4.8 kB)
+Collecting argcomplete>=3.7.2 (from pipx)
+  Downloading argcomplete-3.7.2-py3-none-any.whl.metadata (16 kB)
+Requirement already satisfied: filelock>=4.2 in /tmp/issue-102-python/lib/python3.15/site-packages (from pipx) (4.2.9)
+Requirement already satisfied: packaging>=26.3 in /tmp/issue-102-python/lib/python3.15/site-packages (from pipx) (26.3)
+Requirement already satisfied: platformdirs>=4.12.2 in /tmp/issue-102-python/lib/python3.15/site-packages (from pipx) (4.14.5)
+Collecting userpath!=1.9,>=1.9.2 (from pipx)
+  Downloading userpath-1.9.2-py3-none-any.whl.metadata (3.0 kB)
+Collecting click (from userpath!=1.9,>=1.9.2->pipx)
+  Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+Downloading pipx-1.18.14-py3-none-any.whl (198 kB)
+Downloading argcomplete-3.7.2-py3-none-any.whl (43 kB)
+Downloading userpath-1.9.2-py3-none-any.whl (9.1 kB)
+Downloading click-8.5.0-py3-none-any.whl (125 kB)
+Installing collected packages: click, argcomplete, userpath, pipx
+
+Successfully installed argcomplete-3.7.2 click-8.5.0 pipx-1.18.14 userpath-1.9.2

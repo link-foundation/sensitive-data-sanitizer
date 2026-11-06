@@ -56,8 +56,10 @@ locations while keeping credentials out of logs.
 Security CI also audits every tracked `requirements*.txt` file, including the
 benchmark dependencies. It resolves transitive wheel metadata and hashes with
 `uv==0.13.7`, then checks that complete resolution with `pip-audit==2.10.1`.
-It does not install NLP packages or execute dependency build hooks. New Python
-manifest formats require an explicit audit mapping. To reproduce with those
+The audit reads metadata without installing NLP packages or executing build
+hooks. A separate CI smoke check installs the hash-locked benchmark graph and
+model, then exercises the actual offline scanners. New Python manifest formats
+require an explicit audit mapping. To reproduce with those
 two tools on PATH, run `python3 scripts/audit-python-dependencies.py`.
 
 The pre-commit hook runs automatically, but you can also manually format and fix:

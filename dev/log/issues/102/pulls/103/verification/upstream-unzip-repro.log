@@ -1,0 +1,19 @@
+node:internal/process/warning:176
+        throw warning;
+        ^
+
+DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+    at showFlaggedDeprecation (node:buffer:241:11)
+    at new Buffer (node:buffer:321:3)
+    at new UnzipStream (/tmp/gh-issue-solver-1793920231277/.github/actions/artifact-transport/node_modules/unzip-stream/lib/unzip-stream.js:47:17)
+    at new ParserStream (/tmp/gh-issue-solver-1793920231277/.github/actions/artifact-transport/node_modules/unzip-stream/lib/parser-stream.js:14:24)
+    at Object.ParserStream [as Parse] (/tmp/gh-issue-solver-1793920231277/.github/actions/artifact-transport/node_modules/unzip-stream/lib/parser-stream.js:7:16)
+    at [eval]:1:75
+    at runScriptInThisContext (node:internal/vm:219:10)
+    at node:internal/process/execution:485:12
+    at [eval]-wrapper:6:24
+    at runScriptInContext (node:internal/process/execution:483:60) {
+  code: 'DEP0005'
+}
+
+Node.js v26.13.0

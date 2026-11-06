@@ -1,0 +1,69 @@
+.github/workflows/rerun-unacquired.yml:49:        uses: actions/setup-node@v7.1.0
+.github/workflows/rerun-unacquired.yml:51:          node-version: '26.13.0'
+.github/workflows/rerun-unacquired.yml:53:      - name: Install reviewed npm
+.github/workflows/links.yml:206:        uses: actions/setup-node@v7.1.0
+.github/workflows/links.yml:208:          node-version: '26.13.0'
+.github/workflows/links.yml:210:      - name: Install reviewed npm
+.github/workflows/security.yml:144:      - uses: actions/setup-node@v7.1.0
+.github/workflows/security.yml:146:          node-version: '26.13.0'
+.github/workflows/security.yml:148:      - name: Install reviewed npm
+.github/workflows/security.yml:218:        uses: actions/setup-node@v7.1.0
+.github/workflows/security.yml:220:          node-version: '26.13.0'
+.github/workflows/security.yml:222:      - name: Install reviewed npm
+.github/workflows/workflows.yml:206:      - uses: actions/setup-node@v7.1.0
+.github/workflows/workflows.yml:208:          node-version: '26.13.0'
+.github/workflows/workflows.yml:210:      - name: Install reviewed npm
+.github/workflows/workflows.yml:302:        uses: actions/setup-node@v7.1.0
+.github/workflows/workflows.yml:304:          node-version: '26.13.0'
+.github/workflows/workflows.yml:306:      - name: Install reviewed npm
+.github/workflows/release.yml:108:      - uses: actions/setup-node@v7.1.0
+.github/workflows/release.yml:110:          node-version: '26.13.0'
+.github/workflows/release.yml:112:      - name: Install reviewed npm
+.github/workflows/release.yml:172:      - uses: actions/setup-node@v7.1.0
+.github/workflows/release.yml:174:          node-version: '26.13.0'
+.github/workflows/release.yml:176:      - name: Install reviewed npm
+.github/workflows/release.yml:229:        uses: actions/setup-node@v7.1.0
+.github/workflows/release.yml:231:          node-version: '26.13.0'
+.github/workflows/release.yml:233:      - name: Install reviewed npm
+.github/workflows/release.yml:290:        uses: actions/setup-node@v7.1.0
+.github/workflows/release.yml:292:          node-version: '26.13.0'
+.github/workflows/release.yml:294:      - name: Install reviewed npm
+.github/workflows/release.yml:417:        uses: actions/setup-node@v7.1.0
+.github/workflows/release.yml:419:          node-version: '26.13.0'
+.github/workflows/release.yml:421:      - name: Install reviewed npm
+.github/workflows/release.yml:657:        uses: actions/setup-node@v7.1.0
+.github/workflows/release.yml:659:          node-version: '26.13.0'
+.github/workflows/release.yml:662:      - name: Install reviewed npm
+.github/workflows/release.yml:810:        uses: actions/setup-node@v7.1.0
+.github/workflows/release.yml:812:          node-version: '26.13.0'
+.github/workflows/release.yml:815:      - name: Install reviewed npm
+.github/workflows/release.yml:1087:        uses: actions/setup-node@v7.1.0
+.github/workflows/release.yml:1089:          node-version: '26.13.0'
+.github/workflows/release.yml:1091:      - name: Install reviewed npm
+.github/workflows/release.yml:1175:        uses: actions/setup-node@v7.1.0
+.github/workflows/release.yml:1177:          node-version: '26.13.0'
+.github/workflows/release.yml:1179:      - name: Install reviewed npm
+.github/workflows/example-app.yml:94:        uses: actions/setup-node@v7.1.0
+.github/workflows/example-app.yml:96:          node-version: '26.13.0'
+.github/workflows/example-app.yml:100:      - name: Install reviewed npm
+.github/workflows/example-app.yml:168:      - uses: actions/setup-node@v7.1.0
+.github/workflows/example-app.yml:170:          node-version: '26.13.0'
+.github/workflows/example-app.yml:172:      - name: Install reviewed npm
+.github/workflows/example-app.yml:204:        uses: actions/setup-node@v7.1.0
+.github/workflows/example-app.yml:206:          node-version: '26.13.0'
+.github/workflows/example-app.yml:210:      - name: Install reviewed npm
+.github/workflows/example-app.yml:258:        uses: actions/setup-node@v7.1.0
+.github/workflows/example-app.yml:260:          node-version: '26.13.0'
+.github/workflows/example-app.yml:264:      - name: Install reviewed npm
+.github/workflows/example-app.yml:308:        uses: actions/setup-node@v7.1.0
+.github/workflows/example-app.yml:310:          node-version: '26.13.0'
+.github/workflows/example-app.yml:314:      - name: Install reviewed npm
+.github/workflows/example-app.yml:345:      - uses: actions/setup-node@v7.1.0
+.github/workflows/example-app.yml:347:          node-version: '26.13.0'
+.github/workflows/example-app.yml:348:      - name: Install reviewed npm
+.github/workflows/example-app.yml:400:      - uses: actions/setup-node@v7.1.0
+.github/workflows/example-app.yml:402:          node-version: '26.13.0'
+.github/workflows/example-app.yml:403:      - name: Install reviewed npm
+.github/workflows/example-app.yml:547:        uses: actions/setup-node@v7.1.0
+.github/workflows/example-app.yml:549:          node-version: '26.13.0'
+.github/workflows/example-app.yml:551:      - name: Install reviewed npm

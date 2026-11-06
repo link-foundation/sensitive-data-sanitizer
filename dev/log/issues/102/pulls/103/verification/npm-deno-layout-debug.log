@@ -1,0 +1,37 @@
+0 verbose cli /home/box/.nvm/versions/node/v26.13.0/bin/node /home/box/.nvm/versions/node/v26.13.0/bin/npm
+1 info using npm@12.2.2
+2 info using node@v26.13.0
+3 silly config load:file:/home/box/.nvm/versions/node/v26.13.0/lib/node_modules/npm/npmrc
+4 silly config load:file:/tmp/gh-issue-solver-1793920231277/.npmrc
+5 silly config load:file:/home/box/.npmrc
+6 silly config load:file:/home/box/.nvm/versions/node/v26.13.0/etc/npmrc
+7 verbose title npm install
+8 verbose argv "install" "--package-lock-only" "--ignore-scripts" "--no-audit" "--no-fund"
+9 verbose logfile logs-max:10 dir:/home/box/.npm/_logs/2026-11-05T23_38_06_333Z-
+10 verbose logfile /home/box/.npm/_logs/2026-11-05T23_38_06_333Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly packumentCache heap:637534208 maxSize:159383552 maxEntrySize:79691776
+13 silly logfile done cleaning log files
+14 verbose shrinkwrap failed to load node_modules/.package-lock.json missing from lockfile: node_modules/.deno/browser-commander@0.34.1/node_modules/browser-commander
+15 verbose stack TypeError: Cannot read properties of null (reading 'edgesOut')
+15 verbose stack     at overrideMatchesSubtree (/home/box/.nvm/versions/node/v26.13.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/link.js:150:33)
+15 verbose stack     at Link.recalculateOutEdgesOverrides (/home/box/.nvm/versions/node/v26.13.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/link.js:117:10)
+15 verbose stack     at Link.updateOverridesEdgeInAdded (/home/box/.nvm/versions/node/v26.13.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/node.js:1467:12)
+15 verbose stack     at Link.addEdgeIn (/home/box/.nvm/versions/node/v26.13.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/node.js:1496:12)
+15 verbose stack     at Edge.reload (/home/box/.nvm/versions/node/v26.13.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/edge.js:345:18)
+15 verbose stack     at [_reloadNamedEdges] (/home/box/.nvm/versions/node/v26.13.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/node.js:1515:12)
+15 verbose stack     at set root (/home/box/.nvm/versions/node/v26.13.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/node.js:819:45)
+15 verbose stack     at set root (/home/box/.nvm/versions/node/v26.13.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/node.js:879:19)
+15 verbose stack     at set parent (/home/box/.nvm/versions/node/v26.13.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/node.js:1324:15)
+15 verbose stack     at Node.replace (/home/box/.nvm/versions/node/v26.13.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/node.js:1248:20)
+16 error Cannot read properties of null (reading 'edgesOut')
+17 silly unfinished npm timer reify 1793921886878
+18 silly unfinished npm timer reify:loadTrees 1793921886878
+19 silly unfinished npm timer idealTree:init 1793921886879
+20 verbose cwd /tmp/gh-issue-solver-1793920231277
+21 verbose os Linux 6.8.0-147-generic
+22 verbose node v26.13.0
+23 verbose npm  v12.2.2
+24 verbose exit 1
+25 verbose code 1
+26 error A complete log of this run can be found in: /home/box/.npm/_logs/2026-11-05T23_38_06_333Z-debug-0.log

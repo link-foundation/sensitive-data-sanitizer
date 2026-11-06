@@ -1,0 +1,270 @@
+Audit resolved Python requirements	Set up job	﻿2026-11-05T23:43:38.5597628Z Current runner version: '2.338.2'
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5623504Z ##[group]Runner Image Provisioner
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5624565Z Hosted Compute Agent
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5625250Z Version: 20261028.624
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5625837Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5626522Z Build Date: 2026-10-28T21:51:42Z
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5627166Z Worker ID: {a78845b7-5f20-4413-9fda-32cd4f7da102}
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5627832Z Region: westus3
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5628382Z Cloud: Azure
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5628883Z ##[endgroup]
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5630368Z ##[group]Operating System
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5630971Z Ubuntu
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5631466Z 24.04.5
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5631996Z LTS
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5632488Z ##[endgroup]
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5632987Z ##[group]Runner Image
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5633597Z Image: ubuntu-24.04
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5634315Z Version: 20261101.360.1
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5635378Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5637041Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5638073Z ##[endgroup]
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5639107Z ##[group]GITHUB_TOKEN Permissions
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5641500Z Contents: read
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5642092Z Metadata: read
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5642713Z ##[endgroup]
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5645156Z Secret source: Actions
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5646245Z Cache mode: write
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.5646946Z Prepare workflow directory
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.6078157Z Prepare all required actions
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.6133087Z Getting action download info
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:38.9255350Z Download action repository 'actions/checkout@v7.0.1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:39.0315765Z Download action repository 'actions/setup-python@v7.1.0' (SHA:6d4fd22b20465ccc0f7354476588e8df7c9ca0e0)
+Audit resolved Python requirements	Set up job	2026-11-05T23:43:39.7718810Z Complete job name: Audit resolved Python requirements
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	﻿2026-11-05T23:43:39.8797466Z ##[group]Run actions/checkout@v7.0.1
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8798490Z with:
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8799033Z   persist-credentials: false
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8799796Z   repository: link-foundation/sensitive-data-sanitizer
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8804435Z   token: ***
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8804971Z   ssh-strict: true
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8805485Z   ssh-user: git
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8805973Z   clean: true
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8806492Z   sparse-checkout-cone-mode: true
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8807143Z   fetch-depth: 1
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8807668Z   fetch-tags: false
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8808208Z   show-progress: true
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8808896Z   lfs: false
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8809534Z   submodules: false
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8810116Z   set-safe-directory: true
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8810745Z   allow-unsafe-pr-checkout: false
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8811609Z env:
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8812255Z   GIT_CONFIG_COUNT: 1
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8812848Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8813533Z   GIT_CONFIG_VALUE_0: main
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:39.8814868Z ##[endgroup]
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.2976140Z Syncing repository: link-foundation/sensitive-data-sanitizer
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.2979544Z ##[group]Getting Git version info
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.2981542Z Working directory is '/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer'
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.2984394Z [command]/usr/bin/git version
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3043247Z git version 2.56.0
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3069221Z ##[endgroup]
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3081603Z Temporarily overriding HOME='/home/runner/work/_temp/8f7b1dfb-d963-4139-87da-f5fa9ca8ebad' before making global git config changes
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3085954Z Adding repository directory to the temporary git global config as a safe directory
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3089474Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3203470Z Deleting the contents of '/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer'
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3210390Z ##[group]Determining repository object format
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3214418Z ##[endgroup]
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3217431Z ##[group]Initializing the repository
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3220763Z [command]/usr/bin/git init /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3347267Z Initialized empty Git repository in /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3361129Z [command]/usr/bin/git remote add origin https://github.com/link-foundation/sensitive-data-sanitizer
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3412992Z ##[endgroup]
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3417450Z ##[group]Disabling automatic garbage collection
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3420156Z [command]/usr/bin/git config --local gc.auto 0
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3475758Z ##[endgroup]
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3479106Z ##[group]Setting up auth
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3484175Z Removing SSH command configuration
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3489109Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3527092Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3906266Z Removing HTTP extra header
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3919058Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.3963510Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.4175703Z Removing includeIf entries pointing to credentials config files
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.4180669Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.4220394Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.4442044Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-38126226-2ff1-4733-868d-9af4f4545dc4.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.4491130Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path /home/runner/work/_temp/git-credentials-38126226-2ff1-4733-868d-9af4f4545dc4.config
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.4534179Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-38126226-2ff1-4733-868d-9af4f4545dc4.config
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.4572886Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-38126226-2ff1-4733-868d-9af4f4545dc4.config
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.4617342Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-38126226-2ff1-4733-868d-9af4f4545dc4.config
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.4658309Z ##[endgroup]
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.4661002Z ##[group]Fetching the repository
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:40.4666043Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +96e167df8b2ce2fee3f667314117c062c743f118:refs/remotes/pull/103/merge
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.6214126Z From https://github.com/link-foundation/sensitive-data-sanitizer
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.6216831Z  * [new ref]         96e167df8b2ce2fee3f667314117c062c743f118 -> pull/103/merge
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.6220214Z ##[endgroup]
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.6221289Z ##[group]Determining the checkout info
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.6222287Z ##[endgroup]
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.6225319Z [command]/usr/bin/git sparse-checkout disable
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.6278837Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.6313224Z ##[group]Checking out the ref
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.6321185Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/103/merge
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7806173Z Note: switching to 'refs/remotes/pull/103/merge'.
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7806974Z 
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7807387Z You are in 'detached HEAD' state. You can look around, make experimental
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7808396Z changes and commit them, and you can discard any commits you make in this
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7809431Z state without impacting any branches by switching back to a branch.
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7810009Z 
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7810557Z If you want to create a new branch to retain commits you create, you may
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7811423Z do so (now or later) by using -c with the switch command. Example:
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7811930Z 
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7812195Z   git switch -c <new-branch-name>
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7812567Z 
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7812835Z Or undo this operation with:
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7813169Z 
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7813382Z   git switch -
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7813614Z 
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7814301Z Turn off this advice by setting config variable advice.detachedHead to false
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7814911Z 
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7815643Z HEAD is now at 96e167d Merge e0b1b2124be9a04d05ea74e6ac7fefae465cead6 into 15f86c08069a53c65020fdb760512aac37929976
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7826364Z ##[endgroup]
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7874082Z [command]/usr/bin/git log -1 --format=%H
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7905590Z 96e167df8b2ce2fee3f667314117c062c743f118
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7919063Z ##[group]Removing auth
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7919682Z Removing SSH command configuration
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7924231Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.7958949Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8184392Z Removing HTTP extra header
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8185326Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8223922Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8466988Z Removing includeIf entries pointing to credentials config files
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8468364Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8496766Z includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8498698Z includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8499580Z includeif.gitdir:/github/workspace/.git.path
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8500182Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8507112Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8535373Z /home/runner/work/_temp/git-credentials-38126226-2ff1-4733-868d-9af4f4545dc4.config
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8546880Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-38126226\-2ff1\-4733\-868d\-9af4f4545dc4\.config
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8588911Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8614585Z /home/runner/work/_temp/git-credentials-38126226-2ff1-4733-868d-9af4f4545dc4.config
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8623991Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-38126226\-2ff1\-4733\-868d\-9af4f4545dc4\.config
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8666213Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8698230Z /github/runner_temp/git-credentials-38126226-2ff1-4733-868d-9af4f4545dc4.config
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8707159Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-38126226\-2ff1\-4733\-868d\-9af4f4545dc4\.config
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8751280Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8824664Z /github/runner_temp/git-credentials-38126226-2ff1-4733-868d-9af4f4545dc4.config
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8855502Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-38126226\-2ff1\-4733\-868d\-9af4f4545dc4\.config
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.8899733Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.9107306Z Removing credentials config '/home/runner/work/_temp/git-credentials-38126226-2ff1-4733-868d-9af4f4545dc4.config'
+Audit resolved Python requirements	Run actions/checkout@v7.0.1	2026-11-05T23:43:41.9117776Z ##[endgroup]
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	﻿2026-11-05T23:43:41.9392166Z ##[group]Run actions/setup-python@v7.1.0
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:41.9392549Z with:
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:41.9392833Z   python-version-file: .python-version
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:41.9393166Z   check-latest: false
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:41.9396476Z   token: ***
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:41.9396871Z   mirror: https://raw.githubusercontent.com/actions/python-versions/main
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:41.9397343Z   update-environment: true
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:41.9397649Z   allow-prereleases: false
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:41.9397943Z   freethreaded: false
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:41.9398202Z env:
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:41.9398444Z   GIT_CONFIG_COUNT: 1
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:41.9398718Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:41.9399027Z   GIT_CONFIG_VALUE_0: main
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:41.9399295Z ##[endgroup]
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:42.0665592Z Resolved .python-version as 3.15.0
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:42.0666674Z ##[group]Installed versions
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:42.0685486Z Version 3.15.0 was not found in the local cache
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:43.3492376Z Version 3.15.0 is available for downloading
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:43.3494156Z Download from "https://github.com/actions/python-versions/releases/download/3.15.0-38076878863/python-3.15.0-linux-24.04-x64.tar.gz"
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:44.0668902Z Extract downloaded archive
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:44.0801686Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/86ba9634-6617-4a9c-bf69-98b613df79c5 -f /home/runner/work/_temp/2d06ab41-3c36-4153-b7d3-66f2be33a724
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:46.5704893Z Execute installation script
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:46.5805490Z Check if Python hostedtoolcache folder exist...
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:46.5806359Z Create Python 3.15.0 folder
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:46.5851094Z Copy Python binaries to hostedtoolcache folder
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:46.9509780Z Create additional symlinks (Required for the UsePythonVersion Azure Pipelines task and the setup-python GitHub Action)
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:46.9578685Z Upgrading pip...
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:49.1022956Z Collecting pip
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:49.1852870Z Downloading pip-26.3-py3-none-any.whl.metadata (4.6 kB)
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:49.2509112Z Downloading pip-26.3-py3-none-any.whl (2.0 MB)
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:49.3745257Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 19.0 MB/s  0:00:00
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:49.3745810Z 
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:49.5285187Z Installing collected packages: pip
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:49.5285822Z Attempting uninstall: pip
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:49.5309604Z Found existing installation: pip 26.2.1
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:49.5533102Z Uninstalling pip-26.2.1:
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:49.5583314Z Successfully uninstalled pip-26.2.1
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:50.7833731Z Successfully installed pip-26.3
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:50.9006537Z Create complete file
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:50.9048419Z Successfully set up CPython (3.15.0)
+Audit resolved Python requirements	Run actions/setup-python@v7.1.0	2026-11-05T23:43:50.9050142Z ##[endgroup]
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	﻿2026-11-05T23:43:50.9241038Z ##[group]Run pipx install uv==0.13.7
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9241669Z ^[[36;1mpipx install uv==0.13.7^[[0m
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9241988Z ^[[36;1mpipx install pip-audit==2.10.1^[[0m
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9265436Z shell: /usr/bin/bash -e {0}
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9265742Z env:
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9265960Z   GIT_CONFIG_COUNT: 1
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9266201Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9266472Z   GIT_CONFIG_VALUE_0: main
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9266779Z   pythonLocation: /opt/hostedtoolcache/Python/3.15.0/x64
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9267222Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.15.0/x64/lib/pkgconfig
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9267642Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.15.0/x64
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9268173Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.15.0/x64
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9268559Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.15.0/x64
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9268936Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.15.0/x64/lib
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:50.9269263Z ##[endgroup]
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:52.2376849Z creating virtual environment...
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:52.6398393Z installing uv from spec 'uv==0.13.7'...
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:55.3918368Z done! ✨ 🌟 ✨
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:55.3918845Z   installed package uv 0.13.7, installed using Python 3.12.3
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:55.3919228Z   These apps are now available
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:55.3919618Z     - uv
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:55.3919969Z     - uvx
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:55.6002495Z creating virtual environment...
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:55.6535423Z installing pip-audit from spec 'pip-audit==2.10.1'...
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:56.1101936Z done! ✨ 🌟 ✨
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:56.1102895Z   installed package pip-audit 2.10.1, installed using Python 3.12.3
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:56.1104188Z   These apps are now available
+Audit resolved Python requirements	Install pinned metadata resolver and auditor	2026-11-05T23:43:56.1104867Z     - pip-audit
+Audit resolved Python requirements	Audit every tracked Python requirements file	﻿2026-11-05T23:43:56.1413094Z ##[group]Run python scripts/audit-python-dependencies.py
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1413580Z ^[[36;1mpython scripts/audit-python-dependencies.py^[[0m
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1427207Z shell: /usr/bin/bash -e {0}
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1427484Z env:
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1427682Z   GIT_CONFIG_COUNT: 1
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1427918Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1428191Z   GIT_CONFIG_VALUE_0: main
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1428492Z   pythonLocation: /opt/hostedtoolcache/Python/3.15.0/x64
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1428903Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.15.0/x64/lib/pkgconfig
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1429306Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.15.0/x64
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1429666Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.15.0/x64
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1430029Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.15.0/x64
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1430396Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.15.0/x64/lib
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1430704Z ##[endgroup]
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:56.1831568Z Auditing resolved Python dependencies: experiments/benchmark/requirements.txt
+Audit resolved Python requirements	Audit every tracked Python requirements file	2026-11-05T23:43:58.9218911Z No known vulnerabilities found
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	﻿2026-11-05T23:43:59.0038408Z ##[group]Run uv pip install --system --require-hashes -r experiments/benchmark/requirements.txt -r experiments/benchmark/requirements.lock
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0039415Z ^[[36;1muv pip install --system --require-hashes -r experiments/benchmark/requirements.txt -r experiments/benchmark/requirements.lock^[[0m
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0039995Z ^[[36;1muv pip check --system^[[0m
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0040373Z ^[[36;1mpython -c 'import detect_secrets, presidio_analyzer, scrubadub, spacy'^[[0m
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0054538Z shell: /usr/bin/bash -e {0}
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0054817Z env:
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0055024Z   GIT_CONFIG_COUNT: 1
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0055263Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0055535Z   GIT_CONFIG_VALUE_0: main
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0055834Z   pythonLocation: /opt/hostedtoolcache/Python/3.15.0/x64
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0056264Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.15.0/x64/lib/pkgconfig
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0056672Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.15.0/x64
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0057110Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.15.0/x64
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0057632Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.15.0/x64
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0058006Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.15.0/x64/lib
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0058323Z ##[endgroup]
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0737501Z Using Python 3.15.0 environment at: /opt/hostedtoolcache/Python/3.15.0/x64
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0741971Z error: In `--require-hashes` mode, all requirements must have a hash, but none were provided for: detect-secrets==1.5.0
+Audit resolved Python requirements	Verify locked benchmark dependencies on current Python	2026-11-05T23:43:59.0762907Z ##[error]Process completed with exit code 2.
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	﻿2026-11-05T23:43:59.0928326Z Post job cleanup.
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2007138Z [command]/usr/bin/git version
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2015959Z git version 2.56.0
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2021077Z Temporarily overriding HOME='/home/runner/work/_temp/366242a6-67a1-46ab-b0fb-c2e8bcc03541' before making global git config changes
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2022605Z Adding repository directory to the temporary git global config as a safe directory
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2025293Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2027494Z Removing SSH command configuration
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2028435Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2031342Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2277630Z Removing HTTP extra header
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2284160Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2343686Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2618598Z Removing includeIf entries pointing to credentials config files
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2631630Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Audit resolved Python requirements	Post Run actions/checkout@v7.0.1	2026-11-05T23:43:59.2676633Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Audit resolved Python requirements	Complete job	﻿2026-11-05T23:43:59.3157136Z Cleaning up orphan processes

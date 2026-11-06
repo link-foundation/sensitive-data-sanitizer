@@ -1,0 +1,627 @@
+{
+  "actions/cache": {
+    "tag_name": "v6.1.0",
+    "published_at": "2026-06-26T19:17:06Z",
+    "html_url": "https://github.com/actions/cache/releases/tag/v6.1.0",
+    "body": "## What's Changed\r\n* Bump @actions/cache to v6.1.0 - handle read-only cache access by @jasongin in https://github.com/actions/cache/pull/1768\r\n\r\n\r\n**Full Changelog**: https://github.com/actions/cache/compare/v6...v6.1.0",
+    "target_commitish": "main",
+    "occurrences": [
+      {
+        "file": ".github/workflows/links.yml",
+        "action": "actions/cache",
+        "before": "v6"
+      }
+    ]
+  },
+  "actions/checkout": {
+    "tag_name": "v7.0.1",
+    "published_at": "2026-07-20T15:10:05Z",
+    "html_url": "https://github.com/actions/checkout/releases/tag/v7.0.1",
+    "body": "## What's Changed\r\n* skip running unsafe pr check if input is default by @aiqiaoy in https://github.com/actions/checkout/pull/2518\r\n* trim only ascii whitespace for branch by @aiqiaoy in https://github.com/actions/checkout/pull/2521\r\n* escape values passed to --unset by @aiqiaoy in https://github.com/actions/checkout/pull/2530\r\n* Various dependency updates \r\n\r\n**Full Changelog**: https://github.com/actions/checkout/compare/v7...v7.0.1",
+    "target_commitish": "main",
+    "occurrences": [
+      {
+        "file": ".github/workflows/security.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/security.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/security.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/security.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/security.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/security.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/links.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/links.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/workflows.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/workflows.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/workflows.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/workflows.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/workflows.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/workflows.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/workflows.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/rerun-unacquired.yml",
+        "action": "actions/checkout",
+        "before": "v7"
+      }
+    ]
+  },
+  "actions/configure-pages": {
+    "tag_name": "v6.0.0",
+    "published_at": "2026-03-25T17:00:49Z",
+    "html_url": "https://github.com/actions/configure-pages/releases/tag/v6.0.0",
+    "body": "# Changelog\r\n\r\n- upgrade to node 24 @salmanmkc (#186)\r\n- Upgrade IA Publish @Jcambass (#165)\r\n- Add workflow file for publishing releases to immutable action package @Jcambass (#163)\r\n- pin draft release version @YiMysty (#162)\r\n- Bump espree from 9.6.1 to 10.1.0 @dependabot (#160)\r\n- Bump eslint-config-prettier from 8.8.0 to 9.1.0 @dependabot (#143)\r\n- Be more friendly to Dependabot @yoannchaudet (#158)\r\n- Bump eslint-plugin-github from 4.10.2 to 5.0.1 @dependabot (#154)\r\n- Bump braces from 3.0.2 to 3.0.3 in the npm_and_yarn group @dependabot (#156)\r\n- Bump undici from 5.28.3 to 5.28.4 @dependabot (#145)\r\n\r\nSee details of [all code changes](https://github.com/actions/configure-pages/compare/v5.0.0...v5.0.1) since previous release.\r\n",
+    "target_commitish": "refs/heads/main",
+    "occurrences": [
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/configure-pages",
+        "before": "v6"
+      }
+    ]
+  },
+  "actions/dependency-review-action": {
+    "tag_name": "v5.0.0",
+    "published_at": "2026-05-08T20:23:50Z",
+    "html_url": "https://github.com/actions/dependency-review-action/releases/tag/v5.0.0",
+    "body": "This is a new major version of the Dependency Review Action which updates the runtime to node24. This requires a minimum Actions Runner version [v2.327.1](https://github.com/actions/runner/releases/tag/v2.327.1) to run.\r\n\r\n## What's Changed\r\n* Add .github/copilot-instructions.md for Copilot coding agent by @ahpook in https://github.com/actions/dependency-review-action/pull/1067\r\n* Update Node.js runtime from 20 to 24 by @scottschreckengaust in https://github.com/actions/dependency-review-action/pull/1084\r\n* Bump spdx-license-ids from 3.0.20 to 3.0.23 by @mongolyy in https://github.com/actions/dependency-review-action/pull/1091\r\n* docs: bump actions/checkout from v4 to v6 in workflow examples by @Marukome0743 in https://github.com/actions/dependency-review-action/pull/1077\r\n* fix: patched version display for advisories with non-strict semver ranges (e.g. Maven beta versions) by @tspascoal in https://github.com/actions/dependency-review-action/pull/1076\r\n* Resolve security findings by @AshelyTC in https://github.com/actions/dependency-review-action/pull/1094\r\n* v5.0.0 release branch by @ahpook in https://github.com/actions/dependency-review-action/pull/1098\r\n\r\n## New Contributors\r\n* @scottschreckengaust made their first contribution in https://github.com/actions/dependency-review-action/pull/1084\r\n* @mongolyy made their first contribution in https://github.com/actions/dependency-review-action/pull/1091\r\n* @Marukome0743 made their first contribution in https://github.com/actions/dependency-review-action/pull/1077\r\n\r\n**Full Changelog**: https://github.com/actions/dependency-review-action/compare/v4.9.0...v5.0.0",
+    "target_commitish": "main",
+    "occurrences": [
+      {
+        "file": ".github/workflows/security.yml",
+        "action": "actions/dependency-review-action",
+        "before": "v5"
+      }
+    ]
+  },
+  "actions/setup-java": {
+    "tag_name": "v6.2.0",
+    "published_at": "2026-11-04T22:12:26Z",
+    "html_url": "https://github.com/actions/setup-java/releases/tag/v6.2.0",
+    "body": "## What's Changed\r\n* Fix Liberica SDKMAN patch release resolution by @brunoborges in https://github.com/actions/setup-java/pull/1291\r\n* Update Undici to 6.29.1 by @brunoborges in https://github.com/actions/setup-java/pull/1308\r\n* chore(deps): bump the monthly-npm-updates group with 12 updates by @dependabot[bot] in https://github.com/actions/setup-java/pull/1309\r\n* Fix Liberica Java 25 release resolution by @brunoborges in https://github.com/actions/setup-java/pull/1313\r\n* Add repository-specific Copilot instructions by @brunoborges in https://github.com/actions/setup-java/pull/1312\r\n* Support exact Corretto release versions by @electrum in https://github.com/actions/setup-java/pull/1310\r\n* Support Maven mirrors in generated settings.xml by @brunoborges in https://github.com/actions/setup-java/pull/1289\r\n\r\n## New Contributors\r\n* @electrum made their first contribution in https://github.com/actions/setup-java/pull/1310\r\n\r\n**Full Changelog**: https://github.com/actions/setup-java/compare/v6.1.0...v6.2.0",
+    "target_commitish": "main",
+    "occurrences": [
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/setup-java",
+        "before": "v6"
+      }
+    ]
+  },
+  "actions/setup-node": {
+    "tag_name": "v7.1.0",
+    "published_at": "2026-10-08T02:52:34Z",
+    "html_url": "https://github.com/actions/setup-node/releases/tag/v7.1.0",
+    "body": "## What's Changed\r\n\r\n### Enhancements:\r\n* Add support for mise.toml file by @gperdomor in https://github.com/actions/setup-node/pull/1421\r\n* Support absolute paths in node-version-file by @v-mahabaleshwars in https://github.com/actions/setup-node/pull/1633\r\n\r\n### Bug fixes:\r\n*  Add Node version validation and manifest fetch retry by @v-jitenderpalsingh in https://github.com/actions/setup-node/pull/1580\r\n\r\n### Documentation updates:\r\n* README.md: bump actions/checkout to latest version 7 by @deining in https://github.com/actions/setup-node/pull/1578\r\n* docs: add V7 ESM migration and NODE_AUTH_TOKEN behavior change by @v-gowridurgad in https://github.com/actions/setup-node/pull/1593\r\n* Fixed cache recommendation syntax by @SubJunk in https://github.com/actions/setup-node/pull/1603\r\n\r\n### Dependency updates:\r\n*  Update workflow pins and migrate Node matrices to modern versions by @v-HarithaVattikuti in https://github.com/actions/setup-node/pull/1583\r\n* Upgrade  @actions/cache to 6.2.0 by @philip-gai in https://github.com/actions/setup-node/pull/1584\r\n* Pin @types/node to v24 by @v-priyagupta108 in https://github.com/actions/setup-node/pull/1585\r\n* Override brace-expansion to 5.0.8 by @v-priyagupta108 with @Copilot in https://github.com/actions/setup-node/pull/1599\r\n* Upgrade  actions/checkout from 7.0.0 to 7.0.1 by @dependabot in https://github.com/actions/setup-node/pull/1598\r\n* Upgrade  prettier from 3.8.4 to 3.9.6 by @dependabot in https://github.com/actions/setup-node/pull/1590\r\n* Upgrade  @vercel/ncc from 0.44.0 to 0.45.0 by @dependabot in https://github.com/actions/setup-node/pull/1610\r\n* Upgrade  pnpm/action-setup from 6.0.9 to 6.0.10 by @dependabot in https://github.com/actions/setup-node/pull/1602\r\n* Upgrade  baseline-browser-mapping from 2.10.38 to 2.11.22 by @dependabot in https://github.com/actions/setup-node/pull/1629\r\n* Upgrade @types/semver from 7.7.1 to 7.8.0 by @dependabot in https://github.com/actions/setup-node/pull/1616\r\n* Upgrade @typescript-eslint/parser from 8.62.0 to 8.70.0 by @dependabot in https://github.com/actions/setup-node/pull/1615\r\n* Upgrade pnpm/action-setup from 6.0.10 to 6.1.0 by @dependabot in https://github.com/actions/setup-node/pull/1631\r\n* Upgrade jest-each from 30.4.1 to 30.5.2 by @dependabot in https://github.com/actions/setup-node/pull/1636\r\n* Upgrade eslint-plugin-n from 18.1.0 to 18.3.0 by @dependabot in https://github.com/actions/setup-node/pull/1638\r\n* Update dependencies and add license files by @v-HarithaVattikuti in https://github.com/actions/setup-node/pull/1642\r\n* Upgrade eslint from 10.5.0 to 10.11.0 and package.json from 7.0.0 to 7.1.0 by @dependabot in https://github.com/actions/setup-node/pull/1635\r\n\r\n\r\n\r\n## New Contributors\r\n* @v-jitenderpalsingh made their first contribution in https://github.com/actions/setup-node/pull/1580\r\n* @philip-gai made their first contribution in https://github.com/actions/setup-node/pull/1584\r\n* @gperdomor made their first contribution in https://github.com/actions/setup-node/pull/1421\r\n* @SubJunk made their first contribution in https://github.com/actions/setup-node/pull/1603\r\n\r\n**Full Changelog**: https://github.com/actions/setup-node/compare/v7.0.0...v7.1.0",
+    "target_commitish": "main",
+    "occurrences": [
+      {
+        "file": ".github/workflows/security.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/security.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/links.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/workflows.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/workflows.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      },
+      {
+        "file": ".github/workflows/rerun-unacquired.yml",
+        "action": "actions/setup-node",
+        "before": "v7"
+      }
+    ]
+  },
+  "actions/setup-python": {
+    "tag_name": "v7.1.0",
+    "published_at": "2026-10-22T02:56:04Z",
+    "html_url": "https://github.com/actions/setup-python/releases/tag/v7.1.0",
+    "body": "## What's Changed\r\n\r\n### Enhancements\r\n* Add `mirror` and `mirror-token` inputs for custom Python distribution sources by @luhenry in https://github.com/actions/setup-python/pull/1302\r\n* Improve error message clarity by @v-lmvysakh in https://github.com/actions/setup-python/pull/1351\r\n\r\n### Dependency Upgrade\r\n* Upgrade browserslist from 4.28.2 to 4.28.9 by @dependabot in https://github.com/actions/setup-python/pull/1353\r\n* Upgrade @typescript-eslint/parser from 8.62.0 to 8.70.0 by @dependabot in https://github.com/actions/setup-python/pull/1343\r\n* Upgrade eslint-plugin-jest from 29.15.2 to 29.16.6 by @dependabot in https://github.com/actions/setup-python/pull/1342\r\n* Upgrade @vercel/ncc from 0.44.0 to 0.45.0 by @dependabot in https://github.com/actions/setup-python/pull/1357\r\n* Upgrade @types/semver from 7.7.1 to 7.8.0 by @dependabot in https://github.com/actions/setup-python/pull/1359\r\n* Upgrade undici from 6.28.0 to 6.29.0 by @dependabot in https://github.com/actions/setup-python/pull/1364\r\n* Upgrade ts-jest from 29.4.11 to 29.4.14 by @dependabot in https://github.com/actions/setup-python/pull/1361\r\n* Upgrade brace-expansion from 5.0.9 to 5.0.12 by @dependabot in https://github.com/actions/setup-python/pull/1365\r\n* Upgrade prettier from 3.8.4 to 3.9.9 and package.json from 7.0.0 to 7.1.0 by @dependabot in https://github.com/actions/setup-python/pull/1363\r\n* Upgrade @typescript-eslint/eslint-plugin from 8.62.0 to 8.71.1 by @dependabot in https://github.com/actions/setup-python/pull/1369\r\n* Upgrade actions/checkout from 7.0.0 to 7.0.1 by @dependabot in https://github.com/actions/setup-python/pull/1345\r\n* Upgrade cache to 6.3.0 by @v-HarithaVattikuti in https://github.com/actions/setup-python/pull/1370\r\n* Resolve Basic Validation audit failures by @v-HarithaVattikuti in https://github.com/actions/setup-python/pull/1347\r\n* Resolve npm audit failures by @v-HarithaVattikuti in https://github.com/actions/setup-python/pull/1350\r\n\r\n\r\n## New Contributors\r\n* @luhenry made their first contribution in https://github.com/actions/setup-python/pull/1302\r\n\r\n**Full Changelog**: https://github.com/actions/setup-python/compare/v7.0.0...v7.1.0",
+    "target_commitish": "main",
+    "occurrences": [
+      {
+        "file": ".github/workflows/security.yml",
+        "action": "actions/setup-python",
+        "before": "v7"
+      }
+    ]
+  },
+  "adoptium/temurin25-binaries": {
+    "tag_name": "jdk-25.0.5+8",
+    "published_at": "2026-10-22T08:18:33Z",
+    "html_url": "https://github.com/adoptium/temurin25-binaries/releases/tag/jdk-25.0.5%2B8",
+    "body": "Official Eclipse Temurin Release of jdk-25.0.5+8",
+    "target_commitish": "main",
+    "occurrences": []
+  },
+  "android-actions/setup-android": {
+    "tag_name": "v4.0.4",
+    "published_at": "2026-09-17T18:45:06Z",
+    "html_url": "https://github.com/android-actions/setup-android/releases/tag/v4.0.4",
+    "body": "Add cmdline-tools 22.0\r\n\r\nmacOS URL changed for 22.0+. Fixes #536",
+    "target_commitish": "main",
+    "occurrences": [
+      {
+        "file": ".github/workflows/example-app.yml",
+        "action": "android-actions/setup-android",
+        "before": "be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd"
+      }
+    ]
+  },
+  "denoland/deno": {
+    "tag_name": "v2.9.8",
+    "published_at": "2026-10-21T15:28:53Z",
+    "html_url": "https://github.com/denoland/deno/releases/tag/v2.9.8",
+    "body": "### 2.9.8 / 2026.10.21\r\n\r\n- fix(compile): check read permission for dynamically imported local files\r\n  (#36925)\r\n- fix(completions): complete script paths for bare deno run in zsh (#36976)\r\n- fix(core): keep op contexts alive until the isolate is disposed (#37026)\r\n- fix(coverage): skip the V8 code cache while collecting coverage (#36901)\r\n- fix(ext/fetch): bump hyper-util to 0.1.21 and hyper to 1.11.1 to cancel idle\r\n  interval when pool empties (#36968)\r\n- fix(ext/napi): check napi_create_dataview bounds for overflow (#36962)\r\n- fix(ext/napi): ignore the callback return value while an exception is pending\r\n  (#36942)\r\n- fix(ext/node): align X.509v1 certificate handling with OpenSSL (#36933)\r\n- fix(ext/node): mock.reset() restores mock.method() implementations (#36886)\r\n- fix(ext/node): support assert message functions and format arguments (#36944)\r\n- fix(npm): validate package link names (#37047)\r\n- fix(tls): distrust compromised eMudhra certificate authorities (#37046)\r\n- fix: bump rand 0.9.x to patched version",
+    "target_commitish": "main",
+    "occurrences": []
+  },
+  "denoland/setup-deno": {
+    "tag_name": "v2.0.5",
+    "published_at": "2026-07-03T09:28:53Z",
+    "html_url": "https://github.com/denoland/setup-deno/releases/tag/v2.0.5",
+    "body": "## What's Changed\n* fix: update README and tests by @crowlKats in https://github.com/denoland/setup-deno/pull/85\n* 2.0.1 by @crowlKats in https://github.com/denoland/setup-deno/pull/86\n* Add problem matchers for `deno lint` by @r7kamura in https://github.com/denoland/setup-deno/pull/62\n* refactor: use GitHub downloads for stable version download by @crowlKats in https://github.com/denoland/setup-deno/pull/91\n* 2.0.2 by @crowlKats in https://github.com/denoland/setup-deno/pull/92\n* refactor: convert action to TS and bundle code by @csvn in https://github.com/denoland/setup-deno/pull/95\n* feat: add \"lts\" version option by @sebdanielsson in https://github.com/denoland/setup-deno/pull/97\n* feat: add built-in caching via inputs by @csvn in https://github.com/denoland/setup-deno/pull/89\n* feat: include a hash of deno.lock files in the cache key automatically by @dsherret in https://github.com/denoland/setup-deno/pull/98\n* fix: switch back to package.json as it's necessary for GH actions by @dsherret in https://github.com/denoland/setup-deno/pull/101\n* 2.0.3 by @crowlKats in https://github.com/denoland/setup-deno/pull/102\n* Update actions/checkout by @katayama8000 in https://github.com/denoland/setup-deno/pull/106\n* docs: add lts as possible release-channel output by @csvn in https://github.com/denoland/setup-deno/pull/99\n* docs: condense Deno version information in one section by @csvn in https://github.com/denoland/setup-deno/pull/100\n* docs: fix identifier for latest stable release by @Ms2ger in https://github.com/denoland/setup-deno/pull/115\n* feat: upgrade Node.js runtime from node20 to node24 by @nikicat in https://github.com/denoland/setup-deno/pull/123\n* 2.0.4 by @crowlKats in https://github.com/denoland/setup-deno/pull/125\n* chore: use versions.json from dl.deno.land by @crowlKats in https://github.com/denoland/setup-deno/pull/130\n* 2.0.5 by @crowlKats in https://github.com/denoland/setup-deno/pull/131\n\n## New Contributors\n* @r7kamura made their first contribution in https://github.com/denoland/setup-deno/pull/62\n* @csvn made their first contribution in https://github.com/denoland/setup-deno/pull/95\n* @sebdanielsson made their first contribution in https://github.com/denoland/setup-deno/pull/97\n* @katayama8000 made their first contribution in https://github.com/denoland/setup-deno/pull/106\n* @Ms2ger made their first contribution in https://github.com/denoland/setup-deno/pull/115\n* @nikicat made their first contribution in https://github.com/denoland/setup-deno/pull/123\n\n**Full Changelog**: https://github.com/denoland/setup-deno/compare/v2.0.0...v2.0.5",
+    "target_commitish": "main",
+    "occurrences": [
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "denoland/setup-deno",
+        "before": "22d081ff2d3a40755e97629de92e3bcbfa7cf2ed"
+      }
+    ]
+  },
+  "docker/build-push-action": {
+    "tag_name": "v7.4.0",
+    "published_at": "2026-09-15T08:22:01Z",
+    "html_url": "https://github.com/docker/build-push-action/releases/tag/v7.4.0",
+    "body": "* Use the shared error helper for Buildx commands by @crazy-max in https://github.com/docker/build-push-action/pull/1620\r\n* Prevent workflow command injection in metadata logs by @crazy-max in https://github.com/docker/build-push-action/pull/1617\r\n* Bump @docker/actions-toolkit from 0.92.0 to 0.100.0 in https://github.com/docker/build-push-action/pull/1614 https://github.com/docker/build-push-action/pull/1618 https://github.com/docker/build-push-action/pull/1621\r\n* Bump @humanfs/node from 0.16.7 to 0.16.8 in https://github.com/docker/build-push-action/pull/1609\r\n* Bump brace-expansion from 1.1.13 to 1.1.18 in https://github.com/docker/build-push-action/pull/1592\r\n* Bump csv-parse from 7.0.0 to 7.0.2 in https://github.com/docker/build-push-action/pull/1613\r\n* Bump js-yaml from 4.3.0 to 4.3.2 in https://github.com/docker/build-push-action/pull/1605 https://github.com/docker/build-push-action/pull/1615\r\n* Bump nanoid from 3.3.16 to 3.3.18 in https://github.com/docker/build-push-action/pull/1611\r\n* Bump postcss from 8.5.10 to 8.5.25 in https://github.com/docker/build-push-action/pull/1590\r\n* Bump postcss-selector-parser from 7.1.1 to 7.1.5 in https://github.com/docker/build-push-action/pull/1606\r\n* Bump sigstore from 4.1.0 to 4.1.1 in https://github.com/docker/build-push-action/pull/1577\r\n* Bump undici from 6.27.0 to 6.28.0 in https://github.com/docker/build-push-action/pull/1594\r\n\r\n**Full Changelog**: https://github.com/docker/build-push-action/compare/v7.3.0...v7.4.0",
+    "target_commitish": "master",
+    "occurrences": [
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "docker/build-push-action",
+        "before": "v7"
+      },
+      {
+        "file": ".github/actions/publish-dockerhub/action.yml",
+        "action": "docker/build-push-action",
+        "before": "v7"
+      }
+    ]
+  },
+  "docker/login-action": {
+    "tag_name": "v4.8.0",
+    "published_at": "2026-11-05T12:56:58Z",
+    "html_url": "https://github.com/docker/login-action/releases/tag/v4.8.0",
+    "body": "* Set Docker Hub OIDC token lifetime default to 1 hour by @crazy-max in https://github.com/docker/login-action/pull/1070\r\n* Bump @aws-sdk/client-ecr and @aws-sdk/client-ecr-public to 3.1161.0 in https://github.com/docker/login-action/pull/1103\r\n* Bump @docker/actions-toolkit from 0.107.0 to 0.109.0 in https://github.com/docker/login-action/pull/1105\r\n* Bump vite from 7.3.6 to 7.3.7 in https://github.com/docker/login-action/pull/1101\r\n\r\n**Full Changelog**: https://github.com/docker/login-action/compare/v4.7.0...v4.8.0",
+    "target_commitish": "master",
+    "occurrences": [
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "docker/login-action",
+        "before": "v4"
+      },
+      {
+        "file": ".github/actions/publish-dockerhub/action.yml",
+        "action": "docker/login-action",
+        "before": "v4"
+      }
+    ]
+  },
+  "docker/metadata-action": {
+    "tag_name": "v6.2.0",
+    "published_at": "2026-07-02T08:55:18Z",
+    "html_url": "https://github.com/docker/metadata-action/releases/tag/v6.2.0",
+    "body": "* Preserve names in esbuild bundle by @crazy-max in https://github.com/docker/metadata-action/pull/689\r\n* Bump @actions/core from 3.0.0 to 3.0.1 in https://github.com/docker/metadata-action/pull/663\r\n* Bump @actions/github from 9.0.0 to 9.1.1 in https://github.com/docker/metadata-action/pull/666\r\n* Bump @docker/actions-toolkit from 0.90.0 to 0.92.0 in https://github.com/docker/metadata-action/pull/672 https://github.com/docker/metadata-action/pull/696\r\n* Bump @sigstore/core from 3.1.0 to 3.2.1 in https://github.com/docker/metadata-action/pull/690\r\n* Bump @sigstore/verify from 3.1.0 to 3.1.1 in https://github.com/docker/metadata-action/pull/693\r\n* Bump csv-parse from 6.2.1 to 7.0.0 in https://github.com/docker/metadata-action/pull/683\r\n* Bump js-yaml from 4.1.1 to 4.3.0 in https://github.com/docker/metadata-action/pull/688\r\n* Bump moment-timezone from 0.6.1 to 0.6.2 in https://github.com/docker/metadata-action/pull/664\r\n* Bump semver from 7.7.4 to 7.8.5 in https://github.com/docker/metadata-action/pull/665 https://github.com/docker/metadata-action/pull/695\r\n* Bump sigstore from 4.1.0 to 4.1.1 in https://github.com/docker/metadata-action/pull/694\r\n* Bump tmp from 0.2.5 to 0.2.7 in https://github.com/docker/metadata-action/pull/673\r\n* Bump undici from 6.25.0 to 6.27.0 in https://github.com/docker/metadata-action/pull/686\r\n* Bump vite from 7.3.2 to 7.3.6 in https://github.com/docker/metadata-action/pull/685\r\n\r\n**Full Changelog**: https://github.com/docker/metadata-action/compare/v6.1.0...v6.2.0",
+    "target_commitish": "master",
+    "occurrences": [
+      {
+        "file": ".github/actions/publish-dockerhub/action.yml",
+        "action": "docker/metadata-action",
+        "before": "v6"
+      }
+    ]
+  },
+  "docker/setup-buildx-action": {
+    "tag_name": "v4.4.1",
+    "published_at": "2026-09-16T07:50:21Z",
+    "html_url": "https://github.com/docker/setup-buildx-action/releases/tag/v4.4.1",
+    "body": "* Skip BuildKit image pre-pulls for explicit endpoints by @crazy-max in https://github.com/docker/setup-buildx-action/pull/624\r\n\r\n**Full Changelog**: https://github.com/docker/setup-buildx-action/compare/v4.4.0...v4.4.1",
+    "target_commitish": "master",
+    "occurrences": [
+      {
+        "file": ".github/actions/setup-buildx-resilient/action.yml",
+        "action": "docker/setup-buildx-action",
+        "before": "v4"
+      }
+    ]
+  },
+  "github/codeql-action": {
+    "tag_name": "codeql-bundle-v2.27.4",
+    "published_at": "2026-11-02T16:13:49Z",
+    "html_url": "https://github.com/github/codeql-action/releases/tag/codeql-bundle-v2.27.4",
+    "body": "Bundles CodeQL CLI v2.27.4\r\n- ([changelog](https://github.com/github/codeql-cli-binaries/blob/HEAD/CHANGELOG.md), [release](https://github.com/github/codeql-cli-binaries/releases/tag/v2.27.4))\r\n\r\nThe combined `codeql-bundle.tar.gz` covers Linux x64, Windows x64 and macOS (including Apple Silicon). Linux arm64 is available as the per-platform `codeql-bundle-linux-arm64.tar.gz` only.\r\n\r\nIncludes the following CodeQL language packs from [`github/codeql@codeql-cli/v2.27.4`](https://github.com/github/codeql/tree/codeql-cli/v2.27.4):\r\n- `codeql/actions-queries` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/actions/ql/src/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/actions/ql/src))\r\n- `codeql/actions-all` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/actions/ql/lib/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/actions/ql/lib))\r\n- `codeql/cpp-queries` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/cpp/ql/src/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/cpp/ql/src))\r\n- `codeql/cpp-all` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/cpp/ql/lib/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/cpp/ql/lib))\r\n- `codeql/csharp-queries` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/csharp/ql/src/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/csharp/ql/src))\r\n- `codeql/csharp-all` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/csharp/ql/lib/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/csharp/ql/lib))\r\n- `codeql/go-queries` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/go/ql/src/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/go/ql/src))\r\n- `codeql/go-all` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/go/ql/lib/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/go/ql/lib))\r\n- `codeql/java-queries` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/java/ql/src/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/java/ql/src))\r\n- `codeql/java-all` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/java/ql/lib/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/java/ql/lib))\r\n- `codeql/javascript-queries` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/javascript/ql/src/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/javascript/ql/src))\r\n- `codeql/javascript-all` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/javascript/ql/lib/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/javascript/ql/lib))\r\n- `codeql/python-queries` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/python/ql/src/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/python/ql/src))\r\n- `codeql/python-all` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/python/ql/lib/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/python/ql/lib))\r\n- `codeql/ruby-queries` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/ruby/ql/src/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/ruby/ql/src))\r\n- `codeql/ruby-all` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/ruby/ql/lib/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/ruby/ql/lib))\r\n- `codeql/rust-queries` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/rust/ql/src/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/rust/ql/src))\r\n- `codeql/rust-all` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/rust/ql/lib/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/rust/ql/lib))\r\n- `codeql/swift-queries` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/swift/ql/src/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/swift/ql/src))\r\n- `codeql/swift-all` ([changelog](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/swift/ql/lib/CHANGELOG.md), [source](https://github.com/github/codeql/tree/codeql-cli/v2.27.4/swift/ql/lib))\r\n",
+    "target_commitish": "main",
+    "occurrences": [
+      {
+        "file": ".github/workflows/security.yml",
+        "action": "github/codeql-action/init",
+        "before": "v4"
+      },
+      {
+        "file": ".github/workflows/security.yml",
+        "action": "github/codeql-action/autobuild",
+        "before": "v4"
+      },
+      {
+        "file": ".github/workflows/security.yml",
+        "action": "github/codeql-action/analyze",
+        "before": "v4"
+      }
+    ]
+  },
+  "lycheeverse/lychee-action": {
+    "tag_name": "v2.9.0",
+    "published_at": "2026-07-09T15:31:00Z",
+    "html_url": "https://github.com/lycheeverse/lychee-action/releases/tag/v2.9.0",
+    "body": "## Summary\n\nThis release updates the default lychee version from `v0.23.0` to `v0.24.2`.\n\nThe main reason for this release is compatibility with the new lychee `0.24.x` release artifacts. Starting with lychee `v0.24.0`, the archive layout changed, and the `lychee` binary may now be packaged inside a subdirectory. `lychee-action` now detects that layout automatically, so users can upgrade without changing their workflows.\n\nIf you use:\n\n```yaml\nuses: lycheeverse/lychee-action@v2\n```\n\nyou will get the new version once the floating `v2` tag has been updated. If you pin exact versions, update to:\n\n```yaml\nuses: lycheeverse/lychee-action@v2.9.0\n```\n\n## What\u2019s new from lychee `v0.24.x`\n\n### Better diagnostics\n\nlychee now reports line and column numbers for detected links. This makes broken link reports easier to act on, especially in larger documentation sites or generated reports.\n\n### Text fragment checking\n\nlychee can now check URL text fragments, such as links containing `#:~:text=...`. This helps catch links that point to a valid page but no longer points to the intended highlighted text.\n\n### Sitemap support\n\nlychee can now read `sitemap.xml` inputs. This is useful for checking published websites or generated documentation sites where the sitemap is the easiest source of URLs to validate.\n\n### JUnit output\n\nlychee now supports JUnit output. This makes it easier to integrate link checking results with CI systems and test reporting tools that understand JUnit XML.\n\n### Redirect and remap visibility\n\nlychee can now show redirects and remaps more clearly. This helps explain why a URL was checked as a different final URL and makes debugging link-checking behavior easier.\n\n### Multiple config files\n\nlychee now supports multiple configuration files and expanded config handling. This is useful for repositories that split documentation, website, or package-specific link-checking settings.\n\n### Timeout handling\n\nlychee can now accept timeouts explicitly. This gives users more control over how strict their link checks should be for flaky or slow endpoints.\n\n## Fixes and reliability improvements\n\n### Fixed lychee `0.24.x` archive compatibility\n\n`lychee-action` now handles the new lychee release archive layout by detecting whether the `lychee` binary is inside a subdirectory.\n\nThis fixes compatibility with lychee `0.24.x`.\n\n### More stable installation path\n\nThe action now installs lychee into `$RUNNER_TEMP/lychee/bin` instead of `$HOME`.\n\nThis avoids failures on runners where `$HOME` differs between composite action steps. In those environments, the action could add one directory to `PATH` but install the binary somewhere else, causing `lychee: command not found`.\n\n### Safer automatic lychee version updates\n\nThe workflow that checks for new lychee releases now guards against `null` release versions before creating update PRs. This prevents invalid automated PRs such as \u201cUpdate lycheeVersion to null\u201d.\n\n### Dependency updates\n\n- Updated `actions/checkout` from `v6` to `v7`\n- Updated `actions/cache` from `v5` to `v6`\n\n## Upstream lychee changelog\n\nFor the full lychee changelog, see:\n\n- https://github.com/lycheeverse/lychee/releases/tag/lychee-v0.24.0\n- https://github.com/lycheeverse/lychee/releases/tag/lychee-v0.24.1\n- https://github.com/lycheeverse/lychee/releases/tag/lychee-v0.24.2\n\n## What\u2019s Changed\n\n* bump default to 0.24.1 and auto-detect lychee bin in subfolder by @kaitlyndotmoe in https://github.com/lycheeverse/lychee-action/pull/330\n* fixes #322 check for null by @bgermann in https://github.com/lycheeverse/lychee-action/pull/336\n* Install into `$RUNNER_TEMP` instead of `$HOME` by @mre in https://github.com/lycheeverse/lychee-action/pull/338\n* Bump actions/checkout from 6 to 7 by @dependabot in https://github.com/lycheeverse/lychee-action/pull/339\n* Bump actions/cache from 5 to 6 by @dependabot in https://github.com/lycheeverse/lychee-action/pull/340\n\n**Full Changelog**: https://github.com/lycheeverse/lychee-action/compare/v2.8.0...v2.9.0\n",
+    "target_commitish": "master",
+    "occurrences": [
+      {
+        "file": ".github/workflows/links.yml",
+        "action": "lycheeverse/lychee-action",
+        "before": "v2"
+      }
+    ]
+  },
+  "microsoft/playwright": {
+    "tag_name": "v1.65.0",
+    "published_at": "2026-11-05T18:25:45Z",
+    "html_url": "https://github.com/microsoft/playwright/releases/tag/v1.65.0",
+    "body": "## \ud83e\udd5f Run tests with Bun\r\n\r\nThe test runner now runs under [Bun](https://bun.com). Bun transpiles your TypeScript test files itself, so Playwright does not use Babel or its compilation cache. Pass the `--bun` flag, because without it `bunx playwright test` runs on Node.js:\r\n\r\n```bash\r\nbunx --bun playwright test\r\n```\r\n\r\nOur CI runs the test runner tests under Bun 1.4.3 on Linux. Some features work differently under Bun:\r\n\r\n- There is no watch mode. UI mode does not run tests again when files change, and `--only-changed` does not follow imports.\r\n- Bun loads modules itself, so `--tsconfig` and the JSX options in `tsconfig.json` have no effect, and custom ESM loaders are not supported.\r\n- Stack traces do not include async frames, and API names do not include the class name: `click` instead of `locator.click`. This changes some step locations, step titles and error messages.\r\n- Console output of a test does not get into the trace and UI mode.\r\n\r\n## \ud83d\udea8 Reports with only failures\r\n\r\nNew [`failures`](https://playwright.dev/docs/test-reporters#failures-reporter) reporter prints failures and successful retries as they occur, followed by a summary, without progress output.\r\n\r\nNew `onlyFailures` option of the HTML, JSON and JUnit reporters [keeps only](https://playwright.dev/docs/test-reporters#report-only-failures) tests with unexpected outcomes, flaky tests and interrupted tests:\r\n\r\n```js\r\n// playwright.config.ts\r\nimport { defineConfig } from '@playwright/test';\r\n\r\nexport default defineConfig({\r\n  reporter: [\r\n    ['failures'],\r\n    ['html', { onlyFailures: true }],\r\n  ],\r\n});\r\n```\r\n\r\n## \ud83c\udfaf Test runner\r\n\r\n- New built-in `-exclusive-` [test lock](https://playwright.dev/docs/test-parallel#test-locks) runs a test only when no other tests are running. All other tests continue to run in parallel with each other:\r\n\r\n  ```js\r\n  test('restart the server', { lock: '-exclusive-' }, async () => {\r\n    // No other test runs while this one is running.\r\n  });\r\n  ```\r\n\r\n- [test.skip()](https://playwright.dev/docs/api/class-test#test-skip), [test.fixme()](https://playwright.dev/docs/api/class-test#test-fixme), [test.fail()](https://playwright.dev/docs/api/class-test#test-fail) and [test.slow()](https://playwright.dev/docs/api/class-test#test-slow) now accept only a description. It is recorded in the test annotation:\r\n\r\n  ```js\r\n  test('upload a file', async ({ page }) => {\r\n    test.skip('Not implemented yet');\r\n  });\r\n  ```\r\n\r\n- New `PLAYWRIGHT_TRANSFORM_CACHE_DIR` environment variable sets the directory for transpiled test files, for example on a Linux machine shared with other users.\r\n\r\n## New APIs\r\n\r\n- New options [`timeout`](https://playwright.dev/docs/api/class-cdpsession#cdp-session-send-option-timeout) and [`signal`](https://playwright.dev/docs/api/class-cdpsession#cdp-session-send-option-signal) in [cdpSession.send()](https://playwright.dev/docs/api/class-cdpsession#cdp-session-send).\r\n- New [testRun.mode()](https://playwright.dev/docs/api/class-testrun#test-run-mode) returns the execution mode of a suite during [reporter.preprocess()](https://playwright.dev/docs/api/class-reporter#reporter-preprocess).\r\n\r\n## Breaking Changes \u26a0\ufe0f\r\n\r\n- TypeScript class fields now follow [`useDefineForClassFields`](https://playwright.dev/docs/test-typescript#tsconfig-class-fields) from your `tsconfig.json`, the same as `tsc`. It is enabled for `ES2022` and later targets, and when `target` is not specified. A field initializer that reads a constructor parameter property now fails, because the initializer runs first:\r\n\r\n  ```js\r\n  class LoginPage {\r\n    // TypeError: Cannot read properties of undefined (reading 'getByRole')\r\n    readonly submit = this.page.getByRole('button', { name: 'Submit' });\r\n\r\n    constructor(private readonly page: Page) {}\r\n  }\r\n  ```\r\n\r\n  Move the initialization to the constructor, or set `\"useDefineForClassFields\": false` in your `tsconfig.json`.\r\n\r\n- Actions such as [locator.click()](https://playwright.dev/docs/api/class-locator#locator-click), [locator.check()](https://playwright.dev/docs/api/class-locator#locator-check), [locator.tap()](https://playwright.dev/docs/api/class-locator#locator-tap), [locator.fill()](https://playwright.dev/docs/api/class-locator#locator-fill), [locator.clear()](https://playwright.dev/docs/api/class-locator#locator-clear) and [locator.selectOption()](https://playwright.dev/docs/api/class-locator#locator-select-option) now wait for the element to be [not inert](https://playwright.dev/docs/actionability#not-inert). An action on an element with the `inert` attribute, or inside such an element, now times out if the element stays inert.\r\n\r\n- A sharded run now fails with \"No tests found\" when no tests match across all shards. Pass `--pass-with-no-tests` to allow this. An empty shard still passes when other shards have tests.\r\n\r\n- Cookie matching now follows RFC 6265. With a URL, [browserContext.cookies()](https://playwright.dev/docs/api/class-browsercontext#browser-context-cookies) and [apiRequestContext.cookies()](https://playwright.dev/docs/api/class-apirequestcontext#api-request-context-cookies) no longer return host-only cookies for subdomains or `Path=/api` cookies for `/apiv2`, and a `Path=/foo/` cookie does not match `/foo`. [APIRequestContext](https://playwright.dev/docs/api/class-apirequestcontext) sends a cookie without a name as `Cookie: x` instead of `Cookie: =x`, and stores `Set-Cookie: token` as a cookie without a name.\r\n\r\n- Proxy credentials are no longer sent to websites. The credentials in the [`proxy`](https://playwright.dev/docs/api/class-browsertype#browser-type-launch-option-proxy) option now answer only proxy challenges. To authenticate on a website, use [`httpCredentials`](https://playwright.dev/docs/api/class-browser#browser-new-context-option-http-credentials).\r\n\r\n- Text that the browser does not render, such as text that is not assigned to a slot or text directly inside a closed `<details>`, is no longer part of accessible names and aria snapshots. This can change the results of [page.getByRole()](https://playwright.dev/docs/api/class-page#page-get-by-role) with a name, [locator.ariaSnapshot()](https://playwright.dev/docs/api/class-locator#locator-aria-snapshot) and [expect(locator).toMatchAriaSnapshot()](https://playwright.dev/docs/api/class-locatorassertions#locator-assertions-to-match-aria-snapshot).\r\n\r\n- String and `URLSearchParams` values of the `params` option in [APIRequestContext](https://playwright.dev/docs/api/class-apirequestcontext) requests are now appended to the query that the URL already has, instead of replacing it.\r\n\r\n- `.css`, `.less` and `.scss` imports in test files now load as empty modules instead of being removed, so the imported file must exist.\r\n\r\n- The blob reporter again deletes the content of its output directory before it writes the report. Playwright 1.64 kept reports with other names.\r\n\r\n- Test locations of imported calls such as `test(` in CommonJS output now point to the start of the callee, for example `a.spec.ts:3:7` instead of `a.spec.ts:3:11`. This is the same as in ESM.\r\n\r\n## Announcements\r\n\r\n* \u26a0\ufe0f Playwright no longer tests on Node.js 20. Use Node.js 22, 24 or 26, as listed in the [system requirements](https://playwright.dev/docs/intro#system-requirements).\r\n* \ud83d\udc33 [Docker images](https://playwright.dev/docs/docker) now include Node.js 26 instead of Node.js 24, and the latest patch of Chromium on the same branch.\r\n\r\n## Browser Versions\r\n\r\n- Chromium 158.0.8127.18\r\n- Mozilla Firefox 159.0\r\n- WebKit 27.2\r\n\r\nThis version was also tested against the following stable channels:\r\n\r\n- Google Chrome 157\r\n- Microsoft Edge 156\r\n",
+    "target_commitish": "release-1.65",
+    "occurrences": []
+  },
+  "moby/buildkit": {
+    "tag_name": "v0.34.2",
+    "published_at": "2026-11-03T12:56:46Z",
+    "html_url": "https://github.com/moby/buildkit/releases/tag/v0.34.2",
+    "body": "Welcome to the v0.34.2 release of buildkit!\r\n\r\n\r\n\r\nPlease try out the release binaries and report any issues at\r\nhttps://github.com/moby/buildkit/issues.\r\n\r\n### Contributors\r\n\r\n* CrazyMax\r\n* Sebastiaan van Stijn\r\n* T\u00f5nis Tiigi\r\n\r\n### Notable Changes\r\n\r\n- Fix a daemon panic caused by resolver cache poisoning when a build resolves metadata for the same Git source reference twice. https://github.com/moby/buildkit/security/advisories/GHSA-2fqp-xg6f-v7gj\r\n- Prevent malicious clients with access to the BuildKit control APIs from setting extended attributes on files outside the BuildKit state directory, potentially granting elevated privileges to programs on the host. https://github.com/moby/buildkit/security/advisories/GHSA-w26x-xg27-7qjc\r\n\r\n### Dependency Changes\r\n\r\n* **github.com/containerd/containerd/v2**  v2.4.1 -> v2.4.2\r\n* **github.com/klauspost/compress**        v1.20.1 -> v1.20.2\r\n* **github.com/tonistiigi/fsutil**         83cac42c1c52 -> a72de9dcf763\r\n\r\nPrevious release can be found at [v0.34.1](https://github.com/moby/buildkit/releases/tag/v0.34.1)\r\n",
+    "target_commitish": "master",
+    "occurrences": []
+  },
+  "oven-sh/bun": {
+    "tag_name": "bun-v1.4.4",
+    "published_at": "2026-10-22T10:11:32Z",
+    "html_url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.4.4",
+    "body": "To install Bun v1.4.4\n```bash\ncurl -fsSL https://bun.com/install | bash\n# or you can use npm\n# npm install -g bun\n```\n\nWindows:\n```bash\npowershell -c \"irm bun.com/install.ps1|iex\"\n```\n\nTo upgrade to Bun v1.4.4:\n```bash\nbun upgrade\n```\n\n### [Read Bun v1.4.4's release notes on Bun's blog](https://bun.com/blog/bun-v1.4.4)\n\n### Thanks to 39 contributors!\n\n- [@0xh3x](https://github.com/0xh3x)\n- [@1cedsoda](https://github.com/1cedsoda)\n- [@alex-mextner](https://github.com/alex-mextner)\n- [@alii](https://github.com/alii)\n- [@Artoria2e5](https://github.com/Artoria2e5)\n- [@bompus](https://github.com/bompus)\n- [@C0casio45](https://github.com/C0casio45)\n- [@cirospaciari](https://github.com/cirospaciari)\n- [@davidhevn](https://github.com/davidhevn)\n- [@deepshekhardas](https://github.com/deepshekhardas)\n- [@Dex4Sure](https://github.com/Dex4Sure)\n- [@dylan-conway](https://github.com/dylan-conway)\n- [@EffortlessSteven](https://github.com/EffortlessSteven)\n- [@eriklangille](https://github.com/eriklangille)\n- [@filipesarturi](https://github.com/filipesarturi)\n- [@fredluz](https://github.com/fredluz)\n- [@gerardp](https://github.com/gerardp)\n- [@gohryt](https://github.com/gohryt)\n- [@himself65](https://github.com/himself65)\n- [@hughescr](https://github.com/hughescr)\n- [@Jarred-Sumner](https://github.com/Jarred-Sumner)\n- [@jdjkelly](https://github.com/jdjkelly)\n- [@jecquas](https://github.com/jecquas)\n- [@jobansd](https://github.com/jobansd)\n- [@kernoeb](https://github.com/kernoeb)\n- [@KilianB](https://github.com/KilianB)\n- [@MarshallOfSound](https://github.com/MarshallOfSound)\n- [@Neekoras](https://github.com/Neekoras)\n- [@nikeee](https://github.com/nikeee)\n- [@nikelborm](https://github.com/nikelborm)\n- [@ousamabenyounes](https://github.com/ousamabenyounes)\n- [@pjb3](https://github.com/pjb3)\n- [@RajeshKumar11](https://github.com/RajeshKumar11)\n- [@ralyodio](https://github.com/ralyodio)\n- [@robobun](https://github.com/robobun)\n- [@RubenPari](https://github.com/RubenPari)\n- [@sosukesuzuki](https://github.com/sosukesuzuki)\n- [@steipete](https://github.com/steipete)\n- [@SyMind](https://github.com/SyMind)\n",
+    "target_commitish": "38afee6c84fcf48c0edb2466aa4b27d287a59c30",
+    "occurrences": []
+  },
+  "oven-sh/setup-bun": {
+    "tag_name": "v2.2.0",
+    "published_at": "2026-03-14T09:38:33Z",
+    "html_url": "https://github.com/oven-sh/setup-bun/releases/tag/v2.2.0",
+    "body": "`oven-sh/setup-bun` is the github action for setting up Bun.\r\n\r\n## What's Changed\r\n* build: update action runtime to Node.js 24 by @adam0white in https://github.com/oven-sh/setup-bun/pull/176\r\n* ci: use `actions/checkout@v6.0.2` in the test workflow by @tcely in https://github.com/oven-sh/setup-bun/pull/173\r\n* ci: update actions for the `autofix.ci` workflow by @tcely in https://github.com/oven-sh/setup-bun/pull/174\r\n* ci: update actions for the `Release new action version` workflow by @tcely in https://github.com/oven-sh/setup-bun/pull/175\r\n* release: v2.2.0 by @xhyrom in https://github.com/oven-sh/setup-bun/pull/177\r\n\r\n## New Contributors\r\n* @adam0white made their first contribution in https://github.com/oven-sh/setup-bun/pull/176\r\n* @tcely made their first contribution in https://github.com/oven-sh/setup-bun/pull/173\r\n\r\n**Full Changelog**: https://github.com/oven-sh/setup-bun/compare/v2...v2.2.0",
+    "target_commitish": "main",
+    "occurrences": [
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "oven-sh/setup-bun",
+        "before": "0c5077e51419868618aeaa5fe8019c62421857d6"
+      }
+    ]
+  },
+  "peter-evans/create-pull-request": {
+    "tag_name": "v8.1.1",
+    "published_at": "2026-04-10T16:27:57Z",
+    "html_url": "https://github.com/peter-evans/create-pull-request/releases/tag/v8.1.1",
+    "body": "## What's Changed\r\n* build(deps-dev): bump the npm group with 2 updates by @dependabot[bot] in https://github.com/peter-evans/create-pull-request/pull/4305\r\n* build(deps): bump minimatch by @dependabot[bot] in https://github.com/peter-evans/create-pull-request/pull/4311\r\n* build(deps): bump the github-actions group with 2 updates by @dependabot[bot] in https://github.com/peter-evans/create-pull-request/pull/4316\r\n* build(deps): bump @tootallnate/once and jest-environment-jsdom by @dependabot[bot] in https://github.com/peter-evans/create-pull-request/pull/4323\r\n* build(deps-dev): bump undici from 6.23.0 to 6.24.0 by @dependabot[bot] in https://github.com/peter-evans/create-pull-request/pull/4328\r\n* build(deps-dev): bump flatted from 3.3.1 to 3.4.2 by @dependabot[bot] in https://github.com/peter-evans/create-pull-request/pull/4334\r\n* build(deps): bump picomatch by @dependabot[bot] in https://github.com/peter-evans/create-pull-request/pull/4339\r\n* build(deps-dev): bump handlebars from 4.7.8 to 4.7.9 by @dependabot[bot] in https://github.com/peter-evans/create-pull-request/pull/4344\r\n* build(deps-dev): bump the npm group with 3 updates by @dependabot[bot] in https://github.com/peter-evans/create-pull-request/pull/4349\r\n* fix: retry post-creation API calls on 422 eventual consistency errors by @peter-evans in https://github.com/peter-evans/create-pull-request/pull/4356\r\n\r\n\r\n**Full Changelog**: https://github.com/peter-evans/create-pull-request/compare/v8.1.0...v8.1.1",
+    "target_commitish": "main",
+    "occurrences": [
+      {
+        "file": ".github/workflows/release.yml",
+        "action": "peter-evans/create-pull-request",
+        "before": "5f6978faf089d4d20b00c7766989d076bb2fc7f1"
+      }
+    ]
+  },
+  "rhysd/actionlint": {
+    "tag_name": "v1.7.12",
+    "published_at": "2026-03-30T17:49:21Z",
+    "html_url": "https://github.com/rhysd/actionlint/releases/tag/v1.7.12",
+    "body": "- Support the [`timezone` configuration in `on.schedule`](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onschedule) with checks for IANA timezone string. See the [documentation](https://github.com/rhysd/actionlint/blob/main/docs/checks.md#check-cron-syntax-and-timezone) for more details. Note that actionlint starts to embed the timezone database in the executables from this version so the binary sizes slightly increase. (#641, thanks @martincostello)\r\n  ```yaml\r\n  on:\r\n    schedule:\r\n      # ERROR: The timezone is not a valid IANA timezone string\r\n      - cron: '*/5 * * * *'\r\n        timezone: 'Asia/Somewhere'\r\n  ```\r\n- Support the [`jobs.<job_name>.environment.deployment` configuration](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/control-deployments#using-environments-without-deployments). (#639, thanks @springmeyer)\r\n- Support the [`macos-26-intel` runner label](https://github.blog/changelog/2026-02-26-macos-26-is-now-generally-available-for-github-hosted-runners/). (#629, thanks @hugovk)\r\n- Fix the outdated [table of webhook activity types](https://github.com/rhysd/actionlint/blob/main/all_webhooks.go) by rebuilding the [script to scrape the table](https://github.com/rhysd/actionlint/tree/main/scripts/generate-webhook-events) from scratch.\r\n- Support Go 1.26 and drop the support for Go 1.24. Now supported versions are 1.25 and 1.26.\r\n- Tests are run on arm64 Windows in CI.\r\n- Update the popular actions data set to the latest.",
+    "target_commitish": "main",
+    "occurrences": []
+  },
+  "zizmorcore/zizmor-action": {
+    "tag_name": "v0.8.1",
+    "published_at": "2026-11-03T00:03:32Z",
+    "html_url": "https://github.com/zizmorcore/zizmor-action/releases/tag/v0.8.1",
+    "body": "\n[Sponsorship is appreciated!](https://github.com/sponsors/woodruffw/)\n\nzizmor 1.32 is now the default version used by this action.\n\nFull release notes: https://docs.zizmor.sh/release-notes/#1320\n\n**Full Changelog**: https://github.com/zizmorcore/zizmor-action/compare/v0.8.0...v0.8.1\n",
+    "target_commitish": "main",
+    "occurrences": [
+      {
+        "file": ".github/workflows/workflows.yml",
+        "action": "zizmorcore/zizmor-action",
+        "before": "v0.8.0"
+      }
+    ]
+  }
+}

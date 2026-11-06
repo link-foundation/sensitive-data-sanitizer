@@ -1,0 +1,2 @@
+npm notice run @link-foundation/sensitive-data-sanitizer@0.17.0 lint:all
+npm notice run eslint . --max-warnings 0

@@ -1,0 +1,71 @@
+scripts/setup-preview-gh.sh:13:version=2.103.3
+scripts/setup-preview-gh.sh:19:curl --fail --silent --show-error --location --retry 3 \
+scripts/deploy-pages.mjs:99:    pages_build_version: buildVersion,
+scripts/check-preview-tools.sh:5:for tool in bash curl git gh node npm sha256sum tar; do
+scripts/create-github-release.mjs:6: *   release-version: Version number (e.g., 1.0.0)
+scripts/create-github-release.mjs:287:      version: normalizedVersion,
+scripts/preflight-credentials.sh:61:# curl that separates the HTTP status from the body without temp files.
+scripts/preflight-credentials.sh:66:  body=$(curl -sS --max-time "$CURL_TIMEOUT" -o - -w "${NEWLINE}%{http_code}" "$@" 2>/dev/null)
+scripts/preflight-credentials.sh:253:  headers=$(curl -sS --max-time "$CURL_TIMEOUT" -D - -o /dev/null \
+scripts/preflight-credentials.sh:267:        curl -sS --max-time "$CURL_TIMEOUT" -o /dev/null -X DELETE \
+scripts/version-and-commit.mjs:209:      console.log(`Remote version: ${remoteVersion}`);
+scripts/version-and-commit.mjs:219:    console.log(`Current version: ${oldVersion}`);
+scripts/version-and-commit.mjs:247:    console.log(`New version: ${newVersion}`);
+scripts/audit-python-dependencies.py:4:Committed locks are audited directly. For unlocked manifests uv resolves wheel
+scripts/audit-python-dependencies.py:52:                        "--python-version",
+scripts/check-web-archive.mjs:333:        `Suggested fix: replace the broken link with the archived version:\n` +
+scripts/check-web-archive.mjs:349:    `✗ ${withoutArchive.length} broken link(s) have NO Web Archive version:`
+scripts/instant-version-bump.mjs:96:  console.log(`Current version: ${oldVersion}`);
+scripts/instant-version-bump.mjs:110:  console.log(`New version: ${newVersion}`);
+.github/workflows/release.yml:419:          bun-version: '1.4.4'
+.github/workflows/release.yml:435:          deno-version: v2.9.8
+.github/workflows/release.yml:619:      published_version: ${{ steps.publish.outputs.published_version }}
+.github/workflows/release.yml:768:      published_version: ${{ steps.publish.outputs.published_version }}
+.github/workflows/release.yml:863:      image: ${{ steps.docker_config.outputs.image }}
+.github/workflows/release.yml:864:      version: ${{ steps.release_version.outputs.version }}
+.github/workflows/release.yml:885:        run: echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+.github/workflows/release.yml:925:          image: ${{ needs.docker-publish-config.outputs.image }}
+.github/workflows/release.yml:929:          version: ${{ needs.docker-publish-config.outputs.version }}
+.github/workflows/security.yml:172:          python-version-file: .python-version
+.github/workflows/security.yml:175:          pipx install uv==0.13.7
+.github/workflows/security.yml:176:          pipx install pip-audit==2.10.1
+.github/workflows/security.yml:183:          uv pip install --system --require-hashes -r experiments/benchmark/requirements.lock -c experiments/benchmark/requirements.txt
+.github/workflows/security.yml:185:          uv pip install --system --no-index --no-deps -r experiments/benchmark/requirements.txt
+.github/workflows/security.yml:186:          uv pip check --system
+.github/workflows/example-app.yml:258:          java-version: '21.0.13+9'
+.github/workflows/example-app.yml:314:      image: mcr.microsoft.com/playwright@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d # v1.65.0-noble
+.github/workflows/example-app.yml:356:      image: mcr.microsoft.com/playwright@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d # v1.65.0-noble
+.github/workflows/workflows.yml:12:      - '.python-version'
+.github/workflows/workflows.yml:30:      - '.python-version'
+.github/workflows/workflows.yml:95:        run: git ls-files -z '*.sh' '.husky/*' | xargs -0 pipx run --spec shellcheck-py==0.11.0.1 shellcheck
+.github/workflows/workflows.yml:110:          python-version-file: .python-version
+.github/workflows/workflows.yml:112:        run: pipx run --spec ruff==0.17.4 ruff check --output-format=github .
+.github/workflows/workflows.yml:114:        run: pipx run --spec ruff==0.17.4 ruff format --check .
+.github/workflows/workflows.yml:168:      #   pipx run zizmor==1.32.0 --config .github/zizmor.yml \
+.github/workflows/workflows.yml:181:          version: 1.32.0
+.github/workflows/workflows.yml:197:          pipx run zizmor==1.32.0 --config .github/zizmor.yml \
+scripts/package-info.mjs:9: * @returns {{name: string, version: string}}
+scripts/package-info.mjs:37:    version: packageJson.version,
+scripts/package-info.mjs:44: * @returns {{name: string, version: string}}
+scripts/check-ci-workflows.mjs:25:          errors.push(`Pin npx package to an exact version: ${spec}`);
+scripts/check-ci-workflows.mjs:34:      .match(/\bversion:\s*(\d+\.\d+\.\d+)/)?.[1];
+scripts/publish-to-npm.mjs:235:    const { name: packageName, version: currentVersion } = readPackageInfo({
+scripts/format-github-release.mjs:6: *   release-version: Version number (e.g., 1.0.0)
+scripts/wait-for-npm.mjs:337:      version: config.releaseVersion,
+scripts/setup-npm.mjs:94:// 2. curl tarball download (bypasses broken npm entirely)
+scripts/setup-npm.mjs:113:  // truncation (curl exit 18) must not leave a half-populated directory, and
+scripts/setup-npm.mjs:118:  await $`curl -fsSL --retry 3 --retry-delay 2 --retry-all-errors "${npmRelease.tarballUrl}" -o "${tarball}"`;
+scripts/setup-npm.mjs:157:  console.log(`Current Node.js version: ${nodeVersion}`);
+scripts/setup-npm.mjs:165:  console.log(`Current npm version: ${currentVersion}`);
+scripts/setup-npm.mjs:176:    ['curl-based tarball download', () => tryCurlTarball($, fetchFn)],
+scripts/setup-npm.mjs:202:  console.log(`Updated npm version: ${updatedVersion}`);
+.github/actions/setup-node/action.yml:15:        node-version-file: .nvmrc
+.github/actions/setup-node/action.yml:30:        node-version-file: .nvmrc
+.github/actions/publish-dockerhub/action.yml:18:  image:
+.github/actions/publish-dockerhub/action.yml:30:  version:
+.github/actions/publish-dockerhub/action.yml:52:          org.opencontainers.image.version=${{ inputs.version }}
+scripts/check-release-needed.mjs:58: * @returns {{ name: string, version: string }}
+scripts/check-release-needed.mjs:76:  const { name: packageName, version: currentVersion } = getPackageInfo();
+scripts/check-release-needed.mjs:79:  console.log(`Current version: ${currentVersion}`);
+.github/actions/setup-buildx-resilient/action.yml:6:  buildkit-image:
+.github/actions/setup-buildx-resilient/action.yml:32:    # The mirror must be the actual driver image: pre-seeding the canonical

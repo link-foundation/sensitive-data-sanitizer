@@ -1,0 +1,11 @@
+test_advisories_and_audit_service_errors_fail_the_gate (test_dependency_audit.DependencyAuditTests.test_advisories_and_audit_service_errors_fail_the_gate) ... ok
+test_audits_committed_transitive_lock_without_building_source_metadata (test_dependency_audit.DependencyAuditTests.test_audits_committed_transitive_lock_without_building_source_metadata) ... ok
+test_discovers_every_requirements_surface_and_excludes_raw_evidence (test_dependency_audit.DependencyAuditTests.test_discovers_every_requirements_surface_and_excludes_raw_evidence) ... ok
+test_requires_an_explicit_mapping_for_new_manifest_formats (test_dependency_audit.DependencyAuditTests.test_requires_an_explicit_mapping_for_new_manifest_formats) ... ok
+test_resolution_failure_does_not_scan_an_empty_result_or_hide_other_surfaces (test_dependency_audit.DependencyAuditTests.test_resolution_failure_does_not_scan_an_empty_result_or_hide_other_surfaces) ... ok
+test_resolves_transitive_hashes_without_installing_or_building_packages (test_dependency_audit.DependencyAuditTests.test_resolves_transitive_hashes_without_installing_or_building_packages) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.013s
+
+OK

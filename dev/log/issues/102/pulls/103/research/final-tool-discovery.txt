@@ -1,0 +1,23 @@
+package.json:126:      "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
+package.json:129:      "pipx run --spec ruff==0.17.4 ruff check --fix --force-exclude",
+package.json:130:      "pipx run --spec ruff==0.17.4 ruff format --force-exclude",
+package.json:131:      "pipx run --spec ruff==0.17.4 ruff format --check --force-exclude"
+package.json:134:      "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
+experiments/benchmark/README.md:23:/tmp/sanitizer-benchmark/bin/pip install --require-hashes -r experiments/benchmark/requirements.lock
+experiments/benchmark/README.md:24:/tmp/sanitizer-benchmark/bin/pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
+.github/workflows/example-app.yml:258:          java-version: '21.0.13+9'
+.github/workflows/example-app.yml:313:    container:
+.github/workflows/example-app.yml:351:    container:
+.github/workflows/workflows.yml:95:        run: git ls-files -z '*.sh' '.husky/*' | xargs -0 pipx run --spec shellcheck-py==0.11.0.1 shellcheck
+.github/workflows/workflows.yml:112:        run: pipx run --spec ruff==0.17.4 ruff check --output-format=github .
+.github/workflows/workflows.yml:114:        run: pipx run --spec ruff==0.17.4 ruff format --check .
+.github/workflows/workflows.yml:168:      #   pipx run zizmor==1.32.0 --config .github/zizmor.yml \
+.github/workflows/workflows.yml:188:      # `container:` references by the run above. Narrowing this second pass
+.github/workflows/workflows.yml:197:          pipx run zizmor==1.32.0 --config .github/zizmor.yml \
+.github/workflows/release.yml:419:          bun-version: '1.4.4'
+.github/workflows/release.yml:435:          deno-version: v2.9.8
+.github/workflows/security.yml:175:          pipx install uv==0.13.7
+.github/workflows/security.yml:176:          pipx install pip-audit==2.10.1
+.github/workflows/security.yml:184:          uv pip install --system --require-hashes -r experiments/benchmark/requirements.lock -c experiments/benchmark/requirements.txt
+.github/workflows/security.yml:186:          uv pip install --system --no-index --no-deps -r experiments/benchmark/requirements.txt
+.github/workflows/security.yml:191:          uv pip install --system --no-deps 'https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl#sha256=1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85'

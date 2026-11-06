@@ -1,0 +1,5 @@
+.github/actions/setup-buildx-resilient/action.yml:9:  whole publish job (see issue #75, and the upstream investigations in
+scripts/setup-npm.mjs:88:// See: https://github.com/actions/runner-images/issues/13883
+scripts/setup-npm.mjs:89:// See: https://github.com/nodejs/node/issues/62430
+scripts/setup-npm.mjs:90:// See: https://github.com/npm/cli/issues/9151
+scripts/setup-npm.mjs:151:  console.error('See: https://github.com/actions/runner-images/issues/13883');
