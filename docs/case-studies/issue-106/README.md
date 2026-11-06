@@ -67,7 +67,7 @@ child has further sub-issues. All examples use synthetic data.
 - [x] Run focused regressions and bounded probes; review compatibility.
 - [x] Commit release fragment and implementation; push only the prepared branch.
 - [x] Update PR description, inspect diff and integrate latest main.
-- [ ] Verify all current-commit CI, ready PR and clean tree.
+- [x] Verify all implementation-commit CI, ready PR and clean tree; final head checks remain visible on PR 107.
 
 ## Implementation and local evidence
 
@@ -162,3 +162,18 @@ metadata fixture to include the new example; reproduce the failure and pass
 locally with `node --test tests/package-metadata.test.js`. The focused suite also
 checks the exact English phone examples, hyphen normalization and default-profile
 relative location handling.
+
+## Final verification
+
+Implementation and regression commit `79282397eef50b74b2a51b45b3a53af6c35dab51`
+passed every applicable CI job:
+
+- [Checks and release, including Node/Bun/Deno on Linux/macOS/Windows, session corpus and Docker](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42167998894)
+- [Security, CodeQL and dependency audits](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42167998946)
+- [Example-app builds](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42167998884)
+- [Broken-link check](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42167998878)
+
+The branch includes the latest checked `main` (`27e7af5`). PR 107 is ready for
+review and closes all three required issues. This final evidence update changes
+only documentation; final-head checks are available on the PR. No acceptance
+criterion is blocked or deferred.
