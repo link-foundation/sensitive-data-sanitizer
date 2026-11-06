@@ -68,3 +68,12 @@ writeFileSync(
   'src/rule-catalog.js',
   `// Stable Finding.rule ids; see the rule catalog generator in experiments.\nexport const builtInRules = Object.freeze(${JSON.stringify([...rules].sort(), null, 2)});\nexport const credentialRules = new Set(${JSON.stringify([...credential].sort(), null, 2)});\n`
 );
+writeFileSync(
+  'docs/RULES.md',
+  `# Stable finding rule identifiers\n\nUse keys from the exported frozen \`builtInRules\` list in \`rules: {id: false}\`.\nUnknown ids fail with ERR_CONFIG. Credential and mixed encoded/scanner rules\nrequire \`allowCredentialDisable: true\`. A disabled rule does not suppress\nanother rule's overlapping finding. Rules gate automatic built-in findings;\nexplicit findings and custom callbacks retain caller policy. See [API](API.md#rule-type-and-field-policy).\n\nRegenerate with \`node experiments/issue-118/generate-rule-catalog.mjs\`.\n\n${[
+    ...rules,
+  ]
+    .sort()
+    .map((rule) => `- \`${rule}\``)
+    .join('\n')}\n`
+);

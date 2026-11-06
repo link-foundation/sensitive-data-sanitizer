@@ -48,6 +48,7 @@ const cache = new Map();
 const boundary = '[\\p{L}\\p{N}_]';
 const name =
   '[\\p{Lu}][\\p{L}\\p{M}.-]{1,47}(?:[ \\t]+[\\p{Lu}][\\p{L}\\p{M}.-]{1,47}){0,3}';
+const casedName = new RegExp(`^${name}`, 'u');
 function normalizedLists(vocabulary) {
   if (vocabulary === undefined) {
     return undefined;
@@ -129,7 +130,7 @@ export function compiledVocabulary(vocabulary) {
     ['personalLabels', 'PERSON'],
   ]) {
     const cue = alternatives(lists[list]);
-    // Fold the cue separately: the following value must retain proper casing.
+    // Fold cues here and validate the captured name's casing at emission.
     const pattern = new RegExp(
       `(?<!${boundary})(${cue})[ \\t]*(?::|[-–—])?[ \\t]+(${name})(?!${boundary})`,
       'giu'
@@ -171,11 +172,17 @@ export function detectVocabulary(text, emit, options) {
   if (!vocabulary) {
     return;
   }
+  const emitName = (finding) => {
+    const value = text.slice(finding.start, finding.end).match(casedName)?.[0];
+    if (value && value !== 'REDACTED') {
+      emit({ ...finding, end: finding.start + value.length });
+    }
+  };
   for (const { type, pattern } of vocabulary.patterns) {
     collectMatches(
       text,
       pattern,
-      emit,
+      emitName,
       { type, category: 'personal', rule: 'vocabulary-cue', confidence: 0.85 },
       2,
       (value) => /^\p{Lu}/u.test(value) && value !== 'REDACTED'
@@ -184,7 +191,7 @@ export function detectVocabulary(text, emit, options) {
   collectMatches(
     text,
     vocabulary.rolePattern,
-    emit,
+    emitName,
     {
       type: 'ORGANIZATION',
       category: 'personal',
@@ -197,7 +204,7 @@ export function detectVocabulary(text, emit, options) {
   collectMatches(
     text,
     vocabulary.reverseRolePattern,
-    emit,
+    emitName,
     {
       type: 'ORGANIZATION',
       category: 'personal',

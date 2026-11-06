@@ -20,6 +20,14 @@ two-pass publication:
 sensitive-data-sanitizer redact session.jsonl --stream --jsonl --two-pass --output safe.jsonl
 ```
 
+For synchronous log hooks, `createSyncSanitizer` supports custom detectors and
+verified callback transformations. Rule/type controls, caller vocabulary,
+structured field selectors and `compileKnown` configure reusable policies; see
+[API examples](docs/API.md#rule-type-and-field-policy) and the
+[runnable log policy](examples/custom-log-policy.mjs). The optional `/ner` entry
+adds offline Russian/English symbolic recognition with
+[published coverage and cost](docs/COVERAGE.md#optional-offline-recognition-measurements).
+
 ## Quick Start
 
 For stored prose that can tolerate extra redaction, opt into structural proper

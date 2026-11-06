@@ -1,7 +1,5 @@
-import type { Detector } from './index.js';
+import type { Finding } from './index.d.ts';
 export declare function createNerDetector(options?: {
   languages?: Array<'ru' | 'en'>;
   debug?: (event: { event: 'offline-ner'; count: number }) => void;
-}): Promise<
-  Detector & { detect(text: string): import('./index.js').Finding[] }
->;
+}): Promise<{ id: string; detect(text: string): Finding[] }>;

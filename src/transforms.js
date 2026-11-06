@@ -225,28 +225,43 @@ export function renderReplacement(
   }
   return renderValue(text, finding, transform, options, jsonRanges);
 }
-function replacementInput(text, finding, jsonRanges = []) {
+function replacementInput(
+  text,
+  finding,
+  jsonRanges = [],
+  decodeQuoted = false
+) {
   let raw = text.slice(finding.start, finding.end);
+  const inJsonString = jsonRanges.some(
+    (range) => range.start <= finding.start && range.end >= finding.end
+  );
   const jsonQuoted =
     (text[finding.start - 1] === '"' && text[finding.end] === '"') ||
-    jsonRanges.some(
-      (range) => range.start <= finding.start && range.end >= finding.end
-    );
-  if (jsonQuoted) {
+    inJsonString;
+  // Quotes can also surround ordinary decoded prose containing literal tabs.
+  // Decode escapes only when the structured walker confirmed a JSON string.
+  if (inJsonString || (decodeQuoted && jsonQuoted)) {
     try {
       raw = JSON.parse(`"${raw}"`);
     } catch {
+      if (decodeQuoted) {
+        return { invalid: true };
+      }
       throw failure('ERR_JSON');
     }
   }
   return { raw, jsonQuoted };
 }
 function renderValue(text, finding, transform, options, jsonRanges) {
-  const { raw, jsonQuoted } = replacementInput(
+  const { raw, jsonQuoted, invalid } = replacementInput(
     text,
     finding,
-    typeof transform === 'function' ? jsonRanges : undefined
+    typeof transform === 'function' ? jsonRanges : undefined,
+    typeof transform !== 'function'
   );
+  if (invalid) {
+    return REDACTED;
+  }
   const result =
     transform?.mode === 'placeholder'
       ? placeholderReplacement(raw, finding, transform, options)
@@ -264,11 +279,15 @@ function verifiedCallback(value, result) {
     throw failure('ERR_CONFIG');
   }
   const normalize = (s) => projectText(s).text.toLowerCase();
-  const original = normalize(value);
+  const originals = [
+    value,
+    ...Array.from(decodedRuns(value), (run) => run.text),
+  ]
+    .map(normalize)
+    .filter(Boolean);
   if (
-    original &&
     [result, ...Array.from(decodedRuns(result), (run) => run.text)].some(
-      (view) => normalize(view).includes(original)
+      (view) => originals.some((original) => normalize(view).includes(original))
     )
   ) {
     throw failure('ERR_RESIDUAL');

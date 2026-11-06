@@ -142,6 +142,8 @@ describe('issue 110 reusable caller vocabulary', () => {
       ['работаю в АРТЕЛИ Лютик', 'работаю в АРТЕЛИ [REDACTED]'],
       ['Альма-матер: Skillbox', 'Альма-матер: [REDACTED]'],
       ['личный контакт: Абвгде', 'личный контакт: [REDACTED]'],
+      ['работаю в артели Лютик сегодня', 'работаю в артели [REDACTED] сегодня'],
+      ['личный контакт: Абвгде сегодня', 'личный контакт: [REDACTED] сегодня'],
     ]) {
       await both(input, expected, { profile: 'documents', vocabulary });
     }
@@ -272,6 +274,24 @@ describe('issue 112 transformation and sync stage contracts', () => {
       }
       expect(failed).toBe(true);
     }
+    const encoded = Buffer.from('Анна Смирнова').toString('base64');
+    expect(
+      code(() =>
+        sanitize(encoded, {
+          knownOnly: true,
+          findings: [
+            {
+              start: 0,
+              end: encoded.length,
+              type: 'PERSON',
+              category: 'personal',
+              rule: 'custom',
+            },
+          ],
+          transformation: () => 'Анна Смирнова',
+        })
+      )
+    ).toBe('ERR_RESIDUAL');
   });
   it('exposes a sync implementation and supports replacement detection via findings', () => {
     const sync = createSyncSanitizer({ detectors: [detector] });

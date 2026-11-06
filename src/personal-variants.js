@@ -145,10 +145,16 @@ export function personalPatterns(value, type) {
 }
 export function personalRegex(value, type) {
   if (type === 'URL') {
-    const core = value
-      .replace(/^https?:\/\//iu, '')
-      .replace(/[?#].*$/u, '')
-      .replace(/\/+$/u, '');
+    let core = value.replace(/^https?:\/\//iu, '');
+    const suffix = core.search(/[?#]/u);
+    if (suffix >= 0) {
+      core = core.slice(0, suffix);
+    }
+    let end = core.length;
+    while (end > 0 && core[end - 1] === '/') {
+      end--;
+    }
+    core = core.slice(0, end);
     return new RegExp(
       `(?<![\\p{L}\\p{N}_./-])(?:https?:\\/\\/)?${escapePattern(core)}(?:\\/)?(?:[?#][^\\s"<>\\\\]*)?(?![\\p{L}\\p{N}_-])`,
       'giu'

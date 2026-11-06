@@ -148,7 +148,7 @@ export declare function createSyncSanitizer(
 /** Copies and freezes caller values, merging lists and caching matching/projection. */
 export declare function compileKnown(
   ...lists: Array<readonly PersonalValue[]>
-): readonly PersonalValue[];
+): readonly Readonly<PersonalValue>[];
 export declare const builtInRules: readonly string[];
 export declare const defaultVocabulary: Readonly<
   Record<keyof Vocabulary, readonly string[]>

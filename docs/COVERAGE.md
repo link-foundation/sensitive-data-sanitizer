@@ -243,16 +243,17 @@ The `documents` profile additionally recognizes:
 - Company/employer/workplace labels, capitalized company/holding/bank names,
   employment prose and year-range employer lines; residence/metro/district
   labels and contextual six-digit postal codes.
-- Russian street-plus-house/flat structures at line start or after
-  `проживает по адресу`. Public-place prose such as
-  `Музей находится на ул. Ленина, д. 5, кв. 12` stays unchanged. Public addresses
-  presented alone have the same shape as personal addresses and may be flagged;
-  inspect and review standalone public addresses before publication.
+- Russian street-plus-house/flat structures, including inline addresses added
+  by #117. `Музей находится на ул. Ленина, д. 5, кв. 12` now removes the full
+  street/house/apartment span. Public addresses have the same shape as personal
+  addresses and may be flagged; inspect them before publication.
 
 Explicit limits accepted for the ambiguous examples in #82/#83:
-`Спасибо, Анна!`, `Анна, добрый день!`, `Менеджер Анна` and `Лютик, менеджер`
+`Спасибо, Анна!`, `Анна, добрый день!` and `Менеджер Анна`
 remain unchanged without known values or additional context. Bare given names
 and unmarked employer/title fragments cannot reliably establish identity.
+The reversed employer cue `Лютик, менеджер` now redacts `Лютик`, as requested
+by #117. English `Worked at Romashka` now redacts the employer under #115.
 `зарплата 150 000 руб.` and `Salary: 150000` also remain unchanged: salary is
 outside the native document rules. Supply `knownPersonal` or an additional
 recognizer when these fields must be removed. Initial/name rules do not cover
