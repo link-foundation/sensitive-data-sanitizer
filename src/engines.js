@@ -16,6 +16,8 @@ import {
 import { failure, internalFailure } from './detection.js';
 import { projectText } from './projection.js';
 import { decodedRuns } from './encoded.js';
+import { hasCustomTransforms } from './transforms.js';
+import { builtInEnabled } from './policy.js';
 import {
   initializePlaceholders,
   placeholderKnown,
@@ -70,7 +72,8 @@ async function secretlintDetect(text) {
   }));
 }
 
-async function detect(engine, text, limit) {
+const secretlintEngine = { detect: secretlintDetect };
+async function detect(engine, text, limit, options) {
   try {
     const found = await engine.detect(text);
     if (!Array.isArray(found)) {
@@ -79,7 +82,12 @@ async function detect(engine, text, limit) {
     if (found.length > limit) {
       throw failure('ERR_LIMIT');
     }
-    return found.map((finding) => sanitizeFinding(finding, text.length));
+    return found
+      .map((finding) => sanitizeFinding(finding, text.length))
+      .filter(
+        (finding) =>
+          engine !== secretlintEngine || builtInEnabled(finding, options)
+      );
   } catch {
     throw failure('ERR_ENGINE');
   }
@@ -88,7 +96,7 @@ async function detect(engine, text, limit) {
 async function engineFindings(engine, projection, options, emit) {
   const limit = options.maxFindings ?? 100000;
   if (projection.changed) {
-    for (const f of await detect(engine, projection.text, limit)) {
+    for (const f of await detect(engine, projection.text, limit, options)) {
       emit({
         ...f,
         start: projection.starts[f.start],
@@ -106,7 +114,7 @@ async function engineFindings(engine, projection, options, emit) {
     const view = projectText(run.text).text;
     const decoded = markFake(
       view,
-      await detect(engine, view, limit),
+      await detect(engine, view, limit, options),
       options
     ).filter((f) => actionable(f, options));
     if (!decoded.length) {
@@ -120,6 +128,28 @@ async function engineFindings(engine, projection, options, emit) {
         ? 'credential'
         : 'personal',
       rule: 'encoded-engine',
+    });
+  }
+}
+
+async function collectEngineFindings(text, engines, options, emit) {
+  const projection = engines.length ? projectText(text) : undefined;
+  for (const engine of engines) {
+    if (engine !== secretlintEngine && !options.detectors?.includes(engine)) {
+      continue;
+    }
+    for (const finding of await detect(
+      engine,
+      text,
+      options.maxFindings ?? 100000,
+      options
+    )) {
+      emit(finding);
+    }
+    await engineFindings(engine, projection, options, (finding) => {
+      if (builtInEnabled(finding, options)) {
+        emit(finding);
+      }
     });
   }
 }
@@ -142,6 +172,7 @@ async function analyzeStructured(
         true,
         {
           ...options,
+          detectors: [],
           properNames: undefined,
           documentEntities: options.properNames
             ? false
@@ -199,9 +230,7 @@ export function createSanitizer(options = {}) {
     }
   }
   const engines =
-    options.secretlint === false || options.knownOnly
-      ? []
-      : [{ detect: secretlintDetect }];
+    options.secretlint === false || options.knownOnly ? [] : [secretlintEngine];
   if (!options.knownOnly) {
     engines.push(...(options.detectors ?? []));
   }
@@ -230,20 +259,15 @@ export function createSanitizer(options = {}) {
     }
     // Native inspection performs its own normalization. Additional views are
     // needed here only when a required external engine is enabled.
-    const projection = engines.length ? projectText(text) : undefined;
-    for (const engine of engines) {
-      for (const finding of await detect(
-        engine,
-        text,
-        options.maxFindings ?? 100000
-      )) {
-        emit(finding);
-      }
-      await engineFindings(engine, projection, options, emit);
-    }
+    await collectEngineFindings(text, engines, options, emit);
     const detected =
       nativeFindings === undefined
-        ? inspect(text, { ...options, structured: undefined, findings })
+        ? inspect(text, {
+            ...options,
+            structured: undefined,
+            detectors: [],
+            findings,
+          })
         : reviewFindings(text, [...nativeFindings, ...findings], options);
     return options.verifyPublic
       ? verifyFindings(text, detected, options.verifyPublic)
@@ -297,16 +321,17 @@ export function createSanitizer(options = {}) {
       findings,
       fullRedaction ? fullOptions : options,
       (decoded, recursiveOptions) =>
-        depth < 2
-          ? sanitizeText(
-              decoded,
-              depth + 1,
-              fullRedaction,
-              true,
-              recursiveOptions
-            )
-          : Promise.resolve({ text: '[REDACTED]' })
+        sanitizeNested(
+          sanitizeText,
+          decoded,
+          depth,
+          fullRedaction,
+          recursiveOptions
+        )
     );
+    if (await customResidual(result.text, options, plain, analyze)) {
+      throw failure('ERR_RESIDUAL');
+    }
     const sanitized = fullRedaction
       ? result.text
       : (
@@ -315,9 +340,13 @@ export function createSanitizer(options = {}) {
             findings,
             fullOptions,
             (decoded, recursiveOptions) =>
-              depth < 2
-                ? sanitizeText(decoded, depth + 1, true, true, recursiveOptions)
-                : Promise.resolve({ text: '[REDACTED]' })
+              sanitizeNested(
+                sanitizeText,
+                decoded,
+                depth,
+                true,
+                recursiveOptions
+              )
           )
         ).text;
     // Verification at the publication boundary runs every enabled engine.
@@ -330,14 +359,20 @@ export function createSanitizer(options = {}) {
         sanitizeText(result.text, depth, fullRedaction, plain, next, nextRound)
       );
     }
-    if (options.structured && !plain) {
-      verifyStructured(result.text, options);
-    }
+    verifyStructuredResult(result.text, options, plain);
     if (await placeholderResidual(result.text, options, plain, analyze)) {
       throw failure('ERR_RESIDUAL');
     }
     return { ...result, findings: auditFaked(findings, options, result) };
   }
+}
+async function customResidual(text, options, plain, analyze) {
+  return (
+    hasCustomTransforms(options) &&
+    (await analyze(text, [], plain, options)).some((f) =>
+      actionable(f, options)
+    )
+  );
 }
 
 function guarded(callback, cleanup = () => {}) {
@@ -408,4 +443,16 @@ async function verifyFindings(text, findings, verifier) {
     }
   }
   return retained;
+}
+
+function sanitizeNested(sanitizeText, decoded, depth, fullRedaction, options) {
+  return depth < 2
+    ? sanitizeText(decoded, depth + 1, fullRedaction, true, options)
+    : Promise.resolve({ text: '[REDACTED]' });
+}
+
+function verifyStructuredResult(text, options, plain) {
+  if (options.structured && !plain) {
+    verifyStructured(text, options);
+  }
 }

@@ -1,6 +1,8 @@
 import { failure } from './detection.js';
-import { documentFieldType, normalizeFieldName } from './document-fields.js';
+import { documentFieldType } from './document-fields.js';
 import { hasPlaceholders } from './placeholders.js';
+import { scanField, fieldMatches, builtInEnabled } from './policy.js';
+import { vocabularyField } from './vocabulary.js';
 
 // Session metadata is opt-in at the CLI; library callers choose their own
 // fields. These names do not grant exemptions to provider/known credentials.
@@ -35,28 +37,45 @@ function* lexemes(text) {
   }
 }
 
+const fieldPath = (frame) => [
+  ...frame.path,
+  frame.array ? String(frame.index) : frame.field,
+];
+function stringToken(match, frame, offset) {
+  const key = match.key,
+    value = JSON.parse(match.raw);
+  if (key) {
+    frame.field = value;
+  }
+  return {
+    raw: match.raw,
+    start: offset + match.index,
+    field: key ? '' : frame.field,
+    property: key ? value : undefined,
+    path: fieldPath(frame),
+    key,
+  };
+}
 function tokens(text, offset = 0) {
   const strings = [];
-  const stack = [{ field: '' }];
+  const stack = [{ field: '', path: [], index: 0, array: false }];
   for (const match of lexemes(text)) {
     const raw = match.raw,
       frame = stack.at(-1);
     if (raw[0] === '"') {
-      const key = match.key;
-      const value = JSON.parse(raw);
-      if (key) {
-        frame.field = value;
-      }
-      strings.push({
-        raw,
-        start: offset + match.index,
-        field: key ? '' : frame.field,
-        key,
-      });
+      strings.push(stringToken(match, frame, offset));
     } else if (raw === '{' || raw === '[') {
-      stack.push({ field: frame.field });
+      const path = stack.length === 1 ? [] : fieldPath(frame);
+      stack.push({
+        field: raw === '[' ? frame.field : '',
+        path,
+        array: raw === '[',
+        index: 0,
+      });
     } else if (raw === '}' || raw === ']') {
       stack.pop();
+    } else if (raw === ',' && frame.array) {
+      frame.index++;
     }
   }
   return strings;
@@ -116,29 +135,47 @@ export function structuredBatches(text, options) {
 }
 
 // Schema declarations take priority over metadata/public/fake heuristics.
+function configuredFieldType(field, options) {
+  if (!options.documentEntities || scanField(field, options)) {
+    return undefined;
+  }
+  const personal = vocabularyField(field, options),
+    builtin = documentFieldType(field);
+  if (personal === true) {
+    return 'PERSON';
+  }
+  return personal === false && builtin === 'PERSON' ? undefined : builtin;
+}
 export function structuredFieldFindings(batch, options) {
   return batch.entries.flatMap((entry) => {
-    const type = options.documentEntities
-      ? documentFieldType(entry.field)
-      : undefined;
+    const type = configuredFieldType(entry.field, options);
+    const denied =
+      options.allowedFields !== undefined &&
+      !entry.key &&
+      !fieldMatches(
+        options.allowedFields,
+        entry.field,
+        entry.path,
+        options.exactFields
+      );
     if (
       entry.key ||
-      !type ||
-      entry.raw.length <= 2 ||
+      (!type && !denied) ||
+      (!denied && entry.raw.length <= 2) ||
       JSON.parse(entry.raw) === '[REDACTED]'
     ) {
       return [];
     }
     return [
       {
-        start: entry.start + 1,
-        end: entry.start + entry.raw.length - 1,
-        type,
+        start: entry.start + (denied ? 0 : 1),
+        end: entry.start + entry.raw.length - (denied ? 0 : 1),
+        type: denied ? 'JSON_VALUE' : type,
         category: 'personal',
         rule: 'known-personal',
         confidence: 1,
       },
-    ];
+    ].filter((finding) => denied || builtInEnabled(finding, options));
   });
 }
 
@@ -152,8 +189,19 @@ export function structuredValueRanges(text, options) {
       }))
   );
 }
+export function structuredStringRanges(text) {
+  return [...lexemes(text)]
+    .filter((entry) => entry.raw[0] === '"')
+    .map((entry) => ({
+      start: entry.index + 1,
+      end: entry.index + entry.raw.length - 1,
+    }));
+}
 
 function weakStructuralFinding(finding, entry, batchText) {
+  if (finding.rule.startsWith('strict-')) {
+    return true;
+  }
   if (
     ['known-secret', 'known-personal', 'confirmed-personal'].includes(
       finding.rule
@@ -227,6 +275,13 @@ export function preserveIdentifierKeys(text, findings, options) {
   });
 }
 function preserveStructuredEntry(entry, finding, text, options) {
+  if (
+    !entry.key &&
+    scanField(entry.field, options) &&
+    (finding.rule === 'label' || finding.rule.startsWith('catalog/'))
+  ) {
+    return finding.category === 'personal';
+  }
   if (options.properNames && ordinaryPersonalKey(entry, finding, options)) {
     return true;
   }
@@ -407,32 +462,41 @@ export function declaredFieldFindings(text, options) {
   if (!options.sensitiveFields?.length) {
     return [];
   }
-  const fields = new Set(options.sensitiveFields.map(normalizeFieldName));
   const findings = [];
-  for (const token of lexemes(text)) {
-    if (
-      token.index < (findings.at(-1)?.end ?? 0) ||
-      !token.key ||
-      !fields.has(normalizeFieldName(JSON.parse(token.raw)))
-    ) {
-      continue;
+  const records = options.structured === 'jsonl' ? text.split('\n') : [text];
+  let offset = 0;
+  for (const record of records) {
+    for (const token of tokens(record, offset)) {
+      if (
+        token.start < (findings.at(-1)?.end ?? 0) ||
+        !token.key ||
+        !fieldMatches(
+          options.sensitiveFields,
+          token.property,
+          [...token.path.slice(0, -1), token.property],
+          options.exactFields
+        )
+      ) {
+        continue;
+      }
+      let start = token.start + token.raw.length;
+      while (/[\s:]/.test(text[start] ?? '') && start < text.length) {
+        start++;
+      }
+      const end = jsonValueEnd(text, start);
+      if (text.slice(start, end) === '"[REDACTED]"') {
+        continue;
+      }
+      findings.push({
+        start,
+        end,
+        type: 'JSON_VALUE',
+        category: 'personal',
+        rule: 'known-personal',
+        confidence: 1,
+      });
     }
-    let start = token.index + token.raw.length;
-    while (/[\s:]/.test(text[start] ?? '') && start < text.length) {
-      start++;
-    }
-    const end = jsonValueEnd(text, start);
-    if (text.slice(start, end) === '"[REDACTED]"') {
-      continue;
-    }
-    findings.push({
-      start,
-      end,
-      type: 'JSON_VALUE',
-      category: 'personal',
-      rule: 'known-personal',
-      confidence: 1,
-    });
+    offset += record.length + 1;
   }
   return findings;
 }

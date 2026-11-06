@@ -6,6 +6,8 @@ import { documentDateRange as range } from './document-dates.js';
 import { detectDocumentExtras } from './document-extras.js';
 import { detectDocumentPatterns } from './document-patterns.js';
 import { isDocumentTechnology } from './document-experience.js';
+import { detectVocabulary } from './vocabulary.js';
+import { detectDocumentCatalog } from './document-catalog.js';
 
 const words = (column) =>
   [...new Set(documentVocabulary.flatMap((row) => row[column].split('|')))]
@@ -79,8 +81,10 @@ export function detectDocumentEntities(text, emit, options) {
   if (!options.documentEntities) {
     return;
   }
+  detectVocabulary(text, emit, options);
+  detectDocumentCatalog(text, emit);
   detectDocumentPatterns(text, emit);
-  detectDocumentExtras(text, emit, range, options.debug);
+  detectDocumentExtras(text, emit, range, options.debug, options);
   collectMatches(
     text,
     new RegExp(
@@ -120,7 +124,9 @@ export function detectDocumentEntities(text, emit, options) {
       capture,
       { type, rule, category: 'personal', confidence },
       group,
-      (value) => type !== 'ORGANIZATION' || !isDocumentTechnology(value)
+      (value) =>
+        type !== 'ORGANIZATION' ||
+        (!isDocumentTechnology(value) && value !== 'ОГРНИП')
     );
   }
   for (const match of text.matchAll(ruResidence)) {

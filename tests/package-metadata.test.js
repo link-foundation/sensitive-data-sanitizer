@@ -124,6 +124,8 @@ describe('publishable package metadata', () => {
       'examples/shared-tool-logs.mjs',
       'examples/reversible-placeholders.mjs',
       'examples/prose-logs.mjs',
+      'docs/RULES.md',
+      'examples/custom-log-policy.mjs',
     ]);
   });
 });

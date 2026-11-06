@@ -3,7 +3,7 @@ import { Worker } from 'node:worker_threads';
 import { URL } from 'node:url';
 import { failure } from './detection.js';
 import { encodingFailure } from './utf8.js';
-import { workerExecArgv } from './worker-options.js';
+import { workerExecArgv, hasWorkerCallbacks } from './worker-options.js';
 import { prepareStreamEngine } from './engines.js';
 import { inspect } from './sanitizer.js';
 import { hasPlaceholders } from './placeholders.js';
@@ -129,10 +129,7 @@ function workerCount(options, config) {
     return 1;
   }
   const callbacks =
-    options.sanitizer ||
-    config.sanitizerOptions.debug ||
-    config.sanitizerOptions.verifyPublic ||
-    config.sanitizerOptions.detectors?.length;
+    options.sanitizer || hasWorkerCallbacks(config.sanitizerOptions);
   const count =
     options.workers ?? (callbacks || typeof Deno !== 'undefined' ? 1 : 2);
   if (

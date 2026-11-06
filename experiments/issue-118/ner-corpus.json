@@ -1,0 +1,194 @@
+[
+  {
+    "language": "ru",
+    "text": "Работал в Ромашке менеджером.",
+    "entities": [["ORGANIZATION", "Ромашке"]],
+    "acceptance": true
+  },
+  {
+    "language": "ru",
+    "text": "Ромашка: менеджер, 3 года.",
+    "entities": [["ORGANIZATION", "Ромашка"]],
+    "acceptance": true
+  },
+  {
+    "language": "en",
+    "text": "Worked at Romashka for three years.",
+    "entities": [["ORGANIZATION", "Romashka"]],
+    "acceptance": true
+  },
+  {
+    "language": "en",
+    "text": "at Romashka",
+    "entities": [["ORGANIZATION", "Romashka"]],
+    "acceptance": true
+  },
+  {
+    "language": "en",
+    "text": "graduated from MSU",
+    "entities": [["EDUCATION", "MSU"]],
+    "acceptance": true
+  },
+  {
+    "language": "en",
+    "text": "MIT, 2012",
+    "entities": [["EDUCATION", "MIT"]],
+    "acceptance": true
+  },
+  {
+    "language": "ru",
+    "text": "Анна",
+    "entities": [["PERSON", "Анна"]],
+    "acceptance": true
+  },
+  {
+    "language": "ru",
+    "text": "Сергей",
+    "entities": [["PERSON", "Сергей"]],
+    "acceptance": true
+  },
+  {
+    "language": "en",
+    "text": "John",
+    "entities": [["PERSON", "John"]],
+    "acceptance": true
+  },
+  {
+    "language": "en",
+    "text": "Alice Brown",
+    "entities": [["PERSON", "Alice Brown"]],
+    "acceptance": true
+  },
+  {
+    "language": "ru",
+    "text": "МФТИ",
+    "entities": [["EDUCATION", "МФТИ"]],
+    "acceptance": true
+  },
+  {
+    "language": "ru",
+    "text": "ИТМО",
+    "entities": [["EDUCATION", "ИТМО"]],
+    "acceptance": true
+  },
+  {
+    "language": "ru",
+    "text": "Москва",
+    "entities": [["LOCATION", "Москва"]],
+    "acceptance": true
+  },
+  {
+    "language": "ru",
+    "text": "Живу в Твери",
+    "entities": [["LOCATION", "Твери"]],
+    "acceptance": true
+  },
+  {
+    "language": "en",
+    "text": "London",
+    "entities": [["LOCATION", "London"]],
+    "acceptance": true
+  },
+  {
+    "language": "en",
+    "text": "Based in Portland",
+    "entities": [["LOCATION", "Portland"]],
+    "acceptance": true
+  },
+  {
+    "language": "ru",
+    "text": "Использовал Kubernetes и PostgreSQL",
+    "entities": [],
+    "acceptance": true
+  },
+  {
+    "language": "ru",
+    "text": "Встреча в понедельник",
+    "entities": [],
+    "acceptance": true
+  },
+  {
+    "language": "en",
+    "text": "Connection to Postgres lost, retrying",
+    "entities": [],
+    "acceptance": true
+  },
+  {
+    "language": "en",
+    "text": "at parse (/srv/app/dist/a.js:10:3)",
+    "entities": [],
+    "acceptance": true
+  },
+  {
+    "language": "en",
+    "text": "Worked at Kubernetes for three years.",
+    "entities": [],
+    "acceptance": true
+  },
+  {
+    "language": "en",
+    "text": "Will retry on Monday",
+    "entities": [],
+    "acceptance": true
+  },
+  {
+    "language": "en",
+    "text": "request took 100 ms",
+    "entities": [],
+    "acceptance": true
+  },
+  {
+    "language": "ru",
+    "text": "Группа разработки выросла",
+    "entities": [],
+    "acceptance": true
+  },
+  {
+    "language": "ru",
+    "text": "Смирновой",
+    "entities": [["PERSON", "Смирновой"]],
+    "acceptance": false
+  },
+  {
+    "language": "en",
+    "text": "Zephyr Quill",
+    "entities": [["PERSON", "Zephyr Quill"]],
+    "acceptance": false
+  },
+  {
+    "language": "ru",
+    "text": "Астер открыла офис",
+    "entities": [["ORGANIZATION", "Астер"]],
+    "acceptance": false
+  },
+  {
+    "language": "en",
+    "text": "Asterion expanded rapidly",
+    "entities": [["ORGANIZATION", "Asterion"]],
+    "acceptance": false
+  },
+  {
+    "language": "ru",
+    "text": "СОШ-123",
+    "entities": [["EDUCATION", "СОШ-123"]],
+    "acceptance": false
+  },
+  {
+    "language": "en",
+    "text": "ETHZ",
+    "entities": [["EDUCATION", "ETHZ"]],
+    "acceptance": false
+  },
+  {
+    "language": "ru",
+    "text": "Твери",
+    "entities": [["LOCATION", "Твери"]],
+    "acceptance": false
+  },
+  {
+    "language": "en",
+    "text": "Reykjavik",
+    "entities": [["LOCATION", "Reykjavik"]],
+    "acceptance": false
+  }
+]

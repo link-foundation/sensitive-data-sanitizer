@@ -21,7 +21,20 @@ export interface Finding {
 export interface PersonalValue {
   type: string;
   value: string;
+  properCase?: boolean;
 }
+export type VocabularyList =
+  readonly string[] | { values: readonly string[]; replace: true };
+export type Vocabulary = Partial<
+  Record<
+    | 'roles'
+    | 'organizationCues'
+    | 'educationCues'
+    | 'personalLabels'
+    | 'personalFields',
+    VocabularyList
+  >
+>;
 export interface PublicEntity {
   type: 'PERSON' | 'ORGANIZATION' | 'EDUCATION' | 'LOCATION' | 'EMAIL';
   value: string;
@@ -38,18 +51,28 @@ export interface Detector {
 export interface SanitizerOptions {
   /** Preserve all personal/account data; credential findings still redact. */
   credentialsOnly?: boolean;
-  /** Replace only knownPersonal/knownSecrets and reused map values; skip automatic detectors. */
+  /** Use explicit findings, knownPersonal/knownSecrets and reused map values; skip automatic detectors. */
   knownOnly?: boolean;
   profile?: 'publication' | 'documents';
   /** Opt in to bounded employer, school, city/region heuristics. */
   documentEntities?: boolean;
+  /** Opt-in aggressive stored-log attributes, ages, dates and numeric shapes. */
+  strict?: boolean;
+  vocabulary?: Vocabulary;
+  /** Stable ids from builtInRules. Unknown ids fail with ERR_CONFIG. */
+  rules?: Record<string, boolean>;
+  types?: Record<string, boolean>;
+  /** Required to disable any built-in credential rule or type. */
+  allowCredentialDisable?: boolean;
+  /** Treat a built-in property as ordinary scanned text. */
+  fields?: Record<string, 'scan'>;
   /** Aggressive structural proper names in prose values; opt-in, off by default. */
   properNames?: 'capitalized';
   /** Unicode Script aliases that activate prose detection; default ['Cyrillic']. */
   scripts?: string[];
   confirmedPersonal?: Array<{ value: string; type: string }>;
   knownSecrets?: string[];
-  knownPersonal?: PersonalValue[];
+  knownPersonal?: readonly PersonalValue[];
   publicEntities?: PublicEntity[];
   /** Built-in exact public entities/resolvers and role mail on known domains. */
   publicKnowledge?: boolean;
@@ -67,8 +90,12 @@ export interface SanitizerOptions {
   structured?: 'json' | 'jsonl';
   /** Property names whose metadata heuristics may be suppressed. */
   structuralFields?: string[];
-  /** Property names normalized across case/underscores/hyphens; entire JSON/JSONL values redact. */
+  /** Normalized property names or dotted paths with *; entire JSON/JSONL values redact. */
   sensitiveFields?: string[];
+  /** Match sensitiveFields/allowedFields with exact case and punctuation. */
+  exactFields?: boolean;
+  /** Only these string leaves remain eligible to keep; listed strings are still scanned. */
+  allowedFields?: string[];
   /** Personal replacement threshold, default 0.5. Inspect retains lower scores. */
   minConfidence?: number;
   /** Alias for minConfidence; specifying both requires equal values. */
@@ -84,7 +111,7 @@ export interface SanitizerOptions {
   maxInputLength?: number;
   maxFindings?: number;
   debug?: (event: DebugEvent) => void;
-  /** Used by createSanitizer; synchronous functions use native rules only. */
+  /** Required callbacks; synchronous functions reject Promise-returning detectors. */
   detectors?: Detector[];
   /** Required by default in createSanitizer. */
   secretlint?: boolean;
@@ -111,6 +138,22 @@ export interface Sanitizer {
   inspect(text: string): Promise<Finding[]>;
   sanitize(text: string): Promise<SanitizedText>;
 }
+export interface SyncSanitizer {
+  inspect(text: string): Finding[];
+  sanitize(text: string): SanitizedText;
+}
+export declare function createSyncSanitizer(
+  options?: SanitizerOptions
+): SyncSanitizer;
+/** Copies and freezes caller values, merging lists and caching matching/projection. */
+export declare function compileKnown(
+  ...lists: Array<readonly PersonalValue[]>
+): readonly PersonalValue[];
+export declare const builtInRules: readonly string[];
+export declare const defaultVocabulary: Readonly<
+  Record<keyof Vocabulary, readonly string[]>
+>;
+export declare const documentVocabulary: readonly (readonly string[])[];
 export interface JsonlSanitizer extends Sanitizer {
   sanitizeJsonl(text: string): Promise<SanitizedText>;
 }
@@ -229,7 +272,12 @@ export declare function auditGitHistory(
     maxTotalBytes?: number;
   }
 ): Promise<HistoryAudit>;
+/** Callback receives private matched data. Sync APIs require an immediate string. */
+export type TransformationCallback = (
+  finding: Readonly<Finding & { value: string }>
+) => string | Promise<string>;
 export type Transformation =
+  | TransformationCallback
   | { mode: 'redact' | 'hive-mask' }
   | {
       mode: 'placeholder';

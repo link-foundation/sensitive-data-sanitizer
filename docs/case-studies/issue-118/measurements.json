@@ -1,0 +1,83 @@
+{
+  "environment": {
+    "node": "v26.13.0",
+    "arch": "x64",
+    "platform": "linux",
+    "inputBytes": 1024,
+    "rounds": 5
+  },
+  "compiledKnown": {
+    "entries": 500,
+    "baselineMs": 2.795213799999995,
+    "compiledMs": 3.295817266666654,
+    "plainMs": 8.561377400000037,
+    "singleMatchingPassMs": 0.7317961599999944,
+    "metadataBaselineMs": 0.004160860000001776,
+    "metadataCompiledMs": 0.0035569399999985764,
+    "metadataOverheadFractionOfBaseline": 0
+  },
+  "ner": {
+    "corpusRows": 32,
+    "exactSpanScores": {
+      "ru/PERSON": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1,
+        "recall": 0.6666666666666666
+      },
+      "ru/ORGANIZATION": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1,
+        "recall": 0.6666666666666666
+      },
+      "ru/EDUCATION": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1,
+        "recall": 0.6666666666666666
+      },
+      "ru/LOCATION": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1,
+        "recall": 0.6666666666666666
+      },
+      "en/PERSON": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1,
+        "recall": 0.6666666666666666
+      },
+      "en/ORGANIZATION": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1,
+        "recall": 0.6666666666666666
+      },
+      "en/EDUCATION": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1,
+        "recall": 0.6666666666666666
+      },
+      "en/LOCATION": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1,
+        "recall": 0.6666666666666666
+      }
+    },
+    "loadMs": 48.57391699999994,
+    "detectionMsPerKiB": 0.043417319999998656,
+    "notes": "All corpus rows including challenge misses; exact type and UTF-16 span. Synthetic finite test, not an estimate for arbitrary documents."
+  }
+}

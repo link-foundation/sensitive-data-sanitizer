@@ -1,3 +1,5 @@
+import { compiledVocabulary } from './vocabulary.js';
+
 const technology = new Set(
   [
     'Python',
@@ -45,7 +47,7 @@ function commaParts(text) {
   return parts;
 }
 
-function employerSpan(prefix) {
+function employerSpan(prefix, roles) {
   // An industry suffix belongs to the entry, but is not an employer. A pipe
   // before the title remains a section separator, as in `Опыт | Менеджер, ...`.
   const comma = prefix.indexOf(',');
@@ -59,7 +61,7 @@ function employerSpan(prefix) {
   if (/^[=\s\d]/u.test(parts[0].text)) {
     index++;
   }
-  if (parts.length === 2 && reversedRole.test(parts[1].text)) {
+  if (parts.length === 2 && roles.test(parts[1].text)) {
     index = 0;
   } else {
     while (index < parts.length - 1 && /^\p{Ll}/u.test(parts[index].text)) {
@@ -77,7 +79,7 @@ function employerSpan(prefix) {
     : { start, end };
 }
 
-export function detectDatedEmployers(text, emit, range, debug) {
+export function detectDatedEmployers(text, emit, range, debug, options = {}) {
   let cursor = 0,
     count = 0;
   // Match only the anchor, then visit each preceding segment once. No lazy
@@ -91,7 +93,10 @@ export function detectDatedEmployers(text, emit, range, debug) {
         segment.lastIndexOf(';')
       ) + 1;
     const prefix = segment.slice(boundary).replace(/^[., \t]+/u, '');
-    const span = employerSpan(prefix);
+    const span = employerSpan(
+      prefix,
+      compiledVocabulary(options.vocabulary)?.roles ?? reversedRole
+    );
     if (span) {
       const offset = match.index - prefix.length;
       emit({

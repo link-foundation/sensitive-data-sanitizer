@@ -18,7 +18,7 @@ const duration = new RegExp(
   `(?<!${boundary})(${name})(?=[ \\t]*\\(\\d{1,2}[ \\t]+(?:год|года|лет|years?)\\))`,
   'gu'
 );
-export function detectDocumentExtras(text, emit, range, debug) {
+export function detectDocumentExtras(text, emit, range, debug, options) {
   for (const [type, rule, pattern, group] of [
     ['PHONE', 'document-mobile-bare', /^[78]9\d{9}$/gm, 0],
     [
@@ -128,7 +128,7 @@ export function detectDocumentExtras(text, emit, range, debug) {
     isDocumentShareLink
   );
   detectEmployerContinuation(text, emit);
-  detectDatedEmployers(text, emit, range, debug);
+  detectDatedEmployers(text, emit, range, debug, options);
 }
 
 function detectEmployerContinuation(text, emit) {

@@ -1,4 +1,8 @@
 import { generatedValues } from './fake.js';
+import { isCompiledKnown, projectedKnown } from './compiled-known.js';
+import { detectSync, validateDetectors } from './sync-detectors.js';
+import { validatePolicyControls, builtInEnabled } from './policy.js';
+import { compiledVocabulary } from './vocabulary.js';
 import { validateProperNames } from './proper-names.js';
 import { prepareFakeText } from './fake-entities.js';
 import { alignEscapes } from './escape-spans.js';
@@ -16,7 +20,12 @@ import { projectText } from './projection.js';
 import { decodedRuns, encodeRun, encodedValue } from './encoded.js';
 import { URL } from 'node:url';
 import { isPublic } from './public.js';
-import { validateTransforms, renderReplacement } from './transforms.js';
+import {
+  validateTransforms,
+  renderReplacement,
+  hasCustomTransforms,
+  renderCallbackAsync,
+} from './transforms.js';
 import { fakeIdentityValue, isIdentityType } from './identity.js';
 import { rejectRestoreMap } from './restore-map.js';
 import {
@@ -38,6 +47,7 @@ import {
   mapStructuredFindings,
   preserveIdentifierKeys,
   structuredValueRanges,
+  structuredStringRanges,
   verifyStructured,
 } from './structured.js';
 
@@ -81,6 +91,14 @@ const optionNames = new Set([
   'documentEntities',
   'properNames',
   'scripts',
+  'rules',
+  'types',
+  'fields',
+  'allowCredentialDisable',
+  'vocabulary',
+  'strict',
+  'exactFields',
+  'allowedFields',
 ]);
 
 export function applyProfile(options = {}) {
@@ -108,6 +126,7 @@ function validateCollections(options) {
     'fakeValues',
     'structuralFields',
     'sensitiveFields',
+    'allowedFields',
   ]) {
     if (options[key] !== undefined && !Array.isArray(options[key])) {
       throw failure('ERR_CONFIG');
@@ -118,6 +137,7 @@ function validateCollections(options) {
     'fakeValues',
     'structuralFields',
     'sensitiveFields',
+    'allowedFields',
   ]) {
     if (
       (options[key] ?? []).some((value) => typeof value !== 'string' || !value)
@@ -126,7 +146,9 @@ function validateCollections(options) {
     }
   }
   for (const entry of [
-    ...(options.knownPersonal ?? []),
+    ...(isCompiledKnown(options.knownPersonal)
+      ? []
+      : (options.knownPersonal ?? [])),
     ...(options.confirmedPersonal ?? []),
   ]) {
     if (
@@ -203,6 +225,9 @@ export function validateOptions(options = {}) {
     throw failure('ERR_CONFIG');
   }
   validateCollections(options);
+  validateDetectors(options.detectors);
+  validatePolicyControls(options);
+  compiledVocabulary(options.vocabulary);
   validateTransforms(options);
   validateLimits(options);
   for (const entry of options.publicEntities ?? []) {
@@ -351,7 +376,12 @@ function encodedDetect(text, options, emit) {
     }
     const found = [];
     const view = projectText(run.text).text;
-    nativeDetect(view, options, (f) => found.push(f));
+    nativeDetect(view, options, (f) =>
+      found.push(sanitizeFinding(f, view.length))
+    );
+    detectSync(view, options, (f) =>
+      found.push(sanitizeFinding(f, view.length))
+    );
     const sensitive = reviewFindings(view, found, options).filter((f) =>
       actionable(f, options)
     );
@@ -414,6 +444,7 @@ function inspectText(text, options = {}) {
           ...options,
           structured: undefined,
           findings: [],
+          detectors: [],
           properNames: undefined,
           documentEntities: options.properNames
             ? false
@@ -449,10 +480,12 @@ function inspectText(text, options = {}) {
     knownSecrets: (options.knownSecrets ?? []).map(
       (value) => projectText(value).text
     ),
-    knownPersonal: (options.knownPersonal ?? []).map((entry) => ({
-      ...entry,
-      value: projectText(entry.value).text,
-    })),
+    knownPersonal:
+      projectedKnown(options.knownPersonal) ??
+      (options.knownPersonal ?? []).map((entry) => ({
+        ...entry,
+        value: projectText(entry.value).text,
+      })),
     confirmedPersonal: (options.confirmedPersonal ?? []).map((entry) => ({
       ...entry,
       value: projectText(entry.value).text,
@@ -470,9 +503,15 @@ function inspectText(text, options = {}) {
     );
   if (projection.changed) {
     nativeDetect(text, options, emit);
+    detectSync(text, options, emit);
   }
   nativeDetect(projection.text, nativeOptions, mapped);
-  encodedDetect(projection.text, nativeOptions, mapped);
+  detectSync(projection.text, nativeOptions, mapped);
+  encodedDetect(projection.text, nativeOptions, (finding) => {
+    if (builtInEnabled(finding, options)) {
+      mapped(finding);
+    }
+  });
   for (const f of options.findings ?? []) {
     emit(f);
   }
@@ -745,22 +784,28 @@ export function redactResult(
   const parts = [];
   const faked = [];
   const occurrences = [];
+  const jsonRanges = callbackStringRanges(text, options);
   let irreversibleRedactions = 0;
   let outputLength = 0;
   let cursor = 0;
   for (const span of spans) {
     const replacement =
       replacements.get(`${span.start}:${span.end}`) ??
-      renderReplacement(text, span, options, (decoded) =>
-        sanitize(
-          decoded,
-          nestedPlaceholderOptions({
-            ...confirmationOptions(text, findings, options),
-            findings: [],
-            preserveEncoding: true,
-            structured: undefined,
-          })
-        )
+      renderReplacement(
+        text,
+        span,
+        options,
+        (decoded) =>
+          sanitize(
+            decoded,
+            nestedPlaceholderOptions({
+              ...confirmationOptions(text, findings, options),
+              findings: [],
+              preserveEncoding: true,
+              structured: undefined,
+            })
+          ),
+        jsonRanges
       );
     parts.push(text.slice(cursor, span.start), replacement);
     outputLength += span.start - cursor;
@@ -812,6 +857,20 @@ function retainedReplacement(transform, mode, span, replacement) {
   );
 }
 
+function callbackStringRanges(text, options) {
+  return options.structured && hasCustomTransforms(options)
+    ? structuredStringRanges(text)
+    : undefined;
+}
+function isCallbackSpan(callback, span, run, options) {
+  return (
+    typeof callback === 'function' &&
+    span.type !== 'JSON_VALUE' &&
+    (span.type !== 'ENCODED_SENSITIVE' ||
+      (!options.preserveEncoding && run?.encoding !== 'json-content'))
+  );
+}
+
 export async function redactResultAsync(
   text,
   findings,
@@ -821,8 +880,22 @@ export async function redactResultAsync(
   options = initializePlaceholders(options);
   preparePlaceholderText(text, findings, options);
   const replacements = new Map();
+  const jsonRanges = callbackStringRanges(text, options);
   {
     for (const span of validatedSpans(text, findings, options)) {
+      const callback =
+        options.transformations?.[span.type] ?? options.transformation;
+      const run =
+        span.type === 'ENCODED_SENSITIVE'
+          ? encodedValue(text.slice(span.start, span.end))
+          : undefined;
+      if (isCallbackSpan(callback, span, run, options)) {
+        replacements.set(
+          `${span.start}:${span.end}`,
+          await renderCallbackAsync(text, span, callback, jsonRanges)
+        );
+        continue;
+      }
       if (span.type !== 'ENCODED_SENSITIVE') {
         if (hasPlaceholders(options)) {
           replacements.set(
@@ -832,7 +905,6 @@ export async function redactResultAsync(
         }
         continue;
       }
-      const run = encodedValue(text.slice(span.start, span.end));
       if (!run) {
         if (options.preserveEncoding) {
           throw failure('ERR_ENCODING');
@@ -872,6 +944,14 @@ function sanitizeText(text, options = {}, round = 0) {
   options = placeholderKnown(initializePlaceholders(options));
   const findings = inspect(text, options);
   const result = redactResult(text, findings, options);
+  if (
+    hasCustomTransforms(options) &&
+    inspect(result.text, { ...options, findings: [] }).some((f) =>
+      actionable(f, options)
+    )
+  ) {
+    throw failure('ERR_RESIDUAL');
+  }
   const sanitized = redactResult(text, findings, {
     ...options,
     transformation: undefined,

@@ -386,8 +386,7 @@ Company prose recognizes `компании «…»`, `опыт в`, `Роль в
 capitalized lists after those cues, `опыт (Company Name)`, and names followed
 by `(2 года)`/`(3 года)`-style durations. Arbitrary uncued company words remain
 ambiguous; synchronous callers can supply `knownPersonal` lists or precomputed
-`findings`. Custom `detectors` callbacks are still used by `createSanitizer`
-only. No model or network service is required for these native rules.
+`findings`. Array-returning custom `detectors` also run in synchronous methods; Promise-returning callbacks require `createSanitizer`. No model or network service is required for these native rules.
 
 `контакт:` and `пишите,` introduce domestic mobile numbers. A complete line
 consisting of an 11-digit `79…` or `89…` mobile shape is also sensitive. Arbitrary
@@ -448,3 +447,79 @@ classifies maximal tokens in fixed passes, avoiding repeated suffix searches on
 long unspaced input. This is not a latency guarantee for the whole pipeline.
 [The requirement inventory](case-studies/issue-106/README.md) records alternatives,
 research, regression evidence and reproducible bounded performance measurements.
+
+## Stored-log policy and expanded document catalog
+
+The documents profile now covers the exact positive/control rows of issues
+115 and 117: spaced/obfuscated contacts, Discord/MAX handles, additional
+personal-link routes, birthday/age cues, military/VIN identifiers, employer and
+school layouts, patronymics/initials/mixed scripts, complete street/house spans,
+regions, citizenship and plates. Regression tests compare complete text output
+and JSON/JSONL output in both engines. `ОГРНИП` without a value, operational logs,
+work durations, weekdays and technologies remain unchanged. Bare `Сергей`,
+`Смирнова`, `Смирновой`, `СПб`, `Питер` and `Вчера Анна написала` deliberately remain
+ambiguous without explicit known values, the optional recognizer or aggressive
+proper-name mode. Romashka Inc keeps its existing legal-form treatment.
+
+`strict: true` independently opts into personal attributes (gender, family,
+ethnicity, religion, health, criminal/political status) and bare dates, ages,
+passport/mobile/postal shapes. It is intended for stored personal prose and can
+remove ordinary uses of these words. It preserves ISO timestamps, work durations,
+unit-bearing request timings and `Дети: нет`. In JSON/JSONL, numeric primitives
+stay numeric, and `structuralFields` suppresses strict findings in declared
+string metadata. Credentials/known values still take priority. Strict is off by
+default and does not claim to identify every sensitive attribute or validate
+that every date/number belongs to a real person.
+
+## Optional offline recognition measurements
+
+The `/ner` entry uses the separately installed optional
+[NLP.js](https://github.com/axa-group/nlp.js) regex extractor, finite multilingual
+name/place dictionaries and bounded contextual rules. It has synchronous
+inference after `await createNerDetector(...)`. There is no analysis-time network,
+external service, Python process or model download. The core import graph never
+imports `/ner` or NLP.js, so the optional component has no runtime or loading cost
+when disabled. This is symbolic recognition, not general statistical NER; unknown
+cue-free surnames, schools, employers and locations can be missed.
+
+[Test set](../experiments/issue-118/ner-corpus.json): 32 synthetic sentences,
+including all six requested positives, eight benign controls and eight challenge
+misses. Exact type and UTF-16 start/end must all match. **All** rows, including
+challenge rows, contribute to these scores. Each language/type has two true
+positives, zero false positives and one false negative:
+
+| Language | Type         | Precision | Recall | TP / FP / FN |
+| -------- | ------------ | --------- | ------ | ------------ |
+| ru       | PERSON       | 100%      | 66.7%  | 2 / 0 / 1    |
+| ru       | ORGANIZATION | 100%      | 66.7%  | 2 / 0 / 1    |
+| ru       | EDUCATION    | 100%      | 66.7%  | 2 / 0 / 1    |
+| ru       | LOCATION     | 100%      | 66.7%  | 2 / 0 / 1    |
+| en       | PERSON       | 100%      | 66.7%  | 2 / 0 / 1    |
+| en       | ORGANIZATION | 100%      | 66.7%  | 2 / 0 / 1    |
+| en       | EDUCATION    | 100%      | 66.7%  | 2 / 0 / 1    |
+| en       | LOCATION     | 100%      | 66.7%  | 2 / 0 / 1    |
+
+These small authored regression scores do not estimate accuracy on arbitrary
+user documents. The test includes explicit misses such as `Zephyr Quill`,
+`Asterion expanded rapidly`, `ETHZ` and `Reykjavik` so dictionary limits remain
+visible. Acceptance rows also test both sanitizers and unchanged controls.
+
+On Node v26.13.0, Linux x64, five bounded groups, the median warm detector cost
+was **0.0434 ms per 1 KiB** of ASCII employer prose; module loading plus factory
+initialization took **48.6 ms** once. Cost excludes the sanitizer's other
+recognizers and varies with text and hardware. No latency guarantee is implied.
+
+## Compiled known-value measurements
+
+On the same host and 1 KiB operational record, median complete `sanitize` cost
+was **2.80 ms** without a list, **3.30 ms** with 500 compiled values and **8.56 ms**
+with a plain array. A direct 500-value matching pass cost **0.73 ms**. Validation
+cost was **0.00416 ms** without a list and **0.00356 ms** compiled (the difference
+is measurement noise), below the allowed 10% of the no-list call, excluding
+matching. Compilation skips per-record entry validation, normalization and regex
+construction; matching itself still scales with list length and pipeline passes.
+
+Reproduce with `node --max-old-space-size=384 experiments/issue-118/measure.mjs`.
+The [raw results](case-studies/issue-118/measurements.json) include environment,
+exact-span counts and measurement method. This fixed experiment uses no large
+corpus, unbounded input, parallel builds or external analysis service.
