@@ -27,6 +27,7 @@ runs:
       env:
         RUNNER_DEBUG: ${{ inputs.verbose == 'true' && '1' || env.RUNNER_DEBUG }}
       with:
+        version: v0.38.2
         driver-opts: image=${{ inputs.buildkit-image }}
 
     # The mirror must be the actual driver image: pre-seeding the canonical
@@ -37,4 +38,5 @@ runs:
       env:
         RUNNER_DEBUG: ${{ inputs.verbose == 'true' && '1' || env.RUNNER_DEBUG }}
       with:
+        version: v0.38.2
         driver-opts: image=${{ inputs.registry-mirror }}/${{ inputs.buildkit-image }}

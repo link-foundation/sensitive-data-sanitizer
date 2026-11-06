@@ -11,6 +11,8 @@ describe('upstream Buildx retries and registry fallback', () => {
   it('delegates both pulls and bootstrap to the same reviewed upstream release', () => {
     expect(canonical.uses).toBe('docker/setup-buildx-action@v4.4.1');
     expect(mirror.uses).toBe(canonical.uses);
+    expect(canonical.with.version).toBe('v0.38.2');
+    expect(mirror.with.version).toBe(canonical.with.version);
     expect(canonical.with['driver-opts']).toBe(
       'image=${{ inputs.buildkit-image }}'
     );
