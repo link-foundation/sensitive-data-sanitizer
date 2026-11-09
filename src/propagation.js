@@ -35,7 +35,8 @@ function eligibleSeed(finding, options) {
   return (
     !options.knownOnly &&
     finding.category === 'personal' &&
-    finding.type !== 'ENCODED_SENSITIVE' &&
+    // Whole JSON values include syntax; they cannot seed string-content spans.
+    !['ENCODED_SENSITIVE', 'JSON_VALUE'].includes(finding.type) &&
     ![
       'confirmed-personal',
       'document-propagation',

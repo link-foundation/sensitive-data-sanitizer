@@ -125,6 +125,19 @@ describe('issue 122 policy and format boundaries', () => {
     expect(createSyncSanitizer(config).sanitize(source).text).toBe(target);
     expect((await createSanitizer(config).sanitize(source)).text).toBe(target);
   });
+  it('keeps whole numeric replacements from propagating into string contents', async () => {
+    for (const structured of ['json', 'jsonl']) {
+      const config = { ...options, structured };
+      const source =
+        '{"age":34,"count":34,"note":"34","birthYear":1991,"year":1991}';
+      const target =
+        '{"age":"[REDACTED]","count":34,"note":"34","birthYear":"[REDACTED]","year":1991}';
+      expect(createSyncSanitizer(config).sanitize(source).text).toBe(target);
+      expect((await createSanitizer(config).sanitize(source)).text).toBe(
+        target
+      );
+    }
+  });
   it('keeps ambiguous fields and missing numeric values', () => {
     const input =
       '{"name":"Petrov","jobName":"Build","productName":"Widget","age":null,"birthYear":null,"count":34}';

@@ -27,8 +27,8 @@ node --max-old-space-size=384 --test --test-concurrency=1 --test-timeout=30000 t
 
 The initial 66-case suite failed 60 tests on `28b6611`; only the six English
 preservation controls passed. With the implementation, the expanded suite passes
-74/74. The combined issue-118 API, issue-120, issue-122 and structural prose
-integration suites pass 173 tests. These cover both engines, worker/CLI/stream
+75/75. The combined issue-118 API, issue-120, issue-122 and structural prose
+integration suites pass 174 tests. These cover both engines, worker/CLI/stream
 compatibility, policy controls, escaped source offsets and repeated redaction.
 ESLint passes with zero warnings; modified files pass Prettier.
 Full platform/runtime and security validation is provided by the existing PR CI.
@@ -55,3 +55,9 @@ heading nouns Stage/Status/etc. are excluded. The `document-person-cue` rule and
 replacement `personalLabels` vocabulary can disable the built-in cue rule.
 No dependency or optional model is added. Existing value-free debug callbacks
 already report document/structured finding counts, and remain off by default.
+
+Self-review found that a whole numeric JSON replacement could seed propagation
+inside a separate string with the same digits, producing invalid JSON. Whole
+`JSON_VALUE` findings now stay structural and never seed content propagation.
+The `numeric-propagation.mjs` probe reproduces the boundary; the issue suite
+checks repeated ages/years in both numeric and string values in both engines.
