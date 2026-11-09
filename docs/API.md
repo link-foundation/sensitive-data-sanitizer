@@ -544,9 +544,11 @@ are case-sensitive runtime Unicode property aliases, not language codes.
 Inside activated values, the rule replaces words containing an uppercase letter
 anywhere (`iPhone`, `A.B`, `Санкт-Петербург`), typographic quoted spans (including
 lowercase `«ромашка лютик»`), links including `example.org/path`, and bare domestic
-mobile shapes. Labels immediately before a colon (also `Label :`), lowercase
-words, numbers, date ranges and path tokens stay. A path can still match existing
-personal-path or credential rules. Numeric primitives and JSON keys stay; string
+mobile shapes. Known Cyrillic labels before a colon (`Опыт:`, `Стаж:`,
+`Навыки:`) and non-Cyrillic labels (also `Label :`) stay. Unknown capitalized
+Cyrillic words such as `Ромашка: менеджер` are replaced before the colon.
+Lowercase words, numbers, date ranges and path tokens stay. A path can still match
+existing personal-path or credential rules. Numeric primitives and JSON keys stay; string
 escapes and surrounding source formatting are retained. JSON/JSONL activation
 also applies independently within serialized JSON strings, to the existing
 bounded decoding depth. Findings do not seed document-wide name propagation.
@@ -555,8 +557,10 @@ produces stable tokens and exact restoration; the existing placeholder-namespace
 collision checks still reject input that already contains typed placeholders.
 
 This is a structural heuristic, so capitalized ordinary words also disappear.
-Lowercase organizations and `Ромашка: менеджер` stay. English prose without a
-trigger (`Worked at Romashka for three years.`), isolated neutral-key values
+Lowercase organizations without employment context stay; the document rules
+replace a lowercase employer after `работал в` / `работала в`. Complete contact
+and identifier findings take priority over overlapping proper-name fragments.
+English prose without a trigger (`Worked at Romashka for three years.`), isolated neutral-key values
 `{"note":"Romashka"}` / `{"note":"1991-03-12"}`, and a personal website root
 without a trigger stay under this rule. The existing detectors and explicit
 known/sensitive-field policies still run: an unactivated value is byte-for-byte
@@ -567,7 +571,8 @@ The new scanner uses a fixed number of forward passes over maximal tokens,
 including long tokens without spaces. This does not impose a linear-time bound
 on optional external engines or every preexisting detection rule. Debugging is
 off by default; `debug` receives value-free `proper-name-prose` and
-`document-experience` hit counts when those scans run.
+`document-experience` hit counts when those scans run. `document-prose-overlap`
+reports complete-contact/identifier and suppressed broad-span counts.
 
 CLI equivalents: `--proper-names capitalized --scripts Cyrillic,Greek`.
 Configuration files accept the same `properNames` and `scripts` API options;

@@ -176,6 +176,7 @@ const proseCases = [
   ],
   ['Anna, 89161234567', '[REDACTED], [REDACTED]'],
   ['https://docs.example/d/x Anna', '[REDACTED] [REDACTED]'],
+  ['Ромашка: менеджер', '[REDACTED]: менеджер'],
   [
     'Worked at Romashka for three years.',
     'Worked at [REDACTED] for three years.',
@@ -188,7 +189,6 @@ const proseCases = [
     'Connection to Postgres lost, retrying',
     'order 89161234567 shipped',
     'Window Closed (2026-01-15T10:30:00.000Z)',
-    'Ромашка: менеджер',
     'https://anna-smirnova.example.org/',
     'ромашка работает',
     '1991-03-12',
