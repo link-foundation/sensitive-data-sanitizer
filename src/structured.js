@@ -459,7 +459,7 @@ function stringOffsets(raw) {
 // A caller-declared property replaces its entire JSON value, including containers
 // and primitives. Source token offsets preserve the surrounding record.
 export function declaredFieldFindings(text, options) {
-  if (!options.sensitiveFields?.length) {
+  if (!options.sensitiveFields?.length && !options.documentEntities) {
     return [];
   }
   const findings = [];
@@ -467,38 +467,59 @@ export function declaredFieldFindings(text, options) {
   let offset = 0;
   for (const record of records) {
     for (const token of tokens(record, offset)) {
-      if (
-        token.start < (findings.at(-1)?.end ?? 0) ||
-        !token.key ||
-        !fieldMatches(
-          options.sensitiveFields,
-          token.property,
-          [...token.path.slice(0, -1), token.property],
-          options.exactFields
-        )
-      ) {
+      if (token.start < (findings.at(-1)?.end ?? 0) || !token.key) {
         continue;
       }
-      let start = token.start + token.raw.length;
-      while (/[\s:]/.test(text[start] ?? '') && start < text.length) {
-        start++;
+      const finding = declaredValueFinding(text, token, options);
+      if (finding) {
+        findings.push(finding);
       }
-      const end = jsonValueEnd(text, start);
-      if (text.slice(start, end) === '"[REDACTED]"') {
-        continue;
-      }
-      findings.push({
-        start,
-        end,
-        type: 'JSON_VALUE',
-        category: 'personal',
-        rule: 'known-personal',
-        confidence: 1,
-      });
     }
     offset += record.length + 1;
   }
   return findings;
+}
+function declaredValueFinding(text, token, options) {
+  const declared = fieldMatches(
+    options.sensitiveFields,
+    token.property,
+    [...token.path.slice(0, -1), token.property],
+    options.exactFields
+  );
+  const type = configuredFieldType(token.property, options);
+  if (!declared && !['AGE', 'DATE_OF_BIRTH'].includes(type)) {
+    return undefined;
+  }
+  let start = token.start + token.raw.length;
+  while (/[\s:]/.test(text[start] ?? '') && start < text.length) {
+    start++;
+  }
+  const end = jsonValueEnd(text, start);
+  // Strings use structuredFieldFindings. Numeric personal attributes need
+  // a whole-value replacement so the resulting JSON stays valid.
+  if (
+    !declared &&
+    !(
+      /^-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?$/.test(text.slice(start, end)) &&
+      builtInEnabled(
+        { type, rule: 'known-personal', category: 'personal' },
+        options
+      )
+    )
+  ) {
+    return undefined;
+  }
+  if (text.slice(start, end) === '"[REDACTED]"') {
+    return undefined;
+  }
+  return {
+    start,
+    end,
+    type: 'JSON_VALUE',
+    category: 'personal',
+    rule: 'known-personal',
+    confidence: 1,
+  };
 }
 function jsonValueEnd(text, start) {
   let depth = 0,

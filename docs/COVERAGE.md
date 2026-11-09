@@ -363,7 +363,8 @@ alone cannot establish that the site belongs to a person.
 
 Structured document field aliases remove `_`/`-` and ignore case before matching
 this explicit vocabulary: `firstName`, `lastName`, `middleName`, `patronymic`,
-`birthday`, `birthDate`, `sex`, `citizenship`, `nationality`, `company`,
+`candidateName`, `displayName`, `fullName`, `originalFileName`,
+`age`, `birthYear`, `birthday`, `birthDate`, `sex`, `citizenship`, `nationality`, `company`,
 `companyName`, `employer`, `university`, `school`, `contact`, `resumeUrl`,
 `alternateUrl`, `profileUrl`, `companyUrl`. Their nonempty string values are
 sensitive in full, including ISO birth timestamps. Thus `first_name` and
@@ -372,8 +373,9 @@ schema assumptions: `contact` or `company` can hold operational data too.
 Existing native labels still apply. Unlisted URL-named fields have ordinary
 content detection; arbitrary names do not imply sensitivity. Declare them with
 [`sensitiveFields`](API.md#caller-declared-sensitive-fields) to replace complete
-values, including non-string values. Generic numeric primitives otherwise keep
-the existing type-preservation policy.
+values, including non-string values. Numeric `age` and `birthYear` values are replaced by the JSON string
+`"[REDACTED]"`; unrelated numeric primitives retain their types. Bare `name`,
+`jobName` and `productName` remain ambiguous and use content detection.
 
 Employer labels consume multi-word values to a comma or line/quote boundary.
 Dated CV entries additionally support compound titles, title parentheses/slashes,
@@ -535,3 +537,21 @@ Reproduce with `node --max-old-space-size=384 experiments/issue-118/measure.mjs`
 The [raw results](case-studies/issue-118/measurements.json) include environment,
 exact-span counts and measurement method. This fixed experiment uses no large
 corpus, unbounded input, parallel builds or external analysis service.
+
+## Single Latin names and Yandex Cloud credentials
+
+Document rules recognize a capitalized Latin name after `candidate`, `recruiter`,
+`applicant`, `Dear`, `Hi`, `Mr`/`Mr.`, `Ms`/`Ms.`, `Dr`/`Dr.`, or `message from`.
+Only the name is replaced; punctuation and the cue remain. These rules work
+without enabling Latin script matching. Finite generic heading nouns such as
+`Stage` and `Status` are preserved: `Candidate Stage changed` and
+`Request Failed: POST /api` stay unchanged. This is contextual recognition,
+not universal English NER; unknown cue-free single names can remain.
+Use `rules: { 'document-person-cue': false }` to disable this recognizer.
+
+Native credential detection recognizes bare Yandex Cloud API keys (`AQVN`),
+IAM tokens (`t1.` including optional base64 padding), static access key IDs
+(`YCAJE`) and static secrets (`YC`). These provider rules apply in every profile
+and do not require an assignment label. See the official
+[token grammar](https://yandex.cloud/en/docs/iam/concepts/authorization/iam-token)
+and [credential formats](https://yandex.cloud/en/docs/security/standard/authentication).

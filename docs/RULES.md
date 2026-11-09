@@ -47,6 +47,7 @@ Regenerate with `node experiments/issue-118/generate-rule-catalog.mjs`.
 - `document-mobile-context`
 - `document-msu`
 - `document-patronymic`
+- `document-person-cue`
 - `document-personal-path`
 - `document-phone`
 - `document-phone-label`
@@ -401,3 +402,4 @@ Regenerate with `node experiments/issue-118/generate-rule-catalog.mjs`.
 - `vocabulary-role`
 - `webhook`
 - `wordpress`
+- `yandex`

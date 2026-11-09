@@ -39,6 +39,7 @@ export const builtInRules = Object.freeze([
   'document-mobile-context',
   'document-msu',
   'document-patronymic',
+  'document-person-cue',
   'document-personal-path',
   'document-phone',
   'document-phone-label',
@@ -393,6 +394,7 @@ export const builtInRules = Object.freeze([
   'vocabulary-role',
   'webhook',
   'wordpress',
+  'yandex',
 ]);
 export const credentialRules = new Set([
   'anthropic',
@@ -666,4 +668,5 @@ export const credentialRules = new Set([
   'vercel',
   'webhook',
   'wordpress',
+  'yandex',
 ]);

@@ -40,7 +40,16 @@ export const defaultVocabulary = Object.freeze(
         'graduated from',
       ],
       personalLabels: ['соискатель', 'сотрудник', 'кандидат'],
-      personalFields: ['firstname', 'lastname', 'middlename', 'patronymic'],
+      personalFields: [
+        'firstname',
+        'lastname',
+        'middlename',
+        'patronymic',
+        'candidatename',
+        'displayname',
+        'fullname',
+        'originalfilename',
+      ],
     }).map(([key, values]) => [key, Object.freeze(values)])
   )
 );
