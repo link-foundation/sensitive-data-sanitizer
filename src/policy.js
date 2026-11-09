@@ -31,7 +31,7 @@ const vocabularyRules = {
     'education-type',
     'education-russian',
   ],
-  personalLabels: ['document-role'],
+  personalLabels: ['document-role', 'document-person-cue'],
 };
 export function validatePolicyControls(options) {
   for (const key of ['allowCredentialDisable', 'strict', 'exactFields']) {

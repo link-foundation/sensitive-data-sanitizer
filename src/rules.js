@@ -22,6 +22,11 @@ export const serviceRules = [
     'anthropic',
     /(?<![A-Za-z0-9_])sk-ant-(?:api\d{2}-)?[A-Za-z0-9_-]{16}[A-Za-z0-9_-]*/g,
   ],
+  // Yandex Cloud provider prefixes work without an assignment or auth label.
+  [
+    'yandex',
+    /(?<![A-Za-z0-9_-])(?:AQVN[A-Za-z0-9_-]{35,38}|YCAJE[A-Za-z0-9_-]{20}|YC[A-Za-z0-9_-]{38}|t1\.[A-Za-z0-9_-]+={0,2}\.[A-Za-z0-9_-]{86}={0,2})(?![A-Za-z0-9_=-])/g,
+  ],
   ['aws', /(?:AKIA|ASIA|A3T[A-Z0-9])[A-Z0-9]{16}/g],
   [
     'google',

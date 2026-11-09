@@ -1,7 +1,17 @@
 // One explicit field vocabulary; camelCase, snake_case and kebab-case normalize alike.
 const groups = {
-  PERSON: ['firstname', 'lastname', 'middlename', 'patronymic'],
-  DATE_OF_BIRTH: ['birthday', 'birthdate'],
+  PERSON: [
+    'firstname',
+    'lastname',
+    'middlename',
+    'patronymic',
+    'candidatename',
+    'displayname',
+    'fullname',
+    'originalfilename',
+  ],
+  AGE: ['age'],
+  DATE_OF_BIRTH: ['birthday', 'birthdate', 'birthyear'],
   GENDER: ['sex'],
   PERSONAL_ATTRIBUTE: ['citizenship', 'nationality'],
   ORGANIZATION: ['company', 'companyname', 'employer'],

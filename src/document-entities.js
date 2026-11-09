@@ -7,6 +7,7 @@ import { detectDocumentExtras } from './document-extras.js';
 import { detectDocumentPatterns } from './document-patterns.js';
 import { isDocumentTechnology } from './document-experience.js';
 import { detectVocabulary } from './vocabulary.js';
+import { detectDocumentPersonCues } from './document-person-cues.js';
 import { detectDocumentCatalog } from './document-catalog.js';
 
 const words = (column) =>
@@ -82,6 +83,7 @@ export function detectDocumentEntities(text, emit, options) {
     return;
   }
   detectVocabulary(text, emit, options);
+  detectDocumentPersonCues(text, emit);
   detectDocumentCatalog(text, emit);
   detectDocumentPatterns(text, emit);
   detectDocumentExtras(text, emit, range, options.debug, options);
