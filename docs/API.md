@@ -547,8 +547,8 @@ lowercase `«ромашка лютик»`), links including `example.org/path`, 
 mobile shapes. Known Cyrillic labels before a colon (`Опыт:`, `Стаж:`,
 `Навыки:`) and non-Cyrillic labels (also `Label :`) stay. Unknown capitalized
 Cyrillic words such as `Ромашка: менеджер` are replaced before the colon.
-Lowercase words, numbers, date ranges and path tokens stay. A path can still match existing
-personal-path or credential rules. Numeric primitives and JSON keys stay; string
+Lowercase words, numbers, date ranges and path tokens stay. A path can still match
+existing personal-path or credential rules. Numeric primitives and JSON keys stay; string
 escapes and surrounding source formatting are retained. JSON/JSONL activation
 also applies independently within serialized JSON strings, to the existing
 bounded decoding depth. Findings do not seed document-wide name propagation.
@@ -560,8 +560,7 @@ This is a structural heuristic, so capitalized ordinary words also disappear.
 Lowercase organizations without employment context stay; the document rules
 replace a lowercase employer after `работал в` / `работала в`. Complete contact
 and identifier findings take priority over overlapping proper-name fragments.
-English prose without a
-trigger (`Worked at Romashka for three years.`), isolated neutral-key values
+English prose without a trigger (`Worked at Romashka for three years.`), isolated neutral-key values
 `{"note":"Romashka"}` / `{"note":"1991-03-12"}`, and a personal website root
 without a trigger stay under this rule. The existing detectors and explicit
 known/sensitive-field policies still run: an unactivated value is byte-for-byte

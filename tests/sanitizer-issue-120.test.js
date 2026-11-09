@@ -66,6 +66,8 @@ describe('issue 120 age and duration boundaries', () => {
     ['стаж: 5 лет\n34 года', 'стаж: 5 лет\n[REDACTED]'],
     ['работал там, мне 34 года', 'работал там, мне [REDACTED]'],
     ['работал там кандидату 34 года', 'работал там кандидату [REDACTED]'],
+    ['работал в ромашке 5 лет', 'работал в [REDACTED] 5 лет'],
+    ['Работал там 5 лет', '[REDACTED] там 5 лет'],
   ]) {
     it(input, () => {
       expect(createSyncSanitizer(options).sanitize(input).text).toBe(expected);
@@ -83,6 +85,8 @@ describe('issue 120 labels and complete findings', () => {
     ['текст Label : слово', 'текст Label : слово'],
     ['ромашка: менеджер', 'ромашка: менеджер'],
     ['работала в лютике два года', 'работала в [REDACTED] два года'],
+    ['работал в компании «Ромашка Лютик»', 'работал в компании [REDACTED]'],
+    ['работал в компании Ромашка.', 'работал в компании [REDACTED].'],
     ['работал в python три года', 'работал в python три года'],
     ['ivan at example dot org', '[REDACTED]'],
     ['ivan(собака)example(точка)org', '[REDACTED]'],
@@ -101,12 +105,51 @@ describe('issue 120 labels and complete findings', () => {
     expect(createSyncSanitizer(config).sanitize(source).text).toBe(
       ' {"Ромашка":"[REDACTED]: менеджер", "n":42} '
     );
-    for (const [input] of reported.slice(0, 7)) {
+    for (const [input] of reported) {
       const result = createSyncSanitizer({
         ...options,
         transformation: { mode: 'placeholder' },
       }).sanitize(input);
       expect(restore(result.text, result.map)).toBe(input);
+    }
+  });
+  it('preserves duration context through custom placeholder formats', async () => {
+    for (const format of [
+      '{Type}-{n}',
+      '[[{TYPE}_{n}]]',
+      'marker;{Type}|{n}',
+    ]) {
+      const config = {
+        ...options,
+        transformation: { mode: 'placeholder', format },
+      };
+      for (const input of [
+        'Kubernetes (5 лет)',
+        'работал в ромашке 5 лет',
+        'Работал там 5 лет',
+      ]) {
+        const result = createSyncSanitizer(config).sanitize(input);
+        expect(
+          result.text.endsWith(input.includes('(') ? '(5 лет)' : '5 лет')
+        ).toBe(true);
+        expect(restore(result.text, result.map)).toBe(input);
+        expect((await createSanitizer(config).sanitize(input)).text).toBe(
+          result.text
+        );
+      }
+    }
+  });
+  it('preserves duration context through generated fake values', () => {
+    const config = {
+      ...options,
+      transformation: { mode: 'fake', key: 'issue-120-private-fixture-key' },
+    };
+    for (const input of ['Kubernetes (5 лет)', 'работал в ромашке 5 лет']) {
+      expect(
+        createSyncSanitizer(config)
+          .sanitize(input)
+          .text.endsWith(input.includes('(') ? '(5 лет)' : '5 лет')
+      ).toBe(true);
     }
   });
   it('reports complete contact and ID spans', () => {

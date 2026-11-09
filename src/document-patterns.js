@@ -254,6 +254,9 @@ function documentValueAllowed(rule, value) {
     !(
       rule === 'messenger-label' && /^(?:недоступен|unavailable)$/i.test(value)
     ) &&
-    !(rule === 'employer-prose' && isDocumentTechnology(value))
+    !(
+      rule === 'employer-prose' &&
+      (value === 'компании' || isDocumentTechnology(value))
+    )
   );
 }
