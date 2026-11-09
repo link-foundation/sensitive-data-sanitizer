@@ -25,7 +25,24 @@ const types = new Map(
   )
 );
 export function documentFieldType(field) {
-  return types.get(normalizeFieldName(field));
+  const type = types.get(normalizeFieldName(field));
+  if (type) {
+    return type;
+  }
+  // Compound person keys (`recruiterDisplayName`, `author_full_name`) end in
+  // a listed person field. Only PERSON entries extend this way, so generic
+  // suffixes such as `maxAge` or `homeSchool` keep their exact-match meaning,
+  // and a bare `name` is never listed.
+  return fieldSuffixes(field).some((suffix) => types.get(suffix) === 'PERSON')
+    ? 'PERSON'
+    : undefined;
+}
+// Word-boundary suffixes of a key, normalized; the whole key comes first.
+export function fieldSuffixes(field) {
+  const words = field
+    .split(/[\s_.-]+|(?<=[\p{Ll}\p{N}])(?=\p{Lu})|(?<=\p{Lu})(?=\p{Lu}\p{Ll})/u)
+    .filter(Boolean);
+  return words.map((_, i) => words.slice(i).join('').toLowerCase());
 }
 export const normalizeFieldName = (field) =>
   field.replace(/[_-]/g, '').toLowerCase();

@@ -1,6 +1,6 @@
 import { failure, collectMatches } from './detection.js';
 import { wordPattern } from './personal-variants.js';
-import { normalizeFieldName } from './document-fields.js';
+import { fieldSuffixes, normalizeFieldName } from './document-fields.js';
 
 export const defaultVocabulary = Object.freeze(
   Object.fromEntries(
@@ -170,7 +170,8 @@ export function vocabularyField(field, options) {
   if (!vocabulary) {
     return undefined;
   }
-  return vocabulary.fields.has(normalizeFieldName(field))
+  return vocabulary.fields.has(normalizeFieldName(field)) ||
+    fieldSuffixes(field).some((suffix) => vocabulary.fields.has(suffix))
     ? true
     : options.vocabulary.personalFields?.replace
       ? false
