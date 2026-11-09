@@ -41,10 +41,14 @@ function isDuration(text, match, replacements) {
   ) {
     return true;
   }
-  const skill = /([\p{L}\p{N}+#.-]+)[ \t]+\([ \t]*$/u.exec(prefix)?.[1];
+  const skill =
+    /([\p{L}\p{N}+#.-]+(?:[ \t]+[\p{L}\p{N}+#.-]+)?)[ \t]+\([ \t]*$/u
+      .exec(prefix)?.[1]
+      ?.replace(/[ \t]+/gu, ' ') ?? '';
   return (
     /^[ \t]*\)/u.test(suffix) &&
-    (isDocumentTechnology(skill ?? '') ||
+    (isDocumentTechnology(skill) ||
+      isDocumentTechnology(skill.split(' ').at(-1)) ||
       /\[REDACTED\][ \t]+\([ \t]*$/u.test(prefix))
   );
 }

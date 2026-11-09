@@ -19,7 +19,7 @@ including all **30 reported-row/format combinations**. Baseline was `e762a22`.
 Failures reproduced the original output, including `ivan собака [REDACTED]` and
 `военный билет [REDACTED] 1234567`.
 
-After the fix, all **75** cases in `tests/sanitizer-issue-120.test.js` pass. Each
+After the fix, all **77** cases in `tests/sanitizer-issue-120.test.js` pass. Each
 original row compares exact output in sync and async APIs for text, JSON and
 JSONL, and checks idempotence. Extra assertions cover restoration and unchanged
 source formatting. The related five-file run passed **502** tests before the
@@ -36,7 +36,9 @@ while placeholder mode failed with `ERR_PLACEHOLDER_COLLISION` or
 `ERR_RESIDUAL` for employer/skill durations. Duration checks now recognize
 active personal replacements, including custom placeholders and generated
 fake values. Tests cover restoration, sync/async parity and explicit age
-precedence after this normalization.
+precedence after this normalization. Two further regression cases verify
+multiword `Power BI` skill durations, including tab-separated spelling; both
+failed before the bounded skill-context lookup was extended to two words.
 
 CI on `7433afd` found four existing failures in the Ubuntu Node job
 [129151639629](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42614564049/job/129151639629).

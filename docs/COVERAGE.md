@@ -471,10 +471,12 @@ ethnicity, religion, health, criminal/political status) and bare dates, ages,
 passport/mobile/postal shapes. It is intended for stored personal prose and can
 remove ordinary uses of these words. It preserves ISO timestamps, work durations
 (including `Стаж: 5 лет`, `работал там 5 лет`, and duration cues from issue 87),
-and parenthesized durations after known technologies such as `Kubernetes (5 лет)`.
+and parenthesized durations after known technologies such as `Kubernetes (5 лет)`
+and `Power BI (5 лет)`.
 Explicit ages (`кандидату 34 года`, `мне 34 года`, `возраст 41`) and bare strict
-ages remain sensitive. Skill duration context is retained after redaction for
-stable repeated sanitization. It also preserves
+ages remain sensitive. Work and skill duration context is retained through
+redaction, placeholders and generated fake values for stable verification.
+It also preserves
 unit-bearing request timings and `Дети: нет`. In JSON/JSONL, numeric primitives
 stay numeric, and `structuralFields` suppresses strict findings in declared
 string metadata. Credentials/known values still take priority. Strict is off by

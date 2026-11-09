@@ -8,6 +8,7 @@ const config = {
 for (const input of [
   'работал в ромашке 5 лет',
   'Kubernetes (5 лет)',
+  'Power BI (5 лет)',
   'Работал там 5 лет',
 ]) {
   for (const transformation of [undefined, { mode: 'placeholder' }]) {
