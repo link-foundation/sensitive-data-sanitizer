@@ -7,6 +7,19 @@ const commaMobile = /,[ \t]*[78]9\d{9}(?![\p{L}\p{N}_])/u;
 const mobile = /^[78]9\d{9}$/u;
 const tokenPattern = /[\p{L}\p{M}\p{N}_./:\\?&#%=@+'’~+-]+/gu;
 const upper = /[\p{Lu}\p{Lt}]/u;
+// Only known labels are exempt before colons in activated Cyrillic prose.
+const proseLabels = new Set(
+  'опыт стаж навыки образование компания работодатель должность обязанности достижения проекты контакты телефон почта адрес возраст пол гражданство дети национальность вероисповедание инвалидность судимость резюме имя фамилия отчество город статус дата время уровень языки интересы о себе место работы семейное положение'.split(
+    ' '
+  )
+);
+const completeTypes = new Set([
+  'EMAIL',
+  'PHONE',
+  'ID',
+  'VIN',
+  'PASSPORT_NUMBER',
+]);
 const quotePairs = new Map([
   ['«', '»'],
   ['“', '”'],
@@ -109,6 +122,8 @@ export function detectProseAndDocuments(text, emit, options, detectDocuments) {
     return;
   }
   const runs = [[]];
+  let complete = 0,
+    suppressed = 0;
   detectProperNames(
     text,
     (finding) => {
@@ -123,12 +138,20 @@ export function detectProseAndDocuments(text, emit, options, detectDocuments) {
   detectDocuments(
     text,
     (finding) => {
-      if (!runs.some((run) => overlapsRun(run, finding))) {
+      if (completeTypes.has(finding.type)) {
+        // Contacts and identifiers are indivisible: a domain or series alone
+        // cannot safely replace the complete value detected by document rules.
         emit(finding);
+        complete++;
+      } else if (!runs.some((run) => overlapsRun(run, finding))) {
+        emit(finding);
+      } else {
+        suppressed++;
       }
     },
     options
   );
+  options.debug?.({ event: 'document-prose-overlap', complete, suppressed });
 }
 function overlapsRun(run, finding) {
   let low = 0,
@@ -197,8 +220,8 @@ function preserveToken(text, raw, value, start, end, range) {
     !value ||
     (range && start >= range.index && end <= range.index + range[0].length) ||
     (value === 'REDACTED' && text[start - 1] === '[' && text[end] === ']') ||
-    raw.endsWith(':') ||
-    text[next] === ':'
+    ((raw.endsWith(':') || text[next] === ':') &&
+      (!/^[А-ЯЁа-яё-]+$/u.test(value) || proseLabels.has(value.toLowerCase())))
   );
 }
 function tokenType(value) {

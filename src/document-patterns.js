@@ -1,8 +1,13 @@
 import { firstNames } from './names.js';
 import { isNameForm } from './russian-names.js';
+import { isDocumentTechnology } from './document-experience.js';
 
 const boundary = '[\\p{L}\\p{N}_]';
 const word = '[А-ЯЁ][а-яё-]{1,47}';
+const emailDot =
+  '(?:\\.|[ \\t]{0,8}(?:\\((?:dot|точка)\\)|\\[(?:dot|точка)\\])[ \\t]{0,8}|[ \\t]{1,8}(?:dot|точка)[ \\t]{1,8})';
+const emailAt =
+  '(?:[ \\t]{0,8}(?:\\((?:at|собака)\\)|\\[(?:at|собака)\\])[ \\t]{0,8}|[ \\t]{1,8}(?:at|собака)[ \\t]{1,8})';
 const surname =
   '[А-ЯЁа-яё][А-ЯЁа-яё-]{1,28}(?:ов|ев|ин|ын|ск|цк)(?:а|ой|ою|у|ым|ом|е|ы|и|их|ий|ая|ого|ому|ую|ие)?';
 const initials = '(?:[А-ЯЁA-Z]\\.[ \\t]*){1,2}';
@@ -36,7 +41,10 @@ const rules = [
   [
     'EMAIL',
     'obfuscated-email',
-    /(?<![\p{L}\p{N}_.+\\-])[\p{L}\p{N}_+-]{1,64}(?:(?:\.|[ \t]{1,8}dot[ \t]{1,8})[\p{L}\p{N}_+-]{1,64}){0,4}(?:[ \t]{0,8}\((?:at|собака)\)[ \t]{0,8}|[ \t]{0,8}\[at\][ \t]{0,8}|[ \t]{1,8}(?:at|собака)[ \t]{1,8})[\p{L}\p{N}-]{1,63}(?:(?:\.|[ \t]{1,8}dot[ \t]{1,8})[\p{L}\p{N}-]{1,63}){1,8}(?![\p{L}\p{N}_])/giu,
+    new RegExp(
+      `(?<![\\p{L}\\p{N}_.+\\\\-])[\\p{L}\\p{N}_+-]{1,64}(?:${emailDot}[\\p{L}\\p{N}_+-]{1,64}){0,4}${emailAt}[\\p{L}\\p{N}-]{1,63}(?:${emailDot}[\\p{L}\\p{N}-]{1,63}){1,8}(?![\\p{L}\\p{N}_])`,
+      'giu'
+    ),
     0,
   ],
   [
@@ -144,6 +152,12 @@ const rules = [
   ],
   [
     'ORGANIZATION',
+    'employer-prose',
+    /(?<![\p{L}\p{N}_])[Рр]аботал[аи]?[ \t]+в[ \t]+([\p{Ll}][\p{Ll}-]{1,47})(?![\p{L}\p{N}_])/gu,
+    1,
+  ],
+  [
+    'ORGANIZATION',
     'employer-years',
     new RegExp(
       `(?:^|\\n)[ \\t]*(?:19|20)\\d{2}[–—-](?:19|20)\\d{2}[ \\t]+(${word})(?!${boundary})`,
@@ -237,6 +251,9 @@ function documentValueAllowed(rule, value) {
       rule === 'profile-attribute' &&
       /^(?:не указан[оаы]?|not specified|unknown|n\/a)$/iu.test(value)
     ) &&
-    !(rule === 'messenger-label' && /^(?:недоступен|unavailable)$/i.test(value))
+    !(
+      rule === 'messenger-label' && /^(?:недоступен|unavailable)$/i.test(value)
+    ) &&
+    !(rule === 'employer-prose' && isDocumentTechnology(value))
   );
 }

@@ -218,7 +218,9 @@ The `documents` profile additionally recognizes:
 - Russian mobile numbers with dashed, dotted, spaced or parenthesized forms,
   including ten-digit `9xx` forms and domestic `8` prefixes; `тел.`, `моб.` and
   WhatsApp labels; `wa.me` contact links.
-- Obfuscated email separators `(at)`, `[at]`, `собака`, and English `dot`/`at`.
+- Obfuscated email separators `(at)`, `[at]`, `собака`, and English `dot`/`at`,
+  including `[dot]`, `(dot)`, `(точка)` and `[точка]` with optional spaces.
+  Complete addresses remain protected alongside capitalized proper-name matches.
   This is a finite spelling grammar, not arbitrary email deobfuscation.
 - Personal paths on LinkedIn (`/in/`), GitHub, VK, Instagram and Telegram,
   including scheme-less links; Telegram/телеграм/tg/skype/ник labels without `@`.
@@ -438,9 +440,11 @@ now use the same case/underscore/hyphen normalization as built-in document names
 For no-cue prose, enable [`properNames: 'capitalized'`](API.md#structural-prose-redaction).
 It activates per value, defaults to Cyrillic script letters or structural data
 triggers, and supports configurable Unicode scripts. It intentionally loses
-capitalized ordinary words. Labels, lowercase words, dates, paths, JSON keys and
-untriggered values are outside this additional rule. English untriggered prose,
-lowercase names and a name immediately before a colon remain documented limits.
+capitalized ordinary words. Known Cyrillic labels, non-Cyrillic labels, lowercase
+words, dates, paths, JSON keys and untriggered values are outside this additional
+rule. Unknown capitalized Cyrillic words before colons are protected. English
+untriggered prose and lowercase names without context remain documented limits;
+an explicit `работал в` / `работала в` cue also protects lowercase employers.
 The API describes the interaction with existing detectors and placeholder modes.
 
 The date-anchor scan visits each preceding entry once; the optional prose scanner
@@ -465,7 +469,12 @@ proper-name mode. Romashka Inc keeps its existing legal-form treatment.
 `strict: true` independently opts into personal attributes (gender, family,
 ethnicity, religion, health, criminal/political status) and bare dates, ages,
 passport/mobile/postal shapes. It is intended for stored personal prose and can
-remove ordinary uses of these words. It preserves ISO timestamps, work durations,
+remove ordinary uses of these words. It preserves ISO timestamps, work durations
+(including `Стаж: 5 лет`, `работал там 5 лет`, and duration cues from issue 87),
+and parenthesized durations after known technologies such as `Kubernetes (5 лет)`.
+Explicit ages (`кандидату 34 года`, `мне 34 года`, `возраст 41`) and bare strict
+ages remain sensitive. Skill duration context is retained after redaction for
+stable repeated sanitization. It also preserves
 unit-bearing request timings and `Дети: нет`. In JSON/JSONL, numeric primitives
 stay numeric, and `structuralFields` suppresses strict findings in declared
 string metadata. Credentials/known values still take priority. Strict is off by

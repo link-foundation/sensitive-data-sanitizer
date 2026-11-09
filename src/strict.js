@@ -1,11 +1,48 @@
 import { collectMatches } from './detection.js';
 import { months } from './personal-context.js';
+import { isDocumentTechnology } from './document-experience.js';
 
 const boundary = '[\\p{L}\\p{N}_]';
 const attributes =
   /(?<![\p{L}\p{N}_])(?:женщин[аыуеой]{1,2}|мужчин[аыуеой]{1,2}|замужем|женат(?:а|ы)?|(?:один|одна|двое|трое|четверо|пятеро|\d{1,2})[ \t]+(?:детей|реб[её]нок|реб[её]нка)|русск(?:ая|ий|ого|ой|ие)|татар(?:ин|ка|ы)|православн(?:ый|ая|ого|ой)|мусульман(?:ин|ка)|инвалидност[ьи](?:[ \t]+\d[ \t]+группы)?|беременн(?:а|ая|ость)|судимость(?:[ \t]+погашена)?|член[ \t]+партии|woman|women|man|men|male|female|married|divorced|pregnant|pregnancy|disabled|disability|christian|muslim|jewish|orthodox|russian|hispanic|asian|criminal[ \t]+record|party[ \t]+member|(?:one|two|three|\d{1,2})[ \t]+children)(?![\p{L}\p{N}_])/giu;
 const additionalAttributes =
   /(?<![\p{L}\p{N}_])(?:диабет(?:ом|а|у|е)?|ВИЧ(?:-положительн(?:ый|ая|ого|ой))?|болен|больна|больны|католик(?:ом|а|и)?|католичк(?:а|ой|и)|буддист(?:ка|кой|ом|а|ы)?|атеист(?:ка|кой|ом|а|ы)?|украин(?:ец|ка|цы|цем|кой)|белорус(?:ка|кой|ом|а|ы)?|несудим(?:а|ы)?|судим(?:а|ы)?|член[ \t]+политической[ \t]+партии|холост(?:а|ы)?|развед[её]н(?:а|ы)?|в[ \t]+разводе|diabetes|diabetic|HIV(?:[ \t-]+positive)?|cancer|buddhist|catholic|atheist|ukrainian|belarusian|previous[ \t]+conviction|member[ \t]+of[ \t]+(?:a[ \t]+)?(?:political[ \t]+)?party|single|unmarried|widowed)(?![\p{L}\p{N}_])/giu;
+
+function isDuration(text, match) {
+  // Keep cues on the same clause; an age on the next line is independent.
+  const prefix = text
+    .slice(Math.max(0, match.index - 128), match.index)
+    .split(/[\r\n;|]/u)
+    .at(-1);
+  const suffix = text.slice(match.index + match[0].length);
+  if (
+    /(?<![\p{L}\p{N}_])(?:мне|ему|ей|кандидату|кандидатке|исполнилось|возраст)[ \t]*:?[ \t]*$/iu.test(
+      prefix
+    )
+  ) {
+    return false;
+  }
+  if (
+    /(?<![\p{L}\p{N}_])(?:опыт(?:[ \t]+работы)?|стаж|experience|duration)[ \t]*:?[ \t]*$/iu.test(
+      prefix
+    ) ||
+    /(?<![\p{L}\p{N}_])(?:за(?:[ \t]+последние)?|через|спустя|более|на|длился|длилась)[ \t]+$/iu.test(
+      prefix
+    ) ||
+    /(?<![\p{L}\p{N}_])(?:работал[аи]?|проработал[аи]?)(?:[ \t]+[\p{L}-]{1,48}){0,3}[ \t]+$/iu.test(
+      prefix
+    ) ||
+    /^[ \t]+(?:опыта|стажа|работы)(?![\p{L}\p{N}_])/iu.test(suffix)
+  ) {
+    return true;
+  }
+  const skill = /([\p{L}\p{N}+#.-]+)[ \t]+\([ \t]*$/u.exec(prefix)?.[1];
+  return (
+    /^[ \t]*\)/u.test(suffix) &&
+    (isDocumentTechnology(skill ?? '') ||
+      /\[REDACTED\][ \t]+\([ \t]*$/u.test(prefix))
+  );
+}
 
 export function detectStrict(text, emit, options) {
   if (!options.strict) {
@@ -35,10 +72,7 @@ export function detectStrict(text, emit, options) {
     emit,
     { type: 'AGE', rule: 'strict-age', category: 'personal', confidence: 0.9 },
     0,
-    (_value, match) =>
-      !/(?:опыт(?:[ \t]+работы)?|стаж|experience|duration|за|через|спустя)[ \t]*$/iu.test(
-        text.slice(Math.max(0, match.index - 64), match.index)
-      )
+    (_value, match) => !isDuration(text, match)
   );
   for (const [type, pattern] of [
     [
