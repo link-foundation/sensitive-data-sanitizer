@@ -46,7 +46,16 @@ The preserved job log reports incorrect redaction of the cue `компании` 
 lines 4286/4299 and shifted organization placeholders at lines 4312/4324.
 The lowercase employer rule now preserves that cue. All **84** cases in
 `sanitizer-issue-100.test.js` pass, as do the **84** combined issue-120 and
-placeholder-residual cases. Full cross-platform CI must pass on the final SHA.
+placeholder-residual cases.
+
+Final source commit `124cd8e` passes all four workflows: **52 checks pass** and
+10 inapplicable release/deployment jobs are skipped. The full runtime suites run
+under Node, Bun and Deno on Ubuntu, Windows and macOS. CI evidence:
+
+- [Runtime matrix, lint, documentation and release guards](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42616017906)
+- [Web/desktop application checks](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42616017724)
+- [Security scans and dependency audits](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42616017694)
+- [Link checks](https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/42616017658)
 
 The earlier expectation that `Ромашка: менеджер` stays in the issue-106 suite is
 updated because issue 120 explicitly requires this behavior to change. Broad
