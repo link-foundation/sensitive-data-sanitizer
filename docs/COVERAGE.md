@@ -370,6 +370,11 @@ this explicit vocabulary: `firstName`, `lastName`, `middleName`, `patronymic`,
 sensitive in full, including ISO birth timestamps. Thus `first_name` and
 `firstName`, or `birth_date` and `birthDate`, follow the same policy. These are
 schema assumptions: `contact` or `company` can hold operational data too.
+Person fields also match as a word-boundary suffix of a compound key, so
+`recruiterDisplayName`, `author_full_name` and `resumePdfOriginalFileName` are
+person fields. The same suffix rule applies to `vocabulary.personalFields`.
+Other types match only the whole key (`maxAge` and `fileName` stay), and a
+bare `name` is not in the list.
 Existing native labels still apply. Unlisted URL-named fields have ordinary
 content detection; arbitrary names do not imply sensitivity. Declare them with
 [`sensitiveFields`](API.md#caller-declared-sensitive-fields) to replace complete
@@ -542,6 +547,9 @@ corpus, unbounded input, parallel builds or external analysis service.
 
 Document rules recognize a capitalized Latin name after `candidate`, `recruiter`,
 `applicant`, `Dear`, `Hi`, `Mr`/`Mr.`, `Ms`/`Ms.`, `Dr`/`Dr.`, or `message from`.
+Honorifics count only when capitalized: lowercase `ms` (milliseconds), `mr` and
+`dr` are not cues, and `Ms` right after a number is read as a unit, so
+`took 30 ms Retry scheduled` and `see dr Drive mount` stay unchanged.
 Only the name is replaced; punctuation and the cue remain. These rules work
 without enabling Latin script matching. Finite generic heading nouns such as
 `Stage` and `Status` are preserved: `Candidate Stage changed` and
