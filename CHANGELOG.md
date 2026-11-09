@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.19.1
+
+### Patch Changes
+
+- Redact complete obfuscated email addresses and military IDs with capitalized
+  proper-name detection, recognize lowercase employers after employment cues and
+  unknown Cyrillic names before colons, and preserve work and skill durations in
+  strict mode while keeping ages sensitive.
+
+  Detect bare Yandex Cloud credentials, Latin names and filenames in explicit personal JSON fields, numeric ages and birth years, and single Latin names after English person cues while preserving workflow headings.
+
 ## 0.19.0
 
 ### Minor Changes
