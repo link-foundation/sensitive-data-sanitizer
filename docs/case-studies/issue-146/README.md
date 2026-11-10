@@ -189,3 +189,9 @@ After integrating PR 145, 243 focused tests pass across twelve regression files.
 The source changes retain explicit transformation precedence and only strengthen
 attribute labeling against the overlapping generic entity types. CI is checked
 against the final pushed SHA; no earlier passing run establishes that result.
+
+The new verifier and scanner suites additionally pass on Bun 1.4.4 (11 tests)
+and Deno 2.9.7 (10 passed, one explicit subprocess-fixture skip). The verifier
+imports `Buffer` explicitly for runtime portability. On `d5b82d4`, CI lint job
+130053909276 log lines 352–355 reported unformatted review-snapshot JSON; those
+three snapshots were formatted without changing their recorded contents.
