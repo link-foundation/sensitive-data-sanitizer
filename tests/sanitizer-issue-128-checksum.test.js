@@ -3,14 +3,14 @@ import { Readable } from 'node:stream';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { inspect, sanitize } from '../src/index.js';
-import { runCli } from '../bin/sensitive-data-sanitizer.js';
 import {
-  base62,
-  crc32,
+  inspect,
+  sanitize,
   tokenChecksum,
   tokenWithChecksum,
-} from '../src/token-checksum.js';
+} from '../src/index.js';
+import { runCli } from '../bin/sensitive-data-sanitizer.js';
+import { base62, crc32 } from '../src/token-checksum.js';
 
 // Kingfisher and osv-scalibr validate the CRC32 suffix of GitHub and npm
 // tokens offline. The tests generate their tokens at runtime.

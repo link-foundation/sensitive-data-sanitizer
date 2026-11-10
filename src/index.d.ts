@@ -312,11 +312,7 @@ export type Transformation =
       /** Characters left unmasked, e.g. `'-'` for `****-****-1111`. */
       ignore?: string;
       ignoreClasses?: (
-        | 'digits'
-        | 'upper'
-        | 'lower'
-        | 'punctuation'
-        | 'whitespace'
+        'digits' | 'upper' | 'lower' | 'punctuation' | 'whitespace'
       )[];
       /** Mask at most this many maskable characters. */
       count?: number;
@@ -503,6 +499,14 @@ export declare function toSarif(
     | Finding[],
   options?: { version?: string; path?: string }
 ): SarifLog;
+/**
+ * Offline CRC32/base62 check of GitHub (gh[opsur]_) and npm (npm_) tokens:
+ * true when the checksum matches, false when it does not, undefined for
+ * other formats.
+ */
+export declare function tokenChecksum(value: string): boolean | undefined;
+/** Builds a checksum-valid token from a prefix ending in `_` and a 30-character body. */
+export declare function tokenWithChecksum(prefix: string, body: string): string;
 export declare function createWikidataVerifier(options?: {
   fetch?: typeof fetch;
   language?: string;

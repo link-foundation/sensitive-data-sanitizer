@@ -889,6 +889,19 @@ valid?}`) so callers can add or replace national identifiers. `identifierChecks`
 exposes the checksum and format validators (Luhn, mod-11, mod-97, Verhoeff and
 the national algorithms) for reuse; a valid checksum never proves issuance.
 
+## Offline token checksums
+
+GitHub (`ghp_`, `gho_`, `ghu_`, `ghs_`, `ghr_`) and npm (`npm_`) tokens end in
+six base62 characters holding the CRC32 of the 30 characters after the first
+`_`. As in Kingfisher and osv-scalibr, the native `github`/`npm` rules and the
+vendored Gitleaks/Betterleaks rules give a checksum-valid token confidence
+0.99. A token whose checksum does not match keeps its ordinary confidence and
+is still redacted, because truncated or retyped tokens remain sensitive. No
+network request is made. The exported `tokenChecksum(value)` returns `true`,
+`false` or `undefined` (not a checksummed format), and
+`tokenWithChecksum(prefix, body)` builds checksum-valid test fixtures at
+runtime so repositories need not store token literals.
+
 ## SARIF reports
 
 `toSarif(report, {version, path})` converts a CLI `scan` report, an array of
@@ -903,3 +916,18 @@ sensitive-data-sanitizer scan --format sarif src > results.sarif
 ```
 
 `--format` accepts `json` (default) or `sarif` and is only valid for `scan`.
+
+CLI `scan` accepts several paths, so a CI step or a
+[pre-commit](https://pre-commit.com) hook can pass the staged files directly.
+The repository ships `.pre-commit-hooks.yaml` with two hooks:
+`sensitive-data-sanitizer` (credentials only) and
+`sensitive-data-sanitizer-pii` (credentials and personal data).
+
+```yaml
+repos:
+  - repo: https://github.com/link-foundation/sensitive-data-sanitizer
+    rev: v0.20.0
+    hooks:
+      - id: sensitive-data-sanitizer
+```
+
