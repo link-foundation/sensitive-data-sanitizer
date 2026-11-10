@@ -56,7 +56,12 @@ export function templatedCredential(text, finding) {
   }
   // A template glued to literal characters (`<x>abc`, `[A]x9`) is not one.
   const after = text[finding.start + value.length] ?? '';
-  return !/[\w$%+/=.-]/.test(after) && templatedValue(value);
+  // PEM armor is a structural delimiter even without a newline. Its leading
+  // hyphens must not make an entirely masked body look like literal material.
+  const pemEnd =
+    finding.rule === 'private-key' &&
+    /^-----END [A-Z0-9 ]*PRIVATE KEY-----/.test(text.slice(finding.end));
+  return (pemEnd || !/[\w$%+/=.-]/.test(after)) && templatedValue(value);
 }
 // Only variable references and the documented gh lookup are exempt. Arbitrary
 // shell commands and Actions expressions can contain literal credentials.

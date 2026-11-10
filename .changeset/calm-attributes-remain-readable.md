@@ -2,4 +2,4 @@
 '@link-foundation/sensitive-data-sanitizer': patch
 ---
 
-Recognize the special-category forms reported in issue 144, retain typed attribute placeholders over generic prose guesses, and preserve reviewed public technology names. Reuse vocabulary compilation and cue sets and skip unnecessary existing-placeholder scans while retaining escaped and custom-format checks.
+Fix strict personal-attribute coverage and type precedence, reuse vocabulary compilation, keep reviewed public technology names readable, and make placeholder prechecks linear and reusable. Recognize redacted PEM bodies next to end markers without repeatedly failing publication verification.

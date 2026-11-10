@@ -882,7 +882,24 @@ function preferredType(current, candidate, options) {
 }
 // Typed evidence takes precedence over the generic capitalized-word guess.
 function semanticTypePreference(current, candidate) {
-  if (current === 'PERSONAL_ATTRIBUTE' || candidate === 'PERSONAL_ATTRIBUTE') {
+  if (
+    (current === 'PERSONAL_ATTRIBUTE' &&
+      [
+        'PERSON',
+        'PROPER_NAME',
+        'LOCATION',
+        'ORGANIZATION',
+        'EDUCATION',
+      ].includes(candidate)) ||
+    (candidate === 'PERSONAL_ATTRIBUTE' &&
+      [
+        'PERSON',
+        'PROPER_NAME',
+        'LOCATION',
+        'ORGANIZATION',
+        'EDUCATION',
+      ].includes(current))
+  ) {
     return candidate === 'PERSONAL_ATTRIBUTE';
   }
   if (current === 'PROPER_NAME' || candidate === 'PROPER_NAME') {
