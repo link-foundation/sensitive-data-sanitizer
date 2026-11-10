@@ -107,13 +107,25 @@ function narrowed(text, finding) {
   return parts ? parts.map((part) => ({ ...finding, ...part })) : [finding];
 }
 
+// A complete existing mask bounds context too: vendor rules no longer match
+// it on the next pass. Only strip sentence punctuation, never a glued suffix.
+function maskedPrefix(text, start, end) {
+  const token = /^[^\s]+/u.exec(text.slice(start, end))?.[0] ?? '';
+  let length = token.length;
+  while (length > 0 && /[.,;:!?]/.test(token[length - 1])) {
+    length--;
+  }
+  const value = token.slice(0, length);
+  return maskedValue(value) ? start + value.length : end;
+}
+
 // `token: ghp_… . Next sentence` — a context value that a vendor rule ends
 // earlier stops at that end when only punctuation or a space follows.
 function bounded(text, finding, findings) {
   if (!openEnded.has(finding.rule) || finding.category !== 'credential') {
     return finding;
   }
-  let end = finding.end;
+  let end = maskedPrefix(text, finding.start, finding.end);
   for (const other of findings) {
     if (
       other.category === 'credential' &&
