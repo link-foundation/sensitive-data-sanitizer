@@ -1,6 +1,6 @@
 # Library and detector contract
 
-Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs are strings, offsets are UTF-16 code units, starts are zero-based, and ends are exclusive. Returned line and column numbers are one-based; columns also count UTF-16 units.
+Import the root entry with `import` or `require`; complete declarations are in `src/index.d.ts`. Inputs are strings, offsets are UTF-16 code units, starts are zero-based, and ends are exclusive. Returned line and column numbers are one-based; columns also count UTF-16 units.
 
 ## Methods
 
@@ -22,6 +22,31 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 | `toSarif(report, options)`             | Convert a scan report or findings to SARIF 2.1.0 without values                                              |
 
 `redactions` counts merged replacement spans. `findings` can contain several detector hits for one replacement. Findings have `{start, end, type, category, rule, line, column}`; no text, quote, match, entropy score, provider details, or raw diagnostic is copied. The optional `strict-attributes` debug event reports only detected and suppressed match counts. Debugging is off by default; `debug(event)` receives value-free counts, rule timings, residual rounds and registry event metadata (see `DebugEvent` in the TypeScript declarations).
+
+### Credentials-only entry
+
+`@link-foundation/sensitive-data-sanitizer/credentials` exports `inspect`,
+`sanitize`, `redact`, `createSanitizer`, `createSyncSanitizer`, `REDACTED`,
+`entropy`, `builtInRules`, `tokenChecksum`, `tokenWithChecksum` and the
+`knownSecretsFrom*` helpers. It always runs with `credentialsOnly: true` and
+does not load the personal-data detectors, faker or libphonenumber, so it starts
+about three times faster than the root entry (about 0.25 s against 0.75 s on
+Node.js 26). Use it for loggers that must mask every line from the first write:
+
+```js
+const {
+  createSyncSanitizer,
+  knownSecretsFromEnv,
+} = require('@link-foundation/sensitive-data-sanitizer/credentials');
+const mask = createSyncSanitizer({ knownSecrets: knownSecretsFromEnv() });
+console.log(mask.sanitize('Authorization: Bearer abc123def456ghi789').text);
+// Authorization: Bearer [REDACTED]
+```
+
+Options that need the personal-data modules, `credentialsOnly: false`,
+`mode: 'fake'` and `properNames`, fail with `ERR_CONFIG`. Known personal values
+(`knownPersonal`) still work. Both entries offer `import`, `require` (Node.js
+22.12 or later) and `default` export conditions.
 
 ## Options
 

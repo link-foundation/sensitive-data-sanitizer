@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import '../src/personal-features.js';
 import { readFileSync, realpathSync } from 'node:fs';
 import { fileURLToPath, URL } from 'node:url';
 import { resolve } from 'node:path';

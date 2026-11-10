@@ -1,14 +1,12 @@
-import { generatedValues } from './fake.js';
+import { generatedValues } from './fake-memory.js';
+import { feature, withFeature } from './features.js';
 import { isCompiledKnown, projectedKnown } from './compiled-known.js';
 import { detectSync, validateDetectors } from './sync-detectors.js';
 import { validatePolicyControls, builtInEnabled } from './policy.js';
 import { compiledVocabulary } from './vocabulary.js';
-import { validateProperNames } from './proper-names.js';
-import { prepareFakeText } from './fake-entities.js';
 import { alignEscapes } from './escape-spans.js';
 import { actionable } from './confidence.js';
 import { propagate, confirmationOptions } from './propagation.js';
-import { fakeDocumentSpans } from './specimens.js';
 import {
   failure,
   internalFailure,
@@ -26,7 +24,7 @@ import {
   hasCustomTransforms,
   renderCallbackAsync,
 } from './transforms.js';
-import { fakeIdentityValue, isIdentityType } from './identity.js';
+import { isIdentityType } from './identity-types.js';
 import { rejectRestoreMap } from './restore-map.js';
 import { allowListed, validateAllowList } from './allow-list.js';
 import { templatedCredential } from './credentials.js';
@@ -224,7 +222,9 @@ export function validateOptions(options = {}) {
     }
   }
   validateConfidence(options);
-  validateProperNames(options);
+  if (options.properNames !== undefined || options.scripts !== undefined) {
+    feature('validateProperNames')(options);
+  }
   validatePolicy(options);
   if (
     options.verifyPublic !== undefined &&
@@ -664,7 +664,7 @@ export function markFake(text, findings, options) {
   ) {
     return findings.map((f) => ({ ...f, kept: undefined }));
   }
-  const documents = fakeDocumentSpans(text, options);
+  const documents = withFeature('fakeDocumentSpans', [], text, options);
   const trusted = [];
   for (const record of generated) {
     for (const value of new Set([
@@ -699,7 +699,7 @@ export function markFake(text, findings, options) {
   const candidates = findings.filter(
     (f) =>
       f.category === 'personal' &&
-      fakeIdentityValue(text.slice(f.start, f.end), f.type, options)
+      feature('fakeIdentityValue')(text.slice(f.start, f.end), f.type, options)
   );
   // Tolerant MRZ matches can cross a line boundary. An automatic specimen
   // exemption must never cover an overlapping real identity value. Exact
@@ -834,7 +834,8 @@ export function redactResult(
 ) {
   options = applyProfile(options);
   const spans = validatedSpans(text, findings, options);
-  options = prepareFakeText(text, findings, initializePlaceholders(options));
+  options = initializePlaceholders(options);
+  options = withFeature('prepareFakeText', options, text, findings, options);
   preparePlaceholderText(text, findings, options);
   const parts = [];
   const faked = [];

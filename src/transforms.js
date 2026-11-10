@@ -1,8 +1,8 @@
-import { realisticFake } from './fake.js';
+import { feature } from './features.js';
 import { createHmac } from 'node:crypto';
 import { failure, REDACTED } from './detection.js';
 import { encodedValue, encodeRun, decodedRuns } from './encoded.js';
-import { isIdentityType } from './identity.js';
+import { isIdentityType } from './identity-types.js';
 import { validatePlaceholder, placeholderReplacement } from './placeholders.js';
 import { projectText } from './projection.js';
 import { encryptValue } from './encrypt.js';
@@ -262,7 +262,7 @@ function transformed(value, finding, transform, options) {
       : REDACTED;
   }
   if (transform.mode === 'fake') {
-    return realisticFake(value, finding, transform, options);
+    return feature('realisticFake')(value, finding, transform, options);
   }
   if (finding.category === 'credential') {
     return REDACTED;

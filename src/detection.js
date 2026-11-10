@@ -7,13 +7,7 @@ import {
 import { isIP } from 'node:net';
 import { serviceRules } from './rules.js';
 import { detectContext, valueRange, authorizationRanges } from './context.js';
-import { detectPersonal } from './personal.js';
 import { detectGitleaks } from './gitleaks.js';
-import { detectCatalog } from './entities.js';
-import { detectIdentity } from './identity.js';
-import { detectNational } from './national.js';
-import { detectPersonalContext } from './personal-context.js';
-import { detectPersonalEvidence } from './personal-evidence.js';
 import {
   detectCredentialFormats,
   credentialPlaceholder,
@@ -21,10 +15,8 @@ import {
 } from './credentials.js';
 import { localAddress } from './public.js';
 import { detectKnownPersonal } from './personal-variants.js';
-import { detectDocumentEntities } from './document-entities.js';
-import { detectProseAndDocuments } from './proper-names.js';
 import { builtInEnabled } from './policy.js';
-import { detectStrict } from './strict.js';
+import { feature } from './features.js';
 import { tokenChecksum } from './token-checksum.js';
 import { refineCredentialSpans, cookieValues } from './credential-spans.js';
 
@@ -200,14 +192,7 @@ function detectNative(text, options, emit) {
   }
   detectContext(text, emit, options.credentialsOnly);
   if (!options.credentialsOnly) {
-    detectPersonal(text, emit);
-    detectProseAndDocuments(text, emit, options, detectDocumentEntities);
-    detectCatalog(text, emit);
-    detectIdentity(text, emit);
-    detectNational(text, emit);
-    detectPersonalContext(text, emit);
-    detectPersonalEvidence(text, emit);
-    detectStrict(text, emit, options);
+    feature('detectPersonalData')(text, emit, options);
   }
   detectCredentialFormats(text, emit);
   // detect-secrets-style quoted entropy detection; bare commit hashes and

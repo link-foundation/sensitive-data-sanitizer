@@ -1,4 +1,5 @@
 import { parentPort, workerData } from 'node:worker_threads';
+import './personal-features.js';
 import { createSanitizer, prepareStreamEngine } from './engines.js';
 import { compileKnown } from './compiled-known.js';
 

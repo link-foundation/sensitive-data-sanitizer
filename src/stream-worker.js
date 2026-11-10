@@ -1,4 +1,5 @@
 import { parentPort, workerData } from 'node:worker_threads';
+import './personal-features.js';
 import { sanitizeFileToFile } from './stream.js';
 import { compileKnown } from './compiled-known.js';
 try {

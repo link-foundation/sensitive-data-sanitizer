@@ -1,4 +1,5 @@
 // Finite large-record probe; run with node --max-old-space-size=512.
+import '../../src/personal-features.js';
 import { performance } from 'node:perf_hooks';
 import { inspect } from '../../src/sanitizer.js';
 const text = 'ordinary '.repeat(600000);

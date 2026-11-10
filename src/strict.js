@@ -2,7 +2,7 @@ import { collectMatches } from './detection.js';
 import { months } from './personal-context.js';
 import { isDocumentTechnology } from './document-experience.js';
 import { placeholderValues } from './placeholders.js';
-import { generatedValues } from './fake.js';
+import { generatedValues } from './fake-memory.js';
 import { detectStrictAttributes } from './strict-attributes.js';
 
 const boundary = '[\\p{L}\\p{N}_]';

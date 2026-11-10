@@ -20,6 +20,12 @@ two-pass publication:
 sensitive-data-sanitizer redact session.jsonl --stream --jsonl --two-pass --output safe.jsonl
 ```
 
+For loggers that only mask credentials, import the
+[credentials-only entry](docs/API.md#credentials-only-entry)
+`@link-foundation/sensitive-data-sanitizer/credentials`: it skips the
+personal-data modules and starts about three times faster. Both entries also
+support `require`.
+
 For synchronous log hooks, `createSyncSanitizer` supports custom detectors and
 verified callback transformations. Rule/type controls, caller vocabulary,
 structured field selectors and `compileKnown` configure reusable policies; see

@@ -1,3 +1,4 @@
+import '../../src/personal-features.js';
 import { performance } from 'node:perf_hooks';
 import { nativeDetect } from '../../src/detection.js';
 import { projectText } from '../../src/projection.js';
