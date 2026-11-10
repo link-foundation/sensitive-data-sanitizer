@@ -3,6 +3,7 @@ import { firstNames } from './names.js';
 import { labels } from './rules.js';
 import { transliteratedGivenNames } from './transliteration.js';
 import { serviceAccounts } from './public.js';
+import { isCommonProseWord } from './prose-words.js';
 const labelWords = new Set(Object.values(labels).flat());
 
 const details = (type, rule, confidence = 0.85) => ({
@@ -193,14 +194,39 @@ const possessiveWord =
 function slavicPairEvidence(value) {
   const words = value.split(/[ \t]+/);
   return !words.some(
-    (word) => possessiveWord.test(word) || /^\p{Lu}{2,4}$/u.test(word)
+    (word) =>
+      possessiveWord.test(word) ||
+      /^\p{Lu}{2,4}$/u.test(word) ||
+      isCommonProseWord(word)
   );
+}
+// A rejected pair is retried from its second word, so `Кандидат Петров Иван`
+// still finds `Петров Иван` after the cue word.
+function detectSlavicPairs(text, emit) {
+  const pattern = new RegExp(slavicPairs.source, 'gu');
+  let match;
+  while ((match = pattern.exec(text))) {
+    const value = match[0];
+    if (
+      value !== 'REDACTED' &&
+      !placeWord.test(value.split(/[ \t]+/).at(-1)) &&
+      slavicPairEvidence(value)
+    ) {
+      emit({
+        start: match.index,
+        end: match.index + value.length,
+        ...details('PERSON', 'name-identity', 0.9),
+      });
+    } else {
+      pattern.lastIndex = match.index + value.search(/[ \t]/u) + 1;
+    }
+  }
 }
 export function detectPersonal(text, emit) {
   detectDocumentNames(text, emit);
+  detectSlavicPairs(text, emit);
   for (const pattern of [
     latinPairs,
-    slavicPairs,
     russianFull,
     /(?<![\p{L}])(?:[А-ЯЁ][а-яё]{2,30}[ \t]+)[А-ЯЁ][а-яё]{2,30}(?:вич|вна|ична)[ \t]+[А-ЯЁ][а-яё]{2,30}(?![\p{L}])/gu,
   ]) {
@@ -210,9 +236,7 @@ export function detectPersonal(text, emit) {
       emit,
       details('PERSON', 'name-identity', 0.9),
       0,
-      (value) =>
-        !placeWord.test(value.split(/[ \t]+/).at(-1)) &&
-        (pattern !== slavicPairs || slavicPairEvidence(value))
+      (value) => !placeWord.test(value.split(/[ \t]+/).at(-1))
     );
   }
   for (const pattern of names) {

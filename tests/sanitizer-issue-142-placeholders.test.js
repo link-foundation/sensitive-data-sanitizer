@@ -175,3 +175,126 @@ describe('placeholder namespace (issue 130)', () => {
     );
   });
 });
+
+describe('readable proper-name placeholders (issue 130)', () => {
+  it('keeps sentence words and cue words outside the replacements', () => {
+    const cases = [
+      [
+        'Здравствуйте! Я Анна Смирнова, готова выйти',
+        'Здравствуйте! Я Person-1, готова выйти',
+      ],
+      ['Меня зовут Анна Смирнова', 'Меня зовут Person-1'],
+      ['Звонила Анна Смирнова', 'Звонила Person-1'],
+      [
+        'Кандидат Петров Иван Сергеевич, тел. +7 916 123-45-67',
+        'Кандидат Person-1, тел. Phone-1',
+      ],
+      ['Кандидат Петров Иван', 'Кандидат Person-1'],
+      ['Благодарим Вас, Анна Смирнова', 'Благодарим Вас, Person-1'],
+    ];
+    for (const [text, expected] of cases) {
+      expect(once(text, policy())).toBe(expected);
+    }
+  });
+  it('still replaces names that look like listed words', () => {
+    // Given names never enter the word lists, and a sentence-initial
+    // masculine past form before a capitalized word may be a surname.
+    expect(once('Вера Смирнова звонила', policy())).toBe('Person-1 звонила');
+    expect(once('Шагал Марк писал', policy())).not.toContain('Шагал');
+    expect(once('Привет от Ивана Петрова', policy())).toBe(
+      'Привет от Person-1'
+    );
+  });
+  it('types organizations and places named by their cues', () => {
+    expect(once('Работал в ООО «Ромашка», живу в Казани', policy())).toBe(
+      'Работал в Organization-1, живу в Location-1'
+    );
+  });
+  it('links oblique surname forms to the fullest name', () => {
+    for (const name of ['Иванов Иван Петрович', 'Иванов Иван']) {
+      expect(once(`${name} работал в Лютике, позвонил Иванову`, policy())).toBe(
+        'Person-1 работал в Organization-1, позвонил Person-1'
+      );
+    }
+  });
+  it('does not type prose under a url key as one value', () => {
+    expect(
+      once(
+        '{"url":"Меня зовут Анна Смирнова, тел. +7 916 123-45-67"}',
+        policy({}, { structured: 'json' })
+      )
+    ).toBe('{"url":"Меня зовут Person-1, тел. Phone-1"}');
+    expect(
+      once(
+        '{"url":"https://example.com/a"}',
+        policy({}, { structured: 'json' })
+      )
+    ).toBe('{"url":"Url-1"}');
+  });
+});
+
+describe('special-category vocabulary (issue 130)', () => {
+  const rows = [
+    'узбечка по национальности',
+    'он узбек',
+    'таджик по национальности',
+    'чеченец',
+    'грузинка по национальности',
+    'азербайджанец, 30 лет',
+    'цыганка',
+    'кореянка по происхождению',
+    'he is Uzbek',
+    'протестант',
+    'перенёс инсульт',
+    'шизофрения',
+    'слабослышащий',
+    'передвигается на коляске, колясочник',
+    'аутизм',
+    'wheelchair user',
+    'бисексуал',
+    'трансгендер',
+    'сидел за кражу',
+    'член профсоюза',
+    'trade union member',
+  ];
+  it('replaces every special-category row of the issue in strict mode', () => {
+    for (const text of rows) {
+      const output = once(text, policy());
+      expect(output).toContain('PersonalAttribute-1');
+      for (const word of text.match(/[\p{L}]{5,}/gu)) {
+        if (
+          !/^(?:национальности|происхождению|перенёс|передвигается)$/u.test(
+            word
+          )
+        ) {
+          expect(output).not.toContain(word);
+        }
+      }
+    }
+  });
+  it('keeps operational and language uses of the same words', () => {
+    for (const text of [
+      'Узбекистан и Чувашия',
+      'Korean locale enabled',
+      'Chinese characters in the union member list of struct addr',
+      'request served time 12ms',
+      'грузинский язык',
+    ]) {
+      expect(once(text, { strict: true })).toBe(text);
+    }
+  });
+  it('extends the strict rule with caller stems', () => {
+    const vocabulary = { personalAttributes: ['вепс', 'старовер'] };
+    const strict = { strict: true, vocabulary };
+    expect(sanitize('по национальности вепска', strict).text).toBe(
+      'по национальности [REDACTED]'
+    );
+    expect(sanitize('он староверами воспитан', strict).text).toBe(
+      'он [REDACTED] воспитан'
+    );
+    expect(sanitize('вепска', { strict: true }).text).toBe('вепска');
+    expect(
+      code(() => sanitize('x', { vocabulary: { personalAttributes: [1] } }))
+    ).toBe('ERR_CONFIG');
+  });
+});

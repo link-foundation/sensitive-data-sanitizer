@@ -1,5 +1,6 @@
 import { failure } from './detection.js';
 import { documentDateRange } from './document-dates.js';
+import { keepsProseWord } from './prose-words.js';
 
 const scriptPatterns = new Map();
 const dateRange = new RegExp(`\\(${documentDateRange}\\)`, 'u');
@@ -113,6 +114,21 @@ function quotedSpans(text, emit) {
 function pathToken(value) {
   return value.includes('/') || value.includes('\\');
 }
+// Compact typed document findings, such as `ООО «Ромашка»` after `работал в`
+// or `Казани` after `живу в`, name what the prose tokens inside them are.
+const typedDocumentTypes = new Set([
+  'ORGANIZATION',
+  'LOCATION',
+  'EDUCATION',
+  'PERSON',
+]);
+function compactTyped(text, finding) {
+  return (
+    typedDocumentTypes.has(finding.type) &&
+    finding.end - finding.start <= 160 &&
+    !/[\t\r\n]/u.test(text.slice(finding.start, finding.end))
+  );
+}
 // Keep existing document coverage outside the new replacements. Two naturally
 // ordered runs (quotes, then tokens) provide an interval index without sorting.
 // Overlapping broad document spans must not merge separate prose replacements.
@@ -131,28 +147,48 @@ export function detectProseAndDocuments(text, emit, options, detectDocuments) {
         runs.push([]);
       }
       runs.at(-1).push(finding);
-      emit(finding);
     },
     options
   );
+  const covered = new Set();
   detectDocuments(
     text,
     (finding) => {
+      const overlapping = runs.flatMap((run) => overlapsRun(run, finding));
       if (completeTypes.has(finding.type)) {
         // Contacts and identifiers are indivisible: a domain or series alone
         // cannot safely replace the complete value detected by document rules.
         emit(finding);
         complete++;
-      } else if (!runs.some((run) => overlapsRun(run, finding))) {
+      } else if (!overlapping.length) {
         emit(finding);
+      } else if (
+        compactTyped(text, finding) &&
+        overlapping.every(
+          (prose) => prose.start >= finding.start && prose.end <= finding.end
+        )
+      ) {
+        emit(finding);
+        overlapping.forEach((prose) => covered.add(prose));
       } else {
         suppressed++;
       }
     },
     options
   );
-  options.debug?.({ event: 'document-prose-overlap', complete, suppressed });
+  for (const finding of runs.flat()) {
+    if (!covered.has(finding)) {
+      emit(finding);
+    }
+  }
+  options.debug?.({
+    event: 'document-prose-overlap',
+    complete,
+    suppressed,
+    typed: covered.size,
+  });
 }
+// The prose findings of one ordered run that overlap a document finding.
 function overlapsRun(run, finding) {
   let low = 0,
     high = run.length;
@@ -164,7 +200,11 @@ function overlapsRun(run, finding) {
       high = mid;
     }
   }
-  return low < run.length && run[low].start < finding.end;
+  const overlapping = [];
+  for (let i = low; i < run.length && run[i].start < finding.end; i++) {
+    overlapping.push(run[i]);
+  }
+  return overlapping;
 }
 export function detectProperNames(text, emit, options) {
   if (options.properNames !== 'capitalized' || !proseData(text, options)) {
@@ -199,7 +239,10 @@ export function detectProperNames(text, emit, options) {
     while (range && range.index + range[0].length <= start) {
       range = ranges.next().value;
     }
-    if (preserveToken(text, raw, value, start, end, range)) {
+    if (
+      preserveToken(text, raw, value, start, end, range) ||
+      keepsProseWord(text, value, start, end, options)
+    ) {
       continue;
     }
     const type = tokenType(value);

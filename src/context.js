@@ -369,6 +369,25 @@ function operationalLocationPath(value) {
     servicePath(value) || /^(?:\.?\.?\/)?[\w.-]+(?:\/[\w.-]+)+\/?$/.test(value)
   );
 }
+// Types with a fixed value shape decide on the value alone; `undefined` leaves
+// the decision to the general checks.
+function shapedValueAllowed(value, type) {
+  if (type === 'PHONE') {
+    return (
+      /^\+?[\d () .-]{7,40}$/.test(value) &&
+      /\d{3}/.test(value.replace(/\D/g, ''))
+    );
+  }
+  if (type === 'EMAIL') {
+    return /^[^\s@]+@[^\s@]+\.[\p{L}]{2,63}$/u.test(value);
+  }
+  // A URL holds no whitespace, so prose under a `url` key is left to the
+  // detectors of what the prose contains.
+  if (type === 'URL' && /\s/u.test(value)) {
+    return false;
+  }
+  return undefined;
+}
 // Shared by native labels and the vendor catalogs. Code expressions and
 // line escapes are not personal field values, even when a key is familiar.
 export function personalValueAllowed(text, range, type, labelStart) {
@@ -382,14 +401,9 @@ export function personalValueAllowed(text, range, type, labelStart) {
   ) {
     return false;
   }
-  if (type === 'PHONE') {
-    return (
-      /^\+?[\d () .-]{7,40}$/.test(value) &&
-      /\d{3}/.test(value.replace(/\D/g, ''))
-    );
-  }
-  if (type === 'EMAIL') {
-    return /^[^\s@]+@[^\s@]+\.[\p{L}]{2,63}$/u.test(value);
+  const shaped = shapedValueAllowed(value, type);
+  if (shaped !== undefined) {
+    return shaped;
   }
   if (/^(?:\\[nrt]|[\r\n])/.test(value)) {
     return false;

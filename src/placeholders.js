@@ -456,7 +456,18 @@ export function canonicalPerson(value, people) {
       person,
     ])
   );
-  return distinct.size === 1 ? [...distinct.values()][0] : value;
+  if (distinct.size === 1) {
+    return [...distinct.values()][0];
+  }
+  // `Иванов Иван` and `Иванов Иван Петрович` are one mention in two lengths:
+  // the unique name that holds the words of every other match is the person.
+  const words = (person) =>
+    new Set((person.match(/\p{L}+/gu) ?? []).map((w) => w.toLowerCase()));
+  const fullest = [...distinct.values()].filter((person) => {
+    const own = words(person);
+    return matches.every((other) => [...words(other)].every((w) => own.has(w)));
+  });
+  return fullest.length === 1 ? fullest[0] : value;
 }
 function canonicalKnown(value, type, options, state) {
   const known = (options.knownPersonal ?? []).filter(

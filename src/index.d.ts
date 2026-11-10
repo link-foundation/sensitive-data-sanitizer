@@ -33,7 +33,9 @@ export type Vocabulary = Partial<
     | 'organizationCues'
     | 'educationCues'
     | 'personalLabels'
-    | 'personalFields',
+    | 'personalFields'
+    /** Word stems for the strict special-category rule; needs `strict: true`. */
+    | 'personalAttributes',
     VocabularyList
   >
 >;
