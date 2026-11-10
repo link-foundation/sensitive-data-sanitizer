@@ -133,7 +133,13 @@ function isLimitedTextRun(raw, wrapped) {
 // Wrapped binary base64 uses the standard alphabet, lines of one width that
 // is a multiple of four and is not plain hexadecimal.
 function isWrappedBinary(raw) {
-  const lines = raw.replace(/=+$/, '').split(/\r?\n/);
+  // Trim the padding without a regular expression: `/=+$/` backtracks
+  // quadratically over long `=` runs that are not at the end.
+  let end = raw.length;
+  while (end > 0 && raw.charCodeAt(end - 1) === 61) {
+    end -= 1;
+  }
+  const lines = raw.slice(0, end).split(/\r?\n/);
   const width = lines[0].length;
   return (
     width % 4 === 0 &&
