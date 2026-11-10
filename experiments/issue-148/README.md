@@ -45,3 +45,22 @@ context and the template diagnostic. After the fix, all 46 focused checks pass.
 The percent fixture uses the existing encoder's complete, lowercase byte
 escaping; no encoding behavior was changed. Full platform/runtime checks run
 in the existing CI pipeline.
+
+## CI investigation
+
+The first complete CI run on `2606ff6` passed all new regressions, but Linux
+Bun exhausted RE2's fixed 16 MiB WASM heap. Downloaded job log
+`ci-logs/bun-130087424657.log:4858` reports
+`Cannot enlarge memory arrays to size 16789504 bytes (OOM)`; later scans then
+failed closed. The keyword-window tests allocated duplicate `RE2` objects,
+which this dependency never frees. Those tests now reuse `compiledRule`, as the
+catalog compilation tests already do, and reset `lastIndex` before each scan.
+The same assertions and WASM engine remain in use. A focused Bun run covering
+all catalog compilation, keyword-window checks, old context cases and the new
+regressions passes 38 tests.
+
+The Linux Deno job had one separate process-cleanup assertion failure at
+`ci-logs/deno-130087424141.log:5100`: `Expected true to be false` in
+`tests/bounded-run.test.js:120`. Its 4,010 other tests passed. All nine
+process-helper checks pass in an isolated local Deno run. CI retries will verify
+whether this was a transient runner failure; no timeout was increased.
