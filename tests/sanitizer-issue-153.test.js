@@ -109,3 +109,85 @@ describe('escaped JSON policy views (issue 153)', () => {
     }
   });
 });
+
+// Explicitly supplied findings exercise malformed/oversized/deep views without
+// creating a large payload or stressing the process stack.
+describe('escaped-view inspection limits', () => {
+  const finding = (text) => ({
+    start: 0,
+    end: text.length,
+    type: 'ENCODED_SENSITIVE',
+    category: 'credential',
+    rule: 'encoded',
+  });
+
+  it('retains malformed and oversized findings', async () => {
+    for (const text of ['bad\\q', `ok\\n${'x'.repeat(8192)}`]) {
+      for (const engine of await engines({
+        exempt: () => false,
+        findings: [finding(text)],
+      })) {
+        expect((await engine.inspect(text)).length > 0).toBe(true);
+      }
+    }
+  });
+
+  it('checks nested views with a finite depth and preserves clean results', async () => {
+    let text = `{"token":"${KEEP}"}`;
+    for (let level = 0; level < 3; level++) {
+      text = escaped(text);
+      for (const engine of await engines({ exempt })) {
+        expect(await engine.inspect(text)).toEqual([]);
+        expect((await engine.sanitize(text)).text).toBe(text);
+      }
+    }
+    // A fourth view exceeds the independent inspection budget.
+    text = escaped(text);
+    for (const engine of await engines({ exempt })) {
+      expect((await engine.inspect(text)).length > 0).toBe(true);
+    }
+  });
+
+  it('includes independent async detectors when checking decoded views', async () => {
+    const marker = 'policyguard';
+    const engine = createSanitizer({
+      ...HIVE,
+      exempt,
+      detectors: [
+        {
+          async detect(text) {
+            const start = text.indexOf(marker);
+            return start < 0
+              ? []
+              : [
+                  {
+                    start,
+                    end: start + marker.length,
+                    type: 'SECRET',
+                    category: 'credential',
+                    rule: 'custom-policy',
+                  },
+                ];
+          },
+        },
+      ],
+    });
+    const text = escaped(`{"token":"${KEEP}","note":"${marker}"}`);
+    expect((await engine.inspect(text)).length > 0).toBe(true);
+    expect((await engine.sanitize(text)).text.includes(marker)).toBe(false);
+  });
+
+  it('reports value-free decoded-view diagnostics only when requested', async () => {
+    const events = [];
+    for (const engine of await engines({
+      exempt,
+      debug: (event) => events.push(event),
+    })) {
+      await engine.inspect(escaped(`{"token":"${KEEP}"}`));
+    }
+    expect(events.some((event) => event.event === 'exempt-decoded-view')).toBe(
+      true
+    );
+    expect(JSON.stringify(events).includes(KEEP)).toBe(false);
+  });
+});

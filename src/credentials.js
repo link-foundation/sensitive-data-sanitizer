@@ -1,4 +1,26 @@
 import { collectMatches } from './detection.js';
+import { Buffer } from 'node:buffer';
+
+// Re-encoded Hive output can be shorter than the general decoder threshold.
+// Recognize only a whole canonical base64/base64url spelling of a complete
+// mask; arbitrary decodable text and masks glued to literal text stay sensitive.
+function encodedMask(value) {
+  if (
+    value.length > 64 ||
+    !/^(?:[A-Za-z0-9+/]+|[A-Za-z0-9_-]+)={0,2}$/.test(value)
+  ) {
+    return false;
+  }
+  const bytes = Buffer.from(value, 'base64url');
+  const canonical = bytes.toString('base64');
+  const standard = value.replaceAll('-', '+').replaceAll('_', '/');
+  const decoded = bytes.toString('utf8');
+  return (
+    (standard === canonical || standard === canonical.replace(/=+$/, '')) &&
+    Buffer.from(decoded).equals(bytes) &&
+    /^(?:\[REDACTED\]|[^\s…]{0,3}…[^\s…]{0,3})$/u.test(decoded)
+  );
+}
 
 export function credentialPlaceholder(value) {
   return (
@@ -59,7 +81,10 @@ export function templatedCredential(text, finding) {
   const sentenceEnd = /^[.,;:!?]+(?:\s|$)/.test(
     text.slice(finding.start + value.length)
   );
-  return (!/[\w$%+/=.-]/.test(after) || sentenceEnd) && templatedValue(value);
+  return (
+    (!/[\w$%+/=.-]/.test(after) || sentenceEnd) &&
+    (templatedValue(value) || encodedMask(value))
+  );
 }
 // Only variable references and the documented gh lookup are exempt. Arbitrary
 // shell commands and Actions expressions can contain literal credentials.
