@@ -1,6 +1,6 @@
 import { it, expect } from 'test-anywhere';
 import { keywordMatcher } from '../src/keywords.js';
-import { gitleaksRules } from '../src/gitleaks.js';
+import { betterleaksRules, gitleaksRules } from '../src/gitleaks.js';
 
 it('matches includes semantics for overlapping keywords and the full vendored dictionary', () => {
   const words = [
@@ -14,7 +14,9 @@ it('matches includes semantics for overlapping keywords and the full vendored di
       'he',
       'hers',
       'his',
-      ...gitleaksRules.flatMap((r) => r.keywords ?? []),
+      ...[...gitleaksRules, ...betterleaksRules].flatMap(
+        (r) => r.keywords ?? []
+      ),
     ]),
   ];
   const match = keywordMatcher(words);

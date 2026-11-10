@@ -1,0 +1,11 @@
+{
+  "version": "v1.10.0",
+  "source": "https://raw.githubusercontent.com/betterleaks/betterleaks/v1.10.0/config/betterleaks.toml",
+  "sha256": "3489c5044d3a6e5abfd17a381e9de188b6f4fdee49f7f44bae89e2f8932464fa",
+  "rules": 203,
+  "files": 6,
+  "partialFilters": [
+    "box-api-access-token"
+  ],
+  "policy": "Only rule ids absent from the vendored Gitleaks set; original RE2 patterns; entropy and secret-only matchesAny/containsAny filters; no tokenRatio, nearby-line evidence, validation or skipReport components."
+}

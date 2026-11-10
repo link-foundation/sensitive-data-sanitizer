@@ -1,0 +1,483 @@
+[
+  {
+    "id": "slack-session-cookie",
+    "description": "Detected a Slack session cookie (xoxd-), which authenticates browser and desktop sessions across all of a user's workspaces.",
+    "regex": "(xoxd-[\\w\\/\\\\+-]{100,}={0,2})(?:[^\\w\\/+=-]|\\z)",
+    "keywords": [
+      "xoxd-"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "slack-session-token",
+    "description": "Detected a Slack client session token (xoxc-), which provides full user-level API access when paired with a session cookie.",
+    "regex": "xoxc-\\d{9,15}-\\d{9,15}-\\d{9,15}-[a-f0-9]{64}\\b",
+    "keywords": [
+      "xoxc-"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "snowflake-programmatic-access-token.1",
+    "description": "Snowflake programmatic access token.",
+    "regex": "(?i:(?:(?:snowflake[_. -]*(?:programmatic[_. -]*)?(?:access[_. -]*)?token|sf[_. -]*token))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9_-]{100,500})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "snowflake",
+      "sf_token"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "sslmate-api-key.1",
+    "description": "SSLMate API key.",
+    "regex": "(?i:(?:sslmate(?:[_. -]*(?:api))?[_. -]*(?:secret|key|token))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9]{36})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "sslmate"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "stability-ai-api-key",
+    "description": "Detected a Stability AI API Key, which may expose AI image generation services to unauthorized access.",
+    "regex": "(?i)(?:stability)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(sk-[A-Za-z0-9]{48})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "stability"
+    ],
+    "confidence": "medium",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "supabase-management-token",
+    "description": "Detected a Supabase Management Token, which may allow unauthorized access to Supabase organizations and projects.",
+    "regex": "\\b(sbp_[a-z0-9_-]{40})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "sbp_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n|| !matchesAny(finding[\"secret\"], [`^sbp_[a-z0-9_-]*[0-9][a-z0-9_-]*[0-9][a-z0-9_-]*$`])\n",
+    "entropy": 3.5,
+    "entropyInclusive": true,
+    "require": [
+      "^sbp_[a-z0-9_-]*[0-9][a-z0-9_-]*[0-9][a-z0-9_-]*$"
+    ]
+  },
+  {
+    "id": "supabase-project-api-key",
+    "description": "Detected a Supabase Project API Key, which may expose project data through Supabase APIs when paired with a project URL.",
+    "regex": "\\b(sb_secret_[A-Za-z0-9_-]{31})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "sb_secret_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 4.0\n",
+    "entropy": 4.0,
+    "entropyInclusive": true
+  },
+  {
+    "id": "tableau-personal-access-token.1",
+    "description": "Tableau personal access token.",
+    "regex": "(?:^|[^A-Za-z0-9+/])([A-Za-z0-9+/]{22}==:[A-Za-z0-9]{32})\\b",
+    "keywords": [
+      "tableau"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "tailscale-api-key.1",
+    "description": "Tailscale API access token.",
+    "regex": "\\b(tskey-api-[A-Za-z0-9_-]{20,36})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "tskey-api-"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "telnyx-api-v2-key.1",
+    "description": "Telnyx API v2 key.",
+    "regex": "(?i:(?:telnyx(?:[_. -]*(?:api))?[_. -]*(?:secret|key|token))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(KEY[0-9A-Za-z_-]{55})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "telnyx"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "temporal-cloud-api-key.1",
+    "description": "Temporal Cloud API key.",
+    "regex": "\\b(eyJ[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]*Y2NvdW50X2lk[A-Za-z0-9_-]*InRlbXBvcmFsLmlv[A-Za-z0-9_-]*(?:ICJrZXlfaWQiOi|a2V5X2lk|rZXlfaWQi)[A-Za-z0-9_-]{20,}\\.[A-Za-z0-9_-]{20,})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "inrlbxbvcmfslmlv"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.2\n|| !filter.matchesAny(finding[\"secret\"], [\"^(?:[^0-9]*[0-9]){3}\"])\n",
+    "entropy": 3.2,
+    "require": [
+      "^(?:[^0-9]*[0-9]){3}"
+    ]
+  },
+  {
+    "id": "thunderstore-api-token.1",
+    "description": "Thunderstore API token.",
+    "regex": "\\b(tss_[A-Za-z0-9_-]{20,80})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "tss_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5\n|| !filter.matchesAny(finding[\"secret\"], [\"^(?:[^0-9]*[0-9]){2}\"])\n",
+    "entropy": 3.5,
+    "require": [
+      "^(?:[^0-9]*[0-9]){2}"
+    ]
+  },
+  {
+    "id": "togetherai-api-key",
+    "description": "Detected a Together.ai API Key, which may expose access to open-source AI models and inference services.",
+    "regex": "(?i)\\b(tgp_v1_[A-Za-z0-9_-]{43})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "tgp_v1_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.0\n",
+    "entropy": 3.0,
+    "entropyInclusive": true
+  },
+  {
+    "id": "unkey-root-key.1",
+    "description": "Unkey administrative root key.",
+    "regex": "\\b(unkey_[A-Za-z0-9]{20,32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "unkey_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5\n|| !filter.matchesAny(finding[\"secret\"], [\"[0-9]\"])\n|| !filter.matchesAny(finding[\"secret\"], [\"[A-Z]\"])\n|| !filter.matchesAny(finding[\"secret\"], [\"[a-z]\"])\n",
+    "entropy": 3.5,
+    "require": [
+      "[0-9]",
+      "[A-Z]",
+      "[a-z]"
+    ]
+  },
+  {
+    "id": "upcloud-api-token",
+    "description": "Identified an UpCloud API token, which may expose cloud infrastructure resources to unauthorized access.",
+    "regex": "\\b(ucat_[0-9A-Za-z]{24,32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "ucat_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "upstage-api-key",
+    "description": "Detected an Upstage AI API key, which may expose Solar language models and document AI services to unauthorized access.",
+    "regex": "(?i)(?:upstage)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9]{40,50})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "upstage"
+    ],
+    "confidence": "medium",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "upstash-redis-rest-token.1",
+    "description": "Upstash Redis REST token, which may grant read-only or full access to an Upstash database.",
+    "regex": "(?i:(?:upstash)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}((?:[A-Za-z0-9]{32,48}|AYNgAS[A-Za-z0-9+/_-]{26,90}={0,2}))(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "upstash"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "val-town-api-token.1",
+    "description": "Val Town API token.",
+    "regex": "\\b(vtwn_[A-Za-z0-9_-]{20,80})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "vtwn_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5\n|| !filter.matchesAny(finding[\"secret\"], [\"^(?:[^0-9]*[0-9]){2}\"])\n",
+    "entropy": 3.5,
+    "require": [
+      "^(?:[^0-9]*[0-9]){2}"
+    ]
+  },
+  {
+    "id": "vercel-ai-gateway-key",
+    "description": "Detected a Vercel AI Gateway API Key (vck_), which may expose AI model routing and gateway access to unauthorized parties.",
+    "regex": "(?i)\\b(vck_[A-Za-z0-9_-]{56})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "vck_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "vercel-api-token",
+    "description": "Detected a Vercel API Token, which may expose deployment and serverless infrastructure to unauthorized access.",
+    "regex": "(?i)(?:vercel)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Z0-9]{24})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "vercel"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "vercel-app-access-token",
+    "description": "Detected a Vercel App Access Token (vca_), which may allow Sign in with Vercel apps to access user resources.",
+    "regex": "(?i)\\b(vca_[A-Za-z0-9_-]{56})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "vca_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "vercel-app-refresh-token",
+    "description": "Detected a Vercel App Refresh Token (vcr_), which may allow persistent unauthorized access through token refresh flows.",
+    "regex": "(?i)\\b(vcr_[A-Za-z0-9_-]{56})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "vcr_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "vercel-integration-token",
+    "description": "Detected a Vercel Integration Token (vci_), which may allow third-party service integrations to act on behalf of users.",
+    "regex": "(?i)\\b(vci_[A-Za-z0-9_-]{56})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "vci_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "vercel-personal-access-token",
+    "description": "Detected a Vercel Personal Access Token (vcp_), which may expose full account and deployment management capabilities.",
+    "regex": "(?i)\\b(vcp_[A-Za-z0-9_-]{56})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "vcp_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "virustotal-api-key.1",
+    "description": "VirusTotal API key, which may expose private submissions, intelligence, or account API access.",
+    "regex": "(?i)(?:virustotal)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{64})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "virustotal"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "voyageai-api-key",
+    "description": "Detected a Voyage AI API key, which may expose embedding and retrieval model access to unauthorized parties.",
+    "regex": "(?i:(?:voyage)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}((?:pa|al)-[A-Za-z0-9_-]{43})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "voyage"
+    ],
+    "confidence": "medium",
+    "filter": "entropy(finding[\"secret\"]) < 4.0\n",
+    "entropy": 4.0
+  },
+  {
+    "id": "vultr-api-key.1",
+    "description": "Vultr API key, which may allow management of cloud account resources.",
+    "regex": "(?i)(?:vultr)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{36})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "vultr"
+    ],
+    "confidence": "medium",
+    "filter": "entropy(finding[\"secret\"]) < 3.4\n",
+    "entropy": 3.4
+  },
+  {
+    "id": "wakatime-api-key.1",
+    "description": "WakaTime API key version 1 (UUID format).",
+    "regex": "(?i:(?:waka[_. -]?time(?:[_. -]*(?:api))?[_. -]*(?:secret|key|token))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "wakatime",
+      "waka_time",
+      "waka-time",
+      "waka time",
+      "waka.time"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "wakatime-api-key.2",
+    "description": "WakaTime API key version 2 (waka_ format).",
+    "regex": "(?i)\\b(waka_[a-z0-9]{36,64})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "waka_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "weatherstack-api-key.1",
+    "description": "Weatherstack API key.",
+    "regex": "(?i:(?:weatherstack(?:[_. -]*(?:api))?[_. -]*(?:secret|key|token))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([0-9a-z]{32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "weatherstack"
+    ],
+    "confidence": "medium",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.3 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.3
+  },
+  {
+    "id": "weights-and-biases-api-key",
+    "description": "Detected a Weights & Biases API Key, which may expose ML experiment tracking and model registry access to unauthorized parties.",
+    "regex": "(?i)(?:wandb|weightsandbiases)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{40})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "wandb",
+      "weightsandbiases"
+    ],
+    "confidence": "medium",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "weights-and-biases-api-key-v1",
+    "description": "Detected a Weights & Biases v1 API Key (wandb_v1_), which may expose ML experiment tracking and artifact storage to unauthorized access.",
+    "regex": "(?i)\\b(wandb_v1_[A-Za-z0-9_]{77})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "wandb_v1_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "wiz-client-secret.1",
+    "description": "Wiz OAuth client secret, which may allow access to the Wiz API when paired with its client ID.",
+    "regex": "(?i:(?:wiz)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9]{64})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "wiz"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 4.0\n",
+    "entropy": 4.0
+  },
+  {
+    "id": "woocommerce-consumer-secret.1",
+    "description": "WooCommerce REST API consumer secret, which may allow read or write access to a store with the associated consumer key.",
+    "regex": "(?i)(?:woo)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(cs_[a-f0-9]{40})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "wooc",
+      "woo-",
+      "woo_",
+      "cs_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "workato-developer-api-token.1",
+    "description": "Workato Developer API token.",
+    "regex": "\\b(wrka(?:[a-z]{2})?-eyJ[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{16,}\\.[A-Za-z0-9_-]{64,})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "wrka"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 4.0\n",
+    "entropy": 4.0
+  },
+  {
+    "id": "workos-production-api-key.1",
+    "description": "WorkOS production API key.",
+    "regex": "(?i:(?:workos(?:[_. -]*(?:api))?[_. -]*(?:secret|key|token))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(sk_live_a2V5Xz[A-Za-z0-9+/]{69}={0,2})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "workos"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5\n|| filter.matchesAny(finding[\"secret\"], [\"(?i)example\"])\n",
+    "entropy": 3.5,
+    "reject": [
+      "(?i)example"
+    ]
+  },
+  {
+    "id": "xai-api-key",
+    "description": "Detected an xAI (Grok) API Key, which may expose Grok AI model access to unauthorized parties.",
+    "regex": "(?i)\\b(xai-[A-Za-z0-9_-]{70,120})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "xai-"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "xendit-production-api-key.1",
+    "description": "Xendit production API key, which may allow access to payment and balance APIs.",
+    "regex": "\\b(xnd_production_[A-Za-z0-9]{56,72})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "xnd_production_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "zai-api-key",
+    "description": "Detected a Z.ai API key, which may expose GLM model access and usage to unauthorized parties.",
+    "regex": "(?i)(?:zai|z_ai|z\\.ai|glm|zlm)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{32}\\.[a-z0-9]{16})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "zai",
+      "z_ai",
+      "z.ai",
+      "glm",
+      "zlm"
+    ],
+    "confidence": "medium",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "zoho-client-secret.1",
+    "description": "Zoho OAuth client secret, which may allow OAuth client authentication when paired with the associated client ID.",
+    "regex": "(?i)(?:zoho)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{42})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "zoho"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  }
+]

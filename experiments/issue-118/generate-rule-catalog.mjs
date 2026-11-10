@@ -46,6 +46,10 @@ for (const id of [
   'encoded',
   'encoded-engine',
   'secretlint',
+  'credential-pair',
+  'login-call',
+  'named-value',
+  'password-hash',
 ]) {
   credential.add(id);
 }
@@ -62,6 +66,14 @@ for (let i = 0; i < 6; i++) {
   )) {
     rules.add(`gitleaks/${r.id}`);
     credential.add(`gitleaks/${r.id}`);
+  }
+}
+for (const file of readdirSync('src/vendor/betterleaks').filter((f) =>
+  f.startsWith('rules-')
+)) {
+  for (const r of JSON.parse(readFileSync(`src/vendor/betterleaks/${file}`))) {
+    rules.add(`betterleaks/${r.id}`);
+    credential.add(`betterleaks/${r.id}`);
   }
 }
 writeFileSync(

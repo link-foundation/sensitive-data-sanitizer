@@ -1,0 +1,454 @@
+[
+  {
+    "id": "coveralls-personal-api-token",
+    "description": "Detected a Coveralls personal API token, which may expose repository coverage data.",
+    "regex": "(?i)(?:coveralls)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9-]{37})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "coveralls"
+    ],
+    "confidence": "medium",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "crates-io-api-key",
+    "description": "crates.io API key.",
+    "regex": "(?i)(?:crates(?:[_.-]?io)?)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(cio[A-Za-z0-9]{32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "crates"
+    ],
+    "confidence": "high"
+  },
+  {
+    "id": "cursor-api-key",
+    "description": "Detected a Cursor Integrations API Key, which may expose AI-assisted development services to unauthorized access.",
+    "regex": "(?i)(?:cursor)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(key_[0-9a-f]{64})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "cursor"
+    ],
+    "confidence": "medium",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "databento-api-key",
+    "description": "Databento API key.",
+    "regex": "(?i)(?:databento)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(db-[A-Za-z0-9]{29})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "databento"
+    ],
+    "confidence": "high"
+  },
+  {
+    "id": "datadog-api-key",
+    "description": "Detected a Datadog API key, potentially risking monitoring and analytics data exposure and manipulation.",
+    "regex": "(?i)(?:datadog)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "datadog"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "datadog-application-key",
+    "description": "Detected a Datadog application key, which may expose Datadog account and monitoring data when paired with an API key.",
+    "regex": "(?i)(?:datadog)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9-]{40})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "datadog"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "datagov-api-key",
+    "description": "Detected a Data.gov API key, which may expose usage of Data.gov-backed APIs.",
+    "regex": "(?i)(?:data\\.gov)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{40})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "data.gov"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "datastax-astra-application-token",
+    "description": "DataStax Astra application token.",
+    "regex": "\\b(AstraCS:[A-Za-z0-9]{20,})",
+    "keywords": [
+      "astracs:"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 4.0\n",
+    "entropy": 4.0
+  },
+  {
+    "id": "deepgram-api-key",
+    "description": "Detected a Deepgram API Key, which may expose speech recognition services and audio data to unauthorized access.",
+    "regex": "(?i)(?:deepgram)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{40})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "deepgram"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.3 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.3
+  },
+  {
+    "id": "deepseek-api-key",
+    "description": "Detected a DeepSeek API Key, which may expose AI model access and associated usage to unauthorized parties.",
+    "regex": "(?i)(?:deepseek)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(sk-[a-f0-9]{32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "deepseek"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "deno-account-token",
+    "description": "Detected a Deno account token, which may expose Deno Deploy account access.",
+    "regex": "\\b(ddp_[A-Za-z0-9]{36})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "ddp_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "devcycle-client-sdk-key",
+    "description": "DevCycle client SDK key.",
+    "regex": "\\b(dvc_client_[A-Za-z0-9]{8,32})",
+    "keywords": [
+      "dvc_client_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "devcycle-mobile-sdk-key",
+    "description": "DevCycle mobile SDK key.",
+    "regex": "\\b(dvc_mobile_[A-Za-z0-9]{8,32})",
+    "keywords": [
+      "dvc_mobile_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "devcycle-server-sdk-key",
+    "description": "DevCycle server SDK key.",
+    "regex": "\\b(dvc_server_[A-Za-z0-9]{8,32})",
+    "keywords": [
+      "dvc_server_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "devin-personal-api-key",
+    "description": "Detected a Cognition Devin personal API key, which may expose Devin sessions and user data.",
+    "regex": "\\b(apk_user_[A-Za-z0-9+/]{120,180}={0,2})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "apk_user_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "devin-service-api-key",
+    "description": "Detected a Cognition Devin service API key, which may expose Devin sessions and organization access.",
+    "regex": "\\b(apk_[A-Za-z0-9+/]{80,100}={0,2})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "apk_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "devin-service-user-token",
+    "description": "Detected a Cognition Devin service user token, which may expose Devin service user access.",
+    "regex": "\\b(cog_[a-z2-7]{52})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "cog_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "disqus-api-key",
+    "description": "Detected a Disqus API key, which may expose Disqus thread and account data.",
+    "regex": "(?i)(?:disqus)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{64})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "disqus"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "docker-swarm-join-token",
+    "description": "Docker Swarm join token.",
+    "regex": "\\b(SWMTKN-1-[a-z0-9]{50,60}-[a-z0-9]{24,30})",
+    "keywords": [
+      "swmtkn-1-"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "docker-swarm-unlock-key",
+    "description": "Docker Swarm unlock key.",
+    "regex": "\\b(SWMKEY-1-[A-Za-z0-9+/]{40,50})",
+    "keywords": [
+      "swmkey-1-"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "dockerhub-organization-access-token",
+    "description": "Detected a Docker Hub organization access token, which may expose organization repositories.",
+    "regex": "\\b(dckr_oat_[A-Za-z0-9_-]{32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "dckr_oat_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "dockerhub-personal-access-token",
+    "description": "Detected a Docker Hub personal access token, which may expose Docker Hub account access.",
+    "regex": "\\b(dckr_pat_[A-Za-z0-9_-]{27})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "dckr_pat_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "ebay-client-secret",
+    "description": "eBay client secret.",
+    "regex": "(?i:(?:ebay(?:[_. -]*(?:client|api))?[_. -]*(?:secret|key))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(PRD-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4,12})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "ebay"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "elastic-cloud-api-key",
+    "description": "Identified an Elastic Cloud Serverless API key, which may expose Elasticsearch and Kibana resources to unauthorized access.",
+    "regex": "\\b(essu_[A-Za-z0-9_\\-]{60,200}={0,2})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "essu_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "elevenlabs-api-key",
+    "description": "Detected an ElevenLabs API Key, which may expose AI voice synthesis services to unauthorized access.",
+    "regex": "(?i)(?:elevenlabs)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(sk_[0-9a-f]{48})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "elevenlabs"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "endorlabs-api-key",
+    "description": "Detected an Endor Labs API Key, which may compromise supply chain security scanning and software composition analysis.",
+    "regex": "(?i)(?:endor(?:labs)?|key)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(endr\\+[A-Za-z0-9-]{16})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "endr+"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "endorlabs-api-secret",
+    "description": "Detected an Endor Labs API Secret, which together with an API key grants full access to Endor Labs supply chain security services.",
+    "regex": "(?i)(?:endor(?:labs)?|secret)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(endr\\+[A-Za-z0-9-]{16})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "endr+"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "etsy-open-api-key",
+    "description": "Found an Etsy Open API key, potentially compromising Etsy app access and shop integrations.",
+    "regex": "(?i)(?:etsy|x-api-key)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{24}:[a-z0-9]{10,64})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "etsy",
+      "x-api-key"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "exoscale-api-key",
+    "description": "Identified an Exoscale API key paired with a secret, which together grant programmatic access to Exoscale cloud resources.",
+    "regex": "\\b(EXO[a-zA-Z0-9]{24,30})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "exo"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "fal-api-key.1",
+    "description": "Fal.ai API key, which may allow access to model execution, billing, and platform APIs.",
+    "regex": "(?i:(?:falai|fal_ai|fal-ai|fal.ai|fal-api|fal_api|fal_key|fal-key)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}:[a-f0-9]{32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "falai",
+      "fal_ai",
+      "fal-ai",
+      "fal.ai",
+      "fal-api",
+      "fal_api",
+      "fal_key",
+      "fal-key"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "figma-personal-access-header-token",
+    "description": "Uncovered a Figma Personal Access Token in a header, which may compromise design assets and team collaboration.",
+    "regex": "(?i)(?:x-figma-token|xfigmatoken|x_figma_token)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([0-9A-F]{4}-[0-9A-F]{8}(?:-[0-9A-F]{4}){3}-[0-9A-F]{12})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "x-figma-token",
+      "xfigmatoken",
+      "x_figma_token"
+    ],
+    "confidence": "high"
+  },
+  {
+    "id": "figma-personal-access-token",
+    "description": "Uncovered a Figma Personal Access Token, which may compromise design assets and team collaboration.",
+    "regex": "(?i)\\b(figd_[A-Z0-9_-]{38,42})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "figd_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "fullstory-api-key",
+    "description": "FullStory API key.",
+    "regex": "(?i)(?:(?:fullstory|fs_api|fullstory_api))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}((?:na1|eu1)\\.[A-Za-z0-9]{20,})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "fullstory",
+      "fs_api"
+    ],
+    "confidence": "medium",
+    "filter": "entropy(finding[\"secret\"]) < 3.3\n",
+    "entropy": 3.3
+  },
+  {
+    "id": "gcp-application-default-credentials",
+    "description": "Google (GCP) Application Default Credentials",
+    "regex": "\\{[^{]+(?:(?:\"client_secret\"\\s*:\\s*\"[^\"]+\"[^}]+\"refresh_token\"\\s*:\\s*\"[^\"]+\")|(?:\"refresh_token\"\\s*:\\s*\"[^\"]+\"[^}]+\"client_secret\"\\s*:\\s*\"[^\"]+\"))[^}]+\\}",
+    "keywords": [
+      ".apps.googleusercontent.com"
+    ],
+    "confidence": "high"
+  },
+  {
+    "id": "gcp-gemini-api",
+    "description": "Detected a Google Gemini API key, which may expose Gemini model access and usage to unauthorized parties.",
+    "regex": "\\b(AQ\\.Ab8RN6[A-Za-z0-9_-]{44})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "aq.ab8rn6"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 4.0\n",
+    "entropy": 4.0,
+    "entropyInclusive": true
+  },
+  {
+    "id": "gcp-service-account",
+    "description": "Google (GCP) Service-account",
+    "regex": "\\{[^{]+(?:(?:\"private_key\"\\s*:\\s*\"-----BEGIN (?:RSA )?PRIVATE KEY-----[^}]+auth_provider_x509_cert_url)|(?:auth_provider_x509_cert_url[^}]+\"private_key\"\\s*:\\s*\"-----BEGIN (?:RSA )?PRIVATE KEY-----))[^}]+\\}",
+    "keywords": [
+      "provider_x509"
+    ],
+    "confidence": "high",
+    "filter": "containsAny(finding[\"secret\"], [\"image-pulling@authenticated-image-pulling.iam.gserviceaccount.com\"])\n",
+    "reject": [
+      "image\\-pulling@authenticated\\-image\\-pulling\\.iam\\.gserviceaccount\\.com"
+    ]
+  },
+  {
+    "id": "gitea-access-token",
+    "description": "Detected a Gitea Access Token, which may expose self-hosted Git repositories and associated code to unauthorized access.",
+    "regex": "(?i)(?:gitea[_.-]?(?:token|key|secret|access))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{40})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "gitea"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.3 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.3
+  },
+  {
+    "id": "gitlab-incoming-mail-address-token",
+    "description": "Identified a GitLab incoming mail token embedded in an email address, risking manipulation of data sent by mail.",
+    "regex": "incoming\\+(?:[A-Za-z0-9._-]+-)?\\d+-([A-Za-z0-9_-]+)-(?:issue(?:-\\d+)?|merge-request)@",
+    "keywords": [
+      "incoming+"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.0\n",
+    "entropy": 3.0,
+    "entropyInclusive": true
+  },
+  {
+    "id": "gitlab-pat-routable-versioned",
+    "description": "Identified a GitLab Personal Access Token (routable, versioned), risking unauthorized access to GitLab repositories and codebase exposure.",
+    "regex": "\\bglpat-[0-9a-zA-Z_-]{27,300}\\.[0-9a-z]{2}\\.[0-9a-z]{9}\\b",
+    "keywords": [
+      "glpat-"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 4.0\n",
+    "entropy": 4.0,
+    "entropyInclusive": true
+  },
+  {
+    "id": "greptile-api-key",
+    "description": "Detected a Greptile API Key, which may expose AI-powered code search and analysis services to unauthorized access.",
+    "regex": "(?i)(?:greptile)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-zA-Z0-9+/]{48})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "greptile"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  }
+]

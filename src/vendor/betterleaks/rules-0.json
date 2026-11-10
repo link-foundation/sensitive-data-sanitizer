@@ -1,0 +1,463 @@
+[
+  {
+    "id": "abuseipdb-api-key.1",
+    "description": "AbuseIPDB API key, which may allow access to IP reputation data and abuse-reporting APIs.",
+    "regex": "(?i)(?:abuseipdb)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{80})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "abuseipdb"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "aikido-ci-token",
+    "description": "Detected an Aikido CI token, which may allow unauthorized CI scan integration activity in Aikido.",
+    "regex": "\\b(AIK_CI_[A-Za-z0-9]{20,44})\\b",
+    "keywords": [
+      "aik_ci_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "aikido-client-secret",
+    "description": "Detected an Aikido client secret, which may allow unauthorized access to Aikido APIs when paired with a client ID.",
+    "regex": "\\b(AIK_SECRET_[A-Za-z0-9]{64})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "aik_secret_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "airtable-oauth-token",
+    "description": "Detected an Airtable OAuth token, which may allow unauthorized access to Airtable resources granted to an OAuth integration.",
+    "regex": "(?i)(?:airtable)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Z0-9]+\\.v1\\.[A-Z0-9_-]+\\.[a-f0-9]+)(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "airtable"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "aiven-auth-token",
+    "description": "Detected an Aiven authentication token, which may expose Aiven projects and services.",
+    "regex": "(?i:aiven)[\\s\\S]{0,32}?\\b([A-Za-z0-9/+=]{372})(?:[^A-Za-z0-9/+=]|$)",
+    "keywords": [
+      "aiven"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 4.0 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 4.0
+  },
+  {
+    "id": "alibaba-sts-access-key-secret",
+    "description": "Detected an Alibaba Cloud STS AccessKey secret, which may allow temporary Alibaba Cloud API access when paired with an STS AccessKey ID and security token.",
+    "regex": "(?i)(?:alibaba|aliyun|secret|key)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9]{30,64})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "alibaba",
+      "aliyun"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "amplitude-secret-key",
+    "description": "Detected an Amplitude secret key, which may allow unauthorized event ingestion or access to Amplitude API functionality.",
+    "regex": "(?i)\\bamplitude(?:.|[\\n\\r]){0,32}?(?:SECRET|PRIVATE|ACCESS|KEY|TOKEN|AUTHORIZATION)(?:.|[\\n\\r]){0,16}?\\b([a-f0-9]{32})\\b",
+    "keywords": [
+      "amplitude"
+    ],
+    "confidence": "medium",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.3 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.3
+  },
+  {
+    "id": "apify-api-token",
+    "description": "Detected an Apify API token, which may expose actors, tasks, and stored data.",
+    "regex": "\\b(apify_api_[A-Za-z0-9]{34,38})\\b",
+    "keywords": [
+      "apify_api_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "apollo-api-key.1",
+    "description": "Apollo.io API key, which may allow access to sales intelligence and engagement data.",
+    "regex": "(?i:(?:apollo)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9_-]{22})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "apollo"
+    ],
+    "confidence": "medium",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.0 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "asaas-api-token",
+    "description": "Detected an Asaas API token, which may expose payment and customer data.",
+    "regex": "(?:^|[^A-Za-z0-9_-])(\\$aact_(?:prod|hmlg)_[A-Za-z0-9_-]{20,100})(?:[^A-Za-z0-9_-]|$)",
+    "keywords": [
+      "$aact_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "assemblyai-api-key",
+    "description": "Detected an AssemblyAI API Key, which may expose speech-to-text services and associated audio data to unauthorized access.",
+    "regex": "(?i)(?:assemblyai)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "assemblyai"
+    ],
+    "confidence": "medium",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "auth0-client-secret.1",
+    "description": "Auth0 client secret, which may allow an application to impersonate its OAuth client.",
+    "regex": "(?i:(?:auth0[_.-]?(?:client[_.-]?)?(?:secret|private|key|token))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9_-]{64,128})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "auth0"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "azure-app-configuration-connection-string",
+    "description": "Detected an Azure App Configuration connection string.",
+    "regex": "(?i)Endpoint=(?P<azure_appconfig_endpoint>https://[a-z0-9-]+\\.azconfig\\.io);Id=(?P<azure_appconfig_id>[^;\\s'\"]{4,80});Secret=([A-Za-z0-9+/]{36,100}={0,2})",
+    "secretGroup": 3,
+    "keywords": [
+      "azconfig.io",
+      "endpoint=",
+      "secret="
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "azure-servicebus-connection-string",
+    "description": "Detected an Azure Service Bus or Event Hub shared access connection string.",
+    "regex": "(?i)(Endpoint=sb://[a-z0-9-]+\\.servicebus\\.windows\\.net/;SharedAccessKeyName=[^;=\\s'\"]{1,128};SharedAccessKey=[A-Za-z0-9+/]{32,100}={0,2}(?:;EntityPath=[^;\\s'\"]{1,128})?)",
+    "keywords": [
+      "endpoint=sb://",
+      "sharedaccesskey"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.0\n",
+    "entropy": 3.0,
+    "entropyInclusive": true
+  },
+  {
+    "id": "azure-storage-account-key",
+    "description": "Detected an Azure Storage account key.",
+    "regex": "(?i)\\b(?:AccountKey|(?:azure[_\\s.-]*)?(?:storage[_\\s.-]*)?(?:account[_\\s.-]*)?(?:access[_\\s.-]*)?key)\\b(?s:.{0,24}?)([A-Za-z0-9+/]{86}==)",
+    "keywords": [
+      "accountkey",
+      "storage",
+      "accesskey",
+      "access_key",
+      "access-key"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 4.0\n",
+    "entropy": 4.0,
+    "entropyInclusive": true
+  },
+  {
+    "id": "bitbucket-data-center-token",
+    "description": "Discovered a Bitbucket Data Center HTTP access token, risking unauthorized repository and project access.",
+    "regex": "\\b(BBDC-[A-Za-z0-9+/=]{32,})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "bbdc"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "bitly-access-token",
+    "description": "Detected a Bitly access token, which may allow unauthorized access to Bitly account and link management APIs.",
+    "regex": "(?i)\\bbitly(?:.|[\\n\\r]){0,32}?(?:SECRET|PRIVATE|ACCESS|KEY|TOKEN)(?:.|[\\n\\r]){0,32}?([a-f0-9]{40})\\b",
+    "keywords": [
+      "bitly"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.3 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.3
+  },
+  {
+    "id": "bitrise-access-token",
+    "description": "Detected a Bitrise personal or workspace access token, which may expose CI/CD applications and builds.",
+    "regex": "(?i:(?:bitrise(?:[ _-]*(?:personal|workspace))?(?:[ _-]*(?:access|api))?[ _-]*token)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9_-]{60,120})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "bitrise"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "box-api-access-token",
+    "description": "Detected a Box API access token, which may expose Box files and account data.",
+    "regex": "(?i)(?:box)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "box_",
+      "box-",
+      "boxt",
+      "boxk",
+      "boxa"
+    ],
+    "confidence": "medium",
+    "filter": "let prefix = filter.findMatch(finding[\"fragment_raw\"][finding[\"match_line_start_idx\"]:finding[\"match_start_idx\"]], \"[\\\\w.-]*$\");\nlet identifier = prefix + filter.findMatch(finding[\"match\"], \"^[\\\\w .-]+\");\nlower(identifier) contains \"client\" || entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "brave-search-api-key",
+    "description": "Detected a Brave Search API key, which may allow unauthorized use of Brave Search API quota.",
+    "regex": "\\b(BSA[A-Za-z0-9_-]{24,40})\\b",
+    "keywords": [
+      "bsa"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.2\n",
+    "entropy": 3.2
+  },
+  {
+    "id": "browserstack-access-key.1",
+    "description": "BrowserStack access key, which may allow access to automated browser and device testing when paired with its username.",
+    "regex": "(?i:(?:browserstack[_.-]?(?:access[_.-]?)?(?:key|secret|token))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9]{20})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "browserstack"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "buildkite-service-token",
+    "description": "Detected a Buildkite agent, package, or portal token, which may expose CI/CD workloads or packages.",
+    "regex": "\\b(bkaa_[A-Za-z0-9_-]{75}|bkaj_[A-Za-z0-9_-]{333}|bkar_[A-Za-z0-9_-]{73}|bkct_[A-Za-z0-9_-]{73}|bkpt_[A-Za-z0-9_-]{199}|bkpat_[A-Za-z0-9_-]{54}|bkps_[A-Za-z0-9_-]{64})(?:$|[^A-Za-z0-9_-])",
+    "keywords": [
+      "bkaa_",
+      "bkaj_",
+      "bkar_",
+      "bkct_",
+      "bkpt_",
+      "bkpat_",
+      "bkps_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "buildkite-user-access-token",
+    "description": "Detected a Buildkite user access token, which may expose pipelines, builds, and organization data.",
+    "regex": "\\b(bkua_(?:[a-z0-9]{40}|[a-z0-9]{53}))\\b",
+    "keywords": [
+      "bkua_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "canadian-digital-service-notify-api-key",
+    "description": "Detected a GC Notify API key, which may allow unauthorized notification access.",
+    "regex": "(?i:\\b(ApiKey-v1\\s+gcntfy-[a-z0-9_]+-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\\b)",
+    "keywords": [
+      "gcntfy-"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "canva-client-secret",
+    "description": "Detected a Canva Connect API client secret, which may allow unauthorized OAuth client authentication when paired with a client ID.",
+    "regex": "\\b(cnvca[a-zA-Z0-9_-]{51})\\b",
+    "keywords": [
+      "cnvca"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "cartesia-api-key.1",
+    "description": "Cartesia API key, which grants server-side access to Cartesia voice APIs.",
+    "regex": "\\b(sk_car_[A-Za-z0-9_]{20})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "sk_car_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "cerebras-api-key",
+    "description": "Identified a Cerebras AI API Key, which may expose AI inference services to unauthorized access.",
+    "regex": "(?i)\\b(csk-[a-z0-9]{48})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "csk-"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.0\n",
+    "entropy": 3.0,
+    "entropyInclusive": true
+  },
+  {
+    "id": "checkout-secret-key",
+    "description": "Checkout.com secret key.",
+    "regex": "(?i)(?:checkout)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(sk_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "checkout"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "id": "circleci-personal-token",
+    "description": "CircleCI personal access token.",
+    "regex": "\\b(CCIPAT_[a-zA-Z0-9]{22}_[a-z0-9]{40})",
+    "keywords": [
+      "ccipat_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "circleci-project-token",
+    "description": "CircleCI project token.",
+    "regex": "(?i)(?:circleci)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{40})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "circleci"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.3 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.3
+  },
+  {
+    "id": "civo-api-key",
+    "description": "Detected a Civo Cloud API key, which may expose Kubernetes clusters and compute resources to unauthorized access.",
+    "regex": "(?i)(?:civo)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{50})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "civo"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "clerk-secret-key",
+    "description": "Detected a Clerk secret key, which may allow unauthorized access to Clerk backend APIs.",
+    "regex": "(?i)(?:clerk)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(sk_(?:test|live)_[A-Za-z0-9]{32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "clerk"
+    ],
+    "confidence": "medium",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.3\n",
+    "entropy": 3.3
+  },
+  {
+    "id": "clickup-personal-api-token",
+    "description": "Detected a ClickUp personal API token, which may allow unauthorized access to ClickUp workspaces and user data.",
+    "regex": "(?i)(?:clickup)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(pk_[0-9]{8,9}_[a-z0-9]{32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "clickup"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "cloudflare-api-key.2",
+    "description": "Detected a Cloudflare API key version 2 (cfut/cfat format), potentially granting access to Cloudflare account and service resources.",
+    "regex": "\\b(cf[ua]t_[A-Za-z0-9]{40}[a-f0-9]{8})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "cfut_",
+      "cfat_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.0 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "cloudinary-api-secret",
+    "description": "Detected a Cloudinary API secret, which may allow unauthorized access to Cloudinary media and account APIs when paired with a cloud name and API key.",
+    "regex": "(?i)\\bcloudinary(?:.|[\\n\\r]){0,32}?(?:SECRET|PRIVATE|API[_\\s]?SECRET)(?:.|[\\n\\r]){0,32}?\\b([A-Za-z0-9]{32})\\b",
+    "keywords": [
+      "cloudinary"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "cloudsmith-api-key",
+    "description": "Detected a Cloudsmith API key, which may expose package repositories and artifact management operations to unauthorized access.",
+    "regex": "\\b(csa_[a-f0-9]{30}[A-Za-z0-9]{6})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "csa_"
+    ],
+    "confidence": "high"
+  },
+  {
+    "id": "cockroachlabs-cloud-api-key",
+    "description": "Detected a CockroachDB Cloud service account API key, which may allow unauthorized access to CockroachDB Cloud resources.",
+    "regex": "\\b(CCDB1_[A-Za-z0-9]{22}_[A-Za-z0-9]{40})\\b",
+    "keywords": [
+      "ccdb1_"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "configcat-sdk-key",
+    "description": "Detected a ConfigCat SDK key, which may allow access to feature flag configuration data.",
+    "regex": "(?i)(?:configcat)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9_-]{22}/[A-Za-z0-9_-]{22})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "configcat"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "configcat-sdk-key-extended",
+    "description": "Detected an extended ConfigCat SDK key, which may allow access to feature flag configuration data.",
+    "regex": "\\b(configcat-sdk-1/[A-Za-z0-9_-]{22}/[A-Za-z0-9_-]{22})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "configcat-sdk-1"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "couchbase-capella-api-key",
+    "description": "Detected a Couchbase Capella API key secret, which may allow unauthorized access to Couchbase Capella management APIs.",
+    "regex": "(?i)\\b(?:couchbase|capella)(?:.|[\\n\\r]){0,32}?(?:api(?:.|[\\n\\r]){0,12}?(?:key|secret)|key(?:.|[\\n\\r]){0,12}?secret)(?:.|[\\n\\r]){0,32}?\\b([A-Za-z0-9+/]{60,120}={0,2})\\b",
+    "keywords": [
+      "couchbase",
+      "capella"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 4.0\n",
+    "entropy": 4.0
+  }
+]
