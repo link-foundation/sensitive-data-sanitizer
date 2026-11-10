@@ -49,7 +49,7 @@ it('covers every runtime and OS once while distributing Windows Bun and Deno fix
           )
         ).toBe(true);
       }
-      if (os === 'macos-26-intel' && runtime === 'deno') {
+      if (os === 'macos-26-intel' && ['bun', 'deno'].includes(runtime)) {
         // These subprocess-heavy files consumed most of the suite budget
         // together on a cold runner. Keep them in separate execution jobs.
         const expensive = [
