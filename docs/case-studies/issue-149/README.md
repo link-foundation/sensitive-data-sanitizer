@@ -47,7 +47,8 @@ It prints decoded candidate metadata and output for the synthetic JSON and the
 input/output sizes for the binary payload. After the fix the sizes are both
 202,632. All values are synthetic.
 
-The automated regression is `tests/sanitizer-issue-149.test.js`. Against the
+The automated regression is the issue-149 suite in
+`tests/sanitizer-issue-142-encoding.test.js`. Against the
 original `src/encoded.js`, both binary preservation tests fail with an unexpected
 `ENCODED_LIMIT` finding; the exact prose/JSON cases already pass. The fixed suite
 also tests embedded credentials following invalid UTF-8, oversized nested encoded
@@ -60,3 +61,17 @@ uses oversized textual content to retain its complete-run fallback assertion.
 Focused checks use sequential Node test files with a 384 MiB heap and 30-second
 per-test timeout. Full runtime/platform suites, static checks and security checks
 are provided by the repository CI on PR #157.
+
+## CI investigation
+
+The first full run on `ee1ec36` passed Linux and Windows, but macOS Bun shard
+1/3 exceeded its 200-second budget. Job 130121336930 log line 1774 records
+the existing >10 MiB worker test exceeding its 30-second test timeout; line
+1785 records the shard limit. The base main shard passed in 97 seconds
+(job 130107937792). Adding a new alphabetically sorted test filename had moved
+the expensive stream suite from shard 3/3 to shard 1/3. The new regressions
+were consolidated into the existing encoding test file, restoring all existing
+shard assignments without increasing any timeouts or removing coverage.
+
+The automated 0.21.2 release was also merged from main; it changed only release
+metadata and the changelog.
