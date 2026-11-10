@@ -214,7 +214,7 @@ function detectPostalCodes(text, emit) {
   collectMatches(
     text,
     new RegExp(
-      `(?<=[\\p{L}.],[ \\t]*)(?:${states})[ \\t]+(\\d{5}(?:-\\d{4})?)(?![\\p{L}\\p{N}_-])`,
+      `(?<=[\\p{L}.],)[ \\t]*(?:${states})[ \\t]+(\\d{5}(?:-\\d{4})?)(?![\\p{L}\\p{N}_-])`,
       'gu'
     ),
     emit,

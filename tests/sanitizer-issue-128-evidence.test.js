@@ -1,4 +1,6 @@
+import { spawnSync } from 'node:child_process';
 import { performance } from 'node:perf_hooks';
+import { URL } from 'node:url';
 import { describe, it, expect } from 'test-anywhere';
 import { sanitize, inspect, redact, builtInRules } from '../src/index.js';
 import * as checks from '../src/national-checks.js';
@@ -299,12 +301,59 @@ describe('rule ids for competitor evidence (#128)', () => {
 
 describe('evidence labels before long tab runs (#128)', () => {
   // CodeQL js/polynomial-redos: `[ \t]*X?[ \t]*` was quadratic in the tab run
-  // (about 7 s for 60 000 tabs after SSN); the rewritten form is linear.
+  // (about 7 s for 60 000 tabs after SSN on Node); the rewritten form is
+  // linear. Compare with the same text without a label so a slow runner, which
+  // slows both scans alike, does not fail the test.
+  const elapsed = (text) => {
+    const start = performance.now();
+    sanitize(text);
+    return performance.now() - start;
+  };
+  const tabs = '\t'.repeat(60000);
   for (const label of ['P.O. Box', 'card no.', 'SSN', 'ZIP code']) {
     it(`scans ${label} followed by 60 000 tabs in linear time`, () => {
-      const start = performance.now();
-      sanitize(`${label}${'\t'.repeat(60000)}x`);
-      expect(performance.now() - start).toBeLessThan(3000);
+      const baseline = elapsed(`plain${tabs}x`);
+      expect(elapsed(`${label}${tabs}x`)).toBeLessThan(3 * baseline + 1000);
     });
   }
+});
+
+// JavaScriptCore runs a regex in its interpreter when the JIT is unavailable or
+// has given up, as happens late in a long `bun test` run. The interpreter tries
+// a lookbehind at every position, so `(?<=,[ \t]*)` or `(?<!\d[ \t]*)` scans
+// the whole whitespace run each time: about 10 s for 60 000 tabs. Lookbehinds
+// that follow a literal ("Ms(?<!\d[ \t]*Ms)") run only where it matched.
+// Quadrupling the run measured 11-13x before the rewrite and 3-4x after.
+describe('lookbehinds stay linear in the JavaScriptCore interpreter (#128)', () => {
+  const bun = globalThis.process?.versions?.bun;
+  const script = `
+    const { sanitize } = await import(${JSON.stringify(
+      new URL('../src/index.js', import.meta.url).href
+    )});
+    const time = (text) => {
+      const start = performance.now();
+      sanitize(text);
+      return performance.now() - start;
+    };
+    const ratios = {};
+    for (const prefix of ['30', 'a,', 'Dear Ms']) {
+      const short = time(prefix + '\\t'.repeat(4000) + 'x');
+      ratios[prefix] = time(prefix + '\\t'.repeat(16000) + 'x') / short;
+    }
+    console.log(JSON.stringify(ratios));
+  `;
+  it('grows about fourfold, not sixteenfold, for a four times longer tab run', () => {
+    if (!bun) {
+      return;
+    }
+    const run = spawnSync(globalThis.process.execPath, ['-e', script], {
+      encoding: 'utf8',
+      env: { ...globalThis.process.env, BUN_JSC_useRegExpJIT: '0' },
+      timeout: 25000,
+    });
+    expect(run.status).toBe(0);
+    for (const ratio of Object.values(JSON.parse(run.stdout))) {
+      expect(ratio).toBeLessThan(7);
+    }
+  });
 });

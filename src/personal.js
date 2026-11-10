@@ -250,7 +250,7 @@ export function detectPersonal(text, emit) {
   // after a number, "30 Ms Retry" is a millisecond unit.
   collectMatches(
     text,
-    /(?<![\p{L}\p{N}_])(?<!\p{N}[ \t]*)(?:Mr|Mrs|Ms|Mx|Miss|Dr|Prof)\.?[ \t]+(\p{Lu}(?:['’]\p{Lu})?[\p{Ll}\p{M}]+(?:-\p{Lu}[\p{Ll}\p{M}]+)?(?:[ \t]+\p{Lu}(?:['’]\p{Lu})?[\p{Ll}\p{M}]+(?:-\p{Lu}[\p{Ll}\p{M}]+)?)?)(?![\p{L}\p{M}])/gu,
+    /(?<![\p{L}\p{N}_])(?:Mr|Mrs|Ms|Mx|Miss|Dr|Prof)(?<!\p{N}[ \t]*\p{L}+)\.?[ \t]+(\p{Lu}(?:['’]\p{Lu})?[\p{Ll}\p{M}]+(?:-\p{Lu}[\p{Ll}\p{M}]+)?(?:[ \t]+\p{Lu}(?:['’]\p{Lu})?[\p{Ll}\p{M}]+(?:-\p{Lu}[\p{Ll}\p{M}]+)?)?)(?![\p{L}\p{M}])/gu,
     emit,
     details('PERSON', 'honorific-name'),
     1,
