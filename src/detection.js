@@ -240,7 +240,7 @@ function detectNative(text, options, emit) {
     text,
     /-----BEGIN ([A-Z0-9 ]*PRIVATE KEY)-----[\s\S]*?(?:-----END \1-----|$)/g,
     emit,
-    { ...credential, rule: 'private-key' }
+    { ...credential, type: 'PRIVATE_KEY', rule: 'private-key' }
   );
   detectAuthorization(text, emit, credential);
   detectCookies(text, emit);

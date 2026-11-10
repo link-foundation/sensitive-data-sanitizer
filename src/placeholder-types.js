@@ -51,6 +51,7 @@ const nativeTypes = [
   'PHONE',
   'PL_PESEL',
   'POSTAL_CODE',
+  'PRIVATE_KEY',
   'PROPER_NAME',
   'RU_INN',
   'RU_SNILS',
