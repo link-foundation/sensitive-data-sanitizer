@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.21.1
+
+### Patch Changes
+
+- e0e05a4: Cover 34 missing strict personal-attribute terms, preserve their typed placeholders over generic prose names, cache caller vocabulary and cue sets, avoid unnecessary placeholder scans and JSON parsing, and preserve exact public technology names in Cyrillic prose.
+
 ## 0.21.0
 
 ### Minor Changes
