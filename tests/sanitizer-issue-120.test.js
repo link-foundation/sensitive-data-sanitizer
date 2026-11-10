@@ -22,7 +22,8 @@ const reported = [
   ['Ромашка: менеджер', '[REDACTED]: менеджер'],
   ['Стаж: 5 лет', 'Стаж: 5 лет'],
   ['работал там 5 лет', 'работал там 5 лет'],
-  ['Kubernetes (5 лет)', '[REDACTED] (5 лет)'],
+  // Issue 144 adds public technology names; duration handling is unchanged.
+  ['Kubernetes (5 лет)', 'Kubernetes (5 лет)'],
 ];
 
 for (const structured of [undefined, 'json', 'jsonl']) {
@@ -61,7 +62,7 @@ describe('issue 120 age and duration boundaries', () => {
     ['договор на 3 года', 'договор на 3 года'],
     ['проект длился 2 года', 'проект длился 2 года'],
     ['задача выполнена за 3 года', 'задача выполнена за 3 года'],
-    ['Python (3 года)', '[REDACTED] (3 года)'],
+    ['Python (3 года)', 'Python (3 года)'],
     ['Power BI (5 лет)', '[REDACTED] [REDACTED] (5 лет)'],
     ['изучал Power\tBI (5 лет)', 'изучал [REDACTED]\t[REDACTED] (5 лет)'],
     ['стаж: 5 лет; мне 34 года', 'стаж: 5 лет; мне [REDACTED]'],
@@ -78,6 +79,18 @@ describe('issue 120 age and duration boundaries', () => {
 });
 
 describe('issue 120 labels and complete findings', () => {
+  it('still redacts technology names when public knowledge is disabled', async () => {
+    const config = { ...options, publicKnowledge: false };
+    for (const [input, expected] of [
+      ['Kubernetes (5 лет)', '[REDACTED] (5 лет)'],
+      ['Python (3 года)', '[REDACTED] (3 года)'],
+    ]) {
+      expect(createSyncSanitizer(config).sanitize(input).text).toBe(expected);
+      expect((await createSanitizer(config).sanitize(input)).text).toBe(
+        expected
+      );
+    }
+  });
   for (const [input, expected] of [
     ['Лютик : инженер', '[REDACTED] : инженер'],
     ['Опыт: менеджер', 'Опыт: менеджер'],

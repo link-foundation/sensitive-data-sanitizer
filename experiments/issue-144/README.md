@@ -60,3 +60,14 @@ removes repeated normalization/serialization and the dependence on list length;
 it does not assert that enabling recognizers has zero cost. The default-token
 pre-check removes the reported keep-mode premium on these token-free JSON lines.
 Full runtime/platform and security checks run in CI.
+
+## Duration regression compatibility
+
+The earlier issue-120 tests expected `Kubernetes (5 лет)` and `Python (3 года)`
+to redact technology names while preserving durations. Issue 144 explicitly
+changes that name policy, so those expectations now keep the public names.
+A paired opt-out regression verifies the original redaction and unchanged
+non-age duration handling with `publicKnowledge: false` in both engines.
+CI exposed these four stale assertions in Node/Linux job 130028843280
+(log lines 5187–5223), Deno/Linux job 130028843343 (5082–5106) and
+Deno/Windows job 130028843732 (2436–2460), all on `1f773b6`.
