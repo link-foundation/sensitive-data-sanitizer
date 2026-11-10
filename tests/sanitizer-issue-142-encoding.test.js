@@ -94,7 +94,7 @@ describe('long encoded logs (issue 139)', () => {
     expect(hive(`${shas}\n`)).toBe(`${shas}\n`);
     expect(inspect(shas, { credentialsOnly: true })).toEqual([]);
   });
-  it('still masks long wrapped text and binary payloads as a whole', () => {
+  it('masks long wrapped text while preserving bounded binary payloads', () => {
     const text = wrapped(`${'note '.repeat(2000)}password=hunter2long`, 76);
     expect(text.length > 8192).toBe(true);
     expect(inspect(text, { credentialsOnly: true }).map((f) => f.rule)).toEqual(
@@ -102,9 +102,8 @@ describe('long encoded logs (issue 139)', () => {
     );
     const binary = Buffer.alloc(9000, 0xfe).toString('base64');
     const body = binary.match(/.{1,64}/g).join('\n');
-    expect(inspect(body, { credentialsOnly: true }).map((f) => f.rule)).toEqual(
-      ['encoded-limit']
-    );
+    expect(inspect(body, { credentialsOnly: true })).toEqual([]);
+    expect(hive(body)).toBe(body);
   });
 });
 
