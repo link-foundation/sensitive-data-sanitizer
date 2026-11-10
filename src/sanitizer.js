@@ -38,6 +38,8 @@ import {
   hasPlaceholders,
   placeholderValues,
   placeholderNameFindings,
+  keptPlaceholderSpans,
+  keptPlaceholderFinding,
   coverAdjacentNames,
   nestedPlaceholderOptions,
 } from './placeholders.js';
@@ -332,6 +334,9 @@ export function sanitizeFinding(finding, length) {
     rule: finding.rule,
     confidence: validConfidence(finding),
     likelihood: finding.likelihood ?? likelihood(validConfidence(finding)),
+    ...(finding.type === 'JSON_VALUE' && validType(finding.valueType)
+      ? { valueType: finding.valueType }
+      : {}),
     ...(finding.kept === 'fake' ? { kept: 'fake' } : {}),
   };
 }
@@ -645,14 +650,41 @@ export function inspectFindingsOnly(text, findings, options) {
   );
 }
 
+// A whole JSON value that is already a token of this run, `"Sensitive-1"`.
+function generatedJsonValue(text, finding, options) {
+  const raw = text.slice(finding.start, finding.end);
+  return (
+    raw.startsWith('"') &&
+    placeholderValues(options).some(
+      (record) => JSON.stringify(record.value) === raw
+    )
+  );
+}
 function selectedFindings(findings, credentialsOnly) {
   return credentialsOnly
     ? findings.filter((finding) => finding.category === 'credential')
     : findings;
 }
 
+// Findings over the tokens of an earlier pass, recorded in `tokenKept`.
+function withKeptPlaceholders(text, findings, options, tokenKept) {
+  const tokens = keptPlaceholderSpans(text, findings, options);
+  if (!tokens.length) {
+    return findings;
+  }
+  return findings.map((f) => {
+    const next = keptPlaceholderFinding(text, f, tokens);
+    if (next.kept === 'fake' && next !== f) {
+      tokenKept.add(next);
+    }
+    return next;
+  });
+}
+
 export function markFake(text, findings, options) {
   findings = selectedFindings(findings, options.credentialsOnly);
+  const tokenKept = new Set();
+  findings = withKeptPlaceholders(text, findings, options, tokenKept);
   const generated = [
     ...generatedValues(options),
     ...placeholderValues(options),
@@ -662,7 +694,10 @@ export function markFake(text, findings, options) {
     !options.fakeValues?.length &&
     !generated.length
   ) {
-    return findings.map((f) => ({ ...f, kept: undefined }));
+    return findings.map((f) => ({
+      ...f,
+      kept: tokenKept.has(f) ? 'fake' : undefined,
+    }));
   }
   const documents = withFeature('fakeDocumentSpans', [], text, options);
   const trusted = [];
@@ -723,8 +758,13 @@ export function markFake(text, findings, options) {
     ),
   ];
   return findings.map((f) => {
+    if (tokenKept.has(f)) {
+      return f;
+    }
     if (f.type === 'JSON_VALUE') {
-      return { ...f, kept: undefined };
+      return generatedJsonValue(text, f, options)
+        ? { ...f, kept: 'fake' }
+        : { ...f, kept: undefined };
     }
     if (
       trusted.some(
@@ -785,6 +825,7 @@ function validatedSpans(text, findings, options) {
         last.category = 'credential';
       }
       if (last.type === 'JSON_VALUE' || f.type === 'JSON_VALUE') {
+        last.valueType = jsonValueType(last, f);
         last.type = 'JSON_VALUE';
       } else if (credentialRun) {
         last.type = 'SECRET';
@@ -798,6 +839,15 @@ function validatedSpans(text, findings, options) {
   return spans;
 }
 
+// Two whole values merged into one keep a value type only when they agree.
+function jsonValueType(last, f) {
+  if (last.type !== 'JSON_VALUE') {
+    return f.valueType;
+  }
+  return f.type !== 'JSON_VALUE' || f.valueType === last.valueType
+    ? last.valueType
+    : undefined;
+}
 function preferredType(current, candidate, options) {
   if (current === 'JSON_VALUE') {
     return false;

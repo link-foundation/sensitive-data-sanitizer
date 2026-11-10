@@ -18,4 +18,6 @@ export {
   knownSecretsFromEnv,
   knownSecretsFromGitHubAuth,
   knownSecretsFromGitHubConfig,
+  reservedPlaceholderTypes,
+  isPlaceholderToken,
 } from './index.js';

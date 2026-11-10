@@ -18,6 +18,10 @@ export { REDACTED, entropy } from './detection.js';
 export { builtInRules } from './rule-catalog.js';
 export { tokenChecksum, tokenWithChecksum } from './token-checksum.js';
 export {
+  reservedPlaceholderTypes,
+  isPlaceholderToken,
+} from './placeholder-types.js';
+export {
   knownSecretsFromEnv,
   knownSecretsFromGitHubAuth,
   knownSecretsFromGitHubConfig,

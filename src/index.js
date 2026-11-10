@@ -60,3 +60,7 @@ export {
   readRestoreMap,
   writeRestoreMap,
 } from './restore-map.js';
+export {
+  reservedPlaceholderTypes,
+  isPlaceholderToken,
+} from './placeholder-types.js';

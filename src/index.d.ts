@@ -17,6 +17,8 @@ export interface Finding {
   kept?: 'fake';
   /** Returned finding replaced with, or recognized as, a generated fake. */
   faked?: true;
+  /** For `JSON_VALUE`: the field's personal type, e.g. `AGE`, when known. */
+  valueType?: string;
 }
 export interface PersonalValue {
   type: string;
@@ -317,6 +319,12 @@ export type Transformation =
       map?: RestoreMap | false;
       format?: string;
       credentials?: boolean;
+      /**
+       * Tokens of the namespace already in the input: `'error'` (default)
+       * throws `ERR_PLACEHOLDER_COLLISION`; `'keep'` leaves them as they are
+       * and numbers new values after the highest kept number per type.
+       */
+      existing?: 'error' | 'keep';
     }
   | {
       mode: 'mask';
@@ -395,6 +403,18 @@ export declare function writeRestoreMap(
 ): Promise<void>;
 /** Exact original-document restoration; derived text uses canonical surfaces. */
 export declare function restore(text: string, map: RestoreMap): string;
+/** Sorted, frozen list of the types built-in rules turn into `Type-n` tokens. */
+export declare function reservedPlaceholderTypes(): readonly string[];
+/** Whether `text` is one whole token of the placeholder namespace. */
+export declare function isPlaceholderToken(
+  text: string,
+  options?: {
+    /** Placeholder format, default `'{Type}-{n}'`. */
+    format?: string;
+    /** Extra custom types, e.g. those of `createPatternDetector`. */
+    types?: readonly string[];
+  }
+): boolean;
 export interface StreamOptions extends SanitizerOptions {
   /** Treat NUL as a log byte; default false. Incompatible with JSON/JSONL. */
   allowBinary?: boolean;

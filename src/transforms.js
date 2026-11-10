@@ -277,6 +277,32 @@ function transformed(value, finding, transform, options) {
   const lower = Math.floor(number / transform.size) * transform.size;
   return `${lower}–${lower + transform.size - 1}`;
 }
+function jsonValueText(raw) {
+  try {
+    const value = JSON.parse(raw);
+    return typeof value === 'string' && value ? value : raw;
+  } catch {
+    return raw;
+  }
+}
+// A whole JSON value becomes one JSON string. Placeholder mode types it by the
+// field it came from, so `{"age":34}` reads `{"age":"Age-1"}`.
+function jsonValueReplacement(text, finding, options) {
+  const transform =
+    options.transformations?.JSON_VALUE ?? options.transformation;
+  if (transform?.mode !== 'placeholder') {
+    return JSON.stringify(REDACTED);
+  }
+  const raw = text.slice(finding.start, finding.end);
+  return JSON.stringify(
+    placeholderReplacement(
+      jsonValueText(raw),
+      { ...finding, type: finding.valueType ?? 'SENSITIVE' },
+      transform,
+      options
+    )
+  );
+}
 export function renderReplacement(
   text,
   finding,
@@ -285,7 +311,7 @@ export function renderReplacement(
   jsonRanges
 ) {
   if (finding.type === 'JSON_VALUE') {
-    return JSON.stringify(REDACTED);
+    return jsonValueReplacement(text, finding, options);
   }
   const transform =
     options.transformations?.[finding.type] ??
