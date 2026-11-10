@@ -4,6 +4,7 @@ import { credentialPlaceholder, referencePrefix } from './credentials.js';
 import { servicePath } from './public.js';
 import { cookieValues } from './credential-spans.js';
 import { plausiblePerson } from './names.js';
+import { htmlTag } from './html-tags.js';
 
 // Bounded vocabularies are explicit so the short PASS/PW forms do not match
 // unrelated words such as passport. Verb forms cover the supported locales.
@@ -55,12 +56,19 @@ const label = labels.credential
 // are fixed so that ordinary words ending in "pass" stay prose.
 const glued =
   '(?:db|user|root|admin|smtp|mail|ftp|sftp|ssh|redis|ldap|bind|proxy|tls|ssl|keystore|truststore|store|master|sys|app|login|account|acct|wifi|wpa)(?:password|passwd|pass|pwd|pw|secret|token)';
-const key = `(?:[\\p{L}\\p{N}]+[_.-])*(?:auth|authorization|PGPASSWORD|${glued}|${label}|pass|pw)(?:[_.-][\\p{L}\\p{N}]+)*`;
+// Plural credential names (`--access-tokens`, `API_KEYS`) hold credentials;
+// other plurals (`--max-tokens`, `tokens: 1234`) are accounting.
+const plural =
+  '(?:access|refresh|auth|session|api|bearer|client)[_.-]?(?:tokens|keys|secrets)';
+const key = `(?:[\\p{L}\\p{N}]+[_.-])*(?:auth|authorization|PGPASSWORD|${glued}|${plural}|${label}|pass|pw)(?:[_.-][\\p{L}\\p{N}]+)*`;
+// Ruby/Perl/PHP hash rockets (`'password' => 'x'`, `:token => "x"`) take a
+// quoted literal; an arrow function (`token => token.trim()`) does not.
+const rocket = `=>(?=[ \\t]*\\\\*["'])`;
 // A qualifier such as "for staging" stays on one logical line: it never
 // crosses an escaped line break, an escape sequence or an enclosing quote.
 // Verbs are whole words, so "request" does not end in the verb "est".
 const credentialPrefix = new RegExp(
-  `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(${key})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?(?:[ \\t]+(?:от|для|к|for|de|du|del)[ \\t]+[^:=\\r\\n"\\\\]{1,64})?[ \\t]*([:=：]|(?<![\\p{L}\\p{N}_])(?:${verbs})(?![\\p{L}\\p{N}_]))[ \\t]*`,
+  `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(${key})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?(?:[ \\t]+(?:от|для|к|for|de|du|del)[ \\t]+[^:=\\r\\n"\\\\]{1,64})?[ \\t]*(${rocket}|[:=：]|(?<![\\p{L}\\p{N}_])(?:${verbs})(?![\\p{L}\\p{N}_]))[ \\t]*`,
   'giu'
 );
 // camelCase and PascalCase keys (`clientSecret`, `secretKey`, `dbPassword`,
@@ -69,7 +77,7 @@ const credentialPrefix = new RegExp(
 const camelKey =
   '[\\p{L}][\\p{Ll}\\p{N}]*(?:\\p{Lu}[\\p{Ll}\\p{N}]*)*?(?:Secret|Password|Passwd|Passphrase|Pass|Pwd|Token|Credentials?|(?:Api|Private|Access|Secret|Signing|Encryption|Master|Client|App|Subscription|Account|Storage)Key)(?:Key|Value)?|(?:[Ss]ecret|[Pp]assword|[Pp]asswd|[Tt]oken|[Pp]rivate|[Aa]ccess|[Ss]igning|[Ee]ncryption)(?:Key|Value|Secret|Token)';
 const camelPrefix = new RegExp(
-  `(?<![\\p{L}\\p{N}_$])(?:\\\\*["'])?(${camelKey})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?[ \\t]*([:=])[ \\t]*`,
+  `(?<![\\p{L}\\p{N}_$])(?:\\\\*["'])?(${camelKey})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?[ \\t]*(${rocket}|[:=])[ \\t]*`,
   'gu'
 );
 // Bare generic labels are common English nouns. After a verb they need a
@@ -477,10 +485,36 @@ function credentialMode(text, match) {
   ) {
     return 'query';
   }
-  if (match[2] === '=' || /["']\s*[:：]/.test(match[0])) {
+  if (/^=>?$/.test(match[2]) || /["']\s*[:：]/.test(match[0])) {
     return 'token';
   }
   return /[:：]/.test(match[2]) ? 'line' : 'prose';
+}
+
+// `token: <script>alert(1)</script>`: markup is the value. A bare
+// `<placeholder>` that ends the value stays a placeholder.
+const angleEnd = {
+  line: /[\r\n"]|\\+[nrt"']/,
+  token: /[\s,;}\]"']|\\+[nrt"']/,
+};
+// Formatting tags around a value (`token=<em>…</em>`) are dropped from the
+// detection view instead.
+const formattingTag = new RegExp(`^${htmlTag}`, 'i');
+function angleValue(text, start, mode) {
+  const tail = text.slice(start, start + 4096);
+  if (text[start] !== '<' || !angleEnd[mode] || formattingTag.test(tail)) {
+    return undefined;
+  }
+  const placeholder = /^<[^<>\r\n]{1,64}>/.exec(tail)?.[0];
+  if (
+    placeholder &&
+    credentialPlaceholder(placeholder) &&
+    angleEnd[mode].test(tail[placeholder.length] ?? '\n')
+  ) {
+    return { start, end: start + placeholder.length };
+  }
+  const stop = tail.search(angleEnd[mode]);
+  return { start, end: start + (stop < 0 ? tail.length : stop) };
 }
 
 function credentialRange(text, match, camel) {
@@ -495,13 +529,20 @@ function credentialRange(text, match, camel) {
     return authorizationRanges(text, start);
   }
   const mode = credentialMode(text, match);
-  const range = valueRange(text, start, mode);
+  const range = angleValue(text, start, mode) ?? valueRange(text, start, mode);
   const value = range && mode === 'prose' ? generatedWord(text, range) : range;
   if (value && /^(?:set-)?cookie$/i.test(match[1])) {
     return cookieValues(text, value.start, value.end);
   }
   return [value].filter(Boolean);
 }
+
+// `<password>…</password>`, `<clientSecret attr="1">…</clientSecret>`:
+// attributes in the opening tag stay readable.
+const element = (name) =>
+  `<(${name})(?:[ \\t\\r\\n]+[^<>]{0,512})?>([^<]+)</\\1[ \\t]*>`;
+const xmlElement = new RegExp(element(key), 'giu');
+const camelElement = new RegExp(element(camelKey), 'gu');
 
 function detectCredentials(text, emit) {
   const details = { category: 'credential', type: 'SECRET', rule: 'context' };
@@ -518,8 +559,10 @@ function detectCredentials(text, emit) {
       emitValue(text, value.start, value.end, emit, details, match[1]);
     }
   }
-  const xml = new RegExp(`<(${key})[ \\t]*>([^<]+)</\\1[ \\t]*>`, 'giu');
-  for (const match of text.matchAll(xml)) {
+  for (const match of [
+    ...text.matchAll(xmlElement),
+    ...text.matchAll(camelElement),
+  ]) {
     const start = match.index + match[0].indexOf('>') + 1;
     emitValue(text, start, start + match[2].length, emit, details, match[1]);
   }
