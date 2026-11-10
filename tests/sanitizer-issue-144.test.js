@@ -129,6 +129,9 @@ describe('issue 144 document follow-up', () => {
     expect(compiledVocabulary({ roles: ['other'] }) === first).toBe(false);
     expect(compiledVocabulary({}).lists.personalAttributes.length).toBe(0);
   });
+});
+
+describe('issue 144 public technology and placeholder fast paths', () => {
   it('keeps public technologies, their controls and nearby private names', () => {
     const sync = createSyncSanitizer(policy);
     for (const { value } of publicTechnologies) {
