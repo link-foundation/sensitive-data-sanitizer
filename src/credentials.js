@@ -7,6 +7,50 @@ export function credentialPlaceholder(value) {
     ) || referencePrefix(value)?.[0] === value
   );
 }
+// One template or mask token: ${NAME}, $${NAME}, $NAME, $1, <name>, [NAME],
+// ****, XXXX or an ellipsis. Values made only of these (optionally split by
+// a user:password colon) carry no credential material.
+const templateToken =
+  /^(?:\$?\$\{[A-Za-z_][\w.-]*\}|\$[A-Za-z_]\w*|\$\d|<[^<>\r\n]{1,64}>|\[[A-Z][A-Z0-9_ ]{0,63}\]|\*{3,}|[xX]{4,}|\.{3}|…)$/;
+const unquote = (part) => part.replace(/^["']|["']$/g, '');
+
+function templatedValue(value) {
+  const body = value.replace(/^(?:token|Bearer|Basic)\s+/i, '');
+  const colon = body.indexOf(':');
+  const parts = (
+    colon < 0 ? [body] : [body.slice(0, colon), body.slice(colon + 1)]
+  ).map((part) => unquote(part.trim()));
+  return (
+    parts.some(Boolean) &&
+    parts.every((part) => !part || templateToken.test(part))
+  );
+}
+
+// Detectors stop at whitespace or brackets, so `<API token>` or `[PASSWORD]`
+// can arrive truncated; complete them from the following text first.
+export function templatedCredential(text, finding) {
+  if (finding.category !== 'credential' || finding.rule === 'known-secret') {
+    return false;
+  }
+  let value = text.slice(finding.start, finding.end);
+  const closer =
+    value.lastIndexOf('<') > value.lastIndexOf('>')
+      ? '>'
+      : value.lastIndexOf('[') > value.lastIndexOf(']')
+        ? ']'
+        : '';
+  if (closer) {
+    const rest = text.slice(finding.end, finding.end + 64);
+    const index = rest.indexOf(closer);
+    if (index < 0 || /[\r\n]/.test(rest.slice(0, index))) {
+      return false;
+    }
+    value += rest.slice(0, index + 1);
+  }
+  // A template glued to literal characters (`<x>abc`, `[A]x9`) is not one.
+  const after = text[finding.start + value.length] ?? '';
+  return !/[\w$%+/=.-]/.test(after) && templatedValue(value);
+}
 // Only variable references and the documented gh lookup are exempt. Arbitrary
 // shell commands and Actions expressions can contain literal credentials.
 export function referencePrefix(value) {

@@ -1,0 +1,3372 @@
+[
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+    "input": "4012888888881881 4012-8888-8888-1881 4012 8888 8888 1881",
+    "sensitive": [
+      "4012888888881881",
+      "4012-8888-8888-1881",
+      "4012 8888 8888 1881"
+    ],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "three separator styles, Luhn-valid"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+    "input": "371449635398431",
+    "sensitive": ["371449635398431"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "Luhn-valid test number"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+    "input": "5555555555554444",
+    "sensitive": ["5555555555554444"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "Luhn-valid test number"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+    "input": "5019717010103742",
+    "sensitive": ["5019717010103742"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "Luhn-valid test number"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+    "input": "30569309025904",
+    "sensitive": ["30569309025904"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "Luhn-valid test number"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+    "input": "6011000400000000",
+    "sensitive": ["6011000400000000"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "Luhn-valid test number"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+    "input": "3528000700000000",
+    "sensitive": ["3528000700000000"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "Luhn-valid test number"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+    "input": "6759649826438453",
+    "sensitive": ["6759649826438453"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "Luhn-valid test number"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+    "input": "4111111111111111",
+    "sensitive": ["4111111111111111"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "Luhn-valid test number"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+    "input": "122000000000003",
+    "sensitive": ["122000000000003"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "Luhn-valid test number"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+    "input": "4012-8888-8888-1882",
+    "sensitive": [],
+    "types": ["CREDIT_CARD"],
+    "negative": true,
+    "notes": "Luhn checksum fails"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+    "input": "1748503543012",
+    "sensitive": [],
+    "types": ["CREDIT_CARD"],
+    "negative": true,
+    "notes": "invalid number"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+    "input": "36168002586008",
+    "sensitive": [],
+    "types": ["CREDIT_CARD"],
+    "negative": true,
+    "notes": "Luhn checksum fails"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_crypto_recognizer.py",
+    "input": "16Yeky6GMjeNkAiNcBY7ZhrLoMSgg1BoyZ",
+    "sensitive": ["16Yeky6GMjeNkAiNcBY7ZhrLoMSgg1BoyZ"],
+    "types": ["CRYPTO"],
+    "negative": false,
+    "notes": "Base58Check / bech32 / bech32m validated"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_crypto_recognizer.py",
+    "input": "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy",
+    "sensitive": ["3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy"],
+    "types": ["CRYPTO"],
+    "negative": false,
+    "notes": "Base58Check / bech32 / bech32m validated"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_crypto_recognizer.py",
+    "input": "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq",
+    "sensitive": ["bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq"],
+    "types": ["CRYPTO"],
+    "negative": false,
+    "notes": "Base58Check / bech32 / bech32m validated"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_crypto_recognizer.py",
+    "input": "bc1p5d7rjq7g6rdk2yhzks9smlaqtedr4dekq08ge8ztwac72sfr9rusxg3297",
+    "sensitive": [
+      "bc1p5d7rjq7g6rdk2yhzks9smlaqtedr4dekq08ge8ztwac72sfr9rusxg3297"
+    ],
+    "types": ["CRYPTO"],
+    "negative": false,
+    "notes": "Base58Check / bech32 / bech32m validated"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_crypto_recognizer.py",
+    "input": "16Yeky6GMjeNkAiNcBY7ZhrLoMSgg1BoyZ2",
+    "sensitive": [],
+    "types": ["CRYPTO"],
+    "negative": true,
+    "notes": "checksum fails after extra char"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_crypto_recognizer.py",
+    "input": "8f953371d3e85eddb89b05ed6b9e680791055315c73e1025ab5dba7bb2aee189",
+    "sensitive": [],
+    "types": ["CRYPTO"],
+    "negative": true,
+    "notes": "hex hash, not an address"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "078-05-1123",
+    "sensitive": ["078-05-1123"],
+    "types": ["US_SSN"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "078.05.1123",
+    "sensitive": ["078.05.1123"],
+    "types": ["US_SSN"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "987-65-4321",
+    "sensitive": ["987-65-4321"],
+    "types": ["US_SSN"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "219-09-9999",
+    "sensitive": ["219-09-9999"],
+    "types": ["US_SSN"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "abc 078 05 1123 abc",
+    "sensitive": ["078 05 1123"],
+    "types": ["US_SSN"],
+    "negative": false,
+    "notes": "space separated inside text"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "0780511201",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial, mixed separators, or well-known sample"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "000000000",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial, mixed separators, or well-known sample"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "666000000",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial, mixed separators, or well-known sample"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "078-05-0000",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial, mixed separators, or well-known sample"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "078 00 1123",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial, mixed separators, or well-known sample"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "693-09.4444",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial, mixed separators, or well-known sample"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "123-45-6789",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial, mixed separators, or well-known sample"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "000-12-3456",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial, mixed separators, or well-known sample"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+    "input": "666-12-3456",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial, mixed separators, or well-known sample"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_aba_routing_recognizer.py",
+    "input": "121000358",
+    "sensitive": ["121000358"],
+    "types": ["ABA_ROUTING_NUMBER"],
+    "negative": false,
+    "notes": "checksum validated"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_aba_routing_recognizer.py",
+    "input": "3222-7162-7",
+    "sensitive": ["3222-7162-7"],
+    "types": ["ABA_ROUTING_NUMBER"],
+    "negative": false,
+    "notes": "checksum validated"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_aba_routing_recognizer.py",
+    "input": "0711-0130-7",
+    "sensitive": ["0711-0130-7"],
+    "types": ["ABA_ROUTING_NUMBER"],
+    "negative": false,
+    "notes": "checksum validated"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_aba_routing_recognizer.py",
+    "input": "421042111",
+    "sensitive": [],
+    "types": ["ABA_ROUTING_NUMBER"],
+    "negative": true,
+    "notes": "checksum fails"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_aba_routing_recognizer.py",
+    "input": "1234-0000-0",
+    "sensitive": [],
+    "types": ["ABA_ROUTING_NUMBER"],
+    "negative": true,
+    "notes": "checksum fails"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_iban_recognizer.py",
+    "input": "AL47212110090000000235698741",
+    "sensitive": ["AL47212110090000000235698741"],
+    "types": ["IBAN_CODE"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_iban_recognizer.py",
+    "input": "AL47 2121 1009 0000 0002 3569 8741",
+    "sensitive": ["AL47 2121 1009 0000 0002 3569 8741"],
+    "types": ["IBAN_CODE"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_iban_recognizer.py",
+    "input": "DE89370400440532013000",
+    "sensitive": ["DE89370400440532013000"],
+    "types": ["IBAN_CODE"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_iban_recognizer.py",
+    "input": "this is an iban VG96 VPVG 0000 0123 4567 8901 in a sentence",
+    "sensitive": ["VG96 VPVG 0000 0123 4567 8901"],
+    "types": ["IBAN_CODE"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_iban_recognizer.py",
+    "input": "Dash as iban separator: AL47-2121-1009-0000-0002-3569-8741",
+    "sensitive": ["AL47-2121-1009-0000-0002-3569-8741"],
+    "types": ["IBAN_CODE"],
+    "negative": false,
+    "notes": "dash separators"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_iban_recognizer.py",
+    "input": "AL47 2121 1009 0000 0002 3569 8740",
+    "sensitive": [],
+    "types": ["IBAN_CODE"],
+    "negative": true,
+    "notes": "mod-97 fails"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_iban_recognizer.py",
+    "input": "AL47 212A 1009 0000 0002 3569 8741",
+    "sensitive": [],
+    "types": ["IBAN_CODE"],
+    "negative": true,
+    "notes": "letter in country-specific numeric BBAN"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_iban_recognizer.py",
+    "input": "IL15 0120 6900 0000",
+    "sensitive": [],
+    "types": ["IBAN_CODE"],
+    "negative": true,
+    "notes": "too short for country"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_nhs_recognizer.py",
+    "input": "401-023-2137",
+    "sensitive": ["401-023-2137"],
+    "types": ["UK_NHS"],
+    "negative": false,
+    "notes": "mod-11"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_nhs_recognizer.py",
+    "input": "401-023-2138",
+    "sensitive": [],
+    "types": ["UK_NHS"],
+    "negative": true,
+    "notes": "mod-11 fails"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_uk_nino_recognizer.py",
+    "input": "nino: PR 123612C",
+    "sensitive": ["PR 123612C"],
+    "types": ["UK_NINO"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_uk_nino_recognizer.py",
+    "input": "hh 01 02 03 d",
+    "sensitive": ["hh 01 02 03 d"],
+    "types": ["UK_NINO"],
+    "negative": false,
+    "notes": "lowercase accepted"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_uk_nino_recognizer.py",
+    "input": "AA 12 34 56 H",
+    "sensitive": [],
+    "types": ["UK_NINO"],
+    "negative": true,
+    "notes": "invalid suffix letter"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_uk_nino_recognizer.py",
+    "input": "BG123612A",
+    "sensitive": [],
+    "types": ["UK_NINO"],
+    "negative": true,
+    "notes": "BG prefix never issued"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_es_nif_recognizer.py",
+    "input": "55555555-K",
+    "sensitive": ["55555555-K"],
+    "types": ["ES_NIF"],
+    "negative": false,
+    "notes": "control letter"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_es_nif_recognizer.py",
+    "input": "12345678a",
+    "sensitive": [],
+    "types": ["ES_NIF"],
+    "negative": true,
+    "notes": "wrong control letter"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_es_nie_recognizer.py",
+    "input": "Y8063915-Z",
+    "sensitive": ["Y8063915-Z"],
+    "types": ["ES_NIE"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_es_nie_recognizer.py",
+    "input": "W8063915Q",
+    "sensitive": [],
+    "types": ["ES_NIE"],
+    "negative": true,
+    "notes": "invalid prefix"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_it_fiscal_code_recognizer.py",
+    "input": "AAAAAA00B11C333Y",
+    "sensitive": ["AAAAAA00B11C333Y"],
+    "types": ["IT_FISCAL_CODE"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_in_aadhaar_recognizer.py",
+    "input": "3123 4567 8909",
+    "sensitive": ["3123 4567 8909"],
+    "types": ["IN_AADHAAR"],
+    "negative": false,
+    "notes": "Verhoeff checksum"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_in_aadhaar_recognizer.py",
+    "input": "3123:4567:8909",
+    "sensitive": ["3123:4567:8909"],
+    "types": ["IN_AADHAAR"],
+    "negative": false,
+    "notes": "colon separator"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_in_aadhaar_recognizer.py",
+    "input": "123456789012",
+    "sensitive": [],
+    "types": ["IN_AADHAAR"],
+    "negative": true,
+    "notes": "Verhoeff fails / starts with 1"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_in_pan_recognizer.py",
+    "input": "ABCPD1234Z",
+    "sensitive": ["ABCPD1234Z"],
+    "types": ["IN_PAN"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_sg_fin_recognizer.py",
+    "input": "S2740116C",
+    "sensitive": ["S2740116C"],
+    "types": ["SG_NRIC_FIN"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_au_abn_recognizer.py",
+    "input": "51 824 753 556",
+    "sensitive": ["51 824 753 556"],
+    "types": ["AU_ABN"],
+    "negative": false,
+    "notes": "mod-89"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_au_abn_recognizer.py",
+    "input": "52 824 753 556",
+    "sensitive": [],
+    "types": ["AU_ABN"],
+    "negative": true,
+    "notes": "checksum fails"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_au_tfn_recognizer.py",
+    "input": "876 543 210",
+    "sensitive": ["876 543 210"],
+    "types": ["AU_TFN"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_au_medicare_recognizer.py",
+    "input": "2123 45670 1",
+    "sensitive": ["2123 45670 1"],
+    "types": ["AU_MEDICARE"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_pl_pesel_recognizer.py",
+    "input": "44051401458",
+    "sensitive": ["44051401458"],
+    "types": ["PL_PESEL"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_pl_pesel_recognizer.py",
+    "input": "44051401459",
+    "sensitive": [],
+    "types": ["PL_PESEL"],
+    "negative": true,
+    "notes": "checksum fails"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_fi_personal_identity_code_recognizer.py",
+    "input": "My finnish id code is030594W903B.",
+    "sensitive": ["030594W903B"],
+    "types": ["FI_PERSONAL_IDENTITY_CODE"],
+    "negative": false,
+    "notes": "no space before value"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_kr_rrn_recognizer.py",
+    "input": "960121-1021413",
+    "sensitive": ["960121-1021413"],
+    "types": ["KR_RRN"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_kr_rrn_recognizer.py",
+    "input": "001332-1234567",
+    "sensitive": [],
+    "types": ["KR_RRN"],
+    "negative": true,
+    "notes": "invalid month/day"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_th_tnin_recognizer.py",
+    "input": "เลขประจำตัวประชาชน: 3456789012347",
+    "sensitive": ["3456789012347"],
+    "types": ["TH_TNIN"],
+    "negative": false,
+    "notes": "Thai context word"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_th_tnin_recognizer.py",
+    "input": "0234567890124",
+    "sensitive": [],
+    "types": ["TH_TNIN"],
+    "negative": true,
+    "notes": "cannot start with 0"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_ca_sin_recognizer.py",
+    "input": "mon NAS: 258 933 688",
+    "sensitive": ["258 933 688"],
+    "types": ["CA_SIN"],
+    "negative": false,
+    "notes": "French context word NAS"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_ca_sin_recognizer.py",
+    "input": "130 692 545",
+    "sensitive": [],
+    "types": ["CA_SIN"],
+    "negative": true,
+    "notes": "Luhn fails"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_ca_sin_recognizer.py",
+    "input": "111 111 111",
+    "sensitive": [],
+    "types": ["CA_SIN"],
+    "negative": true,
+    "notes": "repeated digits"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_itin_recognizer.py",
+    "input": "911-70-1234",
+    "sensitive": ["911-70-1234"],
+    "types": ["US_ITIN"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_itin_recognizer.py",
+    "input": "911-89-1234",
+    "sensitive": [],
+    "types": ["US_ITIN"],
+    "negative": true,
+    "notes": "invalid group"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_ip_recognizer.py",
+    "input": "microsoft.com 192.168.0.1",
+    "sensitive": ["192.168.0.1"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_ip_recognizer.py",
+    "input": "Connect to [2001:db8::1]:8080",
+    "sensitive": ["2001:db8::1"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "bracketed IPv6 with port"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_ip_recognizer.py",
+    "input": "fe80::1%eth0",
+    "sensitive": ["fe80::1%eth0"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "zone id"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_ip_recognizer.py",
+    "input": "my ip: ::1",
+    "sensitive": ["::1"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_ip_recognizer.py",
+    "input": "my ip: 192.168.0",
+    "sensitive": [],
+    "types": ["IP_ADDRESS"],
+    "negative": true,
+    "notes": "three octets"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_mac_recognizer.py",
+    "input": "0012.3456.789A",
+    "sensitive": ["0012.3456.789A"],
+    "types": ["MAC_ADDRESS"],
+    "negative": false,
+    "notes": "Cisco dotted format"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_mac_recognizer.py",
+    "input": "FF:FF:FF:FF:FF:FF",
+    "sensitive": [],
+    "types": ["MAC_ADDRESS"],
+    "negative": true,
+    "notes": "broadcast address excluded"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_mac_recognizer.py",
+    "input": "00:00:00:00:00:00",
+    "sensitive": [],
+    "types": ["MAC_ADDRESS"],
+    "negative": true,
+    "notes": "all-zero excluded"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_mac_recognizer.py",
+    "input": "10:2F:33-AC-29-C3",
+    "sensitive": [],
+    "types": ["MAC_ADDRESS"],
+    "negative": true,
+    "notes": "mixed separators"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_url_recognizer.py",
+    "input": "https://webhook.site/a8eedfd6-9d8a-44e0-b0fc-cc7d517db5dc?q=1&b=2",
+    "sensitive": [
+      "https://webhook.site/a8eedfd6-9d8a-44e0-b0fc-cc7d517db5dc?q=1&b=2"
+    ],
+    "types": ["URL"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_url_recognizer.py",
+    "input": "my domains: microsoft.com google.co.il",
+    "sensitive": ["microsoft.com", "google.co.il"],
+    "types": ["URL"],
+    "negative": false,
+    "notes": "bare domains"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_url_recognizer.py",
+    "input": "http://microsoft",
+    "sensitive": [],
+    "types": ["URL"],
+    "negative": true,
+    "notes": "no TLD"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_email_recognizer.py",
+    "input": "my email address is info@presidio.site",
+    "sensitive": ["info@presidio.site"],
+    "types": ["EMAIL_ADDRESS"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_email_recognizer.py",
+    "input": "user@xn--80ak6aa92e.com",
+    "sensitive": ["user@xn--80ak6aa92e.com"],
+    "types": ["EMAIL_ADDRESS"],
+    "negative": false,
+    "notes": "punycode domain"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_email_recognizer.py",
+    "input": "my email is info@presidio.",
+    "sensitive": [],
+    "types": ["EMAIL_ADDRESS"],
+    "negative": true,
+    "notes": "no TLD"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_phone_recognizer.py",
+    "input": "+55 11 98456 5666",
+    "sensitive": ["+55 11 98456 5666"],
+    "types": ["PHONE_NUMBER"],
+    "negative": false,
+    "notes": "phonenumbers library, region list"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_phone_recognizer.py",
+    "input": "020 7946 0958",
+    "sensitive": ["020 7946 0958"],
+    "types": ["PHONE_NUMBER"],
+    "negative": false,
+    "notes": "UK national format"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_date_recognizer.py",
+    "input": "2024-06-05T09:15:30.500-07:00",
+    "sensitive": ["2024-06-05T09:15:30.500-07:00"],
+    "types": ["DATE_TIME"],
+    "negative": false,
+    "notes": "ISO timestamp with offset"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_uk_passport_recognizer.py",
+    "input": "My passport number is CD7654321 and it expires soon",
+    "sensitive": ["CD7654321"],
+    "types": ["UK_PASSPORT"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "presidio",
+    "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_uuid_recognizer.py",
+    "input": "Request ID: 550e8400-e29b-41d4-a716-446655440000",
+    "sensitive": ["550e8400-e29b-41d4-a716-446655440000"],
+    "types": ["UUID"],
+    "negative": false,
+    "notes": "contrast: DataFog treats a trace UUID as negative"
+  },
+  {
+    "tool": "presidio",
+    "source": "https://microsoft.github.io/presidio/anonymizer/",
+    "input": "My name is Bond.",
+    "sensitive": ["Bond"],
+    "types": ["PERSON"],
+    "negative": false,
+    "notes": "anonymizer docs: replace -> 'My name is BIP.'; encrypt/decrypt round-trip with a 128/192/256-bit key"
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_credentials.py",
+    "input": "username: root\npassword: root",
+    "sensitive": ["root"],
+    "types": ["credential"],
+    "negative": false,
+    "notes": "both username and password values are 'root'"
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_credentials.py",
+    "input": "login snoop pw biggreenhat",
+    "sensitive": ["snoop", "biggreenhat"],
+    "types": ["credential"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_credentials.py",
+    "input": "u: snoop\np: biggreenhat",
+    "sensitive": ["snoop", "biggreenhat"],
+    "types": ["credential"],
+    "negative": false,
+    "notes": "single-letter keys"
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_credentials.py",
+    "input": "This is your problem",
+    "sensitive": [],
+    "types": ["credential"],
+    "negative": true,
+    "notes": "word 'problem' must not trigger"
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_credit_card.py",
+    "input": "378282246310005",
+    "sensitive": ["378282246310005"],
+    "types": ["credit_card"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_credit_card.py",
+    "input": "6011111111111117",
+    "sensitive": ["6011111111111117"],
+    "types": ["credit_card"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_credit_card.py",
+    "input": "3530111333300000",
+    "sensitive": ["3530111333300000"],
+    "types": ["credit_card"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_credit_card.py",
+    "input": "38520000023237",
+    "sensitive": ["38520000023237"],
+    "types": ["credit_card"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_date_of_birth.py",
+    "input": "My date of birth is 17/06/1976",
+    "sensitive": ["17/06/1976"],
+    "types": ["date_of_birth"],
+    "negative": false,
+    "notes": "context word required"
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_date_of_birth.py",
+    "input": "I was born 15th June 1991",
+    "sensitive": ["15th June 1991"],
+    "types": ["date_of_birth"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_date_of_birth.py",
+    "input": "my date of birth is 22-nov-1972",
+    "sensitive": ["22-nov-1972"],
+    "types": ["date_of_birth"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_date_of_birth.py",
+    "input": "DOB: 02.12.1979",
+    "sensitive": ["1979"],
+    "types": ["date_of_birth"],
+    "negative": false,
+    "notes": "documented limitation: only the year is redacted"
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_drivers_licence.py",
+    "input": "MORGA 753 116 SM91J 01",
+    "sensitive": ["MORGA 753 116 SM91J 01"],
+    "types": ["drivers_licence"],
+    "negative": false,
+    "notes": "GB format with spaces"
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_national_insurance_number.py",
+    "input": "AZ 123 456 A",
+    "sensitive": ["AZ 123 456 A"],
+    "types": ["national_insurance_number"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_tax_reference_number.py",
+    "input": "11 A 12345",
+    "sensitive": ["11 A 12345"],
+    "types": ["tax_reference_number"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_social_security_number.py",
+    "input": "109.99.6000",
+    "sensitive": ["109.99.6000"],
+    "types": ["social_security_number"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_phone.py",
+    "input": "312-515-2239 ext. 12",
+    "sensitive": ["312-515-2239 ext. 12"],
+    "types": ["phone"],
+    "negative": false,
+    "notes": "extension included"
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_phone.py",
+    "input": "+86 135 3727 4136",
+    "sensitive": ["+86 135 3727 4136"],
+    "types": ["phone"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_postalcode.py",
+    "input": "sw1A 0AA",
+    "sensitive": ["sw1A 0AA"],
+    "types": ["postalcode"],
+    "negative": false,
+    "notes": "mixed case UK postcode"
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_postalcode.py",
+    "input": "95130-642",
+    "sensitive": [],
+    "types": ["postalcode"],
+    "negative": true,
+    "notes": "malformed US ZIP"
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_skype.py",
+    "input": "contact me on skype (dean.malmgren) to chat",
+    "sensitive": ["dean.malmgren"],
+    "types": ["skype"],
+    "negative": false,
+    "notes": "needs 'skype' context word"
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_skype.py",
+    "input": "SCREAM to get my attention because Im not on instant messengers",
+    "sensitive": [],
+    "types": ["skype"],
+    "negative": true,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_twitter.py",
+    "input": "i tweet at @john_gmail",
+    "sensitive": ["@john_gmail"],
+    "types": ["twitter"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_url.py",
+    "input": "http://bit.ly/aser is neat",
+    "sensitive": ["http://bit.ly/aser"],
+    "types": ["url"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_url.py",
+    "input": "https://this.is/a/long?url=very#url",
+    "sensitive": ["https://this.is/a/long?url=very#url"],
+    "types": ["url"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_email.py",
+    "input": "john at gmail.com",
+    "sensitive": ["john at gmail.com"],
+    "types": ["email"],
+    "negative": false,
+    "notes": "obfuscated 'at'"
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_email.py",
+    "input": "HELLO@EXAMPLE.COM",
+    "sensitive": ["HELLO@EXAMPLE.COM"],
+    "types": ["email"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "scrubadub",
+    "source": "https://github.com/LeapBeyond/scrubadub/blob/master/docs/usage.rst",
+    "input": "contact me on (478)345-1309 or joe@example.com",
+    "sensitive": ["(478)345-1309", "joe@example.com"],
+    "types": ["phone", "email"],
+    "negative": false,
+    "notes": "FilthReplacer with salted hash -> '<b>PHONE-DB92D</b> ... <b>EMAIL-028CC</b>'; incremental mode gives EMAIL-0, EMAIL-1 (tests/test_postprocessor_filth_replacer.py)"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/tests/input_scanners/test_anonymize.py",
+    "input": "Make an SQL insert statement to add a new user to our database. Name is John Doe. My email is test@test.com but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. He works in Test LLC.",
+    "sensitive": [
+      "John Doe",
+      "test@test.com",
+      "hello@test.com",
+      "555-123-4567",
+      "192.168.1.100",
+      "4567-8901-2345-6789",
+      "Test LLC"
+    ],
+    "types": [
+      "PERSON",
+      "EMAIL_ADDRESS",
+      "PHONE_NUMBER",
+      "IP_ADDRESS",
+      "CREDIT_CARD_RE",
+      "CUSTOM"
+    ],
+    "negative": false,
+    "notes": "hidden_names=['Test LLC'] + preamble; -> [REDACTED_PERSON_1], [REDACTED_EMAIL_ADDRESS_1], [REDACTED_EMAIL_ADDRESS_2], [REDACTED_PHONE_NUMBER_1], [REDACTED_IP_ADDRESS_1], [REDACTED_CREDIT_CARD_RE_1], [REDACTED_CUSTOM_1]"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/tests/input_scanners/test_anonymize.py",
+    "input": "Make an SQL insert statement to add a new user to our database. Name is John Doe. E-mail is test@test.com but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. He works in Test LLC.",
+    "sensitive": ["John Doe"],
+    "types": ["PERSON"],
+    "negative": false,
+    "notes": "entity_types=['PERSON'] only: everything else stays"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/tests/input_scanners/test_anonymize.py",
+    "input": "Just a simple prompt",
+    "sensitive": [],
+    "types": ["PERSON"],
+    "negative": true,
+    "notes": "no PII"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/tests/input_scanners/test_anonymize.py",
+    "input": "Full Name: Mary.",
+    "sensitive": [],
+    "types": ["PERSON"],
+    "negative": true,
+    "notes": "allowed_names=['Mary'] keeps it unchanged"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/tests/input_scanners/test_anonymize.py",
+    "input": "Email: john.doe@protectai[DOT]com",
+    "sensitive": ["john.doe@protectai[DOT]com"],
+    "types": ["EMAIL_ADDRESS"],
+    "negative": false,
+    "notes": "obfuscated [DOT] email from resume test"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/tests/input_scanners/test_anonymize.py",
+    "input": "Phone: (123) 456-7890",
+    "sensitive": ["(123) 456-7890"],
+    "types": ["PHONE_NUMBER"],
+    "negative": false,
+    "notes": "resume test fragment"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/tests/input_scanners/test_anonymize.py",
+    "input": "Date of Birth: April 12, 1990",
+    "sensitive": [],
+    "types": ["DATE_TIME"],
+    "negative": true,
+    "notes": "resume test: DOB intentionally not redacted by default entity list"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/tests/input_scanners/test_anonymize.py",
+    "input": "CVV: 123",
+    "sensitive": [],
+    "types": ["CREDIT_CARD"],
+    "negative": true,
+    "notes": "resume test: CVV left untouched"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/llm_guard/input_scanners/anonymize_helpers/regex_patterns.py",
+    "input": "john.doe[AT]protectai[DOT]com",
+    "sensitive": ["john.doe[AT]protectai[DOT]com"],
+    "types": ["EMAIL_ADDRESS_RE"],
+    "negative": false,
+    "notes": "documented example of obfuscated email regex"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/llm_guard/input_scanners/anonymize_helpers/regex_patterns.py",
+    "input": "1LgqButDNV2rVHe9DATt6WqD8tKZEKvaK2",
+    "sensitive": ["1LgqButDNV2rVHe9DATt6WqD8tKZEKvaK2"],
+    "types": ["CRYPTO"],
+    "negative": false,
+    "notes": "BTC example"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/llm_guard/input_scanners/anonymize_helpers/regex_patterns.py",
+    "input": "(523)222-8888 ext 527",
+    "sensitive": ["(523)222-8888 ext 527"],
+    "types": ["PHONE_NUMBER_WITH_EXT"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/llm_guard/input_scanners/anonymize_helpers/regex_patterns.py",
+    "input": "PO Box 123456",
+    "sensitive": ["PO Box 123456"],
+    "types": ["PO_BOX_RE"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/llm_guard/input_scanners/anonymize_helpers/regex_patterns.py",
+    "input": "13011112222",
+    "sensitive": ["13011112222"],
+    "types": ["PHONE_NUMBER_ZH"],
+    "negative": false,
+    "notes": "Chinese mobile"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/tests/input_scanners/test_secrets.py",
+    "input": "aws_secret_access_key=\"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\"",
+    "sensitive": ["wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"],
+    "types": ["AWS_SECRET"],
+    "negative": false,
+    "notes": "redact_mode=all -> '******'"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/tests/input_scanners/test_secrets.py",
+    "input": "https://username:password@llm-guard.com",
+    "sensitive": ["password"],
+    "types": ["BASIC_AUTH"],
+    "negative": false,
+    "notes": "-> https://username:******@llm-guard.com (only password masked)"
+  },
+  {
+    "tool": "llm-guard",
+    "source": "https://github.com/protectai/llm-guard/blob/main/tests/output_scanners/test_sensitive.py",
+    "input": "john.doe@protectai.com is my email",
+    "sensitive": ["john.doe@protectai.com"],
+    "types": ["EMAIL_ADDRESS"],
+    "negative": false,
+    "notes": "Sensitive output scanner, redact=True -> '<EMAIL_ADDRESS> is my email'"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/detector.test.ts",
+    "input": "Contact john@example.com for info",
+    "sensitive": ["john@example.com"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/detector.test.ts",
+    "input": "Card: 4532015112830366",
+    "sensitive": ["4532015112830366"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "Luhn valid"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/detector.test.ts",
+    "input": "Card: 1234567890123456",
+    "sensitive": [],
+    "types": ["CREDIT_CARD"],
+    "negative": true,
+    "notes": "Luhn fails"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/detector.test.ts",
+    "input": "Candidate #1.1: Joseph Barchi and Joseph Hallaren / Blue",
+    "sensitive": ["Joseph Barchi", "Joseph Hallaren"],
+    "types": ["NAME"],
+    "negative": false,
+    "notes": "regression for names after list numbering"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/detector.test.ts",
+    "input": "This is a simple text without any personal details",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": ""
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/detector.test.ts",
+    "input": "ID: CUSTOM-123456",
+    "sensitive": ["CUSTOM-123456"],
+    "types": ["CUSTOM"],
+    "negative": false,
+    "notes": "customPatterns option"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "4532 0151 1283 0366",
+    "sensitive": ["4532 0151 1283 0366"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "Luhn with spaces"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "4532015112830367",
+    "sensitive": [],
+    "types": ["CREDIT_CARD"],
+    "negative": true,
+    "notes": "Luhn fails"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "GB82 WEST 1234 5698 7654 32",
+    "sensitive": ["GB82 WEST 1234 5698 7654 32"],
+    "types": ["IBAN"],
+    "negative": false,
+    "notes": "mod-97"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "FR1420041010050500013M02606",
+    "sensitive": ["FR1420041010050500013M02606"],
+    "types": ["IBAN"],
+    "negative": false,
+    "notes": "letter inside BBAN"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "GB82 WEST 1234 5698 7654 33",
+    "sensitive": [],
+    "types": ["IBAN"],
+    "negative": true,
+    "notes": "mod-97 fails"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "GB82WEST123456987654",
+    "sensitive": [],
+    "types": ["IBAN"],
+    "negative": true,
+    "notes": "wrong length"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "JK 12 34 56 D",
+    "sensitive": ["JK 12 34 56 D"],
+    "types": ["NATIONAL_INSURANCE_UK"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "BG123456C",
+    "sensitive": [],
+    "types": ["NATIONAL_INSURANCE_UK"],
+    "negative": true,
+    "notes": "forbidden prefix or suffix"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "GB123456C",
+    "sensitive": [],
+    "types": ["NATIONAL_INSURANCE_UK"],
+    "negative": true,
+    "notes": "forbidden prefix or suffix"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "NK123456C",
+    "sensitive": [],
+    "types": ["NATIONAL_INSURANCE_UK"],
+    "negative": true,
+    "notes": "forbidden prefix or suffix"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "AB123456E",
+    "sensitive": [],
+    "types": ["NATIONAL_INSURANCE_UK"],
+    "negative": true,
+    "notes": "forbidden prefix or suffix"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "450 557 7104",
+    "sensitive": ["450 557 7104"],
+    "types": ["NHS_NUMBER"],
+    "negative": false,
+    "notes": "mod-11"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "4505577105",
+    "sensitive": [],
+    "types": ["NHS_NUMBER"],
+    "negative": true,
+    "notes": "mod-11 fails"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "000-45-6789",
+    "sensitive": [],
+    "types": ["SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial or repeated"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "666-45-6789",
+    "sensitive": [],
+    "types": ["SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial or repeated"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "900-45-6789",
+    "sensitive": [],
+    "types": ["SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial or repeated"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "123-00-6789",
+    "sensitive": [],
+    "types": ["SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial or repeated"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "123-45-0000",
+    "sensitive": [],
+    "types": ["SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial or repeated"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "111-11-1111",
+    "sensitive": [],
+    "types": ["SSN"],
+    "negative": true,
+    "notes": "invalid area/group/serial or repeated"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "user.name+tag@example.co.uk",
+    "sensitive": ["user.name+tag@example.co.uk"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "plus tag, multi-label TLD"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "test@domain",
+    "sensitive": [],
+    "types": ["EMAIL"],
+    "negative": true,
+    "notes": "no TLD"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "Company Limited",
+    "sensitive": [],
+    "types": ["NAME"],
+    "negative": true,
+    "notes": "name validator rejects company suffix"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+    "input": "Monday",
+    "sensitive": [],
+    "types": ["NAME"],
+    "negative": true,
+    "notes": "weekday rejected"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/pattern-hardening.test.ts",
+    "input": "version 1.2.3",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "isFalsePositive: version string"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/pattern-hardening.test.ts",
+    "input": "0000000000",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "isFalsePositive: repeated digits"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/false-positive-filter.test.ts",
+    "input": "build 10.15.7",
+    "sensitive": [],
+    "types": ["IP_ADDRESS"],
+    "negative": true,
+    "notes": "version-like number"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/false-positive-filter.test.ts",
+    "input": "height 150 cm",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "measurement"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/false-positive-filter.test.ts",
+    "input": "width: 1920 px",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "measurement"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/false-positive-filter.test.ts",
+    "input": "created on 2024-01-15",
+    "sensitive": [],
+    "types": ["DATE_OF_BIRTH"],
+    "negative": true,
+    "notes": "generic date is not PII without DOB context"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/pattern-hardening.test.ts",
+    "input": "Account number: 1234567890",
+    "sensitive": ["1234567890"],
+    "types": ["BANK_ACCOUNT"],
+    "negative": false,
+    "notes": "isFalsePositive returns false because of context"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/redaction-modes.test.ts",
+    "input": "Call 555-123-4567",
+    "sensitive": ["555-123-4567"],
+    "types": ["PHONE"],
+    "negative": false,
+    "notes": "mask-middle -> 555-***-4567"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/redaction-modes.test.ts",
+    "input": "SSN: 123-45-6789",
+    "sensitive": ["123-45-6789"],
+    "types": ["SSN"],
+    "negative": false,
+    "notes": "mask-middle -> ***-**-6789; format-preserving -> XXX-XX-XXXX"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/redaction-modes.test.ts",
+    "input": "(555) 123-4567",
+    "sensitive": ["(555) 123-4567"],
+    "types": ["PHONE"],
+    "negative": false,
+    "notes": "format-preserving -> (XXX) XXX-XXXX"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/digital-identity-patterns.test.ts",
+    "input": "Discord user ID: 123456789012345678",
+    "sensitive": ["123456789012345678"],
+    "types": ["DISCORD_USER_ID"],
+    "negative": false,
+    "notes": "context required"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/digital-identity-patterns.test.ts",
+    "input": "Random number: 123456789012345678",
+    "sensitive": [],
+    "types": ["DISCORD_USER_ID"],
+    "negative": true,
+    "notes": "same digits without context"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/digital-identity-patterns.test.ts",
+    "input": "Steam profile: 76561198012345678",
+    "sensitive": ["76561198012345678"],
+    "types": ["STEAM_ID64"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/digital-identity-patterns.test.ts",
+    "input": "Number: 76561198012345678",
+    "sensitive": [],
+    "types": ["STEAM_ID64"],
+    "negative": true,
+    "notes": "no context"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/digital-identity-patterns.test.ts",
+    "input": "Twitter: @username123",
+    "sensitive": ["@username123"],
+    "types": ["SOCIAL_MEDIA_HANDLE"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/digital-identity-patterns.test.ts",
+    "input": "Email: @company.com",
+    "sensitive": [],
+    "types": ["SOCIAL_MEDIA_HANDLE"],
+    "negative": true,
+    "notes": "email domain, not a handle"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/digital-identity-patterns.test.ts",
+    "input": "Twitter: @ab",
+    "sensitive": [],
+    "types": ["SOCIAL_MEDIA_HANDLE"],
+    "negative": true,
+    "notes": "too short"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/middle-east-patterns.test.ts",
+    "input": "Emirates ID: 784-1990-1234567-1",
+    "sensitive": ["784-1990-1234567-1"],
+    "types": ["UAE_EMIRATES_ID"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/middle-east-patterns.test.ts",
+    "input": "ID: 123-1990-1234567-1 in context",
+    "sensitive": [],
+    "types": ["UAE_EMIRATES_ID"],
+    "negative": true,
+    "notes": "must start with 784"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/middle-east-patterns.test.ts",
+    "input": "Iqama number: 2123456789",
+    "sensitive": ["2123456789"],
+    "types": ["SAUDI_NATIONAL_ID"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/middle-east-patterns.test.ts",
+    "input": "Phone: 1234567890",
+    "sensitive": [],
+    "types": ["SAUDI_NATIONAL_ID"],
+    "negative": true,
+    "notes": "phone context wins"
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/middle-east-patterns.test.ts",
+    "input": "Israeli Teudat Zehut: 123456780",
+    "sensitive": ["123456780"],
+    "types": ["ISRAEL_ID"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/middle-east-patterns.test.ts",
+    "input": "Random number: 123456780",
+    "sensitive": [],
+    "types": ["ISRAEL_ID"],
+    "negative": true,
+    "notes": ""
+  },
+  {
+    "tool": "openredaction",
+    "source": "https://github.com/sam247/openredaction/blob/main/README.md",
+    "input": "Contact Sarah Jones at sarah@example.com or call +1 202-555-0110",
+    "sensitive": ["Sarah Jones", "sarah@example.com", "202-555-0110"],
+    "types": ["NAME", "EMAIL", "PHONE"],
+    "negative": false,
+    "notes": "mask-middle -> 'Contact S***h J***s at s***@example.com or call +1 ***-***-0110'"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "Hey it's David Johnson with ACME Corp. Give me a call at 555-555-5555",
+    "sensitive": ["David Johnson", "555-555-5555"],
+    "types": ["PERSON_NAME", "PHONE_NUMBER"],
+    "negative": false,
+    "notes": "-> 'Hey it's PERSON_NAME with ACME Corp. Give me a call at PHONE_NUMBER'"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "blah blah\n\nThank you ..Risemamy McCrubben",
+    "sensitive": ["Risemamy McCrubben"],
+    "types": ["PERSON_NAME"],
+    "negative": false,
+    "notes": "unknown name after sign-off"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "blah blah. Thanks -Jon",
+    "sensitive": ["Jon"],
+    "types": ["PERSON_NAME"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "here's my Cliff. blah blah",
+    "sensitive": [],
+    "types": ["PERSON_NAME"],
+    "negative": true,
+    "notes": "'Cliff' is a word, not in names dictionary context"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "here's my Clifford. blah blah",
+    "sensitive": ["Clifford"],
+    "types": ["PERSON_NAME"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "Dear Clifford,\n blah blah",
+    "sensitive": ["Clifford"],
+    "types": ["PERSON_NAME"],
+    "negative": false,
+    "notes": "greeting heuristic"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "blah blah\n\n\nAcme Support\n blah blah",
+    "sensitive": [],
+    "types": ["PERSON_NAME"],
+    "negative": true,
+    "notes": "company sign-off is not a name"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "blah blah\n\n\nAll the best,\n\n--Meg C.\n\nAcme Support",
+    "sensitive": ["Meg C."],
+    "types": ["PERSON_NAME"],
+    "negative": false,
+    "notes": "-> '--PERSON_NAME'"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "Subject. Hi David Johnson.",
+    "sensitive": ["David Johnson"],
+    "types": ["PERSON_NAME"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "blah blah\nThis is very important.",
+    "sensitive": [],
+    "types": ["PERSON_NAME"],
+    "negative": true,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my card: 1234 5678 8765 4321.",
+    "sensitive": ["1234 5678 8765 4321"],
+    "types": ["CREDIT_CARD_NUMBER"],
+    "negative": false,
+    "notes": "no Luhn check"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my AMEX card: 1234 567890 12345.",
+    "sensitive": ["1234 567890 12345"],
+    "types": ["CREDIT_CARD_NUMBER"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my DINERS 3rd card: 12345678901234.",
+    "sensitive": ["12345678901234"],
+    "types": ["CREDIT_CARD_NUMBER"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my ssn: 123 45 6789.",
+    "sensitive": ["123 45 6789"],
+    "types": ["US_SOCIAL_SECURITY_NUMBER"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my ssn: 123.45.6789.",
+    "sensitive": ["123.45.6789"],
+    "types": ["US_SOCIAL_SECURITY_NUMBER"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my ssn: 123456789.",
+    "sensitive": ["123456789"],
+    "types": ["DIGITS"],
+    "negative": false,
+    "notes": "unseparated SSN falls through to DIGITS"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my phone: (+44) (555)123-1234.",
+    "sensitive": ["(+44) (555)123-1234"],
+    "types": ["PHONE_NUMBER"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my phone: 1-555-123-1234.",
+    "sensitive": ["1-555-123-1234"],
+    "types": ["PHONE_NUMBER"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my phone: 555.123.1234.",
+    "sensitive": ["555.123.1234"],
+    "types": ["PHONE_NUMBER"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my ip: 10.1.1.235.",
+    "sensitive": ["10.1.1.235"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my ip: 1234:ABCD:23AF:1111:2222:3333:0000:0000:0000.",
+    "sensitive": ["1234:ABCD:23AF:1111:2222:3333:0000:0000:0000"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "9 groups still matched (loose IPv6 regex)"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my email: joe123@solvvy.co.uk.",
+    "sensitive": ["joe123@solvvy.co.uk"],
+    "types": ["EMAIL_ADDRESS"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my email is other+foobar@t.co.",
+    "sensitive": ["other+foobar@t.co"],
+    "types": ["EMAIL_ADDRESS"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "I live at 123 Park Ave Apt 123 New York City, NY 10002",
+    "sensitive": ["123 Park Ave Apt 123", "10002"],
+    "types": ["STREET_ADDRESS", "ZIPCODE"],
+    "negative": false,
+    "notes": "-> 'I live at STREET_ADDRESS New York City, NY ZIPCODE'"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "my address is 56 N First St NY 90210",
+    "sensitive": ["56 N First St", "90210"],
+    "types": ["STREET_ADDRESS", "ZIPCODE"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "Oh no worries I live right down the street and up the boulevard",
+    "sensitive": [],
+    "types": ["STREET_ADDRESS"],
+    "negative": true,
+    "notes": "street words without number"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "There is no way that I will pay for that circle in court",
+    "sensitive": [],
+    "types": ["STREET_ADDRESS"],
+    "negative": true,
+    "notes": "'way','circle','court' are street suffixes"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "I have thought of many ways to finish that drive",
+    "sensitive": [],
+    "types": ["STREET_ADDRESS"],
+    "negative": true,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "here is my username: foobar and my password: baz123",
+    "sensitive": ["username: foobar", "password: baz123"],
+    "types": ["USERNAME", "PASSWORD"],
+    "negative": false,
+    "notes": "key is consumed too -> 'here is my USERNAME and my PASSWORD'"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "user: thislibrary\npass: 1$d0P3!",
+    "sensitive": ["user: thislibrary", "pass: 1$d0P3!"],
+    "types": ["USERNAME", "PASSWORD"],
+    "negative": false,
+    "notes": "-> 'USERNAME\\nPASSWORD'"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "codeA: 123, codeB: 6789",
+    "sensitive": ["6789"],
+    "types": ["DIGITS"],
+    "negative": false,
+    "notes": "only runs of >= 4 digits"
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "My homepage is http://example.com",
+    "sensitive": ["http://example.com"],
+    "types": ["URL"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "custom protocol myapp://example.com",
+    "sensitive": ["myapp://example.com"],
+    "types": ["URL"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "complex http://user@pass:example.com:8080/reset/password/12345?foo=bar&hi=there#/app works?",
+    "sensitive": [
+      "http://user@pass:example.com:8080/reset/password/12345?foo=bar&hi=there#/app"
+    ],
+    "types": ["URL"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "redact-pii",
+    "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+    "input": "I love cats, dogs, and cows",
+    "sensitive": ["cats", "dogs", "cows"],
+    "types": ["ANIMAL"],
+    "negative": false,
+    "notes": "customRedactors.after regex /\\b(cat|dog|cow)s?\\b/gi -> 'I love ANIMAL, ANIMAL, and ANIMAL'"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Contact us at support@example.com for help.",
+    "sensitive": ["support@example.com"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "id=email-simple"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Send to john.doe+tag@company.co.uk please.",
+    "sensitive": ["john.doe+tag@company.co.uk"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "id=email-plus-addressing"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Route alerts to ops@alerts.eu.acme.io now.",
+    "sensitive": ["ops@alerts.eu.acme.io"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "id=email-subdomain"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Inbox owner: JANE.DOE@EXAMPLE.ORG",
+    "sensitive": ["JANE.DOE@EXAMPLE.ORG"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "id=email-uppercase"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Reach mario@azienda.italia today.",
+    "sensitive": ["mario@azienda.italia"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "id=email-international-tld"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Use a@b.co for the test account.",
+    "sensitive": ["a@b.co"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "id=email-minimal"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Primary alpha@x.com secondary beta@y.net",
+    "sensitive": ["alpha@x.com", "beta@y.net"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "id=email-two-values"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "This should not match: not-an-email@",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=email-invalid-missing-domain"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "This should not match: @alone",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=email-invalid-at-alone"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "(billing-team@sub.domain.com), thanks",
+    "sensitive": ["billing-team@sub.domain.com"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "id=email-punctuation-boundary"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Call me at (555) 123-4567 tomorrow.",
+    "sensitive": ["(555) 123-4567"],
+    "types": ["PHONE"],
+    "negative": false,
+    "notes": "id=phone-us-parentheses"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Main line 555-123-4567 is active.",
+    "sensitive": ["555-123-4567"],
+    "types": ["PHONE"],
+    "negative": false,
+    "notes": "id=phone-us-dashes"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Emergency +1-555-123-4567 now.",
+    "sensitive": ["+1-555-123-4567"],
+    "types": ["PHONE"],
+    "negative": false,
+    "notes": "id=phone-country-code"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Desk: 5551234567 ext 9",
+    "sensitive": ["5551234567"],
+    "types": ["PHONE"],
+    "negative": false,
+    "notes": "id=phone-plain-digits"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Use 555.123.4567 during office hours",
+    "sensitive": ["555.123.4567"],
+    "types": ["PHONE"],
+    "negative": false,
+    "notes": "id=phone-dots"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "London office +44 20 7946 0958",
+    "sensitive": ["+44 20 7946 0958"],
+    "types": ["PHONE"],
+    "negative": false,
+    "notes": "id=phone-international"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Dial 555-123-4567 x89",
+    "sensitive": ["555-123-4567"],
+    "types": ["PHONE"],
+    "negative": false,
+    "notes": "id=phone-extension"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Part number: 555-123-4567-A",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=phone-false-product-code"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "ZIP 94105 is not a phone",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=phone-false-zip"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Ops 555-000-1111, backup (555) 222-3333",
+    "sensitive": ["555-000-1111", "(555) 222-3333"],
+    "types": ["PHONE"],
+    "negative": false,
+    "notes": "id=phone-two-values"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Employee SSN is 123-45-6789 on file.",
+    "sensitive": ["123-45-6789"],
+    "types": ["SSN"],
+    "negative": false,
+    "notes": "id=ssn-standard"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Backup SSN 987-65-4321 recorded.",
+    "sensitive": ["987-65-4321"],
+    "types": ["SSN"],
+    "negative": false,
+    "notes": "id=ssn-second-valid"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Invalid SSN 000-00-0000 should be ignored.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=ssn-invalid-zero-group"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Invalid SSN 666-12-9999 should be ignored.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=ssn-invalid-666-prefix"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Legacy value 123456789 appears here.",
+    "sensitive": ["123456789"],
+    "types": ["SSN"],
+    "negative": false,
+    "notes": "id=ssn-no-dashes"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Suspicious token 123 45 6789 appears.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=ssn-spaced"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "SSN:123-45-6789;DOB:1990-01-01",
+    "sensitive": ["123-45-6789"],
+    "types": ["SSN"],
+    "negative": false,
+    "notes": "id=ssn-embedded"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Values 123-45-6789 and 111-22-3333",
+    "sensitive": ["123-45-6789", "111-22-3333"],
+    "types": ["SSN"],
+    "negative": false,
+    "notes": "id=ssn-two-values"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Bad SSN 123-45-678",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=ssn-too-short"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Bad SSN 123-45-67890",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=ssn-too-long"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Card 4111111111111111 approved.",
+    "sensitive": ["4111111111111111"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "id=cc-visa-plain"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Card 5500000000000004 approved.",
+    "sensitive": ["5500000000000004"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "id=cc-mastercard-plain"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Card 340000000000009 approved.",
+    "sensitive": ["340000000000009"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "id=cc-amex-plain"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Card 4111 1111 1111 1111 approved.",
+    "sensitive": ["4111 1111 1111 1111"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "id=cc-visa-spaces"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Card 5500-0000-0000-0004 approved.",
+    "sensitive": ["5500-0000-0000-0004"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "id=cc-mastercard-dashes"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Card 3400-000000-00009 approved.",
+    "sensitive": ["3400-000000-00009"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "id=cc-amex-formatted"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Number 411111111111111 is too short.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=cc-too-few"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Number 41111111111111111 is too long.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=cc-too-many"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Inventory code 1234567890123456 not card.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=cc-random-digits"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Cards 4111111111111111 and 5500000000000004",
+    "sensitive": ["4111111111111111", "5500000000000004"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "id=cc-two-values"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Ping 127.0.0.1 for diagnostics.",
+    "sensitive": ["127.0.0.1"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "id=ip-localhost"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Server on 192.168.1.10 is online.",
+    "sensitive": ["192.168.1.10"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "id=ip-private"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "DNS is 8.8.8.8 for this host.",
+    "sensitive": ["8.8.8.8"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "id=ip-public"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Route to 0.0.0.0 is default.",
+    "sensitive": ["0.0.0.0"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "id=ip-zero"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Broadcast 255.255.255.255 appears.",
+    "sensitive": ["255.255.255.255"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "id=ip-max"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Invalid 256.1.1.1 should fail.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=ip-invalid-high-octet"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Invalid 192.168.1 should fail.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=ip-invalid-short"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Invalid 10.0.one.2 should fail.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=ip-invalid-alpha"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Hosts 10.0.0.1 and 172.16.0.5",
+    "sensitive": ["10.0.0.1", "172.16.0.5"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "id=ip-two-values"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "[203.0.113.9] in logs",
+    "sensitive": ["203.0.113.9"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "id=ip-boundary-punctuation"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "DOB 03/15/1989 recorded.",
+    "sensitive": ["03/15/1989"],
+    "types": ["DATE"],
+    "negative": false,
+    "notes": "id=date-us"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Date 1989-03-15 recorded.",
+    "sensitive": ["1989-03-15"],
+    "types": ["DATE"],
+    "negative": false,
+    "notes": "id=date-iso"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Meeting on March 15, 1989 was archived.",
+    "sensitive": ["March 15, 1989"],
+    "types": ["DATE"],
+    "negative": false,
+    "notes": "id=date-month-name"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Try 3/5/2020 for one entry.",
+    "sensitive": ["3/5/2020"],
+    "types": ["DATE"],
+    "negative": false,
+    "notes": "id=date-slash-short"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Try 3-5-2020 for another entry.",
+    "sensitive": ["3-5-2020"],
+    "types": ["DATE"],
+    "negative": false,
+    "notes": "id=date-dash-short"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Fiscal year 2024 planning.",
+    "sensitive": ["year 2024"],
+    "types": ["DATE"],
+    "negative": false,
+    "notes": "id=date-year-only"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Bad date 13/01/2020 should not match.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=date-invalid-month"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Bad date 01/32/2020 should not match.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=date-invalid-day"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Range 2020-01-01 to 2021-12-31",
+    "sensitive": ["2020-01-01", "2021-12-31"],
+    "types": ["DATE"],
+    "negative": false,
+    "notes": "id=date-two-values"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "1980-01-01 starts the string",
+    "sensitive": ["1980-01-01"],
+    "types": ["DATE"],
+    "negative": false,
+    "notes": "id=date-boundary"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Ship to ZIP 94105 today.",
+    "sensitive": ["94105"],
+    "types": ["ZIP_CODE"],
+    "negative": false,
+    "notes": "id=zip-five"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "Ship to ZIP 94105-1234 today.",
+    "sensitive": ["94105-1234"],
+    "types": ["ZIP_CODE"],
+    "negative": false,
+    "notes": "id=zip-nine"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "ZIP 00501 is valid.",
+    "sensitive": ["00501"],
+    "types": ["ZIP_CODE"],
+    "negative": false,
+    "notes": "id=zip-leading-zero"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "ZIP 99999 is valid.",
+    "sensitive": ["99999"],
+    "types": ["ZIP_CODE"],
+    "negative": false,
+    "notes": "id=zip-max"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "ZIPs 10001 and 30301",
+    "sensitive": ["10001", "30301"],
+    "types": ["ZIP_CODE"],
+    "negative": false,
+    "notes": "id=zip-two-values"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "ZIP 1234 is invalid.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=zip-invalid-short"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "ZIP 123456 is invalid.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=zip-invalid-long"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "ZIP 12345-123 is invalid.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=zip-invalid-plus4-short"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "ZIP 12345-12345 is invalid.",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=zip-invalid-plus4-long"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "94105, San Francisco",
+    "sensitive": ["94105"],
+    "types": ["ZIP_CODE"],
+    "negative": false,
+    "notes": "id=zip-boundary"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "USt-IdNr DE 123456789 ist gesetzt.",
+    "sensitive": ["DE 123456789"],
+    "types": ["DE_VAT_ID"],
+    "negative": false,
+    "notes": "id=de-vat-id-locale; locales=['de']"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+    "input": "IBAN DE44 5001 0517 5407 3249 31 ist gueltig.",
+    "sensitive": ["DE44 5001 0517 5407 3249 31"],
+    "types": ["DE_IBAN"],
+    "negative": false,
+    "notes": "id=de-iban-locale; locales=['de']"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "The book ISBN is 978-3-16-148410-0",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=isbn-not-ssn; ISBN should not be flagged as SSN"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "Part number: 555-123-4567-A",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=product-code-not-phone; Product code should not be phone"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "Build id 0x7f00ff00 is not an IP address",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=hex-not-ip"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "Order 12345ABC ships tomorrow",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=order-id-not-zip"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "Release v2026.2.9 fixed the issue",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=version-not-date"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "The event starts at 12:30:45 UTC",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=time-not-phone"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "Trace id 550e8400-e29b-41d4-a716-446655440000",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=uuid-not-ssn"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "Sequence 1234 5678 90 is not a card",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=math-not-credit-card"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "Host mailserver.local accepted message",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=hostname-not-email"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "See [RFC 1918](https://example.com/rfc1918)",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=markdown-link"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "const EMAIL_PATTERN = /[a-z]+@[a-z]+/;",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=code-symbol"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "Numbers 111222333444 are identifiers",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=random-digits"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "Ticket ABC-123-XYZ is now closed",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=ticket-id"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "Date 2026-99-99 is not valid",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=date-like-invalid"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/negative_cases.json",
+    "input": "https://example.com/@user/profile is a URL path",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=url-with-at"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "???????????xiaoming@example.cn",
+    "sensitive": ["???", "xiaoming@example.cn"],
+    "types": ["EMAIL", "PERSON"],
+    "negative": false,
+    "notes": "id=unicode-chinese-name"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "Jos? ?lvarez can be reached at jose.alvarez@example.es",
+    "sensitive": ["Jos? ?lvarez", "jose.alvarez@example.es"],
+    "types": ["EMAIL", "PERSON"],
+    "negative": false,
+    "notes": "id=unicode-accented"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "???? ??? +1-555-111-2222 ????????",
+    "sensitive": ["+1-555-111-2222"],
+    "types": ["PHONE"],
+    "negative": false,
+    "notes": "id=unicode-arabic-phone"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "User [EMAIL_1] already masked",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=already-redacted-token"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "SSN ???? should stay masked",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=already-redacted-block"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "Value is <REDACTED> and should not re-redact",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=already-redacted-angle"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "{\"note\":\"email=alice@example.com\",\"phone\":\"555-333-4444\"}",
+    "sensitive": ["alice@example.com", "555-333-4444"],
+    "types": ["EMAIL", "PHONE"],
+    "negative": false,
+    "notes": "id=json-escaped"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "{\"user\":{\"name\":\"Amy Wong\",\"ssn\":\"222-33-4444\"}}",
+    "sensitive": ["Amy Wong", "222-33-4444"],
+    "types": ["PERSON", "SSN"],
+    "negative": false,
+    "notes": "id=json-nested"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "# Contact: Bob Stone <bob.stone@example.com>",
+    "sensitive": ["Bob Stone", "bob.stone@example.com"],
+    "types": ["EMAIL", "PERSON"],
+    "negative": false,
+    "notes": "id=markdown-header"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "```\nemail = 'dev@example.com'\n```",
+    "sensitive": ["dev@example.com"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "id=markdown-code-block"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "const john_example_com = true;",
+    "sensitive": [],
+    "types": ["ANY"],
+    "negative": true,
+    "notes": "id=code-variable-name"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "ssn = \"333-44-5555\"",
+    "sensitive": ["333-44-5555"],
+    "types": ["SSN"],
+    "negative": false,
+    "notes": "id=code-string-literal"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "john@acme.com123-45-6789",
+    "sensitive": ["john@acme.com", "123-45-6789"],
+    "types": ["EMAIL", "SSN"],
+    "negative": false,
+    "notes": "id=adjacent-pii-no-separator"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "Value 2020-01-01.1 is malformed",
+    "sensitive": ["2020-01-01"],
+    "types": ["DATE"],
+    "negative": false,
+    "notes": "id=overlap-ip-and-date"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "john.start@example.com is first",
+    "sensitive": ["john.start@example.com"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "id=pii-at-start"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "Send to end.user@example.com",
+    "sensitive": ["end.user@example.com"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "id=pii-at-end"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "Emails: a@b.co,b@c.io,c@d.net",
+    "sensitive": ["a@b.co", "b@c.io", "c@d.net"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "id=multiple-same-type-adjacent"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+    "input": "\tCall\n(555) 444-9999\r\nnow",
+    "sensitive": ["(555) 444-9999"],
+    "types": ["PHONE"],
+    "negative": false,
+    "notes": "id=whitespace-variant"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/test_regex_annotator.py",
+    "input": "plainaddress",
+    "sensitive": [],
+    "types": ["EMAIL"],
+    "negative": true,
+    "notes": "invalid email"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/test_regex_annotator.py",
+    "input": "@missinglocal.org",
+    "sensitive": [],
+    "types": ["EMAIL"],
+    "negative": true,
+    "notes": "invalid email"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/test_regex_annotator.py",
+    "input": "user@.com",
+    "sensitive": [],
+    "types": ["EMAIL"],
+    "negative": true,
+    "notes": "invalid email"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/test_regex_annotator.py",
+    "input": "user@domain@domain.com",
+    "sensitive": [],
+    "types": ["EMAIL"],
+    "negative": true,
+    "notes": "invalid email"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/test_regex_annotator.py",
+    "input": "55-555-5555",
+    "sensitive": [],
+    "types": ["PHONE"],
+    "negative": true,
+    "notes": "invalid phone"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/test_regex_annotator.py",
+    "input": "555-555-555A",
+    "sensitive": [],
+    "types": ["PHONE"],
+    "negative": true,
+    "notes": "invalid phone"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/test_regex_annotator.py",
+    "input": "5555555555555",
+    "sensitive": [],
+    "types": ["PHONE"],
+    "negative": true,
+    "notes": "invalid phone"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/test_regex_annotator.py",
+    "input": "13/01/2000",
+    "sensitive": [],
+    "types": ["DATE"],
+    "negative": true,
+    "notes": "unsupported or invalid date format"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/test_regex_annotator.py",
+    "input": "01.01.2000",
+    "sensitive": [],
+    "types": ["DATE"],
+    "negative": true,
+    "notes": "unsupported or invalid date format"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/test_regex_annotator.py",
+    "input": "2000/01/01",
+    "sensitive": [],
+    "types": ["DATE"],
+    "negative": true,
+    "notes": "unsupported or invalid date format"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/test_regex_annotator.py",
+    "input": "123 45 6789",
+    "sensitive": [],
+    "types": ["SSN"],
+    "negative": true,
+    "notes": "space-separated SSN not matched (contrast: Presidio/redact-pii match it)"
+  },
+  {
+    "tool": "datafog",
+    "source": "https://github.com/DataFog/datafog-python/blob/dev/README.md",
+    "input": "Steuer-ID 12345678901 liegt vor.",
+    "sensitive": ["12345678901"],
+    "types": ["DE_TAX_ID"],
+    "negative": false,
+    "notes": "only with locales=['de']"
+  },
+  {
+    "tool": "phileas",
+    "source": "https://github.com/philterd/phileas/blob/main/phileas-core/src/test/java/ai/philterd/phileas/filters/BitcoinAddressFilterTest.java",
+    "input": "the address is 127NVqnjf8gB9BFAW2dnQeM6wqmy1gbGtv.",
+    "sensitive": ["127NVqnjf8gB9BFAW2dnQeM6wqmy1gbGtv"],
+    "types": ["BITCOIN_ADDRESS"],
+    "negative": false,
+    "notes": "replacement {{{REDACTED-bitcoin-address}}}"
+  },
+  {
+    "tool": "phileas",
+    "source": "https://github.com/philterd/phileas/blob/main/phileas-core/src/test/java/ai/philterd/phileas/filters/BitcoinAddressFilterTest.java",
+    "input": "the address is 12qnjf8FAW2dnQeM6wqmy1gbGtv.",
+    "sensitive": ["12qnjf8FAW2dnQeM6wqmy1gbGtv"],
+    "types": ["BITCOIN_ADDRESS"],
+    "negative": false,
+    "notes": "matched without Base58Check validation (contrast: Presidio validates)"
+  },
+  {
+    "tool": "phileas",
+    "source": "https://github.com/philterd/phileas/blob/main/phileas-core/src/test/java/ai/philterd/phileas/filters/BitcoinAddressFilterTest.java",
+    "input": "addr bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4",
+    "sensitive": ["bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4"],
+    "types": ["BITCOIN_ADDRESS"],
+    "negative": false,
+    "notes": "bech32"
+  },
+  {
+    "tool": "phileas",
+    "source": "https://github.com/philterd/phileas/blob/main/phileas-core/src/test/java/ai/philterd/phileas/filters/BitcoinAddressFilterTest.java",
+    "input": "BC1QW508D6QEJXTDG4Y5R3ZARVARY0C5XW7KV8F3T4",
+    "sensitive": ["BC1QW508D6QEJXTDG4Y5R3ZARVARY0C5XW7KV8F3T4"],
+    "types": ["BITCOIN_ADDRESS"],
+    "negative": false,
+    "notes": "uppercase bech32"
+  },
+  {
+    "tool": "phileas",
+    "source": "https://github.com/philterd/phileas/blob/main/phileas-core/src/test/java/ai/philterd/phileas/filters/IbanCodeFilterTest.java",
+    "input": "bank code of GB33BUKB20201555555555 ok?",
+    "sensitive": ["GB33BUKB20201555555555"],
+    "types": ["IBAN_CODE"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "phileas",
+    "source": "https://github.com/philterd/phileas/blob/main/phileas-core/src/test/java/ai/philterd/phileas/filters/IbanCodeFilterTest.java",
+    "input": "GB15 MIDL 4005 1512 3456 78",
+    "sensitive": ["GB15 MIDL 4005 1512 3456 78"],
+    "types": ["IBAN_CODE"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "phileas",
+    "source": "https://github.com/philterd/phileas/blob/main/phileas-core/src/test/java/ai/philterd/phileas/filters/IbanCodeFilterTest.java",
+    "input": "bank code of AV01AZ ok?",
+    "sensitive": [],
+    "types": ["IBAN_CODE"],
+    "negative": true,
+    "notes": "0 spans with validation on, 1 span with validation off"
+  },
+  {
+    "tool": "phileas",
+    "source": "https://github.com/philterd/phileas/blob/main/phileas-core/src/test/java/ai/philterd/phileas/filters/MacAddressFilterTest.java",
+    "input": "the mac is 00-14-22-04-25-37.",
+    "sensitive": ["00-14-22-04-25-37"],
+    "types": ["MAC_ADDRESS"],
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "phileas",
+    "source": "https://github.com/philterd/phileas/blob/main/phileas-core/src/test/java/ai/philterd/phileas/filters/TrackingNumberFilterTest.java",
+    "input": "1Z9YF1280343418566",
+    "sensitive": ["1Z9YF1280343418566"],
+    "types": ["TRACKING_NUMBER"],
+    "negative": false,
+    "notes": "UPS"
+  },
+  {
+    "tool": "phileas",
+    "source": "https://github.com/philterd/phileas/blob/main/phileas-core/src/test/java/ai/philterd/phileas/filters/TrackingNumberFilterTest.java",
+    "input": "9400 1000 0000 0000 0000",
+    "sensitive": ["9400 1000 0000 0000 0000"],
+    "types": ["TRACKING_NUMBER"],
+    "negative": false,
+    "notes": "USPS with spaces"
+  },
+  {
+    "tool": "phileas",
+    "source": "https://github.com/philterd/phileas/blob/main/phileas-core/src/test/java/ai/philterd/phileas/filters/VinFilterTest.java",
+    "input": "the vin is JB3BA36KXHU036784.",
+    "sensitive": ["JB3BA36KXHU036784"],
+    "types": ["VIN"],
+    "negative": false,
+    "notes": "check digit validated"
+  },
+  {
+    "tool": "phileas",
+    "source": "https://github.com/philterd/phileas/blob/main/phileas-core/src/test/java/ai/philterd/phileas/filters/VinFilterTest.java",
+    "input": "11131517191X11111",
+    "sensitive": [],
+    "types": ["VIN"],
+    "negative": true,
+    "notes": "check digit fails"
+  },
+  {
+    "tool": "philter",
+    "source": "https://github.com/philterd/philter/blob/main/README.md",
+    "input": "George Washington lives in 90210 and his SSN was 123-45-6789.",
+    "sensitive": ["George Washington", "90210", "123-45-6789"],
+    "types": ["PERSON", "ZIP_CODE", "SSN"],
+    "negative": false,
+    "notes": "README curl example"
+  },
+  {
+    "tool": "openai-privacy-filter",
+    "source": "https://huggingface.co/openai/privacy-filter",
+    "input": "My name is Harry Potter and my email is harry.potter@hogwarts.edu.",
+    "sensitive": ["Harry Potter", "harry.potter@hogwarts.edu"],
+    "types": ["private_person", "private_email"],
+    "negative": false,
+    "notes": "model card example"
+  },
+  {
+    "tool": "nvidia-gliner-pii",
+    "source": "https://huggingface.co/nvidia/gliner-PII",
+    "input": "Hi support, I can't log in! My account username is 'johndoe88'. You can reach me at (555) 123-4567 or johnd@example.com",
+    "sensitive": ["johndoe88", "(555) 123-4567", "johnd@example.com"],
+    "types": ["user_name", "phone_number", "email"],
+    "negative": false,
+    "notes": "model card example, shortened"
+  },
+  {
+    "tool": "pino-redact",
+    "source": "https://github.com/pinojs/pino/blob/main/docs/redaction.md",
+    "input": "{\"key\":\"will be redacted\",\"path\":{\"to\":{\"key\":\"sensitive\",\"another\":\"thing\"}},\"stuff\":{\"thats\":[{\"secret\":\"will be redacted\",\"logme\":\"will be logged\"}]}}",
+    "sensitive": ["will be redacted", "sensitive"],
+    "types": ["PATH"],
+    "negative": false,
+    "notes": "paths ['key','path.to.key','stuff.thats[*].secret'] -> '[Redacted]'; 'thing' and 'will be logged' kept"
+  },
+  {
+    "tool": "@pinojs/redact",
+    "source": "https://github.com/pinojs/redact",
+    "input": "{\"headers\":{\"cookie\":\"secret-session-token\",\"authorization\":\"Bearer abc123\",\"x-forwarded-for\":\"192.168.1.1\"},\"user\":{\"name\":\"john\",\"password\":\"secret123\"}}",
+    "sensitive": ["secret-session-token", "Bearer abc123", "secret123"],
+    "types": ["PATH"],
+    "negative": false,
+    "notes": "x-forwarded-for and name are kept; original object not mutated (selective cloning)"
+  },
+  {
+    "tool": "@redactpii/node",
+    "source": "https://github.com/wrannaman/redactpii-node",
+    "input": "Hi David Johnson, call 555-555-5555",
+    "sensitive": ["David Johnson", "555-555-5555"],
+    "types": ["PERSON_NAME", "PHONE_NUMBER"],
+    "negative": false,
+    "notes": "-> 'Hi PERSON_NAME, call PHONE_NUMBER'"
+  },
+  {
+    "tool": "rehydra",
+    "source": "https://github.com/rehydra-ai/rehydra-sdk",
+    "input": "Email john.smith@acme-corp.com or call John at +41 79 123 45 67",
+    "sensitive": ["john.smith@acme-corp.com", "John", "+41 79 123 45 67"],
+    "types": ["EMAIL", "PERSON", "PHONE"],
+    "negative": false,
+    "notes": "-> <PII type=\"EMAIL\" id=\"1\"/> tags; AES-256-GCM PII map for rehydration"
+  },
+  {
+    "tool": "cloakrs",
+    "source": "https://github.com/kadir/cloakrs",
+    "input": "Email jane@example.com",
+    "sensitive": ["jane@example.com"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "Scanner().mask -> 'Email [EMAIL]'"
+  },
+  {
+    "tool": "cloakrs",
+    "source": "https://github.com/kadir/cloakrs",
+    "input": "https://alice:{{TOKEN}}@example.com/private",
+    "sensitive": ["supersecret"],
+    "types": ["URL_CREDENTIAL"],
+    "negative": false,
+    "notes": "README warns credential leaks if 'url' entity is excluded",
+    "template": {
+      "fill": {
+        "{{TOKEN}}": "supersecret"
+      },
+      "reason": "URL userinfo password split out so the repository Secretlint basicauth rule does not flag the file; substitute before use"
+    }
+  },
+  {
+    "tool": "flare-redact",
+    "source": "https://github.com/flare-collection/flare-redact",
+    "input": "+90 532 123 45 67",
+    "sensitive": ["+90 532 123 45 67"],
+    "types": ["PHONE"],
+    "negative": false,
+    "notes": "opt-in phone category"
+  },
+  {
+    "tool": "flare-redact",
+    "source": "https://github.com/flare-collection/flare-redact",
+    "input": "name [at] host [dot] tld",
+    "sensitive": ["name [at] host [dot] tld"],
+    "types": ["OBFUSCATED_EMAIL"],
+    "negative": false,
+    "notes": "obfuscated_email detector"
+  }
+]

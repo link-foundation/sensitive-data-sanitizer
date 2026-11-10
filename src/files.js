@@ -4,23 +4,25 @@ import { dirname, join, resolve } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { TextDecoder } from 'node:util';
 import { failure } from './detection.js';
-import { decodeLogBytes } from './log-bytes.js';
+import { decodeLogBytes, encodeLogText } from './log-bytes.js';
 
-export function decodeText(
-  bytes,
-  { lossless = false, allowBinary = false } = {}
-) {
-  if (typeof allowBinary !== 'boolean') {
-    throw failure('ERR_CONFIG');
+// UTF-16 text (Windows logs, PowerShell transcripts) is recognised only by its
+// byte order mark; BOM-less UTF-16 remains binary input.
+export function textEncoding(bytes) {
+  if (bytes.length >= 2 && bytes.length % 2 === 0) {
+    if (bytes[0] === 0xff && bytes[1] === 0xfe) {
+      return 'utf-16le';
+    }
+    if (bytes[0] === 0xfe && bytes[1] === 0xff) {
+      return 'utf-16be';
+    }
   }
-  if (!allowBinary && bytes.includes(0)) {
-    throw failure('ERR_BINARY');
-  }
-  if (lossless) {
-    return decodeLogBytes(bytes);
-  }
+  return 'utf-8';
+}
+
+function decodeWith(encoding, bytes) {
   try {
-    return new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(
+    return new TextDecoder(encoding, { fatal: true, ignoreBOM: true }).decode(
       bytes
     );
   } catch {
@@ -28,7 +30,50 @@ export function decodeText(
   }
 }
 
+// Returns the decoded text and the encoding needed to write it back.
+export function decodeTextInput(
+  bytes,
+  { lossless = false, allowBinary = false } = {}
+) {
+  if (typeof allowBinary !== 'boolean') {
+    throw failure('ERR_CONFIG');
+  }
+  const encoding = textEncoding(bytes);
+  if (encoding !== 'utf-8') {
+    return { text: decodeWith(encoding, bytes), encoding };
+  }
+  if (!allowBinary && bytes.includes(0)) {
+    throw failure('ERR_BINARY');
+  }
+  return {
+    text: lossless ? decodeLogBytes(bytes) : decodeWith('utf-8', bytes),
+    encoding,
+  };
+}
+
+export function decodeText(bytes, options) {
+  return decodeTextInput(bytes, options).text;
+}
+
+// Encode output in the input encoding; UTF-16 keeps its byte order mark
+// because the decoded text retains it.
+export function encodeTextOutput(text, encoding = 'utf-8') {
+  if (encoding === 'utf-8') {
+    return encodeLogText(text);
+  }
+  const bytes = Buffer.from(text, 'utf16le');
+  return encoding === 'utf-16be' ? bytes.swap16() : bytes;
+}
+
 export async function readTextFile(path, maxBytes = 10 * 1024 * 1024, options) {
+  return (await readTextInput(path, maxBytes, options)).text;
+}
+
+export async function readTextInput(
+  path,
+  maxBytes = 10 * 1024 * 1024,
+  options
+) {
   let handle;
   try {
     const info = await lstat(path);
@@ -52,7 +97,7 @@ export async function readTextFile(path, maxBytes = 10 * 1024 * 1024, options) {
     if (read > maxBytes || read > opened.size) {
       throw failure('ERR_LIMIT');
     }
-    return decodeText(bytes.subarray(0, read), options);
+    return decodeTextInput(bytes.subarray(0, read), options);
   } catch (error) {
     if (error.code?.startsWith('ERR_')) {
       throw error;

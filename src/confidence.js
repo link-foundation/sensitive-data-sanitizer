@@ -1,13 +1,18 @@
 // A valid check digit is common in arbitrary log numbers. Context decides
 // whether that evidence merits a replacement; inspect retains low scores.
-export function threshold(options) {
-  return options.minConfidence ?? options.threshold ?? 0.5;
+export function threshold(options, type) {
+  return (
+    options.minConfidenceByType?.[type] ??
+    options.minConfidence ??
+    options.threshold ??
+    0.5
+  );
 }
 export function actionable(finding, options) {
   return (
     finding.kept !== 'fake' &&
     (finding.category === 'credential' ||
-      finding.confidence >= threshold(options))
+      finding.confidence >= threshold(options, finding.type))
   );
 }
 export function numericNoise(text, start) {
@@ -29,11 +34,10 @@ export function epochNumber(value) {
   );
 }
 export function cardEvidence(text, start, value) {
-  const identityContext =
-    /(?<![\p{L}\p{N}_])(?:card|visa|mastercard|amex|discover|jcb|unionpay|mir|diners|карта)(?![\p{L}\p{N}_])/iu.test(
-      text.slice(Math.max(0, start - 64), start + value.length + 32)
-    );
-  return identityContext || (!numericNoise(text, start) && !epochNumber(value));
+  return (
+    cardContext(text, start, value) ||
+    (!numericNoise(text, start) && !epochNumber(value))
+  );
 }
 export function cardNetwork(value) {
   const d = value.replace(/\D/g, ''),
@@ -60,6 +64,17 @@ function otherCard(d, n) {
       n <= 19) ||
     (/^62/.test(d) && n >= 16 && n <= 19) ||
     (/^220[0-4]/.test(d) && n >= 16 && n <= 19) ||
-    (/^3(?:0[0-5]|[68])/.test(d) && n === 14)
+    (/^3(?:0[0-5]|[68])/.test(d) && n === 14) ||
+    // Maestro and Dankort IINs listed by Presidio and the card networks.
+    (/^(?:50(?:1[89]|20|38)|5893|6304|6759|676[1-3])/.test(d) &&
+      n >= 12 &&
+      n <= 19)
   );
 }
+// UATP cards (prefix 1, 15 digits) collide with numeric IDs, so they need a
+// card word nearby.
+export const cardContext = (text, start, value) =>
+  /(?<![\p{L}\p{N}_])(?:card|visa|mastercard|amex|discover|jcb|unionpay|mir|diners|maestro|dankort|uatp|карта)(?![\p{L}\p{N}_])/iu.test(
+    text.slice(Math.max(0, start - 64), start + value.length + 32)
+  );
+export const uatpCard = (value) => /^1\d{14}$/.test(value.replace(/\D/g, ''));

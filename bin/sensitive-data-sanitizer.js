@@ -6,9 +6,11 @@ import { createSanitizer } from '../src/engines.js';
 import { failure } from '../src/detection.js';
 import {
   readTextFile,
+  readTextInput,
   atomicWrite,
   listTextCandidates,
-  decodeText,
+  decodeTextInput,
+  encodeTextOutput,
 } from '../src/files.js';
 import { auditGitHistory } from '../src/history.js';
 import { rewriteGitHistory } from '../src/history-rewrite.js';
@@ -17,7 +19,7 @@ import {
   knownSecretsFromEnv,
   knownSecretsFromGitHubConfig,
 } from '../src/known.js';
-import { encodeLogText } from '../src/log-bytes.js';
+import { toSarif } from '../src/sarif.js';
 import { createWikidataVerifier } from '../src/public-verifier.js';
 import { streamCommand } from './stream.js';
 import { sessionStructuralFields } from '../src/structured.js';
@@ -31,7 +33,8 @@ import {
 const help = `Usage: sensitive-data-sanitizer <redact|scan|restore|history> [path|-] [options]
 
 redact    Sanitize one text log or stdin; publish only after verification
-scan      Report metadata for a file, directory, or stdin (never source text)
+scan      Report metadata for files, directories, or stdin (never source text);
+          several paths may follow scan (for example staged files)
 restore   Restore placeholders in a file using --map PATH (private output)
 history   Audit local reachable Git blobs, commit/tag metadata, and reflogs
 history rewrite SOURCE --output DIRECTORY [--apply]
@@ -67,6 +70,7 @@ history rewrite SOURCE --output DIRECTORY [--apply]
 --no-map            Discard placeholder mapping after full anonymization
 --placeholder-format TEMPLATE  Default {Type}-{n}; also [{TYPE}_{n}]
 --map-format FORMAT json or lino (otherwise inferred from .lino extension)
+--format FORMAT     scan report: json (default) or sarif (SARIF 2.1.0)
 --map-credentials   Explicitly keep credentials in the private restore map
 --max-record-bytes N Maximum record bytes (text: total limit; JSONL: 8388608)
 --hive-mask         Opt-in first/last 3 mask for values longer than 12 characters
@@ -129,8 +133,9 @@ function parseArgs(argv) {
     ['--map', 'map'],
     ['--map-format', 'mapFormat'],
     ['--placeholder-format', 'placeholderFormat'],
+    ['--format', 'format'],
   ]);
-  let hasPath = false;
+  const paths = [];
   for (let i = rewrite ? 2 : 1; i < argv.length; i++) {
     const arg = argv[i];
     if (boolean.has(arg)) {
@@ -140,13 +145,18 @@ function parseArgs(argv) {
         throw failure('ERR_ARGUMENT');
       }
       config[valued.get(arg)] = argv[++i];
-    } else if (!hasPath && !arg.startsWith('--')) {
-      config.path = arg;
-      hasPath = true;
+    } else if (!arg.startsWith('--')) {
+      paths.push(arg);
     } else {
       throw failure('ERR_ARGUMENT');
     }
   }
+  // Only scan accepts several paths (for example staged files from a hook).
+  if (paths.length > 1 && (command !== 'scan' || paths.includes('-'))) {
+    throw failure('ERR_ARGUMENT');
+  }
+  config.path = paths[0] ?? '-';
+  config.paths = paths.length ? paths : ['-'];
   validateArgs(config);
   return config;
 }
@@ -194,7 +204,11 @@ function validateFeatureArgs(config) {
 
 function validateStructuredArgs(config) {
   validateStreamArgs(config);
-  if (config.twoPass && !config.stream) {
+  if (
+    (config.twoPass && !config.stream) ||
+    (config.format !== undefined &&
+      (config.command !== 'scan' || !['json', 'sarif'].includes(config.format)))
+  ) {
     throw failure('ERR_ARGUMENT');
   }
   if ((config.json && config.jsonl) || (config.stream && config.json)) {
@@ -249,7 +263,7 @@ async function stdinText(stream, maxBytes, options) {
     }
     chunks.push(buffer);
   }
-  return decodeText(Buffer.concat(chunks), options);
+  return decodeTextInput(Buffer.concat(chunks), options);
 }
 
 export async function runCli(
@@ -266,9 +280,7 @@ export async function runCli(
       return 0;
     }
     if (['--version', '-v'].includes(argv[0])) {
-      stdout.write(
-        `${JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version}\n`
-      );
+      stdout.write(`${packageVersion()}\n`);
       return 0;
     }
     const config = parseArgs(argv);
@@ -422,24 +434,20 @@ function inputText(path, config, stdin) {
   };
   return path === '-'
     ? stdinText(stdin, config.maxBytes, options)
-    : readTextFile(path, config.maxBytes, options);
+    : readTextInput(path, config.maxBytes, options);
 }
 
 async function redactCommand(config, engine, { stdin, stdout }) {
-  const result = await engine.sanitize(
-    await inputText(config.path, config, stdin)
-  );
+  const input = await inputText(config.path, config, stdin);
+  const result = await engine.sanitize(input.text);
   await saveMap(config);
+  const output = encodeTextOutput(result.text, input.encoding);
   if (config.output || config.inPlace) {
-    await atomicWrite(
-      config.output ?? config.path,
-      encodeLogText(result.text),
-      {
-        replace: Boolean(config.inPlace),
-      }
-    );
+    await atomicWrite(config.output ?? config.path, output, {
+      replace: Boolean(config.inPlace),
+    });
   } else {
-    stdout.write(encodeLogText(result.text));
+    stdout.write(output);
   }
   return 0;
 }
@@ -464,8 +472,10 @@ async function historyCommand(config, engine, { stdout }) {
 }
 
 async function scanCommand(config, engine, { stdin, stdout }) {
-  const files =
-    config.path === '-' ? ['-'] : await listTextCandidates(config.path);
+  const files = [];
+  for (const path of config.paths) {
+    files.push(...(path === '-' ? ['-'] : await listTextCandidates(path)));
+  }
   const results = [],
     skipped = [];
   for (const file of files) {
@@ -473,7 +483,9 @@ async function scanCommand(config, engine, { stdin, stdout }) {
     try {
       results.push({
         path,
-        findings: await engine.inspect(await inputText(file, config, stdin)),
+        findings: await engine.inspect(
+          (await inputText(file, config, stdin)).text
+        ),
       });
     } catch (error) {
       if (['ERR_BINARY', 'ERR_ENCODING', 'ERR_LIMIT'].includes(error.code)) {
@@ -484,7 +496,10 @@ async function scanCommand(config, engine, { stdin, stdout }) {
     }
   }
   const complete = skipped.length === 0;
-  stdout.write(`${JSON.stringify({ complete, results, skipped }, null, 2)}\n`);
+  const report = { complete, results, skipped };
+  stdout.write(
+    `${JSON.stringify(config.format === 'sarif' ? toSarif(report, { version: packageVersion() }) : report, null, 2)}\n`
+  );
   return !complete ? 2 : results.some((r) => r.findings.length) ? 1 : 0;
 }
 
@@ -493,6 +508,12 @@ if (
   realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))
 ) {
   process.exitCode = await runCli(process.argv.slice(2));
+}
+
+function packageVersion() {
+  return JSON.parse(
+    readFileSync(new URL('../package.json', import.meta.url), 'utf8')
+  ).version;
 }
 
 function defaultByteLimit(config) {

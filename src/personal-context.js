@@ -6,8 +6,9 @@ export const months =
   'January February March April May June July August September October November December Jan Feb Mar Apr Jun Jul Aug Sep Sept Oct Nov Dec января февраля марта апреля мая июня июля августа сентября октября ноября декабря январь февраль март апрель май июнь июль август сентябрь октябрь ноябрь декабрь'
     .split(' ')
     .join('|');
+const ordinal = '(?:st|nd|rd|th)?';
 const dates = new RegExp(
-  `(?<![\\p{L}\\p{N}_])(?:\\d{4}-\\d{1,2}-\\d{1,2}|\\d{1,2}[/.]\\d{1,2}[/.]\\d{4}|\\d{1,2}[ \\t]+(?:${months})[ \\t]+\\d{4}|(?:${months})[ \\t]+\\d{1,2},?[ \\t]+\\d{4})(?![\\p{L}\\p{N}_])`,
+  `(?<![\\p{L}\\p{N}_])(?:\\d{4}-\\d{1,2}-\\d{1,2}|\\d{1,2}[/.-]\\d{1,2}[/.-]\\d{4}|\\d{1,2}${ordinal}[ \\t]+(?:of[ \\t]+)?(?:${months})\\.?,?[ \\t]+\\d{4}|(?:${months})\\.?[ \\t]+\\d{1,2}${ordinal},?[ \\t]+\\d{4})(?![\\p{L}\\p{N}_])`,
   'giu'
 );
 const phoneContext =
@@ -30,7 +31,7 @@ export function detectPersonalContext(text, emit) {
   );
   collectMatches(
     text,
-    /(?<![\p{L}\p{N}_])(?:phone|fax|ĐT|điện thoại)(?:[ \t]*[:：][ \t]*|[ \t]+)(\+?\(?\d[\d() .-]{5,38}\d)(?![\p{L}\p{N}_])/giu,
+    /(?<![\p{L}\p{N}_])(?:(?:phone|fax|ĐT|điện thoại)(?:[ \t]*[:：][ \t]*|[ \t]+)|(?:telephone|tel|mobile|mob|cell|desk|ph)\.?[ \t]*[:：][ \t]*)(\+?\(?\d[\d() .-]{5,38}\d)(?![\p{L}\p{N}_])/giu,
     emit,
     phone,
     1,

@@ -1,0 +1,77 @@
+[
+  {
+    "mergedAt": "2026-11-10T02:05:59Z",
+    "number": 127,
+    "title": "fix: recognize strict category forms and preserve operational attributes"
+  },
+  {
+    "mergedAt": "2026-11-09T17:34:01Z",
+    "number": 125,
+    "title": "fix: capitalized-only honorific cues and compound personal JSON keys"
+  },
+  {
+    "mergedAt": "2026-11-09T13:48:30Z",
+    "number": 123,
+    "title": "fix: redact Yandex credentials and contextual Latin personal data"
+  },
+  {
+    "mergedAt": "2026-11-09T12:51:29Z",
+    "number": 121,
+    "title": "fix: protect strict document values and preserve work durations"
+  },
+  {
+    "mergedAt": "2026-11-06T07:01:28Z",
+    "number": 119,
+    "title": "feat: add configurable synchronous sanitization and offline document recognition"
+  },
+  {
+    "mergedAt": "2026-11-06T05:50:21Z",
+    "number": 107,
+    "title": "feat: broaden document detection and add opt-in structural prose redaction"
+  },
+  {
+    "mergedAt": "2026-11-06T01:00:27Z",
+    "number": 103,
+    "title": "build(deps): refresh dependencies and repair upgrade regressions"
+  },
+  {
+    "mergedAt": "2026-11-05T20:35:20Z",
+    "number": 101,
+    "title": "feat: close document sanitization gaps and add sensitive fields"
+  },
+  {
+    "mergedAt": "2026-11-05T23:06:05Z",
+    "number": 99,
+    "title": "build(deps): bump the npm group across 2 directories with 22 updates"
+  },
+  {
+    "mergedAt": "2026-11-05T23:06:00Z",
+    "number": 98,
+    "title": "build(deps): bump the actions group with 3 updates"
+  },
+  {
+    "mergedAt": "2026-11-05T23:05:56Z",
+    "number": 97,
+    "title": "build(deps): bump spacy from 3.8.16 to 3.8.18 in /experiments/benchmark in the benchmark group"
+  },
+  {
+    "mergedAt": "2026-11-05T19:54:07Z",
+    "number": 96,
+    "title": "Fix preview container tooling and complete Python CI coverage"
+  },
+  {
+    "mergedAt": "2026-11-05T18:03:46Z",
+    "number": 93,
+    "title": "fix: audit CI evidence, release integrity, and security findings"
+  },
+  {
+    "mergedAt": "2026-11-05T15:58:49Z",
+    "number": 90,
+    "title": "fix: Refine document context and document structured JSON cost"
+  },
+  {
+    "mergedAt": "2026-11-05T14:54:49Z",
+    "number": 85,
+    "title": "fix: Cover document identifiers and standalone structured values"
+  }
+]

@@ -11,6 +11,12 @@ const details = (type, rule, confidence = 0.85) => ({
   category: 'personal',
   confidence,
 });
+// "John C Smith", "John A. Smith": a Latin-script middle initial. A bare "I"
+// is the pronoun ("Will I Go"), so it needs its period.
+const initial = (language) =>
+  ['ar', 'he', 'hi', 'th', 'ja', 'zh', 'ko'].includes(language)
+    ? ''
+    : '(?:[ \\t]+(?:\\p{Lu}\\.|(?!I[ \\t])\\p{Lu}(?=[ \\t])))?';
 const names = Object.entries(firstNames).map(([language, list]) => {
   const words = list.split(' ').map(escapePattern).join('|');
   const surname = ['ar', 'he', 'hi', 'th'].includes(language)
@@ -18,7 +24,7 @@ const names = Object.entries(firstNames).map(([language, list]) => {
     : "[\\p{Lu}][\\p{L}\\p{M}’'-]{1,32}";
   const pattern = ['ja', 'zh', 'ko'].includes(language)
     ? `(?:${words})[\\p{Script=Han}\\p{Script=Hiragana}\\p{Script=Katakana}\\p{Script=Hangul}]{1,4}`
-    : `(?:${words})[ \\t]+${surname}${language === 'vi' ? `(?:[ \\t]+${surname})?` : ''}`;
+    : `(?:${words})${initial(language)}[ \\t]+${surname}${language === 'vi' ? `(?:[ \\t]+${surname})?` : ''}`;
   return new RegExp(`(?<![\\p{L}\\p{M}])${pattern}(?![\\p{L}\\p{M}])`, 'gu');
 });
 
@@ -33,7 +39,7 @@ const ibanLengths = Object.fromEntries(
 const mentionedEmail =
   /^\/[\p{L}\p{N}_.!#$%&'*+?^`{|}~-]+@[\p{L}\p{N}][\p{L}\p{N}.-]{0,252}\.\p{L}{2,63}(?![\p{L}\p{N}_-])/u;
 export function iban(value) {
-  const compact = value.replace(/\s/g, '').toUpperCase();
+  const compact = value.replace(/[\s-]/g, '').toUpperCase();
   if (
     !/^[A-Z]{2}\d{2}[A-Z0-9]+$/.test(compact) ||
     compact.length !== ibanLengths[compact.slice(0, 2)]
@@ -53,7 +59,7 @@ export function iban(value) {
 
 function detectIban(text, emit) {
   for (const match of text.matchAll(
-    /(?<![A-Z0-9])[A-Z]{2}\d{2}(?:[ ]?[A-Z0-9]){8,40}/g
+    /(?<![A-Z0-9])[A-Z]{2} ?\d{2}(?:[ -]?[A-Z0-9]){8,40}/g
   )) {
     const needed = ibanLengths[match[0].slice(0, 2)];
     if (!needed) {
@@ -62,7 +68,7 @@ function detectIban(text, emit) {
     let end = 0,
       count = 0;
     while (end < match[0].length && count < needed) {
-      if (match[0][end] !== ' ') {
+      if (!/[ -]/.test(match[0][end])) {
         count++;
       }
       end++;
@@ -180,6 +186,16 @@ function detectDocumentNames(text, emit) {
 }
 const russianFull =
   /(?<![\p{L}])(?:[А-ЯЁ][а-яё]{2,30}[ \t]+){2}[А-ЯЁ][а-яё]{2,30}(?:вич|вна|ична)|(?<![\p{L}])(?:[А-ЯЁ][а-яё]{2,30}[ \t]+){2}(?:оглы|кызы)(?![\p{L}])/gu;
+// "My ITIN", "Our BIN": a possessive word or a short all-capital acronym
+// matches the Slavic surname shape but carries no name evidence.
+const possessiveWord =
+  /^(?:my|our|your|his|her|their|its|the|this|that|мой|моя|наш|наша|ваш|ваша)$/iu;
+function slavicPairEvidence(value) {
+  const words = value.split(/[ \t]+/);
+  return !words.some(
+    (word) => possessiveWord.test(word) || /^\p{Lu}{2,4}$/u.test(word)
+  );
+}
 export function detectPersonal(text, emit) {
   detectDocumentNames(text, emit);
   for (const pattern of [
@@ -194,7 +210,9 @@ export function detectPersonal(text, emit) {
       emit,
       details('PERSON', 'name-identity', 0.9),
       0,
-      (value) => !placeWord.test(value.split(/[ \t]+/).at(-1))
+      (value) =>
+        !placeWord.test(value.split(/[ \t]+/).at(-1)) &&
+        (pattern !== slavicPairs || slavicPairEvidence(value))
     );
   }
   for (const pattern of names) {
@@ -218,21 +236,35 @@ export function detectPersonal(text, emit) {
   );
   collectMatches(
     text,
-    /(?<![\d(])(?:[78][ -]?)?\(\d{3}\)[ -]?\d{3}[ -]\d{2}[ -]?\d{2}(?!\d)|(?<!\d)(?:\d{3}[.-]){2}\d{4}(?!\d)/g,
+    /(?<![\d(])(?:[78][ -]?)?\(\d{3}\)[ -]?\d{3}[ -]\d{2}[ -]?\d{2}(?!\d)|(?<![\d-])(?:(?<![\p{L}_.])1[.-])?(?:\d{3}[.-]){2}\d{4}(?!\d|-[\p{L}\p{N}])/gu,
     emit,
     details('PHONE', 'national-phone')
   );
   collectMatches(
     text,
-    /(?<![\p{L}\p{N}])\d{1,6}[A-Za-z]?[ \t]+(?:[\p{Lu}][\p{L}.'-]*[ \t]+){1,5}(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Boulevard|Blvd|Way|Straße|Strasse|Rue|Calle|Rua)\b(?:,[ \t]+(?:(?:[^ \t\r\n<>][^\r\n<>]{0,79}?[ \t]+)?(?:[A-Z]{1,2}\d[A-Z\d]?[ \t]+\d[A-Z]{2}|\d{5}(?:-\d{4})?)\b|(?:[\p{Lu}][\p{Ll}.'-]+[ \t]*){1,4}))?/gu,
+    /(?<![\p{L}\p{N}])\d{1,6}[A-Za-z]?[ \t]+(?:[\p{Lu}][\p{L}.'-]*[ \t]+){1,5}(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Boulevard|Blvd|Way|Terrace|Court|Ct|Place|Pl|Parkway|Pkwy|Circle|Highway|Hwy|Square|Crescent|Close|Straße|Strasse|Rue|Calle|Rua)\b(?:,?[ \t]+(?:Apt|Apartment|Suite|Ste|Unit|Floor|Fl|Room|Rm)\.?[ \t]*#?[A-Za-z0-9-]{1,6}\b|[ \t]+#[A-Za-z0-9-]{1,6}\b)?(?:,[ \t]+(?:(?:[^ \t\r\n<>][^\r\n<>]{0,79}?[ \t]+)?(?:[A-Z]{1,2}\d[A-Z\d]?[ \t]+\d[A-Z]{2}|\d{5}(?:-\d{4})?)\b|(?:[\p{Lu}][\p{Ll}.'-]+[ \t]*){1,4}))?/gu,
     emit,
     details('ADDRESS', 'postal-address')
   );
+  // "Mr. O'Brien", "Dr Jane Smith": a courtesy title is name evidence;
+  // after a number, "30 Ms Retry" is a millisecond unit.
   collectMatches(
     text,
-    /(?<![\da-fA-F:.-])(?:[\da-fA-F]{2}[:-]){5}[\da-fA-F]{2}(?![\da-fA-F:.-])/g,
+    /(?<![\p{L}\p{N}_])(?:Mr|Mrs|Ms|Mx|Miss|Dr|Prof)(?<!\p{N}[ \t]*\p{L}+)\.?[ \t]+(\p{Lu}(?:['’]\p{Lu})?[\p{Ll}\p{M}]+(?:-\p{Lu}[\p{Ll}\p{M}]+)?(?:[ \t]+\p{Lu}(?:['’]\p{Lu})?[\p{Ll}\p{M}]+(?:-\p{Lu}[\p{Ll}\p{M}]+)?)?)(?![\p{L}\p{M}])/gu,
     emit,
-    details('MAC_ADDRESS', 'mac')
+    details('PERSON', 'honorific-name'),
+    1,
+    (value) => !placeWord.test(value.split(/[ \t]+/).at(-1))
+  );
+  collectMatches(
+    text,
+    // Colon, dash or Cisco dotted notation with one separator; the broadcast
+    // and all-zero addresses identify no device.
+    /(?<![\da-fA-F:.-])(?:[\da-fA-F]{2}([:-])(?:[\da-fA-F]{2}\1){4}[\da-fA-F]{2}|[\da-fA-F]{4}\.[\da-fA-F]{4}\.[\da-fA-F]{4})(?![\da-fA-F:-]|\.[\da-fA-F])/g,
+    emit,
+    details('MAC_ADDRESS', 'mac'),
+    0,
+    (value) => !/^(?:[fF]{2}[:.-]?|0{2}[:.-]?)+$/.test(value.replace(/\./g, ''))
   );
   collectMatches(
     text,
@@ -249,7 +281,7 @@ export function detectPersonal(text, emit) {
   );
   collectMatches(
     text,
-    /(?:\/Users\/|\/home\/|[A-Za-z]:\\Users\\)([^/\\\s"'<>[\]]+)/g,
+    /(?:\/Users\/|\/home\/|[A-Za-z]:\\(?:Users|Documents and Settings|(?:Windows|WINNT)\\Profiles)\\)([^/\\\s"'<>[\]]+)/g,
     emit,
     details('USERNAME', 'home-path', 0.95),
     1,

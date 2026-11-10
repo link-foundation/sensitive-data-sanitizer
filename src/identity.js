@@ -38,6 +38,20 @@ export const identityTypes = new Set([
   'CA_SIN',
   'RU_SNILS',
   'RU_INN',
+  'US_ITIN',
+  'US_DRIVER_LICENSE',
+  'UK_DRIVING_LICENCE',
+  'ES_NIE',
+  'IN_AADHAAR',
+  'IN_VOTER',
+  'IN_PASSPORT',
+  'FI_PERSONAL_IDENTITY_CODE',
+  'TH_TNIN',
+  'AU_MEDICARE',
+  'DE_TAX_ID',
+  'AE_EMIRATES_ID',
+  'SA_NATIONAL_ID',
+  'IL_ID_NUMBER',
 ]);
 export function isIdentityType(type) {
   return (

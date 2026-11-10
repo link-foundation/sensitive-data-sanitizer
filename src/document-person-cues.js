@@ -8,7 +8,7 @@ const name = "[A-Z][a-z]{1,47}(?:['’-][A-Z]?[a-z]{1,47})?";
 // unit in logs and lowercase `dr` is usually a word or path fragment. A
 // capitalized `Ms` right after a number is still a unit (`took 30 Ms Retry`).
 const cue =
-  '(?:[Cc]andidate|[Rr]ecruiter|[Aa]pplicant|[Dd]ear|[Hh]i|Mr\\.?|(?<!\\d[ \\t]*)Ms\\.?|Dr\\.?|[Mm]essage[ \\t]+from)';
+  '(?:[Cc]andidate|[Rr]ecruiter|[Aa]pplicant|[Dd]ear|[Hh]i|Mr\\.?|Ms(?<!\\d[ \\t]*Ms)\\.?|Dr\\.?|[Mm]essage[ \\t]+from)';
 const pattern = new RegExp(
   `(?<!${boundary})${cue}[ \\t]+(${name})(?!${boundary})`,
   'gu'

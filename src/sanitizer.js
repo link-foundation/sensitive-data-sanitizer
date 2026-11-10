@@ -28,6 +28,9 @@ import {
 } from './transforms.js';
 import { fakeIdentityValue, isIdentityType } from './identity.js';
 import { rejectRestoreMap } from './restore-map.js';
+import { allowListed, validateAllowList } from './allow-list.js';
+import { templatedCredential } from './credentials.js';
+import { builtInRules } from './rule-catalog.js';
 import {
   initializePlaceholders,
   placeholderKnown,
@@ -99,6 +102,9 @@ const optionNames = new Set([
   'strict',
   'exactFields',
   'allowedFields',
+  'minConfidenceByType',
+  'allowList',
+  'inlineAllow',
 ]);
 
 export function applyProfile(options = {}) {
@@ -225,6 +231,7 @@ export function validateOptions(options = {}) {
     throw failure('ERR_CONFIG');
   }
   validateCollections(options);
+  validateAllowList(options);
   validateDetectors(options.detectors);
   validatePolicyControls(options);
   compiledVocabulary(options.vocabulary);
@@ -252,6 +259,22 @@ function validateConfidence(options) {
     options.minConfidence !== undefined &&
     options.threshold !== undefined &&
     options.minConfidence !== options.threshold
+  ) {
+    throw failure('ERR_CONFIG');
+  }
+  const byType = options.minConfidenceByType;
+  if (
+    byType !== undefined &&
+    (!byType ||
+      typeof byType !== 'object' ||
+      Array.isArray(byType) ||
+      !Object.entries(byType).every(
+        ([type, value]) =>
+          validType(type) &&
+          typeof value === 'number' &&
+          value >= 0 &&
+          value <= 1
+      ))
   ) {
     throw failure('ERR_CONFIG');
   }
@@ -518,12 +541,34 @@ function inspectText(text, options = {}) {
   return reviewFindings(text, findings, options);
 }
 
+// Allow-listed values and built-in credential matches whose value is only a
+// template or mask (`${PASSWORD}`, `<token>`, `****`) are not findings.
+function policyKept(text, finding, options) {
+  if (allowListed(text, finding, options)) {
+    return false;
+  }
+  if (builtInRule(finding) && templatedCredential(text, finding)) {
+    options.debug?.({ event: 'template-value', rule: finding.rule });
+    return false;
+  }
+  return true;
+}
+
+// Custom detectors keep their findings: they may flag placeholder shapes on
+// purpose, and the residual check must still see them.
+const builtInRuleIds = new Set(builtInRules);
+const builtInRule = (finding) =>
+  builtInRuleIds.has(finding.rule) ||
+  finding.rule === 'secretlint' ||
+  finding.rule.startsWith('gitleaks/');
+
 // Reapply policy to the native/required-engine union without rescanning text.
 export function reviewFindings(text, findings, options) {
   findings = placeholderNameFindings(text, findings, options);
   if (findings.length > (options.maxFindings ?? 100000)) {
     throw failure('ERR_LIMIT');
   }
+  findings = findings.filter((f) => policyKept(text, f, options));
   const unique = new Map();
   const exempt = findings.filter((f) =>
     allowed(text, f, options.publicEntities ?? [])
@@ -565,9 +610,9 @@ function coveredByPublic(finding, exempt) {
 }
 
 export function inspectFindingsOnly(text, findings, options) {
-  const all = [...findings, ...(options.findings ?? [])].map((f) =>
-    sanitizeFinding(f, text.length)
-  );
+  const all = [...findings, ...(options.findings ?? [])]
+    .map((f) => sanitizeFinding(f, text.length))
+    .filter((f) => policyKept(text, f, options));
   if (all.length > (options.maxFindings ?? 100000)) {
     throw failure('ERR_LIMIT');
   }

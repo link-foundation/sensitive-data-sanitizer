@@ -116,6 +116,18 @@ const validators = {
   SPAIN_DNI_NUMBER: (v) =>
     'TRWAGMYFPDXBNJZSQVHLCKE'[Number(v.slice(0, 8)) % 23] === v.at(-1),
   BRAZIL_CPF_NUMBER: cpf,
+  ABA_ROUTING_NUMBER: checks.abaRouting,
+  ES_NIE: checks.spanishNie,
+  IT_VAT_CODE: checks.shortLuhn,
+  AU_ACN: checks.acn,
+  IN_AADHAAR: checks.aadhaar,
+  TH_TNIN: checks.thaiId,
+  MEDICAL_LICENSE: checks.dea,
+  IMEI: checks.shortLuhn,
+  DE_TAX_ID: checks.germanTaxId,
+  AE_EMIRATES_ID: checks.emiratesId,
+  SA_NATIONAL_ID: checks.saudiId,
+  IL_ID_NUMBER: checks.israeliId,
 };
 function cpf(d) {
   for (const n of [9, 10]) {
@@ -226,8 +238,23 @@ function idShape(compact, candidate, type) {
     candidate =
       candidate.slice(0, 10) + compact.slice(10, 12) + candidate.slice(12);
   }
-  if (type === 'SG_NRIC_FIN') {
+  if (
+    [
+      'SG_NRIC_FIN',
+      'ES_NIE',
+      'IN_AADHAAR',
+      'TH_TNIN',
+      'DE_TAX_ID',
+      'SA_NATIONAL_ID',
+    ].includes(type)
+  ) {
     candidate = compact[0] + candidate.slice(1);
+  }
+  if (['ABA_ROUTING_NUMBER', 'MEDICAL_LICENSE'].includes(type)) {
+    candidate = compact.slice(0, 2) + candidate.slice(2);
+  }
+  if (type === 'AE_EMIRATES_ID') {
+    candidate = compact.slice(0, 7) + candidate.slice(7);
   }
   if (type === 'CREDIT_CARD') {
     candidate = compact.slice(0, 6) + candidate.slice(6);
@@ -255,6 +282,7 @@ function idChecks(compact, candidate, type) {
       'SG_NRIC_FIN',
       'IT_FISCAL_CODE',
       'SPAIN_DNI_NUMBER',
+      'ES_NIE',
     ].includes(type);
     const count =
       (type === 'RU_INN' && compact.length === 12) ||

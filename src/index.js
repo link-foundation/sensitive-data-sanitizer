@@ -26,6 +26,13 @@ export {
 } from './external.js';
 
 export { entityCatalogs } from './entities.js';
+export { nationalRules } from './national.js';
+export * as identifierChecks from './national-checks.js';
+export { createIdentifierDetector } from './identifier-detector.js';
+export { decrypt } from './encrypt.js';
+export { createPatternDetector } from './pattern-detector.js';
+export { toSarif } from './sarif.js';
+export { tokenChecksum, tokenWithChecksum } from './token-checksum.js';
 export {
   sanitizeStream,
   sanitizeStreamToFile,

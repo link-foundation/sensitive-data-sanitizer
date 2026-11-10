@@ -1,4 +1,9 @@
-import { cardNetwork, cardEvidence } from './confidence.js';
+import {
+  cardNetwork,
+  cardEvidence,
+  cardContext,
+  uatpCard,
+} from './confidence.js';
 import { isIP } from 'node:net';
 import { serviceRules } from './rules.js';
 import { detectContext, valueRange, authorizationRange } from './context.js';
@@ -8,6 +13,7 @@ import { detectCatalog } from './entities.js';
 import { detectIdentity } from './identity.js';
 import { detectNational } from './national.js';
 import { detectPersonalContext } from './personal-context.js';
+import { detectPersonalEvidence } from './personal-evidence.js';
 import {
   detectCredentialFormats,
   credentialPlaceholder,
@@ -18,6 +24,7 @@ import { detectDocumentEntities } from './document-entities.js';
 import { detectProseAndDocuments } from './proper-names.js';
 import { builtInEnabled } from './policy.js';
 import { detectStrict } from './strict.js';
+import { tokenChecksum } from './token-checksum.js';
 
 export const REDACTED = '[REDACTED]';
 export const failure = (code = 'ERR_SANITIZATION', location = {}) =>
@@ -176,8 +183,14 @@ export function nativeDetect(text, options, emit) {
       ? (details) => options.debug({ event: 'gitleaks-rule', ...details })
       : undefined
   );
+  const checked = (finding) =>
+    emit(
+      tokenChecksum(text.slice(finding.start, finding.end))
+        ? { ...finding, confidence: 0.99 }
+        : finding
+    );
   for (const [rule, pattern] of serviceRules) {
-    collectMatches(text, pattern, emit, { ...credential, rule });
+    collectMatches(text, pattern, checked, { ...credential, rule });
   }
   detectContext(text, emit, options.credentialsOnly);
   if (!options.credentialsOnly) {
@@ -187,6 +200,7 @@ export function nativeDetect(text, options, emit) {
     detectIdentity(text, emit);
     detectNational(text, emit);
     detectPersonalContext(text, emit);
+    detectPersonalEvidence(text, emit);
     detectStrict(text, emit, options);
   }
   detectCredentialFormats(text, emit);
@@ -311,20 +325,21 @@ function detectPersonalFormats(text, options, emit) {
     0,
     (value, match) =>
       luhn(value) &&
-      cardNetwork(value) &&
+      (cardNetwork(value) ||
+        (uatpCard(value) && cardContext(text, match.index, value))) &&
       cardEvidence(text, match.index, value)
   );
   collectMatches(
     text,
-    /\b\d{3}-\d{2}-\d{4}\b/g,
+    /(?<![\w.-])\d{3}([-.])\d{2}\1\d{4}(?![\w-]|\.\d)/g,
     emit,
     { type: 'ID', category: 'personal', rule: 'us-ssn' },
     0,
-    (v) => !/^(?:000|666|9\d\d)-|^\d{3}-00-|0000$/.test(v)
+    (v) => !/^(?:000|666|9\d\d)\D|^\d{3}\D00\D|0000$/.test(v)
   );
   collectMatches(
     text,
-    /(?<![\w.])(?:\d{1,3}\.){3}\d{1,3}(?![\w.])/g,
+    /(?<![\w.])(?:\d{1,3}\.){3}\d{1,3}(?!\w|\.\d)/g,
     emit,
     { type: 'IP_ADDRESS', category: 'personal', rule: 'ipv4' },
     0,

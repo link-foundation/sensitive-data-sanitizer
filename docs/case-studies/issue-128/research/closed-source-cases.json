@@ -1,0 +1,1745 @@
+[
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/deidentify-sensitive-data",
+    "input": "My name is Alicia Abernathy, and my email address is aabernathy@example.com.",
+    "sensitive": ["aabernathy@example.com"],
+    "types": ["EMAIL_ADDRESS"],
+    "expectedOutput": "My name is Alicia Abernathy, and my email address is .",
+    "negative": false,
+    "notes": "redactConfig on EMAIL_ADDRESS only; value removed entirely"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/deidentify-sensitive-data",
+    "input": "My name is Alicia Abernathy, and my email address is aabernathy@example.com.",
+    "sensitive": ["aabernathy@example.com"],
+    "types": ["EMAIL_ADDRESS"],
+    "expectedOutput": "My name is Alicia Abernathy, and my email address is [email-address].",
+    "negative": false,
+    "notes": "replaceConfig with fixed value [email-address]"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/deidentify-sensitive-data",
+    "input": "My name is Alicia Abernathy, and my email address is aabernathy@example.com.",
+    "sensitive": ["aabernathy@example.com"],
+    "types": ["EMAIL_ADDRESS"],
+    "expectedOutput": "My name is Alicia Abernathy, and my email address is izumi@example.com.",
+    "negative": false,
+    "notes": "replaceDictionaryConfig picks a random word from a supplied list; output varies"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/deidentify-sensitive-data",
+    "input": "My name is Alicia Abernathy, and my email address is aabernathy@example.com.",
+    "sensitive": ["Abernathy", "aabernathy@example.com"],
+    "types": ["LAST_NAME", "EMAIL_ADDRESS"],
+    "expectedOutput": "My name is Alicia LAST_NAME, and my email address is EMAIL_ADDRESS.",
+    "negative": false,
+    "notes": "replaceWithInfoTypeConfig; first name is not inspected in this example"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/deidentify-sensitive-data",
+    "input": "My name is Alicia Abernathy, and my email address is aabernathy@example.com.",
+    "sensitive": ["aabernathy@example.com"],
+    "types": ["EMAIL_ADDRESS"],
+    "expectedOutput": "My name is Alicia Abernathy, and my email address is ##########@#######.###.",
+    "negative": false,
+    "notes": "characterMaskConfig maskingCharacter '#', charactersToIgnore '.@'"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/deidentify-sensitive-data",
+    "input": "My name is Alicia Abernathy, and my email address is aabernathy@example.com.",
+    "sensitive": ["aabernathy@example.com"],
+    "types": ["EMAIL_ADDRESS"],
+    "expectedOutput": "My name is Alicia Abernathy, and my email address is 41D1567F7F99F1DC2A5FAB886DEE5BEE.",
+    "negative": false,
+    "notes": "cryptoHashConfig; digest depends on key, doc output shown as printed"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/deidentify-sensitive-data",
+    "input": "My SSN is 111222333",
+    "sensitive": ["111222333"],
+    "types": ["US_SOCIAL_SECURITY_NUMBER"],
+    "expectedOutput": "My SSN is ++++++333",
+    "negative": false,
+    "notes": "characterMaskConfig maskingCharacter '+', numberToMask 6"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/inspecting-text",
+    "input": "My phone number is (415) 555-0890",
+    "sensitive": ["(415) 555-0890"],
+    "types": ["PHONE_NUMBER"],
+    "negative": false,
+    "notes": "likelihood VERY_LIKELY; byteRange and codepointRange start 19 end 33"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/pseudonymization",
+    "input": "1-206-555-0123",
+    "sensitive": ["1-206-555-0123"],
+    "types": ["PHONE_NUMBER"],
+    "expectedOutput": "XlTCv8h0GwrCZK+sS0T3Z8txByqnLLkkF4+TviXfeZY=",
+    "negative": false,
+    "notes": "HMAC-SHA-256 cryptoHash, base64 output; key-dependent"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/creating-custom-infotypes-likelihood",
+    "input": "Patient's MRN 444-5-22222 and just a number 333-2-33333",
+    "sensitive": ["444-5-22222", "333-2-33333"],
+    "types": ["C_MRN"],
+    "negative": false,
+    "notes": "custom regex [0-9]{3}-[0-9]{1}-[0-9]{5} at POSSIBLE; hotword (?i)(mrn|medical)(?-i) windowBefore 10 raises first match to VERY_LIKELY, second stays POSSIBLE"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/creating-custom-infotypes-likelihood",
+    "input": "Fake Social Security Number: 111-11-1111",
+    "sensitive": ["111-11-1111"],
+    "types": ["US_SOCIAL_SECURITY_NUMBER"],
+    "negative": true,
+    "notes": "doc uses a table column header 'Fake Social Security Number' with a hotword rule to set VERY_UNLIKELY; rendered here as a label line (adaptation)"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/creating-custom-infotypes-rules",
+    "input": "Some email addresses: gary@example.com, example@example.com",
+    "sensitive": ["gary@example.com"],
+    "types": ["EMAIL_ADDRESS"],
+    "negative": false,
+    "notes": "exclusion dictionary ['example@example.com'] MATCHING_TYPE_FULL_MATCH; only gary@ reported"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/creating-custom-infotypes-rules",
+    "input": "Some email addresses: gary@example.com, bob@example.org",
+    "sensitive": ["bob@example.org"],
+    "types": ["EMAIL_ADDRESS"],
+    "negative": false,
+    "notes": "exclusion regex .+@example.com full match; only bob@example.org reported"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/creating-custom-infotypes-rules",
+    "input": "Some email addresses: gary@example.com, TEST@example.com",
+    "sensitive": ["gary@example.com"],
+    "types": ["EMAIL_ADDRESS"],
+    "negative": false,
+    "notes": "exclusion dictionary ['TEST'] MATCHING_TYPE_PARTIAL_MATCH excludes TEST@example.com"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-date-shifting",
+    "input": "2009-06-09",
+    "sensitive": ["2009-06-09"],
+    "types": ["DATE"],
+    "expectedOutput": "2009-07-17",
+    "negative": false,
+    "notes": "dateShiftConfig bounds +/-100 days keyed by user_id context; this user shifted +38 days"
+  },
+  {
+    "tool": "google-sdp",
+    "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-date-shifting",
+    "input": "2010-11-03",
+    "sensitive": ["2010-11-03"],
+    "types": ["DATE"],
+    "expectedOutput": "2011-01-26",
+    "negative": false,
+    "notes": "dateShiftConfig; another user shifted +84 days"
+  },
+  {
+    "tool": "azure-ai-language-pii",
+    "source": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/how-to/redact-text-pii",
+    "input": "John Doe received a call from 424-878-9193.",
+    "sensitive": ["John Doe", "424-878-9193"],
+    "types": ["Person", "PhoneNumber"],
+    "expectedOutput": "Sam Johnson received a call from 401-255-6901.",
+    "negative": false,
+    "notes": "policyKind syntheticReplacement; synthetic values vary"
+  },
+  {
+    "tool": "azure-ai-language-pii",
+    "source": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/how-to/redact-text-pii",
+    "input": "John Doe received a call from 424-878-9193.",
+    "sensitive": ["John Doe", "424-878-9193"],
+    "types": ["Person", "PhoneNumber"],
+    "expectedOutput": "[PERSON_1] received a call from [PHONENUMBER_1].",
+    "negative": false,
+    "notes": "policyKind entityMask; numbered type markers"
+  },
+  {
+    "tool": "azure-ai-language-pii",
+    "source": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/how-to/redact-text-pii",
+    "input": "John Doe received a call from 424-878-9193.",
+    "sensitive": ["John Doe", "424-878-9193"],
+    "types": ["Person", "PhoneNumber"],
+    "expectedOutput": "******** received a call from ************.",
+    "negative": false,
+    "notes": "policyKind characterMask with redactionCharacter '*' (default policy); output derived from documented behaviour"
+  },
+  {
+    "tool": "azure-ai-language-pii",
+    "source": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/quickstart",
+    "input": "Call our office at 312-555-1234, or send an email to support@contoso.com",
+    "sensitive": ["312-555-1234", "support@contoso.com"],
+    "types": ["PhoneNumber", "Email"],
+    "expectedOutput": "Call our office at ************, or send an email to *******************",
+    "negative": false,
+    "notes": "phone offset 19 length 12; email offset 53 length 19"
+  },
+  {
+    "tool": "azure-ai-language-pii",
+    "source": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/quickstart",
+    "input": "My SSN is 859-98-0987",
+    "sensitive": ["859-98-0987"],
+    "types": ["USSocialSecurityNumber"],
+    "expectedOutput": "My SSN is ***********",
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "azure-ai-language-pii",
+    "source": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/quickstart",
+    "input": "The employee's SSN is 859-98-0987.",
+    "sensitive": ["employee", "859-98-0987"],
+    "types": ["PersonType", "USSocialSecurityNumber"],
+    "expectedOutput": "The ********'s SSN is ***********.",
+    "negative": false,
+    "notes": "PersonType 'employee' is redacted too"
+  },
+  {
+    "tool": "azure-ai-language-pii",
+    "source": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/quickstart",
+    "input": "My phone number is 555-555-5555",
+    "sensitive": ["555-555-5555"],
+    "types": ["PhoneNumber"],
+    "expectedOutput": "My phone number is ************",
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "azure-ai-language-pii",
+    "source": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/how-to/adapt-to-domain-pii",
+    "input": "We have garages located at 123 Main St, 1 Microsoft Way, Redmond, WA 98052, 456 Washington Blvd, Portland, OR, and 1045 La Avenida St, Mountain View, CA 94043",
+    "sensitive": ["123 Main St", "456 Washington Blvd, Portland, OR"],
+    "types": ["Address"],
+    "negative": false,
+    "notes": "valueExclusionPolicy excludedValues ['1 Microsoft Way, Redmond, WA 98052', '1045 La Avenida St, Mountain View, CA 94043']; doc output masks differ slightly from the input (inconsistent doc); input preamble paraphrased"
+  },
+  {
+    "tool": "azure-ai-language-pii",
+    "source": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/how-to/adapt-to-domain-pii",
+    "input": "123456789",
+    "sensitive": ["123456789"],
+    "types": ["CE_WeakSSN"],
+    "negative": false,
+    "notes": "container regex rule WeakSSNPattern (?<!\\d)([0-9]{9})(?!\\d) matchScore 0.55; matchContext hints boost by 0.2; synthetic input illustrating the documented pattern"
+  },
+  {
+    "tool": "aws-comprehend",
+    "source": "https://docs.aws.amazon.com/comprehend/latest/dg/how-pii.html",
+    "input": "Hello Paulo Santos. The latest statement for your credit card account 1111-0000-1111-0000 was mailed to 123 Any Street, Seattle, WA 98109.",
+    "sensitive": [
+      "Paulo Santos",
+      "1111-0000-1111-0000",
+      "123 Any Street, Seattle, WA 98109"
+    ],
+    "types": ["NAME", "CREDIT_DEBIT_NUMBER", "ADDRESS"],
+    "expectedOutput": "Hello ***** ******. The latest statement for your credit card account ******************* was mailed to *** *** ******* ******** ** *****.",
+    "negative": false,
+    "notes": "NAME 6-18 score 0.99997; CREDIT_DEBIT_NUMBER 69-88 score 0.89; ADDRESS 103-138; MaskMode MASK with '*'; doc also spells name 'Paul'"
+  },
+  {
+    "tool": "aws-comprehend",
+    "source": "https://docs.aws.amazon.com/comprehend/latest/dg/how-pii.html",
+    "input": "My password is *very20special#pass*",
+    "sensitive": ["*very20special#pass*"],
+    "types": ["PASSWORD"],
+    "negative": false,
+    "notes": "documented PASSWORD example value; sentence framing added"
+  },
+  {
+    "tool": "aws-comprehend",
+    "source": "https://docs.aws.amazon.com/comprehend/latest/dg/how-pii.html",
+    "input": "I am 40 years old",
+    "sensitive": ["40 years old"],
+    "types": ["AGE"],
+    "negative": false,
+    "notes": "documented AGE example"
+  },
+  {
+    "tool": "aws-cloudwatch-logs",
+    "source": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html",
+    "input": "user login EmployeeId-123456789 ok",
+    "sensitive": ["EmployeeId-123456789"],
+    "types": ["EmployeeId"],
+    "negative": false,
+    "notes": "custom data identifier regex EmployeeId-\\d{9} (max 10 custom identifiers, 200-char regex); log line is synthetic"
+  },
+  {
+    "tool": "nightfall",
+    "source": "https://help.nightfall.ai/developer-api/key-concepts/scanning_features/redaction",
+    "input": "my ssn is 123-45-5555 and date of birth is 01/11/1995 and my credit card number is  4242 4242 4242 4242 and my email is james@gmail.com.",
+    "sensitive": [
+      "123-45-5555",
+      "01/11/1995",
+      "4242 4242 4242 4242",
+      "james@gmail.com"
+    ],
+    "types": [
+      "US_SOCIAL_SECURITY_NUMBER",
+      "DATE_OF_BIRTH",
+      "CREDIT_CARD_NUMBER",
+      "EMAIL_ADDRESS"
+    ],
+    "expectedOutput": "my ssn is *REDACTED* and date of birth is ??/??/??95 and my credit card number is  [CREDIT_CARD_NUMBER] and my email is <RSA ciphertext>",
+    "negative": false,
+    "notes": "per-detector configs: substitutionPhrase '*REDACTED*'; maskConfig '?' with numCharsToLeaveUnmasked 2 and charsToIgnore '/'; infoTypeSubstitution; cryptoConfig RSA public key (ciphertext varies)"
+  },
+  {
+    "tool": "nightfall",
+    "source": "https://help.nightfall.ai/developer-api/key-concepts/scanning_features/redaction",
+    "input": "my date of birth is 03 23 4242 4242 4242 4242 amex",
+    "sensitive": ["03 23 4242 4242 4242 4242"],
+    "types": ["DATE_OF_BIRTH", "CREDIT_CARD_NUMBER"],
+    "expectedOutput": "my date of birth is [REDACTED BY NIGHTFALL] amex",
+    "negative": false,
+    "notes": "overlapping findings collapse into one fixed phrase"
+  },
+  {
+    "tool": "limina-private-ai",
+    "source": "https://docs.getlimina.ai/configuration-and-operations/entity-detection-and-redaction/customizing-detection.md",
+    "input": "Call me at 438-555-7343 or at work at 1-800-555-1423",
+    "sensitive": ["438-555-7343"],
+    "types": ["PHONE_NUMBER"],
+    "expectedOutput": "Call me at [PHONE_NUMBER_1] or at work at 1-800-555-1423",
+    "negative": false,
+    "notes": "ALLOW filter (1-)?(800|888|877|866|855|844|833)-\\d{3}-\\d{4}$ keeps the toll-free number; stt_idx 11 end_idx 23 end_idx_processed 27; score 0.9093"
+  },
+  {
+    "tool": "limina-private-ai",
+    "source": "https://docs.getlimina.ai/configuration-and-operations/entity-detection-and-redaction/customizing-detection.md",
+    "input": "I visited Canada, Brazil and Italy last year",
+    "sensitive": [],
+    "types": ["LOCATION_COUNTRY"],
+    "negative": true,
+    "notes": "ALLOW list regex Canada|Brazil|Italy suppresses these locations; sentence is illustrative around documented allow values"
+  },
+  {
+    "tool": "limina-private-ai",
+    "source": "https://docs.getlimina.ai/configuration-and-operations/entity-detection-and-redaction/customizing-detection.md",
+    "input": "My phone is an Android, my partner has an iPhone",
+    "sensitive": ["Android", "iPhone"],
+    "types": ["CELL_TYPE"],
+    "negative": false,
+    "notes": "BLOCK filter regex Android|iPhone|Pixel with entity_type CELL_TYPE; sentence is illustrative around documented block values"
+  },
+  {
+    "tool": "limina-private-ai",
+    "source": "https://docs.getlimina.ai/configuration-and-operations/entity-detection-and-redaction/customizing-redaction.md",
+    "input": "Nessa Jonsson, N-E-S-S-A J-O-N-S-S-O-N.",
+    "sensitive": ["Nessa Jonsson", "N-E-S-S-A J-O-N-S-S-O-N"],
+    "types": ["NAME"],
+    "expectedOutput": "[NAME_1], [NAME_1].",
+    "negative": false,
+    "notes": "MARKER UNIQUE_ENTITY_TYPE with coreference_resolution links the spelled-out name; fragment of the documented Icarus Airways transcript"
+  },
+  {
+    "tool": "limina-private-ai",
+    "source": "https://docs.getlimina.ai/configuration-and-operations/entity-detection-and-redaction/customizing-redaction.md",
+    "input": "I haven't flown in Icarus since 2019 because of COVID.",
+    "sensitive": ["Icarus", "2019", "COVID"],
+    "types": ["ORGANIZATION", "DATE", "CONDITION"],
+    "negative": false,
+    "notes": "fragment of documented transcript; MARKER output uses ORGANIZATION_n, CONDITION_1 etc."
+  },
+  {
+    "tool": "skyflow-detect",
+    "source": "https://github.com/skyflowapi/skyflow-node-sdk/blob/main/samples/detect-api/deidentify-text.ts",
+    "input": "My SSN is 123-45-6789 and my card is 4111 1111 1111 1111.",
+    "sensitive": ["123-45-6789", "4111 1111 1111 1111"],
+    "types": ["SSN", "CREDIT_CARD"],
+    "negative": false,
+    "notes": "SDK sample; token type VAULT_TOKEN, ENTITY_UNIQUE_COUNTER or ENTITY_ONLY; output depends on vault"
+  },
+  {
+    "tool": "tonic-textual",
+    "source": "https://tonic-textual-sdk.readthedocs-hosted.com/en/latest/redact/redacting_text.html",
+    "input": "My name is John, and today I am demoing Textual, a software product created by Tonic",
+    "sensitive": ["John", "today", "Tonic"],
+    "types": ["NAME_GIVEN", "DATE_TIME", "ORGANIZATION"],
+    "expectedOutput": "My name is [NAME_GIVEN_HI1h7], and [DATE_TIME_4hKfrH] I am demoing Textual, a software product created by [ORGANIZATION_P5XLAH]",
+    "negative": false,
+    "notes": "offsets John 11-15, today 21-26, Tonic 79-84; placeholder hash suffixes vary; 'Textual' not detected"
+  },
+  {
+    "tool": "tonic-textual",
+    "source": "https://tonic-textual-sdk.readthedocs-hosted.com/en/latest/redact/redacting_text.html",
+    "input": "Tonic was founded in 2018",
+    "sensitive": ["Tonic", "2018"],
+    "types": ["ORGANIZATION", "DATE_TIME"],
+    "expectedOutput": "[ORGANIZATION_5Ve7OH] was founded in [DATE_TIME_DnuC1]",
+    "negative": false,
+    "notes": ""
+  },
+  {
+    "tool": "tonic-textual",
+    "source": "https://tonic-textual-sdk.readthedocs-hosted.com/en/latest/redact/redacting_text.html",
+    "input": "John Smith is a person",
+    "sensitive": ["John", "Smith"],
+    "types": ["NAME_GIVEN", "NAME_FAMILY"],
+    "expectedOutput": "[NAME_GIVEN_dySb5] [NAME_FAMILY_7w4Db3] is a person",
+    "negative": false,
+    "notes": "given and family names are separate entities"
+  },
+  {
+    "tool": "portkey",
+    "source": "https://portkey.ai/docs/product/guardrails/pii-redaction",
+    "input": "Hi, you can reach me at john@example.com or 555-0123",
+    "sensitive": ["john@example.com", "555-0123"],
+    "types": ["EMAIL_ADDRESS", "PHONE_NUMBER"],
+    "expectedOutput": "Hi, you can reach me at {{EMAIL_ADDRESS_1}} or {{PHONE_NUMBER_1}}",
+    "negative": false,
+    "notes": "numbered placeholders in double braces"
+  },
+  {
+    "tool": "portkey",
+    "source": "https://portkey.ai/docs/product/guardrails/pii-redaction",
+    "input": "My SSN is 123-45-6789 and credit card is 4532-1234-5678-9012",
+    "sensitive": ["123-45-6789", "4532-1234-5678-9012"],
+    "types": ["SSN", "CREDIT_CARD"],
+    "expectedOutput": "My SSN is [SSN_REDACTED] and credit card is [CREDIT_CARD]",
+    "negative": false,
+    "notes": "custom regex guardrail with per-pattern replacement text"
+  },
+  {
+    "tool": "new-relic",
+    "source": "https://docs.newrelic.com/docs/logs/ui-data/obfuscation-ui/",
+    "input": "The credit card number 4321-5678-9876-2345 belongs to user user@email.com (born on 01/02/2003) with SSN 123-12-1234",
+    "sensitive": ["4321-5678-9876-2345", "01/02/2003", "123-12-1234"],
+    "types": ["CREDIT_CARD", "DATE_OF_BIRTH", "SSN"],
+    "negative": false,
+    "notes": "card -> HASH_SHA256; birth date masked as '(born on XXXXXXXXXX)'; SSN regex (\\d{3}[-\\s\\.]?\\d{2}[-\\s\\.]?\\d{4}); email not in documented expression set"
+  },
+  {
+    "tool": "splunk",
+    "source": "https://help.splunk.com/en/splunk-enterprise/get-started/get-data-in/10.4/configure-event-processing/anonymize-data",
+    "input": "ss=123456789 cc=1234-5678-9012-3456",
+    "sensitive": ["12345", "1234-5678-9012-"],
+    "types": ["SSN", "CREDIT_CARD"],
+    "expectedOutput": "ss=xxxxx6789 cc=xxxx-xxxx-xxxx-3456",
+    "negative": false,
+    "notes": "SEDCMD s/ss=\\d{5}(\\d{4})/ss=xxxxx\\1/g s/cc=(\\d{4}-){3}(\\d{4})/cc=xxxx-xxxx-xxxx-\\2/g; values synthetic, keeps last 4"
+  },
+  {
+    "tool": "elastic-redact",
+    "source": "https://www.elastic.co/docs/reference/enrich-processor/redact-processor",
+    "input": "55.3.244.1 GET /index.html 15824 0.043",
+    "sensitive": ["55.3.244.1"],
+    "types": ["client"],
+    "expectedOutput": "<client> GET /index.html 15824 0.043",
+    "negative": false,
+    "notes": "grok pattern %{IP:client}"
+  },
+  {
+    "tool": "elastic-redact",
+    "source": "https://www.elastic.co/docs/reference/enrich-processor/redact-processor",
+    "input": "@elastic the PR is ready for review",
+    "sensitive": ["@elastic"],
+    "types": ["GITHUB_NAME"],
+    "expectedOutput": "<GITHUB_NAME> the PR is ready for review",
+    "negative": false,
+    "notes": "custom pattern GITHUB_NAME @%{USERNAME}; handle reconstructed from documented output"
+  },
+  {
+    "tool": "github-secret-scanning",
+    "source": "https://docs.github.com/en/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/custom-patterns/defining-custom-patterns-for-secret-scanning",
+    "input": "a9@AAfT!",
+    "sensitive": ["a9@AAfT"],
+    "types": ["CUSTOM_PATTERN"],
+    "negative": false,
+    "notes": "custom pattern format [$#%@AA-Za-z0-9]{5,10}, after-secret [^\\.], must match [A-Z], [0-9], [$%@!], must not match [a-z]{2,}"
+  },
+  {
+    "tool": "github-secret-scanning",
+    "source": "https://docs.github.com/en/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/custom-patterns/defining-custom-patterns-for-secret-scanning",
+    "input": "ee95GG@ZA942@aa",
+    "sensitive": ["@ZA942@a"],
+    "types": ["CUSTOM_PATTERN"],
+    "negative": false,
+    "notes": "custom pattern format [$#%@AA-Za-z0-9]{5,10}, after-secret [^\\.], must match [A-Z], [0-9], [$%@!], must not match [a-z]{2,}"
+  },
+  {
+    "tool": "github-secret-scanning",
+    "source": "https://docs.github.com/en/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/custom-patterns/defining-custom-patterns-for-secret-scanning",
+    "input": "a9@AA!ee9",
+    "sensitive": ["a9@AA"],
+    "types": ["CUSTOM_PATTERN"],
+    "negative": false,
+    "notes": "custom pattern format [$#%@AA-Za-z0-9]{5,10}, after-secret [^\\.], must match [A-Z], [0-9], [$%@!], must not match [a-z]{2,}"
+  },
+  {
+    "tool": "github-secret-scanning",
+    "source": "https://docs.github.com/en/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/custom-patterns/defining-custom-patterns-for-secret-scanning",
+    "input": "a9@AA.!",
+    "sensitive": [],
+    "types": ["CUSTOM_PATTERN"],
+    "negative": true,
+    "notes": "custom pattern format [$#%@AA-Za-z0-9]{5,10}, after-secret [^\\.], must match [A-Z], [0-9], [$%@!], must not match [a-z]{2,}"
+  },
+  {
+    "tool": "github-secret-scanning",
+    "source": "https://docs.github.com/en/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/custom-patterns/defining-custom-patterns-for-secret-scanning",
+    "input": "a@AAAAA",
+    "sensitive": [],
+    "types": ["CUSTOM_PATTERN"],
+    "negative": true,
+    "notes": "custom pattern format [$#%@AA-Za-z0-9]{5,10}, after-secret [^\\.], must match [A-Z], [0-9], [$%@!], must not match [a-z]{2,}"
+  },
+  {
+    "tool": "github-secret-scanning",
+    "source": "https://docs.github.com/en/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/custom-patterns/defining-custom-patterns-for-secret-scanning",
+    "input": "aa9@AA!ee9",
+    "sensitive": [],
+    "types": ["CUSTOM_PATTERN"],
+    "negative": true,
+    "notes": "custom pattern format [$#%@AA-Za-z0-9]{5,10}, after-secret [^\\.], must match [A-Z], [0-9], [$%@!], must not match [a-z]{2,}"
+  },
+  {
+    "tool": "github-secret-scanning",
+    "source": "https://docs.github.com/en/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/custom-patterns/defining-custom-patterns-for-secret-scanning",
+    "input": "aAAAe9",
+    "sensitive": [],
+    "types": ["CUSTOM_PATTERN"],
+    "negative": true,
+    "notes": "custom pattern format [$#%@AA-Za-z0-9]{5,10}, after-secret [^\\.], must match [A-Z], [0-9], [$%@!], must not match [a-z]{2,}"
+  },
+  {
+    "tool": "github-secret-scanning",
+    "source": "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns",
+    "input": "Authorization: Bearer {{TOKEN}}",
+    "sensitive": ["{{TOKEN}}"],
+    "types": ["http_bearer_authentication_header"],
+    "negative": false,
+    "notes": "non-provider pattern; {{TOKEN}} stands for an opaque bearer token; no literal sample in doc"
+  },
+  {
+    "tool": "github-secret-scanning",
+    "source": "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns",
+    "input": "postgres://user:{{TOKEN}}@db.example.com:5432/app",
+    "sensitive": ["{{TOKEN}}"],
+    "types": ["postgres_connection_string"],
+    "negative": false,
+    "notes": "non-provider pattern; connection string with embedded password placeholder; illustrative"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_password",
+    "input": "password = lol123ok!",
+    "sensitive": ["lol123ok!"],
+    "types": ["Generic Password"],
+    "negative": false,
+    "notes": "variable must contain pwd/passwd/password"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_password",
+    "input": "pwd = lol123ok!",
+    "sensitive": ["lol123ok!"],
+    "types": ["Generic Password"],
+    "negative": false,
+    "notes": "variable must contain pwd/passwd/password"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_password",
+    "input": "passwd : lol123ok!",
+    "sensitive": ["lol123ok!"],
+    "types": ["Generic Password"],
+    "negative": false,
+    "notes": "variable must contain pwd/passwd/password"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_password",
+    "input": "password = AESlol123ok!",
+    "sensitive": [],
+    "types": ["Generic Password"],
+    "negative": true,
+    "notes": "value looks encrypted (AES prefix)"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_password",
+    "input": "example pwd = lol123ok!",
+    "sensitive": [],
+    "types": ["Generic Password"],
+    "negative": true,
+    "notes": "context banlist word 'example'"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_high_entropy_secret",
+    "input": "api_key = hj65_klhz/trlupok76",
+    "sensitive": ["hj65_klhz/trlupok76"],
+    "types": ["Generic High Entropy Secret"],
+    "negative": false,
+    "notes": "keyword api_key, entropy >= 3, >= 2 digits"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_high_entropy_secret",
+    "input": "secret: d1Hb1f\\b497XGT75989e",
+    "sensitive": ["d1Hb1f\\b497XGT75989e"],
+    "types": ["Generic High Entropy Secret"],
+    "negative": false,
+    "notes": "doc example contains a literal backslash-b sequence"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_high_entropy_secret",
+    "input": "api_key = hj65_klhz/trlu",
+    "sensitive": [],
+    "types": ["Generic High Entropy Secret"],
+    "negative": true,
+    "notes": "too short"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_high_entropy_secret",
+    "input": "secret = xob1xob1xob1xob1xob1xob1xob1",
+    "sensitive": [],
+    "types": ["Generic High Entropy Secret"],
+    "negative": true,
+    "notes": "low entropy"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_high_entropy_secret",
+    "input": "object_id = hj65_klhz/trlupok76",
+    "sensitive": [],
+    "types": ["Generic High Entropy Secret"],
+    "negative": true,
+    "notes": "variable name is not a secret keyword"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_high_entropy_secret",
+    "input": "secret = aes.hj65_klhz/trlupok76",
+    "sensitive": [],
+    "types": ["Generic High Entropy Secret"],
+    "negative": true,
+    "notes": "encrypted value prefix"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_high_entropy_secret",
+    "input": "token=\\u4356\\u6543",
+    "sensitive": [],
+    "types": ["Generic High Entropy Secret"],
+    "negative": true,
+    "notes": "unicode escapes, not a secret"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/username_password",
+    "input": "username: totolao    password: AStrangeWith1Char",
+    "sensitive": ["totolao", "AStrangeWith1Char"],
+    "types": ["Username Password"],
+    "negative": false,
+    "notes": "username and password close together"
+  },
+  {
+    "tool": "gitguardian",
+    "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/username_password",
+    "input": "username=whatever@gitguardian.com pass=@StrongOneThisT1me",
+    "sensitive": [],
+    "types": ["Username Password"],
+    "negative": true,
+    "notes": "username is an email address, handled by Company Email Password detector instead"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "Robert Neruda",
+    "sensitive": ["Robert Neruda"],
+    "types": ["FULL_NAME"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "John C Smith",
+    "sensitive": ["John C Smith"],
+    "types": ["FULL_NAME"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "Goerge Mller",
+    "sensitive": ["Goerge Mller"],
+    "types": ["FULL_NAME"],
+    "negative": false,
+    "notes": "intentional typo still detected"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "Louise",
+    "sensitive": [],
+    "types": ["FULL_NAME"],
+    "negative": true,
+    "notes": "single names not flagged"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "Ahmed",
+    "sensitive": [],
+    "types": ["FULL_NAME"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "Maria",
+    "sensitive": [],
+    "types": ["FULL_NAME"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "John Doe",
+    "sensitive": [],
+    "types": ["FULL_NAME"],
+    "negative": true,
+    "notes": "placeholder name not flagged"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "Jane Doe",
+    "sensitive": [],
+    "types": ["FULL_NAME"],
+    "negative": true,
+    "notes": "placeholder name not flagged"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "402 Johnson Street Ozaukee County Port Washington 53074 WI",
+    "sensitive": ["402 Johnson Street Ozaukee County Port Washington 53074 WI"],
+    "types": ["US_ADDRESS"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "1990-A Gildersleeve Ave, Bronx, NY 12345",
+    "sensitive": ["1990-A Gildersleeve Ave, Bronx, NY 12345"],
+    "types": ["US_ADDRESS"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "Bahnofstrasse 23, 8001, Zurich, Switzerland",
+    "sensitive": [],
+    "types": ["US_ADDRESS"],
+    "negative": true,
+    "notes": "non-US address out of scope"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "New York",
+    "sensitive": [],
+    "types": ["US_ADDRESS"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "Austin, Texas",
+    "sensitive": [],
+    "types": ["US_ADDRESS"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "(145) 123-1853",
+    "sensitive": ["(145) 123-1853"],
+    "types": ["US_PHONE"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "787-124-5123",
+    "sensitive": ["787-124-5123"],
+    "types": ["US_PHONE"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "(145)123-1853",
+    "sensitive": ["(145)123-1853"],
+    "types": ["US_PHONE"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "(145) 123 1853",
+    "sensitive": [],
+    "types": ["US_PHONE"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "787-124-515",
+    "sensitive": [],
+    "types": ["US_PHONE"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "787-124-51588",
+    "sensitive": [],
+    "types": ["US_PHONE"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "+41 796548327",
+    "sensitive": [],
+    "types": ["US_PHONE"],
+    "negative": true,
+    "notes": "non-US number out of scope"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "abc@lakera.ai",
+    "sensitive": ["abc@lakera.ai"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "abc@lakera [DOT] ai",
+    "sensitive": ["abc@lakera [DOT] ai"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "abc [AT] lakera [DOT] ai",
+    "sensitive": ["abc [AT] lakera [DOT] ai"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "obfuscated email detected"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "abc+spam@platform.lakera.ai",
+    "sensitive": ["abc+spam@platform.lakera.ai"],
+    "types": ["EMAIL"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "john@google",
+    "sensitive": [],
+    "types": ["EMAIL"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "john@@gmail.com",
+    "sensitive": [],
+    "types": ["EMAIL"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "109.202.218.238",
+    "sensitive": ["109.202.218.238"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "2a02:168:6385:0:606d:1692:689f:1049",
+    "sensitive": ["2a02:168:6385:0:606d:1692:689f:1049"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "192.168.14.207",
+    "sensitive": ["192.168.14.207"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "private ranges detected with lower confidence"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "10.0.0.1",
+    "sensitive": ["10.0.0.1"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "198.51.100.7",
+    "sensitive": ["198.51.100.7"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "6.1.1.1",
+    "sensitive": ["6.1.1.1"],
+    "types": ["IP_ADDRESS"],
+    "negative": false,
+    "notes": "detected with lower confidence (looks like a version number)"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "10.920a.218.238",
+    "sensitive": [],
+    "types": ["IP_ADDRESS"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "257.168.0.1",
+    "sensitive": [],
+    "types": ["IP_ADDRESS"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "6.2.1.1.3",
+    "sensitive": [],
+    "types": ["IP_ADDRESS"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "MAT.8-12.1.1.4",
+    "sensitive": [],
+    "types": ["IP_ADDRESS"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "::1",
+    "sensitive": [],
+    "types": ["IP_ADDRESS"],
+    "negative": true,
+    "notes": "loopback not flagged"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "8.8.8.8",
+    "sensitive": [],
+    "types": ["IP_ADDRESS"],
+    "negative": true,
+    "notes": "well-known public DNS not flagged"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "127.0.0.1",
+    "sensitive": [],
+    "types": ["IP_ADDRESS"],
+    "negative": true,
+    "notes": "loopback not flagged"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "4242424242424242",
+    "sensitive": ["4242424242424242"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "5200 8282 8282 8210",
+    "sensitive": ["5200 8282 8282 8210"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "3782 822463 10005",
+    "sensitive": ["3782 822463 10005"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "3622 720627 1667",
+    "sensitive": ["3622 720627 1667"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "4111-1111-1111-1111",
+    "sensitive": ["4111-1111-1111-1111"],
+    "types": ["CREDIT_CARD"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "4111-1111-1111-1112",
+    "sensitive": [],
+    "types": ["CREDIT_CARD"],
+    "negative": true,
+    "notes": "Luhn check fails"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "0000 0000 0000 0000",
+    "sensitive": [],
+    "types": ["CREDIT_CARD"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "411 1 111 1 1111  11 11",
+    "sensitive": [],
+    "types": ["CREDIT_CARD"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "CH 9300762011623852957",
+    "sensitive": ["CH 9300762011623852957"],
+    "types": ["IBAN"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "CH93 0076 2011 6238 5295 7",
+    "sensitive": ["CH93 0076 2011 6238 5295 7"],
+    "types": ["IBAN"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "DE89 3704 0044 0532 0130 00",
+    "sensitive": ["DE89 3704 0044 0532 0130 00"],
+    "types": ["IBAN"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "FR76 3000 6000 0112 3456 7890 189",
+    "sensitive": ["FR76 3000 6000 0112 3456 7890 189"],
+    "types": ["IBAN"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "IT60 X054 2811 1010 0000 0123 456",
+    "sensitive": ["IT60 X054 2811 1010 0000 0123 456"],
+    "types": ["IBAN"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "ES91 2100 0418 4502 0005 1332",
+    "sensitive": ["ES91 2100 0418 4502 0005 1332"],
+    "types": ["IBAN"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "CH 9300762011623852951",
+    "sensitive": [],
+    "types": ["IBAN"],
+    "negative": true,
+    "notes": "IBAN checksum fails"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "GB29 NWBK 6016 1331 9268 19A",
+    "sensitive": [],
+    "types": ["IBAN"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "DE89 3704 0044 0532 0130 0",
+    "sensitive": [],
+    "types": ["IBAN"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "IT60 X054 2811 1010 0000 0123 4567",
+    "sensitive": [],
+    "types": ["IBAN"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "778-62-8144",
+    "sensitive": ["778-62-8144"],
+    "types": ["US_SSN"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "030 72 7381",
+    "sensitive": ["030 72 7381"],
+    "types": ["US_SSN"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "003 06-8815",
+    "sensitive": ["003 06-8815"],
+    "types": ["US_SSN"],
+    "negative": false,
+    "notes": "documented positive example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "6-4327-4363",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "241532634",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "documented negative example"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "999-45-6789",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "area 9xx invalid"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "666-45-6789",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "area 666 invalid"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "000-62-8144",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "area 000 invalid"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "778-00-8144",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "group 00 invalid"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "778-62-0000",
+    "sensitive": [],
+    "types": ["US_SSN"],
+    "negative": true,
+    "notes": "serial 0000 invalid"
+  },
+  {
+    "tool": "lakera-guard",
+    "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+    "input": "+1 (145) 123-1853",
+    "sensitive": ["(145) 123-1853"],
+    "types": ["US_PHONE"],
+    "negative": false,
+    "notes": "country code +1 is not included in the span"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "before 127.0.0.1 after",
+    "sensitive": ["127.0.0.1"],
+    "types": ["IP"],
+    "expectedOutput": "before [ip] after",
+    "negative": false,
+    "notes": "rule @ip; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "before 127.0.0.1 after",
+    "sensitive": ["127.0.0.1"],
+    "types": ["IP"],
+    "expectedOutput": "before [ip] after",
+    "negative": false,
+    "notes": "rule @ip:replace; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "before 127.0.0.1 after",
+    "sensitive": ["127.0.0.1"],
+    "types": ["IP"],
+    "expectedOutput": "before AE12FE3B5F129B5CC4CDD2B136B7B7947C4D2741 after",
+    "negative": false,
+    "notes": "rule @ip:hash; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "before ::1 after",
+    "sensitive": ["::1"],
+    "types": ["IP"],
+    "expectedOutput": "before [ip] after",
+    "negative": false,
+    "notes": "rule @ip; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "[2001:0db8:85a3:0000:0000:8a2e:0370:7334]",
+    "sensitive": ["2001:0db8:85a3:0000:0000:8a2e:0370:7334"],
+    "types": ["IP"],
+    "expectedOutput": "[[ip]]",
+    "negative": false,
+    "notes": "rule @ip:replace; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "before 2001:0db8:85a3:0000:0000:8a2e:0370:7334 after",
+    "sensitive": ["2001:0db8:85a3:0000:0000:8a2e:0370:7334"],
+    "types": ["IP"],
+    "expectedOutput": "before 8C3DC9BEED9ADE493670547E24E4E45EDE69FF03 after",
+    "negative": false,
+    "notes": "rule @ip:hash; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "foo::1",
+    "sensitive": [],
+    "types": ["IP"],
+    "expectedOutput": "foo::1",
+    "negative": true,
+    "notes": "rule @ip leaves the text unchanged"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "before 356938035643809 after",
+    "sensitive": ["356938035643809"],
+    "types": ["IMEI"],
+    "expectedOutput": "before [imei] after",
+    "negative": false,
+    "notes": "rule @imei; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "before 356938035643809 after",
+    "sensitive": ["356938035643809"],
+    "types": ["IMEI"],
+    "expectedOutput": "before [imei] after",
+    "negative": false,
+    "notes": "rule @imei:replace; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "before 356938035643809 after",
+    "sensitive": ["356938035643809"],
+    "types": ["IMEI"],
+    "expectedOutput": "before 3888108AA99417402969D0B47A2CA4ECD2A1AAD3 after",
+    "negative": false,
+    "notes": "rule @imei:hash; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "ether 4a:00:04:10:9b:50",
+    "sensitive": ["4a:00:04:10:9b:50"],
+    "types": ["MAC"],
+    "expectedOutput": "ether *****************",
+    "negative": false,
+    "notes": "rule @mac; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "ether 4a:00:04:10:9b:50",
+    "sensitive": ["4a:00:04:10:9b:50"],
+    "types": ["MAC"],
+    "expectedOutput": "ether *****************",
+    "negative": false,
+    "notes": "rule @mac:mask; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "ether 4a:00:04:10:9b:50",
+    "sensitive": ["4a:00:04:10:9b:50"],
+    "types": ["MAC"],
+    "expectedOutput": "ether [mac]",
+    "negative": false,
+    "notes": "rule @mac:replace; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "ether 4a:00:04:10:9b:50",
+    "sensitive": ["4a:00:04:10:9b:50"],
+    "types": ["MAC"],
+    "expectedOutput": "ether 6220F3EE59BF56B32C98323D7DE43286AAF1F8F1",
+    "negative": false,
+    "notes": "rule @mac:hash; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "user id ceee0822-ed8f-4622-b2a3-789e73e75cd1",
+    "sensitive": ["ceee0822-ed8f-4622-b2a3-789e73e75cd1"],
+    "types": ["UUID"],
+    "expectedOutput": "user id ************************************",
+    "negative": false,
+    "notes": "rule @uuid; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "user id ceee0822-ed8f-4622-b2a3-789e73e75cd1",
+    "sensitive": ["ceee0822-ed8f-4622-b2a3-789e73e75cd1"],
+    "types": ["UUID"],
+    "expectedOutput": "user id ************************************",
+    "negative": false,
+    "notes": "rule @uuid:mask; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "user id ceee0822-ed8f-4622-b2a3-789e73e75cd1",
+    "sensitive": ["ceee0822-ed8f-4622-b2a3-789e73e75cd1"],
+    "types": ["UUID"],
+    "expectedOutput": "user id EBFA4DBDAA4A619F10B6DE2ABB630DE0122F5CDB",
+    "negative": false,
+    "notes": "rule @uuid:hash; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "user id ceee0822-ed8f-4622-b2a3-789e73e75cd1",
+    "sensitive": ["ceee0822-ed8f-4622-b2a3-789e73e75cd1"],
+    "types": ["UUID"],
+    "expectedOutput": "user id [uuid]",
+    "negative": false,
+    "notes": "rule @uuid:replace; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "John Appleseed <john@appleseed.com>",
+    "sensitive": ["john@appleseed.com"],
+    "types": ["EMAIL"],
+    "expectedOutput": "John Appleseed <[email]>",
+    "negative": false,
+    "notes": "rule @email; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "John Appleseed <john@appleseed.com>",
+    "sensitive": ["john@appleseed.com"],
+    "types": ["EMAIL"],
+    "expectedOutput": "John Appleseed <[email]>",
+    "negative": false,
+    "notes": "rule @email:replace; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "John Appleseed <john@appleseed.com>",
+    "sensitive": ["john@appleseed.com"],
+    "types": ["EMAIL"],
+    "expectedOutput": "John Appleseed <******************>",
+    "negative": false,
+    "notes": "rule @email:mask; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "John Appleseed <john@appleseed.com>",
+    "sensitive": ["john@appleseed.com"],
+    "types": ["EMAIL"],
+    "expectedOutput": "John Appleseed <33835528AC0FFF1B46D167C35FEAAA6F08FD3F46>",
+    "negative": false,
+    "notes": "rule @email:hash; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "some iban: DE89370400440532013000!",
+    "sensitive": ["DE89370400440532013000"],
+    "types": ["IBAN"],
+    "expectedOutput": "some iban: [iban]!",
+    "negative": false,
+    "notes": "rule @iban; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "some iban: DE89370400440532013000!",
+    "sensitive": ["DE89370400440532013000"],
+    "types": ["IBAN"],
+    "expectedOutput": "some iban: **********************!",
+    "negative": false,
+    "notes": "rule @iban:mask; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "some iban: DE89370400440532013000!",
+    "sensitive": ["DE89370400440532013000"],
+    "types": ["IBAN"],
+    "expectedOutput": "some iban: [iban]!",
+    "negative": false,
+    "notes": "rule @iban:replace; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "some iban: DE89370400440532013000!",
+    "sensitive": ["DE89370400440532013000"],
+    "types": ["IBAN"],
+    "expectedOutput": "some iban: 8A1248B6F40D38FBC59ADE6AD0DF69C7BB9C936A!",
+    "negative": false,
+    "notes": "rule @iban:hash; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "some iban: N19386011117945!",
+    "sensitive": [],
+    "types": ["IBAN"],
+    "negative": true,
+    "notes": "rule @iban must not apply"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "John Appleseed 4571234567890111!",
+    "sensitive": ["4571234567890111"],
+    "types": ["CREDIT_CARD"],
+    "expectedOutput": "John Appleseed [creditcard]!",
+    "negative": false,
+    "notes": "rule @creditcard; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "John Appleseed 4571 2345 6789 0111!",
+    "sensitive": ["4571 2345 6789 0111"],
+    "types": ["CREDIT_CARD"],
+    "expectedOutput": "John Appleseed [creditcard]!",
+    "negative": false,
+    "notes": "rule @creditcard; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "John Appleseed 4571234567890111!",
+    "sensitive": ["4571234567890111"],
+    "types": ["CREDIT_CARD"],
+    "expectedOutput": "John Appleseed ****************!",
+    "negative": false,
+    "notes": "rule @creditcard:mask; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "John Appleseed 4571234567890111!",
+    "sensitive": ["4571234567890111"],
+    "types": ["CREDIT_CARD"],
+    "expectedOutput": "John Appleseed [creditcard]!",
+    "negative": false,
+    "notes": "rule @creditcard:replace; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "John Appleseed 4571234567890111!",
+    "sensitive": ["4571234567890111"],
+    "types": ["CREDIT_CARD"],
+    "expectedOutput": "John Appleseed 68C796A9ED3FB51BF850A11140FCADD8E2D88466!",
+    "negative": false,
+    "notes": "rule @creditcard:hash; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "https://username:password@example.com/",
+    "sensitive": ["username:password"],
+    "types": ["URL_AUTH"],
+    "expectedOutput": "https://[auth]@example.com/",
+    "negative": false,
+    "notes": "rule @urlauth; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "https://username:password@example.com/",
+    "sensitive": ["username:password"],
+    "types": ["URL_AUTH"],
+    "expectedOutput": "https://[auth]@example.com/",
+    "negative": false,
+    "notes": "rule @urlauth:replace; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "https://username:password@example.com/",
+    "sensitive": ["username:password"],
+    "types": ["URL_AUTH"],
+    "expectedOutput": "https://2F82AB8A5E3FAD655B5F81E3BEA30D2A14FEF2AC@example.com/",
+    "negative": false,
+    "notes": "rule @urlauth:hash; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "Hi I'm Hilda and my SSN is 078-05-1120",
+    "sensitive": ["078-05-1120"],
+    "types": ["US_SSN"],
+    "expectedOutput": "Hi I'm Hilda and my SSN is ***********",
+    "negative": false,
+    "notes": "rule @usssn; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "Hi I'm Hilda and my SSN is 078-05-1120",
+    "sensitive": ["078-05-1120"],
+    "types": ["US_SSN"],
+    "expectedOutput": "Hi I'm Hilda and my SSN is ***********",
+    "negative": false,
+    "notes": "rule @usssn:mask; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "Hi I'm Hilda and my SSN is 078-05-1120",
+    "sensitive": ["078-05-1120"],
+    "types": ["US_SSN"],
+    "expectedOutput": "Hi I'm Hilda and my SSN is [us-ssn]",
+    "negative": false,
+    "notes": "rule @usssn:replace; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "Hi I'm Hilda and my SSN is 078-05-1120",
+    "sensitive": ["078-05-1120"],
+    "types": ["US_SSN"],
+    "expectedOutput": "Hi I'm Hilda and my SSN is 01328BB9C55B35F354FBC7B60CADAC789DC2035C",
+    "negative": false,
+    "notes": "rule @usssn:hash; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "C:\\Users\\mitsuhiko\\Desktop",
+    "sensitive": ["mitsuhiko"],
+    "types": ["USER_PATH"],
+    "expectedOutput": "C:\\Users\\[user]\\Desktop",
+    "negative": false,
+    "notes": "rule @userpath; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "File in /Users/mitsuhiko/Development/sentry-stripping",
+    "sensitive": ["mitsuhiko"],
+    "types": ["USER_PATH"],
+    "expectedOutput": "File in /Users/[user]/Development/sentry-stripping",
+    "negative": false,
+    "notes": "rule @userpath:replace; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "C:\\Windows\\Profiles\\Armin\\Temp",
+    "sensitive": ["Armin"],
+    "types": ["USER_PATH"],
+    "expectedOutput": "C:\\Windows\\Profiles\\[user]\\Temp",
+    "negative": false,
+    "notes": "rule @userpath:replace; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "File in /Users/mitsuhiko/Development/sentry-stripping",
+    "sensitive": ["mitsuhiko"],
+    "types": ["USER_PATH"],
+    "expectedOutput": "File in /Users/A8791A1A8D11583E0200CC1B9AB971B4D78B8A69/Development/sentry-stripping",
+    "negative": false,
+    "notes": "rule @userpath:hash; hash outputs are uppercase hex digests from Relay's default key"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+    "input": "-----BEGIN EC PRIVATE KEY-----\n{{TOKEN}}\n-----END EC PRIVATE KEY-----",
+    "sensitive": ["{{TOKEN}}"],
+    "types": ["PEM_KEY"],
+    "expectedOutput": "-----BEGIN EC PRIVATE KEY-----\n[pemkey]\n-----END EC PRIVATE KEY-----",
+    "negative": false,
+    "notes": "@pemkey replaces only the base64 body between BEGIN/END lines; doc test uses a sample EC key body, replaced here by {{TOKEN}}"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/regexes.rs",
+    "input": "Cookie: sessionid={{TOKEN}}; theme=dark",
+    "sensitive": ["{{TOKEN}}"],
+    "types": ["COOKIE"],
+    "negative": false,
+    "notes": "COOKIE_REGEX (?i)\\b(?:(sessionid|...)(?:__\\d+)?)=([^;]+) replaces only the value of known session/csrf cookie names; theme is kept; illustrative"
+  },
+  {
+    "tool": "sentry-relay",
+    "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/regexes.rs",
+    "input": "Authorization: Bearer {{TOKEN}}",
+    "sensitive": ["{{TOKEN}}"],
+    "types": ["BEARER"],
+    "negative": false,
+    "notes": "(?i)\\b(Bearer\\s+)([^\\s]+); prefix kept, token group replaced; illustrative"
+  },
+  {
+    "tool": "sentry",
+    "source": "https://docs.sentry.io/security-legal-pii/scrubbing/server-side-scrubbing/",
+    "input": "{\"password\": \"hunter2\", \"theme\": \"dark\"}",
+    "sensitive": ["hunter2"],
+    "types": ["PASSWORD"],
+    "negative": false,
+    "notes": "default sensitive key list (password, secret, passwd, api_key, apikey, auth, credentials, mysql_pwd, privatekey, private_key, token, bearer) scrubs values to [Filtered]; JSON is illustrative"
+  }
+]

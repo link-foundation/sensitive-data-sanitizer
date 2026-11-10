@@ -127,3 +127,212 @@ export function southAfricanId(value) {
     shortLuhn(value)
   );
 }
+const repeated = (digits) => /^(\d)\1+$/.test(digits);
+// US ABA routing transit number: Federal Reserve prefix and 3-7-1 weights.
+export function abaRouting(value) {
+  const d = digitsOf(value),
+    prefix = Number(d.slice(0, 2));
+  return (
+    d.length === 9 &&
+    !repeated(d) &&
+    (prefix <= 12 ||
+      (prefix >= 21 && prefix <= 32) ||
+      (prefix >= 61 && prefix <= 72) ||
+      prefix === 80) &&
+    sum(d, [3, 7, 1, 3, 7, 1, 3, 7, 1]) % 10 === 0
+  );
+}
+const dniLetters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+// Spanish NIE: X/Y/Z stands for 0/1/2 before the DNI mod-23 letter.
+export function spanishNie(value) {
+  const v = value.toUpperCase();
+  return (
+    /^[XYZ]\d{7}[A-Z]$/.test(v) &&
+    dniLetters[Number(`${'XYZ'.indexOf(v[0])}${v.slice(1, 8)}`) % 23] === v[8]
+  );
+}
+// Australian Business Number: subtract one from the first digit, mod 89.
+export function abn(value) {
+  const d = digitsOf(value).split('').map(Number);
+  if (d.length !== 11 || repeated(d.join(''))) {
+    return false;
+  }
+  d[0] -= 1;
+  return sum(d, [10, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19]) % 89 === 0;
+}
+// Australian Company Number: weighted complement mod 10.
+export function acn(value) {
+  const d = digitsOf(value);
+  return (
+    d.length === 9 &&
+    !repeated(d) &&
+    (10 - (sum(d, [8, 7, 6, 5, 4, 3, 2, 1]) % 10)) % 10 === Number(d[8])
+  );
+}
+// Australian Medicare card: first digit 2-6, ninth digit is the check digit.
+export function medicare(value) {
+  const d = digitsOf(value);
+  return (
+    /^[2-6]\d{9,10}$/.test(d) &&
+    sum(d, [1, 3, 7, 9, 1, 3, 7, 9]) % 10 === Number(d[8])
+  );
+}
+const verhoeffD = [
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],
+  [2, 3, 4, 0, 1, 7, 8, 9, 5, 6],
+  [3, 4, 0, 1, 2, 8, 9, 5, 6, 7],
+  [4, 0, 1, 2, 3, 9, 5, 6, 7, 8],
+  [5, 9, 8, 7, 6, 0, 4, 3, 2, 1],
+  [6, 5, 9, 8, 7, 1, 0, 4, 3, 2],
+  [7, 6, 5, 9, 8, 2, 1, 0, 4, 3],
+  [8, 7, 6, 5, 9, 3, 2, 1, 0, 4],
+  [9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+];
+const verhoeffP = [
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  [1, 5, 7, 6, 2, 8, 3, 0, 9, 4],
+  [5, 8, 0, 3, 7, 9, 6, 1, 4, 2],
+  [8, 9, 1, 6, 0, 4, 3, 5, 2, 7],
+  [9, 4, 5, 3, 1, 2, 6, 8, 7, 0],
+  [4, 2, 8, 6, 5, 7, 3, 9, 0, 1],
+  [2, 7, 9, 3, 8, 0, 6, 4, 1, 5],
+  [7, 0, 4, 6, 9, 1, 3, 2, 5, 8],
+];
+export function verhoeff(value) {
+  const d = digitsOf(value);
+  let check = 0;
+  for (let i = 0; i < d.length; i++) {
+    check = verhoeffD[check][verhoeffP[i % 8][Number(d[d.length - 1 - i])]];
+  }
+  return d.length > 0 && !repeated(d) && check === 0;
+}
+// Indian Aadhaar: 12 digits, never starting with 0 or 1, Verhoeff check.
+export const aadhaar = (value) =>
+  /^[2-9]\d{11}$/.test(digitsOf(value)) && verhoeff(value);
+const base36 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+// Indian GSTIN: state code, PAN, entity number, "Z", mod-36 check character.
+export function gstin(value) {
+  const v = value.toUpperCase();
+  if (!/^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(v)) {
+    return false;
+  }
+  let total = 0;
+  for (let i = 0; i < 14; i++) {
+    const product = base36.indexOf(v[i]) * (i % 2 === 0 ? 1 : 2);
+    total += Math.floor(product / 36) + (product % 36);
+  }
+  return base36[(36 - (total % 36)) % 36] === v[14];
+}
+// Finnish henkilötunnus: DDMMYY, century sign, individual number, mod 31.
+export function finnishIdentityCode(value) {
+  const v = value.toUpperCase(),
+    match = /^(\d{6})([-+A-FU-Y])(\d{3})([0-9A-Y])$/.exec(v);
+  if (!match) {
+    return false;
+  }
+  const [, date, , individual, check] = match;
+  const swapped = `${date.slice(4, 6)}${date.slice(2, 4)}${date.slice(0, 2)}`;
+  return (
+    datePart(swapped) &&
+    '0123456789ABCDEFHJKLMNPRSTUVWXY'[Number(date + individual) % 31] === check
+  );
+}
+// Thai national identification number: 13 digits, weighted mod 11.
+export function thaiId(value) {
+  const d = digitsOf(value);
+  return (
+    /^[1-8]\d{12}$/.test(d) &&
+    (11 - (sum(d, [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2]) % 11)) % 10 ===
+      Number(d[12])
+  );
+}
+// US DEA registration: registrant letter, name letter or 9, six digits, check.
+export function dea(value) {
+  const v = value.toUpperCase();
+  if (!/^[ABCDEFGHJKLMPRSTUX][A-Z9]\d{7}$/.test(v)) {
+    return false;
+  }
+  const d = v.slice(2);
+  return (
+    (Number(d[0]) +
+      Number(d[2]) +
+      Number(d[4]) +
+      2 * (Number(d[1]) + Number(d[3]) + Number(d[5]))) %
+      10 ===
+    Number(d[6])
+  );
+}
+const regions = new Intl.DisplayNames(['en'], {
+  type: 'region',
+  fallback: 'none',
+});
+// ISO 3166 alpha-2 region known to the runtime's Unicode CLDR data.
+export const regionCode = (code) =>
+  /^[A-Z]{2}$/.test(code) && code !== 'ZZ' && regions.of(code) !== undefined;
+// SWIFT/BIC: bank, ISO country, location, optional branch.
+export const swiftCode = (value) =>
+  /^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}(?:[A-Z0-9]{3})?$/.test(value) &&
+  regionCode(value.slice(4, 6));
+// ISO 3779 / FMVSS 115 vehicle identification number: position 9 check digit.
+export function vin(value) {
+  const v = value.toUpperCase();
+  if (!/^[A-HJ-NPR-Z\d]{17}$/.test(v) || !/\d/.test(v) || !/[A-Z]/.test(v)) {
+    return false;
+  }
+  const weights = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2];
+  let total = 0;
+  for (let i = 0; i < 17; i++) {
+    const char = v[i];
+    // Transliteration: A-H 1-8, J-N 1-5, P 7, R 9, S-Z 2-9 (I, O, Q unused).
+    const code = /\d/.test(char)
+      ? Number(char)
+      : Number('12345678 12345 7 923456789'[char.charCodeAt(0) - 65]);
+    total += code * weights[i];
+  }
+  const check = total % 11;
+  return (check === 10 ? 'X' : String(check)) === v[8];
+}
+// German Steuerliche Identifikationsnummer: ISO 7064 MOD 11,10; no leading 0.
+// ISO 7064 MOD 11,10 over all digits but the last, which is the check digit.
+function mod11x10(d) {
+  let product = 10;
+  for (const digit of d.slice(0, -1)) {
+    const total = (Number(digit) + product) % 10 || 10;
+    product = (total * 2) % 11;
+  }
+  return (11 - product) % 10 === Number(d.at(-1));
+}
+export function germanTaxId(value) {
+  const d = digitsOf(value);
+  return /^[1-9]\d{10}$/.test(d) && mod11x10(d);
+}
+// German USt-IdNr: DE plus eight digits and a MOD 11,10 check digit.
+export function germanVat(value) {
+  const v = value.replace(/[\s.-]/g, '').toUpperCase();
+  return /^DE[1-9]\d{8}$/.test(v) && mod11x10(v.slice(2));
+}
+// UPS 1Z tracking number: letters map to (code - 63) mod 10, even positions
+// are doubled, and the last character is the check digit.
+export function upsTracking(value) {
+  const v = value.replace(/\s/g, '').toUpperCase();
+  if (!/^1Z[0-9A-Z]{15}\d$/.test(v)) {
+    return false;
+  }
+  let total = 0;
+  for (let i = 2; i < 17; i++) {
+    const code = /\d/.test(v[i]) ? Number(v[i]) : (v.charCodeAt(i) - 63) % 10;
+    total += i % 2 === 1 ? code * 2 : code;
+  }
+  return (10 - (total % 10)) % 10 === Number(v[17]);
+}
+// UAE Emirates ID: 784, birth year, serial and a Luhn check digit.
+export const emiratesId = (value) =>
+  /^784(?:19|20)\d{10}$/.test(digitsOf(value)) && shortLuhn(value);
+// Saudi national ID (1…) and Iqama (2…) numbers use Luhn over 10 digits.
+export const saudiId = (value) =>
+  /^[12]\d{9}$/.test(digitsOf(value)) && shortLuhn(value);
+// Israeli Teudat Zehut: up to 9 digits, left-padded, Luhn-weighted 1,2,1,2…
+export const israeliId = (value) =>
+  /^\d{5,9}$/.test(digitsOf(value)) &&
+  shortLuhn(digitsOf(value).padStart(9, '0'));

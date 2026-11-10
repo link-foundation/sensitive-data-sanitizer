@@ -16,6 +16,10 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 | `createSyncSanitizer(options)`         | Reusable synchronous `inspect` / `sanitize` with the same policies                                           |
 | `compileKnown(...lists)`               | Copy, freeze, merge and precompile caller-known personal values                                              |
 | `auditGitHistory(repository, options)` | Read-only audit of local reachable text objects                                                              |
+| `decrypt(text, key, options)`          | Restore values from `[ENCRYPTED:TYPE:…]` tokens written by the `encrypt` transformation                      |
+| `createPatternDetector(specs, opts)`   | Declarative regex, deny-list, hotword and validator detector                                                 |
+| `createIdentifierDetector(rules)`      | Detector for caller-supplied national identifier rules (`nationalRules` shape)                               |
+| `toSarif(report, options)`             | Convert a scan report or findings to SARIF 2.1.0 without values                                              |
 
 `redactions` counts merged replacement spans. `findings` can contain several detector hits for one replacement. Findings have `{start, end, type, category, rule, line, column}`; no text, quote, match, entropy score, provider details, or raw diagnostic is copied. The optional `strict-attributes` debug event reports only detected and suppressed match counts. Debugging is off by default; `debug(event)` receives value-free counts, rule timings, residual rounds and registry event metadata (see `DebugEvent` in the TypeScript declarations).
 
@@ -242,6 +246,7 @@ Without a profile, full redaction is the library default. `transformation` selec
 | `fake`              | Keyed realistic names, valid dates/MRZ/checksummed numbers and reserved contact destinations                           |
 | `date-shift`        | Personal ISO dates; finite integer `days`, UTC calendar arithmetic; invalid dates become opaque                        |
 | `bucket`            | Personal safe integers; positive integer `size`, inclusive numeric interval                                            |
+| `encrypt`           | Personal data only; deterministic AES-256-GCM token reversible with `decrypt` and the key (see below)                  |
 
 All keyed modes require a key of at least 16 UTF-8 bytes. `format-preserving` is a non-reversible shape pseudonym, not NIST FF1 encryption; it does not preserve checksum validity, country-specific alphabets or guarantee uniqueness. Partial masks, date shifts and buckets intentionally retain information. Keep pseudonym keys outside logs. Residual verification checks the corresponding fully redacted representation; opted-in disclosures can remain recognizable in the transformed output. Use default redaction for publication that requires opaque output.
 
@@ -368,7 +373,7 @@ The optional ESLint plugin exports `require-sanitized-output` from the package's
 
 ## Native documented entity catalogs
 
-`entityCatalogs` exposes source URLs, source-page SHA256 and documented names for Google (213), Azure (176) and AWS (36). Their canonical uppercase underscore labels are recognized natively, with complete value spans, independent of cloud services. The package also implements selected automatic formats and checksum algorithms. Catalog vocabulary support does not reproduce proprietary NER, image/document inspection, regional identity validators, cloud risk analysis or their accuracy. See the coverage table for that distinction.
+`entityCatalogs` exposes source URLs, source-page SHA256 and documented names for Google (214), Azure (180) and AWS (36). Their canonical uppercase underscore labels are recognized natively, with complete value spans, independent of cloud services. The package also implements selected automatic formats and checksum algorithms. Catalog vocabulary support does not reproduce proprietary NER, image/document inspection, regional identity validators, cloud risk analysis or their accuracy. See the coverage table for that distinction.
 
 ## Two-pass session publication
 
@@ -742,3 +747,189 @@ one or both languages. Each invocation is limited to 1 Mi UTF-16 units; larger
 inputs throw `ERR_LIMIT`. `debug` is off by default and emits counts only. Core
 imports never load the optional entry or NLP.js; leaving it off adds no optional
 runtime/module cost.
+
+## Allow lists, suppression comments and template values
+
+`allowList` keeps detected values that the caller has reviewed as safe, as in
+Presidio's `allow_list`, Google's exclusion rules with
+`MATCHING_TYPE_FULL_MATCH` and DataFog's `allowlist_patterns`. A string must
+equal the whole detected value; a `RegExp` must match the whole value (it is
+anchored internally, `g`/`y` flags are ignored). A partial match never shortens
+a finding. At most 10 000 entries; anything else is `ERR_CONFIG`.
+
+```js
+sanitize('Contact support@example.org or alice@private.test', {
+  allowList: ['support@example.org', /.+@example\.org/],
+});
+// → 'Contact support@example.org or [REDACTED]'
+```
+
+`inlineAllow: true` honours the suppression comments of other scanners on the
+same line: `gitleaks:allow`, `betterleaks:allow`, `kingfisher:allow`/`ignore`,
+`trufflehog:ignore`, `sanitizer:allow`, detect-secrets/ripsecrets
+`pragma: allowlist secret` and SonarQube `NOSONAR`. A line containing
+`pragma: allowlist nextline secret` suppresses findings on the next line. It is
+off by default because anyone who can write to a log could otherwise disable
+redaction.
+
+Both controls follow the same safety rules:
+
+- declared `knownPersonal`/`knownSecrets` values, confirmed personal values and
+  structured `JSON_VALUE` denials are never exempted;
+- credentials are exempted only together with `allowCredentialDisable: true`;
+- they apply to text, structured and asynchronous paths alike.
+
+Built-in credential rules also skip values that consist only of a template or
+mask: `${PASSWORD}`, `$${PYPI_PASSWORD}`, `$DB_PASS`, `$1`, `<password>`,
+`<Openverse API token>`, `[PASSWORD]`, `****`, `XXXXXXXX`, `...`, optionally
+after `Bearer`/`Basic`/`token` and on either side of a `user:password` colon.
+A mixed value such as `alice:${DB_PASSWORD}` or `<x>abc123…` is still redacted.
+Findings from custom detectors are never dropped this way. The value-free debug
+event `{event: 'template-value', rule}` reports each skipped match.
+
+## Per-type thresholds
+
+`minConfidenceByType` maps finding types to a threshold that overrides
+`minConfidence` for those types only, as in Presidio score thresholds or
+Google's per-infoType likelihood:
+
+```js
+sanitize(text, { minConfidence: 0.5, minConfidenceByType: { PERSON: 0.8 } });
+```
+
+Values must be numbers from 0 to 1. Credentials are never filtered by a
+threshold.
+
+## Character masks
+
+The `mask` transformation accepts Presidio/Google-style tuning in addition to
+`keepStart`, `keepEnd`, `minLength` and `marker`:
+
+| Option          | Meaning                                                        |
+| --------------- | -------------------------------------------------------------- |
+| `char`          | One masking character (default `*`)                            |
+| `ignore`        | Characters that are never masked, e.g. `'-@.'`                 |
+| `ignoreClasses` | Any of `digits`, `upper`, `lower`, `punctuation`, `whitespace` |
+| `count`         | Mask at most this many characters                              |
+| `fromEnd`       | Mask the last `count` characters instead of the first          |
+
+```js
+sanitize('Card 4111-1111-1111-1111', {
+  transformation: { mode: 'mask', char: '#', ignore: '-', count: 12 },
+});
+// → 'Card ####-####-####-1111'
+```
+
+`marker` cannot be combined with the tuning options. A value with nothing left
+to mask is fully redacted. Masks apply to personal data only.
+
+## Deterministic encryption
+
+`{mode: 'encrypt', key}` replaces each personal value with
+`[ENCRYPTED:TYPE:…]`, comparable to Google's `CryptoDeterministicConfig` and
+Presidio's `encrypt` operator. The token is AES-256-GCM with a synthetic IV
+(HMAC of type and value), so equal values of one type produce equal tokens and
+joins or counts still work. Keys are at least 16 UTF-8 bytes and are expanded
+with HKDF-SHA256.
+
+```js
+import { sanitize, decrypt } from '@link-foundation/sensitive-data-sanitizer';
+const key = process.env.SANITIZER_KEY;
+const { text } = sanitize('Mail alice@private.test', {
+  transformation: { mode: 'encrypt', key },
+});
+decrypt(text, key); // → 'Mail alice@private.test'
+```
+
+`decrypt(text, key, {json: true})` escapes restored values inside JSON string
+literals. A token that fails authentication throws `ERR_MAP`; a non-string text
+throws `ERR_INPUT`. Credentials are still fully redacted and never encrypted.
+Anyone holding the key can recover the values, so treat encrypted output as
+pseudonymised, not anonymous.
+
+## Declarative pattern detectors
+
+`createPatternDetector(specs, {id})` builds a synchronous Detector from
+Presidio-style pattern recognizers or Google custom infoTypes without writing
+code:
+
+```js
+import {
+  createPatternDetector,
+  sanitize,
+} from '@link-foundation/sensitive-data-sanitizer';
+const detector = createPatternDetector([
+  {
+    type: 'MEDICAL_RECORD',
+    category: 'personal',
+    patterns: [{ regex: /\bMRN-\d{6}\b/g, confidence: 0.4 }],
+    denyList: ['Mr. Bean'],
+    context: ['mrn', 'medical record'],
+    contextWindow: { before: 64, after: 16 },
+    contextBoost: 0.35,
+    validate: (value) => value !== 'MRN-000000',
+  },
+]);
+sanitize('medical record MRN-123456', { detectors: [detector] });
+```
+
+| Field              | Meaning                                                                                        |
+| ------------------ | ---------------------------------------------------------------------------------------------- |
+| `type`, `category` | Uppercase type; `personal` or `credential`                                                     |
+| `rule`             | Lowercase rule id (default `custom-pattern`)                                                   |
+| `confidence`       | Base confidence (default 0.6)                                                                  |
+| `patterns`         | Up to 64 `RegExp`, strings or `{regex, confidence, group}` (a capture group narrows the span)  |
+| `denyList`         | Whole-word values, case-insensitive unless `caseSensitive: true`; `denyListConfidence` (1)     |
+| `context`          | Hotwords (strings or RegExp) searched in `contextWindow` (number or `{before, after}`, ≤ 4096) |
+| `contextBoost`     | Added when a hotword is present (default 0.35, floor 0.4); a negative value lowers confidence  |
+| `validate`         | `false` drops a match; a number sets its confidence                                            |
+
+Malformed specifications throw `ERR_CONFIG`.
+
+`createIdentifierDetector(rules, {id})` adapts rules with the shape of the
+exported `nationalRules` table (`{type, pattern, context, checksum, plausible?,
+valid?}`) so callers can add or replace national identifiers. `identifierChecks`
+exposes the checksum and format validators (Luhn, mod-11, mod-97, Verhoeff and
+the national algorithms) for reuse; a valid checksum never proves issuance.
+
+## Offline token checksums
+
+GitHub (`ghp_`, `gho_`, `ghu_`, `ghs_`, `ghr_`) and npm (`npm_`) tokens end in
+six base62 characters holding the CRC32 of the 30 characters after the first
+`_`. As in Kingfisher and osv-scalibr, the native `github`/`npm` rules and the
+vendored Gitleaks/Betterleaks rules give a checksum-valid token confidence
+0.99. A token whose checksum does not match keeps its ordinary confidence and
+is still redacted, because truncated or retyped tokens remain sensitive. No
+network request is made. The exported `tokenChecksum(value)` returns `true`,
+`false` or `undefined` (not a checksummed format), and
+`tokenWithChecksum(prefix, body)` builds checksum-valid test fixtures at
+runtime so repositories need not store token literals.
+
+## SARIF reports
+
+`toSarif(report, {version, path})` converts a CLI `scan` report, an array of
+`{path, findings}` or a findings array into SARIF 2.1.0 for GitHub code
+scanning and other CI viewers. Rules are keyed by `finding.rule`; credential
+findings are `error` and personal findings `warning`. Regions carry
+`charOffset`, `charLength`, `startLine` and `startColumn` in UTF-16 code units.
+Skipped files become tool execution notifications. Values are never included.
+
+```sh
+sensitive-data-sanitizer scan --format sarif src > results.sarif
+```
+
+`--format` accepts `json` (default) or `sarif` and is only valid for `scan`.
+
+CLI `scan` accepts several paths, so a CI step or a
+[pre-commit](https://pre-commit.com) hook can pass the staged files directly.
+The repository ships `.pre-commit-hooks.yaml` with two hooks:
+`sensitive-data-sanitizer` (credentials only) and
+`sensitive-data-sanitizer-pii` (credentials and personal data).
+
+```yaml
+repos:
+  - repo: https://github.com/link-foundation/sensitive-data-sanitizer
+    rev: v0.20.0
+    hooks:
+      - id: sensitive-data-sanitizer
+```

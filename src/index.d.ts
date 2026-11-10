@@ -100,6 +100,20 @@ export interface SanitizerOptions {
   minConfidence?: number;
   /** Alias for minConfidence; specifying both requires equal values. */
   threshold?: number;
+  /** Per-type thresholds (e.g. `{ PERSON: 0.8 }`) that override minConfidence. */
+  minConfidenceByType?: Record<string, number>;
+  /**
+   * Values kept as-is: a string must equal the whole detected value and a
+   * RegExp must fully match it. Declared knownPersonal/knownSecrets values and
+   * credentials (unless allowCredentialDisable) are never allow-listed.
+   */
+  allowList?: (string | RegExp)[];
+  /**
+   * Honour scanner suppression comments (`gitleaks:allow`, `pragma: allowlist
+   * secret`, `pragma: allowlist nextline secret`, `NOSONAR`, ...) under the
+   * same rules as allowList.
+   */
+  inlineAllow?: boolean;
   /** Explicit network/callback verification; credentials never qualify. */
   verifyPublic?: (candidate: {
     type: PublicEntity['type'];
@@ -122,6 +136,7 @@ export type DebugEvent =
   | { event: 'detected'; count: number }
   | { event: 'document-experience' | 'proper-name-prose'; count: number }
   | { event: 'residual-redaction'; round: number }
+  | { event: 'template-value'; rule: string }
   | { event: 'two-pass-confirmation'; type: string }
   | { event: 'propagation-skipped'; reason: 'length'; type: string }
   | { event: 'gitleaks-rule'; rule: string; length: number; ms: number };
@@ -292,6 +307,17 @@ export type Transformation =
       keepEnd?: number;
       marker?: string;
       minLength?: number;
+      /** One masking character, default `*`; not combinable with marker. */
+      char?: string;
+      /** Characters left unmasked, e.g. `'-'` for `****-****-1111`. */
+      ignore?: string;
+      ignoreClasses?: (
+        'digits' | 'upper' | 'lower' | 'punctuation' | 'whitespace'
+      )[];
+      /** Mask at most this many maskable characters. */
+      count?: number;
+      /** Apply `count` from the end instead of the start. */
+      fromEnd?: boolean;
     }
   | { mode: 'pseudonym' | 'format-preserving'; key: string }
   | {
@@ -308,7 +334,9 @@ export type Transformation =
       >;
     }
   | { mode: 'date-shift'; days: number }
-  | { mode: 'bucket'; size: number };
+  | { mode: 'bucket'; size: number }
+  /** Deterministic AES-256-GCM `[ENCRYPTED:TYPE:…]`; key >= 16 UTF-8 bytes. */
+  | { mode: 'encrypt'; key: string };
 
 /** Contains original personal data; never publish this object or its files. */
 export interface RestoreMap {
@@ -392,6 +420,93 @@ export declare const entityCatalogs: Record<
   'google' | 'azure' | 'aws',
   { source: string; sha256: string; names: string[] }
 >;
+/** Built-in identifier rule; `context` is tested near each `pattern` match. */
+export interface IdentifierRule {
+  type: string;
+  /** Global regular expression for candidate values. */
+  pattern: RegExp;
+  /** Non-global label/context expression, 64 characters before to 32 after. */
+  context: RegExp;
+  /** Checksum or issuing-format check that raises confidence. */
+  checksum: (value: string) => boolean;
+  /** Distinctive shape that is reported without context. */
+  plausible?: (value: string) => boolean;
+  /** Mandatory gate; candidates failing it are never reported. */
+  valid?: (value: string) => boolean;
+}
+export declare const nationalRules: readonly IdentifierRule[];
+/** Format and checksum validators; they never prove issuance. */
+export declare const identifierChecks: Readonly<
+  Record<string, (value: string, ...args: number[]) => boolean>
+> & {
+  digitsOf(value: string): string;
+};
+/** Wrap identifier rules as a Detector for `detectors` options. */
+export declare function createIdentifierDetector(
+  rules: readonly IdentifierRule[],
+  options?: { id?: string }
+): Detector;
+/** Restore `[ENCRYPTED:TYPE:…]` tokens; throws ERR_MAP on a wrong key. */
+export declare function decrypt(
+  text: string,
+  key: string,
+  options?: { json?: boolean }
+): string;
+export interface PatternSpec {
+  type: string;
+  category?: Category;
+  /** Finding rule id, default `custom-pattern`. */
+  rule?: string;
+  /** Default base confidence, 0.6. */
+  confidence?: number;
+  patterns?: (
+    | RegExp
+    | string
+    | { regex: RegExp | string; confidence?: number; group?: number }
+  )[];
+  /** Whole-word terms (case-insensitive unless caseSensitive). */
+  denyList?: string[];
+  caseSensitive?: boolean;
+  denyListConfidence?: number;
+  /** Hotwords that adjust confidence when found near a match. */
+  context?: string[];
+  /** Characters searched for context, default `{ before: 64, after: 16 }`. */
+  contextWindow?: number | { before?: number; after?: number };
+  /** Added when context is found (default 0.35); negative lowers it. */
+  contextBoost?: number;
+  /** false rejects the match; a number in 0..1 sets its confidence. */
+  validate?: (value: string) => boolean | number | undefined;
+}
+/** Declarative regex/deny-list recognizers (Presidio/Google custom infoType style). */
+export declare function createPatternDetector(
+  specs: PatternSpec | readonly PatternSpec[],
+  options?: { id?: string }
+): Detector;
+export interface SarifLog {
+  $schema: string;
+  version: '2.1.0';
+  runs: unknown[];
+}
+/** SARIF 2.1.0 log of rules and locations; never contains matched values. */
+export declare function toSarif(
+  report:
+    | {
+        complete?: boolean;
+        results: { path: string; findings: Finding[] }[];
+        skipped?: { path: string; reason: string }[];
+      }
+    | { path: string; findings: Finding[] }[]
+    | Finding[],
+  options?: { version?: string; path?: string }
+): SarifLog;
+/**
+ * Offline CRC32/base62 check of GitHub (gh[opsur]_) and npm (npm_) tokens:
+ * true when the checksum matches, false when it does not, undefined for
+ * other formats.
+ */
+export declare function tokenChecksum(value: string): boolean | undefined;
+/** Builds a checksum-valid token from a prefix ending in `_` and a 30-character body. */
+export declare function tokenWithChecksum(prefix: string, body: string): string;
 export declare function createWikidataVerifier(options?: {
   fetch?: typeof fetch;
   language?: string;

@@ -1,0 +1,461 @@
+[
+  {
+    "id": "groq-api-key",
+    "description": "Identified a Groq API Key, which may expose high-speed AI inference services to unauthorized access.",
+    "regex": "(?i)\\b(gsk_[A-Z0-9]{52})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "gsk_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "gumroad-access-token",
+    "description": "Detected a Gumroad access token, which may expose Gumroad account and product data.",
+    "regex": "(?i)(?:gumroad)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}((?:[a-f0-9]{64}|[A-Za-z0-9-]{43}))(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "gumroad"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "highnote-secret-live-key",
+    "description": "Highnote secret API key for the live environment.",
+    "regex": "(?i:(?:highnote(?:[_. -]*(?:api))?[_. -]*(?:secret|key|token|sk[_. -]*live))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(sk_live_a2V5Xz[A-Za-z0-9+/]{69}={0,2})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "highnote"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "honeycomb-api-key",
+    "description": "Detected a Honeycomb API key, which may expose Honeycomb telemetry and environment data.",
+    "regex": "(?i)(?:honeycomb)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}((?:[a-f0-9]{32}|[a-z0-9]{22}))(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "honeycomb"
+    ],
+    "confidence": "medium",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "hunter-api-key.1",
+    "description": "Hunter API key, which may allow access to account and email intelligence data.",
+    "regex": "(?i:(?:hunter)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{40})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "hunter"
+    ],
+    "confidence": "medium",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "ibm-cloud-user-api-key",
+    "description": "Detected an IBM Cloud user API key, which may expose IBM Cloud account resources.",
+    "regex": "(?i)(?:ibm(?:cloud)?|bx)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9_-]{42,44})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "ibm"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "influxdb-api-token",
+    "description": "Detected an InfluxDB API token, which may allow unauthorized access to time-series data and InfluxDB organization resources.",
+    "regex": "(?i)(?:\\binflux(?:db)?\\b(?:.|[\\n\\r]){0,64}?\\b(?:token|api[_-]?key)\\b(?:.|[\\n\\r]){0,32}?)[=:\"'\\s]{1,8}([A-Za-z0-9+/=_-]{88,})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "influx"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 4.0 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 4.0
+  },
+  {
+    "id": "infomaniak-api-token",
+    "description": "Detected an Infomaniak API token, which may expose hosting, mail, and cloud services to unauthorized access.",
+    "regex": "(?i)(?:infomaniak)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9_\\-]{60,100})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "infomaniak"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 4.0 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 4.0
+  },
+  {
+    "id": "instantly-api-key.1",
+    "description": "Instantly API key, which may allow access to campaigns, accounts, leads, and analytics.",
+    "regex": "(?i:(?:instantly)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9+/]{66}==)(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "instantly"
+    ],
+    "confidence": "medium",
+    "filter": "entropy(finding[\"secret\"]) < 3.3\n",
+    "entropy": 3.3
+  },
+  {
+    "id": "ionic-personal-access-token",
+    "description": "Ionic personal access token.",
+    "regex": "\\b(ion_[A-Za-z0-9]{42})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "ionic"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "jumpcloud-api-key",
+    "description": "Detected a JumpCloud API key, which may expose JumpCloud directory data.",
+    "regex": "(?i)(?:jumpcloud)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{40})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "jumpcloud"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "kagi-api-key",
+    "description": "Detected a Kagi API key, which may expose Kagi API usage.",
+    "regex": "(?i)(?:kagi)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9_-]{11}\\.[a-z0-9_-]{43})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "kagi"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "kimi-api-key",
+    "description": "Detected a Kimi API key, which may expose Moonshot AI model access and usage to unauthorized parties.",
+    "regex": "(?i)(?:kimi|moonshot)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(sk-[A-Za-z0-9_-]{48})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "kimi",
+      "moonshot"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "klaviyo-api-key",
+    "description": "Detected a Klaviyo API key, which may expose Klaviyo account and marketing data.",
+    "regex": "(?i)(?:klaviyo)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(pk_[a-z0-9]{34})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "klaviyo"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "langchain-langsmith-personal-access-token",
+    "description": "LangSmith personal access token.",
+    "regex": "\\b(lsv2_pt_[0-9a-fA-F]{32}_[0-9a-fA-F]{10})",
+    "keywords": [
+      "lsv2_pt_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 4.0\n",
+    "entropy": 4.0
+  },
+  {
+    "id": "langchain-langsmith-service-key",
+    "description": "LangSmith service API key.",
+    "regex": "\\b(lsv2_sk_[0-9a-fA-F]{32}_[0-9a-fA-F]{10})",
+    "keywords": [
+      "lsv2_sk_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 4.0\n",
+    "entropy": 4.0
+  },
+  {
+    "id": "langfuse-secret-key.1",
+    "description": "Langfuse secret key, which authenticates project API access when paired with its public key.",
+    "regex": "\\b(sk-lf-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "sk-lf-"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "lark-app-secret",
+    "description": "Lark application secret.",
+    "regex": "(?i)(?:lark|larksuite)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9]{32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "lark"
+    ],
+    "confidence": "high",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "lichess-personal-access-token",
+    "description": "Lichess personal access token.",
+    "regex": "\\b(lip_[A-Za-z0-9_]{16,60})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "lip_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "lighton-paradigm-api-key",
+    "description": "Detected a LightOn Paradigm API key, which may expose enterprise LLM services to unauthorized access.",
+    "regex": "(?i)(?:lighton|paradigm)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9_\\-]{40,80})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "lighton",
+      "paradigm"
+    ],
+    "confidence": "medium",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "llama-cloud-api-key.1",
+    "description": "LlamaCloud API key, which may allow access to managed parsing, ingestion, and retrieval projects.",
+    "regex": "\\b(llx-[A-Za-z0-9]{44,52})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "llx-"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "mailersend-api-token",
+    "description": "MailerSend API token.",
+    "regex": "\\b(mlsn\\.[A-Za-z0-9]{30,100})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "mlsn."
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "mem0-api-key.1",
+    "description": "Mem0 API key, which may allow access to stored application memories.",
+    "regex": "(?i:(?:mem0)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(m0-[A-Za-z0-9]{24,44})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "mem0"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.0\n",
+    "entropy": 3.0
+  },
+  {
+    "id": "mercury-production-api-token",
+    "description": "Mercury production API token.",
+    "regex": "\\b(mercury_production_[a-z]{3,6}_[A-Za-z0-9]{40,50}_yrucrem)(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "mercury_production_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "mergify-application-key",
+    "description": "Mergify application API key.",
+    "regex": "\\b(mergify_application_key_[A-Za-z0-9_-]{40,200})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "mergify_application_key_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.2\n",
+    "entropy": 3.2
+  },
+  {
+    "id": "midtrans-production-server-client-key",
+    "description": "Midtrans production server or client key.",
+    "regex": "(?i)(?:midtrans|mid[_-]?)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(Mid-(?:server|client)-[A-Za-z0-9_]{10,20})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "mid-server-",
+      "mid-client-"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 2.8\n",
+    "entropy": 2.8
+  },
+  {
+    "id": "minimax-api-key",
+    "description": "Detected a MiniMax API key, which may expose AI model, speech, image, video, or file services to unauthorized access.",
+    "regex": "(?i)\\b(sk-api-[A-Za-z0-9_-]{119})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "sk-api-",
+      "minimax"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "miro-access-token",
+    "description": "Detected a Miro OAuth access token, which may allow unauthorized access to Miro users, teams, boards, and content.",
+    "regex": "\\b(eyJtaXJv[A-Za-z0-9-]{10,64}_[A-Za-z0-9_-]{20,64})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "miro"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "miro-client-secret",
+    "description": "Detected a Miro OAuth client secret, which may allow unauthorized OAuth client authentication when paired with a client ID.",
+    "regex": "(?i)(?:miro)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-z0-9]{32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "miro"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "mistral-api-key",
+    "description": "Detected a Mistral AI API Key, which may expose AI language model services to unauthorized access.",
+    "regex": "(?i)(?:mistral)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Z0-9]{32})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "mistral"
+    ],
+    "confidence": "medium",
+    "filter": "filter.entropy(finding[\"secret\"]) < 3.5 || filter.tokenRatio(finding[\"secret\"]) >= 2.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "monday-api-token.1",
+    "description": "monday.com API token, which may grant the same workspace access as its associated user or application.",
+    "regex": "(?i:(?:monday)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(eyJ[A-Za-z0-9_-]{10,200}\\.eyJ[A-Za-z0-9_-]{50,1000}\\.[A-Za-z0-9_-]{20,500})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "monday"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "mongodb-atlas-service-account-secret",
+    "description": "Detected a MongoDB Atlas service account client secret, which could allow unauthorized Atlas administration API access when paired with a service account client ID.",
+    "regex": "\\b(mdb_sa_sk_[A-Za-z0-9_-]{40})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "mdb_sa_sk_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.0\n|| matchesAny(finding[\"secret\"], [`^mdb_sa_sk_[0-9]{40}$`])\n",
+    "entropy": 3.0,
+    "entropyInclusive": true,
+    "reject": [
+      "^mdb_sa_sk_[0-9]{40}$"
+    ]
+  },
+  {
+    "id": "mongodb-connection-string",
+    "description": "Detected a MongoDB connection string with embedded credentials, potentially exposing direct database access and sensitive application data.",
+    "regex": "\\b(mongodb(?:\\+srv)?://(?P<username>[!-9;-~]{3,50}):(?P<password>[!-?A-~]{3,88})@(?P<host>(?:[a-zA-Z0-9][\\w.-]+|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})(?::\\d{1,5})?(?:,(?:[a-zA-Z0-9][\\w.-]+|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})(?::\\d{1,5})?)*)/?(?:(?P<authdb>[\\w-]+)?(?P<options>\\?\\w+=[\\w@/.$-]+(?:&(?:amp;)?\\w+=[\\w@/.$-]+)*)?)?)(?:['\"\\s;\\x60]|\\\\[nr]|\\b|$)",
+    "keywords": [
+      "mongodb://",
+      "mongodb+srv://"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 4.0\n|| matchesAny(finding[\"secret\"], [\n  `(?i)\\bmongodb(?:\\+srv)?:\\/\\/(?:user(?:name)?|foo):(?:pass(?:word)?|bar)(?:[^@\\/]*)?@`,\n  `(?i)\\bmongodb(?:\\+srv)?:\\/\\/[^\\s'\"\\x60]*(?:\\$\\{\\{[^}]+}}|\\$\\{[^}]+}|\\$[A-Za-z_][A-Za-z0-9_]*|{{[^}]+}}|<[^>]+>|\\[[^]]+])[^\\s'\"\\x60]*`\n])\n",
+    "entropy": 4.0,
+    "entropyInclusive": true,
+    "reject": [
+      "(?i)\\bmongodb(?:\\+srv)?:\\/\\/(?:user(?:name)?|foo):(?:pass(?:word)?|bar)(?:[^@\\/]*)?@",
+      "(?i)\\bmongodb(?:\\+srv)?:\\/\\/[^\\s'\"\\x60]*(?:\\$\\{\\{[^}]+}}|\\$\\{[^}]+}|\\$[A-Za-z_][A-Za-z0-9_]*|{{[^}]+}}|<[^>]+>|\\[[^]]+])[^\\s'\"\\x60]*"
+    ]
+  },
+  {
+    "id": "mux-access-token-secret.1",
+    "description": "Mux access-token secret, which may grant access to video, data, or system APIs when paired with its token ID.",
+    "regex": "(?i:(?:mux[_.-]?(?:access[_.-]?)?token[_.-]?(?:secret|private|key))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([A-Za-z0-9+/]{75})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "mux"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "neon-api-key",
+    "description": "Neon API key.",
+    "regex": "\\b(napi_[A-Za-z0-9]{64})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "napi_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "ngrok-api-key.1",
+    "description": "ngrok API key or agent authtoken, which may allow tunnel access or account administration.",
+    "regex": "(?i:(?:ngrok[_. -]*(?:(?:api|agent)[_. -]*)?(?:secret|key|token|authtoken))(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3})(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}(2[A-Za-z0-9]{26}_[0-9][A-Za-z0-9]{20})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "ngrok"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "nuget-api-key",
+    "description": "Detected a NuGet API key, which can push, unlist, or deprecate packages on nuget.org on behalf of its owner.",
+    "regex": "(?i)\\b(oy2[a-p][a-z2-7]{15}[aq][a-z2-7]{25}[aeimquy4])(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "oy2"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "nvidia-api-key",
+    "description": "Detected an NVIDIA NIM API Key, which may expose AI inference and GPU cloud services to unauthorized access.",
+    "regex": "(?i)\\b(nvapi-[A-Z0-9_-]{60,70})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "nvapi-"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  },
+  {
+    "id": "nylas-api-key.1",
+    "description": "Nylas API key, which may allow application-level access to connected email, calendar, and contact data.",
+    "regex": "\\b(nyk_[A-Za-z0-9]{67})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "nyk_"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) < 3.5\n",
+    "entropy": 3.5
+  },
+  {
+    "id": "ollama-api-key",
+    "description": "Detected an Ollama API Key, which may expose local and hosted AI model serving to unauthorized access.",
+    "regex": "(?i)(?:ollama)(?:[ \\t\\w.-]{0,20})[\\s'\"]{0,3}(?:=|>|:{1,3}=|\\|\\||:|=>|\\?=|,)[\\x60'\"\\s=]{0,5}([a-f0-9]{32}\\.[a-zA-Z0-9_-]{24})(?:\\\\?['\"\\x60]|[\\s;]|\\\\[nr]|$)",
+    "keywords": [
+      "ollama"
+    ],
+    "confidence": "high",
+    "filter": "entropy(finding[\"secret\"]) <= 3.5\n",
+    "entropy": 3.5,
+    "entropyInclusive": true
+  }
+]
