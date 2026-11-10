@@ -36,10 +36,16 @@ const keywordIndex = keywordMatcher(
   )
 );
 const confidence = { high: 0.95, medium: 0.85, low: 0.75 };
+// re2-wasm has a fixed 16 MiB heap shared by every compiled rule and every
+// subject copy, and an allocation failure aborts the module for the rest of
+// the process. All bundled rules compiled take about 7 MiB, and each exec
+// copies its subject, so keep subjects well below the remaining space and
+// scan larger texts with RE2JS (experiments/issue-128/re2-big-input.mjs).
+export const WASM_SUBJECT_LIMIT = 1024 * 1024;
 
 export function detectGitleaks(text, emit, trace) {
   const keywords = keywordIndex(text.toLowerCase());
-  const large = Buffer.byteLength(text) > 4 * 1024 * 1024;
+  const large = Buffer.byteLength(text) > WASM_SUBJECT_LIMIT;
   for (const { rule, name } of upstreamRules) {
     if (
       !rule.regex ||
@@ -167,8 +173,8 @@ function ruleConfidence(rule, secret) {
 
 function* ruleMatches(text, name, rule, large) {
   if (large) {
-    // re2-wasm has a fixed 16 MiB heap. RE2JS implements the same linear-time
-    // syntax without copying the input into WASM. Its indices are UTF-16.
+    // RE2JS implements the same linear-time syntax without copying the input
+    // into WASM. Its indices are UTF-16.
     yield* linearMatches(text, name, rule.regex);
     return;
   }
@@ -183,11 +189,7 @@ function* ruleMatches(text, name, rule, large) {
       offsets.push(offset);
     }
   }
-  let pattern = compiled.get(name);
-  if (!pattern) {
-    pattern = new RE2(rule.regex, 'gu');
-    compiled.set(name, pattern);
-  }
+  const pattern = compiledRule(name, rule.regex);
   pattern.lastIndex = 0;
   for (let attempts = 0; attempts < 8; attempts++) {
     const match = pattern.exec(text);
@@ -205,6 +207,17 @@ function* ruleMatches(text, name, rule, large) {
   if (resume !== undefined && resume <= text.length) {
     yield* linearMatches(text, name, rule.regex, resume);
   }
+}
+
+// One cached re2-wasm object per rule name. re2-wasm objects are never freed,
+// so every caller, tests included, shares this cache.
+export function compiledRule(name, source) {
+  let pattern = compiled.get(name);
+  if (!pattern) {
+    pattern = new RE2(source, 'gu');
+    compiled.set(name, pattern);
+  }
+  return pattern;
 }
 
 function linearPattern(key, source) {

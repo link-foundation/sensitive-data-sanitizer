@@ -1,8 +1,13 @@
 import { describe, it, expect } from 'test-anywhere';
-import { RE2 } from 're2-wasm';
 import { sanitize, createSanitizer } from '../src/index.js';
 import { RE2JS } from 're2js';
-import { betterleaksRules, gitleaksRules } from '../src/gitleaks.js';
+import {
+  betterleaksRules,
+  compiledRule,
+  detectGitleaks,
+  gitleaksRules,
+  WASM_SUBJECT_LIMIT,
+} from '../src/gitleaks.js';
 import { readFileSync } from 'node:fs';
 import { URL } from 'node:url';
 
@@ -11,7 +16,9 @@ describe('bundled upstream rules and decoders', () => {
     expect(gitleaksRules.length).toBe(222);
     for (const rule of gitleaksRules) {
       if (rule.regex) {
-        expect(typeof new RE2(rule.regex, 'gu').test).toBe('function');
+        // Reuse the engine's cache: re2-wasm never frees compiled objects.
+        const pattern = compiledRule(`gitleaks/${rule.id}`, rule.regex);
+        expect(typeof pattern.test).toBe('function');
       }
     }
   });
@@ -26,12 +33,35 @@ describe('bundled upstream rules and decoders', () => {
     const ids = new Set(gitleaksRules.map((rule) => rule.id));
     for (const rule of betterleaksRules) {
       expect(ids.has(rule.id) || rule.id.startsWith('generic-')).toBe(false);
-      expect(typeof new RE2(rule.regex, 'gu').test).toBe('function');
+      const pattern = compiledRule(`betterleaks/${rule.id}`, rule.regex);
+      expect(typeof pattern.test).toBe('function');
       expect(typeof RE2JS.compile(rule.regex).matchAll).toBe('function');
       for (const source of [...(rule.require ?? []), ...(rule.reject ?? [])]) {
         expect(typeof RE2JS.compile(source).test).toBe('function');
       }
     }
+  });
+  it('keeps the WASM engine alive for large inputs after every rule compiled', () => {
+    for (const rule of [...gitleaksRules, ...betterleaksRules]) {
+      if (rule.regex) {
+        const source = gitleaksRules.includes(rule)
+          ? 'gitleaks'
+          : 'betterleaks';
+        compiledRule(`${source}/${rule.id}`, rule.regex);
+      }
+    }
+    // Before the subject limit, a 3.5 MiB log aborted re2-wasm's fixed heap
+    // and every later scan in the process failed closed.
+    const line = 'INFO id=42 api status=200 aws github slack key secret\n';
+    const log = line.repeat(Math.ceil((3.5 * 1024 * 1024) / line.length));
+    expect(Buffer.byteLength(log)).toBeGreaterThan(WASM_SUBJECT_LIMIT);
+    expect(() => detectGitleaks(log, () => {})).not.toThrow();
+    const token = `${['gh', 'p_'].join('')}${'aB3dE5gH7jK9mN2pQ4sT6vW8yZ1cF0xR'.repeat(2).slice(0, 36)}`;
+    const found = [];
+    detectGitleaks(`GITHUB_TOKEN=${token}`, (finding) => found.push(finding));
+    expect(
+      found.some((finding) => finding.rule === 'gitleaks/github-pat')
+    ).toBe(true);
   });
   it('runs Betterleaks rules with their secret-only filters', async () => {
     const tail = 'aB3dE5gH7jK9mN2pQ4sT6vW8yZ1cF0xR'.repeat(3);
