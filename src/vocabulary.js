@@ -55,6 +55,7 @@ export const defaultVocabulary = Object.freeze(
   )
 );
 const cache = new Map();
+const identities = new WeakMap();
 const boundary = '[\\p{L}\\p{N}_]';
 const name =
   '[\\p{Lu}][\\p{L}\\p{M}.-]{1,47}(?:[ \\t]+[\\p{Lu}][\\p{L}\\p{M}.-]{1,47}){0,3}';
@@ -140,10 +141,16 @@ export function compiledVocabulary(vocabulary) {
   if (vocabulary === undefined) {
     return undefined;
   }
+  const existing = identities.get(vocabulary);
+  if (existing) {
+    return existing;
+  }
   const lists = normalizedLists(vocabulary);
   const key = JSON.stringify(lists);
   if (cache.has(key)) {
-    return cache.get(key);
+    const result = cache.get(key);
+    identities.set(vocabulary, result);
+    return result;
   }
   const alternatives = (values) =>
     values.length
@@ -184,11 +191,15 @@ export function compiledVocabulary(vocabulary) {
     'giu'
   );
   result.fields = new Set(lists.personalFields.map(normalizeFieldName));
+  result.cues = new Set(
+    [...lists.roles, ...lists.personalLabels].map((s) => s.replaceAll('ё', 'е'))
+  );
   result.attributes = attributePattern(lists.personalAttributes);
   if (cache.size >= 64) {
     cache.clear();
   }
   cache.set(key, result);
+  identities.set(vocabulary, result);
   return result;
 }
 export function vocabularyField(field, options) {

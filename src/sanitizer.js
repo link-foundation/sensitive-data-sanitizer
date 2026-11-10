@@ -870,11 +870,17 @@ function preferredType(current, candidate, options) {
   if (options.transformations?.[candidate] || candidate === 'PASSPORT_MRZ') {
     return true;
   }
+  return preferredSpecificType(current, candidate);
+}
+function preferredSpecificType(current, candidate) {
   const broad = (type) =>
     ['ID', 'PASSPORT'].includes(type) ||
     (/PASSPORT/.test(type) &&
       !['PASSPORT_MRZ', 'PASSPORT_NUMBER'].includes(type));
-  return broad(current) && isIdentityType(candidate) && !broad(candidate);
+  return (
+    (current === 'PROPER_NAME' && candidate === 'PERSONAL_ATTRIBUTE') ||
+    (broad(current) && isIdentityType(candidate) && !broad(candidate))
+  );
 }
 export function redactResult(
   text,

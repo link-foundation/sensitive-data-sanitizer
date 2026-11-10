@@ -1,9 +1,12 @@
 import { isIP } from 'node:net';
+import { publicTechnologies } from './public-technologies.js';
 
 // Exact public knowledge and narrowly scoped role-mail heuristics. A role name
 // alone is never an exemption on an unknown/personal domain. Credentials and
 // caller-specified private values always outrank these automatic exceptions.
 export const publicKnowledge = {
+  PROPER_NAME: publicTechnologies,
+  URL: publicTechnologies.filter((entry) => entry.value === 'Node.js'),
   PERSON: [
     ['Albert Einstein', 'Q937'],
     ['Marie Curie', 'Q7186'],
