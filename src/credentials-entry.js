@@ -32,8 +32,8 @@ function credentialOptions(options = {}) {
     options.transformation,
     ...Object.values(options.transformations ?? {}),
   ];
-  // Checked here, not through the feature registry: once the root entry is
-  // loaded in the same process its personal features are registered too.
+  // The feature registry is shared by both entries in one process, so these
+  // options are rejected explicitly.
   if (
     options.credentialsOnly === false ||
     options.properNames !== undefined ||
