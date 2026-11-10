@@ -205,8 +205,8 @@ export function authorizationRanges(text, start) {
   if (reference) {
     return [{ start, end: start + reference[0].length }];
   }
-  const scheme = /^[a-z][a-z0-9_-]*[ \t]+/i.exec(text.slice(start));
-  const tokenStart = start + (scheme?.[0].length ?? 0);
+  const scheme = authorizationScheme(text, start);
+  const tokenStart = scheme?.payloadStart ?? start;
   const params = scheme ? authParams(text, tokenStart) : undefined;
   if (params) {
     return params;
@@ -214,6 +214,25 @@ export function authorizationRanges(text, start) {
   const end = authorizationEnd(text, tokenStart);
   const token = text.slice(tokenStart, end);
   return usableAuthorization(token) ? [{ start: tokenStart, end }] : [];
+}
+
+// A scheme is structural only when a separate, nonempty payload follows it.
+// Share this boundary with span refinement so overlapping vendor detections
+// cannot mask the scheme that the Authorization parser deliberately preserves.
+export function authorizationScheme(text, start) {
+  const opening = /^(\\*)(["'])/.exec(text.slice(start));
+  start += opening?.[0].length ?? 0;
+  const scheme = /^([a-z][a-z0-9_-]*)[ \t]+/i.exec(text.slice(start));
+  if (!scheme) {
+    return undefined;
+  }
+  const payloadStart = start + scheme[0].length;
+  const char = text[payloadStart];
+  return char &&
+    !authorizationDelimiter(char, text.charCodeAt(payloadStart)) &&
+    !/[}\]>]/.test(char)
+    ? { start, end: start + scheme[1].length, payloadStart }
+    : undefined;
 }
 function authorizationEnd(text, tokenStart) {
   const brackets = [];
