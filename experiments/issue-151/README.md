@@ -64,6 +64,6 @@ node --test --test-concurrency=1 --test-timeout=30000 \
   tests/sanitizer-issue-148.test.js
 ```
 
-All 61 focused checks pass on Node.js 26.13.0. Changed JavaScript is checked
+All 70 focused checks pass after merging the wrapped-binary fix from `main` on Node.js 26.13.0. Changed JavaScript is checked
 with ESLint (zero warnings) and all changed files with Prettier. The existing
 CI supplies full Node/Bun/Deno platform suites, security and application checks.
