@@ -94,9 +94,31 @@ Secretlint preset, the Presidio, Gitleaks and TruffleHog bridges and
 | `74b97f5` | Evidence label patterns stay linear on long tab runs (CodeQL `js/polynomial-redos`)         |
 | `c17ddd0` | Credential range and mask helpers split under complexity 15 (`--max-warnings 0` in CI)      |
 | `30efdd5` | Prettier and ruff formatting; generated Betterleaks files left out of Prettier              |
+| `617b4d0` | One shared re2-wasm object per rule; subjects over 1 MiB scanned with RE2JS                 |
+| `e804ee5` | State-ZIP, honorific and `Ms` lookbehinds linear in the JavaScriptCore regex interpreter    |
 
 The comparison pages, this case study and the changeset are in the final
 documentation commit.
+
+Two defects surfaced only in the Bun CI job:
+
+- **re2-wasm heap exhaustion.** re2-wasm has a fixed 16 MiB heap, never frees
+  compiled objects and aborts for the rest of the process after one failed
+  allocation. All bundled rules take about 7 MiB, and every scan copies its
+  subject into the heap. A 3.5 MiB log after a full rule compile crashed this
+  branch (3.9 MiB crashes `main`), and the rule compile tests built a second
+  copy of every rule. Rules are now compiled once through `compiledRule`, and
+  subjects above 1 MiB use RE2JS. Reproduced by `re2-big-input.mjs` and
+  `large-subject-timing.mjs`; tested in `tests/sanitizer-rules.test.js`.
+- **Quadratic lookbehinds in the JavaScriptCore regex interpreter.** Bun runs
+  a regex in its interpreter when the JIT is unavailable, which happened late
+  in the single-process test run. The interpreter tries a lookbehind at every
+  position, so `(?<=[\p{L}.],[ \t]*)` (state ZIP), `(?<!\p{N}[ \t]*)`
+  (honorific) and `(?<!\d[ \t]*)Ms` rescanned the whole whitespace run:
+  `BUN_JSC_useRegExpJIT=0` took about 18 s for 20 000 tabs. Each lookbehind now
+  follows a literal or has a fixed width (about 1 s, linear). V8 and the JSC JIT
+  were not affected. `regex-cost.mjs` found the patterns; a Bun test checks
+  that a four times longer tab run costs under seven times as much.
 
 ## Measured results
 
@@ -177,6 +199,11 @@ All in [`experiments/issue-128/`](../../../experiments/issue-128/):
 | `rule-ids.mjs`              | List rule IDs for the catalog                                           |
 | `why.mjs`                   | Explain which rule redacted a given input                               |
 | `redos-evidence.mjs`        | Time the old and rewritten evidence label patterns on a tab run         |
+| `regex-cost.mjs`            | Rank regexes by time spent on long whitespace runs                      |
+| `tab-run-timing.mjs`        | Time `sanitize` on labels followed by long tab and space runs           |
+| `re2-heap.mjs`              | Count compiled rules that fit in the 16 MiB re2-wasm heap               |
+| `re2-big-input.mjs`         | Largest subject that fits after N rules are compiled                    |
+| `large-subject-timing.mjs`  | Scan a multi-megabyte log after every bundled rule is compiled          |
 
 ## Reproduce
 
