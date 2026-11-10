@@ -6,7 +6,8 @@ Objective: deliver every issue 146 requirement and every required issue in PR
 - [x] Read issue 146 and PR conversation, inline comments and reviews; review
       later CodeQL feedback and replace the polynomial placeholder precheck.
 - [x] Preserve repository issue bodies and all conversation comments; generate an
-      inventory (114 issues, 114 comments; open issues 144 and 146).
+      inventory (114 issues, 18 issue comments; raw snapshot includes 114 issue/PR
+      conversation comments; open issues 144 and 146 at capture time).
 - [x] Read contributing instructions, current rule import policy, comparison
       gaps and issue 144 reproduction.
 - [x] Reproduce issue 144, draft vocabulary, label precedence, public technology

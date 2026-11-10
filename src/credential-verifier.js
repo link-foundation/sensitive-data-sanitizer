@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer';
 import { failure } from './detection.js';
 
 // Fixed provider origins: candidates and source text cannot choose an endpoint.

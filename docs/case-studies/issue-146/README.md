@@ -133,8 +133,9 @@ selected public example would still not prove equivalence to a proprietary
 model. The per-case source/index list supports targeted continuation instead
 of hiding misses in a headline catalog count.
 
-The [requirements inventory](data/requirements.json) preserves the bodies and
-comments of all 114 repository issues. [Provenance](data/evidence-provenance.json)
+The [requirements inventory](data/requirements.json) preserves all 114 issue
+bodies and their 18 conversation comments. The raw repository-wide comments
+snapshot also includes PR conversations (114 comments total). [Provenance](data/evidence-provenance.json)
 records original response hashes and the replacement of public synthetic webhook
 examples with an explicit marker. The source issue URLs retain original text.
 [Documentation gaps](research/documentation-gaps.md) list remaining features
