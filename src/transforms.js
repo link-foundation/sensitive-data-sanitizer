@@ -1,8 +1,8 @@
-import { realisticFake } from './fake.js';
+import { feature } from './features.js';
 import { createHmac } from 'node:crypto';
 import { failure, REDACTED } from './detection.js';
 import { encodedValue, encodeRun, decodedRuns } from './encoded.js';
-import { isIdentityType } from './identity.js';
+import { isIdentityType } from './identity-types.js';
 import { validatePlaceholder, placeholderReplacement } from './placeholders.js';
 import { projectText } from './projection.js';
 import { encryptValue } from './encrypt.js';
@@ -262,7 +262,7 @@ function transformed(value, finding, transform, options) {
       : REDACTED;
   }
   if (transform.mode === 'fake') {
-    return realisticFake(value, finding, transform, options);
+    return feature('realisticFake')(value, finding, transform, options);
   }
   if (finding.category === 'credential') {
     return REDACTED;
@@ -277,6 +277,32 @@ function transformed(value, finding, transform, options) {
   const lower = Math.floor(number / transform.size) * transform.size;
   return `${lower}–${lower + transform.size - 1}`;
 }
+function jsonValueText(raw) {
+  try {
+    const value = JSON.parse(raw);
+    return typeof value === 'string' && value ? value : raw;
+  } catch {
+    return raw;
+  }
+}
+// A whole JSON value becomes one JSON string. Placeholder mode types it by the
+// field it came from, so `{"age":34}` reads `{"age":"Age-1"}`.
+function jsonValueReplacement(text, finding, options) {
+  const transform =
+    options.transformations?.JSON_VALUE ?? options.transformation;
+  if (transform?.mode !== 'placeholder') {
+    return JSON.stringify(REDACTED);
+  }
+  const raw = text.slice(finding.start, finding.end);
+  return JSON.stringify(
+    placeholderReplacement(
+      jsonValueText(raw),
+      { ...finding, type: finding.valueType ?? 'SENSITIVE' },
+      transform,
+      options
+    )
+  );
+}
 export function renderReplacement(
   text,
   finding,
@@ -285,7 +311,7 @@ export function renderReplacement(
   jsonRanges
 ) {
   if (finding.type === 'JSON_VALUE') {
-    return JSON.stringify(REDACTED);
+    return jsonValueReplacement(text, finding, options);
   }
   const transform =
     options.transformations?.[finding.type] ??
@@ -300,11 +326,15 @@ export function renderReplacement(
       const sanitized = encodedSanitize(run.text).text;
       // Mapped escaped fragments can lose their detecting context on decode.
       // Redact the fragment if recursive scanning makes no progress.
-      return encodeRun(run, sanitized === run.text ? REDACTED : sanitized);
+      const encoded = encodeRun(
+        run,
+        sanitized === run.text ? REDACTED : sanitized
+      );
+      if (encoded !== undefined) {
+        return encoded;
+      }
     }
-    if (options.preserveEncoding) {
-      throw failure('ERR_ENCODING');
-    }
+    // Without a recognizable re-encoding, the encoded text itself is masked.
   }
   return renderValue(text, finding, transform, options, jsonRanges);
 }

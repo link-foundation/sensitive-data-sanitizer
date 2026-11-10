@@ -2,7 +2,9 @@ import { labels } from './rules.js';
 import { escapePattern, REDACTED } from './detection.js';
 import { credentialPlaceholder, referencePrefix } from './credentials.js';
 import { servicePath } from './public.js';
+import { cookieValues } from './credential-spans.js';
 import { plausiblePerson } from './names.js';
+import { htmlTag } from './html-tags.js';
 
 // Bounded vocabularies are explicit so the short PASS/PW forms do not match
 // unrelated words such as passport. Verb forms cover the supported locales.
@@ -54,12 +56,19 @@ const label = labels.credential
 // are fixed so that ordinary words ending in "pass" stay prose.
 const glued =
   '(?:db|user|root|admin|smtp|mail|ftp|sftp|ssh|redis|ldap|bind|proxy|tls|ssl|keystore|truststore|store|master|sys|app|login|account|acct|wifi|wpa)(?:password|passwd|pass|pwd|pw|secret|token)';
-const key = `(?:[\\p{L}\\p{N}]+[_.-])*(?:auth|authorization|PGPASSWORD|${glued}|${label}|pass|pw)(?:[_.-][\\p{L}\\p{N}]+)*`;
+// Plural credential names (`--access-tokens`, `API_KEYS`) hold credentials;
+// other plurals (`--max-tokens`, `tokens: 1234`) are accounting.
+const plural =
+  '(?:access|refresh|auth|session|api|bearer|client)[_.-]?(?:tokens|keys|secrets)';
+const key = `(?:[\\p{L}\\p{N}]+[_.-])*(?:auth|authorization|PGPASSWORD|${glued}|${plural}|${label}|pass|pw)(?:[_.-][\\p{L}\\p{N}]+)*`;
+// Ruby/Perl/PHP hash rockets (`'password' => 'x'`, `:token => "x"`) take a
+// quoted literal; an arrow function (`token => token.trim()`) does not.
+const rocket = `=>(?=[ \\t]*\\\\*["'])`;
 // A qualifier such as "for staging" stays on one logical line: it never
 // crosses an escaped line break, an escape sequence or an enclosing quote.
 // Verbs are whole words, so "request" does not end in the verb "est".
 const credentialPrefix = new RegExp(
-  `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(${key})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?(?:[ \\t]+(?:от|для|к|for|de|du|del)[ \\t]+[^:=\\r\\n"\\\\]{1,64})?[ \\t]*([:=：]|(?<![\\p{L}\\p{N}_])(?:${verbs})(?![\\p{L}\\p{N}_]))[ \\t]*`,
+  `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(${key})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?(?:[ \\t]+(?:от|для|к|for|de|du|del)[ \\t]+[^:=\\r\\n"\\\\]{1,64})?[ \\t]*(${rocket}|[:=：]|(?<![\\p{L}\\p{N}_])(?:${verbs})(?![\\p{L}\\p{N}_]))[ \\t]*`,
   'giu'
 );
 // camelCase and PascalCase keys (`clientSecret`, `secretKey`, `dbPassword`,
@@ -68,7 +77,7 @@ const credentialPrefix = new RegExp(
 const camelKey =
   '[\\p{L}][\\p{Ll}\\p{N}]*(?:\\p{Lu}[\\p{Ll}\\p{N}]*)*?(?:Secret|Password|Passwd|Passphrase|Pass|Pwd|Token|Credentials?|(?:Api|Private|Access|Secret|Signing|Encryption|Master|Client|App|Subscription|Account|Storage)Key)(?:Key|Value)?|(?:[Ss]ecret|[Pp]assword|[Pp]asswd|[Tt]oken|[Pp]rivate|[Aa]ccess|[Ss]igning|[Ee]ncryption)(?:Key|Value|Secret|Token)';
 const camelPrefix = new RegExp(
-  `(?<![\\p{L}\\p{N}_$])(?:\\\\*["'])?(${camelKey})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?[ \\t]*([:=])[ \\t]*`,
+  `(?<![\\p{L}\\p{N}_$])(?:\\\\*["'])?(${camelKey})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?[ \\t]*(${rocket}|[:=])[ \\t]*`,
   'gu'
 );
 // Bare generic labels are common English nouns. After a verb they need a
@@ -120,8 +129,20 @@ function emitValue(text, start, end, emit, details, keyName = '') {
   emit({ start, end, ...details });
 }
 
+// `HIVE_MIND_ROUTER_AUTH_GUARD=0`, `GIT_AUTH_TRANSPORT=1`, `AUTH_MODE=2`:
+// a number or a boolean under a configuration name is a setting. Credential
+// names (`AUTH_TOKEN=123456`, `AUTH_PASSWORD=1`) do not end in one of these.
+const configurationSuffix =
+  /[_.-](?:guard|transport|mode|method|type|kind|flow|strategy|scheme|protocol|port|level|state|status|enabled?|disabled?|required|strict|debug|verbose|timeout|ttl|interval|retries|retry|attempts|count|limit|max|min|size|length|version|flag)$/i;
+const configurationValue =
+  /^(?:[+-]?\d{1,9}(?:\.\d+)?|true|false|yes|no|on|off|enabled|disabled|none)$/i;
+export function configurationSetting(keyName, value) {
+  return configurationSuffix.test(keyName) && configurationValue.test(value);
+}
+
 function credentialMetadata(keyName, value) {
   return (
+    configurationSetting(keyName, value) ||
     (/(?:^|[_.-])auth[_.-](?:mode|method|type)$/i.test(keyName) &&
       /^(?:chatgpt|oauth2?|apikey|api_key|bearer|basic|none)$/i.test(value)) ||
     (keyName === 'id-token' && /^(?:write|read|none)$/.test(value)) ||
@@ -167,15 +188,27 @@ export function valueRange(text, start, mode = 'token', maxLength = Infinity) {
 }
 // Header credentials occupy a scheme and one token even inside shell/JSON
 // strings. A closing quote or escape belongs to the surrounding log record.
-export function authorizationRange(text, start) {
+// The scheme (`token`, `Bearer`, `Digest`) stays readable; only the
+// credential is returned. Auth-param lists (`Digest username="a", nonce=…`,
+// AWS SigV4) return each secret parameter value.
+export function authorizationRanges(text, start) {
   const opening = /^(\\*)(["'])/.exec(text.slice(start));
   start += opening?.[0].length ?? 0;
   const reference = referencePrefix(text.slice(start, start + 512));
   if (reference) {
-    return { start, end: start + reference[0].length };
+    return [{ start, end: start + reference[0].length }];
   }
   const scheme = /^[a-z][a-z0-9_-]*[ \t]+/i.exec(text.slice(start));
   const tokenStart = start + (scheme?.[0].length ?? 0);
+  const params = scheme ? authParams(text, tokenStart) : undefined;
+  if (params) {
+    return params;
+  }
+  const end = authorizationEnd(text, tokenStart);
+  const token = text.slice(tokenStart, end);
+  return usableAuthorization(token) ? [{ start: tokenStart, end }] : [];
+}
+function authorizationEnd(text, tokenStart) {
   const brackets = [];
   let end = tokenStart;
   for (; end < text.length; end++) {
@@ -195,8 +228,69 @@ export function authorizationRange(text, start) {
       break;
     }
   }
-  const token = text.slice(tokenStart, end);
-  return usableAuthorization(token) ? { start, end } : undefined;
+  return end;
+}
+
+// RFC 7616/7235 parameters that name the request, not a secret.
+const publicAuthParam =
+  /^(?:username|realm|uri|qop|algorithm|nc|charset|userhash|domain|stale|SignedHeaders|oauth_signature_method|oauth_version|oauth_timestamp|oauth_callback|keyId|headers|created|expires)$/i;
+const authParam = /^([A-Za-z][\w-]*)[ \t]*=[ \t]*/;
+function authParams(text, start) {
+  const ranges = [];
+  let cursor = start,
+    count = 0,
+    quoted = false;
+  for (;;) {
+    const name = authParam.exec(text.slice(cursor, cursor + 128));
+    if (!name) {
+      break;
+    }
+    const valueStart = cursor + name[0].length;
+    const value = authParamValue(text, valueStart);
+    if (!value) {
+      break;
+    }
+    count++;
+    quoted ||= value.quoted;
+    if (!publicAuthParam.test(name[1]) && value.end > value.start) {
+      ranges.push({ start: value.start, end: value.end });
+    }
+    const separator = /^[ \t]*,[ \t]*/.exec(
+      text.slice(value.after, value.after + 64)
+    );
+    if (!separator) {
+      break;
+    }
+    cursor = value.after + separator[0].length;
+  }
+  // `Basic dXNlcg==` is one token68 credential, not a parameter list.
+  return count > 1 || (count === 1 && quoted) ? ranges : undefined;
+}
+function authParamValue(text, start) {
+  const quote = /^(\\*)"/.exec(text.slice(start, start + 64));
+  if (quote) {
+    // Parameter values are short; a quote further away is not their end.
+    const window = text.slice(start, start + 4096);
+    const offset = window.indexOf(quote[0], quote[0].length);
+    const close = start + offset;
+    if (offset < 0 || /[\r\n]/.test(window.slice(0, offset))) {
+      return undefined;
+    }
+    const after = close + quote[0].length;
+    // A quoted value ends the header or continues the list.
+    if (
+      !/^(?:[ \t]*(?:,|$|[\r\n])|\\*["'\r\n])/.test(
+        text.slice(after, after + 64)
+      )
+    ) {
+      return undefined;
+    }
+    return { start: start + quote[0].length, end: close, after, quoted: true };
+  }
+  const token = /^[^\s,"'\\]{1,4096}/.exec(text.slice(start, start + 4096));
+  return token
+    ? { start, end: start + token[0].length, after: start + token[0].length }
+    : undefined;
 }
 function usableAuthorization(token) {
   return Boolean(token) && !credentialPlaceholder(token);
@@ -275,6 +369,25 @@ function operationalLocationPath(value) {
     servicePath(value) || /^(?:\.?\.?\/)?[\w.-]+(?:\/[\w.-]+)+\/?$/.test(value)
   );
 }
+// Types with a fixed value shape decide on the value alone; `undefined` leaves
+// the decision to the general checks.
+function shapedValueAllowed(value, type) {
+  if (type === 'PHONE') {
+    return (
+      /^\+?[\d () .-]{7,40}$/.test(value) &&
+      /\d{3}/.test(value.replace(/\D/g, ''))
+    );
+  }
+  if (type === 'EMAIL') {
+    return /^[^\s@]+@[^\s@]+\.[\p{L}]{2,63}$/u.test(value);
+  }
+  // A URL holds no whitespace, so prose under a `url` key is left to the
+  // detectors of what the prose contains.
+  if (type === 'URL' && /\s/u.test(value)) {
+    return false;
+  }
+  return undefined;
+}
 // Shared by native labels and the vendor catalogs. Code expressions and
 // line escapes are not personal field values, even when a key is familiar.
 export function personalValueAllowed(text, range, type, labelStart) {
@@ -288,14 +401,9 @@ export function personalValueAllowed(text, range, type, labelStart) {
   ) {
     return false;
   }
-  if (type === 'PHONE') {
-    return (
-      /^\+?[\d () .-]{7,40}$/.test(value) &&
-      /\d{3}/.test(value.replace(/\D/g, ''))
-    );
-  }
-  if (type === 'EMAIL') {
-    return /^[^\s@]+@[^\s@]+\.[\p{L}]{2,63}$/u.test(value);
+  const shaped = shapedValueAllowed(value, type);
+  if (shaped !== undefined) {
+    return shaped;
   }
   if (/^(?:\\[nrt]|[\r\n])/.test(value)) {
     return false;
@@ -391,10 +499,36 @@ function credentialMode(text, match) {
   ) {
     return 'query';
   }
-  if (match[2] === '=' || /["']\s*[:：]/.test(match[0])) {
+  if (/^=>?$/.test(match[2]) || /["']\s*[:：]/.test(match[0])) {
     return 'token';
   }
   return /[:：]/.test(match[2]) ? 'line' : 'prose';
+}
+
+// `token: <script>alert(1)</script>`: markup is the value. A bare
+// `<placeholder>` that ends the value stays a placeholder.
+const angleEnd = {
+  line: /[\r\n"]|\\+[nrt"']/,
+  token: /[\s,;}\]"']|\\+[nrt"']/,
+};
+// Formatting tags around a value (`token=<em>…</em>`) are dropped from the
+// detection view instead.
+const formattingTag = new RegExp(`^${htmlTag}`, 'i');
+function angleValue(text, start, mode) {
+  const tail = text.slice(start, start + 4096);
+  if (text[start] !== '<' || !angleEnd[mode] || formattingTag.test(tail)) {
+    return undefined;
+  }
+  const placeholder = /^<[^<>\r\n]{1,64}>/.exec(tail)?.[0];
+  if (
+    placeholder &&
+    credentialPlaceholder(placeholder) &&
+    angleEnd[mode].test(tail[placeholder.length] ?? '\n')
+  ) {
+    return { start, end: start + placeholder.length };
+  }
+  const stop = tail.search(angleEnd[mode]);
+  return { start, end: start + (stop < 0 ? tail.length : stop) };
 }
 
 function credentialRange(text, match, camel) {
@@ -405,12 +539,24 @@ function credentialRange(text, match, camel) {
   ) {
     return undefined;
   }
+  if (/^(?:proxy-)?authorization$/i.test(match[1])) {
+    return authorizationRanges(text, start);
+  }
   const mode = credentialMode(text, match);
-  const range = /^(?:proxy-)?authorization$/i.test(match[1])
-    ? authorizationRange(text, start)
-    : valueRange(text, start, mode);
-  return range && mode === 'prose' ? generatedWord(text, range) : range;
+  const range = angleValue(text, start, mode) ?? valueRange(text, start, mode);
+  const value = range && mode === 'prose' ? generatedWord(text, range) : range;
+  if (value && /^(?:set-)?cookie$/i.test(match[1])) {
+    return cookieValues(text, value.start, value.end);
+  }
+  return [value].filter(Boolean);
 }
+
+// `<password>…</password>`, `<clientSecret attr="1">…</clientSecret>`:
+// attributes in the opening tag stay readable.
+const element = (name) =>
+  `<(${name})(?:[ \\t\\r\\n]+[^<>]{0,512})?>([^<]+)</\\1[ \\t]*>`;
+const xmlElement = new RegExp(element(key), 'giu');
+const camelElement = new RegExp(element(camelKey), 'gu');
 
 function detectCredentials(text, emit) {
   const details = { category: 'credential', type: 'SECRET', rule: 'context' };
@@ -419,13 +565,18 @@ function detectCredentials(text, emit) {
     ...[...text.matchAll(camelPrefix)].map((match) => [match, true]),
   ];
   for (const [match, camel] of matches) {
-    const range = credentialRange(text, match, camel);
-    if (range) {
-      emitValue(text, range.start, range.end, emit, details, match[1]);
+    // `https://x-access-token:…@host` is URL user info (`url-userinfo`).
+    if (/:\/\/$/.test(text.slice(Math.max(0, match.index - 3), match.index))) {
+      continue;
+    }
+    for (const value of credentialRange(text, match, camel) ?? []) {
+      emitValue(text, value.start, value.end, emit, details, match[1]);
     }
   }
-  const xml = new RegExp(`<(${key})[ \\t]*>([^<]+)</\\1[ \\t]*>`, 'giu');
-  for (const match of text.matchAll(xml)) {
+  for (const match of [
+    ...text.matchAll(xmlElement),
+    ...text.matchAll(camelElement),
+  ]) {
     const start = match.index + match[0].indexOf('>') + 1;
     emitValue(text, start, start + match[2].length, emit, details, match[1]);
   }

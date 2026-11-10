@@ -5,20 +5,20 @@ import { mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { sanitize, createSanitizer, inspect } from '../src/index.js';
-import { authorizationRange } from '../src/context.js';
+import { authorizationRanges } from '../src/context.js';
 import { runCli } from '../bin/sensitive-data-sanitizer.js';
 
 const options = { credentialsOnly: true };
 const rows = [
   ['Bearer [REDACTED] already', 'Bearer [REDACTED] already'],
-  ['Bearer {{token}} x', '[REDACTED] x'],
+  ['Bearer {{token}} x', 'Bearer [REDACTED] x'],
   ['Bearer <token> x', 'Bearer <token> x'],
-  ['Bearer abc\0 tail', '[REDACTED]\0 tail'],
-  ['Bearer [opaque] x', '[REDACTED] x'],
-  ['Bearer {opaque} x', '[REDACTED] x'],
-  ['Bearer [{opaque}] x', '[REDACTED] x'],
-  ['Bearer abc] tail', '[REDACTED]] tail'],
-  ['Bearer abc} tail', '[REDACTED]} tail'],
+  ['Bearer abc\0 tail', 'Bearer [REDACTED]\0 tail'],
+  ['Bearer [opaque] x', 'Bearer [REDACTED] x'],
+  ['Bearer {opaque} x', 'Bearer [REDACTED] x'],
+  ['Bearer [{opaque}] x', 'Bearer [REDACTED] x'],
+  ['Bearer abc] tail', 'Bearer [REDACTED]] tail'],
+  ['Bearer abc} tail', 'Bearer [REDACTED]} tail'],
 ];
 describe('Authorization token boundaries (issue 50)', () => {
   for (const header of ['Authorization', 'Proxy-Authorization']) {
@@ -42,9 +42,9 @@ describe('Authorization token boundaries (issue 50)', () => {
       const control = String.fromCharCode(code);
       const input = `Authorization: Bearer abc${control} tail`;
       expect(sanitize(input, options).text).toBe(
-        `Authorization: [REDACTED]${control} tail`
+        `Authorization: Bearer [REDACTED]${control} tail`
       );
-      expect(authorizationRange(input, 15)).toEqual({ start: 15, end: 25 });
+      expect(authorizationRanges(input, 15)).toEqual([{ start: 22, end: 25 }]);
       for (const finding of inspect(input, options)) {
         expect(finding.end <= 25).toBe(true);
       }
@@ -76,7 +76,7 @@ describe('Authorization token boundaries (issue 50)', () => {
         Buffer.from('\nAuthorization: Bearer [REDACTED] already\n'),
       ]);
       const expected = Buffer.concat([
-        Buffer.from('Authorization: [REDACTED]\0 tail\n'),
+        Buffer.from('Authorization: Bearer [REDACTED]\0 tail\n'),
         Buffer.from([255]),
         Buffer.from('\nAuthorization: Bearer [REDACTED] already\n'),
       ]);

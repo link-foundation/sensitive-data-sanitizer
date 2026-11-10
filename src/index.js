@@ -1,5 +1,7 @@
 /** Sensitive text detection and verified publication APIs. */
 
+import './personal-features.js';
+
 export { inspect, sanitize, redact } from './sanitizer.js';
 export { createSanitizer } from './engines.js';
 export { compileKnown } from './compiled-known.js';
@@ -58,3 +60,7 @@ export {
   readRestoreMap,
   writeRestoreMap,
 } from './restore-map.js';
+export {
+  reservedPlaceholderTypes,
+  isPlaceholderToken,
+} from './placeholder-types.js';

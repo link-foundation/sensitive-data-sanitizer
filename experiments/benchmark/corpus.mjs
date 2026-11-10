@@ -94,7 +94,7 @@ export const corpus = [
   ),
   annotated(
     'pem',
-    '[[-----BEGIN PRIVATE KEY-----\nYWJjZGVmZ2hpamtsbW5vcA==\n-----END PRIVATE KEY-----]]',
+    '-----BEGIN PRIVATE KEY-----\n[[YWJjZGVmZ2hpamtsbW5vcA==]]\n-----END PRIVATE KEY-----',
     'credential'
   ),
   annotated(

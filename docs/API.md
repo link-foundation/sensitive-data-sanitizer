@@ -1,6 +1,6 @@
 # Library and detector contract
 
-Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs are strings, offsets are UTF-16 code units, starts are zero-based, and ends are exclusive. Returned line and column numbers are one-based; columns also count UTF-16 units.
+Import the root entry with `import` or `require`; complete declarations are in `src/index.d.ts`. Inputs are strings, offsets are UTF-16 code units, starts are zero-based, and ends are exclusive. Returned line and column numbers are one-based; columns also count UTF-16 units.
 
 ## Methods
 
@@ -22,6 +22,31 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 | `toSarif(report, options)`             | Convert a scan report or findings to SARIF 2.1.0 without values                                              |
 
 `redactions` counts merged replacement spans. `findings` can contain several detector hits for one replacement. Findings have `{start, end, type, category, rule, line, column}`; no text, quote, match, entropy score, provider details, or raw diagnostic is copied. The optional `strict-attributes` debug event reports only detected and suppressed match counts. Debugging is off by default; `debug(event)` receives value-free counts, rule timings, residual rounds and registry event metadata (see `DebugEvent` in the TypeScript declarations).
+
+### Credentials-only entry
+
+`@link-foundation/sensitive-data-sanitizer/credentials` exports `inspect`,
+`sanitize`, `redact`, `createSanitizer`, `createSyncSanitizer`, `REDACTED`,
+`entropy`, `builtInRules`, `tokenChecksum`, `tokenWithChecksum` and the
+`knownSecretsFrom*` helpers. It always runs with `credentialsOnly: true` and
+does not load the personal-data detectors, faker or libphonenumber, so it starts
+about three times faster than the root entry (about 0.25 s against 0.75 s on
+Node.js 26). Use it for loggers that must mask every line from the first write:
+
+```js
+const {
+  createSyncSanitizer,
+  knownSecretsFromEnv,
+} = require('@link-foundation/sensitive-data-sanitizer/credentials');
+const mask = createSyncSanitizer({ knownSecrets: knownSecretsFromEnv() });
+console.log(mask.sanitize('Authorization: Bearer abc123def456ghi789').text);
+// Authorization: Bearer [REDACTED]
+```
+
+Options that need the personal-data modules, `credentialsOnly: false`,
+`mode: 'fake'` and `properNames`, fail with `ERR_CONFIG`. Known personal values
+(`knownPersonal`) still work. Both entries offer `import`, `require` (Node.js
+22.12 or later) and `default` export conditions.
 
 ## Options
 
@@ -70,6 +95,31 @@ namespace for built-in and supplied type labels, including numbers not allocated
 Unicode letters, marks, digits and underscores bound those tokens. Ordinary
 technical names such as GPT-4, ISO-9001 and Windows-10 are not reserved. The map's format cannot change
 on reuse. A malformed map or ambiguous exact restoration blocks output.
+
+`existing: 'keep'` on the placeholder transformation accepts input that already
+contains tokens of the chosen namespace, for example the output of an earlier
+pass or a model answer that quotes tokens. Those tokens stay as they are and are
+never replaced, faked or treated as names; new values of a type are numbered
+after the highest kept number of that type:
+
+```js
+const policy = { transformation: { mode: 'placeholder', existing: 'keep' } };
+sanitize('Person-1 встретил Анну Смирнову', policy).text;
+// Person-1 встретил Person-2
+```
+
+A second pass over sanitized text is then a fixed point. The default
+`existing: 'error'` keeps the `ERR_PLACEHOLDER_COLLISION` check; other values and
+a mix with per-type `transformations` are `ERR_CONFIG`. A kept token restores to
+itself, so the map still reconstructs every newly replaced value exactly.
+
+`reservedPlaceholderTypes()` returns the sorted, frozen list of every type a
+built-in rule can turn into a token. `isPlaceholderToken(text, {format?, types?})`
+checks whether `text` is one whole token of the namespace (`Person-1`,
+`UsBankNumber-12`, `<PERSON_3>` with `format: '<{TYPE}_{n}>'`); `types` adds
+custom types such as those of `createPatternDetector`. Both are also exported by
+the credentials-only entry. The namespace pattern is compiled once per format and
+cached.
 
 `createRestoreMap({format?})` creates an empty reusable map. Pass a map as
 `transformation.map` to continue a corpus; the operation updates that same
@@ -151,6 +201,13 @@ JSON keys remain unchanged by automatic personal detection in all transformation
 modes. Explicit known values and credentials retain priority. Parseability and
 duplicate-key checks remain enforced. Plain redact/fake policies retain their
 existing metadata/key behavior. Use `structured` for valid structured input.
+A whole JSON value replaced by a structured rule (`sensitiveFields`, or a
+personal field such as `age` replaced with its JSON type) becomes one JSON
+string token typed by its field: `{"notes":"любой текст"}` reads
+`{"notes":"Sensitive-1"}` and `{"age":34}` reads `{"age":"Age-1"}`. Such findings
+carry `valueType` when the field has a personal type. `restore()` brings back
+the original JSON value, including numbers and objects. Other modes keep
+`"[REDACTED]"`.
 The normal encoding limits and credential redaction policy continue to apply.
 
 CLI: `redact FILE --placeholder --map private.json` creates or continues a map;
@@ -169,7 +226,7 @@ new document recognizers; `documentEntities: false` turns them off explicitly.
 | `scripts`                | `['Cyrillic']`; Unicode Script aliases that activate the prose rule; `[]` disables only script activation                                                        |
 | `profile`                | Off; `'publication'` sets a 0.3 threshold and identity masking; `'documents'` enables document entities                                                          |
 | `knownOnly`              | `false`; disable all automatic detection (including credentials, Secretlint and custom detectors); use explicit findings, known values and reused map identities |
-| `knownSecrets`           | `[]`; exact literal credential values, regardless of length or format                                                                                            |
+| `knownSecrets`           | `[]`; exact literal credential values, regardless of length or format, plus their standalone hex (either case) and base64/base64url spellings                    |
 | `knownPersonal`          | `[]`; `{type, value}` values with whole-word Unicode case-insensitive matching and bounded Russian forms; list parts to match them alone                         |
 | `publicEntities`         | `[]`; exact PERSON/ORGANIZATION/EDUCATION/LOCATION/EMAIL exception with HTTPS evidence and review date                                                           |
 | `findings`               | `[]`; validated detections for the original input, supplied by the caller                                                                                        |
@@ -196,7 +253,7 @@ new document recognizers; `documentEntities: false` turns them off explicitly.
 | `strict`                 | `false`; aggressive stored-log personal attributes and bare values                                                                                               |
 | `structuralFields`       | `[]`; declared property names suppress weak name/ID/entropy heuristics in their string values                                                                    |
 
-Unknown options and invalid limits are errors. `knownSecretsFromEnv(env, names?)` discovers credential-named variables (excluding auth configuration names) when names are omitted, or uses an explicit selection, deduplicating nonempty values. It never invokes shell commands or reads auth files. `personalVariants(entries)` generates numeric and ISO/day-first date spellings; name case variants are already handled by detection. Neither helper invents transliterations.
+Unknown options and invalid limits are errors. `knownSecretsFromEnv(env, names?, {minLength?})` discovers credential-named variables (excluding configuration names) when names are omitted, or uses an explicit selection, deduplicating nonempty values (or values of at least `minLength` characters). It never invokes shell commands or reads auth files. `personalVariants(entries)` generates numeric and ISO/day-first date spellings; name case variants are already handled by detection. Neither helper invents transliterations.
 
 ## Required detectors
 
@@ -260,7 +317,7 @@ Generated replacements carry `faked: true`. A private bounded registry recognize
 
 Faking is pseudonymisation: a private key and retained ages, relations and structure can permit linking. Keep the key out of published data. See [the realistic fake example](../examples/realistic-fakes.mjs) and [the complete requirement/research record](case-studies/issue-24/REQUIREMENTS.md).
 
-`preserveEncoding: true` sanitizes decoded payloads with the same required engine union, re-encodes them and verifies decoding reproduces the sanitized content. Supported formats include base64/base64url, hex, percent, numeric HTML and UTF-8 byte escapes. Escaped JSON string content is sanitized and re-encoded even under default redaction so nested session JSON stays parseable. Malformed or unsupported encodings block opted-in preservation. Known encoding candidates and nesting are bounded.
+`preserveEncoding: true` sanitizes decoded payloads with the same required engine union, re-encodes them and verifies decoding reproduces the sanitized content. Supported formats include base64/base64url, hex, percent, numeric HTML and UTF-8 byte escapes. Escaped JSON string content is sanitized and re-encoded even under default redaction so nested session JSON stays parseable. Wrapped base64 and hex keep their line width and line separator (`\n` or `\r\n`), and a wrapped run is reported as one finding. When the sanitized payload cannot be re-encoded in a form the decoder recognizes (for example hex shorter than 32 digits), the encoded text is masked as it stands rather than blocking the input. Known encoding candidates and nesting are bounded.
 
 ## Identity policy and structured sessions
 
@@ -308,9 +365,15 @@ status identifiers. Explicit `knownPersonal` values override these heuristics.
 
 Oversized encoded runs receive a conservative complete-run `ENCODED_LIMIT`
 redaction rather than aborting the record. Decoding probes are capped at 4,096
-characters; full decoding stays capped at 8,192 characters. Whole-input,
-candidate-count, record and worker limits still apply. This fallback can remove
-large non-sensitive encoded outputs; its finding makes that decision auditable.
+characters; full decoding stays capped at 8,192 characters. A multi-line run is
+treated as one wrapped payload only when its probe decodes as text or its lines
+share one base64 width (a multiple of four, standard alphabet, not plain hex);
+lists of identifiers or commit hashes are scanned line by line. Up to 4,096
+textually decodable candidates are scanned per 64 KiB window of the input;
+further candidates in a denser window receive `ENCODED_LIMIT` redactions rather
+than an `ERR_LIMIT` for the whole text. Whole-input, record and worker limits
+still apply. This fallback can remove large non-sensitive encoded outputs; its
+finding makes that decision auditable.
 
 ## Streaming and worker publication
 
@@ -451,12 +514,28 @@ findings retain the normal engine union, confidence rules and verification.
 This keeps EMAIL/account-ID values without per-value `publicEntities` entries.
 The default policy continues to protect personal data.
 
-`knownSecretsFromEnv(env = process.env, names?)` discovers nonempty exact values
-when `names` is omitted, using
-`/(?:^|_)(?:TOKEN|(?:API|ACCESS|PRIVATE)?KEY|SECRET|PASSWORD|PASSWD|CREDENTIALS?|AUTH|PAT)(?:_|$)/i`.
-This covers `MY_SERVICE_TOKEN`, `CLAUDE_CODE_OAUTH_TOKEN`, `CODEX_API_KEY`,
-`OPENCODE_API_KEY`, `DASHSCOPE_API_KEY`, `HF_TOKEN` and `TELEGRAM_BOT_TOKEN`.
-Automatic discovery excludes names ending in `AUTH_TRANSPORT`, `AUTH_MODE`, `AUTH_METHOD`, `AUTH_TYPE`, `AUTH_URL`, `AUTH_URI`, `AUTH_HOST`, `AUTH_HOSTNAME`, `AUTH_PATH`, `AUTH_ENABLED`, `AUTH_DISABLED`, `AUTH_PORT`, `AUTH_PROTOCOL` or `AUTH_SCHEME` (including prefixed forms such as `HIVE_MIND_GIT_AUTH_TRANSPORT`). Credential names such as `AUTH_TOKEN` still contribute their exact values, including short/low-entropy values; no value-shape filter can reliably distinguish passwords from configuration. An explicit array bypasses the name exclusions; `[]` selects nothing.
+`knownSecretsFromEnv(env = process.env, names?, { minLength = 1 }?)` discovers
+nonempty exact values when `names` is omitted. A name is selected when it has a
+credential keyword between `_` boundaries
+(`/(?:^|_)(?:TOKEN|(?:API|ACCESS|PRIVATE)?KEY|SECRET|PASSWORD|PASSWD|CREDENTIALS?|O?AUTH|PAT|COOKIE)(?:_|$)/i`)
+or ends in `PASSWORD`, `PASSWD`, `TOKEN` or `COOKIE` without one. This covers
+`MY_SERVICE_TOKEN`, `CLAUDE_CODE_OAUTH_TOKEN`, `CODEX_API_KEY`,
+`OPENCODE_API_KEY`, `DASHSCOPE_API_KEY`, `HF_TOKEN`, `TELEGRAM_BOT_TOKEN`,
+`PGPASSWORD`, `GITHUBTOKEN`, `OAUTH` and `SESSION_COOKIE`.
+Automatic discovery excludes names whose last segment describes configuration
+rather than a credential: `_TRANSPORT`, `_MODE`, `_METHOD`, `_TYPE`, `_URL`,
+`_URI`, `_HOST`, `_HOSTNAME`, `_PATH`, `_ENABLED`, `_DISABLED`, `_PORT`,
+`_PROTOCOL`, `_SCHEME`, `_GUARD`, `_COUNT`, `_LIMIT`, `_FILE`, `_FILENAME`,
+`_DIR`, `_DIRECTORY`, `_NAME` and `_ID` (for example `HIVE_MIND_GIT_AUTH_TRANSPORT`,
+`HIVE_MIND_ROUTER_AUTH_GUARD`, `MAX_TOKEN_COUNT`, `SSH_KEY_PATH`, `SECRET_NAME`
+and `AWS_ACCESS_KEY_ID`), plus `GOOGLE_APPLICATION_CREDENTIALS` (a file path) and
+`GIT_CONFIG_KEY_<n>` (the name of a git setting). `GIT_CONFIG_VALUE_<n>` is
+selected when its `GIT_CONFIG_KEY_<n>` names a header, password, token, secret,
+cookie file or auth setting, such as `http.extraheader`. Credential names such as
+`AUTH_TOKEN` and `AUTH_MODE_TOKEN` still contribute their exact values, including
+short/low-entropy values; no value-shape filter can reliably distinguish passwords
+from configuration. Pass `minLength` to skip shorter values. An explicit array
+bypasses the name exclusions; `[]` selects nothing.
 These values are loaded only when the helper or CLI `--env-secrets` is requested.
 
 `await knownSecretsFromGitHubConfig({path?})` reads `oauth_token` and `api_token`
@@ -467,6 +546,9 @@ symlinks, aliases, files above 1 MiB and read failures produce value-free
 `ERR_AUTH`. YAML quoting is parsed with the `yaml` package, with alias expansion
 disabled. CLI `--gh-config` adds these exact values to `knownSecrets`.
 `knownSecretsFromGitHubAuth` / `--gh-auth` remain available independently.
+A `hosts.yml` that uses YAML aliases or is a symlink stays a hard `ERR_AUTH`
+failure, so a caller relying on `--gh-config` never runs with a silently
+incomplete list.
 
 Plain log streams and CLI file/stdin/output/in-place paths preserve invalid
 UTF-8 bytes exactly. Valid Unicode keeps its normal meaning for detection.
@@ -559,9 +641,33 @@ also applies independently within serialized JSON strings, to the existing
 bounded decoding depth. Findings do not seed document-wide name propagation.
 Repeated redaction is stable. Reusing a placeholder map for the same original
 produces stable tokens and exact restoration; the existing placeholder-namespace
-collision checks still reject input that already contains typed placeholders.
+collision checks still reject input that already contains typed placeholders
+unless the transformation sets `existing: 'keep'`.
 
-This is a structural heuristic, so capitalized ordinary words also disappear.
+Capitalized words that identify nobody stay readable, so placeholder output keeps
+its sentence: pronouns (`Вас`, `Я`), role and label cues (`Кандидат`, `Сотрудник`,
+the default and configured `roles` and `personalLabels`) anywhere, and greetings,
+function words and verbs (past tense `Звонила`, `Перенёс`, `Работал` before a
+lowercase word; present `Работаю`, `Рекомендует`) at the start of a sentence:
+
+```js
+sanitize('Кандидат Петров Иван Сергеевич. Звонила Анна Смирнова', {
+  properNames: 'capitalized',
+  transformation: { mode: 'placeholder', map: false },
+}).text;
+// Кандидат Person-1. Звонила Person-2
+```
+
+A word that is also a given-name form (`Вера`, `Любовь`) never counts as such a
+word, and a bare masculine `-л` form before a capitalized word may be a surname
+(`Шагал Марк`), so both are still replaced. A compact organization, location,
+school or person span found by the document rules (`ООО «Ромашка»`, `в Казани`)
+replaces the proper-name fragments inside it as one typed value
+(`Organization-1`, `Location-1`); spans with tabs or line breaks, or longer than
+160 characters, keep the separate fragments. A bare oblique surname (`Иванову`)
+links to the one person whose name contains it.
+
+Other capitalized ordinary words still disappear; this is a structural heuristic.
 Lowercase organizations without employment context stay; the document rules
 replace a lowercase employer after `работал в` / `работала в`. Complete contact
 and identifier findings take priority over overlapping proper-name fragments.
@@ -645,6 +751,13 @@ use normalized field names. Capitalized proper values are required after prose
 cues. Inputs allow at most 256 nonempty strings of 128 code units per list, with
 no line breaks/NUL. Unknown lists and malformed replacement records fail with
 `ERR_CONFIG`. Compilation uses a bounded 64-configuration cache.
+
+`personalAttributes: ['вепс', 'старовер']` adds special-category stems to the
+`strict` rule (it has no effect without `strict: true`). Each word matches as a
+stem followed by up to eight letters, so `вепска` and `староверами` match, and the
+words of a multi-word entry may be separated by spaces or tabs. Matches are
+reported as `PERSONAL_ATTRIBUTE` with the `strict-attribute` rule. The default
+list is empty.
 
 ## Callback transformations and stages
 
@@ -786,6 +899,41 @@ after `Bearer`/`Basic`/`token` and on either side of a `user:password` colon.
 A mixed value such as `alice:${DB_PASSWORD}` or `<x>abc123…` is still redacted.
 Findings from custom detectors are never dropped this way. The value-free debug
 event `{event: 'template-value', rule}` reports each skipped match.
+
+### Exempting findings with a hook
+
+`exempt(finding, text) => boolean` keeps findings that the caller's own policy
+knows are not sensitive: a configuration flag, a token counter, a version
+range, a value another tool already masked. It runs after detection and before
+transformation, once per finding. The finding carries `value` and the offsets
+into `text`. Return `true` to keep the span unchanged and `false` to transform
+it. Any other result, including `undefined` from a forgotten `return`, is
+`ERR_CONFIG`.
+
+```js
+createSyncSanitizer({
+  credentialsOnly: true,
+  // The key before the value decides; offsets point into `text`.
+  exempt: (finding, text) =>
+    /FEATURE_TOKEN=$/.test(text.slice(0, finding.start)),
+}).sanitize(
+  'FEATURE_TOKEN=keep-this-value-123 other_token=keep-this-value-123'
+);
+// → 'FEATURE_TOKEN=keep-this-value-123 other_token=[REDACTED]'
+```
+
+Unlike a callback transformation that returns the original value, which fails
+with `ERR_RESIDUAL`, an exempted span is excluded from residual verification
+by span, not by value. Verification of the published text calls the hook again
+for every finding in the output, so the same value elsewhere is still caught
+unless the hook keeps that span too. The hook is explicit code, so it can keep
+credential findings without `allowCredentialDisable`. Declared
+`knownSecrets`/`knownPersonal` values, confirmed personal values and structured
+`JSON_VALUE` denials are never offered to it.
+
+`createSanitizer` awaits a hook that returns a `Promise`.
+`createSyncSanitizer` and `sanitize()` need a synchronous hook. A `Promise`
+there is `ERR_CONFIG`.
 
 ## Per-type thresholds
 

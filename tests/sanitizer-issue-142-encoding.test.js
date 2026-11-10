@@ -1,0 +1,152 @@
+import { describe, it, expect } from 'test-anywhere';
+import { Buffer } from 'node:buffer';
+import {
+  createSanitizer,
+  createSyncSanitizer,
+  inspect,
+  redact,
+} from '../src/index.js';
+
+// Synthetic values, assembled at run time so secret scanners skip the source.
+const GH = ['ghp_', 'Zx9Qw7Er5Ty3Ui1Op0As', '2Df4Gh6Jk8Lz0Xc2Vb4N'].join('');
+const KNOWN = ['Pk7Rm2Qx', '9LwZaB8yCd4E'].join('');
+const HIVE = {
+  credentialsOnly: true,
+  preserveEncoding: true,
+  transformation: { mode: 'hive-mask' },
+};
+const hive = (text, options = {}) =>
+  createSyncSanitizer({ ...HIVE, ...options }).sanitize(text).text;
+const hex = (value) => Buffer.from(value).toString('hex');
+const wrapped = (value, width, newline = '\n') =>
+  Buffer.from(value)
+    .toString('base64')
+    .match(new RegExp(`.{1,${width}}`, 'g'))
+    .join(newline);
+const document = JSON.stringify({
+  note: 'x'.repeat(60),
+  token: GH,
+  more: 'y'.repeat(60),
+});
+const decode = (text) =>
+  Buffer.from(text.replace(/\s/g, ''), 'base64').toString();
+
+describe('wrapped encodings (issue 138)', () => {
+  for (const [width, newline] of [
+    [40, '\n'],
+    [76, '\n'],
+    [64, '\r\n'],
+  ]) {
+    it(`re-encodes with ${width} columns and ${JSON.stringify(newline)} lines`, async () => {
+      const input = wrapped(document, width, newline);
+      for (const output of [
+        hive(input),
+        (await createSanitizer(HIVE).sanitize(input)).text,
+      ]) {
+        const lines = output.split(newline);
+        expect(lines.length > 1).toBe(true);
+        expect(lines.slice(0, -1).every((line) => line.length === width)).toBe(
+          true
+        );
+        expect(lines.at(-1).length <= width).toBe(true);
+        expect(output.replaceAll(newline, '').includes('\n')).toBe(false);
+        const decoded = decode(output);
+        expect(decoded.includes(GH)).toBe(false);
+        expect(JSON.parse(decoded).token).toBe('ghp…b4N');
+      }
+    });
+  }
+  it('reports one finding for a wrapped run', () => {
+    const input = `log ${wrapped(document, 40)} end`;
+    const findings = inspect(input, { credentialsOnly: true });
+    expect(findings.map((f) => [f.rule, f.start, f.end])).toEqual([
+      ['encoded', 4, input.length - 4],
+    ]);
+  });
+});
+
+describe('long encoded logs (issue 139)', () => {
+  it('scans more decodable lines than one candidate budget', () => {
+    const lines = Array.from({ length: 5000 }, (_, i) =>
+      Buffer.from(`chunk number ${i} ok`).toString('base64')
+    ).join('\n');
+    expect(hive(`${lines}\ntoken: ${GH}`)).toBe(`${lines}\ntoken: ghp…b4N`);
+  });
+  it('masks candidates past a dense window budget without blocking', () => {
+    const runs = Array.from(
+      { length: 4200 },
+      (_, i) => `&#${48 + (i % 10)};&#65;`
+    );
+    const text = `${runs.join(' ')}\ntoken: ${GH}`;
+    const findings = inspect(text, { credentialsOnly: true });
+    expect(findings.filter((f) => f.rule === 'encoded-limit').length).toBe(104);
+    expect(hive(text).endsWith('\ntoken: ghp…b4N')).toBe(true);
+  });
+  it('keeps identifier and commit hash lines readable', () => {
+    const ids = Array.from(
+      { length: 1000 },
+      (_, i) => `id_${String(i).padStart(4, '0')}abcdefghijklmnop`
+    ).join('\n');
+    expect(hive(`${ids}\ntoken: ${GH}\n`)).toBe(`${ids}\ntoken: ghp…b4N\n`);
+    const shas = Array.from({ length: 250 }, (_, i) =>
+      `${hex(`commit-${i}`)}`.padEnd(40, 'a')
+    ).join('\n');
+    expect(hive(`${shas}\n`)).toBe(`${shas}\n`);
+    expect(inspect(shas, { credentialsOnly: true })).toEqual([]);
+  });
+  it('still masks long wrapped text and binary payloads as a whole', () => {
+    const text = wrapped(`${'note '.repeat(2000)}password=hunter2long`, 76);
+    expect(text.length > 8192).toBe(true);
+    expect(inspect(text, { credentialsOnly: true }).map((f) => f.rule)).toEqual(
+      ['encoded-limit']
+    );
+    const binary = Buffer.alloc(9000, 0xfe).toString('base64');
+    const body = binary.match(/.{1,64}/g).join('\n');
+    expect(inspect(body, { credentialsOnly: true }).map((f) => f.rule)).toEqual(
+      ['encoded-limit']
+    );
+  });
+});
+
+describe('encoded known secrets (issue 140)', () => {
+  for (const length of [4, 12, 15, 16, 20]) {
+    it(`masks hex and base64 forms of a ${length}-character known secret`, () => {
+      const secret = KNOWN.slice(0, length);
+      const options = { knownSecrets: [secret] };
+      for (const form of [
+        hex(secret),
+        hex(secret).toUpperCase(),
+        Buffer.from(secret).toString('base64'),
+        Buffer.from(secret).toString('base64url'),
+      ]) {
+        const output = hive(`x ${form} y\nother log lines\n`, options);
+        expect(output.includes(form)).toBe(false);
+        expect(output.endsWith(' y\nother log lines\n')).toBe(true);
+      }
+    });
+  }
+  it('masks a payload that cannot be re-encoded as it stands', async () => {
+    const secret = KNOWN.slice(0, 16);
+    const text = `x ${hex(secret)} y\nother log lines\n`;
+    const options = { ...HIVE, knownSecrets: [secret] };
+    expect(createSyncSanitizer(options).sanitize(text).text).toBe(
+      'x 506…879 y\nother log lines\n'
+    );
+    expect((await createSanitizer(options).sanitize(text)).text).toBe(
+      'x 506…879 y\nother log lines\n'
+    );
+    expect(redact(text, inspect(text, options), options)).toBe(
+      'x 506…879 y\nother log lines\n'
+    );
+  });
+  it('leaves other hexadecimal and base64 text alone', () => {
+    const options = { knownSecrets: [KNOWN.slice(0, 12)] };
+    for (const text of [
+      `x ${hex(KNOWN.slice(0, 12))}00 y`,
+      `x ff${hex(KNOWN.slice(0, 12))} y`,
+      'x 506b37526d32 y',
+    ]) {
+      expect(hive(text, options)).toBe(text);
+    }
+  });
+});

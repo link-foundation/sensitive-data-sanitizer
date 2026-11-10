@@ -20,6 +20,12 @@ two-pass publication:
 sensitive-data-sanitizer redact session.jsonl --stream --jsonl --two-pass --output safe.jsonl
 ```
 
+For loggers that only mask credentials, import the
+[credentials-only entry](docs/API.md#credentials-only-entry)
+`@link-foundation/sensitive-data-sanitizer/credentials`: it skips the
+personal-data modules and starts about three times faster. Both entries also
+support `require`.
+
 For synchronous log hooks, `createSyncSanitizer` supports custom detectors and
 verified callback transformations. Rule/type controls, caller vocabulary,
 structured field selectors and `compileKnown` configure reusable policies; see
@@ -88,6 +94,13 @@ replacements, such as credentials excluded from the map, cannot be restored.
 Known Russian names match in all six cases and in any word order, with `ё`/`е`
 spelling variants and initials (`с Петровым Данилом Сергеевичем`, `Петров Д. С.`).
 A part of a longer name is matched alone only when it is listed itself.
+
+With `properNames: 'capitalized'`, placeholder output keeps the sentence around a
+name (`Кандидат Person-1`, `Меня зовут Person-1`, `Благодарим Вас, Person-1`), and
+`transformation.existing: 'keep'` lets a second pass over sanitized text keep its
+`Type-n` tokens and number new values after them. `isPlaceholderToken` and
+`reservedPlaceholderTypes` expose the namespace; see the
+[second-pass example](examples/second-pass-placeholders.mjs).
 
 For irreversible output, choose `transformation: { mode: 'placeholder', map:
 false }`: no restore map is returned or written. Detection limits still apply
@@ -248,7 +261,7 @@ See [contributing](docs/CONTRIBUTING.md). `add`, `multiply` and `delay` live in 
 
 The universal app's preview images regenerate on pushes to the default branch. Run `npm run example:web:preview-images` to regenerate them locally; see [the template guide](docs/TEMPLATE-PIPELINE.md) for setup.
 
-Automatic `--env-secrets` discovery skips authentication configuration names such as `GIT_AUTH_TRANSPORT`, `AUTH_MODE` and `AUTH_METHOD`. Explicit `knownSecretsFromEnv(env, names)` selections still include their exact values.
+Automatic `--env-secrets` discovery also selects `PGPASSWORD`-style suffixes and cookies, and skips configuration names such as `GIT_AUTH_TRANSPORT`, `AUTH_MODE`, `*_AUTH_GUARD`, `MAX_TOKEN_COUNT`, `SSH_KEY_PATH`, `SECRET_NAME`, `AWS_ACCESS_KEY_ID` and `GIT_CONFIG_KEY_<n>`; `knownSecretsFromEnv(env, undefined, { minLength: 8 })` also skips short values. Explicit `knownSecretsFromEnv(env, names)` selections still include their exact values.
 
 For shared tool logs, `--credentials-only --env-secrets --gh-config` preserves
 public account details while redacting credential patterns and exact local

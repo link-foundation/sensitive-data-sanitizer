@@ -27,12 +27,21 @@
     "examples/reversible-placeholders.mjs",
     "examples/prose-logs.mjs",
     "docs/RULES.md",
-    "examples/custom-log-policy.mjs"
+    "examples/custom-log-policy.mjs",
+    "examples/second-pass-placeholders.mjs"
   ],
   "exports": {
     ".": {
       "types": "./src/index.d.ts",
-      "import": "./src/index.js"
+      "import": "./src/index.js",
+      "require": "./src/index.js",
+      "default": "./src/index.js"
+    },
+    "./credentials": {
+      "types": "./src/credentials-entry.d.ts",
+      "import": "./src/credentials-entry.js",
+      "require": "./src/credentials-entry.js",
+      "default": "./src/credentials-entry.js"
     },
     "./eslint-plugin": {
       "types": "./src/eslint-plugin.d.ts",

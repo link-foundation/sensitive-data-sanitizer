@@ -146,12 +146,12 @@ const proseOptions = { ...options, properNames: 'capitalized' };
 const proseCases = [
   [
     'Работал в Ромашке менеджером по продажам.',
-    '[REDACTED] в [REDACTED] менеджером по продажам.',
+    'Работал в [REDACTED] менеджером по продажам.',
   ],
   ['Опыт: работал в Ромашке 5 лет', 'Опыт: работал в [REDACTED] 5 лет'],
   [
     `Маркетолог, ГК «ромашка лютик» ${dates}`,
-    `[REDACTED], [REDACTED] [REDACTED] ${dates}`,
+    `[REDACTED], [REDACTED] ${dates}`,
   ],
   [
     'Founder, consultant, Romashka (2019-2021)',
@@ -159,9 +159,9 @@ const proseCases = [
   ],
   [
     'Сотрудник работал в Romashka три года.',
-    '[REDACTED] работал в [REDACTED] три года.',
+    'Сотрудник работал в [REDACTED] три года.',
   ],
-  ['Живу в Твери', '[REDACTED] в [REDACTED]'],
+  ['Живу в Твери', 'Живу в [REDACTED]'],
   [
     'текст Санкт-Петербург A.B iPhone eBay',
     'текст [REDACTED] [REDACTED] [REDACTED] [REDACTED]',

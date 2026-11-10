@@ -69,7 +69,7 @@ describe('issue 120 age and duration boundaries', () => {
     ['работал там, мне 34 года', 'работал там, мне [REDACTED]'],
     ['работал там кандидату 34 года', 'работал там кандидату [REDACTED]'],
     ['работал в ромашке 5 лет', 'работал в [REDACTED] 5 лет'],
-    ['Работал там 5 лет', '[REDACTED] там 5 лет'],
+    ['Работал там 5 лет', 'Работал там 5 лет'],
   ]) {
     it(input, () => {
       expect(createSyncSanitizer(options).sanitize(input).text).toBe(expected);
@@ -192,6 +192,7 @@ describe('issue 120 labels and complete findings', () => {
       'complete',
       'event',
       'suppressed',
+      'typed',
     ]);
   });
 });

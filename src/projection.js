@@ -1,6 +1,7 @@
 // Map a detection view back to the original UTF-16 offsets. Normalization
 // never writes to the original text, and offsets remain valid after emoji.
 import { failure } from './detection.js';
+import { htmlTag, inlineTags } from './html-tags.js';
 
 // Unicode Nd zero codepoints. NFKC already maps mathematical/fullwidth digits;
 // other numeral systems need explicit conversion with original-source spans.
@@ -25,14 +26,6 @@ function asciiDigits(value) {
 // carry meaning inside a token, so they are removed from the detection view.
 const invisible =
   /^[\0\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]$/u;
-// HTML formatting tags split tokens (`SECRET_</span><span>REST`). Inline tags
-// are dropped and block tags become line breaks. Only presentation attributes
-// are allowed, so other attribute values (URLs, data-*) stay in the view.
-const inlineTags =
-  'abbr|b|cite|code|del|em|font|i|ins|kbd|mark|q|s|samp|small|span|strong|sub|sup|tt|u|var';
-const blockTags =
-  'blockquote|br|dd|div|dt|h[1-6]|hr|li|ol|p|pre|table|tbody|td|th|thead|tr|ul';
-const htmlTag = String.raw`<\/?(?:${inlineTags}|${blockTags})(?:\s+(?:class|dir|lang|style)="[^"<>=]*")*\s*\/?>`;
 const inlineTag = new RegExp(String.raw`^<\/?(?:${inlineTags})[\s/>]`);
 // TruffleHog-style escape runs: `U+0074 U+006F ...` and CSS `\74 \6f ...`.
 // Runs need four or more units so prose such as "U+200B" stays untouched.

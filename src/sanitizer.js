@@ -1,14 +1,12 @@
-import { generatedValues } from './fake.js';
+import { generatedValues } from './fake-memory.js';
+import { feature, withFeature } from './features.js';
 import { isCompiledKnown, projectedKnown } from './compiled-known.js';
 import { detectSync, validateDetectors } from './sync-detectors.js';
 import { validatePolicyControls, builtInEnabled } from './policy.js';
 import { compiledVocabulary } from './vocabulary.js';
-import { validateProperNames } from './proper-names.js';
-import { prepareFakeText } from './fake-entities.js';
 import { alignEscapes } from './escape-spans.js';
 import { actionable } from './confidence.js';
 import { propagate, confirmationOptions } from './propagation.js';
-import { fakeDocumentSpans } from './specimens.js';
 import {
   failure,
   internalFailure,
@@ -26,10 +24,11 @@ import {
   hasCustomTransforms,
   renderCallbackAsync,
 } from './transforms.js';
-import { fakeIdentityValue, isIdentityType } from './identity.js';
+import { isIdentityType } from './identity-types.js';
 import { rejectRestoreMap } from './restore-map.js';
 import { allowListed, validateAllowList } from './allow-list.js';
 import { templatedCredential } from './credentials.js';
+import { exemptFindings, validateExempt } from './exempt.js';
 import { builtInRules } from './rule-catalog.js';
 import {
   initializePlaceholders,
@@ -39,6 +38,8 @@ import {
   hasPlaceholders,
   placeholderValues,
   placeholderNameFindings,
+  keptPlaceholderSpans,
+  keptPlaceholderFinding,
   coverAdjacentNames,
   nestedPlaceholderOptions,
 } from './placeholders.js';
@@ -105,6 +106,7 @@ const optionNames = new Set([
   'minConfidenceByType',
   'allowList',
   'inlineAllow',
+  'exempt',
 ]);
 
 export function applyProfile(options = {}) {
@@ -222,7 +224,9 @@ export function validateOptions(options = {}) {
     }
   }
   validateConfidence(options);
-  validateProperNames(options);
+  if (options.properNames !== undefined || options.scripts !== undefined) {
+    feature('validateProperNames')(options);
+  }
   validatePolicy(options);
   if (
     options.verifyPublic !== undefined &&
@@ -230,6 +234,7 @@ export function validateOptions(options = {}) {
   ) {
     throw failure('ERR_CONFIG');
   }
+  validateExempt(options.exempt);
   validateCollections(options);
   validateAllowList(options);
   validateDetectors(options.detectors);
@@ -329,6 +334,9 @@ export function sanitizeFinding(finding, length) {
     rule: finding.rule,
     confidence: validConfidence(finding),
     likelihood: finding.likelihood ?? likelihood(validConfidence(finding)),
+    ...(finding.type === 'JSON_VALUE' && validType(finding.valueType)
+      ? { valueType: finding.valueType }
+      : {}),
     ...(finding.kept === 'fake' ? { kept: 'fake' } : {}),
   };
 }
@@ -449,7 +457,14 @@ function locations(text, findings) {
 
 export function inspect(text, options = {}) {
   try {
-    return inspectText(text, options);
+    const exempt = options?.exempt;
+    if (!exempt) {
+      return inspectText(text, options);
+    }
+    // Nested views (structured values, decoded runs) are screened once, at
+    // the offsets of the text the caller sees.
+    const findings = inspectText(text, { ...options, exempt: undefined });
+    return exemptFindings(text, findings, exempt);
   } catch (error) {
     throw internalFailure(error);
   }
@@ -635,14 +650,41 @@ export function inspectFindingsOnly(text, findings, options) {
   );
 }
 
+// A whole JSON value that is already a token of this run, `"Sensitive-1"`.
+function generatedJsonValue(text, finding, options) {
+  const raw = text.slice(finding.start, finding.end);
+  return (
+    raw.startsWith('"') &&
+    placeholderValues(options).some(
+      (record) => JSON.stringify(record.value) === raw
+    )
+  );
+}
 function selectedFindings(findings, credentialsOnly) {
   return credentialsOnly
     ? findings.filter((finding) => finding.category === 'credential')
     : findings;
 }
 
+// Findings over the tokens of an earlier pass, recorded in `tokenKept`.
+function withKeptPlaceholders(text, findings, options, tokenKept) {
+  const tokens = keptPlaceholderSpans(text, findings, options);
+  if (!tokens.length) {
+    return findings;
+  }
+  return findings.map((f) => {
+    const next = keptPlaceholderFinding(text, f, tokens);
+    if (next.kept === 'fake' && next !== f) {
+      tokenKept.add(next);
+    }
+    return next;
+  });
+}
+
 export function markFake(text, findings, options) {
   findings = selectedFindings(findings, options.credentialsOnly);
+  const tokenKept = new Set();
+  findings = withKeptPlaceholders(text, findings, options, tokenKept);
   const generated = [
     ...generatedValues(options),
     ...placeholderValues(options),
@@ -652,9 +694,12 @@ export function markFake(text, findings, options) {
     !options.fakeValues?.length &&
     !generated.length
   ) {
-    return findings.map((f) => ({ ...f, kept: undefined }));
+    return findings.map((f) => ({
+      ...f,
+      kept: tokenKept.has(f) ? 'fake' : undefined,
+    }));
   }
-  const documents = fakeDocumentSpans(text, options);
+  const documents = withFeature('fakeDocumentSpans', [], text, options);
   const trusted = [];
   for (const record of generated) {
     for (const value of new Set([
@@ -689,7 +734,7 @@ export function markFake(text, findings, options) {
   const candidates = findings.filter(
     (f) =>
       f.category === 'personal' &&
-      fakeIdentityValue(text.slice(f.start, f.end), f.type, options)
+      feature('fakeIdentityValue')(text.slice(f.start, f.end), f.type, options)
   );
   // Tolerant MRZ matches can cross a line boundary. An automatic specimen
   // exemption must never cover an overlapping real identity value. Exact
@@ -713,8 +758,13 @@ export function markFake(text, findings, options) {
     ),
   ];
   return findings.map((f) => {
+    if (tokenKept.has(f)) {
+      return f;
+    }
     if (f.type === 'JSON_VALUE') {
-      return { ...f, kept: undefined };
+      return generatedJsonValue(text, f, options)
+        ? { ...f, kept: 'fake' }
+        : { ...f, kept: undefined };
     }
     if (
       trusted.some(
@@ -775,6 +825,7 @@ function validatedSpans(text, findings, options) {
         last.category = 'credential';
       }
       if (last.type === 'JSON_VALUE' || f.type === 'JSON_VALUE') {
+        last.valueType = jsonValueType(last, f);
         last.type = 'JSON_VALUE';
       } else if (credentialRun) {
         last.type = 'SECRET';
@@ -788,6 +839,15 @@ function validatedSpans(text, findings, options) {
   return spans;
 }
 
+// Two whole values merged into one keep a value type only when they agree.
+function jsonValueType(last, f) {
+  if (last.type !== 'JSON_VALUE') {
+    return f.valueType;
+  }
+  return f.type !== 'JSON_VALUE' || f.valueType === last.valueType
+    ? last.valueType
+    : undefined;
+}
 function preferredType(current, candidate, options) {
   if (current === 'JSON_VALUE') {
     return false;
@@ -824,7 +884,8 @@ export function redactResult(
 ) {
   options = applyProfile(options);
   const spans = validatedSpans(text, findings, options);
-  options = prepareFakeText(text, findings, initializePlaceholders(options));
+  options = initializePlaceholders(options);
+  options = withFeature('prepareFakeText', options, text, findings, options);
   preparePlaceholderText(text, findings, options);
   const parts = [];
   const faked = [];
@@ -950,22 +1011,26 @@ export async function redactResultAsync(
         }
         continue;
       }
-      if (!run) {
-        if (options.preserveEncoding) {
-          throw failure('ERR_ENCODING');
-        }
-        continue;
-      }
-      if (!options.preserveEncoding && run.encoding !== 'json-content') {
+      if (
+        !run ||
+        (!options.preserveEncoding && run.encoding !== 'json-content')
+      ) {
         continue;
       }
       const result = await sanitizeDecoded(
         run.text,
         nestedPlaceholderOptions(confirmationOptions(text, findings, options))
       );
+      // Without a recognizable re-encoding, the encoded text itself is masked.
       replacements.set(
         `${span.start}:${span.end}`,
-        encodeRun(run, result.text === run.text ? REDACTED : result.text)
+        encodeRun(run, result.text === run.text ? REDACTED : result.text) ??
+          renderReplacement(
+            text,
+            span,
+            { ...options, preserveEncoding: false },
+            () => ({ text: REDACTED })
+          )
       );
     }
   }

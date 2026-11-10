@@ -1,4 +1,4 @@
-import { failure, collectMatches } from './detection.js';
+import { failure, collectMatches, escapePattern } from './detection.js';
 import { wordPattern } from './personal-variants.js';
 import { fieldSuffixes, normalizeFieldName } from './document-fields.js';
 
@@ -50,6 +50,7 @@ export const defaultVocabulary = Object.freeze(
         'fullname',
         'originalfilename',
       ],
+      personalAttributes: [],
     }).map(([key, values]) => [key, Object.freeze(values)])
   )
 );
@@ -111,6 +112,30 @@ function normalizedList(input, defaults) {
     ),
   ];
 }
+// Caller stems for the strict special-category rule: each word matches at a
+// word start and takes at most eight more letters of ending, like the built-in
+// stems, so `узбеч` covers `узбечка` and `узбечкой`.
+function attributePattern(values) {
+  if (!values.length) {
+    return undefined;
+  }
+  const stems = values
+    .map((value) =>
+      value
+        .split(/\s+/u)
+        .map(
+          (word) =>
+            `${escapePattern(word).replace(/[её]/gu, '[её]')}[\\p{L}\\p{M}]{0,8}`
+        )
+        .join('[ \\t]+')
+    )
+    .sort((a, b) => b.length - a.length)
+    .join('|');
+  return new RegExp(
+    `(?<![\\p{L}\\p{N}_])(?:${stems})(?![\\p{L}\\p{N}_])`,
+    'giu'
+  );
+}
 export function compiledVocabulary(vocabulary) {
   if (vocabulary === undefined) {
     return undefined;
@@ -159,6 +184,7 @@ export function compiledVocabulary(vocabulary) {
     'giu'
   );
   result.fields = new Set(lists.personalFields.map(normalizeFieldName));
+  result.attributes = attributePattern(lists.personalAttributes);
   if (cache.size >= 64) {
     cache.clear();
   }

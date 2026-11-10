@@ -4,35 +4,11 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js/max';
 import { mrzCheck } from './identity.js';
 import { fakeName } from './fake-names.js';
 import * as checks from './national-checks.js';
-import { REDACTED, failure } from './detection.js';
+import { REDACTED } from './detection.js';
+import { remember } from './fake-memory.js';
 
-const generated = new WeakMap();
-export function generatedValues(options) {
-  const transforms = [
-    options.transformation,
-    ...Object.values(options.transformations ?? {}),
-  ];
-  return transforms.flatMap((t) =>
-    t?.mode === 'fake'
-      ? [...(generated.get(t) ?? [])].map(([value, credential]) => ({
-          value,
-          credential,
-        }))
-      : []
-  );
-}
-function remember(value, transform, credential) {
-  let values = generated.get(transform);
-  if (!values) {
-    values = new Map();
-    generated.set(transform, values);
-  }
-  if (values.size >= 100000 && !values.has(value)) {
-    throw failure('ERR_LIMIT');
-  }
-  values.set(value, credential);
-  return value;
-}
+export { generatedValues } from './fake-memory.js';
+
 function digest(value, key, purpose = 'value') {
   return createHmac('sha256', key).update(`${purpose}\0${value}`).digest();
 }

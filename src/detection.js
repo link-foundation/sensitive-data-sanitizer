@@ -5,26 +5,21 @@ import {
   uatpCard,
 } from './confidence.js';
 import { isIP } from 'node:net';
+import { Buffer } from 'node:buffer';
 import { serviceRules } from './rules.js';
-import { detectContext, valueRange, authorizationRange } from './context.js';
-import { detectPersonal } from './personal.js';
+import { detectContext, valueRange, authorizationRanges } from './context.js';
 import { detectGitleaks } from './gitleaks.js';
-import { detectCatalog } from './entities.js';
-import { detectIdentity } from './identity.js';
-import { detectNational } from './national.js';
-import { detectPersonalContext } from './personal-context.js';
-import { detectPersonalEvidence } from './personal-evidence.js';
 import {
   detectCredentialFormats,
   credentialPlaceholder,
+  maskedValue,
 } from './credentials.js';
 import { localAddress } from './public.js';
 import { detectKnownPersonal } from './personal-variants.js';
-import { detectDocumentEntities } from './document-entities.js';
-import { detectProseAndDocuments } from './proper-names.js';
 import { builtInEnabled } from './policy.js';
-import { detectStrict } from './strict.js';
+import { feature } from './features.js';
 import { tokenChecksum } from './token-checksum.js';
+import { refineCredentialSpans, cookieValues } from './credential-spans.js';
 
 export const REDACTED = '[REDACTED]';
 export const failure = (code = 'ERR_SANITIZATION', location = {}) =>
@@ -56,6 +51,30 @@ export function personalPattern(value) {
     .map(escapePattern)
     .join('[ \\t_-]+');
 }
+// Hex and base64 spellings of a known secret, at any length. The generic
+// decoders need 16 or more encoded characters, so they cannot see short ones.
+const encodedForms = new Map();
+function knownEncodedForms(value) {
+  let pattern = encodedForms.get(value);
+  if (!pattern) {
+    const bytes = Buffer.from(value, 'utf8');
+    const hex = bytes.toString('hex');
+    const base64 = bytes.toString('base64').replace(/=+$/, '');
+    const url = bytes.toString('base64url');
+    const alternatives = [...new Set([hex, hex.toUpperCase()])].join('|');
+    const base64Forms = [...new Set([base64, url])].map(escapePattern);
+    pattern = new RegExp(
+      `(?<![\\da-fA-F])(?:${alternatives})(?![\\da-fA-F])|(?<![\\w+/-])(?:${base64Forms.join('|')})(?:={0,2}(?![\\w+/=-]))`,
+      'g'
+    );
+    if (encodedForms.size > 1024) {
+      encodedForms.clear();
+    }
+    encodedForms.set(value, pattern);
+  }
+  return pattern;
+}
+
 export function escapePattern(text) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -130,31 +149,39 @@ export function luhn(value) {
 function detectCookies(text, emit) {
   for (const match of text.matchAll(/(?:Set-)?Cookie[ \t]*:[ \t]*/gi)) {
     const range = valueRange(text, match.index + match[0].length, 'line');
-    if (
-      range &&
-      range.end > range.start &&
-      text.slice(range.start, range.end) !== REDACTED
-    ) {
-      emit({
-        ...range,
-        type: 'SECRET',
-        category: 'credential',
-        rule: 'cookie',
-      });
+    for (const value of range
+      ? cookieValues(text, range.start, range.end)
+      : []) {
+      if (!maskedValue(text.slice(value.start, value.end))) {
+        emit({
+          ...value,
+          type: 'SECRET',
+          category: 'credential',
+          rule: 'cookie',
+        });
+      }
     }
   }
 }
 
 export function nativeDetect(text, options, emit) {
-  const output = emit;
-  emit = (finding) => {
+  const found = [];
+  detectNative(text, options, (finding) => found.push(finding));
+  for (const finding of refineCredentialSpans(text, found)) {
     if (builtInEnabled(finding, options)) {
-      output(finding);
+      emit(finding);
     }
-  };
+  }
+}
+
+function detectNative(text, options, emit) {
   const credential = { type: 'SECRET', category: 'credential' };
   for (const value of options.knownSecrets ?? []) {
     collectMatches(text, new RegExp(escapePattern(value), 'g'), emit, {
+      ...credential,
+      rule: 'known-secret',
+    });
+    collectMatches(text, knownEncodedForms(value), emit, {
       ...credential,
       rule: 'known-secret',
     });
@@ -194,14 +221,7 @@ export function nativeDetect(text, options, emit) {
   }
   detectContext(text, emit, options.credentialsOnly);
   if (!options.credentialsOnly) {
-    detectPersonal(text, emit);
-    detectProseAndDocuments(text, emit, options, detectDocumentEntities);
-    detectCatalog(text, emit);
-    detectIdentity(text, emit);
-    detectNational(text, emit);
-    detectPersonalContext(text, emit);
-    detectPersonalEvidence(text, emit);
-    detectStrict(text, emit, options);
+    feature('detectPersonalData')(text, emit, options);
   }
   detectCredentialFormats(text, emit);
   // detect-secrets-style quoted entropy detection; bare commit hashes and
@@ -262,9 +282,11 @@ function detectAuthorization(text, emit, credential) {
   for (const match of text.matchAll(
     /(?:Proxy-)?Authorization[ \t]*:[ \t]*/gi
   )) {
-    const range = authorizationRange(text, match.index + match[0].length);
-    if (range && !credentialPlaceholder(text.slice(range.start, range.end))) {
-      emit({ ...range, ...credential, rule: 'authorization' });
+    const start = match.index + match[0].length;
+    for (const range of authorizationRanges(text, start)) {
+      if (!credentialPlaceholder(text.slice(range.start, range.end))) {
+        emit({ ...range, ...credential, rule: 'authorization' });
+      }
     }
   }
 }
@@ -291,7 +313,16 @@ function detectPersonalFormats(text, options, emit) {
   collectMatches(
     text,
     /(?<![\p{L}\p{N}_.!#$%&'*+/?^`{|}~-])[\p{L}\p{N}_.!#$%&'*+/?^`{|}~-]+@[\p{L}\p{N}](?:[\p{L}\p{N}.-]{0,252})\.[\p{L}]{2,63}(?![\p{L}\p{N}_-])/gu,
-    (finding) => emit(emailAfterMention(text, finding)),
+    (finding) => {
+      // `https://user:password@host` is URL user info, not an address.
+      if (
+        !/[a-z][a-z0-9+.-]*:\/\/[^\s/@]*:$/i.test(
+          text.slice(Math.max(0, finding.start - 256), finding.start)
+        )
+      ) {
+        emit(emailAfterMention(text, finding));
+      }
+    },
     { type: 'EMAIL', category: 'personal', rule: 'email' }
   );
   collectMatches(

@@ -27,7 +27,7 @@ describe('bounded publication sanitization', () => {
     const input = `Привет\n{"password":"a\\"b"}\n-----BEGIN PRIVATE KEY-----\nYWJjZGVmZ2hpamtsbW5vcA==\n-----END PRIVATE KEY-----\n${encoded}\nDone.\n`;
     const bytes = Buffer.from(input);
     const expected =
-      'Привет\n{"password":"[REDACTED]"}\n[REDACTED]\n[REDACTED]\nDone.\n';
+      'Привет\n{"password":"[REDACTED]"}\n-----BEGIN PRIVATE KEY-----\n[REDACTED]\n-----END PRIVATE KEY-----\n[REDACTED]\nDone.\n';
     for (let i = 1; i < bytes.length; i++) {
       expect(
         await collect([bytes.subarray(0, i), bytes.subarray(i)], {

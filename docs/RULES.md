@@ -540,6 +540,7 @@ Regenerate with `node experiments/issue-118/generate-rule-catalog.mjs`.
 - `mac`
 - `mail-display-name`
 - `mailchimp`
+- `marker-token`
 - `messenger-handle`
 - `messenger-label`
 - `mrz`

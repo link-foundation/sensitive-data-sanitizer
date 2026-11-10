@@ -140,11 +140,12 @@ describe('template and mask credential values', () => {
     }
   });
   it('still redacts literal or mixed values', () => {
+    // The template password stays; the literal user name is personal (#132).
     expect(sanitize(`${pg}alice:\${DB_PASSWORD}@db/app`).text).toBe(
-      `${pg}[REDACTED]@db/app`
+      `${pg}[REDACTED]:\${DB_PASSWORD}@db/app`
     );
     expect(sanitize('Authorization: Bearer <x>abc123def456ghi789').text).toBe(
-      'Authorization: [REDACTED]'
+      'Authorization: Bearer [REDACTED]'
     );
     expect(sanitize('password: ${A}', { knownSecrets: ['${A}'] }).text).toBe(
       'password: [REDACTED]'

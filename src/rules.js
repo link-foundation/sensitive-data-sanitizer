@@ -50,6 +50,14 @@ export const serviceRules = [
     /[MN][A-Za-z0-9_-]{23}[A-Za-z0-9_-]*\.[A-Za-z0-9_-]{6}\.[A-Za-z0-9_-]{20}[A-Za-z0-9_-]*/g,
   ],
   ['huggingface', /hf_[A-Za-z0-9]{20}[A-Za-z0-9]*/g],
+  // All-caps CI/test credentials (`SYNTHETIC_TOKEN_ALPHA_123456`) carry only
+  // a semantic marker. A digit separates them from constant names
+  // (`KNOWN_LOCAL_TOKEN_ENV_VARS`); a key (`NAME_TOKEN_2=`) or a reference
+  // (`$NAME_TOKEN_2`, `secrets.NAME_TOKEN_2`) is a name, not a value.
+  [
+    'marker-token',
+    /(?<![A-Za-z0-9_$.{%-])(?=[A-Z_-]{0,200}\d)(?:[A-Z0-9]{1,32}[_-]){1,8}(?:TOKEN|SECRET|PASSWORD|CREDENTIAL|API[_-]?KEY)(?:[_-][A-Z0-9]{1,32}){1,8}(?![A-Za-z0-9_$-])(?![ \t]*(?:[:=]|\}))/g,
+  ],
   ['shopify', /shp(?:at|ss|ca|pa)_[a-fA-F0-9]{32}/g],
   ['databricks', /dapi[a-fA-F0-9]{32}/g],
   ['square', /sq0(?:atp|csp)-[A-Za-z0-9_-]{20}[A-Za-z0-9_-]*/g],

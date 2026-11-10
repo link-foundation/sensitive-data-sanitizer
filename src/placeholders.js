@@ -1,10 +1,14 @@
 import { failure, REDACTED, escapePattern } from './detection.js';
-import { reservedPlaceholderTypes } from './placeholder-types.js';
+import {
+  namespacePattern,
+  placeholderTokens,
+  containsPlaceholder,
+  escapedPlaceholderTokens,
+} from './placeholder-types.js';
 import { samePersonal } from './personal-variants.js';
 import { isNameForm } from './russian-names.js';
 import { nameAliases } from './transliteration.js';
 import { createHash } from 'node:crypto';
-import { jsonStringLiterals } from './json-string-runs.js';
 import {
   createRestoreMap,
   validateRestoreMap,
@@ -35,8 +39,15 @@ const transforms = (options) =>
     ...Object.values(options.transformations ?? {}),
   ].filter((t) => t?.mode === 'placeholder');
 
+const existingModes = new Set(['error', 'keep']);
 export function validatePlaceholder(transform) {
   validatePlaceholderFormat(transform.format ?? transform.map?.format);
+  if (
+    transform.existing !== undefined &&
+    !existingModes.has(transform.existing)
+  ) {
+    throw failure('ERR_CONFIG');
+  }
   if (
     transform.credentials !== undefined &&
     typeof transform.credentials !== 'boolean'
@@ -67,12 +78,21 @@ export function initializePlaceholders(options) {
     selected.some(
       (t) =>
         (t.map !== undefined && t.map !== first.map) ||
-        (t.format !== undefined && t.format !== map.format)
+        (t.format !== undefined && t.format !== map.format) ||
+        (t.existing ?? 'error') !== (first.existing ?? 'error')
     )
   ) {
     throw failure('ERR_CONFIG');
   }
-  return { ...options, [placeholderState]: { map, keep: first.map !== false } };
+  return {
+    ...options,
+    [placeholderState]: {
+      map,
+      keep: first.map !== false,
+      existing: first.existing ?? 'error',
+      floors: new Map(),
+    },
+  };
 }
 export function placeholderKnown(options) {
   const map = options[placeholderState]?.map;
@@ -305,31 +325,95 @@ function addNamePatterns(person, patterns, bareForms) {
     }
   }
 }
+const placeholderType = (finding) => {
+  if (finding.category === 'credential') {
+    return 'CREDENTIAL';
+  }
+  const type =
+    finding.type === 'JSON_VALUE'
+      ? (finding.valueType ?? 'SENSITIVE')
+      : finding.type;
+  return type === 'DATE_OF_BIRTH' ? 'DATE' : type;
+};
+// Types beyond the reserved list that this call can turn into tokens.
+function callPattern(findings, options) {
+  const transform = transforms(options)[0];
+  const map = options[placeholderState]?.map;
+  return namespacePattern(
+    map?.format ?? transform?.format ?? transform?.map?.format,
+    [
+      ...findings.map(placeholderType),
+      ...(options.knownPersonal ?? []).map((e) => e.type),
+      ...(map?.entries ?? []).map((e) => e.type),
+    ]
+  );
+}
+const keepsExisting = (options) => transforms(options)[0]?.existing === 'keep';
+// With `existing: 'keep'` the tokens of an earlier pass stay as they are, so
+// findings made only of those tokens are not replaced again.
+export function keptPlaceholderSpans(text, findings, options) {
+  if (!keepsExisting(options)) {
+    return [];
+  }
+  return placeholderTokens(text, callPattern(findings, options));
+}
+const significant = /[\p{L}\p{N}]/u;
+// A finding made only of kept tokens is kept, and one that starts or ends
+// inside a kept token is trimmed to the text beside it.
+function trimmedToLoose(finding, inside, loose) {
+  let { start, end } = finding;
+  if (inside(start)) {
+    while (start < end && !loose(start)) {
+      start = inside(start)?.end ?? start + 1;
+    }
+  }
+  if (inside(end - 1)) {
+    while (end > start && !loose(end - 1)) {
+      end = inside(end - 1)?.start ?? end - 1;
+    }
+  }
+  return start === finding.start && end === finding.end
+    ? finding
+    : { ...finding, start, end };
+}
+export function keptPlaceholderFinding(text, finding, tokens) {
+  const overlapping = tokens.filter(
+    (token) => token.start < finding.end && token.end > finding.start
+  );
+  if (finding.category !== 'personal' || !overlapping.length) {
+    return finding;
+  }
+  const inside = (i) =>
+    overlapping.find((token) => token.start <= i && token.end > i);
+  const loose = (i) => !inside(i) && significant.test(text[i]);
+  const { start, end } = finding;
+  if (!Array.from({ length: end - start }, (_, i) => start + i).some(loose)) {
+    return { ...finding, kept: 'fake' };
+  }
+  return finding.type === 'JSON_VALUE'
+    ? finding
+    : trimmedToLoose(finding, inside, loose);
+}
 export function preparePlaceholderText(text, findings, options) {
   const state = options[placeholderState];
   if (!state || !hasPlaceholders(options)) {
     return;
   }
-  const types = new Set([
-    ...reservedPlaceholderTypes(),
-    ...findings.map((f) =>
-      f.category === 'credential' ? 'CREDENTIAL' : f.type
-    ),
-    ...(options.knownPersonal ?? []).map((e) => e.type),
-    ...state.map.entries.map((e) => e.type),
-  ]);
-  const [before, after] = state.map.format.split('{n}');
-  const tokens = [...types].map(
-    (type) =>
-      `${escapePattern(
-        placeholderToken(type, 1, before)
-      )}[1-9][0-9]*${escapePattern(placeholderToken(type, 1, after))}`
-  );
-  const pattern = new RegExp(
-    `(?<![\\p{L}\\p{M}\\p{N}_])(?:${tokens.join('|')})(?![\\p{L}\\p{M}\\p{N}_])`,
-    'u'
-  );
-  if (namespaceCollision(text, pattern)) {
+  const pattern = callPattern(findings, options);
+  if (state.existing === 'keep') {
+    // New values are numbered after the highest kept number of their type.
+    for (const token of [
+      ...placeholderTokens(text, pattern),
+      ...escapedPlaceholderTokens(text, pattern),
+    ]) {
+      for (const type of token.types) {
+        state.floors.set(
+          type,
+          Math.max(state.floors.get(type) ?? 0, token.number)
+        );
+      }
+    }
+  } else if (namespaceCollision(text, pattern)) {
     throw failure('ERR_PLACEHOLDER_COLLISION');
   }
   state.people = [
@@ -345,20 +429,11 @@ export function preparePlaceholderText(text, findings, options) {
   ];
 }
 function namespaceCollision(text, pattern) {
-  if (pattern.test(text)) {
-    return true;
-  }
   // JSON escape spellings must not conceal existing tokens in keys or values.
-  for (const literal of jsonStringLiterals(text)) {
-    try {
-      if (pattern.test(JSON.parse(literal))) {
-        return true;
-      }
-    } catch {
-      // Ordinary free text may include strings that are not JSON literals.
-    }
-  }
-  return false;
+  return (
+    containsPlaceholder(text, pattern) ||
+    escapedPlaceholderTokens(text, pattern).length > 0
+  );
 }
 
 export function canonicalPerson(value, people) {
@@ -381,7 +456,18 @@ export function canonicalPerson(value, people) {
       person,
     ])
   );
-  return distinct.size === 1 ? [...distinct.values()][0] : value;
+  if (distinct.size === 1) {
+    return [...distinct.values()][0];
+  }
+  // `Иванов Иван` and `Иванов Иван Петрович` are one mention in two lengths:
+  // the unique name that holds the words of every other match is the person.
+  const words = (person) =>
+    new Set((person.match(/\p{L}+/gu) ?? []).map((w) => w.toLowerCase()));
+  const fullest = [...distinct.values()].filter((person) => {
+    const own = words(person);
+    return matches.every((other) => [...words(other)].every((w) => own.has(w)));
+  });
+  return fullest.length === 1 ? fullest[0] : value;
 }
 function canonicalKnown(value, type, options, state) {
   const known = (options.knownPersonal ?? []).filter(
@@ -427,12 +513,7 @@ export function placeholderReplacement(value, finding, transform, options) {
     throw failure('ERR_CONFIG');
   }
   const { map } = state;
-  const type =
-    finding.category === 'credential'
-      ? 'CREDENTIAL'
-      : finding.type === 'DATE_OF_BIRTH'
-        ? 'DATE'
-        : finding.type;
+  const type = placeholderType(finding);
   const canonical = canonicalKnown(value, type, options, state);
   const candidates = map.entries.filter(
     (entry) => entry.type === type && related(canonical, entry)
@@ -451,7 +532,7 @@ export function placeholderReplacement(value, finding, transform, options) {
       1 +
       map.entries.reduce(
         (n, e) => (e.type === type ? Math.max(n, e.number) : n),
-        0
+        state.floors?.get(type) ?? 0
       );
     const token = placeholderToken(type, number, map.format);
     if (
@@ -543,5 +624,6 @@ export function discardPlaceholderState(options) {
     state.map.entries.length = 0;
     state.map.documents.length = 0;
     state.people = [];
+    state.floors?.clear();
   }
 }

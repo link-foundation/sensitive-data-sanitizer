@@ -89,7 +89,10 @@ describe('provider and context coverage', () => {
     const identifier = 'x'.repeat(16384);
     const result = sanitize(`${identifier} https://u:p@localhost`).text;
     expect(result.startsWith(identifier)).toBe(true);
-    expect(result.endsWith('https://[REDACTED]@localhost')).toBe(true);
+    // The user name is personal data and the password a credential (#132).
+    expect(result.endsWith('https://[REDACTED]:[REDACTED]@localhost')).toBe(
+      true
+    );
   });
   it('protects known secrets regardless of shape or case in matching personal values', () => {
     expect(

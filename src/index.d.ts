@@ -17,6 +17,8 @@ export interface Finding {
   kept?: 'fake';
   /** Returned finding replaced with, or recognized as, a generated fake. */
   faked?: true;
+  /** For `JSON_VALUE`: the field's personal type, e.g. `AGE`, when known. */
+  valueType?: string;
 }
 export interface PersonalValue {
   type: string;
@@ -31,7 +33,9 @@ export type Vocabulary = Partial<
     | 'organizationCues'
     | 'educationCues'
     | 'personalLabels'
-    | 'personalFields',
+    | 'personalFields'
+    /** Word stems for the strict special-category rule; needs `strict: true`. */
+    | 'personalAttributes',
     VocabularyList
   >
 >;
@@ -114,6 +118,19 @@ export interface SanitizerOptions {
    * same rules as allowList.
    */
   inlineAllow?: boolean;
+  /**
+   * Keeps a finding the caller's policy knows is not sensitive. Runs after
+   * detection and before transformation, once per finding, with the text the
+   * offsets refer to; it must return a boolean (`true` keeps the span as-is).
+   * Verification of the output consults it again per span, so the same value
+   * elsewhere is still caught. Declared knownSecrets/knownPersonal/
+   * confirmedPersonal values and JSON_VALUE denials are never offered.
+   * createSyncSanitizer and sanitize() require a synchronous hook.
+   */
+  exempt?: (
+    finding: Readonly<Finding & { value: string }>,
+    text: string
+  ) => boolean | Promise<boolean>;
   /** Explicit network/callback verification; credentials never qualify. */
   verifyPublic?: (candidate: {
     type: PublicEntity['type'];
@@ -243,7 +260,11 @@ export declare function fromOffsetReport(
 ): Finding[];
 export declare function knownSecretsFromEnv(
   env?: Record<string, string | undefined>,
-  names?: string[]
+  names?: string[],
+  options?: {
+    /** Skip values shorter than this many characters (default 1). */
+    minLength?: number;
+  }
 ): string[];
 /** Reversible UTF-8 view: invalid bytes use unpaired U+DC80..U+DCFF. */
 export declare function decodeLogBytes(bytes: Uint8Array): string;
@@ -300,6 +321,12 @@ export type Transformation =
       map?: RestoreMap | false;
       format?: string;
       credentials?: boolean;
+      /**
+       * Tokens of the namespace already in the input: `'error'` (default)
+       * throws `ERR_PLACEHOLDER_COLLISION`; `'keep'` leaves them as they are
+       * and numbers new values after the highest kept number per type.
+       */
+      existing?: 'error' | 'keep';
     }
   | {
       mode: 'mask';
@@ -378,6 +405,18 @@ export declare function writeRestoreMap(
 ): Promise<void>;
 /** Exact original-document restoration; derived text uses canonical surfaces. */
 export declare function restore(text: string, map: RestoreMap): string;
+/** Sorted, frozen list of the types built-in rules turn into `Type-n` tokens. */
+export declare function reservedPlaceholderTypes(): readonly string[];
+/** Whether `text` is one whole token of the placeholder namespace. */
+export declare function isPlaceholderToken(
+  text: string,
+  options?: {
+    /** Placeholder format, default `'{Type}-{n}'`. */
+    format?: string;
+    /** Extra custom types, e.g. those of `createPatternDetector`. */
+    types?: readonly string[];
+  }
+): boolean;
 export interface StreamOptions extends SanitizerOptions {
   /** Treat NUL as a log byte; default false. Incompatible with JSON/JSONL. */
   allowBinary?: boolean;

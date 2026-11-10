@@ -18,6 +18,7 @@ import { projectText } from './projection.js';
 import { decodedRuns } from './encoded.js';
 import { hasCustomTransforms } from './transforms.js';
 import { builtInEnabled } from './policy.js';
+import { exemptFindingsAsync } from './exempt.js';
 import {
   initializePlaceholders,
   placeholderKnown,
@@ -220,10 +221,7 @@ async function analyzeStructured(
   );
 }
 
-export function createSanitizer(options = {}) {
-  options = applyProfile(options);
-  validateOptions(options);
-  options = initializePlaceholders(options);
+function configuredEngines(options) {
   for (const detector of options.detectors ?? []) {
     if (!detector || typeof detector.detect !== 'function') {
       throw failure('ERR_CONFIG');
@@ -234,6 +232,14 @@ export function createSanitizer(options = {}) {
   if (!options.knownOnly) {
     engines.push(...(options.detectors ?? []));
   }
+  return engines;
+}
+
+export function createSanitizer(options = {}) {
+  options = applyProfile(options);
+  validateOptions(options);
+  options = initializePlaceholders(options);
+  const engines = configuredEngines(options);
   let prepared;
   async function analyze(
     text,
@@ -266,6 +272,7 @@ export function createSanitizer(options = {}) {
             ...options,
             structured: undefined,
             detectors: [],
+            exempt: undefined,
             findings,
           })
         : reviewFindings(text, [...nativeFindings, ...findings], options);
@@ -274,15 +281,31 @@ export function createSanitizer(options = {}) {
       : detected;
   }
 
+  // The caller's `exempt` hook screens the findings of the text it sees,
+  // including the verification passes over the published output.
+  async function screened(
+    text,
+    initial,
+    plain,
+    scopedOptions = options,
+    nativeFindings
+  ) {
+    return exemptFindingsAsync(
+      text,
+      await analyze(text, initial, plain, scopedOptions, nativeFindings),
+      scopedOptions.exempt
+    );
+  }
+
   const sanitizer = {
-    inspect: guarded(analyze),
+    inspect: guarded(screened),
     sanitize: guarded(sanitizeText, () => discardPlaceholderState(options)),
     sanitizeJsonl: (text) =>
       createSanitizer({ ...options, structured: 'jsonl' }).sanitize(text),
   };
   configurations.set(sanitizer, options);
   streamPreparers.set(sanitizer, async (text, nativeFindings) => {
-    const findings = await analyze(
+    const findings = await screened(
       text,
       nativeFindings === undefined ? (options.findings ?? []) : [],
       false,
@@ -305,7 +328,7 @@ export function createSanitizer(options = {}) {
     const findings =
       depth === 0 && prepared?.text === text
         ? prepared.findings
-        : await analyze(text, options.findings ?? [], plain, options);
+        : await screened(text, options.findings ?? [], plain, options);
     if (depth === 0) {
       prepared = undefined;
     }
@@ -329,7 +352,7 @@ export function createSanitizer(options = {}) {
           recursiveOptions
         )
     );
-    if (await customResidual(result.text, options, plain, analyze)) {
+    if (await customResidual(result.text, options, plain, screened)) {
       throw failure('ERR_RESIDUAL');
     }
     const sanitized = fullRedaction
@@ -351,7 +374,7 @@ export function createSanitizer(options = {}) {
         ).text;
     // Verification at the publication boundary runs every enabled engine.
     if (
-      (await analyze(sanitized, [], plain, options)).some((f) =>
+      (await screened(sanitized, [], plain, options)).some((f) =>
         actionable(f, options)
       )
     ) {
@@ -360,7 +383,7 @@ export function createSanitizer(options = {}) {
       );
     }
     verifyStructuredResult(result.text, options, plain);
-    if (await placeholderResidual(result.text, options, plain, analyze)) {
+    if (await placeholderResidual(result.text, options, plain, screened)) {
       throw failure('ERR_RESIDUAL');
     }
     return { ...result, findings: auditFaked(findings, options, result) };
