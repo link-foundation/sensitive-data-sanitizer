@@ -172,3 +172,19 @@ reads and serialization; callers must pass a new object when changing lists.
 The combined regressions preserve that contract alongside the additional
 attribute-precedence, escaped-placeholder, PEM and verifier checks. Earlier
 performance snapshots describe the pre-integration draft, not the merged tree.
+
+## CI investigation
+
+- `dd1abdf`: CodeQL rejected the polynomial placeholder precheck; security
+  run 42874327704, log line 3503. The linear replacement passed on `b9ae98d`.
+- `b9ae98d`: release run 42875250046 rejected two changesets at log line 294.
+  Consolidated the PR into one minor changeset. The upstream changeset already
+  on main is not a second PR addition.
+- `15cd1a0`: link job 130049489191, log line 315, returned HTTP 403 for the old
+  OpenAI model-list reference. The current official developer reference was
+  fetched successfully and substituted in documentation and provider metadata.
+
+After integrating PR 145, 243 focused tests pass across twelve regression files.
+The source changes retain explicit transformation precedence and only strengthen
+attribute labeling against the overlapping generic entity types. CI is checked
+against the final pushed SHA; no earlier passing run establishes that result.

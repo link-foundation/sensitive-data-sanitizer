@@ -3,7 +3,8 @@
 Objective: deliver every issue 146 requirement and every required issue in PR
 147, with evidence per criterion. Do not infer completion from CI or issue state.
 
-- [x] Read issue 146 and PR conversation, inline comments and reviews (all empty).
+- [x] Read issue 146 and PR conversation, inline comments and reviews; review
+      later CodeQL feedback and replace the polynomial placeholder precheck.
 - [x] Preserve repository issue bodies and all conversation comments; generate an
       inventory (114 issues, 114 comments; open issues 144 and 146).
 - [x] Read contributing instructions, current rule import policy, comparison
@@ -23,7 +24,7 @@ Objective: deliver every issue 146 requirement and every required issue in PR
 - [x] Rerun all 853 collected competitor cases; preserve remaining misses.
 - [x] Reproduce and fix adjacent PEM armor residual failures; focused tests pass.
 - [x] Verify README navigation reaches all 91 Markdown documents.
-- [ ] Run focused tests and before/after probes, commit atomic changesets, push
+- [x] Run focused tests and before/after probes, commit atomic changesets, push
       only the prepared branch, review the full PR diff.
 - [ ] Refresh PR description, verify current-SHA CI, integrate main, mark ready
       only when all criteria are actually satisfied.

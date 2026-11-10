@@ -31,7 +31,7 @@ const providers = {
   openai: [
     'https://api.openai.com/v1/models',
     'bearer',
-    'https://platform.openai.com/docs/api-reference/models/list',
+    'https://developers.openai.com/api/reference/resources/models/methods/list',
   ],
   anthropic: [
     'https://api.anthropic.com/v1/models',

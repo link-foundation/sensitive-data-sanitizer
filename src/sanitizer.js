@@ -902,9 +902,6 @@ function semanticTypePreference(current, candidate) {
   ) {
     return candidate === 'PERSONAL_ATTRIBUTE';
   }
-  if (current === 'PROPER_NAME' || candidate === 'PROPER_NAME') {
-    return current === 'PROPER_NAME';
-  }
   return undefined;
 }
 export function redactResult(
