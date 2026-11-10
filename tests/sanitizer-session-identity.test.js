@@ -17,8 +17,11 @@ describe('session and phone regressions (#9, #12)', () => {
     JSON.stringify({
       url: `https://example.org/search?q=${'word%20'.repeat(2000)}`,
     }),
-    // Wrapped binary base64; lines of plain hex digits are hashes (#139).
-    'Ab+/'.repeat(25) + `\n${'Cd/+'.repeat(25)}`.repeat(120),
+    // Wrapped text beyond the detection cap; bounded binary is preserved (#149).
+    Buffer.from('ordinary note '.repeat(1000))
+      .toString('base64')
+      .match(/.{1,76}/g)
+      .join('\n'),
   ]) {
     it('audits oversized encoded runs without blocking the whole input', async () => {
       const result = await createSanitizer().sanitize(text);
