@@ -143,6 +143,10 @@ export function configurationSetting(keyName, value) {
 function credentialMetadata(keyName, value) {
   return (
     configurationSetting(keyName, value) ||
+    // This documented opt-out enum is public; other authority values and
+    // names still carry credential evidence.
+    (keyName === 'HIVE_MIND_CLAUDE_AUTH_AUTHORITY' &&
+      value === 'conventional') ||
     (/(?:^|[_.-])auth[_.-](?:mode|method|type)$/i.test(keyName) &&
       /^(?:chatgpt|oauth2?|apikey|api_key|bearer|basic|none)$/i.test(value)) ||
     (keyName === 'id-token' && /^(?:write|read|none)$/.test(value)) ||
@@ -164,7 +168,7 @@ export function valueRange(text, start, mode = 'token', maxLength = Infinity) {
   if (reference) {
     return { start, end: start + reference[0].length };
   }
-  const opening = text.slice(start).match(/^(\\*)(["'])/);
+  const opening = text.slice(start).match(/^(\\*)(["']|`+)/);
   if (opening) {
     const range = quotedRange(text, start, opening, maxLength);
     const outer = outerQuoteEnd(text, range.start, range.end);
@@ -174,14 +178,16 @@ export function valueRange(text, start, mode = 'token', maxLength = Infinity) {
     return undefined;
   }
   const tail = text.slice(start, start + maxLength);
+  // Unquoted values stop at a Markdown code-span delimiter. Quoted literals
+  // above retain embedded backticks as credential material.
   const terminator =
     mode === 'query'
       ? /[\s&#"'<>]/
       : mode === 'line'
-        ? /[\r\n<>"]|\\+[nrt"']/
+        ? /[`\r\n<>"]|\\+[nrt"']/
         : mode === 'prose'
-          ? /[\r\n<>]|\\+[nrt"']|(?<![ \t])[ \t]+(?:for the|for my|для|pour|para|für|لـ)(?:[ \t]|$)/iu
-          : /[\s,;}\]"'<>]|\\+[nrt"']/;
+          ? /[`\r\n<>]|\\+[nrt"']|(?<![ \t])[ \t]+(?:for the|for my|для|pour|para|für|لـ)(?:[ \t]|$)/iu
+          : /[`\s,;}\]"'<>]|\\+[nrt"']/;
   const stop = tail.search(terminator);
   const end = stop < 0 ? start + tail.length : start + stop;
   return { start, end: Math.min(end, outerQuoteEnd(text, start, end) ?? end) };
@@ -313,7 +319,7 @@ function quotedRange(text, start, opening, maxLength) {
     ) {
       return { start: valueStart, end: i };
     }
-    if (text[i] !== quote) {
+    if (!text.startsWith(quote, i)) {
       continue;
     }
     let slashes = 0;
@@ -508,8 +514,8 @@ function credentialMode(text, match) {
 // `token: <script>alert(1)</script>`: markup is the value. A bare
 // `<placeholder>` that ends the value stays a placeholder.
 const angleEnd = {
-  line: /[\r\n"]|\\+[nrt"']/,
-  token: /[\s,;}\]"']|\\+[nrt"']/,
+  line: /[`\r\n"]|\\+[nrt"']/,
+  token: /[`\s,;}\]"']|\\+[nrt"']/,
 };
 // Formatting tags around a value (`token=<em>…</em>`) are dropped from the
 // detection view instead.
@@ -531,6 +537,17 @@ function angleValue(text, start, mode) {
   return { start, end: start + (stop < 0 ? tail.length : stop) };
 }
 
+// Scheme-prefixed values carry the credential after the keyword, just as
+// Authorization headers do. Never mask only `token` and leave its value.
+function credentialValueRange(text, start, mode) {
+  if (mode === 'token') {
+    start +=
+      /^(?:token|Bearer|Basic)[ \t]+(?=\S)/i.exec(text.slice(start))?.[0]
+        .length ?? 0;
+  }
+  return angleValue(text, start, mode) ?? valueRange(text, start, mode);
+}
+
 function credentialRange(text, match, camel) {
   const start = match.index + match[0].length;
   if (
@@ -543,7 +560,7 @@ function credentialRange(text, match, camel) {
     return authorizationRanges(text, start);
   }
   const mode = credentialMode(text, match);
-  const range = angleValue(text, start, mode) ?? valueRange(text, start, mode);
+  const range = credentialValueRange(text, start, mode);
   const value = range && mode === 'prose' ? generatedWord(text, range) : range;
   if (value && /^(?:set-)?cookie$/i.test(match[1])) {
     return cookieValues(text, value.start, value.end);
@@ -582,7 +599,8 @@ function detectCredentials(text, emit) {
   }
   const flags = new RegExp(`--(${key})(?:[ \\t]+|=)`, 'giu');
   for (const match of text.matchAll(flags)) {
-    const range = valueRange(text, match.index + match[0].length);
+    const start = match.index + match[0].length;
+    const range = credentialValueRange(text, start, 'token');
     if (range) {
       emitValue(text, range.start, range.end, emit, details, match[1]);
     }
