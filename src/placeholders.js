@@ -357,8 +357,9 @@ export function keptPlaceholderSpans(text, findings, options) {
   }
   return placeholderTokens(text, callPattern(findings, options));
 }
-// Only skip the default namespace when there is neither a visible token nor
-// a JSON escape which could conceal one. Custom formats keep their full scan.
+// Every default token contains a hyphen and a positive counter. This cheap
+// precheck stays linear even on long alphabetic text. Escapes and custom
+// formats conservatively keep the full scan.
 function mayHavePlaceholder(text, options) {
   const transform = transforms(options)[0];
   const format =
@@ -368,7 +369,7 @@ function mayHavePlaceholder(text, options) {
   return (
     (format !== undefined && format !== '{Type}-{n}') ||
     text.includes('\\') ||
-    /[A-Z][A-Za-z]*-[1-9]/.test(text)
+    /-[1-9]/.test(text)
   );
 }
 const significant = /[\p{L}\p{N}]/u;
