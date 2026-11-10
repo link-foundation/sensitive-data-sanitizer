@@ -15,7 +15,10 @@ sources = {
 }
 patterns = {
     "google": r"<td>\s*<code[^>]*>([A-Z][A-Z0-9_]+)</code>",
-    "azure": r"<td>\[<strong>([A-Za-z0-9]+)</strong>\]</td>",
+    # Most rows use a bracketed name; newer rows say "specify <name> in the
+    # piiCategories parameter" instead.
+    "azure": r"(?:<td>\[<strong>|specify <strong>)([A-Za-z0-9]+)</strong>"
+    r"(?:\]</td>| in the <strong>piiCategories)",
     "aws": r'<span class="term">([A-Z][A-Z0-9_]+)</span>',
 }
 parser = argparse.ArgumentParser(description=__doc__)

@@ -18,6 +18,7 @@ import {
   knownSecretsFromGitHubConfig,
 } from '../src/known.js';
 import { encodeLogText } from '../src/log-bytes.js';
+import { toSarif } from '../src/sarif.js';
 import { createWikidataVerifier } from '../src/public-verifier.js';
 import { streamCommand } from './stream.js';
 import { sessionStructuralFields } from '../src/structured.js';
@@ -67,6 +68,7 @@ history rewrite SOURCE --output DIRECTORY [--apply]
 --no-map            Discard placeholder mapping after full anonymization
 --placeholder-format TEMPLATE  Default {Type}-{n}; also [{TYPE}_{n}]
 --map-format FORMAT json or lino (otherwise inferred from .lino extension)
+--format FORMAT     scan report: json (default) or sarif (SARIF 2.1.0)
 --map-credentials   Explicitly keep credentials in the private restore map
 --max-record-bytes N Maximum record bytes (text: total limit; JSONL: 8388608)
 --hive-mask         Opt-in first/last 3 mask for values longer than 12 characters
@@ -129,6 +131,7 @@ function parseArgs(argv) {
     ['--map', 'map'],
     ['--map-format', 'mapFormat'],
     ['--placeholder-format', 'placeholderFormat'],
+    ['--format', 'format'],
   ]);
   let hasPath = false;
   for (let i = rewrite ? 2 : 1; i < argv.length; i++) {
@@ -194,7 +197,11 @@ function validateFeatureArgs(config) {
 
 function validateStructuredArgs(config) {
   validateStreamArgs(config);
-  if (config.twoPass && !config.stream) {
+  if (
+    (config.twoPass && !config.stream) ||
+    (config.format !== undefined &&
+      (config.command !== 'scan' || !['json', 'sarif'].includes(config.format)))
+  ) {
     throw failure('ERR_ARGUMENT');
   }
   if ((config.json && config.jsonl) || (config.stream && config.json)) {
@@ -266,9 +273,7 @@ export async function runCli(
       return 0;
     }
     if (['--version', '-v'].includes(argv[0])) {
-      stdout.write(
-        `${JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version}\n`
-      );
+      stdout.write(`${packageVersion()}\n`);
       return 0;
     }
     const config = parseArgs(argv);
@@ -484,7 +489,10 @@ async function scanCommand(config, engine, { stdin, stdout }) {
     }
   }
   const complete = skipped.length === 0;
-  stdout.write(`${JSON.stringify({ complete, results, skipped }, null, 2)}\n`);
+  const report = { complete, results, skipped };
+  stdout.write(
+    `${JSON.stringify(config.format === 'sarif' ? toSarif(report, { version: packageVersion() }) : report, null, 2)}\n`
+  );
   return !complete ? 2 : results.some((r) => r.findings.length) ? 1 : 0;
 }
 
@@ -493,6 +501,12 @@ if (
   realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))
 ) {
   process.exitCode = await runCli(process.argv.slice(2));
+}
+
+function packageVersion() {
+  return JSON.parse(
+    readFileSync(new URL('../package.json', import.meta.url), 'utf8')
+  ).version;
 }
 
 function defaultByteLimit(config) {

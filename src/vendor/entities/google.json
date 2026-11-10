@@ -1,6 +1,6 @@
 {
   "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference",
-  "sha256": "fe0a7182311d0bcb218a3666d46c076bc84a256b0b36059e7c5f4a39116a4210",
+  "sha256": "e12d6c62e670a580545f3e342c347ba6f102d485bdc4fee0b7e220bcc7822b92",
   "names": [
     "ADVERTISING_ID",
     "AGE",
@@ -53,6 +53,7 @@
     "DRIVERS_LICENSE_NUMBER",
     "EMAIL_ADDRESS",
     "EMPLOYMENT_STATUS",
+    "ENCODED_BLOCK",
     "ENCRYPTION_KEY",
     "ETHNIC_GROUP",
     "FDA_CODE",

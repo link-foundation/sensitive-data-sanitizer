@@ -5,6 +5,7 @@ import { encodedValue, encodeRun, decodedRuns } from './encoded.js';
 import { isIdentityType } from './identity.js';
 import { validatePlaceholder, placeholderReplacement } from './placeholders.js';
 import { projectText } from './projection.js';
+import { encryptValue } from './encrypt.js';
 
 const modes = new Set([
   'redact',
@@ -16,6 +17,7 @@ const modes = new Set([
   'date-shift',
   'bucket',
   'placeholder',
+  'encrypt',
 ]);
 export function validateTransforms(options) {
   if (
@@ -86,16 +88,10 @@ function validateTransform(transform) {
       Number.isSafeInteger(transform.days) &&
       Math.abs(transform.days) <= 365000,
     bucket: () => positiveInteger(transform.size),
-    mask: () =>
-      [transform.keepStart ?? 0, transform.keepEnd ?? 0].every(
-        (value) => Number.isSafeInteger(value) && value >= 0
-      ) &&
-      (transform.minLength === undefined ||
-        positiveInteger(transform.minLength)) &&
-      (transform.marker === undefined ||
-        (typeof transform.marker === 'string' &&
-          transform.marker.length > 0 &&
-          transform.marker.length <= 64)),
+    mask: () => validMask(transform),
+    encrypt: () =>
+      typeof transform.key === 'string' &&
+      Buffer.byteLength(transform.key) >= 16,
   };
   if (checks[transform.mode] && !checks[transform.mode]()) {
     throw failure('ERR_CONFIG');
@@ -141,15 +137,94 @@ function shiftedDate(value, days) {
     ? REDACTED
     : date.toISOString().slice(0, 10);
 }
+// Google charactersToIgnore/commonCharactersToIgnore and Presidio-style
+// character classes that a mask may leave visible.
+const maskClasses = {
+  digits: /\p{Nd}/u,
+  upper: /\p{Lu}/u,
+  lower: /\p{Ll}/u,
+  punctuation: /[\p{P}\p{S}]/u,
+  whitespace: /\s/u,
+};
+const maskTuning = ['char', 'ignore', 'ignoreClasses', 'count', 'fromEnd'];
+const unset = (value, test) => value === undefined || test(value);
+const maskChecks = [
+  (t) =>
+    [t.keepStart ?? 0, t.keepEnd ?? 0].every(
+      (value) => Number.isSafeInteger(value) && value >= 0
+    ),
+  (t) => unset(t.minLength, positiveInteger),
+  (t) =>
+    unset(
+      t.marker,
+      (marker) =>
+        !maskTuning.some((key) => t[key] !== undefined) &&
+        typeof marker === 'string' &&
+        marker.length > 0 &&
+        marker.length <= 64
+    ),
+  (t) =>
+    unset(
+      t.char,
+      (char) => typeof char === 'string' && Array.from(char).length === 1
+    ),
+  (t) =>
+    unset(
+      t.ignore,
+      (ignore) =>
+        typeof ignore === 'string' && ignore.length > 0 && ignore.length <= 256
+    ),
+  (t) =>
+    unset(
+      t.ignoreClasses,
+      (names) =>
+        Array.isArray(names) &&
+        names.every((name) => Object.hasOwn(maskClasses, name))
+    ),
+  (t) => unset(t.count, positiveInteger),
+  (t) => unset(t.fromEnd, (value) => typeof value === 'boolean'),
+];
+function validMask(transform) {
+  return maskChecks.every((check) => check(transform));
+}
 function masked(value, finding, transform) {
   const chars = Array.from(value),
     start = transform.keepStart ?? 0,
     end = transform.keepEnd ?? 0;
-  return chars.length <
-    (transform.minLength ?? (isIdentityType(finding.type) ? 5 : 0)) ||
+  if (
+    chars.length <
+      (transform.minLength ?? (isIdentityType(finding.type) ? 5 : 0)) ||
     start + end >= chars.length
-    ? REDACTED
-    : `${chars.slice(0, start).join('')}${transform.marker ?? '*'.repeat(chars.length - start - end)}${end ? chars.slice(-end).join('') : ''}`;
+  ) {
+    return REDACTED;
+  }
+  if (transform.marker !== undefined) {
+    return `${chars.slice(0, start).join('')}${transform.marker}${end ? chars.slice(-end).join('') : ''}`;
+  }
+  const ignored = (char) =>
+    Boolean(transform.ignore?.includes(char)) ||
+    (transform.ignoreClasses ?? []).some((name) =>
+      maskClasses[name].test(char)
+    );
+  let positions = [];
+  for (let i = start; i < chars.length - end; i++) {
+    if (!ignored(chars[i])) {
+      positions.push(i);
+    }
+  }
+  if (transform.fromEnd) {
+    positions.reverse();
+  }
+  if (transform.count !== undefined) {
+    positions = positions.slice(0, transform.count);
+  }
+  if (!positions.length) {
+    return REDACTED;
+  }
+  for (const i of positions) {
+    chars[i] = transform.char ?? '*';
+  }
+  return chars.join('');
 }
 function transformed(value, finding, transform, options) {
   if (typeof transform === 'function') {
@@ -177,6 +252,9 @@ function transformed(value, finding, transform, options) {
   }
   if (transform.mode === 'mask') {
     return masked(value, finding, transform);
+  }
+  if (transform.mode === 'encrypt') {
+    return encryptValue(value, finding.type, transform.key);
   }
   if (transform.mode === 'pseudonym') {
     return `[PSEUDONYM_${keyed(value, finding.type, transform.key).toString('hex').slice(0, 24)}]`;

@@ -1,13 +1,18 @@
 // A valid check digit is common in arbitrary log numbers. Context decides
 // whether that evidence merits a replacement; inspect retains low scores.
-export function threshold(options) {
-  return options.minConfidence ?? options.threshold ?? 0.5;
+export function threshold(options, type) {
+  return (
+    options.minConfidenceByType?.[type] ??
+    options.minConfidence ??
+    options.threshold ??
+    0.5
+  );
 }
 export function actionable(finding, options) {
   return (
     finding.kept !== 'fake' &&
     (finding.category === 'credential' ||
-      finding.confidence >= threshold(options))
+      finding.confidence >= threshold(options, finding.type))
   );
 }
 export function numericNoise(text, start) {

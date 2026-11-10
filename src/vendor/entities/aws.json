@@ -1,6 +1,6 @@
 {
   "source": "https://docs.aws.amazon.com/comprehend/latest/dg/how-pii.html",
-  "sha256": "0ac728632444f43e09b9079c709558c8237d732e7bcb3c8199c4dd3443f9c6a0",
+  "sha256": "6ed623108ec7f4d4280d7d80fb437941a1210a90d72c83359dafae8ebb53b787",
   "names": [
     "ADDRESS",
     "AGE",

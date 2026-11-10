@@ -28,6 +28,7 @@ import {
 } from './transforms.js';
 import { fakeIdentityValue, isIdentityType } from './identity.js';
 import { rejectRestoreMap } from './restore-map.js';
+import { allowListed, validateAllowList } from './allow-list.js';
 import {
   initializePlaceholders,
   placeholderKnown,
@@ -99,6 +100,8 @@ const optionNames = new Set([
   'strict',
   'exactFields',
   'allowedFields',
+  'minConfidenceByType',
+  'allowList',
 ]);
 
 export function applyProfile(options = {}) {
@@ -225,6 +228,7 @@ export function validateOptions(options = {}) {
     throw failure('ERR_CONFIG');
   }
   validateCollections(options);
+  validateAllowList(options);
   validateDetectors(options.detectors);
   validatePolicyControls(options);
   compiledVocabulary(options.vocabulary);
@@ -252,6 +256,22 @@ function validateConfidence(options) {
     options.minConfidence !== undefined &&
     options.threshold !== undefined &&
     options.minConfidence !== options.threshold
+  ) {
+    throw failure('ERR_CONFIG');
+  }
+  const byType = options.minConfidenceByType;
+  if (
+    byType !== undefined &&
+    (!byType ||
+      typeof byType !== 'object' ||
+      Array.isArray(byType) ||
+      !Object.entries(byType).every(
+        ([type, value]) =>
+          validType(type) &&
+          typeof value === 'number' &&
+          value >= 0 &&
+          value <= 1
+      ))
   ) {
     throw failure('ERR_CONFIG');
   }
@@ -524,6 +544,7 @@ export function reviewFindings(text, findings, options) {
   if (findings.length > (options.maxFindings ?? 100000)) {
     throw failure('ERR_LIMIT');
   }
+  findings = findings.filter((f) => !allowListed(text, f, options));
   const unique = new Map();
   const exempt = findings.filter((f) =>
     allowed(text, f, options.publicEntities ?? [])
@@ -565,9 +586,9 @@ function coveredByPublic(finding, exempt) {
 }
 
 export function inspectFindingsOnly(text, findings, options) {
-  const all = [...findings, ...(options.findings ?? [])].map((f) =>
-    sanitizeFinding(f, text.length)
-  );
+  const all = [...findings, ...(options.findings ?? [])]
+    .map((f) => sanitizeFinding(f, text.length))
+    .filter((f) => !allowListed(text, f, options));
   if (all.length > (options.maxFindings ?? 100000)) {
     throw failure('ERR_LIMIT');
   }
