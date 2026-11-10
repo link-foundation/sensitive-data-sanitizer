@@ -62,7 +62,7 @@ export const nationalRules = [
   {
     type: 'CA_SIN',
     pattern: /\d{3}[ -]?\d{3}[ -]?\d{3}/g,
-    context: /\bSIN\b|social insurance/iu,
+    context: /\b(?:SIN|NAS)\b|social insurance|assurance sociale/iu,
     checksum: checks.shortLuhn,
   },
   {
@@ -225,6 +225,54 @@ export const nationalRules = [
     pattern: /\d{8}[A-Z]|(?:19|20)\d{7}[A-Z]|[TSR]\d{2}[A-Z]{2}\d{4}[A-Z]/g,
     context: /\bUEN\b|unique entity number/iu,
     checksum: never,
+  },
+  {
+    type: 'DE_TAX_ID',
+    pattern: /[1-9]\d(?: ?\d{3}){3}|[1-9]\d{10}/g,
+    context: /steuer[ -]?id|steueridentifikationsnummer|\bIdNr\b|\bTIN\b/iu,
+    checksum: checks.germanTaxId,
+  },
+  {
+    // EU VAT identification numbers by member-state prefix (VIES formats).
+    type: 'EU_VAT_NUMBER',
+    pattern:
+      /(?:AT ?U\d{8}|BE ?[01]\d{9}|DE ?[1-9]\d{8}|DK ?\d{8}|EL ?\d{9}|ES ?[0-9A-Z]\d{7}[0-9A-Z]|FI ?\d{8}|FR ?[0-9A-HJ-NP-Z]{2}\d{9}|IE ?\d[0-9A-Z+*]\d{5}[A-Z]{1,2}|IT ?\d{11}|LU ?\d{8}|NL ?\d{9}B\d{2}|PL ?\d{10}|PT ?\d{9}|SE ?\d{12})/g,
+    context:
+      /\bVAT\b|\bUSt\b|USt-?Id|Umsatzsteuer|\bMwSt\b|\bTVA\b|\bBTW\b|\bIVA\b|\bALV\b|\bmoms\b|\bNIP\b|\bNIF\b/iu,
+    checksum: checks.germanVat,
+    plausible: (v) => /^(?:ATU|NL\d{9}B)/.test(v),
+  },
+  {
+    type: 'AE_EMIRATES_ID',
+    pattern: /784-?(?:19|20)\d{2}-?\d{7}-?\d/g,
+    context: /emirates\s+id|\bEID\b|الهوية/iu,
+    checksum: checks.emiratesId,
+    plausible: (v) => /^784-\d{4}-\d{7}-\d$/.test(v),
+  },
+  {
+    type: 'SA_NATIONAL_ID',
+    pattern: /[12]\d{9}/g,
+    context: /\biqama\b|saudi|national\s+id|رقم الهوية|الإقامة/iu,
+    checksum: checks.saudiId,
+  },
+  {
+    type: 'IL_ID_NUMBER',
+    pattern: /\d{9}/g,
+    context: /teudat\s+zehut|israeli\s+id|תעודת זהות|\bת\.ז\b/iu,
+    checksum: checks.israeliId,
+  },
+  {
+    type: 'STEAM_ID',
+    pattern: /7656119\d{10}/g,
+    context: /\bsteam/iu,
+    checksum: never,
+  },
+  {
+    type: 'TRACKING_NUMBER',
+    pattern: /1Z[0-9A-Z]{15}\d|9[2-5]\d{2}(?: ?\d{4}){4}(?: ?\d{2})?/g,
+    context: /tracking|\bUPS\b|\bUSPS\b|shipment|parcel/iu,
+    checksum: checks.upsTracking,
+    plausible: (v) => v.startsWith('1Z'),
   },
 ];
 function distinctiveShape(type, value) {

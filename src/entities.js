@@ -3,6 +3,7 @@ import azure from './vendor/entities/azure.json' with { type: 'json' };
 import aws from './vendor/entities/aws.json' with { type: 'json' };
 import { escapePattern, collectMatches } from './detection.js';
 import { numericNoise, epochNumber } from './confidence.js';
+import { cryptoAddress } from './crypto-addresses.js';
 import { valueRange, personalValueAllowed } from './context.js';
 export const entityCatalogs = { google, azure, aws };
 const canonical = (name) =>
@@ -161,13 +162,13 @@ const formatRules = [
   ],
   [
     'SPAIN_DNI_NUMBER',
-    /\b\d{8}[A-Z]\b/g,
+    /\b\d{8}-?[A-Z]\b/g,
     (v) => 'TRWAGMYFPDXBNJZSQVHLCKE'[Number(v.slice(0, 8)) % 23] === v.at(-1),
   ],
   [
     'CRYPTO_WALLET',
-    /\b(?:0x[a-fA-F0-9]{40}|[13][a-km-zA-HJ-NP-Z1-9]{25,34}|bc1[ac-hj-np-z02-9]{25,62})\b/g,
-    () => true,
+    /\b(?:0x[a-fA-F0-9]{40}|[13][a-km-zA-HJ-NP-Z1-9]{25,34}|bc1[ac-hj-np-z02-9]{25,62}|BC1[AC-HJ-NP-Z02-9]{25,62})\b/g,
+    cryptoAddress,
   ],
   ['US_HEALTHCARE_NPI', /\b[12]\d{9}\b/g, npi],
 ];

@@ -33,7 +33,7 @@ const ibanLengths = Object.fromEntries(
 const mentionedEmail =
   /^\/[\p{L}\p{N}_.!#$%&'*+?^`{|}~-]+@[\p{L}\p{N}][\p{L}\p{N}.-]{0,252}\.\p{L}{2,63}(?![\p{L}\p{N}_-])/u;
 export function iban(value) {
-  const compact = value.replace(/\s/g, '').toUpperCase();
+  const compact = value.replace(/[\s-]/g, '').toUpperCase();
   if (
     !/^[A-Z]{2}\d{2}[A-Z0-9]+$/.test(compact) ||
     compact.length !== ibanLengths[compact.slice(0, 2)]
@@ -53,7 +53,7 @@ export function iban(value) {
 
 function detectIban(text, emit) {
   for (const match of text.matchAll(
-    /(?<![A-Z0-9])[A-Z]{2}\d{2}(?:[ ]?[A-Z0-9]){8,40}/g
+    /(?<![A-Z0-9])[A-Z]{2}\d{2}(?:[ -]?[A-Z0-9]){8,40}/g
   )) {
     const needed = ibanLengths[match[0].slice(0, 2)];
     if (!needed) {
@@ -62,7 +62,7 @@ function detectIban(text, emit) {
     let end = 0,
       count = 0;
     while (end < match[0].length && count < needed) {
-      if (match[0][end] !== ' ') {
+      if (!/[ -]/.test(match[0][end])) {
         count++;
       }
       end++;
@@ -230,20 +230,21 @@ export function detectPersonal(text, emit) {
   );
   collectMatches(
     text,
-    /(?<![\d(])(?:[78][ -]?)?\(\d{3}\)[ -]?\d{3}[ -]\d{2}[ -]?\d{2}(?!\d)|(?<!\d)(?:\d{3}[.-]){2}\d{4}(?!\d)/g,
+    /(?<![\d(])(?:[78][ -]?)?\(\d{3}\)[ -]?\d{3}[ -]\d{2}[ -]?\d{2}(?!\d)|(?<![\d-])(?:\d{3}[.-]){2}\d{4}(?!\d|-[\p{L}\p{N}])/gu,
     emit,
     details('PHONE', 'national-phone')
   );
   collectMatches(
     text,
-    /(?<![\p{L}\p{N}])\d{1,6}[A-Za-z]?[ \t]+(?:[\p{Lu}][\p{L}.'-]*[ \t]+){1,5}(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Boulevard|Blvd|Way|Terrace|Court|Ct|Place|Pl|Parkway|Pkwy|Circle|Highway|Hwy|Square|Crescent|Close|Straße|Strasse|Rue|Calle|Rua)\b(?:,[ \t]+(?:(?:[^ \t\r\n<>][^\r\n<>]{0,79}?[ \t]+)?(?:[A-Z]{1,2}\d[A-Z\d]?[ \t]+\d[A-Z]{2}|\d{5}(?:-\d{4})?)\b|(?:[\p{Lu}][\p{Ll}.'-]+[ \t]*){1,4}))?/gu,
+    /(?<![\p{L}\p{N}])\d{1,6}[A-Za-z]?[ \t]+(?:[\p{Lu}][\p{L}.'-]*[ \t]+){1,5}(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Boulevard|Blvd|Way|Terrace|Court|Ct|Place|Pl|Parkway|Pkwy|Circle|Highway|Hwy|Square|Crescent|Close|Straße|Strasse|Rue|Calle|Rua)\b(?:,?[ \t]+(?:Apt|Apartment|Suite|Ste|Unit|Floor|Fl|Room|Rm)\.?[ \t]*#?[A-Za-z0-9-]{1,6}\b|[ \t]+#[A-Za-z0-9-]{1,6}\b)?(?:,[ \t]+(?:(?:[^ \t\r\n<>][^\r\n<>]{0,79}?[ \t]+)?(?:[A-Z]{1,2}\d[A-Z\d]?[ \t]+\d[A-Z]{2}|\d{5}(?:-\d{4})?)\b|(?:[\p{Lu}][\p{Ll}.'-]+[ \t]*){1,4}))?/gu,
     emit,
     details('ADDRESS', 'postal-address')
   );
-  // "Mr. O'Brien", "Dr Jane Smith": a courtesy title is name evidence.
+  // "Mr. O'Brien", "Dr Jane Smith": a courtesy title is name evidence;
+  // after a number, "30 Ms Retry" is a millisecond unit.
   collectMatches(
     text,
-    /(?<![\p{L}\p{N}_])(?:Mr|Mrs|Ms|Mx|Miss|Dr|Prof)\.?[ \t]+(\p{Lu}(?:['’]\p{Lu})?[\p{Ll}\p{M}]+(?:-\p{Lu}[\p{Ll}\p{M}]+)?(?:[ \t]+\p{Lu}(?:['’]\p{Lu})?[\p{Ll}\p{M}]+(?:-\p{Lu}[\p{Ll}\p{M}]+)?)?)(?![\p{L}\p{M}])/gu,
+    /(?<![\p{L}\p{N}_])(?<!\p{N}[ \t]*)(?:Mr|Mrs|Ms|Mx|Miss|Dr|Prof)\.?[ \t]+(\p{Lu}(?:['’]\p{Lu})?[\p{Ll}\p{M}]+(?:-\p{Lu}[\p{Ll}\p{M}]+)?(?:[ \t]+\p{Lu}(?:['’]\p{Lu})?[\p{Ll}\p{M}]+(?:-\p{Lu}[\p{Ll}\p{M}]+)?)?)(?![\p{L}\p{M}])/gu,
     emit,
     details('PERSON', 'honorific-name'),
     1,
@@ -251,9 +252,13 @@ export function detectPersonal(text, emit) {
   );
   collectMatches(
     text,
-    /(?<![\da-fA-F:.-])(?:[\da-fA-F]{2}[:-]){5}[\da-fA-F]{2}(?![\da-fA-F:.-])/g,
+    // Colon, dash or Cisco dotted notation with one separator; the broadcast
+    // and all-zero addresses identify no device.
+    /(?<![\da-fA-F:.-])(?:[\da-fA-F]{2}([:-])(?:[\da-fA-F]{2}\1){4}[\da-fA-F]{2}|[\da-fA-F]{4}\.[\da-fA-F]{4}\.[\da-fA-F]{4})(?![\da-fA-F:-]|\.[\da-fA-F])/g,
     emit,
-    details('MAC_ADDRESS', 'mac')
+    details('MAC_ADDRESS', 'mac'),
+    0,
+    (value) => !/^(?:[fF]{2}[:.-]?|0{2}[:.-]?)+$/.test(value.replace(/\./g, ''))
   );
   collectMatches(
     text,

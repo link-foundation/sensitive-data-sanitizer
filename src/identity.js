@@ -48,6 +48,10 @@ export const identityTypes = new Set([
   'FI_PERSONAL_IDENTITY_CODE',
   'TH_TNIN',
   'AU_MEDICARE',
+  'DE_TAX_ID',
+  'AE_EMIRATES_ID',
+  'SA_NATIONAL_ID',
+  'IL_ID_NUMBER',
 ]);
 export function isIdentityType(type) {
   return (

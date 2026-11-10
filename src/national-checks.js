@@ -293,3 +293,46 @@ export function vin(value) {
   const check = total % 11;
   return (check === 10 ? 'X' : String(check)) === v[8];
 }
+// German Steuerliche Identifikationsnummer: ISO 7064 MOD 11,10; no leading 0.
+// ISO 7064 MOD 11,10 over all digits but the last, which is the check digit.
+function mod11x10(d) {
+  let product = 10;
+  for (const digit of d.slice(0, -1)) {
+    const total = (Number(digit) + product) % 10 || 10;
+    product = (total * 2) % 11;
+  }
+  return (11 - product) % 10 === Number(d.at(-1));
+}
+export function germanTaxId(value) {
+  const d = digitsOf(value);
+  return /^[1-9]\d{10}$/.test(d) && mod11x10(d);
+}
+// German USt-IdNr: DE plus eight digits and a MOD 11,10 check digit.
+export function germanVat(value) {
+  const v = value.replace(/[\s.-]/g, '').toUpperCase();
+  return /^DE[1-9]\d{8}$/.test(v) && mod11x10(v.slice(2));
+}
+// UPS 1Z tracking number: letters map to (code - 63) mod 10, even positions
+// are doubled, and the last character is the check digit.
+export function upsTracking(value) {
+  const v = value.replace(/\s/g, '').toUpperCase();
+  if (!/^1Z[0-9A-Z]{15}\d$/.test(v)) {
+    return false;
+  }
+  let total = 0;
+  for (let i = 2; i < 17; i++) {
+    const code = /\d/.test(v[i]) ? Number(v[i]) : (v.charCodeAt(i) - 63) % 10;
+    total += i % 2 === 1 ? code * 2 : code;
+  }
+  return (10 - (total % 10)) % 10 === Number(v[17]);
+}
+// UAE Emirates ID: 784, birth year, serial and a Luhn check digit.
+export const emiratesId = (value) =>
+  /^784(?:19|20)\d{10}$/.test(digitsOf(value)) && shortLuhn(value);
+// Saudi national ID (1…) and Iqama (2…) numbers use Luhn over 10 digits.
+export const saudiId = (value) =>
+  /^[12]\d{9}$/.test(digitsOf(value)) && shortLuhn(value);
+// Israeli Teudat Zehut: up to 9 digits, left-padded, Luhn-weighted 1,2,1,2…
+export const israeliId = (value) =>
+  /^\d{5,9}$/.test(digitsOf(value)) &&
+  shortLuhn(digitsOf(value).padStart(9, '0'));
