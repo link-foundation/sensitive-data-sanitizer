@@ -195,3 +195,18 @@ and Deno 2.9.7 (10 passed, one explicit subprocess-fixture skip). The verifier
 imports `Buffer` explicitly for runtime portability. On `d5b82d4`, CI lint job
 130053909276 log lines 352–355 reported unformatted review-snapshot JSON; those
 three snapshots were formatted without changing their recorded contents.
+
+On `6df31d1`, runtime run 42880534918 exposed a stale package-file expectation
+(Ubuntu Node job 130055950102, lines 5228–5240): the expected allowlist omitted
+the four newly published documentation/example files. Ubuntu Bun job
+130055950288 also exhausted re2-wasm's fixed 16 MiB heap at line 4900, then
+failed subsequent scans. The window-reference tests compiled sixteen duplicate
+WASM regex objects outside the shared cache; these objects are never freed.
+Those tests now reuse `compiledRule` and explicitly reset `lastIndex` before
+reference scans, following the existing all-rules test's allocation policy.
+The focused Node package/window/catalog suite passes all 25 tests. A local
+full Bun run did not reproduce the CI heap failure; it used Bun's default
+five-second per-test timeout and encountered unrelated timeout/environment
+failures, so it is not reported as a passing full-suite verification. The
+current-SHA CI run must establish whether the duplicate-allocation correction
+resolves the heap failure under the original CI test order and budget.
