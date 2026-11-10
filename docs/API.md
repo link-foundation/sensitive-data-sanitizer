@@ -17,7 +17,7 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 | `compileKnown(...lists)`               | Copy, freeze, merge and precompile caller-known personal values                                              |
 | `auditGitHistory(repository, options)` | Read-only audit of local reachable text objects                                                              |
 
-`redactions` counts merged replacement spans. `findings` can contain several detector hits for one replacement. Findings have `{start, end, type, category, rule, line, column}`; no text, quote, match, entropy score, provider details, or raw diagnostic is copied. Debugging is off by default; `debug(event)` receives value-free counts, rule timings, residual rounds and registry event metadata (see `DebugEvent` in the TypeScript declarations).
+`redactions` counts merged replacement spans. `findings` can contain several detector hits for one replacement. Findings have `{start, end, type, category, rule, line, column}`; no text, quote, match, entropy score, provider details, or raw diagnostic is copied. The optional `strict-attributes` debug event reports only detected and suppressed match counts. Debugging is off by default; `debug(event)` receives value-free counts, rule timings, residual rounds and registry event metadata (see `DebugEvent` in the TypeScript declarations).
 
 ## Options
 

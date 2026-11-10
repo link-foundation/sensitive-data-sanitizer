@@ -118,6 +118,7 @@ export interface SanitizerOptions {
 }
 /** Value-free diagnostics; enabled only when a debug callback is supplied. */
 export type DebugEvent =
+  | { event: 'strict-attributes'; detected: number; suppressed: number }
   | { event: 'detected'; count: number }
   | { event: 'document-experience' | 'proper-name-prose'; count: number }
   | { event: 'residual-redaction'; round: number }
