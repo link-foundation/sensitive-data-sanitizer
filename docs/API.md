@@ -221,7 +221,7 @@ new document recognizers; `documentEntities: false` turns them off explicitly.
 | `strict`                 | `false`; aggressive stored-log personal attributes and bare values                                                                                               |
 | `structuralFields`       | `[]`; declared property names suppress weak name/ID/entropy heuristics in their string values                                                                    |
 
-Unknown options and invalid limits are errors. `knownSecretsFromEnv(env, names?)` discovers credential-named variables (excluding auth configuration names) when names are omitted, or uses an explicit selection, deduplicating nonempty values. It never invokes shell commands or reads auth files. `personalVariants(entries)` generates numeric and ISO/day-first date spellings; name case variants are already handled by detection. Neither helper invents transliterations.
+Unknown options and invalid limits are errors. `knownSecretsFromEnv(env, names?, {minLength?})` discovers credential-named variables (excluding configuration names) when names are omitted, or uses an explicit selection, deduplicating nonempty values (or values of at least `minLength` characters). It never invokes shell commands or reads auth files. `personalVariants(entries)` generates numeric and ISO/day-first date spellings; name case variants are already handled by detection. Neither helper invents transliterations.
 
 ## Required detectors
 
@@ -482,12 +482,28 @@ findings retain the normal engine union, confidence rules and verification.
 This keeps EMAIL/account-ID values without per-value `publicEntities` entries.
 The default policy continues to protect personal data.
 
-`knownSecretsFromEnv(env = process.env, names?)` discovers nonempty exact values
-when `names` is omitted, using
-`/(?:^|_)(?:TOKEN|(?:API|ACCESS|PRIVATE)?KEY|SECRET|PASSWORD|PASSWD|CREDENTIALS?|AUTH|PAT)(?:_|$)/i`.
-This covers `MY_SERVICE_TOKEN`, `CLAUDE_CODE_OAUTH_TOKEN`, `CODEX_API_KEY`,
-`OPENCODE_API_KEY`, `DASHSCOPE_API_KEY`, `HF_TOKEN` and `TELEGRAM_BOT_TOKEN`.
-Automatic discovery excludes names ending in `AUTH_TRANSPORT`, `AUTH_MODE`, `AUTH_METHOD`, `AUTH_TYPE`, `AUTH_URL`, `AUTH_URI`, `AUTH_HOST`, `AUTH_HOSTNAME`, `AUTH_PATH`, `AUTH_ENABLED`, `AUTH_DISABLED`, `AUTH_PORT`, `AUTH_PROTOCOL` or `AUTH_SCHEME` (including prefixed forms such as `HIVE_MIND_GIT_AUTH_TRANSPORT`). Credential names such as `AUTH_TOKEN` still contribute their exact values, including short/low-entropy values; no value-shape filter can reliably distinguish passwords from configuration. An explicit array bypasses the name exclusions; `[]` selects nothing.
+`knownSecretsFromEnv(env = process.env, names?, { minLength = 1 }?)` discovers
+nonempty exact values when `names` is omitted. A name is selected when it has a
+credential keyword between `_` boundaries
+(`/(?:^|_)(?:TOKEN|(?:API|ACCESS|PRIVATE)?KEY|SECRET|PASSWORD|PASSWD|CREDENTIALS?|O?AUTH|PAT|COOKIE)(?:_|$)/i`)
+or ends in `PASSWORD`, `PASSWD`, `TOKEN` or `COOKIE` without one. This covers
+`MY_SERVICE_TOKEN`, `CLAUDE_CODE_OAUTH_TOKEN`, `CODEX_API_KEY`,
+`OPENCODE_API_KEY`, `DASHSCOPE_API_KEY`, `HF_TOKEN`, `TELEGRAM_BOT_TOKEN`,
+`PGPASSWORD`, `GITHUBTOKEN`, `OAUTH` and `SESSION_COOKIE`.
+Automatic discovery excludes names whose last segment describes configuration
+rather than a credential: `_TRANSPORT`, `_MODE`, `_METHOD`, `_TYPE`, `_URL`,
+`_URI`, `_HOST`, `_HOSTNAME`, `_PATH`, `_ENABLED`, `_DISABLED`, `_PORT`,
+`_PROTOCOL`, `_SCHEME`, `_GUARD`, `_COUNT`, `_LIMIT`, `_FILE`, `_FILENAME`,
+`_DIR`, `_DIRECTORY`, `_NAME` and `_ID` (for example `HIVE_MIND_GIT_AUTH_TRANSPORT`,
+`HIVE_MIND_ROUTER_AUTH_GUARD`, `MAX_TOKEN_COUNT`, `SSH_KEY_PATH`, `SECRET_NAME`
+and `AWS_ACCESS_KEY_ID`), plus `GOOGLE_APPLICATION_CREDENTIALS` (a file path) and
+`GIT_CONFIG_KEY_<n>` (the name of a git setting). `GIT_CONFIG_VALUE_<n>` is
+selected when its `GIT_CONFIG_KEY_<n>` names a header, password, token, secret,
+cookie file or auth setting, such as `http.extraheader`. Credential names such as
+`AUTH_TOKEN` and `AUTH_MODE_TOKEN` still contribute their exact values, including
+short/low-entropy values; no value-shape filter can reliably distinguish passwords
+from configuration. Pass `minLength` to skip shorter values. An explicit array
+bypasses the name exclusions; `[]` selects nothing.
 These values are loaded only when the helper or CLI `--env-secrets` is requested.
 
 `await knownSecretsFromGitHubConfig({path?})` reads `oauth_token` and `api_token`
@@ -498,6 +514,9 @@ symlinks, aliases, files above 1 MiB and read failures produce value-free
 `ERR_AUTH`. YAML quoting is parsed with the `yaml` package, with alias expansion
 disabled. CLI `--gh-config` adds these exact values to `knownSecrets`.
 `knownSecretsFromGitHubAuth` / `--gh-auth` remain available independently.
+A `hosts.yml` that uses YAML aliases or is a symlink stays a hard `ERR_AUTH`
+failure, so a caller relying on `--gh-config` never runs with a silently
+incomplete list.
 
 Plain log streams and CLI file/stdin/output/in-place paths preserve invalid
 UTF-8 bytes exactly. Valid Unicode keeps its normal meaning for detection.

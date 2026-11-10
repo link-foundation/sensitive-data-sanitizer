@@ -254,7 +254,7 @@ See [contributing](docs/CONTRIBUTING.md). `add`, `multiply` and `delay` live in 
 
 The universal app's preview images regenerate on pushes to the default branch. Run `npm run example:web:preview-images` to regenerate them locally; see [the template guide](docs/TEMPLATE-PIPELINE.md) for setup.
 
-Automatic `--env-secrets` discovery skips authentication configuration names such as `GIT_AUTH_TRANSPORT`, `AUTH_MODE` and `AUTH_METHOD`. Explicit `knownSecretsFromEnv(env, names)` selections still include their exact values.
+Automatic `--env-secrets` discovery also selects `PGPASSWORD`-style suffixes and cookies, and skips configuration names such as `GIT_AUTH_TRANSPORT`, `AUTH_MODE`, `*_AUTH_GUARD`, `MAX_TOKEN_COUNT`, `SSH_KEY_PATH`, `SECRET_NAME`, `AWS_ACCESS_KEY_ID` and `GIT_CONFIG_KEY_<n>`; `knownSecretsFromEnv(env, undefined, { minLength: 8 })` also skips short values. Explicit `knownSecretsFromEnv(env, names)` selections still include their exact values.
 
 For shared tool logs, `--credentials-only --env-secrets --gh-config` preserves
 public account details while redacting credential patterns and exact local

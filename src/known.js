@@ -71,28 +71,44 @@ function configTokens(config) {
   return [...values];
 }
 
+// Credential keywords between `_` boundaries, plus suffixes that are written
+// without one (`PGPASSWORD`, `GITHUBTOKEN`, `SESSIONCOOKIE`).
 const secretEnvName =
-  /(?:^|_)(?:TOKEN|(?:API|ACCESS|PRIVATE)?KEY|SECRET|PASSWORD|PASSWD|CREDENTIALS?|AUTH|PAT)(?:_|$)/i;
-// Configuration suffixes describe how authentication works. Explicit names
-// bypass this filter; credential suffixes such as AUTH_MODE_TOKEN still win.
-const authConfigurationName =
-  /(?:^|_)AUTH_(?:TRANSPORT|MODE|METHOD|TYPE|URL|URI|HOST|HOSTNAME|PATH|ENABLED|DISABLED|PORT|PROTOCOL|SCHEME)$/i;
+  /(?:^|_)(?:TOKEN|(?:API|ACCESS|PRIVATE)?KEY|SECRET|PASSWORD|PASSWD|CREDENTIALS?|O?AUTH|PAT|COOKIE)(?:_|$)|(?:PASSWORD|PASSWD|TOKEN|COOKIE)$/i;
+// Configuration suffixes describe a credential (how authentication works,
+// counters, limits, locations, names, identifiers and guard flags), not the
+// credential itself. Explicit names bypass this filter; credential suffixes
+// such as AUTH_MODE_TOKEN still win.
+const configurationName =
+  /_(?:TRANSPORT|MODE|METHOD|TYPE|URL|URI|HOST|HOSTNAME|PATH|ENABLED|DISABLED|PORT|PROTOCOL|SCHEME|GUARD|COUNT|LIMIT|FILE|FILENAME|DIR|DIRECTORY|NAME|ID)$|^GIT_CONFIG_KEY_\d+$|^GOOGLE_APPLICATION_CREDENTIALS$/i;
+// `GIT_CONFIG_KEY_<n>` names a git setting; `GIT_CONFIG_VALUE_<n>` holds the
+// value, which is a credential for headers, passwords and tokens.
+const gitCredentialSetting =
+  /(?:^|\.)(?:extraheader|password|token|secret|cookiefile|auth[a-z]*)$/i;
+
+function discoveredNames(env) {
+  return Object.keys(env).filter((name) => {
+    const git = name.match(/^GIT_CONFIG_VALUE_(\d+)$/);
+    if (git) {
+      return gitCredentialSetting.test(env[`GIT_CONFIG_KEY_${git[1]}`] ?? '');
+    }
+    return secretEnvName.test(name) && !configurationName.test(name);
+  });
+}
+
 /** Opt-in literal values from credential-named keys, or an explicit selection. */
-export function knownSecretsFromEnv(env = process.env, names) {
+export function knownSecretsFromEnv(env = process.env, names, options = {}) {
+  const { minLength = 1 } = options ?? {};
   if (names === undefined) {
-    names =
-      env && typeof env === 'object'
-        ? Object.keys(env).filter(
-            (name) =>
-              secretEnvName.test(name) && !authConfigurationName.test(name)
-          )
-        : [];
+    names = env && typeof env === 'object' ? discoveredNames(env) : [];
   }
   if (
     !env ||
     typeof env !== 'object' ||
     !Array.isArray(names) ||
-    names.some((name) => typeof name !== 'string')
+    names.some((name) => typeof name !== 'string') ||
+    !Number.isSafeInteger(minLength) ||
+    minLength < 1
   ) {
     throw failure('ERR_CONFIG');
   }
@@ -100,7 +116,9 @@ export function knownSecretsFromEnv(env = process.env, names) {
     ...new Set(
       names
         .map((name) => env[name])
-        .filter((value) => typeof value === 'string' && value.length)
+        .filter(
+          (value) => typeof value === 'string' && value.length >= minLength
+        )
     ),
   ];
 }

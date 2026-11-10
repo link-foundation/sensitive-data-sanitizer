@@ -256,7 +256,11 @@ export declare function fromOffsetReport(
 ): Finding[];
 export declare function knownSecretsFromEnv(
   env?: Record<string, string | undefined>,
-  names?: string[]
+  names?: string[],
+  options?: {
+    /** Skip values shorter than this many characters (default 1). */
+    minLength?: number;
+  }
 ): string[];
 /** Reversible UTF-8 view: invalid bytes use unpaired U+DC80..U+DCFF. */
 export declare function decodeLogBytes(bytes: Uint8Array): string;

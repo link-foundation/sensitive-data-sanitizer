@@ -3,6 +3,7 @@ import {
   sanitize,
   createSanitizer,
   createSyncSanitizer,
+  knownSecretsFromEnv,
 } from '../src/index.js';
 
 // Synthetic values, assembled at run time so secret scanners skip the source.
@@ -153,5 +154,74 @@ describe('exempt hook (issue 135)', () => {
       asyncCode = error.code;
     }
     expect(asyncCode).toBe('ERR_CONFIG');
+  });
+});
+
+describe('environment secret selection (issue 141)', () => {
+  const configuration = {
+    HIVE_MIND_ROUTER_AUTH_GUARD: '0',
+    SERVICE_AUTH_GUARD: '1',
+    MAX_TOKEN_COUNT: '4096',
+    TOKEN_LIMIT: '100',
+    SSH_KEY_PATH: '/home/user/.ssh/id_ed25519',
+    KEY_FILE: 'key.pem',
+    SECRET_DIR: '/run/secrets',
+    GOOGLE_APPLICATION_CREDENTIALS: '/etc/gcp/service-account.json',
+    SECRET_NAME: 'deploy-key',
+    AWS_ACCESS_KEY_ID: 'AKIA-like-identifier',
+    GIT_CONFIG_KEY_0: 'http.extraheader',
+    GIT_CONFIG_KEY_1: 'core.editor',
+    GIT_CONFIG_VALUE_1: 'vim',
+  };
+  it('skips guards, counters, limits, paths, names and identifiers', () => {
+    expect(knownSecretsFromEnv(configuration)).toEqual([]);
+    // An explicit selection still returns exact values.
+    expect(knownSecretsFromEnv(configuration, ['SECRET_NAME'])).toEqual([
+      'deploy-key',
+    ]);
+  });
+  it('selects credential suffixes without a separator and cookies', () => {
+    const env = {
+      PGPASSWORD: 'value-pgpassword',
+      MYSQLPASSWD: 'value-passwd',
+      GITHUBTOKEN: 'value-githubtoken',
+      MYTOKEN: 'value-mytoken',
+      OAUTH: 'value-oauth',
+      SESSION_COOKIE: 'value-session-cookie',
+      SESSIONCOOKIE: 'value-sessioncookie',
+      TOKENS: '1000',
+      MONKEY: 'public',
+    };
+    expect(knownSecretsFromEnv(env)).toEqual(
+      Object.values(env).filter((value) => value.startsWith('value-'))
+    );
+  });
+  it('selects git configuration values that hold credentials', () => {
+    const header = `AUTHORIZATION: basic ${KEEP}`;
+    expect(
+      knownSecretsFromEnv({ ...configuration, GIT_CONFIG_VALUE_0: header })
+    ).toEqual([header]);
+  });
+  it('accepts an optional minimum value length', () => {
+    const env = { AUTH_TOKEN: '0', API_KEY: 'abc', APP_SECRET: KEEP };
+    expect(knownSecretsFromEnv(env)).toEqual(['0', 'abc', KEEP]);
+    expect(knownSecretsFromEnv(env, undefined, { minLength: 8 })).toEqual([
+      KEEP,
+    ]);
+    expect(knownSecretsFromEnv(env, ['API_KEY'], { minLength: 4 })).toEqual([]);
+    for (const minLength of [0, 1.5, '8']) {
+      let code;
+      try {
+        knownSecretsFromEnv(env, undefined, { minLength });
+      } catch (error) {
+        code = error.code;
+      }
+      expect(code).toBe('ERR_CONFIG');
+    }
+    expect(
+      hive('x 0 4096 y', {
+        knownSecrets: knownSecretsFromEnv({ AUTH_GUARD: '0' }),
+      })
+    ).toBe('x 0 4096 y');
   });
 });
