@@ -210,3 +210,31 @@ five-second per-test timeout and encountered unrelated timeout/environment
 failures, so it is not reported as a passing full-suite verification. The
 current-SHA CI run must establish whether the duplicate-allocation correction
 resolves the heap failure under the original CI test order and budget.
+
+## Merge-conflict restart and newer issue evidence
+
+Main at `2e1be4f` includes PR 155's issue 148 correction. The merge conflict in
+`templatedCredential` combined two independently necessary boundary checks:
+sentence punctuation after an existing mask and adjacent PEM end armor. Both
+are retained. The keyword-window conflict contained the same cache correction
+on both branches; the explanatory comment is retained. All 22 tests in
+`sanitizer-pem-boundary`, `sanitizer-issue-148` and `sanitizer-gitleaks-windows`
+pass on Node after merging.
+
+The older macOS Deno job 130095750047 failed at the fresh-merge step, before
+runtime setup. Its preserved local log (`ci-logs/macos-deno-130095750047.log`)
+lines 288–296 names those two conflicts and exits with code 1. This is not a
+Deno test failure. The latest integration commit requires its own CI results.
+
+Newer [issue 150](https://github.com/link-foundation/sensitive-data-sanitizer/issues/150)
+reports `const sessionToken = new SessionToken();` becoming
+`const sessionToken = [REDACTED] SessionToken();` in credentials-only mode.
+The constructor regression suite from
+[PR 156](https://github.com/link-foundation/sensitive-data-sanitizer/pull/156)
+fails two tests before correction on this branch. Its implementation and four
+tests are integrated with original commit attribution. The contextual detector
+recognizes unquoted, case-sensitive `new` followed by a constructor call;
+literal credentials, nearby credentials and exact known secrets remain covered.
+The added release fragment is consolidated into this PR's single minor changeset.
+Issues 148 and 150 had no comments at restart review. This refresh supplements
+the historical snapshot; the exhaustive R4 audit remains unfinished.

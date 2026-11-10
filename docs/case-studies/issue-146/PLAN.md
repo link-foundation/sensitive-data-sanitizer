@@ -34,3 +34,20 @@ An exhaustive claim about closed-source rules cannot be established from
 provider labels or examples. Those criteria need accessible rule definitions,
 model artifacts and licensed test access; a native label catalog or offset
 adapter is not evidence that proprietary detection behaves identically.
+
+## Restart: integrate current main and new issue feedback
+
+- [x] Refresh issue 146 and all three PR feedback endpoints; no new acceptance
+      feedback beyond the merge-conflict restart.
+- [x] Merge main at `2e1be4f`, preserving both sentence punctuation and adjacent
+      PEM armor boundaries; retain shared cached regex reference checks.
+- [x] Verify all 22 focused PEM, issue 148 and keyword-window regressions.
+- [x] Investigate macOS Deno job 130095750047: fresh-merge conflicts at log lines
+      288–296, before runtime setup or test execution.
+- [x] Read newer issues 148 and 150 and their comments. Issue 148's fix and tests
+      arrive from main. Reproduce issue 150 with two failing regressions and
+      integrate the existing implementation/tests from PR 156, preserving history.
+- [ ] Verify current integration commit in CI and update the PR evidence.
+
+The original unchecked parity, provider coverage and historical-audit criteria
+above remain unfinished. Resolving merge conflicts does not satisfy them.
