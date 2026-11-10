@@ -1,7 +1,7 @@
 import { collectMatches } from './detection.js';
 
 const attributes =
-  /(?<![\p{L}\p{N}_])(?:женщин[аыуеой]{1,2}|мужчин[аыуеой]{1,2}|замужем|женат(?:а|ы)?|(?:один|одна|двое|трое|четверо|пятеро|\d{1,2})[ \t]+(?:детей|реб[её]нок|реб[её]нка)|русск(?:ая|ий|ого|ой|ие)|татар(?:ин|ка|ы)|православн(?:ый|ая|ого|ой)|мусульман(?:ин|ка)|инвалидност[ьи](?:[ \t]+\d[ \t]+группы)?|беременн(?:а|ая|ость)|судимость(?:[ \t]+погашена)?|член[ \t]+партии|woman|women|married|divorced|pregnant|pregnancy|disability|christian|muslim|jewish|orthodox|hispanic|criminal[ \t]+record|party[ \t]+member|(?:one|two|three|\d{1,2})[ \t]+children)(?![\p{L}\p{N}_])/giu;
+  /(?<![\p{L}\p{N}_])(?:женщин[аыуеой]{1,2}|мужчин[аыуеой]{1,2}|замужем|женат(?:а|ы)?|(?:один|одна|двое|трое|четверо|пятеро|\d{1,2})[ \t]+(?:детей|реб[её]нок|реб[её]нка)|русск(?:ая|ий|ого|ой|ие)|татар(?:ин|ка|ы)|православн(?:ый|ая|ого|ой)|мусульман(?:ин|ка)|инвалидност[ьи](?:[ \t]+\d[ \t]+группы)?|беременн(?:а|ая|ость)|судимость(?:[ \t]+погашена)?|член[ \t]+партии|woman|women|male|female|married|divorced|pregnant|pregnancy|disability|christian|muslim|jewish|orthodox|hispanic|criminal[ \t]+record|party[ \t]+member|(?:one|two|three|\d{1,2})[ \t]+children)(?![\p{L}\p{N}_])/giu;
 const additionalAttributes =
   /(?<![\p{L}\p{N}_])(?:диабет(?:ом|а|у|е)?|ВИЧ(?:-положительн(?:ый|ая|ого|ой))?|болен|больна|больны|католик(?:ом|а|и)?|католичк(?:а|ой|и)|буддист(?:ка|кой|ом|а|ы)?|атеист(?:ка|кой|ом|а|ы)?|украин(?:ец|ка|цы|цем|кой)|белорус(?:ка|кой|ом|а|ы)?|несудим(?:а|ы)?|судим(?:а|ы)?|член[ \t]+политической[ \t]+партии|холост(?:а|ы)?|развед[её]н(?:а|ы)?|в[ \t]+разводе|diabetes|diabetic|HIV(?:[ \t-]+positive)?|cancer|buddhist|catholic|atheist|ukrainian|belarusian|previous[ \t]+conviction|member[ \t]+of[ \t]+(?:a[ \t]+)?(?:political[ \t]+)?party|unmarried|widowed)(?![\p{L}\p{N}_])/giu;
 
@@ -13,7 +13,7 @@ const categoryForms =
 const categoryCue =
   /(?<![\p{L}\p{N}_])(?:по[ \t]+национальности|национальность|этничность|вероисповедание|религия|диагноз|исповеду(?:ет|ют|ю|ешь)|боле(?:ет|ют|ю|ешь)|страда(?:ет|ют|ю|ешь)[ \t]+от|на[ \t]+уч[её]те[ \t]+у|diagnosed[ \t]+with|suffers[ \t]+from|nationality|ethnicity|religion|diagnosis)(?:["']?[ \t]*[:=][ \t]*|[ \t]+)["']?([\p{L}][\p{L}\p{M}-]{0,63})(?![\p{L}\p{M}\p{N}_])/giu;
 const ambiguous =
-  /(?<![\p{L}\p{N}_])(?:disabled|single|man|men|male|female|russian|asian)(?![\p{L}\p{N}_])/giu;
+  /(?<![\p{L}\p{N}_])(?:disabled|single|man|men|russian|asian)(?![\p{L}\p{N}_])/giu;
 
 function personalContext(text, match) {
   const prefix = text.slice(Math.max(0, match.index - 128), match.index);

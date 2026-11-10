@@ -70,6 +70,8 @@ const contextual = [
   ['I am a man', 'I am a [REDACTED]'],
   ['disabled applicant', '[REDACTED] applicant'],
   ['gender: male', 'gender: [REDACTED]'],
+  ['male', '[REDACTED]'],
+  ['female', '[REDACTED]'],
   ['marital status: single', 'marital status: [REDACTED]'],
   ['nationality: russian', 'nationality: [REDACTED]'],
   ['по национальности эвенк', 'по национальности [REDACTED]'],

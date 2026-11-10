@@ -485,7 +485,7 @@ status, including `инвалидом`, `армянин`, `еврейка`, `к�
 `исповедует X`, `болеет X`, `на учете у X`, `diagnosed with X` and `ethnicity: X`
 protect one following word (including hyphenated words) up to 64 characters,
 including unfamiliar values outside the lexicon. These cues stay on one line.
-Ambiguous English `disabled`, `single`, `man`, `men`, `male`, `female`, `russian`
+Ambiguous English `disabled`, `single`, `man`, `men`, `russian`
 and `asian` require an adjacent personal cue (pronoun/person role, personal
 label, or following person role). Thus `he is disabled`, `candidate is single`
 and `gender: male` redact, while `the module is disabled`, `single run finished`,
