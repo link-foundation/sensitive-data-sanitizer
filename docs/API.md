@@ -382,7 +382,12 @@ status identifiers. Explicit `knownPersonal` values override these heuristics.
 
 Oversized encoded runs receive a conservative complete-run `ENCODED_LIMIT`
 redaction rather than aborting the record. Decoding probes are capped at 4,096
-characters; full decoding stays capped at 8,192 characters. A multi-line run is
+characters; ordinary text decoding stays capped at 8,192 characters. Uniform
+wrapped binary base64 up to 256 KiB of encoded input is decoded completely
+and its embedded text is inspected. Harmless binary bytes are preserved; a
+sensitive binary payload is masked as a whole because a text re-encoding
+cannot preserve its bytes. Larger uninspected wrapped binary runs still
+receive `ENCODED_LIMIT`. A multi-line run is
 treated as one wrapped payload only when its probe decodes as text or its lines
 share one base64 width (a multiple of four, standard alphabet, not plain hex);
 lists of identifiers or commit hashes are scanned line by line. Up to 4,096
