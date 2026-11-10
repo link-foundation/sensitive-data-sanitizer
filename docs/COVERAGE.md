@@ -476,7 +476,25 @@ proper-name mode. Romashka Inc keeps its existing legal-form treatment.
 `strict: true` independently opts into personal attributes (gender, family,
 ethnicity, religion, health, criminal/political status) and bare dates, ages,
 passport/mobile/postal shapes. It is intended for stored personal prose and can
-remove ordinary uses of these words. It preserves ISO timestamps, work durations
+remove ordinary uses of unambiguous category words. Bounded Russian case/stem
+rules cover disability, ethnicity, religion, diagnoses, intimate life and criminal
+status, including `инвалидом`, `армянин`, `еврейка`, `казах`, `христианин`, `иудей`,
+`эпилепсией`, `астма`, `онкологию`, `туберкулез`, `психиатра`, `депрессия`,
+`гепатит`, `гей` and `отбывал наказание`. English coverage includes `epilepsy`,
+`gay` and `Armenian`. Explicit category cues such as `по национальности X`,
+`исповедует X`, `болеет X`, `на учете у X`, `diagnosed with X` and `ethnicity: X`
+protect one following word (including hyphenated words) up to 64 characters,
+including unfamiliar values outside the lexicon. These cues stay on one line.
+Ambiguous English `disabled`, `single`, `man`, `men`, `russian`
+and `asian` require an adjacent personal cue (pronoun/person role, personal
+label, or following person role). Thus `he is disabled`, `candidate is single`
+and `gender: male` redact, while `the module is disabled`, `single run finished`,
+`single-flight lock acquired`, `man page missing`, `locale russian selected`
+and `asian region endpoint` remain intact. Bare operational JSON statuses
+`disabled`, `single` and `Russian` also remain intact; explicit personal labels
+and caller-declared known personal values still redact. A cue in another clause
+or string value does not make an ambiguous word personal.
+It preserves ISO timestamps, work durations
 (including `Стаж: 5 лет`, `работал там 5 лет`, and duration cues from issue 87),
 and parenthesized durations after known technologies such as `Kubernetes (5 лет)`
 and `Power BI (5 лет)`.

@@ -171,7 +171,6 @@ describe('issue 116 strict stored-log policy', () => {
     'ukrainian',
     'previous conviction',
     'member of a political party',
-    'single',
   ];
   for (const input of positives) {
     it(`strict: ${input}`, async () => {
@@ -189,6 +188,7 @@ describe('issue 116 strict stored-log policy', () => {
     '2026-01-15T10:30:00.000Z',
     'request took 9161234567 ns',
     'Дети: нет',
+    'single',
   ]) {
     it(`strict control: ${input}`, () =>
       formats(input, input, { strict: true }));

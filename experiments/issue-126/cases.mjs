@@ -1,0 +1,43 @@
+// Synthetic inputs shared by the regression suite and reproducer.
+export const attributes = [
+  ['кандидат инвалид', 'инвалид'],
+  ['является инвалидом 2 группы', 'инвалидом'],
+  ['по национальности армянин', 'армянин'],
+  ['она еврейка', 'еврейка'],
+  ['он казах', 'казах'],
+  ['христианин, верующий', 'христианин'],
+  ['исповедует ислам', 'ислам'],
+  ['иудей', 'иудей'],
+  ['болеет эпилепсией', 'эпилепсией'],
+  ['астма с детства', 'астма'],
+  // eslint-disable-next-line local/no-changelog-comments -- Synthetic medical history, not source history.
+  ['перенес онкологию', 'онкологию'],
+  ['туберкулез в анамнезе', 'туберкулез'],
+  ['на учете у психиатра', 'психиатра'],
+  ['депрессия, лечится', 'депрессия'],
+  ['гепатит C', 'гепатит'],
+  ['нетрадиционная ориентация', 'нетрадиционная ориентация'],
+  ['гей', 'гей'],
+  ['отбывал наказание', 'отбывал наказание'],
+  ['epilepsy since 2010', 'epilepsy'],
+  ['is gay', 'gay'],
+  ['Armenian by birth', 'Armenian'],
+  ['справка об инвалидности', 'инвалидности'],
+  ['инвалидность 3 группы', 'инвалидность 3 группы'],
+  ['была судима', 'судима'],
+  ['ВИЧ-инфицирован', 'ВИЧ-инфицирован'],
+  ['беременность 20 недель', 'беременность'],
+  ['has a disability', 'disability'],
+  ['candidate is diabetic', 'diabetic'],
+];
+export const operational = [
+  'the module is disabled',
+  'feature flag disabled for vacancy',
+  'single run finished',
+  'single-flight lock acquired',
+  'retry on a single worker',
+  'man page missing',
+  'locale russian selected',
+  'asian region endpoint',
+];
+export const statuses = ['disabled', 'single', 'Russian'];
