@@ -29,13 +29,13 @@ proves satisfaction.
 
 ## Root causes and corrections for issue 144
 
-| Reported concern                                              | Cause                                                                                 | Correction                                                                                                                    | Evidence                                                                                      |
-| ------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| 34 special-category expressions escape or become proper names | Missing vocabulary forms and generic type precedence                                  | Add bounded strict attribute forms; prefer attribute evidence over generic person/location/organization guesses               | `tests/sanitizer-issue-144.test.js`: all 34 words in all three frames with exact typed output |
-| Caller attribute loses its typed label                        | Overlapping capitalized-name guess retained its type                                  | Explicit attribute evidence keeps its semantic type; explicit transformation controls retain precedence                       | Capitalized caller vocabulary regression                                                      |
-| Any vocabulary adds repeated per-call work                    | Cache key normalized/serialized default lists repeatedly; cue arrays rebuilt per word | Cache by caller identity plus caller-content fingerprint and use compiled cue sets; invalidate on caller mutation             | Cache reuse/mutation regression and measurements below                                        |
-| Keeping earlier placeholders adds work on ordinary lines      | Repeated namespace construction and full scans                                        | Cache reserved types and skip full matching when no default positive counter can occur; retain escaped/custom-format scanning | Existing, escaped and custom tokens/counter regressions; linear adversarial probe             |
-| Public technology names disappear from Russian prose          | Structural Latin proper-name guesses had no reviewed technology catalog               | Add exact sourced technology entries to public knowledge; credentials and known private values remain protected               | Python/SQL/PostgreSQL/Docker/Kubernetes, private override and person regressions              |
+| Reported concern                                              | Cause                                                                                 | Correction                                                                                                                    | Evidence                                                                                                  |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| 34 special-category expressions escape or become proper names | Missing vocabulary forms and generic type precedence                                  | Add bounded strict attribute forms; prefer attribute evidence over generic person/location/organization guesses               | `tests/sanitizer-issue-144.test.js`: all 34 words in all three frames with exact typed output             |
+| Caller attribute loses its typed label                        | Overlapping capitalized-name guess retained its type                                  | Explicit attribute evidence keeps its semantic type; explicit transformation controls retain precedence                       | Capitalized caller vocabulary regression                                                                  |
+| Any vocabulary adds repeated per-call work                    | Cache key normalized/serialized default lists repeatedly; cue arrays rebuilt per word | Reuse compiled cue sets and cache by caller identity; use a new object to change lists                                        | `tests/sanitizer-issue-146-attributes.test.js` cache/new-configuration regressions and measurements below |
+| Keeping earlier placeholders adds work on ordinary lines      | Repeated namespace construction and full scans                                        | Cache reserved types and skip full matching when no default positive counter can occur; retain escaped/custom-format scanning | Existing, escaped and custom tokens/counter regressions; linear adversarial probe                         |
+| Public technology names disappear from Russian prose          | Structural Latin proper-name guesses had no reviewed technology catalog               | Add exact sourced technology entries to public knowledge; credentials and known private values remain protected               | Python/SQL/PostgreSQL/Docker/Kubernetes, private override and person regressions                          |
 
 The new issue 144 regression initially failed four of five tests against the
 pre-fix source; all five pass after correction. Additional placeholder/config
@@ -162,3 +162,13 @@ falsifiable; it does not turn outstanding requirements into completed work.
    conditional policies. An inventory is only the starting point of this audit.
 5. Keep the draft PR unmerged and preserve positive closing references in its
    description. Mark ready only after the unfinished criteria are actually met.
+
+## Integration with PR 145
+
+PR 145 merged during this investigation. This branch incorporates its more
+precise attribute inflections, broader sourced technology catalog and earlier
+placeholder fast paths. Its immutable vocabulary contract avoids repeated getter
+reads and serialization; callers must pass a new object when changing lists.
+The combined regressions preserve that contract alongside the additional
+attribute-precedence, escaped-placeholder, PEM and verifier checks. Earlier
+performance snapshots describe the pre-integration draft, not the merged tree.

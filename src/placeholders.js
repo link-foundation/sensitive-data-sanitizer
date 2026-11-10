@@ -349,28 +349,28 @@ function callPattern(findings, options) {
   );
 }
 const keepsExisting = (options) => transforms(options)[0]?.existing === 'keep';
+// Default tokens always contain a hyphen followed by a positive number.
+// Escapes may conceal either character, and custom formats need the full scan.
+function mayContainPlaceholder(text, options, escaped = false) {
+  const transform = transforms(options)[0];
+  const format =
+    options[placeholderState]?.map.format ??
+    transform?.format ??
+    transform?.map?.format ??
+    '{Type}-{n}';
+  return (
+    format !== '{Type}-{n}' ||
+    /-[1-9]/u.test(text) ||
+    (escaped && text.includes('\\'))
+  );
+}
 // With `existing: 'keep'` the tokens of an earlier pass stay as they are, so
 // findings made only of those tokens are not replaced again.
 export function keptPlaceholderSpans(text, findings, options) {
-  if (!keepsExisting(options) || !mayHavePlaceholder(text, options)) {
+  if (!keepsExisting(options) || !mayContainPlaceholder(text, options)) {
     return [];
   }
   return placeholderTokens(text, callPattern(findings, options));
-}
-// Every default token contains a hyphen and a positive counter. This cheap
-// precheck stays linear even on long alphabetic text. Escapes and custom
-// formats conservatively keep the full scan.
-function mayHavePlaceholder(text, options) {
-  const transform = transforms(options)[0];
-  const format =
-    options[placeholderState]?.map?.format ??
-    transform?.format ??
-    transform?.map?.format;
-  return (
-    (format !== undefined && format !== '{Type}-{n}') ||
-    text.includes('\\') ||
-    /-[1-9]/.test(text)
-  );
 }
 const significant = /[\p{L}\p{N}]/u;
 // A finding made only of kept tokens is kept, and one that starts or ends
@@ -414,15 +414,15 @@ export function preparePlaceholderText(text, findings, options) {
   if (!state || !hasPlaceholders(options)) {
     return;
   }
-  const pattern = callPattern(findings, options);
-  if (state.existing === 'keep') {
+  const pattern = mayContainPlaceholder(text, options, true)
+    ? callPattern(findings, options)
+    : undefined;
+  if (pattern && state.existing === 'keep') {
     // New values are numbered after the highest kept number of their type.
-    for (const token of !mayHavePlaceholder(text, options)
-      ? []
-      : [
-          ...placeholderTokens(text, pattern),
-          ...escapedPlaceholderTokens(text, pattern),
-        ]) {
+    for (const token of [
+      ...placeholderTokens(text, pattern),
+      ...escapedPlaceholderTokens(text, pattern),
+    ]) {
       for (const type of token.types) {
         state.floors.set(
           type,
@@ -430,7 +430,7 @@ export function preparePlaceholderText(text, findings, options) {
         );
       }
     }
-  } else if (namespaceCollision(text, pattern)) {
+  } else if (pattern && namespaceCollision(text, pattern)) {
     throw failure('ERR_PLACEHOLDER_COLLISION');
   }
   state.people = [

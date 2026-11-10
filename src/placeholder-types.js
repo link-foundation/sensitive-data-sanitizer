@@ -130,6 +130,9 @@ export function namespacePattern(format = defaultFormat, extraTypes = []) {
 // Tokens of the namespace with the types each spelling can stand for.
 export function placeholderTokens(text, pattern) {
   const tokens = [];
+  if (!/[1-9]/u.test(text)) {
+    return tokens;
+  }
   for (const match of text.matchAll(new RegExp(pattern.source, 'gu'))) {
     const [part, number] = pattern.typedFirst
       ? [match[1], match[2]]
@@ -144,13 +147,20 @@ export function placeholderTokens(text, pattern) {
   return tokens;
 }
 export function containsPlaceholder(text, pattern) {
-  return new RegExp(pattern.source, 'u').test(text);
+  return /[1-9]/u.test(text) && new RegExp(pattern.source, 'u').test(text);
 }
 // Tokens spelled with JSON escapes inside string literals, such as
 // `Person-1`, decoded so that they cannot hide from the namespace check.
 export function escapedPlaceholderTokens(text, pattern) {
   const tokens = [];
+  // Without an escape every literal has already been checked in the raw text.
+  if (!text.includes('\\')) {
+    return tokens;
+  }
   for (const literal of jsonStringLiterals(text)) {
+    if (!literal.includes('\\')) {
+      continue;
+    }
     try {
       tokens.push(...placeholderTokens(JSON.parse(literal), pattern));
     } catch {

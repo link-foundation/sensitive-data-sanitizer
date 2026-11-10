@@ -1,9 +1,12 @@
 import { isIP } from 'node:net';
+import { publicTechnologies } from './public-technologies.js';
 
 // Exact public knowledge and narrowly scoped role-mail heuristics. A role name
 // alone is never an exemption on an unknown/personal domain. Credentials and
 // caller-specified private values always outrank these automatic exceptions.
 export const publicKnowledge = {
+  PROPER_NAME: publicTechnologies,
+  URL: publicTechnologies.filter((entry) => entry.value === 'Node.js'),
   PERSON: [
     ['Albert Einstein', 'Q937'],
     ['Marie Curie', 'Q7186'],
@@ -46,21 +49,6 @@ export const publicKnowledge = {
     value,
     source: `https://www.wikidata.org/wiki/${id}`,
   })),
-  PROPER_NAME: [
-    ['Python', 'https://www.python.org/'],
-    ['SQL', 'https://www.iso.org/standard/76583.html'],
-    ['PostgreSQL', 'https://www.postgresql.org/'],
-    ['Docker', 'https://www.docker.com/'],
-    ['Kubernetes', 'https://kubernetes.io/'],
-    ['JavaScript', 'https://developer.mozilla.org/en-US/docs/Web/JavaScript'],
-    ['TypeScript', 'https://www.typescriptlang.org/'],
-    ['Node.js', 'https://nodejs.org/'],
-    ['React', 'https://react.dev/'],
-    ['Redis', 'https://redis.io/'],
-    ['MongoDB', 'https://www.mongodb.com/'],
-    ['Linux', 'https://www.kernel.org/'],
-    ['Git', 'https://git-scm.com/'],
-  ].map(([value, source]) => ({ value, source })),
   IP_ADDRESS: [
     ...[
       '8.8.8.8',

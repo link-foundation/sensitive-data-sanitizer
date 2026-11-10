@@ -141,18 +141,15 @@ export function compiledVocabulary(vocabulary) {
   if (vocabulary === undefined) {
     return undefined;
   }
-  // Fingerprint only the caller lists, not the much larger default lexicon.
-  // Reusing a vocabulary is cheap and editing a caller array still invalidates it.
-  const fingerprint = JSON.stringify(vocabulary);
-  const previous = vocabulary && identities.get(vocabulary);
-  if (previous?.fingerprint === fingerprint) {
-    return previous.result;
+  const existing = identities.get(vocabulary);
+  if (existing) {
+    return existing;
   }
   const lists = normalizedLists(vocabulary);
   const key = JSON.stringify(lists);
   if (cache.has(key)) {
     const result = cache.get(key);
-    identities.set(vocabulary, { fingerprint, result });
+    identities.set(vocabulary, result);
     return result;
   }
   const alternatives = (values) =>
@@ -167,15 +164,7 @@ export function compiledVocabulary(vocabulary) {
           .sort((a, b) => b.length - a.length)
           .join('|')
       : '(?!)';
-  const result = {
-    lists,
-    patterns: [],
-    cues: new Set(
-      [...lists.roles, ...lists.personalLabels].map((word) =>
-        word.replaceAll('ё', 'е')
-      )
-    ),
-  };
+  const result = { lists, patterns: [] };
   for (const [list, type] of [
     ['organizationCues', 'ORGANIZATION'],
     ['educationCues', 'EDUCATION'],
@@ -202,12 +191,15 @@ export function compiledVocabulary(vocabulary) {
     'giu'
   );
   result.fields = new Set(lists.personalFields.map(normalizeFieldName));
+  result.cues = new Set(
+    [...lists.roles, ...lists.personalLabels].map((s) => s.replaceAll('ё', 'е'))
+  );
   result.attributes = attributePattern(lists.personalAttributes);
   if (cache.size >= 64) {
     cache.clear();
   }
   cache.set(key, result);
-  identities.set(vocabulary, { fingerprint, result });
+  identities.set(vocabulary, result);
   return result;
 }
 export function vocabularyField(field, options) {
