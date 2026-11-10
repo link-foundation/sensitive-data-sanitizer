@@ -238,3 +238,12 @@ literal credentials, nearby credentials and exact known secrets remain covered.
 The added release fragment is consolidated into this PR's single minor changeset.
 Issues 148 and 150 had no comments at restart review. This refresh supplements
 the historical snapshot; the exhaustive R4 audit remains unfinished.
+
+The final synchronization also integrates main at `75a1a1b` (PR 157, issue 149),
+which preserves bounded harmless wrapped binary while inspecting embedded
+credentials. All 104 focused encoding, session-identity and constructor tests
+pass after the clean merge. The documentation reachability probe identified
+the new issue-149 study as unreachable; adding it to the case-study index
+restores navigation to all 92 Markdown documents. The preceding merge commit
+`ebb89ba` passed all five CI workflows, including all runtime shards; the
+new integration requires its own current-head CI verification.

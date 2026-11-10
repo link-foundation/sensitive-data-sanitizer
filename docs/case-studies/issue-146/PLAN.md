@@ -47,7 +47,10 @@ adapter is not evidence that proprietary detection behaves identically.
 - [x] Read newer issues 148 and 150 and their comments. Issue 148's fix and tests
       arrive from main. Reproduce issue 150 with two failing regressions and
       integrate the existing implementation/tests from PR 156, preserving history.
-- [ ] Verify current integration commit in CI and update the PR evidence.
+- [x] Verify merge commit `ebb89ba` in all five CI workflows.
+- [x] Merge main at `75a1a1b` (issue 149), verify 104 affected regressions and
+      restore README navigation to all 92 Markdown documents.
+- [ ] Verify the latest integration commit in CI and update the PR evidence.
 
 The original unchecked parity, provider coverage and historical-audit criteria
 above remain unfinished. Resolving merge conflicts does not satisfy them.

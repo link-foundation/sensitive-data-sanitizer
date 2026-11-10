@@ -31,6 +31,7 @@ Regenerate this index with `node experiments/issue-146/index-docs.mjs`.
 | [issue-146/README.md](issue-146/README.md)                                                               | Issue 146: rule parity, optional verification and requirements audit                            |
 | [issue-146/research/documentation-gaps.md](issue-146/research/documentation-gaps.md)                     | Documented outstanding capabilities                                                             |
 | [issue-146/research/sources.md](issue-146/research/sources.md)                                           | Primary-source research, 2026-11-10                                                             |
+| [issue-149/README.md](issue-149/README.md)                                                               | Issue 149: bounded wrapped-base64 inspection                                                    |
 | [issue-21/README.md](issue-21/README.md)                                                                 | Case Study: Issue #21 - Supporting Both Single-Language and Multi-Language Repositories         |
 | [issue-212/README.md](issue-212/README.md)                                                               | Issue 212: repository-wide pipeline repairs                                                     |
 | [issue-23/README.md](issue-23/README.md)                                                                 | Case Study: Issue #23 - Best CI/CD Practices from Hive Mind Repository                          |
