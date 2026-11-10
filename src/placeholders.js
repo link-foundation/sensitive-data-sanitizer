@@ -352,10 +352,24 @@ const keepsExisting = (options) => transforms(options)[0]?.existing === 'keep';
 // With `existing: 'keep'` the tokens of an earlier pass stay as they are, so
 // findings made only of those tokens are not replaced again.
 export function keptPlaceholderSpans(text, findings, options) {
-  if (!keepsExisting(options)) {
+  if (!keepsExisting(options) || !mayHavePlaceholder(text, options)) {
     return [];
   }
   return placeholderTokens(text, callPattern(findings, options));
+}
+// Only skip the default namespace when there is neither a visible token nor
+// a JSON escape which could conceal one. Custom formats keep their full scan.
+function mayHavePlaceholder(text, options) {
+  const transform = transforms(options)[0];
+  const format =
+    options[placeholderState]?.map?.format ??
+    transform?.format ??
+    transform?.map?.format;
+  return (
+    (format !== undefined && format !== '{Type}-{n}') ||
+    text.includes('\\') ||
+    /[A-Z][A-Za-z]*-[1-9]/.test(text)
+  );
 }
 const significant = /[\p{L}\p{N}]/u;
 // A finding made only of kept tokens is kept, and one that starts or ends
@@ -402,10 +416,12 @@ export function preparePlaceholderText(text, findings, options) {
   const pattern = callPattern(findings, options);
   if (state.existing === 'keep') {
     // New values are numbered after the highest kept number of their type.
-    for (const token of [
-      ...placeholderTokens(text, pattern),
-      ...escapedPlaceholderTokens(text, pattern),
-    ]) {
+    for (const token of !mayHavePlaceholder(text, options)
+      ? []
+      : [
+          ...placeholderTokens(text, pattern),
+          ...escapedPlaceholderTokens(text, pattern),
+        ]) {
       for (const type of token.types) {
         state.floors.set(
           type,

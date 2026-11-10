@@ -55,6 +55,7 @@ export const defaultVocabulary = Object.freeze(
   )
 );
 const cache = new Map();
+const identities = new WeakMap();
 const boundary = '[\\p{L}\\p{N}_]';
 const name =
   '[\\p{Lu}][\\p{L}\\p{M}.-]{1,47}(?:[ \\t]+[\\p{Lu}][\\p{L}\\p{M}.-]{1,47}){0,3}';
@@ -140,10 +141,19 @@ export function compiledVocabulary(vocabulary) {
   if (vocabulary === undefined) {
     return undefined;
   }
+  // Fingerprint only the caller lists, not the much larger default lexicon.
+  // Reusing a vocabulary is cheap and editing a caller array still invalidates it.
+  const fingerprint = JSON.stringify(vocabulary);
+  const previous = vocabulary && identities.get(vocabulary);
+  if (previous?.fingerprint === fingerprint) {
+    return previous.result;
+  }
   const lists = normalizedLists(vocabulary);
   const key = JSON.stringify(lists);
   if (cache.has(key)) {
-    return cache.get(key);
+    const result = cache.get(key);
+    identities.set(vocabulary, { fingerprint, result });
+    return result;
   }
   const alternatives = (values) =>
     values.length
@@ -157,7 +167,15 @@ export function compiledVocabulary(vocabulary) {
           .sort((a, b) => b.length - a.length)
           .join('|')
       : '(?!)';
-  const result = { lists, patterns: [] };
+  const result = {
+    lists,
+    patterns: [],
+    cues: new Set(
+      [...lists.roles, ...lists.personalLabels].map((word) =>
+        word.replaceAll('ё', 'е')
+      )
+    ),
+  };
   for (const [list, type] of [
     ['organizationCues', 'ORGANIZATION'],
     ['educationCues', 'EDUCATION'],
@@ -189,6 +207,7 @@ export function compiledVocabulary(vocabulary) {
     cache.clear();
   }
   cache.set(key, result);
+  identities.set(vocabulary, { fingerprint, result });
   return result;
 }
 export function vocabularyField(field, options) {

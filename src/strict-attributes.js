@@ -39,6 +39,10 @@ const nationalities = [
   `авар${ecNoun}|аварк${femaleNoun}`,
   `дагестан${ecNoun}|дагестанк${femaleNoun}`,
   `уйгур${hardNoun}|уйгурк${femaleNoun}`,
+  `кабардин${ecNoun}|кабардинк${femaleNoun}`,
+  `казашк${femaleNoun}|мордвин${hardNoun}|мордовк${femaleNoun}`,
+  `удмурт${hardNoun}|удмуртк${femaleNoun}`,
+  `молдаванин${hardNoun}|молдаванк${femaleNoun}`,
 ].join('|');
 const believerNoun = `(?:а|у|ом|е|ы|ов|ам|ами|ах|к${femaleNoun}|кой)?`;
 const specialVocabulary = new RegExp(
@@ -97,6 +101,7 @@ export function detectStrictAttributes(text, emit, options) {
     additionalAttributes,
     categoryForms,
     specialVocabulary,
+    /(?<![\p{L}\p{N}_])(?:(?:иудаизм|старовер|эпилептик|паралич|наркомани|профсоюз|коммунист)[\p{L}]{0,8}|uzbek|tajik|chechen|romani|gypsy|latino|latina|baptist|aids|bipolar|adhd|wheelchair|lgbt|convicted|felony|trade[ \t]+union)(?![\p{L}\p{N}_])/giu,
     compiledVocabulary(options.vocabulary)?.attributes,
   ]) {
     if (pattern) {

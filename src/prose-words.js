@@ -74,10 +74,6 @@ function sentenceStart(text, start) {
 function nextWordLowercase(text, end) {
   return /^[ \t]+\p{Ll}/u.test(text.slice(end, end + 4));
 }
-function vocabularyCues(options) {
-  const lists = compiledVocabulary(options?.vocabulary)?.lists;
-  return lists ? [...lists.roles, ...lists.personalLabels] : [];
-}
 const defaultCues = new Set(
   [...defaultVocabulary.roles, ...defaultVocabulary.personalLabels].map(fold)
 );
@@ -89,7 +85,7 @@ export function isProseCue(word, options) {
   return (
     (cues.has(lower) ||
       defaultCues.has(lower) ||
-      vocabularyCues(options).includes(lower)) &&
+      compiledVocabulary(options?.vocabulary)?.cues.has(lower)) &&
     !isNameForm(word)
   );
 }
