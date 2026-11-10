@@ -177,6 +177,19 @@ function detectLabelledCards(text, emit) {
   );
 }
 
+// "SSN 030 72 7381", "social security number: 003 06-8815": the label
+// carries spaced and mixed separators that the bare dashed form omits.
+function detectLabelledSsn(text, emit) {
+  collectMatches(
+    text,
+    /(?<![\p{L}\p{N}_])(?:SSN|SS#|social[ \t]+security(?:[ \t]+(?:number|no\.?|#))?)[ \t]*(?:[:#]|is)?[ \t]*(\d{3}[ .-]?\d{2}[ .-]?\d{4})(?![\p{N}]|[ .-]\d)/giu,
+    emit,
+    personal('SSN', 'ssn-label', 0.9),
+    1,
+    (value) => !/^(?:000|666|9\d\d)|^\d{3}\D?00|0000$/.test(value)
+  );
+}
+
 const states =
   'AL|AK|AZ|AR|CA|CO|CT|DE|DC|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|PR';
 function detectPostalCodes(text, emit) {
@@ -215,5 +228,6 @@ export function detectPersonalEvidence(text, emit) {
   detectContactForms(text, emit);
   detectCredentialPairs(text, emit);
   detectLabelledCards(text, emit);
+  detectLabelledSsn(text, emit);
   detectPostalCodes(text, emit);
 }

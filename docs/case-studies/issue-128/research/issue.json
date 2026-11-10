@@ -1,0 +1,27 @@
+{
+  "author": {
+    "id": "MDQ6VXNlcjE0MzE5MDQ=",
+    "is_bot": false,
+    "login": "konard",
+    "name": "Konstantin Diachenko"
+  },
+  "body": "We should update list of competitors (open-source and closed-source) which have similar features, we should take all their best test cases and cases described in docs (if no source code provided), and make sure we also are able to support all of them in the best possible way.\n\nSo as result we will have comparison documentation with comparison with each competitor by supported features (on high level), and also pages with detailed support for all the features in detail.\n\nSo we and our user clearly understand actual state of things.\n\nSo our system is the most feature reach and reliable on the market for all the features we have. We also should support wide range of configuration options, as well as provide best possible class of extensibility/replacability of implementations and so on.\n\nWe should also check that we fully apply https://raw.githubusercontent.com/link-foundation/code-architecture-principles/refs/heads/main/README.md so it will be easier to maintain and use our system in the future.\n\nWe need to collect data related about the issue to this repository, make sure we compile that data to `./docs/case-studies/issue-{id}` folder, and use it to do deep case study analysis (also make sure to search online for additional facts and data), list of each and all requirements from the issue, and propose possible solutions and solution plans for each requirement (we should also check known existing components/libraries, that solve similar problem or can help in solutions).\n\nPlease plan and execute everything in this single pull request, you have unlimited time and context, as context auto-compacts and you can continue indefinitely, until each and every requirement fully addressed, and everything is totally done.",
+  "comments": [],
+  "createdAt": "2026-11-10T05:20:37Z",
+  "labels": [
+    {
+      "id": "LA_kwDOU_Omgc8AAAAC7cFYEA",
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "id": "LA_kwDOU_Omgc8AAAAC7cFYHg",
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    }
+  ],
+  "number": 128,
+  "title": "We should update our list of competitors and make sure we support highest quality of all their features"
+}

@@ -50,13 +50,26 @@ const label = labels.credential
   .filter((word) => !['auth', 'authorization'].includes(word))
   .map(escapePattern)
   .join('|');
-const key = `(?:[\\p{L}\\p{N}]+[_.-])*(?:auth|authorization|PGPASSWORD|${label}|pass|pw)(?:[_.-][\\p{L}\\p{N}]+)*`;
+// Glued service prefixes (`dbpass`, `rootpassword`, `bindpw`, `tlspassword`)
+// are fixed so that ordinary words ending in "pass" stay prose.
+const glued =
+  '(?:db|user|root|admin|smtp|mail|ftp|sftp|ssh|redis|ldap|bind|proxy|tls|ssl|keystore|truststore|store|master|sys|app|login|account|acct|wifi|wpa)(?:password|passwd|pass|pwd|pw|secret|token)';
+const key = `(?:[\\p{L}\\p{N}]+[_.-])*(?:auth|authorization|PGPASSWORD|${glued}|${label}|pass|pw)(?:[_.-][\\p{L}\\p{N}]+)*`;
 // A qualifier such as "for staging" stays on one logical line: it never
 // crosses an escaped line break, an escape sequence or an enclosing quote.
 // Verbs are whole words, so "request" does not end in the verb "est".
 const credentialPrefix = new RegExp(
   `(?<![\\p{L}\\p{N}_])(?:\\\\*["'])?(${key})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?(?:[ \\t]+(?:от|для|к|for|de|du|del)[ \\t]+[^:=\\r\\n"\\\\]{1,64})?[ \\t]*([:=：]|(?<![\\p{L}\\p{N}_])(?:${verbs})(?![\\p{L}\\p{N}_]))[ \\t]*`,
   'giu'
+);
+// camelCase and PascalCase keys (`clientSecret`, `secretKey`, `dbPassword`,
+// `ApiSecret`) are case-sensitive: the credential word starts a new word, so
+// `tokenType`, `secretName` and `maxTokens` stay configuration metadata.
+const camelKey =
+  '[\\p{L}][\\p{Ll}\\p{N}]*(?:\\p{Lu}[\\p{Ll}\\p{N}]*)*?(?:Secret|Password|Passwd|Passphrase|Pass|Pwd|Token|Credentials?|(?:Api|Private|Access|Secret|Signing|Encryption|Master|Client|App|Subscription|Account|Storage)Key)(?:Key|Value)?|(?:[Ss]ecret|[Pp]assword|[Pp]asswd|[Tt]oken|[Pp]rivate|[Aa]ccess|[Ss]igning|[Ee]ncryption)(?:Key|Value|Secret|Token)';
+const camelPrefix = new RegExp(
+  `(?<![\\p{L}\\p{N}_$])(?:\\\\*["'])?(${camelKey})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?[ \\t]*([:=])[ \\t]*`,
+  'gu'
 );
 // Bare generic labels are common English nouns. After a verb they need a
 // value that looks generated; "the token is valid" is prose, not a secret.
@@ -359,9 +372,22 @@ function sourceReference(label, tail) {
   );
 }
 
+// A camelCase key is usually source code; an unquoted member chain, call or
+// type annotation after it (`config.clientSecret`, `apiToken: string;`) is
+// a reference, not the secret itself.
+function codeValue(text, start) {
+  return /^(?:[A-Za-z_$][\w$]*(?:\??\.[A-Za-z_$][\w$]*)+(?:\([^()\r\n]*\))?|[A-Za-z_$][\w$]*\([^()\r\n]*\)|(?:string|number|boolean|any|unknown|str|bytes|String|SecretStr|Optional\[str\])(?![\w$]))[ \t]*(?:[,;)}\]]|\r?\n|$)/u.test(
+    text.slice(start, start + 256)
+  );
+}
+
 function detectCredentials(text, emit) {
   const details = { category: 'credential', type: 'SECRET', rule: 'context' };
-  for (const match of text.matchAll(credentialPrefix)) {
+  const matches = [
+    ...[...text.matchAll(credentialPrefix)].map((match) => [match, false]),
+    ...[...text.matchAll(camelPrefix)].map((match) => [match, true]),
+  ];
+  for (const [match, camel] of matches) {
     const start = match.index + match[0].length;
     const prefix = text.slice(Math.max(0, match.index - 512), match.index);
     const query =
@@ -381,6 +407,9 @@ function detectCredentials(text, emit) {
       range = generatedWord(text, range);
     }
     if (sourceReference(match[1], text.slice(start))) {
+      continue;
+    }
+    if (camel && codeValue(text, start)) {
       continue;
     }
     if (range) {
@@ -495,7 +524,7 @@ function detectCommandPasswords(text, emit) {
     }
     if (/(?:^|[\s/])curl(?:\s|$)/.test(command)) {
       for (const match of command.matchAll(
-        /(?:^|\s)(?:-u|--user)(?:[ \t]+|=)/g
+        /(?:^|\s)(?:-u|--user|-U|--proxy-user)(?:[ \t]+|=)/g
       )) {
         const range = valueRange(
           text,
@@ -509,10 +538,62 @@ function detectCommandPasswords(text, emit) {
   }
 }
 
+// Kubernetes/compose environment entries name the secret in one field and
+// carry it in the next: `{"name":"DB_PASSWORD","value":"hunter2"}` or
+// `- name: DB_PASSWORD` followed by `value: hunter2`.
+const namedValue = new RegExp(
+  `(["']?)name\\1[ \\t]*:[ \\t]*(["']?)(${key})\\2[ \\t]*,?[ \\t]*(?:\\r?\\n[ \\t]*)?(["']?)value\\4[ \\t]*:[ \\t]*`,
+  'giu'
+);
+// `smtp.login(user, "hunter2")`, `ftp.login('anna', 'pw')`: a literal second
+// argument of a login call is the password.
+const loginCall =
+  /(?<![\p{L}\p{N}_])(?:login|log_in|logIn|signin|sign_in|signIn|authenticate|auth_login|bind_s|simple_bind_s|connect_with_password)[ \t]*\([ \t]*[^,()\r\n]{1,64},[ \t]*(["'])([^"'\\\r\n]{4,128})\1[ \t]*[,)]/gu;
+// Modular crypt and Argon2 password hashes (`$2y$10$…`, `$apr1$…`, `$6$…`)
+// from htpasswd, shadow files and user tables crack offline.
+const passwordHash =
+  /(?<![\p{L}\p{N}_$])\$(?:2[abxy]?\$\d{2}\$[./A-Za-z0-9]{53}|apr1\$[./A-Za-z0-9]{1,8}\$[./A-Za-z0-9]{22}|1\$[./A-Za-z0-9]{1,8}\$[./A-Za-z0-9]{22}|[56]\$(?:rounds=\d{1,9}\$)?[./A-Za-z0-9]{1,16}\$[./A-Za-z0-9]{43,86}|y\$[./A-Za-z0-9]+\$[./A-Za-z0-9]{1,64}\$[./A-Za-z0-9]{43}|argon2(?:id|i|d)\$v=\d+\$m=\d+,t=\d+,p=\d+\$[A-Za-z0-9+/]{11,}\$[A-Za-z0-9+/]{16,})(?![./A-Za-z0-9$])/gu;
+function detectCredentialForms(text, emit) {
+  const details = { category: 'credential', type: 'SECRET' };
+  if (/name/i.test(text)) {
+    for (const match of text.matchAll(namedValue)) {
+      const range = valueRange(text, match.index + match[0].length);
+      if (range) {
+        emitValue(
+          text,
+          range.start,
+          range.end,
+          emit,
+          { ...details, rule: 'named-value' },
+          match[3]
+        );
+      }
+    }
+  }
+  for (const match of text.matchAll(loginCall)) {
+    const start = match.index + match[0].lastIndexOf(match[2]);
+    emitValue(text, start, start + match[2].length, emit, {
+      ...details,
+      rule: 'login-call',
+      confidence: 0.85,
+    });
+  }
+  if (text.includes('$')) {
+    for (const match of text.matchAll(passwordHash)) {
+      emitValue(text, match.index, match.index + match[0].length, emit, {
+        ...details,
+        rule: 'password-hash',
+        confidence: 0.95,
+      });
+    }
+  }
+}
+
 export function detectContext(text, emit, credentialsOnly = false) {
   if (credentialHint.test(text)) {
     detectCredentials(text, emit);
   }
+  detectCredentialForms(text, emit);
   if (!credentialsOnly) {
     detectPersonalLabels(text, emit);
   }

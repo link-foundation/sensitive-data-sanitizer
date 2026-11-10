@@ -11,6 +11,12 @@ const details = (type, rule, confidence = 0.85) => ({
   category: 'personal',
   confidence,
 });
+// "John C Smith", "John A. Smith": a Latin-script middle initial. A bare "I"
+// is the pronoun ("Will I Go"), so it needs its period.
+const initial = (language) =>
+  ['ar', 'he', 'hi', 'th', 'ja', 'zh', 'ko'].includes(language)
+    ? ''
+    : '(?:[ \\t]+(?:\\p{Lu}\\.|(?!I[ \\t])\\p{Lu}(?=[ \\t])))?';
 const names = Object.entries(firstNames).map(([language, list]) => {
   const words = list.split(' ').map(escapePattern).join('|');
   const surname = ['ar', 'he', 'hi', 'th'].includes(language)
@@ -18,7 +24,7 @@ const names = Object.entries(firstNames).map(([language, list]) => {
     : "[\\p{Lu}][\\p{L}\\p{M}’'-]{1,32}";
   const pattern = ['ja', 'zh', 'ko'].includes(language)
     ? `(?:${words})[\\p{Script=Han}\\p{Script=Hiragana}\\p{Script=Katakana}\\p{Script=Hangul}]{1,4}`
-    : `(?:${words})[ \\t]+${surname}${language === 'vi' ? `(?:[ \\t]+${surname})?` : ''}`;
+    : `(?:${words})${initial(language)}[ \\t]+${surname}${language === 'vi' ? `(?:[ \\t]+${surname})?` : ''}`;
   return new RegExp(`(?<![\\p{L}\\p{M}])${pattern}(?![\\p{L}\\p{M}])`, 'gu');
 });
 
@@ -53,7 +59,7 @@ export function iban(value) {
 
 function detectIban(text, emit) {
   for (const match of text.matchAll(
-    /(?<![A-Z0-9])[A-Z]{2}\d{2}(?:[ -]?[A-Z0-9]){8,40}/g
+    /(?<![A-Z0-9])[A-Z]{2} ?\d{2}(?:[ -]?[A-Z0-9]){8,40}/g
   )) {
     const needed = ibanLengths[match[0].slice(0, 2)];
     if (!needed) {
@@ -230,7 +236,7 @@ export function detectPersonal(text, emit) {
   );
   collectMatches(
     text,
-    /(?<![\d(])(?:[78][ -]?)?\(\d{3}\)[ -]?\d{3}[ -]\d{2}[ -]?\d{2}(?!\d)|(?<![\d-])(?:\d{3}[.-]){2}\d{4}(?!\d|-[\p{L}\p{N}])/gu,
+    /(?<![\d(])(?:[78][ -]?)?\(\d{3}\)[ -]?\d{3}[ -]\d{2}[ -]?\d{2}(?!\d)|(?<![\d-])(?:(?<![\p{L}_.])1[.-])?(?:\d{3}[.-]){2}\d{4}(?!\d|-[\p{L}\p{N}])/gu,
     emit,
     details('PHONE', 'national-phone')
   );
@@ -275,7 +281,7 @@ export function detectPersonal(text, emit) {
   );
   collectMatches(
     text,
-    /(?:\/Users\/|\/home\/|[A-Za-z]:\\Users\\)([^/\\\s"'<>[\]]+)/g,
+    /(?:\/Users\/|\/home\/|[A-Za-z]:\\(?:Users|Documents and Settings|(?:Windows|WINNT)\\Profiles)\\)([^/\\\s"'<>[\]]+)/g,
     emit,
     details('USERNAME', 'home-path', 0.95),
     1,

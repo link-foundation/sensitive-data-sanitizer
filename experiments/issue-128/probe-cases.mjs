@@ -5,6 +5,7 @@
 //   node experiments/issue-128/probe-cases.mjs <cases.json> [--profile publication] [--json]
 import { readFileSync } from 'node:fs';
 import { sanitize } from '../../src/index.js';
+import { fillCase } from './fill-template.mjs';
 
 const [file, ...flags] = process.argv.slice(2);
 if (!file) {
@@ -19,8 +20,10 @@ const cases = JSON.parse(readFileSync(file, 'utf8'));
 const misses = [];
 const overRedactions = [];
 let skipped = 0;
-for (const entry of cases) {
-  if (typeof entry.input !== 'string' || entry.input.includes('{{')) {
+for (const [index, raw] of cases.entries()) {
+  const entry =
+    typeof raw.input === 'string' ? fillCase(raw, index + 1) : undefined;
+  if (!entry || entry.input.includes('{{')) {
     skipped++;
     continue;
   }

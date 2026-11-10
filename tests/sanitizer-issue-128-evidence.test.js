@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'test-anywhere';
-import { sanitize, inspect, redact } from '../src/index.js';
+import { sanitize, inspect, redact, builtInRules } from '../src/index.js';
 import * as checks from '../src/national-checks.js';
 import { cryptoAddress } from '../src/crypto-addresses.js';
 
@@ -44,6 +44,16 @@ const redacted = [
   ['born 15th June 1991', 'born [REDACTED]'],
   ['DOB: March 3rd, 1990', 'DOB: [REDACTED]'],
   ['Desk: 5551234567', 'Desk: [REDACTED]'],
+  // Closed-source documentation cases (Google SDP, Lakera, Sentry Relay)
+  ['call 1-206-867-5309', 'call [REDACTED]'],
+  ['SSN 030 72 7381', 'SSN [REDACTED]'],
+  ['social security number: 003 06-8815', 'social security number: [REDACTED]'],
+  ['IBAN CH 9300762011623852957', 'IBAN [REDACTED]'],
+  ['Contact John C Smith today', 'Contact [REDACTED] today'],
+  [
+    'C:\\Windows\\Profiles\\Armin\\Temp',
+    'C:\\Windows\\Profiles\\[REDACTED]\\Temp',
+  ],
 ];
 const kept = [
   'Dear Sir,\nhello',
@@ -65,6 +75,9 @@ const kept = [
   'Part number: 555-123-4567-A',
   'broadcast ff:ff:ff:ff:ff:ff',
   'mixed 00:1B-63:84-45:E6',
+  'v1-206-867-5309',
+  'Will I Go',
+  'GET https://api.example.com/users/42',
 ];
 
 describe('competitor phrase and format cases (#128)', () => {
@@ -174,4 +187,111 @@ describe('checksum-valid fakes for competitor identifiers (#128)', () => {
       expect(check(output)).toBe(true);
     });
   }
+});
+
+// Secret forms from Betterleaks/Gitleaks, Kingfisher, detect-secrets and LLM
+// Guard fixtures. Tokens are assembled at runtime so no literal provider
+// credential is committed.
+const token = ['gh', 'p_', 'a1B2c3D4e5F6g7H8i9J0k1L2m3N4o5P6q7R8'].join('');
+const hash = [
+  '$',
+  '2y$10$',
+  'N9qo8uLOickgx2ZMRZoMye',
+  'IjZAgcfl7p92ldGxad68LJZdL17lhWy',
+].join('');
+const secretForms = [
+  ['clientSecret = "abcdefgh123"', 'clientSecret = "[REDACTED]"'],
+  ["secretKey: 'wJalrXUtnFEMIbPxRfiCY'", "secretKey: '[REDACTED]'"],
+  ['const dbPassword = "hunter22";', 'const dbPassword = [REDACTED];'],
+  ['ClientSecret = "abc123xyz"', 'ClientSecret = "[REDACTED]"'],
+  ['userpass=hunter22', 'userpass=[REDACTED]'],
+  ['bindpw: s3cr3tpw', 'bindpw: [REDACTED]'],
+  [
+    'curl --tlspassword s3cr3tpw https://example.com',
+    'curl --tlspassword [REDACTED] https://example.com',
+  ],
+  [
+    'curl --proxy-user admin:s3cr3tpw https://example.com',
+    'curl --proxy-user [REDACTED] https://example.com',
+  ],
+  [
+    '{"name":"DB_PASSWORD","value":"hunter2"}',
+    '{"name":"DB_PASSWORD","value":"[REDACTED]"}',
+  ],
+  [
+    '- name: DB_PASSWORD\n  value: hunter2',
+    '- name: DB_PASSWORD\n  value: [REDACTED]',
+  ],
+  ['smtp.login(username, "hunter2")', 'smtp.login(username, "[REDACTED]")'],
+  ["ftp.login('anna', 'pw12')", "ftp.login('anna', '[REDACTED]')"],
+  [`admin:${hash}`, 'admin:[REDACTED]'],
+];
+const secretKept = [
+  "tokenType: 'bearer'",
+  "secretName: 'db-creds'",
+  'maxTokens: 100',
+  'showPassword: false',
+  'clientSecret: config.clientSecret,',
+  '  apiToken: string;',
+  '{ csrfToken: req.csrfToken() }',
+  'bypass=1',
+  'login(user, "")',
+  'printf("%u items", n)',
+];
+const escaped = (map) => [...token].map(map).join('');
+const hex = (c) => c.charCodeAt(0).toString(16).padStart(4, '0');
+
+describe('competitor secret forms (#128)', () => {
+  for (const [input, expected] of secretForms) {
+    it(`redacts ${JSON.stringify(input)}`, () => {
+      expect(sanitize(input).text).toBe(expected);
+    });
+  }
+  for (const input of secretKept) {
+    it(`keeps ${JSON.stringify(input)}`, () => {
+      expect(sanitize(input).text).toBe(input);
+    });
+  }
+  for (const [name, input] of [
+    ['\\u{…} escapes', escaped((c) => `\\u{${hex(c)}}`)],
+    ['%u escapes', escaped((c) => `%u${hex(c)}`)],
+    ['\\U escapes', escaped((c) => `\\U0000${hex(c)}`)],
+    ['soft hyphens', `key ${[...token].join('­')}`],
+    ['zero-width spaces', `key ${[...token].join('​')}`],
+  ]) {
+    it(`finds a token hidden with ${name}`, () => {
+      const text = sanitize(input).text;
+      expect(text.includes('[REDACTED]')).toBe(true);
+      expect(text.includes(token)).toBe(false);
+      expect(text.includes(input)).toBe(false);
+    });
+  }
+});
+
+describe('rule ids for competitor evidence (#128)', () => {
+  const ids = [
+    'card-context',
+    'credential-pair',
+    'honorific-name',
+    'login-call',
+    'mail-display-name',
+    'named-value',
+    'password-hash',
+    'po-box',
+    'postal-label',
+    'salutation',
+    'self-introduction',
+    'sign-off',
+    'ssn-label',
+    'state-zip',
+  ];
+  it('registers every new rule id for policy configuration', () => {
+    expect(ids.filter((id) => !builtInRules.includes(id))).toEqual([]);
+  });
+  it('lets a personal evidence rule be switched off', () => {
+    expect(
+      sanitize('My name is Bond.', { rules: { 'self-introduction': false } })
+        .text
+    ).toBe('My name is Bond.');
+  });
 });

@@ -24,7 +24,7 @@ function asciiDigits(value) {
 export function projectText(input) {
   if (
     // eslint-disable-next-line no-control-regex -- ANSI escape sequences are removed from the detection view.
-    !/\x1b\[|\\u[\da-fA-F]{4}|[\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]/u.test(
+    !/\x1b\[|\\u[\da-fA-F{]|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]/u.test(
       input
     ) &&
     // ASCII already has normalized letters and digits. Avoid constructing a
@@ -37,23 +37,38 @@ export function projectText(input) {
     return { text: input, changed: false };
   }
   const writer = projectionWriter(input.length);
-  // eslint-disable-next-line no-control-regex -- Tokenize ANSI sequences with their original offsets.
-  const units = /\x1b\[[0-?]*[ -/]*[@-~]|\\u[\da-fA-F]{4}|[\s\S]\p{M}*/gu;
+  const units =
+    // eslint-disable-next-line no-control-regex -- Tokenize ANSI sequences with their original offsets.
+    /\x1b\[[0-?]*[ -/]*[@-~]|\\u[\da-fA-F]{4}|\\u\{[\da-fA-F]{1,6}\}|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|[\s\S]\p{M}*/gu;
   let changed = false;
   for (const match of input.matchAll(units)) {
     const raw = match[0];
     let value = raw;
     if (
       raw.startsWith('\x1b[') ||
-      /^[\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]$/u.test(raw)
+      /^[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]$/u.test(
+        raw
+      )
     ) {
       changed = true;
       continue;
     }
-    if (/^\\u[\da-fA-F]{4}$/.test(raw)) {
-      value = String.fromCharCode(parseInt(raw.slice(2), 16));
+    const escape = /^(?:\\u\{?|\\U|%u)([\da-fA-F]+)\}?$/.exec(raw);
+    if (escape) {
+      const code = parseInt(escape[1], 16);
+      // `\uXXXX` keeps UTF-16 surrogate halves; wider forms are code points.
+      value =
+        raw.length === 6 && raw[0] === '\\'
+          ? String.fromCharCode(code)
+          : code <= 0x10ffff
+            ? String.fromCodePoint(code)
+            : raw;
     }
-    if (/^[\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]$/u.test(value)) {
+    if (
+      /^[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]$/u.test(
+        value
+      )
+    ) {
       changed = true;
       continue;
     }
