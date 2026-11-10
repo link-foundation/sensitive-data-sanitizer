@@ -21,12 +21,88 @@ function asciiDigits(value) {
   });
 }
 
+// Invisible format characters and NUL (UTF-16 text read as bytes) never
+// carry meaning inside a token, so they are removed from the detection view.
+const invisible =
+  /^[\0\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]$/u;
+// HTML formatting tags split tokens (`SECRET_</span><span>REST`). Inline tags
+// are dropped and block tags become line breaks. Only presentation attributes
+// are allowed, so other attribute values (URLs, data-*) stay in the view.
+const inlineTags =
+  'abbr|b|cite|code|del|em|font|i|ins|kbd|mark|q|s|samp|small|span|strong|sub|sup|tt|u|var';
+const blockTags =
+  'blockquote|br|dd|div|dt|h[1-6]|hr|li|ol|p|pre|table|tbody|td|th|thead|tr|ul';
+const htmlTag = String.raw`<\/?(?:${inlineTags}|${blockTags})(?:\s+(?:class|dir|lang|style)="[^"<>=]*")*\s*\/?>`;
+const inlineTag = new RegExp(String.raw`^<\/?(?:${inlineTags})[\s/>]`);
+// TruffleHog-style escape runs: `U+0074 U+006F ...` and CSS `\74 \6f ...`.
+// Runs need four or more units so prose such as "U+200B" stays untouched.
+const codeRun = String.raw`(?:U\+[\da-fA-F]{4,6} ?){4,}`;
+const cssRun = String.raw`(?:\\[\da-fA-F]{1,6} ){3,}\\[\da-fA-F]{1,6} ?`;
+const projectionTrigger = new RegExp(
+  String.raw`\x1b\[|\0|\\u[\da-fA-F{]|\\x\{[\da-fA-F]|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|U\+[\da-fA-F]{4}|\\[\da-fA-F]{1,6} \\|[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]|${htmlTag}`,
+  'u'
+);
+const projectionUnits = new RegExp(
+  String.raw`\x1b\[[0-?]*[ -/]*[@-~]|\\u[\da-fA-F]{4}|\\[ux]\{[\da-fA-F]{1,6}\}|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|${codeRun}|${cssRun}|${htmlTag}|[\s\S]\p{M}*`,
+  'gu'
+);
+
+function decodeEscape(raw) {
+  const escape = /^(?:\\[ux]\{?|\\U|%u)([\da-fA-F]+)\}?$/.exec(raw);
+  if (!escape) {
+    return raw;
+  }
+  const code = parseInt(escape[1], 16);
+  // `\uXXXX` keeps UTF-16 surrogate halves; wider forms are code points.
+  return raw.length === 6 && raw[0] === '\\'
+    ? String.fromCharCode(code)
+    : code <= 0x10ffff
+      ? String.fromCodePoint(code)
+      : raw;
+}
+
+// Decode each unit of an escape run with its own original span.
+function appendRun(writer, raw, offset) {
+  const unit = raw.startsWith('U+')
+    ? /U\+([\da-fA-F]{4,6}) ?/g
+    : /\\([\da-fA-F]{1,6}) ?/g;
+  for (const match of raw.matchAll(unit)) {
+    const code = parseInt(match[1], 16);
+    const value = code <= 0x10ffff ? String.fromCodePoint(code) : match[0];
+    const start = offset + match.index;
+    if (!invisible.test(value)) {
+      writer.append(value, start, start + match[0].length);
+    }
+  }
+}
+
+function projectUnit(writer, raw, offset) {
+  const end = offset + raw.length;
+  if (raw.startsWith('\x1b[') || invisible.test(raw)) {
+    return true;
+  }
+  if (raw[0] === '<' && raw.length > 2 && raw.endsWith('>')) {
+    if (!inlineTag.test(raw)) {
+      writer.append('\n', offset, end);
+    }
+    return true;
+  }
+  if (raw.length > 8 && /^(?:U\+|\\[\da-fA-F])/.test(raw)) {
+    appendRun(writer, raw, offset);
+    return true;
+  }
+  const decoded = decodeEscape(raw);
+  if (invisible.test(decoded)) {
+    return true;
+  }
+  const value = asciiDigits(decoded.normalize('NFKC'));
+  writer.append(value, offset, end);
+  return value !== raw;
+}
+
 export function projectText(input) {
   if (
-    // eslint-disable-next-line no-control-regex -- ANSI escape sequences are removed from the detection view.
-    !/\x1b\[|\\u[\da-fA-F{]|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]/u.test(
-      input
-    ) &&
+    !projectionTrigger.test(input) &&
     // ASCII already has normalized letters and digits. Avoid constructing a
     // second multi-megabyte string just to check its decimal characters.
     // eslint-disable-next-line no-control-regex -- Check the ASCII range.
@@ -37,44 +113,9 @@ export function projectText(input) {
     return { text: input, changed: false };
   }
   const writer = projectionWriter(input.length);
-  const units =
-    // eslint-disable-next-line no-control-regex -- Tokenize ANSI sequences with their original offsets.
-    /\x1b\[[0-?]*[ -/]*[@-~]|\\u[\da-fA-F]{4}|\\u\{[\da-fA-F]{1,6}\}|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|[\s\S]\p{M}*/gu;
   let changed = false;
-  for (const match of input.matchAll(units)) {
-    const raw = match[0];
-    let value = raw;
-    if (
-      raw.startsWith('\x1b[') ||
-      /^[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]$/u.test(
-        raw
-      )
-    ) {
-      changed = true;
-      continue;
-    }
-    const escape = /^(?:\\u\{?|\\U|%u)([\da-fA-F]+)\}?$/.exec(raw);
-    if (escape) {
-      const code = parseInt(escape[1], 16);
-      // `\uXXXX` keeps UTF-16 surrogate halves; wider forms are code points.
-      value =
-        raw.length === 6 && raw[0] === '\\'
-          ? String.fromCharCode(code)
-          : code <= 0x10ffff
-            ? String.fromCodePoint(code)
-            : raw;
-    }
-    if (
-      /^[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]$/u.test(
-        value
-      )
-    ) {
-      changed = true;
-      continue;
-    }
-    value = asciiDigits(value.normalize('NFKC'));
-    changed ||= value !== raw;
-    writer.append(value, match.index, match.index + raw.length);
+  for (const match of input.matchAll(projectionUnits)) {
+    changed = projectUnit(writer, match[0], match.index) || changed;
   }
   return { ...writer.finish(), changed };
 }

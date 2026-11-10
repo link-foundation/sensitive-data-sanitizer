@@ -151,6 +151,36 @@ describe('template and mask credential values', () => {
   });
 });
 
+describe('escape runs, NUL-interleaved text and HTML formatting', () => {
+  const secret = 'token: "Zf3D0LXCM3EIMbgJpUNnkRtOfOueHznB"';
+  const hex = [...secret].map((c) => c.codePointAt(0).toString(16));
+  const expectRedacted = (text) => {
+    const result = sanitize(text);
+    expect(result.findings.length > 0).toBe(true);
+    expect(result.text.includes('[REDACTED]')).toBe(true);
+  };
+  it('decodes U+XXXX runs, \\x{X} and CSS escapes', () => {
+    expectRedacted(
+      hex.map((h) => `U+${h.padStart(4, '0').toUpperCase()}`).join(' ')
+    );
+    expectRedacted(hex.map((h) => `\\x{${h}}`).join(''));
+    expectRedacted(`${hex.map((h) => `\\${h}`).join(' ')} `);
+  });
+  it('ignores NUL bytes of UTF-16 text read as single bytes', () => {
+    expectRedacted([...secret].join('\0'));
+  });
+  it('joins tokens split by formatting tags', () => {
+    expect(
+      sanitize('<p>token=<em><strong>sk-live-abc123</strong></em></p>').text
+    ).toBe('<p>token=<em><strong>[REDACTED]</strong></em></p>');
+  });
+  it('leaves prose, short code references and placeholders alone', () => {
+    const text =
+      'Use U+200B for zero width; see <b>bold</b>, <username>:<password> and C:\\dev\\abc\\data';
+    expect(sanitize(text).text).toBe(text);
+  });
+});
+
 describe('per-type confidence thresholds', () => {
   it('overrides minConfidence for listed types only', () => {
     const text = 'Contact John Smith at john@private.test';
