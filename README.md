@@ -1,6 +1,6 @@
 # Sensitive Data Sanitizer
 
-An offline JavaScript library, detector framework, and CLI for redacting credentials and personal data from logs, AI sessions, and text files, including logs with invalid UTF-8 bytes. It combines required Secretlint and 221 bundled Gitleaks text rules with contextual credentials, default multilingual name/PII recognition, known values and bounded encoding detection. Optional local Gitleaks, TruffleHog, and Presidio detectors extend the union.
+An offline JavaScript library, detector framework, and CLI for redacting credentials and personal data from logs, AI sessions, and text files, including logs with invalid UTF-8 bytes. It combines required Secretlint, 221 bundled Gitleaks text rules and 203 further Betterleaks rules with contextual credentials, default multilingual name/PII recognition, known values and bounded encoding detection. Optional local Gitleaks, TruffleHog, and Presidio detectors extend the union.
 
 Library calls without a profile replace every actionable finding completely with `[REDACTED]`. Personal findings below the default confidence threshold of 0.5 remain inspectable without replacing ordinary log numbers; credentials always qualify. Publication methods verify full redaction and block output if a required detector fails or finds a residual. Optional typed transformations, compatible partial masks and encoding preservation are described in the API. Findings contain offsets and rule metadata; they omit matched values and source excerpts.
 
@@ -131,6 +131,7 @@ console.log(result.text); // password=[REDACTED] [REDACTED]
 printf 'password=short\n' | sensitive-data-sanitizer redact -
 sensitive-data-sanitizer redact input.txt --in-place
 sensitive-data-sanitizer scan logs --config /private/policy.json
+sensitive-data-sanitizer scan src/a.js src/b.js --format sarif > report.sarif
 sensitive-data-sanitizer redact input.txt --gitleaks --trufflehog --output safe.txt
 sensitive-data-sanitizer redact input.txt --presidio /path/presidio-bridge.py --model en_core_web_sm --language en
 sensitive-data-sanitizer redact large-session.jsonl --jsonl --stream --output safe-session.jsonl
@@ -147,6 +148,8 @@ sensitive-data-sanitizer --help
 | 2    | Error, detector failure, or incomplete scan; redaction output is blocked |
 
 Defaults: 32 MiB whole-text input bytes, 100,000 findings and 10,000 files. `--stream` permits 1 GiB total with plain-text records up to the total input limit or 8 MiB JSONL records, bounded workers and atomic publication. `--worker-timeout-ms N` sets the worker inactivity/per-batch deadline (default 60000 ms); verified file progress resets the deadline, so large files can run longer overall. `--max-bytes` sets the byte limit; JSON config sets the other sanitizer limits. `--paranoid` adds entropy heuristics and increases false positives. `--native-only` explicitly disables Secretlint.
+
+`scan` accepts several paths and `--format sarif` emits SARIF 2.1.0 for code-scanning viewers. The repository's `.pre-commit-hooks.yaml` provides `sensitive-data-sanitizer` (credentials) and `sensitive-data-sanitizer-pii` hooks for [pre-commit](https://pre-commit.com). UTF-16 files with a byte order mark are read and written back in their own encoding.
 
 ## Configuration
 
@@ -195,6 +198,8 @@ Keep policies containing real private values outside Git. Built-in exact public 
 }
 ```
 
+Reviewed false positives can be kept with `allowList` (whole-value strings or anchored regexes) or, opt-in, with `inlineAllow: true`, which honours `gitleaks:allow`, `pragma: allowlist secret` and similar comments; credentials stay redacted unless `allowCredentialDisable: true` is also set. `minConfidenceByType` sets per-type thresholds, the `mask` transformation accepts `char`, `ignore`, `ignoreClasses`, `count` and `fromEnd`, and `{mode: 'encrypt', key}` produces deterministic AES-256-GCM tokens that `decrypt(text, key)` restores. See [the API](docs/API.md#allow-lists-suppression-comments-and-template-values) and [the competitor comparison](docs/COMPARISON.md).
+
 Custom policies preserve exact reviewed `PERSON`, `ORGANIZATION` and `EMAIL` detections. Built-in public resolvers/documentation IPs are also exempt. Credential detections always win, including a public email used as a password or authorization value. Evidence is an explicit caller decision and does not make every occurrence harmless.
 
 ## Extend detection
@@ -217,6 +222,8 @@ const sanitizer = createSanitizer({
 ```
 
 Install external binaries and language models separately. TruffleHog runs with verification and updates disabled. The Presidio example checks for an installed model and never downloads it at analysis time. Each selected detector is required, including during residual verification. See [the API and adapter contract](docs/API.md), [combined scanners](examples/combined-scanners.mjs), and [the local NER bridge](examples/presidio-bridge.py).
+
+`createPatternDetector([{type, patterns, denyList, context, validate}])` adds Presidio-style pattern recognizers or Google-style custom infoTypes with hotword boosts, and `createIdentifierDetector` adds national identifiers with checksum validators; see [declarative pattern detectors](docs/API.md#declarative-pattern-detectors).
 
 The framework also accepts Gitleaks, TruffleHog, detect-secrets, Presidio, or explicitly typed offset reports. Cloud reports can be converted locally; the package itself makes no cloud requests.
 

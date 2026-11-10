@@ -19,7 +19,7 @@ and GitGuardian. This document extends it.
 
 | Service                          | Licence / delivery                                         | Built-in types (approx.)                       | Transformations                                                                                         | Reversible                         | Offline / self-host                             |
 | -------------------------------- | ---------------------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------- | ----------------------------------------------- |
-| Google Sensitive Data Protection | Closed SaaS API, pay per GB                                | ~265 infoTypes                                 | 12 primitives (redact, replace, dictionary, mask, hash, FPE, AES-SIV, bucketing, date shift, time part) | FPE and AES-SIV                    | No                                              |
+| Google Sensitive Data Protection | Closed SaaS API, pay per GB                                | ~214 infoTypes                                 | 12 primitives (redact, replace, dictionary, mask, hash, FPE, AES-SIV, bucketing, date shift, time part) | FPE and AES-SIV                    | No                                              |
 | Azure AI Language PII            | Closed SaaS API, plus Docker containers                    | ~182 entity types                              | characterMask, entityMask, syntheticReplacement, noMask                                                 | No                                 | Containers (disconnected needs commitment plan) |
 | AWS Comprehend PII               | Closed SaaS API                                            | 36 entity types                                | MASK or REPLACE_WITH_PII_ENTITY_TYPE (async jobs only)                                                  | No                                 | No                                              |
 | AWS Macie                        | Closed SaaS (S3 only)                                      | managed identifiers incl. credentials          | Detection only                                                                                          | n/a                                | No                                              |
@@ -55,10 +55,11 @@ Sources for each row are given in the per-service sections below.
 
 ### Entities
 
-- The infoType reference lists about 265 built-in infoTypes. That is a manual count of
-  rows, and it changes monthly:
+- The infoType reference lists about 214 built-in infoTypes, and it changes monthly:
   <https://docs.cloud.google.com/sensitive-data-protection/docs/infotypes-reference>.
-  The project's `entityCatalogs` has 213 Google names, so the catalog is behind.
+  A first manual count of table rows gave about 265, which was too high. A
+  recount of the `UPPER_SNAKE` identifiers on the page gave 214, matching the
+  branch's `entityCatalogs` (213 names on `main`).
 - There are 21 credential/secret infoTypes, from the same page:
   - ANTHROPIC_API_KEY, AUTH_TOKEN, AWS_CREDENTIALS, AZURE_AUTH_TOKEN, BASIC_AUTH_HEADER
   - ENCRYPTION_KEY, GCP_API_KEY, GCP_CREDENTIALS, GEMINI_API_KEY, HTTP_COOKIE
@@ -779,10 +780,13 @@ the project docs during this research. Vendor cells come from the sources in sec
 
 ### Gaps worth noting
 
-1. The catalogs are out of date. The project has 213 Google names against about 265
-   current infoTypes (`ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `USER_NAME`, `CVV_NUMBER`
-   and others are newer), and 176 Azure types against about 182. Sources: sections 2
-   and 3.
+1. The catalogs were out of date: 213 Google names and 176 Azure types on
+   `main`. This branch has 214 Google and 180 Azure names. A recount on
+   2026-11-10 of every `UPPER_SNAKE` identifier on the Google infoType
+   reference page found no infoType missing from the vendored list. The only
+   extra identifiers were `ANY_LOCATION`, sensitivity levels and country
+   names. The earlier estimate of about 265 Google infoTypes was too high.
+   Sources: sections 2 and 3.
 2. There is no true reversible format-preserving encryption. Google's FFX/FPE and
    AES-SIV with surrogate annotations are the reference design.
 3. Masking options are narrower than Google's `characterMaskConfig` and Nightfall's
