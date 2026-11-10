@@ -1,0 +1,19 @@
+{
+  "node": "v26.13.0",
+  "rounds": 5,
+  "calls": 8,
+  "medianMs": {
+    "prose": {
+      "base": 16.649,
+      "empty": 20.265,
+      "attribute": 20.15,
+      "keep": 17.208
+    },
+    "json": {
+      "base": 10.601,
+      "empty": 11.615,
+      "attribute": 13.605,
+      "keep": 14.051
+    }
+  }
+}

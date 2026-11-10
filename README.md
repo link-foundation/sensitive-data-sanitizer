@@ -1,6 +1,8 @@
 # Sensitive Data Sanitizer
 
-An offline JavaScript library, detector framework, and CLI for redacting credentials and personal data from logs, AI sessions, and text files, including logs with invalid UTF-8 bytes. It combines required Secretlint, 221 bundled Gitleaks text rules and 203 further Betterleaks rules with contextual credentials, default multilingual name/PII recognition, known values and bounded encoding detection. Optional local Gitleaks, TruffleHog, and Presidio detectors extend the union.
+[Documentation index](docs/README.md) · [Use cases](docs/USE-CASES.md) · [API](docs/API.md) · [Coverage](docs/COVERAGE.md) · [Comparison](docs/COMPARISON.md) · [Contributing](docs/CONTRIBUTING.md)
+
+An offline JavaScript library, detector framework, and CLI for redacting credentials and personal data from logs, AI sessions, and text files, including logs with invalid UTF-8 bytes. It combines required Secretlint, 221 bundled Gitleaks text rules and 203 further Betterleaks rules with contextual credentials, default multilingual name/PII recognition, known values and bounded encoding detection. Optional local Gitleaks, Betterleaks, TruffleHog, and Presidio detectors extend the union.
 
 Library calls without a profile replace every actionable finding completely with `[REDACTED]`. Personal findings below the default confidence threshold of 0.5 remain inspectable without replacing ordinary log numbers; credentials always qualify. Publication methods verify full redaction and block output if a required detector fails or finds a residual. Optional typed transformations, compatible partial masks and encoding preservation are described in the API. Findings contain offsets and rule metadata; they omit matched values and source excerpts.
 
@@ -33,6 +35,11 @@ structured field selectors and `compileKnown` configure reusable policies; see
 [runnable log policy](examples/custom-log-policy.mjs). The optional `/ner` entry
 adds offline Russian/English symbolic recognition with
 [published coverage and cost](docs/COVERAGE.md#optional-offline-recognition-measurements).
+
+For explicitly enabled, bounded provider authentication checks, see
+[credential verification](docs/VERIFICATION.md). Checks are disabled by default
+and never change redaction decisions. The current catalog covers twelve
+providers; it does not cover every popular service or token type.
 
 ## Quick Start
 

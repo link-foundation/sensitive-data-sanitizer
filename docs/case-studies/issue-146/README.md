@@ -1,0 +1,164 @@
+# Issue 146: rule parity, optional verification and requirements audit
+
+Issue: [#146](https://github.com/link-foundation/sensitive-data-sanitizer/issues/146).
+Work is preserved in [PR #147](https://github.com/link-foundation/sensitive-data-sanitizer/pull/147).
+The PR must remain draft while the unfinished acceptance criteria below remain.
+This study does **not** establish completion of issue 146.
+
+[Documentation index](../../README.md) · [Work plan](PLAN.md) ·
+[Research and component choices](research/sources.md)
+
+## Requirements and evidence
+
+| ID  | Exact requested scope                                                                                          | Implementation and verification                                                                                                                                                     | Status / remaining work                                                                                                                                                                                                  |
+| --- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| R1  | Exactly all rules from all competitors, not less                                                               | Existing native Gitleaks/Betterleaks/Secretlint plus scanner adapters; new isolated Betterleaks adapter, mock subprocess test and real v1.10.0 smoke test                           | **Unfinished.** Regex imports and one smoke test do not prove every rule. Proprietary implementations/models are unavailable; the existing corpus still contains misses.                                                 |
+| R2  | Optional provider checks, read-only by default, not irreversible                                               | New `createCredentialVerifier`, disabled by default; twelve fixed HTTPS GET operations, header-only credentials, redirects blocked, response/request limits, no mutation operations | Implemented and mock-tested for the stated catalog. Live availability and all token types are unverified.                                                                                                                |
+| R3  | Determine false positives versus actual leaked tokens for all popular services                                 | Separate `valid`, `invalid`, `unknown`, `unsupported`, `disabled` outcomes, without weakening redaction                                                                             | **Unfinished.** Twelve provider contracts are a subset. Paired AWS keys, Azure credentials, self-hosted providers and other token types remain unsupported. Authentication rejection is not a proof of a false positive. |
+| R4  | Double-check all requirements from all issues and documentation, deliver them here                             | Paginated snapshots of 114 issue bodies and 114 conversation comments; requirements inventory; issue 144 regression fixes; current corpus rerun                                     | **Unfinished.** A snapshot or closed issue is not a completed independent regression audit. Existing documented gaps and historical requirements must still be verified individually.                                    |
+| R5  | README entry point and clear navigation to all docs                                                            | Root README links documentation hub, workflows and API; full case-study index, comparison and legacy navigation                                                                     | Implemented; local link reachability and CI link checks provide verification.                                                                                                                                            |
+| R6  | Clearly explain all use cases, why/how to use it and benefits                                                  | New use-case decision guide compares concrete workflows and tradeoffs; current coverage and measured results constrain comparative claims                                           | Implemented for supported workflows. No unsupported claim that this library outperforms every competitor.                                                                                                                |
+| R7  | Collect evidence here, deep online case study, every requirement and solution plan, assess existing components | This matrix, raw issue evidence, pinned catalog, before/after measurements, corpus results and primary-source research                                                              | Evidence and plans collected. Full parity investigation and exhaustive historical audit remain unfinished with R1/R4.                                                                                                    |
+| R8  | All requested implementation and verification in this single PR                                                | Atomic commits on the prepared issue branch, focused regression tests, CI verification and review                                                                                   | **Unfinished** until all criteria above have evidence; do not mark ready or merge merely because CI passes.                                                                                                              |
+
+Issue 146 has no comments or explicit GitHub sub-issue list at the captured
+snapshot. Its prose includes every repository issue. Issue 144 is the other
+open issue; its five reported concerns are covered below. The issue/comment
+inventory retains historical requirements instead of assuming a closed status
+proves satisfaction.
+
+## Root causes and corrections for issue 144
+
+| Reported concern                                              | Cause                                                                                 | Correction                                                                                                                    | Evidence                                                                                      |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| 34 special-category expressions escape or become proper names | Missing vocabulary forms and generic type precedence                                  | Add bounded strict attribute forms; prefer attribute evidence over generic person/location/organization guesses               | `tests/sanitizer-issue-144.test.js`: all 34 words in all three frames with exact typed output |
+| Caller attribute loses its typed label                        | Overlapping capitalized-name guess retained its type                                  | Explicit attribute evidence keeps its semantic type; explicit transformation controls retain precedence                       | Capitalized caller vocabulary regression                                                      |
+| Any vocabulary adds repeated per-call work                    | Cache key normalized/serialized default lists repeatedly; cue arrays rebuilt per word | Cache by caller identity plus caller-content fingerprint and use compiled cue sets; invalidate on caller mutation             | Cache reuse/mutation regression and measurements below                                        |
+| Keeping earlier placeholders adds work on ordinary lines      | Repeated namespace construction and full scans                                        | Cache reserved types and skip full matching when no default positive counter can occur; retain escaped/custom-format scanning | Existing, escaped and custom tokens/counter regressions; linear adversarial probe             |
+| Public technology names disappear from Russian prose          | Structural Latin proper-name guesses had no reviewed technology catalog               | Add exact sourced technology entries to public knowledge; credentials and known private values remain protected               | Python/SQL/PostgreSQL/Docker/Kubernetes, private override and person regressions              |
+
+The new issue 144 regression initially failed four of five tests against the
+pre-fix source; all five pass after correction. Additional placeholder/config
+regressions also pass. This proves the reported forms and tested policies,
+not unrestricted ethnic/religious/health vocabulary coverage.
+
+## A newly reproduced historical regression
+
+The complete competitor probe found two `ERR_RESIDUAL` failures in same-line PEM
+and HTML-wrapped PEM fixtures. Issue 132's context-preserving body narrowing
+left the end marker adjacent to `[REDACTED]`. The generic template guard treated
+its leading hyphen as literal material glued to the mask, then repeatedly
+redacted the already masked body until publication failed closed.
+
+`tests/sanitizer-pem-boundary.test.js` fails before correction. Recognizing the
+structural end marker for an entirely templated private-key body fixes both
+cases. Literal material glued inside the body still requires redaction; armor
+and surrounding text stay visible. The focused PEM/context tests pass after
+correction. The experiment is `experiments/issue-146/pem-residual.mjs`.
+
+## Pinned Betterleaks evidence
+
+The checksum-verified v1.10.0 Linux archive has SHA-256
+`9d9ad503cd5d80d18a939352266c3fcca52f10da9b83cd5cfe646989b13940fe`.
+The [resolved catalog](data/betterleaks-catalog.json) has **466** rule records;
+45 IDs have no identical native imported ID. An ID shared with the native
+imports is not proof that its complete semantics match. The earlier comparison's
+474 figure referred to a different `main` snapshot.
+
+`createBetterleaksDetector` executes the installed scanner with its default
+config in a private temporary directory. An explicit config overrides environment
+config, an empty private ignore directory prevents local suppression, inline
+allows are ignored and `--validation=false` prevents live validation. The
+existing adapter validates returned offsets and reruns the detector on proposed
+output. Missing tools or failures block publication. Native synchronous
+behavior is retained, and the binary is never silently installed at runtime.
+
+Reproduce the evidence with an independently installed pinned binary:
+
+```sh
+betterleaks config show > /tmp/betterleaks-resolved.toml
+python3 experiments/issue-146/catalog-betterleaks.py /tmp/betterleaks-resolved.toml /tmp/betterleaks-catalog.json
+node --max-old-space-size=512 experiments/issue-146/betterleaks.mjs /absolute/path/to/betterleaks
+```
+
+The recorded smoke result is `upstreamFinding: true` and output
+`release_credential=[REDACTED]`. This exercises one real upstream rule and
+publication verification, not all 466 rules or all competing scanners.
+
+## Bounded measurements
+
+Node v26.13.0; five interleaved rounds, eight measured calls per variant after
+warmup; `--max-old-space-size=512`. Baseline is the parent of `dd1abdf`;
+after measurements include the corrected vocabulary/placeholder paths. The
+benchmark uses one KB of Russian prose and a short structured JSON record.
+Raw [before](data/performance-before.json) and [after](data/performance-after.json)
+results are preserved. Reproduce with `experiments/issue-146/performance.mjs`.
+
+| Case / policy            | Before ms/call | After ms/call |
+| ------------------------ | -------------: | ------------: |
+| Prose, base              |         16.649 |        21.188 |
+| Prose, empty vocabulary  |         20.265 |        17.902 |
+| Prose, one attribute     |         20.150 |        18.176 |
+| Prose, keep placeholders |         17.208 |        16.363 |
+| JSON, base               |         10.601 |        10.296 |
+| JSON, empty vocabulary   |         11.615 |        10.693 |
+| JSON, one attribute      |         13.605 |        10.676 |
+| JSON, keep placeholders  |         14.051 |         9.587 |
+
+These small samples are noisy, especially the prose base; they support the
+removal of repeated work, not a universal latency guarantee. The old placeholder
+precheck also introduced a polynomial regex that CodeQL rejected. A forward
+correction uses a linear hyphen/counter test. A finite 1024/4096/16384-character
+alphabetic probe completes without namespace scanning; no unbounded stress
+experiment is required.
+
+## Corpus and historical audit
+
+The [current corpus results](data/competitor-results.json) retain case indices,
+tool, source, outcome and error codes without reproducing matched values.
+Run `node --max-old-space-size=512 experiments/issue-146/probe-cases.mjs /tmp/results.json`.
+Default configuration still misses positive cases; enabling an external scanner
+or strict policy is a distinct configuration and cannot retroactively change
+these measurements.
+
+| Default case set       | Total | Skipped | Misses | Over-redactions | Errors |
+| ---------------------- | ----: | ------: | -----: | --------------: | -----: |
+| Open-source PII        |   371 |       0 |     60 |              16 |      0 |
+| Open-source secrets    |   298 |      15 |     15 |              83 |      0 |
+| Closed-source examples |   184 |       5 |     41 |              15 |      0 |
+
+Misses include Presidio (23), DataFog (18), Sentry Relay (16), redact-pii (7)
+and Lakera Guard (6) examples. These tools cover different domains; passing a
+selected public example would still not prove equivalence to a proprietary
+model. The per-case source/index list supports targeted continuation instead
+of hiding misses in a headline catalog count.
+
+The [requirements inventory](data/requirements.json) preserves the bodies and
+comments of all 114 repository issues. [Provenance](data/evidence-provenance.json)
+records original response hashes and the replacement of public synthetic webhook
+examples with an explicit marker. The source issue URLs retain original text.
+[Documentation gaps](research/documentation-gaps.md) list remaining features
+explicitly recorded in current comparison pages. This evidence makes R1/R4
+falsifiable; it does not turn outstanding requirements into completed work.
+
+## Completion constraints and continuation plan
+
+1. For each public scanner, pin the actual catalog and licensed engine, collect
+   positive and negative fixtures per rule, compare detection/offset/decoding
+   behavior and resolve each discrepancy. Optional adapters preserve existing
+   native behavior but do not meet an unconditional all-rule claim by themselves.
+2. Proprietary detector implementations, AI model artifacts or authorized
+   equivalent service access are absent. Public labels/descriptions do not
+   disclose that behavior. Exact proprietary parity cannot be implemented or
+   verified with the available inputs. Record these criteria as blocked instead
+   of synthesizing regexes and claiming equivalence.
+3. Extend credential contracts provider by provider, including paired credentials
+   and scope-specific token families, with documented read operations and mocked
+   error/limit tests. Live verification needs authorized test credentials. Current
+   twelve-provider coverage leaves R3 unfinished.
+4. Review every historical requirement/comment and documented gap individually;
+   associate reproducible fixtures, implementation and verification evidence.
+   Resolve remaining corpus misses, output/reporting gaps, file/model support and
+   conditional policies. An inventory is only the starting point of this audit.
+5. Keep the draft PR unmerged and preserve positive closing references in its
+   description. Mark ready only after the unfinished criteria are actually met.
