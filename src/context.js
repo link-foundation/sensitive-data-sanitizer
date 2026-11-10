@@ -164,7 +164,9 @@ function credentialMetadata(keyName, value) {
 // Only a quote at the same escape depth closes it; embedded quotes belong to
 // the value. Offsets cover escape bytes as well as the decoded characters.
 export function valueRange(text, start, mode = 'token', maxLength = Infinity) {
-  const reference = referencePrefix(text.slice(start, start + 512));
+  const reference = referencePrefix(
+    text.slice(start, markdownEnd(text, start, 512))
+  );
   if (reference) {
     return { start, end: start + reference[0].length };
   }
@@ -177,17 +179,16 @@ export function valueRange(text, start, mode = 'token', maxLength = Infinity) {
   if (/^[{[]/.test(text.slice(start, start + 1))) {
     return undefined;
   }
-  const tail = text.slice(start, start + maxLength);
-  // Unquoted values stop at a Markdown code-span delimiter. Quoted literals
-  // above retain embedded backticks as credential material.
+  const tail = text.slice(start, markdownEnd(text, start, maxLength));
+  // Only a matching surrounding Markdown delimiter ends an unquoted value.
   const terminator =
     mode === 'query'
       ? /[\s&#"'<>]/
       : mode === 'line'
-        ? /[`\r\n<>"]|\\+[nrt"']/
+        ? /[\r\n<>"]|\\+[nrt"']/
         : mode === 'prose'
-          ? /[`\r\n<>]|\\+[nrt"']|(?<![ \t])[ \t]+(?:for the|for my|для|pour|para|für|لـ)(?:[ \t]|$)/iu
-          : /[`\s,;}\]"'<>]|\\+[nrt"']/;
+          ? /[\r\n<>]|\\+[nrt"']|(?<![ \t])[ \t]+(?:for the|for my|для|pour|para|für|لـ)(?:[ \t]|$)/iu
+          : /[\s,;}\]"'<>]|\\+[nrt"']/;
   const stop = tail.search(terminator);
   const end = stop < 0 ? start + tail.length : start + stop;
   return { start, end: Math.min(end, outerQuoteEnd(text, start, end) ?? end) };
@@ -361,6 +362,44 @@ function markdownRange(text, start, length, maxLength) {
     i = end - 1;
   }
   return { start, end: limit };
+}
+
+// Recognize surrounding inline Markdown within a bounded logical line. When
+// its opening or closing delimiter cannot be established, keep scanning the
+// full credential, including any literal material following a placeholder.
+function markdownEnd(text, start, maxLength) {
+  const end = Math.min(text.length, start + maxLength);
+  const from = Math.max(0, start - 4096);
+  const prefix = text.slice(from, start);
+  const lineStart =
+    Math.max(prefix.lastIndexOf('\n'), prefix.lastIndexOf('\r')) + 1;
+  if (from && !lineStart) {
+    return end;
+  }
+  let length = 0;
+  for (const run of prefix.slice(lineStart).matchAll(/`+/g)) {
+    if (!length) {
+      let slashes = 0;
+      for (
+        let i = lineStart + run.index - 1;
+        i >= 0 && prefix[i] === '\\';
+        i--
+      ) {
+        slashes++;
+      }
+      if (slashes % 2 === 0) {
+        length = run[0].length;
+      }
+    } else if (length === run[0].length) {
+      length = 0;
+    }
+  }
+  if (!length) {
+    return end;
+  }
+  const limit = Math.min(end, start + 4096);
+  const close = markdownRange(text, start, length, limit - start).end;
+  return close < limit ? close : end;
 }
 
 function plausibleLabel(value, type) {
@@ -537,15 +576,18 @@ function credentialMode(text, match) {
 // `token: <script>alert(1)</script>`: markup is the value. A bare
 // `<placeholder>` that ends the value stays a placeholder.
 const angleEnd = {
-  line: /[`\r\n"]|\\+[nrt"']/,
-  token: /[`\s,;}\]"']|\\+[nrt"']/,
+  line: /[\r\n"]|\\+[nrt"']/,
+  token: /[\s,;}\]"']|\\+[nrt"']/,
 };
 // Formatting tags around a value (`token=<em>…</em>`) are dropped from the
 // detection view instead.
 const formattingTag = new RegExp(`^${htmlTag}`, 'i');
 function angleValue(text, start, mode) {
-  const tail = text.slice(start, start + 4096);
-  if (text[start] !== '<' || !angleEnd[mode] || formattingTag.test(tail)) {
+  if (text[start] !== '<' || !angleEnd[mode]) {
+    return undefined;
+  }
+  const tail = text.slice(start, markdownEnd(text, start, 4096));
+  if (formattingTag.test(tail)) {
     return undefined;
   }
   const placeholder = /^<[^<>\r\n]{1,64}>/.exec(tail)?.[0];
