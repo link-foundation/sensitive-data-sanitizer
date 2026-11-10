@@ -36,8 +36,9 @@ const htmlTag = String.raw`<\/?(?:${inlineTags}|${blockTags})(?:\s+(?:class|dir|
 const inlineTag = new RegExp(String.raw`^<\/?(?:${inlineTags})[\s/>]`);
 // TruffleHog-style escape runs: `U+0074 U+006F ...` and CSS `\74 \6f ...`.
 // Runs need four or more units so prose such as "U+200B" stays untouched.
-const codeRun = String.raw`(?:U\+[\da-fA-F]{4,6} ?){4,}`;
-const cssRun = String.raw`(?:\\[\da-fA-F]{1,6} ){3,}\\[\da-fA-F]{1,6} ?`;
+// The space after the last unit stays in the view as a word boundary.
+const codeRun = String.raw`(?:U\+[\da-fA-F]{4,6} ?){3,}U\+[\da-fA-F]{4,6}`;
+const cssRun = String.raw`(?:\\[\da-fA-F]{1,6} ){3,}\\[\da-fA-F]{1,6}`;
 const projectionTrigger = new RegExp(
   String.raw`\x1b\[|\0|\\u[\da-fA-F{]|\\x\{[\da-fA-F]|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|U\+[\da-fA-F]{4}|\\[\da-fA-F]{1,6} \\|[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]|${htmlTag}`,
   'u'
@@ -61,17 +62,19 @@ function decodeEscape(raw) {
       : raw;
 }
 
-// Decode each unit of an escape run with its own original span.
+// Every character decoded from an escape run maps to the whole run. Redacting
+// only some units would leave a short run, such as a lone closing quote, that
+// the next view no longer decodes, so a finding inside a run covers all of it.
 function appendRun(writer, raw, offset) {
   const unit = raw.startsWith('U+')
     ? /U\+([\da-fA-F]{4,6}) ?/g
     : /\\([\da-fA-F]{1,6}) ?/g;
+  const end = offset + raw.length;
   for (const match of raw.matchAll(unit)) {
     const code = parseInt(match[1], 16);
     const value = code <= 0x10ffff ? String.fromCodePoint(code) : match[0];
-    const start = offset + match.index;
     if (!invisible.test(value)) {
-      writer.append(value, start, start + match[0].length);
+      writer.append(value, offset, end);
     }
   }
 }

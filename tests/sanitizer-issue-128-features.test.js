@@ -167,6 +167,17 @@ describe('escape runs, NUL-interleaved text and HTML formatting', () => {
     expectRedacted(hex.map((h) => `\\x{${h}}`).join(''));
     expectRedacted(`${hex.map((h) => `\\${h}`).join(' ')} `);
   });
+  it('keeps the word after an escape run', () => {
+    const unicode = hex
+      .map((h) => `U+${h.padStart(4, '0').toUpperCase()}`)
+      .join(' ');
+    const css = hex.map((h) => `\\${h}`).join(' ');
+    for (const run of [unicode, css]) {
+      expect(sanitize(`x ${run} y and more`).text).toBe(
+        'x [REDACTED] y and more'
+      );
+    }
+  });
   it('ignores NUL bytes of UTF-16 text read as single bytes', () => {
     expectRedacted([...secret].join('\0'));
   });
