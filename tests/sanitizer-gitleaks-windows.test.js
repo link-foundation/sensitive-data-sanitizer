@@ -1,6 +1,9 @@
 import { it, expect } from 'test-anywhere';
-import { RE2 } from 're2-wasm';
-import { detectGitleaks, gitleaksRules } from '../src/gitleaks.js';
+import {
+  compiledRule,
+  detectGitleaks,
+  gitleaksRules,
+} from '../src/gitleaks.js';
 import { entropy } from '../src/detection.js';
 
 it('retains complete vendored generic credential matches through keyword-window boundaries', () => {
@@ -16,7 +19,8 @@ it('retains complete vendored generic credential matches through keyword-window 
     const found = [];
     detectGitleaks(input, (f) => found.push(f));
     for (const rule of rules) {
-      const pattern = new RE2(rule.regex, 'gu');
+      const pattern = compiledRule(`gitleaks/${rule.id}`, rule.regex);
+      pattern.lastIndex = 0;
       let match;
       while ((match = pattern.exec(input))) {
         const secret = rule.secretGroup
@@ -60,7 +64,8 @@ for (const [id, credential] of cases) {
   it(`keeps ${id} (${credential.slice(0, 10)}) inside long surrounding records`, () => {
     const input = `${'🙂 JIRA etsy okta '.repeat(70) + credential}\n${'A'.repeat(2000)}`;
     const rule = gitleaksRules.find((entry) => entry.id === id);
-    const pattern = new RE2(rule.regex, 'gu');
+    const pattern = compiledRule(`gitleaks/${rule.id}`, rule.regex);
+    pattern.lastIndex = 0;
     const match = pattern.exec(input);
     expect(Boolean(match)).toBe(true);
     const secret = rule.secretGroup
