@@ -56,7 +56,10 @@ export function templatedCredential(text, finding) {
   }
   // A template glued to literal characters (`<x>abc`, `[A]x9`) is not one.
   const after = text[finding.start + value.length] ?? '';
-  return !/[\w$%+/=.-]/.test(after) && templatedValue(value);
+  const sentenceEnd = /^[.,;:!?]+(?:\s|$)/.test(
+    text.slice(finding.start + value.length)
+  );
+  return (!/[\w$%+/=.-]/.test(after) || sentenceEnd) && templatedValue(value);
 }
 // Only variable references and the documented gh lookup are exempt. Arbitrary
 // shell commands and Actions expressions can contain literal credentials.
