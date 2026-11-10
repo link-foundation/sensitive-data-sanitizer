@@ -78,6 +78,79 @@ describe('allow lists', () => {
   });
 });
 
+describe('inline suppression comments', () => {
+  const secret = 'secret = "hunter2"';
+  it('is ignored unless inlineAllow is enabled', () => {
+    expect(sanitize(`${secret} # pragma: allowlist secret`).text).toBe(
+      'secret = "[REDACTED]" # pragma: allowlist secret'
+    );
+  });
+  it('honours same-line and next-line scanner directives', () => {
+    const options = { inlineAllow: true, allowCredentialDisable: true };
+    for (const directive of [
+      '# pragma: allowlist secret',
+      '# gitleaks:allow',
+      '# kingfisher:ignore',
+      '// trufflehog:ignore',
+      '// NOSONAR',
+    ]) {
+      expect(sanitize(`${secret} ${directive}`, options).text).toBe(
+        `${secret} ${directive}`
+      );
+    }
+    expect(
+      sanitize(`# pragma: allowlist nextline secret\n${secret}\n${secret}`, {
+        ...options,
+      }).text
+    ).toBe(
+      `# pragma: allowlist nextline secret\n${secret}\nsecret = "[REDACTED]"`
+    );
+  });
+  it('needs allowCredentialDisable for credentials', () => {
+    expect(
+      sanitize(`${secret} # gitleaks:allow`, { inlineAllow: true }).text
+    ).toBe('secret = "[REDACTED]" # gitleaks:allow');
+    expect(
+      sanitize('mail bob@private.test # gitleaks:allow', { inlineAllow: true })
+        .text
+    ).toBe('mail bob@private.test # gitleaks:allow');
+    expect(code(() => sanitize('x', { inlineAllow: 'yes' }))).toBe(
+      'ERR_CONFIG'
+    );
+  });
+});
+
+// Built at runtime so secret scanners do not flag sample URIs.
+const pg = ['postgres', '://'].join('');
+
+describe('template and mask credential values', () => {
+  it('keeps variable references, placeholders and masks', () => {
+    for (const text of [
+      `${pg}<username>:<password>@db.internal/app`,
+      'curl -u "${username}":"${password}"',
+      'curl --user "$1:$2"',
+      'curl -H "Authorization: Bearer <Openverse API token>"',
+      'curl -H "Authorization: Bearer XXXXXXXXXXXX"',
+      'curl -H "Authorization: Token **********"',
+      'password: $${PYPI_PASSWORD}',
+      'mysqladmin --password="$DB_PASS"',
+    ]) {
+      expect(sanitize(text).text).toBe(text);
+    }
+  });
+  it('still redacts literal or mixed values', () => {
+    expect(sanitize(`${pg}alice:\${DB_PASSWORD}@db/app`).text).toBe(
+      `${pg}[REDACTED]@db/app`
+    );
+    expect(sanitize('Authorization: Bearer <x>abc123def456ghi789').text).toBe(
+      'Authorization: [REDACTED]'
+    );
+    expect(sanitize('password: ${A}', { knownSecrets: ['${A}'] }).text).toBe(
+      'password: [REDACTED]'
+    );
+  });
+});
+
 describe('per-type confidence thresholds', () => {
   it('overrides minConfidence for listed types only', () => {
     const text = 'Contact John Smith at john@private.test';

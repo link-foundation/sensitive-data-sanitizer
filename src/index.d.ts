@@ -108,6 +108,12 @@ export interface SanitizerOptions {
    * credentials (unless allowCredentialDisable) are never allow-listed.
    */
   allowList?: (string | RegExp)[];
+  /**
+   * Honour scanner suppression comments (`gitleaks:allow`, `pragma: allowlist
+   * secret`, `pragma: allowlist nextline secret`, `NOSONAR`, ...) under the
+   * same rules as allowList.
+   */
+  inlineAllow?: boolean;
   /** Explicit network/callback verification; credentials never qualify. */
   verifyPublic?: (candidate: {
     type: PublicEntity['type'];
@@ -130,6 +136,7 @@ export type DebugEvent =
   | { event: 'detected'; count: number }
   | { event: 'document-experience' | 'proper-name-prose'; count: number }
   | { event: 'residual-redaction'; round: number }
+  | { event: 'template-value'; rule: string }
   | { event: 'two-pass-confirmation'; type: string }
   | { event: 'propagation-skipped'; reason: 'length'; type: string }
   | { event: 'gitleaks-rule'; rule: string; length: number; ms: number };

@@ -2,7 +2,8 @@
 // Runs collected competitor cases through the synchronous sanitizer and
 // reports positives whose sensitive substrings survive and negatives that
 // were changed. Usage:
-//   node experiments/issue-128/probe-cases.mjs <cases.json> [--profile publication] [--json]
+//   node experiments/issue-128/probe-cases.mjs <cases.json> [--profile publication]
+//     [--options '{"strict":true,"publicKnowledge":false}'] [--json]
 import { readFileSync } from 'node:fs';
 import { sanitize } from '../../src/index.js';
 import { fillCase } from './fill-template.mjs';
@@ -15,7 +16,11 @@ if (!file) {
   process.exit(2);
 }
 const profileIndex = flags.indexOf('--profile');
-const options = profileIndex >= 0 ? { profile: flags[profileIndex + 1] } : {};
+const optionsIndex = flags.indexOf('--options');
+const options = {
+  ...(optionsIndex >= 0 ? JSON.parse(flags[optionsIndex + 1]) : {}),
+  ...(profileIndex >= 0 ? { profile: flags[profileIndex + 1] } : {}),
+};
 const cases = JSON.parse(readFileSync(file, 'utf8'));
 const misses = [];
 const overRedactions = [];

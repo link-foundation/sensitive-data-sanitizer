@@ -21,7 +21,39 @@ function fullMatcher(pattern) {
   return compiled;
 }
 
+// Inline suppression comments understood by Gitleaks/Betterleaks
+// (gitleaks:allow), detect-secrets and ripsecrets (pragma: allowlist secret),
+// Kingfisher, TruffleHog and SonarQube. Honoured only with inlineAllow: true,
+// because anyone who writes to a log could otherwise suppress redaction.
+const sameLine =
+  /(?:gitleaks|betterleaks|kingfisher|trufflehog|sanitizer):(?:allow|ignore)\b|pragma:\s*allowlist(?:\s+secret)?\b(?!\s+nextline)|\bNOSONAR\b/i;
+const nextLine = /pragma:\s*allowlist\s+nextline(?:\s+secret)?\b/i;
+
+function lineAt(text, index) {
+  const start = text.lastIndexOf('\n', index - 1) + 1;
+  const end = text.indexOf('\n', index);
+  return { start, end: end < 0 ? text.length : end };
+}
+
+function inlineSuppressed(text, finding) {
+  const line = lineAt(text, finding.start);
+  if (sameLine.test(text.slice(line.start, line.end))) {
+    return true;
+  }
+  if (line.start === 0) {
+    return false;
+  }
+  const previous = lineAt(text, line.start - 1);
+  return nextLine.test(text.slice(previous.start, previous.end));
+}
+
 export function validateAllowList(options) {
+  if (
+    options.inlineAllow !== undefined &&
+    typeof options.inlineAllow !== 'boolean'
+  ) {
+    throw failure('ERR_CONFIG');
+  }
   const list = options.allowList;
   if (list === undefined) {
     return;
@@ -44,15 +76,18 @@ export function validateAllowList(options) {
 // detected value. Partial matches never shorten a finding.
 export function allowListed(text, finding, options) {
   if (
-    !options.allowList?.length ||
+    !(options.allowList?.length || options.inlineAllow) ||
     declaredRules.has(finding.rule) ||
     finding.type === 'JSON_VALUE' ||
     (finding.category === 'credential' && !options.allowCredentialDisable)
   ) {
     return false;
   }
+  if (options.inlineAllow && inlineSuppressed(text, finding)) {
+    return true;
+  }
   const value = text.slice(finding.start, finding.end);
-  return options.allowList.some((entry) =>
+  return (options.allowList ?? []).some((entry) =>
     typeof entry === 'string' ? entry === value : fullMatcher(entry).test(value)
   );
 }
