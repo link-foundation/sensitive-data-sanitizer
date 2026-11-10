@@ -8,16 +8,16 @@ PRs 143/145/155 before finalizing the change. Issue 151 and PR 158 had no feedba
 or required sub-issues. The downstream migration PR supplies context; its
 unrelated migration work is outside this issue.
 
-| Requirement                                    | Implementation                                                                                                       | Verification                                                                                                                     |
-| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| Preserve all five issue reproductions          | Backticks end unquoted context and angle values before exemption checks                                              | Exact unchanged text and empty findings; three passes; sync and async credentials entry                                          |
-| Preserve complete placeholder syntax           | Accept Markdown boundaries for variable/Actions/gh references; retain complete braced variables before token parsing | Angle placeholders, shell variables, braced variables, Actions references and gh lookup; single/double backticks                 |
-| Preserve the public authority opt-out          | Exempt only the exact `HIVE_MIND_CLAUDE_AUTH_AUTHORITY=conventional` pair                                            | Plain and Markdown forms; reject other authority names, enums and appended literal material                                      |
-| Keep real credentials masked                   | Reuse angle-value parsing for CLI flags; detect values after `token`, `Bearer` and `Basic` keywords                  | HTML/script literal, opaque literal, prefixed credentials and material glued to placeholders; assert the actual secret is absent |
-| Keep known secrets authoritative               | Known-secret detection and exemption prohibition remain in force                                                     | Each of the five documentation values explicitly declared as a known secret                                                      |
-| Preserve neighboring prose and later detection | Narrow each context value independently                                                                              | Later credential after documentation; existing issue 148 repeated masking coverage                                               |
-| Preserve encoded behavior                      | Shared parser applies to decoded views                                                                               | Base64 documentation; existing encoding tests                                                                                    |
-| Prepare release                                | Patch changeset                                                                                                      | `.changeset/issue-151-markdown-values.md`; CI release guards                                                                     |
+| Requirement                                    | Implementation                                                                                                       | Verification                                                                                                                                      |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Preserve all five issue reproductions          | Backticks end unquoted context and angle values before exemption checks                                              | Exact unchanged text and empty findings; three passes; sync and async credentials entry                                                           |
+| Preserve complete placeholder syntax           | Accept Markdown boundaries for variable/Actions/gh references; retain complete braced variables before token parsing | Angle placeholders, shell variables, braced variables, Actions references and gh lookup; single/double backticks and exact delimiter-run matching |
+| Preserve the public authority opt-out          | Exempt only the exact `HIVE_MIND_CLAUDE_AUTH_AUTHORITY=conventional` pair                                            | Plain and Markdown forms; reject other authority names, enums and appended literal material                                                       |
+| Keep real credentials masked                   | Reuse angle-value parsing for CLI flags; detect values after `token`, `Bearer` and `Basic` keywords                  | HTML/script literal, opaque literal, prefixed credentials and material glued to placeholders; assert the actual secret is absent                  |
+| Keep known secrets authoritative               | Known-secret detection and exemption prohibition remain in force                                                     | Each of the five documentation values explicitly declared as a known secret                                                                       |
+| Preserve neighboring prose and later detection | Narrow each context value independently                                                                              | Later credential after documentation; existing issue 148 repeated masking coverage                                                                |
+| Preserve encoded behavior                      | Shared parser applies to decoded views                                                                               | Base64 documentation; existing encoding tests                                                                                                     |
+| Prepare release                                | Patch changeset                                                                                                      | `.changeset/issue-151-markdown-values.md`; CI release guards                                                                                      |
 
 ## Root cause and experiments
 
@@ -41,6 +41,14 @@ cannot escape simply because its value starts with `<`. Quoted literals keep
 embedded backticks; Markdown-wrapped values are still scanned. Existing optional
 `debug` detection/template events remain available and default off.
 
+Final review also reproduced a new Markdown parsing edge case: a two-backtick
+opener closed prematurely at the first two characters of a three-backtick run,
+leaving later literal credential material visible. The added regression failed
+before correction. Markdown now closes only at a run of exactly the opening
+length. Each run is scanned once, avoiding repeated long-prefix comparisons.
+Tests use finite 2- and 256-backtick runs, both with and without a valid closer;
+no unbounded stress input is used.
+
 ## Focused verification
 
 ```sh
@@ -53,6 +61,6 @@ node --test --test-concurrency=1 --test-timeout=30000 \
   tests/sanitizer-issue-148.test.js
 ```
 
-All 60 focused checks pass on Node.js 26.13.0. Changed JavaScript is checked
+All 61 focused checks pass on Node.js 26.13.0. Changed JavaScript is checked
 with ESLint (zero warnings) and all changed files with Prettier. The existing
 CI supplies full Node/Bun/Deno platform suites, security and application checks.

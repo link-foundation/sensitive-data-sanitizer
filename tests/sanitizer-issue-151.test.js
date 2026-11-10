@@ -105,6 +105,16 @@ describe('Markdown documentation exemptions (issue 151)', () => {
     }
   });
 
+  it('requires a matching Markdown delimiter run and scans long unmatched runs', () => {
+    for (const count of [2, 256]) {
+      const ticks = '`'.repeat(count);
+      const input = `password=${ticks}literal${ticks}\`${secret}${ticks}`;
+      expect(engine.sanitize(input).text).not.toContain(secret);
+      const unterminated = `password=${ticks}literal${ticks}\`${secret}`;
+      expect(engine.sanitize(unterminated).text).not.toContain(secret);
+    }
+  });
+
   it('does not extend enum exemptions to other names or values', () => {
     for (const assignment of [
       'HIVE_MIND_CLAUDE_AUTH_AUTHORITY=unrecognized',

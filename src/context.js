@@ -308,6 +308,9 @@ function quotedRange(text, start, opening, maxLength) {
   const depth = opening[1].length,
     quote = opening[2];
   const valueStart = start + opening[0].length;
+  if (quote[0] === '`') {
+    return markdownRange(text, valueStart, quote.length, maxLength);
+  }
   for (
     let i = valueStart;
     i < Math.min(text.length, valueStart + maxLength);
@@ -319,7 +322,7 @@ function quotedRange(text, start, opening, maxLength) {
     ) {
       return { start: valueStart, end: i };
     }
-    if (!text.startsWith(quote, i)) {
+    if (text[i] !== quote) {
       continue;
     }
     let slashes = 0;
@@ -338,6 +341,26 @@ function quotedRange(text, start, opening, maxLength) {
     start: valueStart,
     end: Math.min(text.length, valueStart + maxLength),
   };
+}
+
+// Markdown closes only at a run of the same length. Scan each run once so
+// long unmatched backtick runs cannot cause repeated prefix comparisons.
+function markdownRange(text, start, length, maxLength) {
+  const limit = Math.min(text.length, start + maxLength);
+  for (let i = start; i < limit; i++) {
+    if (text[i] !== '`') {
+      continue;
+    }
+    let end = i + 1;
+    while (end < limit && text[end] === '`') {
+      end++;
+    }
+    if (end - i === length && text[end] !== '`') {
+      return { start, end: i };
+    }
+    i = end - 1;
+  }
+  return { start, end: limit };
 }
 
 function plausibleLabel(value, type) {
