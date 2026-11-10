@@ -76,7 +76,9 @@ def translate(rule):
                 values = [re.escape(value) for value in values]
             fields.setdefault("require" if negated else "reject", []).extend(values)
     rest = LIST.sub("", ENTROPY.sub("", text))
-    rest = re.sub(r"(?:filter\.)?tokenRatio\(" + SECRET + r"\)\s*>=?\s*[\d.]+", "", rest)
+    rest = re.sub(
+        r"(?:filter\.)?tokenRatio\(" + SECRET + r"\)\s*>=?\s*[\d.]+", "", rest
+    )
     partial = bool(re.sub(r"[\s|()]", "", rest))
     return fields, partial
 
@@ -95,7 +97,15 @@ for rule in tomllib.loads(raw.decode())["rules"]:
         partial.append(rule["id"])
     entry = {
         key: rule[key]
-        for key in ("id", "description", "regex", "secretGroup", "keywords", "confidence", "filter")
+        for key in (
+            "id",
+            "description",
+            "regex",
+            "secretGroup",
+            "keywords",
+            "confidence",
+            "filter",
+        )
         if key in rule
     }
     rules.append({**entry, **fields})

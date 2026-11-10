@@ -16,7 +16,7 @@ Import the ESM root entry; complete declarations are in `src/index.d.ts`. Inputs
 | `createSyncSanitizer(options)`         | Reusable synchronous `inspect` / `sanitize` with the same policies                                           |
 | `compileKnown(...lists)`               | Copy, freeze, merge and precompile caller-known personal values                                              |
 | `auditGitHistory(repository, options)` | Read-only audit of local reachable text objects                                                              |
-| `decrypt(text, key, options)`          | Restore values from `[ENCRYPTED:TYPE:…]` tokens written by the `encrypt` transformation                       |
+| `decrypt(text, key, options)`          | Restore values from `[ENCRYPTED:TYPE:…]` tokens written by the `encrypt` transformation                      |
 | `createPatternDetector(specs, opts)`   | Declarative regex, deny-list, hotword and validator detector                                                 |
 | `createIdentifierDetector(rules)`      | Detector for caller-supplied national identifier rules (`nationalRules` shape)                               |
 | `toSarif(report, options)`             | Convert a scan report or findings to SARIF 2.1.0 without values                                              |
@@ -805,13 +805,13 @@ threshold.
 The `mask` transformation accepts Presidio/Google-style tuning in addition to
 `keepStart`, `keepEnd`, `minLength` and `marker`:
 
-| Option          | Meaning                                                                     |
-| --------------- | --------------------------------------------------------------------------- |
-| `char`          | One masking character (default `*`)                                         |
-| `ignore`        | Characters that are never masked, e.g. `'-@.'`                              |
-| `ignoreClasses` | Any of `digits`, `upper`, `lower`, `punctuation`, `whitespace`              |
-| `count`         | Mask at most this many characters                                           |
-| `fromEnd`       | Mask the last `count` characters instead of the first                       |
+| Option          | Meaning                                                        |
+| --------------- | -------------------------------------------------------------- |
+| `char`          | One masking character (default `*`)                            |
+| `ignore`        | Characters that are never masked, e.g. `'-@.'`                 |
+| `ignoreClasses` | Any of `digits`, `upper`, `lower`, `punctuation`, `whitespace` |
+| `count`         | Mask at most this many characters                              |
+| `fromEnd`       | Mask the last `count` characters instead of the first          |
 
 ```js
 sanitize('Card 4111-1111-1111-1111', {
@@ -854,7 +854,10 @@ Presidio-style pattern recognizers or Google custom infoTypes without writing
 code:
 
 ```js
-import { createPatternDetector, sanitize } from '@link-foundation/sensitive-data-sanitizer';
+import {
+  createPatternDetector,
+  sanitize,
+} from '@link-foundation/sensitive-data-sanitizer';
 const detector = createPatternDetector([
   {
     type: 'MEDICAL_RECORD',
@@ -870,16 +873,16 @@ const detector = createPatternDetector([
 sanitize('medical record MRN-123456', { detectors: [detector] });
 ```
 
-| Field                | Meaning                                                                                       |
-| -------------------- | --------------------------------------------------------------------------------------------- |
-| `type`, `category`   | Uppercase type; `personal` or `credential`                                                     |
-| `rule`               | Lowercase rule id (default `custom-pattern`)                                                  |
-| `confidence`         | Base confidence (default 0.6)                                                                 |
-| `patterns`           | Up to 64 `RegExp`, strings or `{regex, confidence, group}` (a capture group narrows the span)  |
-| `denyList`           | Whole-word values, case-insensitive unless `caseSensitive: true`; `denyListConfidence` (1)    |
-| `context`            | Hotwords (strings or RegExp) searched in `contextWindow` (number or `{before, after}`, ≤ 4096) |
-| `contextBoost`       | Added when a hotword is present (default 0.35, floor 0.4); a negative value lowers confidence  |
-| `validate`           | `false` drops a match; a number sets its confidence                                           |
+| Field              | Meaning                                                                                        |
+| ------------------ | ---------------------------------------------------------------------------------------------- |
+| `type`, `category` | Uppercase type; `personal` or `credential`                                                     |
+| `rule`             | Lowercase rule id (default `custom-pattern`)                                                   |
+| `confidence`       | Base confidence (default 0.6)                                                                  |
+| `patterns`         | Up to 64 `RegExp`, strings or `{regex, confidence, group}` (a capture group narrows the span)  |
+| `denyList`         | Whole-word values, case-insensitive unless `caseSensitive: true`; `denyListConfidence` (1)     |
+| `context`          | Hotwords (strings or RegExp) searched in `contextWindow` (number or `{before, after}`, ≤ 4096) |
+| `contextBoost`     | Added when a hotword is present (default 0.35, floor 0.4); a negative value lowers confidence  |
+| `validate`         | `false` drops a match; a number sets its confidence                                            |
 
 Malformed specifications throw `ERR_CONFIG`.
 
@@ -930,4 +933,3 @@ repos:
     hooks:
       - id: sensitive-data-sanitizer
 ```
-
