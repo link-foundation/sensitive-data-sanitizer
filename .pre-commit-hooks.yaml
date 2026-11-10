@@ -1,0 +1,16 @@
+# pre-commit (https://pre-commit.com) hooks. Staged text files are passed to
+# `scan`, which exits 1 when it finds credentials or personal data.
+- id: sensitive-data-sanitizer
+  name: sensitive-data-sanitizer (credentials)
+  description: Block commits that contain credentials.
+  entry: sensitive-data-sanitizer scan --credentials-only
+  language: node
+  types: [text]
+  require_serial: true
+- id: sensitive-data-sanitizer-pii
+  name: sensitive-data-sanitizer (credentials and personal data)
+  description: Block commits that contain credentials or personal data.
+  entry: sensitive-data-sanitizer scan
+  language: node
+  types: [text]
+  require_serial: true

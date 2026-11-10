@@ -33,7 +33,8 @@ import {
 const help = `Usage: sensitive-data-sanitizer <redact|scan|restore|history> [path|-] [options]
 
 redact    Sanitize one text log or stdin; publish only after verification
-scan      Report metadata for a file, directory, or stdin (never source text)
+scan      Report metadata for files, directories, or stdin (never source text);
+          several paths may follow scan (for example staged files)
 restore   Restore placeholders in a file using --map PATH (private output)
 history   Audit local reachable Git blobs, commit/tag metadata, and reflogs
 history rewrite SOURCE --output DIRECTORY [--apply]
@@ -134,7 +135,7 @@ function parseArgs(argv) {
     ['--placeholder-format', 'placeholderFormat'],
     ['--format', 'format'],
   ]);
-  let hasPath = false;
+  const paths = [];
   for (let i = rewrite ? 2 : 1; i < argv.length; i++) {
     const arg = argv[i];
     if (boolean.has(arg)) {
@@ -144,13 +145,18 @@ function parseArgs(argv) {
         throw failure('ERR_ARGUMENT');
       }
       config[valued.get(arg)] = argv[++i];
-    } else if (!hasPath && !arg.startsWith('--')) {
-      config.path = arg;
-      hasPath = true;
+    } else if (!arg.startsWith('--')) {
+      paths.push(arg);
     } else {
       throw failure('ERR_ARGUMENT');
     }
   }
+  // Only scan accepts several paths (for example staged files from a hook).
+  if (paths.length > 1 && (command !== 'scan' || paths.includes('-'))) {
+    throw failure('ERR_ARGUMENT');
+  }
+  config.path = paths[0] ?? '-';
+  config.paths = paths.length ? paths : ['-'];
   validateArgs(config);
   return config;
 }
@@ -466,8 +472,10 @@ async function historyCommand(config, engine, { stdout }) {
 }
 
 async function scanCommand(config, engine, { stdin, stdout }) {
-  const files =
-    config.path === '-' ? ['-'] : await listTextCandidates(config.path);
+  const files = [];
+  for (const path of config.paths) {
+    files.push(...(path === '-' ? ['-'] : await listTextCandidates(path)));
+  }
   const results = [],
     skipped = [];
   for (const file of files) {

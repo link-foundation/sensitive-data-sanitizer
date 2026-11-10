@@ -24,6 +24,7 @@ import { detectDocumentEntities } from './document-entities.js';
 import { detectProseAndDocuments } from './proper-names.js';
 import { builtInEnabled } from './policy.js';
 import { detectStrict } from './strict.js';
+import { tokenChecksum } from './token-checksum.js';
 
 export const REDACTED = '[REDACTED]';
 export const failure = (code = 'ERR_SANITIZATION', location = {}) =>
@@ -182,8 +183,14 @@ export function nativeDetect(text, options, emit) {
       ? (details) => options.debug({ event: 'gitleaks-rule', ...details })
       : undefined
   );
+  const checked = (finding) =>
+    emit(
+      tokenChecksum(text.slice(finding.start, finding.end))
+        ? { ...finding, confidence: 0.99 }
+        : finding
+    );
   for (const [rule, pattern] of serviceRules) {
-    collectMatches(text, pattern, emit, { ...credential, rule });
+    collectMatches(text, pattern, checked, { ...credential, rule });
   }
   detectContext(text, emit, options.credentialsOnly);
   if (!options.credentialsOnly) {

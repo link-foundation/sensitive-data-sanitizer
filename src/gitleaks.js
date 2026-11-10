@@ -15,6 +15,7 @@ import b4 from './vendor/betterleaks/rules-4.json' with { type: 'json' };
 import b5 from './vendor/betterleaks/rules-5.json' with { type: 'json' };
 import { entropy, REDACTED } from './detection.js';
 import { keywordMatcher } from './keywords.js';
+import { tokenChecksum } from './token-checksum.js';
 
 export const gitleaksRules = [...r0, ...r1, ...r2, ...r3, ...r4, ...r5];
 // Betterleaks rules whose ids are absent from the frozen Gitleaks set; see
@@ -151,9 +152,17 @@ function scanRule(text, base, { rule, name }, emit, large) {
       type: 'SECRET',
       category: 'credential',
       rule: name,
-      confidence: confidence[rule.confidence] ?? (rule.entropy ? 0.85 : 0.95),
+      confidence: ruleConfidence(rule, secret),
     });
   }
+}
+
+// A token whose embedded CRC32 checksum matches is structurally valid offline.
+function ruleConfidence(rule, secret) {
+  if (tokenChecksum(secret)) {
+    return 0.99;
+  }
+  return confidence[rule.confidence] ?? (rule.entropy ? 0.85 : 0.95);
 }
 
 function* ruleMatches(text, name, rule, large) {
