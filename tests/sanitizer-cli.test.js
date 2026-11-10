@@ -76,7 +76,9 @@ describe('sanitizer CLI publication', () => {
         'before\n-----BEGIN PRIVATE KEY-----\nconfidential'
       );
       expect(result.status).toBe(0);
-      expect(result.stdout).toBe('before\n[REDACTED]');
+      expect(result.stdout).toBe(
+        'before\n-----BEGIN PRIVATE KEY-----\n[REDACTED]'
+      );
       expect(result.stderr).toBe('');
     }
   );

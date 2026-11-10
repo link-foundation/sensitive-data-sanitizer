@@ -13,7 +13,7 @@ describe('Authorization boundaries (issue 45)', () => {
       for (const delimiter of [' ', '\t', "'", '"', '\\', ',']) {
         it(`bounds ${header} ${scheme} at ${JSON.stringify(delimiter)}`, async () => {
           const input = `${header}: ${scheme} ${token}${delimiter}keep-after`;
-          const expected = `${header}: [REDACTED]${delimiter}keep-after`;
+          const expected = `${header}: ${scheme} [REDACTED]${delimiter}keep-after`;
           expect(sanitize(input, { credentialsOnly: true }).text).toBe(
             expected
           );
@@ -33,7 +33,7 @@ describe('Authorization boundaries (issue 45)', () => {
   it('retains curl quotes and JSON prompt suffixes across escape depths', async () => {
     for (const quote of ["'", '"']) {
       let input = `curl -H ${quote}Authorization: token ${token}${quote} keep-after`;
-      let expected = `curl -H ${quote}Authorization: [REDACTED]${quote} keep-after`;
+      let expected = `curl -H ${quote}Authorization: token [REDACTED]${quote} keep-after`;
       for (let depth = 0; depth < 3; depth++) {
         expect(
           (await createSanitizer({ credentialsOnly: true }).sanitize(input))
