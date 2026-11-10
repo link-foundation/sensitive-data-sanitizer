@@ -45,7 +45,10 @@ Final review also reproduced a new Markdown parsing edge case: a two-backtick
 opener closed prematurely at the first two characters of a three-backtick run,
 leaving later literal credential material visible. The added regression failed
 before correction. Markdown now closes only at a run of exactly the opening
-length. Each run is scanned once, avoiding repeated long-prefix comparisons.
+length, whether it wraps the value or the entire assignment. Surrounding
+inline spans are recognized in a bounded 4096-character window; unknown or
+unclosed spans retain credential material rather than exempting a partial
+placeholder. Each run is scanned once, avoiding repeated long-prefix comparisons.
 Tests use finite 2- and 256-backtick runs, both with and without a valid closer;
 no unbounded stress input is used.
 

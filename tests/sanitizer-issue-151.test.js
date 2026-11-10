@@ -110,6 +110,10 @@ describe('Markdown documentation exemptions (issue 151)', () => {
       const ticks = '`'.repeat(count);
       const input = `password=${ticks}literal${ticks}\`${secret}${ticks}`;
       expect(engine.sanitize(input).text).not.toContain(secret);
+      for (const placeholder of ['<secret>', '$PASSWORD']) {
+        const assignment = `${ticks}password=${placeholder}${ticks}\`${secret}${ticks}`;
+        expect(engine.sanitize(assignment).text).not.toContain(secret);
+      }
       const unterminated = `password=${ticks}literal${ticks}\`${secret}`;
       expect(engine.sanitize(unterminated).text).not.toContain(secret);
     }
