@@ -7,6 +7,9 @@ import { jsonStringRuns } from './json-string-runs.js';
 // remaining candidates as `encoded-limit` runs, without blocking the text.
 const WINDOW = 65536;
 const WINDOW_CANDIDATES = 4096;
+// Inspect a complete bounded binary payload, including any embedded text.
+// Ordinary text detection retains its 8 KiB cap.
+const WRAPPED_BINARY_LIMIT = 256 * 1024;
 
 const WRAPPED =
   /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{16,128}(?:\r?\n[A-Za-z0-9_+/-]{1,128})+={0,2}(?![A-Za-z0-9_+/-])/g;
@@ -56,7 +59,8 @@ function* matchRuns(match, wrapped, scan) {
   const start = match.index;
   const end = start + raw.length;
   const limited = { start, end, limited: true, depth: scan.depth };
-  if (raw.length > 8192) {
+  const candidates = runCandidates(raw, wrapped);
+  if (!candidates) {
     if (isLimitedTextRun(raw, wrapped)) {
       scan.covered.push(limited);
       yield limited;
@@ -64,7 +68,7 @@ function* matchRuns(match, wrapped, scan) {
     return;
   }
   const window = Math.floor(start / WINDOW);
-  for (const candidate of decodeCandidates(raw)) {
+  for (const candidate of candidates) {
     const { text: decoded, encoding } = candidate;
     const key = `${start}:${raw.length}:${decoded}`;
     if (scan.seen.has(key) || !decodedText(raw, decoded)) {
@@ -91,9 +95,46 @@ function* matchRuns(match, wrapped, scan) {
     };
     yield run;
     for (const inner of decodedRuns(decoded, scan.depth + 1)) {
-      yield { ...run, text: inner.text, depth: inner.depth };
+      yield inner.limited
+        ? { ...limited, depth: inner.depth }
+        : { ...run, text: inner.text, depth: inner.depth };
     }
   }
+}
+
+function runCandidates(raw, wrapped) {
+  if (raw.length <= 8192) {
+    return decodeCandidates(raw);
+  }
+  const binary = wrapped && boundedWrappedBinary(raw);
+  return binary ? [binary] : undefined;
+}
+
+function boundedWrappedBinary(raw) {
+  if (raw.length > WRAPPED_BINARY_LIMIT || !isWrappedBinary(raw)) {
+    return false;
+  }
+  const bytes = base64Bytes(raw.replace(/\s/g, ''));
+  if (!bytes) {
+    return false;
+  }
+  try {
+    const decoded = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+    if (decodedText(raw, decoded)) {
+      return undefined;
+    }
+  } catch {
+    /* Binary content still needs an embedded-text detection view. */
+  }
+  return {
+    encoding: 'binary',
+    // Preserve text offsets within the view while separating binary controls
+    // and invalid UTF-8. This view is never used to reconstruct binary bytes.
+    text: bytes
+      .toString('utf8')
+      // eslint-disable-next-line no-control-regex -- Replace binary controls in the text detection view.
+      .replace(/[\x00-\x08\x0e-\x1f\x7f\ufffd]/g, ' '),
+  };
 }
 
 function candidateMatches(text, pattern) {
@@ -211,11 +252,8 @@ function decodeCandidates(raw, partial) {
   } else {
     const compact = raw.replace(/\s/g, '');
     // Decode canonical base64 text only.
-    const bytes = Buffer.from(compact, 'base64url');
-    if (
-      bytes.toString('base64url') ===
-      compact.replace(/=+$/, '').replaceAll('+', '-').replaceAll('/', '_')
-    ) {
+    const bytes = base64Bytes(compact);
+    if (bytes) {
       try {
         candidates.push({
           encoding:
@@ -248,7 +286,18 @@ function decodeCandidates(raw, partial) {
   return candidates;
 }
 
+function base64Bytes(compact) {
+  const bytes = Buffer.from(compact, 'base64url');
+  return bytes.toString('base64url') ===
+    compact.replace(/=+$/, '').replaceAll('+', '-').replaceAll('/', '_')
+    ? bytes
+    : undefined;
+}
+
 export function encodeRun(run, text) {
+  if (run.encoding === 'binary') {
+    return undefined;
+  }
   const bytes = Buffer.from(text, 'utf8');
   let encoded;
   if (run.encoding === 'json-content') {
