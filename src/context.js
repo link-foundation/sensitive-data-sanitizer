@@ -381,6 +381,37 @@ function codeValue(text, start) {
   );
 }
 
+// Picks how far a credential value runs: to the end of a query parameter, a
+// token, a line or a prose word.
+function credentialMode(text, match) {
+  const prefix = text.slice(Math.max(0, match.index - 512), match.index);
+  if (
+    /(?:https?:\/\/[^\s]*[?&]|^[?&])[^\s]*$/i.test(prefix) ||
+    /[?&]$/.test(prefix)
+  ) {
+    return 'query';
+  }
+  if (match[2] === '=' || /["']\s*[:：]/.test(match[0])) {
+    return 'token';
+  }
+  return /[:：]/.test(match[2]) ? 'line' : 'prose';
+}
+
+function credentialRange(text, match, camel) {
+  const start = match.index + match[0].length;
+  if (
+    sourceReference(match[1], text.slice(start)) ||
+    (camel && codeValue(text, start))
+  ) {
+    return undefined;
+  }
+  const mode = credentialMode(text, match);
+  const range = /^(?:proxy-)?authorization$/i.test(match[1])
+    ? authorizationRange(text, start)
+    : valueRange(text, start, mode);
+  return range && mode === 'prose' ? generatedWord(text, range) : range;
+}
+
 function detectCredentials(text, emit) {
   const details = { category: 'credential', type: 'SECRET', rule: 'context' };
   const matches = [
@@ -388,30 +419,7 @@ function detectCredentials(text, emit) {
     ...[...text.matchAll(camelPrefix)].map((match) => [match, true]),
   ];
   for (const [match, camel] of matches) {
-    const start = match.index + match[0].length;
-    const prefix = text.slice(Math.max(0, match.index - 512), match.index);
-    const query =
-      /(?:https?:\/\/[^\s]*[?&]|^[?&])[^\s]*$/i.test(prefix) ||
-      /[?&]$/.test(prefix);
-    const mode = query
-      ? 'query'
-      : match[2] === '=' || /["']\s*[:：]/.test(match[0])
-        ? 'token'
-        : /[:：]/.test(match[2])
-          ? 'line'
-          : 'prose';
-    let range = /^(?:proxy-)?authorization$/i.test(match[1])
-      ? authorizationRange(text, start)
-      : valueRange(text, start, mode);
-    if (range && mode === 'prose') {
-      range = generatedWord(text, range);
-    }
-    if (sourceReference(match[1], text.slice(start))) {
-      continue;
-    }
-    if (camel && codeValue(text, start)) {
-      continue;
-    }
+    const range = credentialRange(text, match, camel);
     if (range) {
       emitValue(text, range.start, range.end, emit, details, match[1]);
     }

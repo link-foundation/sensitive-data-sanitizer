@@ -187,6 +187,27 @@ const maskChecks = [
 function validMask(transform) {
   return maskChecks.every((check) => check(transform));
 }
+// Indexes of the characters a mask replaces, after ignored characters, the
+// direction and the count limit are applied.
+function maskPositions(chars, start, end, transform) {
+  const ignored = (char) =>
+    Boolean(transform.ignore?.includes(char)) ||
+    (transform.ignoreClasses ?? []).some((name) =>
+      maskClasses[name].test(char)
+    );
+  const positions = [];
+  for (let i = start; i < chars.length - end; i++) {
+    if (!ignored(chars[i])) {
+      positions.push(i);
+    }
+  }
+  if (transform.fromEnd) {
+    positions.reverse();
+  }
+  return transform.count === undefined
+    ? positions
+    : positions.slice(0, transform.count);
+}
 function masked(value, finding, transform) {
   const chars = Array.from(value),
     start = transform.keepStart ?? 0,
@@ -201,23 +222,7 @@ function masked(value, finding, transform) {
   if (transform.marker !== undefined) {
     return `${chars.slice(0, start).join('')}${transform.marker}${end ? chars.slice(-end).join('') : ''}`;
   }
-  const ignored = (char) =>
-    Boolean(transform.ignore?.includes(char)) ||
-    (transform.ignoreClasses ?? []).some((name) =>
-      maskClasses[name].test(char)
-    );
-  let positions = [];
-  for (let i = start; i < chars.length - end; i++) {
-    if (!ignored(chars[i])) {
-      positions.push(i);
-    }
-  }
-  if (transform.fromEnd) {
-    positions.reverse();
-  }
-  if (transform.count !== undefined) {
-    positions = positions.slice(0, transform.count);
-  }
+  const positions = maskPositions(chars, start, end, transform);
   if (!positions.length) {
     return REDACTED;
   }
@@ -226,6 +231,18 @@ function masked(value, finding, transform) {
   }
   return chars.join('');
 }
+// Modes that apply to personal data only; credentials are always redacted.
+const personalModes = {
+  mask: masked,
+  encrypt: (value, finding, transform) =>
+    encryptValue(value, finding.type, transform.key),
+  pseudonym: (value, finding, transform) =>
+    `[PSEUDONYM_${keyed(value, finding.type, transform.key).toString('hex').slice(0, 24)}]`,
+  'format-preserving': (value, finding, transform) =>
+    formatPseudonym(value, finding.type, transform.key),
+  'date-shift': (value, finding, transform) =>
+    shiftedDate(value, transform.days),
+};
 function transformed(value, finding, transform, options) {
   if (typeof transform === 'function') {
     const result = transform(Object.freeze({ ...finding, value }));
@@ -250,20 +267,8 @@ function transformed(value, finding, transform, options) {
   if (finding.category === 'credential') {
     return REDACTED;
   }
-  if (transform.mode === 'mask') {
-    return masked(value, finding, transform);
-  }
-  if (transform.mode === 'encrypt') {
-    return encryptValue(value, finding.type, transform.key);
-  }
-  if (transform.mode === 'pseudonym') {
-    return `[PSEUDONYM_${keyed(value, finding.type, transform.key).toString('hex').slice(0, 24)}]`;
-  }
-  if (transform.mode === 'format-preserving') {
-    return formatPseudonym(value, finding.type, transform.key);
-  }
-  if (transform.mode === 'date-shift') {
-    return shiftedDate(value, transform.days);
+  if (Object.hasOwn(personalModes, transform.mode)) {
+    return personalModes[transform.mode](value, finding, transform);
   }
   const number = Number(value);
   if (!Number.isSafeInteger(number)) {
