@@ -34,8 +34,9 @@ and `<tokens>` losing both the delimiter and following space.
 
 Strengthening the security assertions to check the secret itself, rather than
 only the entire prefixed value, exposed an existing gap: `password=token
-<literal>` masked just `token`. The shared token-value parser now starts after
-that keyword. CLI flags also reuse angle parsing, so an HTML/script literal
+<literal>` masked just `token`. The shared token-value parser now scans through the credential after
+that keyword. It keeps the keyword in the value used for metadata checks, so
+`token conventional` cannot qualify for the exact `conventional` exemption. CLI flags also reuse angle parsing, so an HTML/script literal
 cannot escape simply because its value starts with `<`. Quoted literals keep
 embedded backticks; Markdown-wrapped values are still scanned. Existing optional
 `debug` detection/template events remain available and default off.

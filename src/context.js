@@ -540,12 +540,18 @@ function angleValue(text, start, mode) {
 // Scheme-prefixed values carry the credential after the keyword, just as
 // Authorization headers do. Never mask only `token` and leave its value.
 function credentialValueRange(text, start, mode) {
+  const valueStart = start;
   if (mode === 'token') {
     start +=
       /^(?:token|Bearer|Basic)[ \t]+(?=\S)/i.exec(text.slice(start))?.[0]
         .length ?? 0;
   }
-  return angleValue(text, start, mode) ?? valueRange(text, start, mode);
+  const range = angleValue(text, start, mode) ?? valueRange(text, start, mode);
+  // Keep the prefix in the value used for metadata checks: `token 0` is not
+  // the exact public setting `0`, even under a configuration name.
+  return range && start !== valueStart
+    ? { ...range, start: valueStart }
+    : range;
 }
 
 function credentialRange(text, match, camel) {
