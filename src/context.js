@@ -535,6 +535,14 @@ function credentialRange(text, match, camel) {
   const start = match.index + match[0].length;
   if (
     sourceReference(match[1], text.slice(start)) ||
+    // An unquoted `new` followed by a constructor call is source syntax.
+    // Keep the test case-sensitive and require the call so literal values
+    // such as `new`, `"new"` and `new-secret` remain credentials. Exact
+    // known-secret detection runs independently of this contextual rule.
+    (/^[:=]$/.test(match[2]) &&
+      /^new[ \t]+[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*[ \t]*\(/u.test(
+        text.slice(start, start + 256)
+      )) ||
     (camel && codeValue(text, start))
   ) {
     return undefined;
