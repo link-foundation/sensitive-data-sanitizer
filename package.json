@@ -27,7 +27,8 @@
     "examples/reversible-placeholders.mjs",
     "examples/prose-logs.mjs",
     "docs/RULES.md",
-    "examples/custom-log-policy.mjs"
+    "examples/custom-log-policy.mjs",
+    "examples/second-pass-placeholders.mjs"
   ],
   "exports": {
     ".": {

@@ -95,6 +95,13 @@ Known Russian names match in all six cases and in any word order, with `ё`/`е`
 spelling variants and initials (`с Петровым Данилом Сергеевичем`, `Петров Д. С.`).
 A part of a longer name is matched alone only when it is listed itself.
 
+With `properNames: 'capitalized'`, placeholder output keeps the sentence around a
+name (`Кандидат Person-1`, `Меня зовут Person-1`, `Благодарим Вас, Person-1`), and
+`transformation.existing: 'keep'` lets a second pass over sanitized text keep its
+`Type-n` tokens and number new values after them. `isPlaceholderToken` and
+`reservedPlaceholderTypes` expose the namespace; see the
+[second-pass example](examples/second-pass-placeholders.mjs).
+
 For irreversible output, choose `transformation: { mode: 'placeholder', map:
 false }`: no restore map is returned or written. Detection limits still apply
 in either mode. See the [placeholder API](docs/API.md#reversible-placeholders),

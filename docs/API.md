@@ -96,6 +96,31 @@ Unicode letters, marks, digits and underscores bound those tokens. Ordinary
 technical names such as GPT-4, ISO-9001 and Windows-10 are not reserved. The map's format cannot change
 on reuse. A malformed map or ambiguous exact restoration blocks output.
 
+`existing: 'keep'` on the placeholder transformation accepts input that already
+contains tokens of the chosen namespace, for example the output of an earlier
+pass or a model answer that quotes tokens. Those tokens stay as they are and are
+never replaced, faked or treated as names; new values of a type are numbered
+after the highest kept number of that type:
+
+```js
+const policy = { transformation: { mode: 'placeholder', existing: 'keep' } };
+sanitize('Person-1 встретил Анну Смирнову', policy).text;
+// Person-1 встретил Person-2
+```
+
+A second pass over sanitized text is then a fixed point. The default
+`existing: 'error'` keeps the `ERR_PLACEHOLDER_COLLISION` check; other values and
+a mix with per-type `transformations` are `ERR_CONFIG`. A kept token restores to
+itself, so the map still reconstructs every newly replaced value exactly.
+
+`reservedPlaceholderTypes()` returns the sorted, frozen list of every type a
+built-in rule can turn into a token. `isPlaceholderToken(text, {format?, types?})`
+checks whether `text` is one whole token of the namespace (`Person-1`,
+`UsBankNumber-12`, `<PERSON_3>` with `format: '<{TYPE}_{n}>'`); `types` adds
+custom types such as those of `createPatternDetector`. Both are also exported by
+the credentials-only entry. The namespace pattern is compiled once per format and
+cached.
+
 `createRestoreMap({format?})` creates an empty reusable map. Pass a map as
 `transformation.map` to continue a corpus; the operation updates that same
 object. A `createSanitizer()` engine also keeps its registry across calls.
@@ -176,6 +201,13 @@ JSON keys remain unchanged by automatic personal detection in all transformation
 modes. Explicit known values and credentials retain priority. Parseability and
 duplicate-key checks remain enforced. Plain redact/fake policies retain their
 existing metadata/key behavior. Use `structured` for valid structured input.
+A whole JSON value replaced by a structured rule (`sensitiveFields`, or a
+personal field such as `age` replaced with its JSON type) becomes one JSON
+string token typed by its field: `{"notes":"любой текст"}` reads
+`{"notes":"Sensitive-1"}` and `{"age":34}` reads `{"age":"Age-1"}`. Such findings
+carry `valueType` when the field has a personal type. `restore()` brings back
+the original JSON value, including numbers and objects. Other modes keep
+`"[REDACTED]"`.
 The normal encoding limits and credential redaction policy continue to apply.
 
 CLI: `redact FILE --placeholder --map private.json` creates or continues a map;
@@ -609,9 +641,33 @@ also applies independently within serialized JSON strings, to the existing
 bounded decoding depth. Findings do not seed document-wide name propagation.
 Repeated redaction is stable. Reusing a placeholder map for the same original
 produces stable tokens and exact restoration; the existing placeholder-namespace
-collision checks still reject input that already contains typed placeholders.
+collision checks still reject input that already contains typed placeholders
+unless the transformation sets `existing: 'keep'`.
 
-This is a structural heuristic, so capitalized ordinary words also disappear.
+Capitalized words that identify nobody stay readable, so placeholder output keeps
+its sentence: pronouns (`Вас`, `Я`), role and label cues (`Кандидат`, `Сотрудник`,
+the default and configured `roles` and `personalLabels`) anywhere, and greetings,
+function words and verbs (past tense `Звонила`, `Перенёс`, `Работал` before a
+lowercase word; present `Работаю`, `Рекомендует`) at the start of a sentence:
+
+```js
+sanitize('Кандидат Петров Иван Сергеевич. Звонила Анна Смирнова', {
+  properNames: 'capitalized',
+  transformation: { mode: 'placeholder', map: false },
+}).text;
+// Кандидат Person-1. Звонила Person-2
+```
+
+A word that is also a given-name form (`Вера`, `Любовь`) never counts as such a
+word, and a bare masculine `-л` form before a capitalized word may be a surname
+(`Шагал Марк`), so both are still replaced. A compact organization, location,
+school or person span found by the document rules (`ООО «Ромашка»`, `в Казани`)
+replaces the proper-name fragments inside it as one typed value
+(`Organization-1`, `Location-1`); spans with tabs or line breaks, or longer than
+160 characters, keep the separate fragments. A bare oblique surname (`Иванову`)
+links to the one person whose name contains it.
+
+Other capitalized ordinary words still disappear; this is a structural heuristic.
 Lowercase organizations without employment context stay; the document rules
 replace a lowercase employer after `работал в` / `работала в`. Complete contact
 and identifier findings take priority over overlapping proper-name fragments.
@@ -695,6 +751,13 @@ use normalized field names. Capitalized proper values are required after prose
 cues. Inputs allow at most 256 nonempty strings of 128 code units per list, with
 no line breaks/NUL. Unknown lists and malformed replacement records fail with
 `ERR_CONFIG`. Compilation uses a bounded 64-configuration cache.
+
+`personalAttributes: ['вепс', 'старовер']` adds special-category stems to the
+`strict` rule (it has no effect without `strict: true`). Each word matches as a
+stem followed by up to eight letters, so `вепска` and `староверами` match, and the
+words of a multi-word entry may be separated by spaces or tabs. Matches are
+reported as `PERSONAL_ATTRIBUTE` with the `strict-attribute` rule. The default
+list is empty.
 
 ## Callback transformations and stages
 

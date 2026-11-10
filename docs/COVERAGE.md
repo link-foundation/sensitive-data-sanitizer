@@ -480,17 +480,27 @@ remove ordinary uses of unambiguous category words. Bounded Russian case/stem
 rules cover disability, ethnicity, religion, diagnoses, intimate life and criminal
 status, including `инвалидом`, `армянин`, `еврейка`, `казах`, `христианин`, `иудей`,
 `эпилепсией`, `астма`, `онкологию`, `туберкулез`, `психиатра`, `депрессия`,
-`гепатит`, `гей` and `отбывал наказание`. English coverage includes `epilepsy`,
-`gay` and `Armenian`. Explicit category cues such as `по национальности X`,
+`гепатит`, `гей` and `отбывал наказание`, plus nationalities (`узбечка`,
+`таджик`, `чеченец`, `грузинка`, `азербайджанец`, `цыганка`, `кореянка`),
+religions (`протестант`), health (`инсульт`, `шизофрения`, `слабослышащий`,
+`колясочник`, `передвигается на коляске`, `аутизм`), sexuality (`бисексуал`,
+`трансгендер`), convictions (`сидел за кражу`) and trade-union membership
+(`член профсоюза`). English coverage includes `epilepsy`, `gay`, `Armenian`,
+`autism`, `transgender`, `wheelchair user`, `trade union member` and
+`served time for`. Country, region and language words (`Узбекистан`, `Чувашия`,
+`грузинский язык`) are not attributes. `vocabulary.personalAttributes` adds caller
+stems. Explicit category cues such as `по национальности X`,
 `исповедует X`, `болеет X`, `на учете у X`, `diagnosed with X` and `ethnicity: X`
 protect one following word (including hyphenated words) up to 64 characters,
 including unfamiliar values outside the lexicon. These cues stay on one line.
-Ambiguous English `disabled`, `single`, `man`, `men`, `russian`
-and `asian` require an adjacent personal cue (pronoun/person role, personal
+Ambiguous English `disabled`, `single`, `man`, `men`, `russian`,
+`asian`, `uzbek`, `korean`, `chinese`, `georgian`, `kazakh`, `roma` and
+`union member` require an adjacent personal cue (pronoun/person role, personal
 label, or following person role). Thus `he is disabled`, `candidate is single`
 and `gender: male` redact, while `the module is disabled`, `single run finished`,
 `single-flight lock acquired`, `man page missing`, `locale russian selected`
-and `asian region endpoint` remain intact. Bare operational JSON statuses
+`asian region endpoint`, `Korean locale enabled` and `union member list`
+remain intact. Bare operational JSON statuses
 `disabled`, `single` and `Russian` also remain intact; explicit personal labels
 and caller-declared known personal values still redact. A cue in another clause
 or string value does not make an ambiguous word personal.

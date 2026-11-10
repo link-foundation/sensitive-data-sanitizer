@@ -126,6 +126,7 @@ describe('publishable package metadata', () => {
       'examples/prose-logs.mjs',
       'docs/RULES.md',
       'examples/custom-log-policy.mjs',
+      'examples/second-pass-placeholders.mjs',
     ]);
   });
 });

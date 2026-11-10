@@ -191,6 +191,11 @@ describe('readable proper-name placeholders (issue 130)', () => {
       ],
       ['Кандидат Петров Иван', 'Кандидат Person-1'],
       ['Благодарим Вас, Анна Смирнова', 'Благодарим Вас, Person-1'],
+      ['Рекомендует Анна Смирнова', 'Рекомендует Person-1'],
+      [
+        'Перенёс операцию. Учатся в Казани',
+        'Перенёс операцию. Учатся в ProperName-1',
+      ],
     ];
     for (const [text, expected] of cases) {
       expect(once(text, policy())).toBe(expected);

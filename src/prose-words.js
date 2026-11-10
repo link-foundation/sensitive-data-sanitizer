@@ -48,16 +48,21 @@ const sentenceWords = words(`
   поэтому хотя возможно конечно хорошо ладно ок буду будет был была были было
   есть могу можно нужно надо готов готова готовы имею хочу работаю живу
   учусь зовут звать занимаюсь звоню пишу
+  нёс перенёс принёс вёз привёз мог смог помог умер рос вырос лёг шёл пришёл
+  ушёл перешёл нашёл
   hello hi hey dear thanks thank please regards sincerely best the this that
   these those a an it is are was were in on at for from to with and but or if
   when where what who why how yes no not also
 `);
-// Past tense (`Работал`, `Звонила`, `Переехали`) and first person present
-// (`Работаю`, `Занимаюсь`). A bare masculine `-л` form is also a surname shape
+// Past tense (`Работал`, `Звонила`, `Переехали`), first person present
+// (`Работаю`, `Занимаюсь`) and third person present. A bare masculine `-л` form is also a surname shape
 // (`Шагал`), so it is kept only before a lowercase word.
 const pastTense = /^[а-яе]{2,}[аеиоуыя]л(?:а|о|и|ся|ась|ось|ись)$/u;
 const masculinePast = /^[а-яе]{3,}[аеиуыя]л$/u;
 const firstPerson = /^[а-яе]{3,}[аеуя]ю(?:сь)?$/u;
+// Third person present (`Рекомендует`, `Работает`, `Говорит`, `Учатся`).
+const thirdPerson =
+  /^[а-яе]{2,}(?:[аеиоуюя]ет|[аеиоуюя]ют|ит|ят|[аеиуя]ется|[аеиуя]ются|ится|атся|ятся)$/u;
 
 function sentenceStart(text, start) {
   let i = start - 1;
@@ -109,6 +114,7 @@ export function keepsProseWord(text, value, start, end, options) {
     sentenceWords.has(lower) ||
     pastTense.test(lower) ||
     firstPerson.test(lower) ||
+    thirdPerson.test(lower) ||
     (masculinePast.test(lower) && nextWordLowercase(text, end))
   );
 }
