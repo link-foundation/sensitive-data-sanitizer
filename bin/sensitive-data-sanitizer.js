@@ -6,9 +6,11 @@ import { createSanitizer } from '../src/engines.js';
 import { failure } from '../src/detection.js';
 import {
   readTextFile,
+  readTextInput,
   atomicWrite,
   listTextCandidates,
-  decodeText,
+  decodeTextInput,
+  encodeTextOutput,
 } from '../src/files.js';
 import { auditGitHistory } from '../src/history.js';
 import { rewriteGitHistory } from '../src/history-rewrite.js';
@@ -17,7 +19,6 @@ import {
   knownSecretsFromEnv,
   knownSecretsFromGitHubConfig,
 } from '../src/known.js';
-import { encodeLogText } from '../src/log-bytes.js';
 import { toSarif } from '../src/sarif.js';
 import { createWikidataVerifier } from '../src/public-verifier.js';
 import { streamCommand } from './stream.js';
@@ -256,7 +257,7 @@ async function stdinText(stream, maxBytes, options) {
     }
     chunks.push(buffer);
   }
-  return decodeText(Buffer.concat(chunks), options);
+  return decodeTextInput(Buffer.concat(chunks), options);
 }
 
 export async function runCli(
@@ -427,24 +428,20 @@ function inputText(path, config, stdin) {
   };
   return path === '-'
     ? stdinText(stdin, config.maxBytes, options)
-    : readTextFile(path, config.maxBytes, options);
+    : readTextInput(path, config.maxBytes, options);
 }
 
 async function redactCommand(config, engine, { stdin, stdout }) {
-  const result = await engine.sanitize(
-    await inputText(config.path, config, stdin)
-  );
+  const input = await inputText(config.path, config, stdin);
+  const result = await engine.sanitize(input.text);
   await saveMap(config);
+  const output = encodeTextOutput(result.text, input.encoding);
   if (config.output || config.inPlace) {
-    await atomicWrite(
-      config.output ?? config.path,
-      encodeLogText(result.text),
-      {
-        replace: Boolean(config.inPlace),
-      }
-    );
+    await atomicWrite(config.output ?? config.path, output, {
+      replace: Boolean(config.inPlace),
+    });
   } else {
-    stdout.write(encodeLogText(result.text));
+    stdout.write(output);
   }
   return 0;
 }
@@ -478,7 +475,9 @@ async function scanCommand(config, engine, { stdin, stdout }) {
     try {
       results.push({
         path,
-        findings: await engine.inspect(await inputText(file, config, stdin)),
+        findings: await engine.inspect(
+          (await inputText(file, config, stdin)).text
+        ),
       });
     } catch (error) {
       if (['ERR_BINARY', 'ERR_ENCODING', 'ERR_LIMIT'].includes(error.code)) {

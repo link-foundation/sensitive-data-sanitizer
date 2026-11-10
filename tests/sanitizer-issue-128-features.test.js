@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'test-anywhere';
 import { Readable } from 'node:stream';
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
@@ -12,6 +12,7 @@ import {
   toSarif,
 } from '../src/index.js';
 import { runCli } from '../bin/sensitive-data-sanitizer.js';
+import { decodeText } from '../src/files.js';
 
 // Competitor-equivalent configuration features: Presidio allow_list and
 // PatternRecognizer, Google exclusion/hotword rules, CharacterMaskConfig and
@@ -391,5 +392,60 @@ describe('SARIF export', () => {
     } finally {
       await rm(dir, { recursive: true, force: true });
     }
+  });
+});
+
+describe('UTF-16 text files with a byte order mark', () => {
+  const text = '﻿user log\r\nmail bob@private.test\r\n';
+  const io = (sink) => ({
+    stdin: Readable.from([]),
+    stdout: { write: (value) => sink.push(Buffer.from(value)) },
+    stderr: { write: () => {} },
+  });
+  it('redacts and writes back the same encoding', async () => {
+    const dir = await mkdtemp(join(tmpdir(), 'sds-utf16-'));
+    try {
+      for (const big of [false, true]) {
+        const bytes = Buffer.from(text, 'utf16le');
+        const file = join(dir, big ? 'be.log' : 'le.log');
+        await writeFile(file, big ? bytes.swap16() : bytes);
+        const out = [];
+        expect(await runCli(['redact', file, '--native-only'], io(out))).toBe(
+          0
+        );
+        const written = Buffer.concat(out);
+        expect(written.subarray(0, 2)).toEqual(
+          Buffer.from(big ? [0xfe, 0xff] : [0xff, 0xfe])
+        );
+        const decoded = (
+          big ? Buffer.from(written).swap16() : written
+        ).toString('utf16le');
+        expect(decoded).toBe('﻿user log\r\nmail [REDACTED]\r\n');
+      }
+      const out = [];
+      expect(await runCli(['scan', dir, '--native-only'], io(out))).toBe(1);
+      const report = JSON.parse(Buffer.concat(out).toString());
+      expect(report.complete).toBe(true);
+      expect(report.results.map((r) => r.findings[0].type)).toEqual([
+        'EMAIL',
+        'EMAIL',
+      ]);
+      expect((await readFile(join(dir, 'le.log')))[0]).toBe(0xff);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+  it('keeps BOM-less NUL input binary and rejects broken UTF-16', () => {
+    const fail = (bytes) => {
+      try {
+        decodeText(bytes);
+        return 'ok';
+      } catch (error) {
+        return error.code;
+      }
+    };
+    expect(fail(Buffer.from('a\0b'))).toBe('ERR_BINARY');
+    expect(fail(Buffer.from([0xff, 0xfe, 0x00, 0xd8]))).toBe('ERR_ENCODING');
+    expect(fail(Buffer.from([0xff, 0xfe, 0x61, 0x00]))).toBe('ok');
   });
 });
