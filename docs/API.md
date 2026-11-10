@@ -917,6 +917,11 @@ event `{event: 'template-value', rule}` reports each skipped match.
 
 ### Exempting findings with a hook
 
+Contextual credential detection preserves unquoted JavaScript constructor
+assignments such as `const sessionToken = new SessionToken();` without a hook.
+Literal values such as `token=new-secret-0123456789` and `token="new"` are still
+masked. Exact `knownSecrets` remain sensitive even inside constructor expressions.
+
 `exempt(finding, text) => boolean` keeps findings that the caller's own policy
 knows are not sensitive: a configuration flag, a token counter, a version
 range, a value another tool already masked. It runs after detection and before
