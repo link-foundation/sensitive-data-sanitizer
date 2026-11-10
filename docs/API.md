@@ -750,7 +750,10 @@ Cues ignore case and support bounded Russian noun/adjective forms; personal fiel
 use normalized field names. Capitalized proper values are required after prose
 cues. Inputs allow at most 256 nonempty strings of 128 code units per list, with
 no line breaks/NUL. Unknown lists and malformed replacement records fail with
-`ERR_CONFIG`. Compilation uses a bounded 64-configuration cache.
+`ERR_CONFIG`. Compilation uses a bounded 64-configuration cache and a weak
+object-identity cache. Treat a vocabulary object as immutable after first use;
+pass a new object to change its lists. Repeated lookups reuse compiled patterns
+and a cue-word Set without normalizing or serializing the lists again.
 
 `personalAttributes: ['вепс', 'старовер']` adds special-category stems to the
 `strict` rule (it has no effect without `strict: true`). Each word matches as a
@@ -758,6 +761,18 @@ stem followed by up to eight letters, so `вепска` and `старовера�
 words of a multi-word entry may be separated by spaces or tabs. Matches are
 reported as `PERSONAL_ATTRIBUTE` with the `strict-attribute` rule. The default
 list is empty.
+
+Typed special-category attributes take precedence over generic `ProperName`
+guesses, including capitalized caller stems in Cyrillic prose. Strict coverage
+includes the 34 additional nationality, religion, health, criminal-record,
+political and union terms reported in issue 144, even as standalone words.
+
+With default `publicKnowledge`, exact public technology spellings such as Python,
+SQL, PostgreSQL, Docker, Kubernetes, React, AWS and Azure remain readable when
+the capitalized prose detector flags them. The offline catalog includes source
+URLs in `src/public-technologies.js`. `publicKnowledge: false` disables this
+exception; known private values and credentials still redact, and an adjacent
+personal name never inherits a technology's exemption.
 
 ## Callback transformations and stages
 

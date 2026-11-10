@@ -18,6 +18,11 @@ const softNoun = '(?:а|у|ом|е|и|ей|ам|ами|ах)?';
 const ecNoun = '(?:ец|ц(?:а|у|ем|е|ы|ев|ам|ами|ах))';
 const femaleNoun = '(?:а|и|е|у|ой)';
 const nationalities = [
+  `кабардин${ecNoun}|кабардинк${femaleNoun}`,
+  `казашк${femaleNoun}`,
+  `мордвин${hardNoun}|мордовк${femaleNoun}`,
+  `удмурт${hardNoun}|удмуртк${femaleNoun}`,
+  `молдаванин(?:а|у|ом|е)?|молдаван${hardNoun}|молдаванк${femaleNoun}`,
   `узбек${softNoun}|узбечк${femaleNoun}`,
   `таджик${softNoun}|таджичк${femaleNoun}`,
   `(?:киргиз|кыргыз)${hardNoun}|(?:киргиз|кыргыз)к${femaleNoun}`,
@@ -41,6 +46,12 @@ const nationalities = [
   `уйгур${hardNoun}|уйгурк${femaleNoun}`,
 ].join('|');
 const believerNoun = `(?:а|у|ом|е|ы|ов|ам|ами|ах|к${femaleNoun}|кой)?`;
+// These terms are sensitive even without an adjacent personal cue. Keep
+// bounded endings and whole-word boundaries, as for the existing categories.
+const followUpVocabulary = new RegExp(
+  `(?<![\\p{L}\\p{N}_])(?:иудаизм${hardNoun}|старовер${believerNoun}|эпилептик${softNoun}|паралич${softNoun}|наркомани[\\p{L}]{1,4}|профсоюз${hardNoun}|коммунист${believerNoun}|uzbek|tajik|chechen|romani|gypsy|latino|latina|baptist|aids|bipolar|adhd|wheelchair|lgbt|convicted|felony|trade[ \\t]+union)(?![\\p{L}\\p{N}_])`,
+  'giu'
+);
 const specialVocabulary = new RegExp(
   `(?<![\\p{L}\\p{N}_])(?:${nationalities}|(?:протестант|баптист|адвентист|индуист|кришнаит|иеговист|пятидесятник)${believerNoun}|лютеран(?:ин(?:а|у|ом|е)?|к${femaleNoun}|кой|е|ам|ами|ах)|старообряд${ecNoun}|старообрядк${femaleNoun}|свидетел[\\p{L}]{1,3}[ \\t]+иеговы|инсульт[\\p{L}]{0,3}|инфаркт[\\p{L}]{0,3}|шизофрени[\\p{L}]{1,4}|аутизм[\\p{L}]{0,3}|аутист(?:ка|ки|ке|ку|кой|а|у|ом|ы|ов)?|слабослышащ[\\p{L}]{1,4}|слабовидящ[\\p{L}]{1,4}|незряч[\\p{L}]{1,4}|дцп|колясочни(?:к${hardNoun}|ц${femaleNoun})|(?:передвига[\\p{L}]{1,5}|инвалидн[\\p{L}]{2,4})[ \\t]+(?:на[ \\t]+)?коляск[\\p{L}]{1,3}|болезн[\\p{L}]{1,3}[ \\t]+(?:паркинсона|альцгеймера)|деменци[\\p{L}]{1,3}|алкоголизм[\\p{L}]{0,2}|наркозависим[\\p{L}]{0,4}|биполярн[\\p{L}]{2,4}[ \\t]+расстройств[\\p{L}]{0,3}|(?:би|транс|пан|а)сексуал[\\p{L}]{0,6}|трансгендер[\\p{L}]{0,6}|(?:сидел[аи]?|отсидел[аи]?|осужд[её]н[аы]?|привлекал(?:ся|ась|ись)|отбывал[аи]?[ \\t]+срок)[ \\t]+(?:за|по)[ \\t]+(?:краж|грабе|разбо|убийств|мошенничеств|наркотик|хулиганств|изнасиловани|взятк|стать)[\\p{L}]{0,4}(?:[ \\t]+\\d{1,3}(?:\\.\\d)?)?|(?:сидел[аи]?|отсидел[аи]?)[ \\t]+(?:в[ \\t]+)?(?:тюрьм[\\p{L}]{1,2}|колони[\\p{L}]{1,2}|срок)|бывш[\\p{L}]{2,3}[ \\t]+заключ[её]нн[\\p{L}]{2,3}|член[\\p{L}]{0,3}[ \\t]+профсоюз[\\p{L}]{0,3}|состо(?:ит|ял[аи]?|ю|ят)[ \\t]+в[ \\t]+профсоюзе|профсоюзн(?:ый|ая|ого|ой)[ \\t]+(?:активист|деятел|лидер)[\\p{L}]{0,3}|autism|autistic|schizophreni[ac]|transgender|transsexual|pansexual|asexual|wheelchair[ \\t]+users?|uses[ \\t]+a[ \\t]+wheelchair|in[ \\t]+a[ \\t]+wheelchair|(?:hearing|visually)[ \\t-]+impaired|had[ \\t]+a[ \\t]+(?:stroke|heart[ \\t]+attack)|dementia|alzheimer'?s|parkinson'?s|bipolar[ \\t]+disorder|alcoholism|trade[ \\t]+union[ \\t]+member(?:ship)?|member[ \\t]+of[ \\t]+(?:a|the)[ \\t]+(?:trade|labou?r)[ \\t]+union|convicted[ \\t]+(?:of|for)[ \\t]+[\\p{L}]{3,32}|served[ \\t]+(?:time[ \\t]+(?:in|for)|a[ \\t]+(?:prison[ \\t]+)?sentence)|protestant|lutheran|mormon|hindu|sikh|jehovah'?s[ \\t]+witness)(?![\\p{L}\\p{N}_])`,
   'giu'
@@ -49,7 +60,7 @@ const categoryCue =
   /(?<![\p{L}\p{N}_])(?:по[ \t]+(?:национальности|происхождению)|национальность|этничность|вероисповедание|религия|диагноз|исповеду(?:ет|ют|ю|ешь)|боле(?:ет|ют|ю|ешь)|страда(?:ет|ют|ю|ешь)[ \t]+от|на[ \t]+уч[её]те[ \t]+у|diagnosed[ \t]+with|suffers[ \t]+from|nationality|ethnicity|religion|diagnosis)(?:["']?[ \t]*[:=][ \t]*|[ \t]+)["']?([\p{L}][\p{L}\p{M}-]{0,63})(?![\p{L}\p{M}\p{N}_])/giu;
 // Words that are also languages, scripts or styles need a personal context.
 const ambiguous =
-  /(?<![\p{L}\p{N}_])(?:disabled|single|man|men|russian|asian|uzbek|tajik|chechen|azerbaijani|korean|chinese|georgian|kazakh|kyrgyz|turkmen|uyghur|roma|baptist|union[ \t]+member)(?![\p{L}\p{N}_])/giu;
+  /(?<![\p{L}\p{N}_])(?:disabled|single|man|men|russian|asian|azerbaijani|korean|chinese|georgian|kazakh|kyrgyz|turkmen|uyghur|roma|union[ \t]+member)(?![\p{L}\p{N}_])/giu;
 
 function personalContext(text, match) {
   const prefix = text.slice(Math.max(0, match.index - 128), match.index);
@@ -97,6 +108,7 @@ export function detectStrictAttributes(text, emit, options) {
     additionalAttributes,
     categoryForms,
     specialVocabulary,
+    followUpVocabulary,
     compiledVocabulary(options.vocabulary)?.attributes,
   ]) {
     if (pattern) {
