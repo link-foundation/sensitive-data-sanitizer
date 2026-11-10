@@ -607,8 +607,8 @@ Issue 144's 34 reported attribute forms now receive `PERSONAL_ATTRIBUTE` in the
 three reported frames. Exact reviewed public technology names are exempt only
 from generic proper-name guesses; known private values and credentials retain
 precedence, and `publicKnowledge: false` disables these exemptions. Vocabulary
-compilation reuses caller identity/content caches and precompiled cue sets while
-observing caller mutations. Placeholder prechecks conservatively retain custom
+compilation reuses caller identity caches and precompiled cue sets; treat each
+vocabulary object as immutable and pass a new object to change its lists. Placeholder prechecks conservatively retain custom
 formats and escaped tokens, with a linear default counter check.
 
 The [case study](case-studies/issue-146/README.md) records evidence, measurements
