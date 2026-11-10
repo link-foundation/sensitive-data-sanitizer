@@ -236,9 +236,18 @@ export function detectPersonal(text, emit) {
   );
   collectMatches(
     text,
-    /(?<![\p{L}\p{N}])\d{1,6}[A-Za-z]?[ \t]+(?:[\p{Lu}][\p{L}.'-]*[ \t]+){1,5}(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Boulevard|Blvd|Way|Straße|Strasse|Rue|Calle|Rua)\b(?:,[ \t]+(?:(?:[^ \t\r\n<>][^\r\n<>]{0,79}?[ \t]+)?(?:[A-Z]{1,2}\d[A-Z\d]?[ \t]+\d[A-Z]{2}|\d{5}(?:-\d{4})?)\b|(?:[\p{Lu}][\p{Ll}.'-]+[ \t]*){1,4}))?/gu,
+    /(?<![\p{L}\p{N}])\d{1,6}[A-Za-z]?[ \t]+(?:[\p{Lu}][\p{L}.'-]*[ \t]+){1,5}(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Boulevard|Blvd|Way|Terrace|Court|Ct|Place|Pl|Parkway|Pkwy|Circle|Highway|Hwy|Square|Crescent|Close|Straße|Strasse|Rue|Calle|Rua)\b(?:,[ \t]+(?:(?:[^ \t\r\n<>][^\r\n<>]{0,79}?[ \t]+)?(?:[A-Z]{1,2}\d[A-Z\d]?[ \t]+\d[A-Z]{2}|\d{5}(?:-\d{4})?)\b|(?:[\p{Lu}][\p{Ll}.'-]+[ \t]*){1,4}))?/gu,
     emit,
     details('ADDRESS', 'postal-address')
+  );
+  // "Mr. O'Brien", "Dr Jane Smith": a courtesy title is name evidence.
+  collectMatches(
+    text,
+    /(?<![\p{L}\p{N}_])(?:Mr|Mrs|Ms|Mx|Miss|Dr|Prof)\.?[ \t]+(\p{Lu}(?:['’]\p{Lu})?[\p{Ll}\p{M}]+(?:-\p{Lu}[\p{Ll}\p{M}]+)?(?:[ \t]+\p{Lu}(?:['’]\p{Lu})?[\p{Ll}\p{M}]+(?:-\p{Lu}[\p{Ll}\p{M}]+)?)?)(?![\p{L}\p{M}])/gu,
+    emit,
+    details('PERSON', 'honorific-name'),
+    1,
+    (value) => !placeWord.test(value.split(/[ \t]+/).at(-1))
   );
   collectMatches(
     text,

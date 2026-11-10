@@ -274,3 +274,22 @@ export const regionCode = (code) =>
 export const swiftCode = (value) =>
   /^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}(?:[A-Z0-9]{3})?$/.test(value) &&
   regionCode(value.slice(4, 6));
+// ISO 3779 / FMVSS 115 vehicle identification number: position 9 check digit.
+export function vin(value) {
+  const v = value.toUpperCase();
+  if (!/^[A-HJ-NPR-Z\d]{17}$/.test(v) || !/\d/.test(v) || !/[A-Z]/.test(v)) {
+    return false;
+  }
+  const weights = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2];
+  let total = 0;
+  for (let i = 0; i < 17; i++) {
+    const char = v[i];
+    // Transliteration: A-H 1-8, J-N 1-5, P 7, R 9, S-Z 2-9 (I, O, Q unused).
+    const code = /\d/.test(char)
+      ? Number(char)
+      : Number('12345678 12345 7 923456789'[char.charCodeAt(0) - 65]);
+    total += code * weights[i];
+  }
+  const check = total % 11;
+  return (check === 10 ? 'X' : String(check)) === v[8];
+}

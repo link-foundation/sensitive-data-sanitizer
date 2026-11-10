@@ -41,6 +41,8 @@ const contextual = [
   ['IMEI', 'IMEI 490154203237518', '490154203237518'],
   ['SWIFT_CODE', 'SWIFT code DEUTDEFF500', 'DEUTDEFF500'],
   ['SG_UEN', 'UEN 53312345A', '53312345A'],
+  ['VIN', 'VIN 1HGBH41JXMN109186', '1HGBH41JXMN109186'],
+  ['UK_POSTCODE', 'UK postcode SW1A 1AA', 'SW1A 1AA'],
 ];
 
 describe('competitor national and financial identifiers (#128)', () => {
@@ -101,6 +103,25 @@ describe('label words are not names or values (#128)', () => {
   });
 });
 
+describe('names and addresses from competitor examples (#128)', () => {
+  for (const [input, expected] of [
+    ["Contact Mr. O'Brien today", 'Contact Mr. [REDACTED] today'],
+    ['Dr Jane Smith signed', 'Dr [REDACTED] signed'],
+    ['Ms. Smith-Jones called', 'Ms. [REDACTED] called'],
+    [
+      'He lives at 742 Evergreen Terrace, Springfield',
+      'He lives at [REDACTED]',
+    ],
+  ]) {
+    it(`redacts ${input}`, () => {
+      expect(sanitize(input).text).toBe(expected);
+    });
+  }
+  it('keeps a street named after a title', () => {
+    expect(sanitize('see Dr. Strange Road').text).toBe('see Dr. Strange Road');
+  });
+});
+
 describe('identifier validators (#128)', () => {
   for (const [check, valid, invalid] of [
     [checks.abaRouting, '121000358', '121000359'],
@@ -114,6 +135,7 @@ describe('identifier validators (#128)', () => {
     [checks.thaiId, '1101700207030', '1101700207031'],
     [checks.dea, 'BB1388568', 'BB1388569'],
     [checks.swiftCode, 'DEUTDEFF', 'TRANSFER'],
+    [checks.vin, '1HGBH41JXMN109186', '1HGBH41JXMN109187'],
   ]) {
     it(`${check.name} accepts ${valid} and rejects ${invalid}`, () => {
       expect(check(valid)).toBe(true);

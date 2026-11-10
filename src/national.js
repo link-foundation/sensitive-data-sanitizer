@@ -208,6 +208,19 @@ export const nationalRules = [
     valid: checks.swiftCode,
   },
   {
+    type: 'VIN',
+    pattern: /[A-HJ-NPR-Z\d]{17}/g,
+    context: /\bVIN\b|vehicle identification|chassis/iu,
+    checksum: checks.vin,
+    valid: (v) => /\d/.test(v) && /[A-Z]/.test(v),
+  },
+  {
+    type: 'UK_POSTCODE',
+    pattern: /[A-Z]{1,2}\d[A-Z\d]? ?\d[ABD-HJLNP-UW-Z]{2}/g,
+    context: /\bpost ?code\b|\bpostal code\b/iu,
+    checksum: never,
+  },
+  {
     type: 'SG_UEN',
     pattern: /\d{8}[A-Z]|(?:19|20)\d{7}[A-Z]|[TSR]\d{2}[A-Z]{2}\d{4}[A-Z]/g,
     context: /\bUEN\b|unique entity number/iu,
