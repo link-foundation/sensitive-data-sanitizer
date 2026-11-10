@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.21.2
+
+### Patch Changes
+
+- b5bc2e1: Preserve prose after an existing credential mask on repeated plaintext and encoded sanitization passes, while continuing to detect later credentials and exact known secrets.
+
 ## 0.21.1
 
 ### Patch Changes
