@@ -961,22 +961,26 @@ export async function redactResultAsync(
         }
         continue;
       }
-      if (!run) {
-        if (options.preserveEncoding) {
-          throw failure('ERR_ENCODING');
-        }
-        continue;
-      }
-      if (!options.preserveEncoding && run.encoding !== 'json-content') {
+      if (
+        !run ||
+        (!options.preserveEncoding && run.encoding !== 'json-content')
+      ) {
         continue;
       }
       const result = await sanitizeDecoded(
         run.text,
         nestedPlaceholderOptions(confirmationOptions(text, findings, options))
       );
+      // Without a recognizable re-encoding, the encoded text itself is masked.
       replacements.set(
         `${span.start}:${span.end}`,
-        encodeRun(run, result.text === run.text ? REDACTED : result.text)
+        encodeRun(run, result.text === run.text ? REDACTED : result.text) ??
+          renderReplacement(
+            text,
+            span,
+            { ...options, preserveEncoding: false },
+            () => ({ text: REDACTED })
+          )
       );
     }
   }

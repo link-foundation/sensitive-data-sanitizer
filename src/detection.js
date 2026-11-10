@@ -5,6 +5,7 @@ import {
   uatpCard,
 } from './confidence.js';
 import { isIP } from 'node:net';
+import { Buffer } from 'node:buffer';
 import { serviceRules } from './rules.js';
 import { detectContext, valueRange, authorizationRanges } from './context.js';
 import { detectGitleaks } from './gitleaks.js';
@@ -50,6 +51,30 @@ export function personalPattern(value) {
     .map(escapePattern)
     .join('[ \\t_-]+');
 }
+// Hex and base64 spellings of a known secret, at any length. The generic
+// decoders need 16 or more encoded characters, so they cannot see short ones.
+const encodedForms = new Map();
+function knownEncodedForms(value) {
+  let pattern = encodedForms.get(value);
+  if (!pattern) {
+    const bytes = Buffer.from(value, 'utf8');
+    const hex = bytes.toString('hex');
+    const base64 = bytes.toString('base64').replace(/=+$/, '');
+    const url = bytes.toString('base64url');
+    const alternatives = [...new Set([hex, hex.toUpperCase()])].join('|');
+    const base64Forms = [...new Set([base64, url])].map(escapePattern);
+    pattern = new RegExp(
+      `(?<![\\da-fA-F])(?:${alternatives})(?![\\da-fA-F])|(?<![\\w+/-])(?:${base64Forms.join('|')})(?:={0,2}(?![\\w+/=-]))`,
+      'g'
+    );
+    if (encodedForms.size > 1024) {
+      encodedForms.clear();
+    }
+    encodedForms.set(value, pattern);
+  }
+  return pattern;
+}
+
 export function escapePattern(text) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -153,6 +178,10 @@ function detectNative(text, options, emit) {
   const credential = { type: 'SECRET', category: 'credential' };
   for (const value of options.knownSecrets ?? []) {
     collectMatches(text, new RegExp(escapePattern(value), 'g'), emit, {
+      ...credential,
+      rule: 'known-secret',
+    });
+    collectMatches(text, knownEncodedForms(value), emit, {
       ...credential,
       rule: 'known-secret',
     });

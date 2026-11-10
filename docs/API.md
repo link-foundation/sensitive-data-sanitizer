@@ -194,7 +194,7 @@ new document recognizers; `documentEntities: false` turns them off explicitly.
 | `scripts`                | `['Cyrillic']`; Unicode Script aliases that activate the prose rule; `[]` disables only script activation                                                        |
 | `profile`                | Off; `'publication'` sets a 0.3 threshold and identity masking; `'documents'` enables document entities                                                          |
 | `knownOnly`              | `false`; disable all automatic detection (including credentials, Secretlint and custom detectors); use explicit findings, known values and reused map identities |
-| `knownSecrets`           | `[]`; exact literal credential values, regardless of length or format                                                                                            |
+| `knownSecrets`           | `[]`; exact literal credential values, regardless of length or format, plus their standalone hex (either case) and base64/base64url spellings                    |
 | `knownPersonal`          | `[]`; `{type, value}` values with whole-word Unicode case-insensitive matching and bounded Russian forms; list parts to match them alone                         |
 | `publicEntities`         | `[]`; exact PERSON/ORGANIZATION/EDUCATION/LOCATION/EMAIL exception with HTTPS evidence and review date                                                           |
 | `findings`               | `[]`; validated detections for the original input, supplied by the caller                                                                                        |
@@ -285,7 +285,7 @@ Generated replacements carry `faked: true`. A private bounded registry recognize
 
 Faking is pseudonymisation: a private key and retained ages, relations and structure can permit linking. Keep the key out of published data. See [the realistic fake example](../examples/realistic-fakes.mjs) and [the complete requirement/research record](case-studies/issue-24/REQUIREMENTS.md).
 
-`preserveEncoding: true` sanitizes decoded payloads with the same required engine union, re-encodes them and verifies decoding reproduces the sanitized content. Supported formats include base64/base64url, hex, percent, numeric HTML and UTF-8 byte escapes. Escaped JSON string content is sanitized and re-encoded even under default redaction so nested session JSON stays parseable. Malformed or unsupported encodings block opted-in preservation. Known encoding candidates and nesting are bounded.
+`preserveEncoding: true` sanitizes decoded payloads with the same required engine union, re-encodes them and verifies decoding reproduces the sanitized content. Supported formats include base64/base64url, hex, percent, numeric HTML and UTF-8 byte escapes. Escaped JSON string content is sanitized and re-encoded even under default redaction so nested session JSON stays parseable. Wrapped base64 and hex keep their line width and line separator (`\n` or `\r\n`), and a wrapped run is reported as one finding. When the sanitized payload cannot be re-encoded in a form the decoder recognizes (for example hex shorter than 32 digits), the encoded text is masked as it stands rather than blocking the input. Known encoding candidates and nesting are bounded.
 
 ## Identity policy and structured sessions
 
@@ -333,9 +333,15 @@ status identifiers. Explicit `knownPersonal` values override these heuristics.
 
 Oversized encoded runs receive a conservative complete-run `ENCODED_LIMIT`
 redaction rather than aborting the record. Decoding probes are capped at 4,096
-characters; full decoding stays capped at 8,192 characters. Whole-input,
-candidate-count, record and worker limits still apply. This fallback can remove
-large non-sensitive encoded outputs; its finding makes that decision auditable.
+characters; full decoding stays capped at 8,192 characters. A multi-line run is
+treated as one wrapped payload only when its probe decodes as text or its lines
+share one base64 width (a multiple of four, standard alphabet, not plain hex);
+lists of identifiers or commit hashes are scanned line by line. Up to 4,096
+textually decodable candidates are scanned per 64 KiB window of the input;
+further candidates in a denser window receive `ENCODED_LIMIT` redactions rather
+than an `ERR_LIMIT` for the whole text. Whole-input, record and worker limits
+still apply. This fallback can remove large non-sensitive encoded outputs; its
+finding makes that decision auditable.
 
 ## Streaming and worker publication
 

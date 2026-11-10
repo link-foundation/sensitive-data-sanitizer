@@ -17,7 +17,8 @@ describe('session and phone regressions (#9, #12)', () => {
     JSON.stringify({
       url: `https://example.org/search?q=${'word%20'.repeat(2000)}`,
     }),
-    'A'.repeat(100) + `\n${'B'.repeat(100)}`.repeat(120),
+    // Wrapped binary base64; lines of plain hex digits are hashes (#139).
+    'Ab+/'.repeat(25) + `\n${'Cd/+'.repeat(25)}`.repeat(120),
   ]) {
     it('audits oversized encoded runs without blocking the whole input', async () => {
       const result = await createSanitizer().sanitize(text);

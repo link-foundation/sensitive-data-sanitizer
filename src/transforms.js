@@ -300,11 +300,15 @@ export function renderReplacement(
       const sanitized = encodedSanitize(run.text).text;
       // Mapped escaped fragments can lose their detecting context on decode.
       // Redact the fragment if recursive scanning makes no progress.
-      return encodeRun(run, sanitized === run.text ? REDACTED : sanitized);
+      const encoded = encodeRun(
+        run,
+        sanitized === run.text ? REDACTED : sanitized
+      );
+      if (encoded !== undefined) {
+        return encoded;
+      }
     }
-    if (options.preserveEncoding) {
-      throw failure('ERR_ENCODING');
-    }
+    // Without a recognizable re-encoding, the encoded text itself is masked.
   }
   return renderValue(text, finding, transform, options, jsonRanges);
 }

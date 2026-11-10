@@ -1,64 +1,97 @@
 import { TextDecoder } from 'node:util';
 import { Buffer } from 'node:buffer';
-import { failure } from './detection.js';
 import { jsonStringRuns } from './json-string-runs.js';
+
+// Decoded candidates are re-scanned by every detector, so their number is
+// bounded per window of the input; a denser window falls back to masking the
+// remaining candidates as `encoded-limit` runs, without blocking the text.
+const WINDOW = 65536;
+const WINDOW_CANDIDATES = 4096;
+
+const WRAPPED =
+  /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{16,128}(?:\r?\n[A-Za-z0-9_+/-]{1,128})+={0,2}(?![A-Za-z0-9_+/-])/g;
 
 export function* decodedRuns(text, depth = 0) {
   if (depth >= 2) {
     return;
   }
+  // Wrapped runs come first: a line inside a decoded wrapped run is covered
+  // by the run's own finding and is not decoded again.
   const patterns = [
+    WRAPPED,
     /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{16}[A-Za-z0-9_+/-]*={0,2}(?![A-Za-z0-9_+/-])/g,
     /(?:[^\s"'<>?=&:/]{0,128}%[\da-fA-F]{2})+(?:[^\s"'<>?=&:/]{0,128})/g,
-    /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{16,128}(?:\r?\n[A-Za-z0-9_+/-]{1,128})+={0,2}(?![A-Za-z0-9_+/-])/g,
     /(?:&#(?:x[\da-fA-F]{1,6}|\d{1,7});|&(?:amp|lt|gt|quot|apos|nbsp);){2,2048}/g,
     /(?:\\x[\da-fA-F]{2}){2,2048}/g,
     undefined, // JSON candidates use a linear scanner below.
   ];
-  const seen = new Set();
-  let count = 0;
+  const scan = { depth, seen: new Set(), counts: new Map(), covered: [] };
   for (const [index, pattern] of patterns.entries()) {
-    const marker = ['', '%', '\n', '&', '\\x', '"'][index];
+    const marker = ['\n', '', '%', '&', '\\x', '"'][index];
     if (marker && !text.includes(marker)) {
       continue;
     }
+    const inWrappedRun = coverage(scan.covered);
     for (const match of candidateMatches(text, pattern)) {
-      const raw = match[0];
-      if (raw.length > 8192) {
-        if (isLimitedTextRun(raw)) {
-          yield {
-            start: match.index,
-            end: match.index + raw.length,
-            limited: true,
-            depth,
-          };
-        }
-        continue;
+      if (index !== 1 || !inWrappedRun(match.index)) {
+        yield* matchRuns(match, index === 0, scan);
       }
-      const candidates = decodeCandidates(raw);
-      for (const candidate of candidates) {
-        const { text: decoded, encoding } = candidate;
-        const key = `${match.index}:${raw.length}:${decoded}`;
-        if (seen.has(key) || !decodedText(raw, decoded)) {
-          continue;
-        }
-        seen.add(key);
-        if (++count > 4096) {
-          throw failure('ERR_LIMIT');
-        }
-        const inset = encoding === 'json-content' ? 1 : 0;
-        const run = {
-          start: match.index + inset,
-          end: match.index + raw.length - inset,
-          text: decoded,
-          encoding,
-          depth,
-        };
-        yield run;
-        for (const inner of decodedRuns(decoded, depth + 1)) {
-          yield { ...run, text: inner.text, depth: inner.depth };
-        }
-      }
+    }
+  }
+}
+
+// Tests ascending offsets against the sorted, disjoint wrapped runs.
+function coverage(covered) {
+  let cursor = 0;
+  return (start) => {
+    while (cursor < covered.length && covered[cursor].end <= start) {
+      cursor++;
+    }
+    return cursor < covered.length && covered[cursor].start <= start;
+  };
+}
+
+function* matchRuns(match, wrapped, scan) {
+  const raw = match[0];
+  const start = match.index;
+  const end = start + raw.length;
+  const limited = { start, end, limited: true, depth: scan.depth };
+  if (raw.length > 8192) {
+    if (isLimitedTextRun(raw, wrapped)) {
+      scan.covered.push(limited);
+      yield limited;
+    }
+    return;
+  }
+  const window = Math.floor(start / WINDOW);
+  for (const candidate of decodeCandidates(raw)) {
+    const { text: decoded, encoding } = candidate;
+    const key = `${start}:${raw.length}:${decoded}`;
+    if (scan.seen.has(key) || !decodedText(raw, decoded)) {
+      continue;
+    }
+    scan.seen.add(key);
+    const count = (scan.counts.get(window) ?? 0) + 1;
+    scan.counts.set(window, count);
+    if (count > WINDOW_CANDIDATES) {
+      yield limited;
+      return;
+    }
+    if (wrapped && scan.covered.at(-1)?.start !== start) {
+      scan.covered.push({ start, end });
+    }
+    const inset = encoding === 'json-content' ? 1 : 0;
+    const run = {
+      start: start + inset,
+      end: end - inset,
+      text: decoded,
+      encoding,
+      depth: scan.depth,
+      ...(candidate.layout && { layout: candidate.layout }),
+    };
+    yield run;
+    for (const inner of decodedRuns(decoded, scan.depth + 1)) {
+      yield { ...run, text: inner.text, depth: inner.depth };
     }
   }
 }
@@ -76,18 +109,51 @@ function decodedText(raw, decoded) {
   );
 }
 
-function isLimitedTextRun(raw) {
+function isLimitedTextRun(raw, wrapped) {
   // Bare opaque identifiers may share the base64 alphabet. Require a
-  // textual decode, or an explicit percent/wrapped encoding boundary.
-  const probe = decodeCandidates(raw.slice(0, 4096), true);
+  // textual decode, an explicit percent encoding, or the uniform layout of
+  // wrapped base64 (`base64 -w`, PEM bodies). Lists of identifiers or commit
+  // hashes are ordinary lines and are scanned one by one.
+  if (raw.includes('%')) {
+    return true;
+  }
+  const head = wrapped
+    ? raw.slice(0, 8192).replace(/\s/g, '').slice(0, 4096)
+    : raw.slice(0, 4096);
+  const probe = decodeCandidates(head, true);
   return (
-    raw.includes('%') ||
-    raw.includes('\n') ||
     probe.some(
       // eslint-disable-next-line no-control-regex -- Exclude binary controls from the bounded UTF-8 text probe.
       (c) => c.text && !/[\x00-\x08\x0e-\x1f\x7f]/.test(c.text)
+    ) ||
+    (wrapped && isWrappedBinary(raw))
+  );
+}
+
+// Wrapped binary base64 uses the standard alphabet, lines of one width that
+// is a multiple of four and is not plain hexadecimal.
+function isWrappedBinary(raw) {
+  const lines = raw.replace(/=+$/, '').split(/\r?\n/);
+  const width = lines[0].length;
+  return (
+    width % 4 === 0 &&
+    !/[-_]/.test(raw) &&
+    !/^[\da-fA-F\s]+$/.test(raw) &&
+    lines.every((line, i) =>
+      i === lines.length - 1 ? line.length <= width : line.length === width
     )
   );
+}
+
+// Line width and separator of a wrapped run, re-applied when re-encoding.
+function wrapLayout(raw) {
+  if (!raw.includes('\n')) {
+    return undefined;
+  }
+  return {
+    width: raw.split(/\r?\n/, 1)[0].length,
+    newline: raw.includes('\r\n') ? '\r\n' : '\n',
+  };
 }
 
 function decodeCandidates(raw, partial) {
@@ -153,8 +219,7 @@ function decodeCandidates(raw, partial) {
           text: new TextDecoder('utf-8', { fatal: true }).decode(bytes, {
             stream: partial,
           }),
-          wrapped: raw.includes('\n'),
-          padded: raw.endsWith('='),
+          layout: wrapLayout(raw),
         });
       } catch {
         /* Binary content. */
@@ -167,6 +232,7 @@ function decodeCandidates(raw, partial) {
           text: new TextDecoder('utf-8', { fatal: true }).decode(
             Buffer.from(compact, 'hex')
           ),
+          layout: wrapLayout(raw),
         });
       } catch {
         /* Binary content. */
@@ -198,16 +264,30 @@ export function encodeRun(run, text) {
         : `&#${c.codePointAt(0)};`
     ).join('');
   } else {
-    encoded = bytes.toString(run.encoding);
+    encoded = wrap(bytes.toString(run.encoding), run.layout);
   }
   const decoded =
     run.encoding === 'json-content'
       ? { text: JSON.parse(`"${encoded}"`) }
       : decodeCandidates(encoded).find((c) => c.encoding === run.encoding);
-  if (!decoded || decoded.text !== text) {
-    throw failure('ERR_ENCODING');
+  // A short payload may re-encode below the length a decoder recognizes
+  // (hex needs 32 digits); callers then mask the encoded text as it stands.
+  return decoded?.text === text ? encoded : undefined;
+}
+
+function wrap(encoded, layout) {
+  if (!layout?.width || encoded.length <= layout.width) {
+    return encoded;
   }
-  return encoded;
+  const lines = [];
+  for (let i = 0; i < encoded.length; i += layout.width) {
+    lines.push(encoded.slice(i, i + layout.width));
+  }
+  // Padding never starts a line of its own.
+  if (/^=+$/.test(lines.at(-1)) && lines.length > 1) {
+    lines[lines.length - 2] += lines.pop();
+  }
+  return lines.join(layout.newline);
 }
 
 export function encodedValue(raw) {
