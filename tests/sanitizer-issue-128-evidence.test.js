@@ -1,3 +1,4 @@
+import { performance } from 'node:perf_hooks';
 import { describe, it, expect } from 'test-anywhere';
 import { sanitize, inspect, redact, builtInRules } from '../src/index.js';
 import * as checks from '../src/national-checks.js';
@@ -294,4 +295,16 @@ describe('rule ids for competitor evidence (#128)', () => {
         .text
     ).toBe('My name is Bond.');
   });
+});
+
+describe('evidence labels before long tab runs (#128)', () => {
+  // CodeQL js/polynomial-redos: `[ \t]*X?[ \t]*` was quadratic in the tab run
+  // (about 7 s for 60 000 tabs after SSN); the rewritten form is linear.
+  for (const label of ['P.O. Box', 'card no.', 'SSN', 'ZIP code']) {
+    it(`scans ${label} followed by 60 000 tabs in linear time`, () => {
+      const start = performance.now();
+      sanitize(`${label}${'\t'.repeat(60000)}x`);
+      expect(performance.now() - start).toBeLessThan(3000);
+    });
+  }
 });

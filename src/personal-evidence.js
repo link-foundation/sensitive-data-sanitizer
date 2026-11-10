@@ -106,7 +106,7 @@ function detectContactForms(text, emit) {
   );
   collectMatches(
     text,
-    /(?<![\p{L}\p{N}_])(?:P\.?[ \t]?O\.?[ \t]?Box|Post[ \t]+Office[ \t]+Box|Postfach|Apartado(?:[ \t]+de[ \t]+correos)?|Caixa[ \t]+Postal|Boîte[ \t]+postale|а\/я|абонентский[ \t]+ящик)[ \t]*#?[ \t]*\d{1,10}(?!\p{N})/giu,
+    /(?<![\p{L}\p{N}_])(?:P\.?[ \t]?O\.?[ \t]?Box|Post[ \t]+Office[ \t]+Box|Postfach|Apartado(?:[ \t]+de[ \t]+correos)?|Caixa[ \t]+Postal|Boîte[ \t]+postale|а\/я|абонентский[ \t]+ящик)[ \t]*(?:#[ \t]*)?\d{1,10}(?!\p{N})/giu,
     emit,
     personal('ADDRESS', 'po-box')
   );
@@ -170,7 +170,7 @@ function detectCredentialPairs(text, emit) {
 function detectLabelledCards(text, emit) {
   collectMatches(
     text,
-    /(?<![\p{L}\p{N}_])(?:card|visa|mastercard|amex|discover|diners|jcb|unionpay|maestro|карта)(?:[ \t]+(?:no\.?|number|num|#))?[ \t]*[:#]?[ \t]*((?:\d[ -]?){12,18}\d)(?![\p{N}]|[ -]\d)/giu,
+    /(?<![\p{L}\p{N}_])(?:card|visa|mastercard|amex|discover|diners|jcb|unionpay|maestro|карта)(?:[ \t]+(?:no\.?|number|num|#))?[ \t]*(?:[:#][ \t]*)?((?:\d[ -]?){12,18}\d)(?![\p{N}]|[ -]\d)/giu,
     emit,
     personal('CREDIT_CARD', 'card-context', 0.9),
     1
@@ -182,7 +182,7 @@ function detectLabelledCards(text, emit) {
 function detectLabelledSsn(text, emit) {
   collectMatches(
     text,
-    /(?<![\p{L}\p{N}_])(?:SSN|SS#|social[ \t]+security(?:[ \t]+(?:number|no\.?|#))?)[ \t]*(?:[:#]|is)?[ \t]*(\d{3}[ .-]?\d{2}[ .-]?\d{4})(?![\p{N}]|[ .-]\d)/giu,
+    /(?<![\p{L}\p{N}_])(?:SSN|SS#|social[ \t]+security(?:[ \t]+(?:number|no\.?|#))?)[ \t]*(?:(?:[:#]|is)[ \t]*)?(\d{3}[ .-]?\d{2}[ .-]?\d{4})(?![\p{N}]|[ .-]\d)/giu,
     emit,
     personal('SSN', 'ssn-label', 0.9),
     1,
@@ -195,7 +195,7 @@ const states =
 function detectPostalCodes(text, emit) {
   // "ZIP 94105", "ZIPs 10001 and 30301", "zip code: 94105-1234".
   for (const label of text.matchAll(
-    /(?<![\p{L}\p{N}_])(?:ZIP(?:[ \t]?codes?)?s?|postal[ \t]+codes?|PLZ|CEP)[ \t]*[:#]?[ \t]*/giu
+    /(?<![\p{L}\p{N}_])(?:ZIP(?:[ \t]?codes?)?s?|postal[ \t]+codes?|PLZ|CEP)[ \t]*(?:[:#][ \t]*)?/giu
   )) {
     const start = label.index + label[0].length;
     const list =
