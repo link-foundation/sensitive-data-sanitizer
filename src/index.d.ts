@@ -392,6 +392,32 @@ export declare const entityCatalogs: Record<
   'google' | 'azure' | 'aws',
   { source: string; sha256: string; names: string[] }
 >;
+/** Built-in identifier rule; `context` is tested near each `pattern` match. */
+export interface IdentifierRule {
+  type: string;
+  /** Global regular expression for candidate values. */
+  pattern: RegExp;
+  /** Non-global label/context expression, 64 characters before to 32 after. */
+  context: RegExp;
+  /** Checksum or issuing-format check that raises confidence. */
+  checksum: (value: string) => boolean;
+  /** Distinctive shape that is reported without context. */
+  plausible?: (value: string) => boolean;
+  /** Mandatory gate; candidates failing it are never reported. */
+  valid?: (value: string) => boolean;
+}
+export declare const nationalRules: readonly IdentifierRule[];
+/** Format and checksum validators; they never prove issuance. */
+export declare const identifierChecks: Readonly<
+  Record<string, (value: string, ...args: number[]) => boolean>
+> & {
+  digitsOf(value: string): string;
+};
+/** Wrap identifier rules as a Detector for `detectors` options. */
+export declare function createIdentifierDetector(
+  rules: readonly IdentifierRule[],
+  options?: { id?: string }
+): Detector;
 export declare function createWikidataVerifier(options?: {
   fetch?: typeof fetch;
   language?: string;

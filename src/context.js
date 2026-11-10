@@ -417,12 +417,19 @@ const personalPrefixes = Object.entries(labels)
     ];
   });
 
+// "passport number is 912803456": the number word and a following linking
+// verb belong to the label, never to the identity value.
+const identitySuffix = new RegExp(
+  `^(?:(?:number|no\\.?|номер)[ \\t]*(?:[:=：]|(?:${verbs})(?![\\p{L}\\p{N}_]))?[ \\t]*|[№#][ \\t]*)`,
+  'iu'
+);
+
 function detectPersonalLabels(text, emit) {
   for (const [type, prefix] of personalPrefixes) {
     for (const match of text.matchAll(prefix)) {
       const identity = type === 'ID';
       const suffix = identity
-        ? (/^(?:(?:number|no\.?|номер)[ \t]*[:=：]?[ \t]*|[№#][ \t]*)/iu.exec(
+        ? (identitySuffix.exec(
             text.slice(match.index + match[0].length)
           )?.[0] ?? '')
         : '';

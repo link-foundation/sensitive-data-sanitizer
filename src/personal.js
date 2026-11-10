@@ -180,6 +180,16 @@ function detectDocumentNames(text, emit) {
 }
 const russianFull =
   /(?<![\p{L}])(?:[А-ЯЁ][а-яё]{2,30}[ \t]+){2}[А-ЯЁ][а-яё]{2,30}(?:вич|вна|ична)|(?<![\p{L}])(?:[А-ЯЁ][а-яё]{2,30}[ \t]+){2}(?:оглы|кызы)(?![\p{L}])/gu;
+// "My ITIN", "Our BIN": a possessive word or a short all-capital acronym
+// matches the Slavic surname shape but carries no name evidence.
+const possessiveWord =
+  /^(?:my|our|your|his|her|their|its|the|this|that|мой|моя|наш|наша|ваш|ваша)$/iu;
+function slavicPairEvidence(value) {
+  const words = value.split(/[ \t]+/);
+  return !words.some(
+    (word) => possessiveWord.test(word) || /^\p{Lu}{2,4}$/u.test(word)
+  );
+}
 export function detectPersonal(text, emit) {
   detectDocumentNames(text, emit);
   for (const pattern of [
@@ -194,7 +204,9 @@ export function detectPersonal(text, emit) {
       emit,
       details('PERSON', 'name-identity', 0.9),
       0,
-      (value) => !placeWord.test(value.split(/[ \t]+/).at(-1))
+      (value) =>
+        !placeWord.test(value.split(/[ \t]+/).at(-1)) &&
+        (pattern !== slavicPairs || slavicPairEvidence(value))
     );
   }
   for (const pattern of names) {

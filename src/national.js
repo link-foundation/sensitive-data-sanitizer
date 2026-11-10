@@ -1,69 +1,218 @@
 import { numericNoise, epochNumber } from './confidence.js';
-import {
-  digitsOf,
-  datePart,
-  nhs,
-  snils,
-  inn,
-  pesel,
-  rrn,
-  tfn,
-  nric,
-  fiscalCode,
-  personnummer,
-  southAfricanId,
-  shortLuhn,
-} from './national-checks.js';
+import * as checks from './national-checks.js';
 
-const rules = [
-  [
-    'UK_NHS',
-    /\d{3}[ -]?\d{3}[ -]?\d{4}/g,
-    /\b(?:NHS|patient|healthcare|provider)\b/i,
-    nhs,
-  ],
-  [
-    'KR_RRN',
-    /\d{6}[ -]?[1-8]\d{6}/g,
-    /\bRRN\b|주민등록/iu,
-    rrn,
-    (v) => datePart(digitsOf(v)),
-  ],
-  [
-    'IT_FISCAL_CODE',
-    /[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]/g,
-    /\bCF\b|codice fiscale/iu,
-    fiscalCode,
-    () => true,
-  ],
-  ['SG_NRIC_FIN', /[STFGM]\d{7}[A-Z]/g, /\b(?:NRIC|FIN)\b/iu, nric, () => true],
-  ['PL_PESEL', /\d{11}/g, /\bPESEL\b/iu, pesel],
-  [
-    'SE_PERSONNUMMER',
-    /(?:\d{2})?\d{6}[-+]\d{4}/g,
-    /personnummer/iu,
-    personnummer,
-  ],
-  [
-    'ZA_ID_NUMBER',
-    /\d{10}[0-2][89]\d/g,
-    /\b(?:SA ID|RSA ID)\b|south african id/iu,
-    southAfricanId,
-  ],
-  ['AU_TFN', /\d{3}[ -]?\d{3}[ -]?\d{3}/g, /\bTFN\b|tax file number/iu, tfn],
-  [
-    'CA_SIN',
-    /\d{3}[ -]?\d{3}[ -]?\d{3}/g,
-    /\bSIN\b|social insurance/iu,
-    shortLuhn,
-  ],
-  [
-    'RU_SNILS',
-    /\d{3}[- ]\d{3}[- ]\d{3}[ -]\d{2}|\d{11}/g,
-    /\bSNILS\b|снилс|пенсионное|страховое свидетельство|страховой номер/iu,
-    snils,
-  ],
-  ['RU_INN', /\d{12}|\d{10}/g, /\bINN\b|инн/iu, inn],
+const never = () => false;
+const always = () => true;
+// Each rule is data: `context` near the value, a `checksum` and a distinctive
+// `plausible` shape raise confidence; `valid` (when present) must always hold.
+// Callers may reuse or extend this list through `nationalRules`.
+export const nationalRules = [
+  {
+    type: 'UK_NHS',
+    pattern: /\d{3}[ -]?\d{3}[ -]?\d{4}/g,
+    context: /\b(?:NHS|patient|healthcare|provider)\b/i,
+    checksum: checks.nhs,
+  },
+  {
+    type: 'KR_RRN',
+    pattern: /\d{6}[ -]?[1-8]\d{6}/g,
+    context: /\bRRN\b|주민등록/iu,
+    checksum: checks.rrn,
+    plausible: (v) => checks.datePart(checks.digitsOf(v)),
+  },
+  {
+    type: 'IT_FISCAL_CODE',
+    pattern:
+      /[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]/g,
+    context: /\bCF\b|codice fiscale/iu,
+    checksum: checks.fiscalCode,
+    plausible: always,
+  },
+  {
+    type: 'SG_NRIC_FIN',
+    pattern: /[STFGM]\d{7}[A-Z]/g,
+    context: /\b(?:NRIC|FIN)\b/iu,
+    checksum: checks.nric,
+    plausible: always,
+  },
+  {
+    type: 'PL_PESEL',
+    pattern: /\d{11}/g,
+    context: /\bPESEL\b/iu,
+    checksum: checks.pesel,
+  },
+  {
+    type: 'SE_PERSONNUMMER',
+    pattern: /(?:\d{2})?\d{6}[-+]\d{4}/g,
+    context: /personnummer/iu,
+    checksum: checks.personnummer,
+  },
+  {
+    type: 'ZA_ID_NUMBER',
+    pattern: /\d{10}[0-2][89]\d/g,
+    context: /\b(?:SA ID|RSA ID)\b|south african id/iu,
+    checksum: checks.southAfricanId,
+  },
+  {
+    type: 'AU_TFN',
+    pattern: /\d{3}[ -]?\d{3}[ -]?\d{3}/g,
+    context: /\bTFN\b|tax file number/iu,
+    checksum: checks.tfn,
+  },
+  {
+    type: 'CA_SIN',
+    pattern: /\d{3}[ -]?\d{3}[ -]?\d{3}/g,
+    context: /\bSIN\b|social insurance/iu,
+    checksum: checks.shortLuhn,
+  },
+  {
+    type: 'RU_SNILS',
+    pattern: /\d{3}[- ]\d{3}[- ]\d{3}[ -]\d{2}|\d{11}/g,
+    context:
+      /\bSNILS\b|снилс|пенсионное|страховое свидетельство|страховой номер/iu,
+    checksum: checks.snils,
+  },
+  {
+    type: 'RU_INN',
+    pattern: /\d{12}|\d{10}/g,
+    context: /\bINN\b|инн/iu,
+    checksum: checks.inn,
+  },
+  {
+    type: 'US_ITIN',
+    pattern: /9\d{2}([- ]?)(?:5\d|6[0-5]|7\d|8[0-8]|9[0-2]|9[4-9])\1\d{4}/g,
+    context: /\bITIN\b|taxpayer identification/iu,
+    checksum: never,
+    plausible: (v) => /^\d{3}-\d{2}-\d{4}$/.test(v),
+  },
+  {
+    type: 'ABA_ROUTING_NUMBER',
+    pattern: /\d{4}-?\d{4}-?\d/g,
+    context: /\b(?:routing|ABA|RTN|transit)\b/iu,
+    checksum: checks.abaRouting,
+    valid: checks.abaRouting,
+  },
+  {
+    type: 'US_BANK_NUMBER',
+    pattern: /\d{8,17}/g,
+    context:
+      /\bbank\s+account\b|\b(?:account|acct)\.?\s*(?:number|num|no\.?|#)|\b(?:checking|savings)\s+account\b/iu,
+    checksum: never,
+  },
+  {
+    type: 'US_DRIVER_LICENSE',
+    pattern: /[A-Z]{1,2}\d{4,14}|\d{7,14}/g,
+    context: /\bdriver'?s?[ -]licen[cs]e\b|\bDLN?\b|\bD\.L\.(?=\s|$)/iu,
+    checksum: never,
+  },
+  {
+    type: 'UK_DRIVING_LICENCE',
+    pattern: /[A-Z9]{5}\d[0156]\d{4}[A-Z9]{2}\d[A-Z]{2}/g,
+    context: /\bdriv(?:ing|er'?s?)[ -]licen[cs]e\b|\bDVLA\b/iu,
+    checksum: never,
+    plausible: always,
+  },
+  {
+    type: 'UK_NATIONAL_INSURANCE_NUMBER',
+    pattern: /[A-Z]{2} ?\d{2} ?\d{2} ?\d{2} ?[A-D]/g,
+    context: /\bNINO\b|national insurance|\bNI (?:number|no\b)/iu,
+    checksum: never,
+  },
+  {
+    type: 'ES_NIE',
+    pattern: /[XYZ]-?\d{7}-?[A-Z]/g,
+    context: /\bNIE\b|extranjero/iu,
+    checksum: (v) => checks.spanishNie(v.replace(/-/g, '')),
+    plausible: always,
+  },
+  {
+    type: 'IT_VAT_CODE',
+    pattern: /\d{11}/g,
+    context: /partita\s+iva|\bP\.?\s?IVA\b|\bVAT\b/iu,
+    checksum: checks.shortLuhn,
+  },
+  {
+    type: 'AU_ABN',
+    pattern: /\d{2} ?\d{3} ?\d{3} ?\d{3}/g,
+    context: /\bABN\b|australian business number/iu,
+    checksum: checks.abn,
+    plausible: (v) => /^\d{2} \d{3} \d{3} \d{3}$/.test(v),
+  },
+  {
+    type: 'AU_ACN',
+    pattern: /\d{3} ?\d{3} ?\d{3}/g,
+    context: /\bACN\b|australian company number/iu,
+    checksum: checks.acn,
+  },
+  {
+    type: 'AU_MEDICARE',
+    pattern: /[2-6]\d{3} ?\d{5} ?\d(?:[ -/]?\d)?/g,
+    context: /\bmedicare\b/iu,
+    checksum: checks.medicare,
+  },
+  {
+    type: 'IN_AADHAAR',
+    pattern: /[2-9]\d{3}([ -]?)\d{4}\1\d{4}/g,
+    context: /aadhaa?r|आधार|\bUIDAI\b/iu,
+    checksum: checks.aadhaar,
+  },
+  {
+    type: 'IN_GSTIN',
+    pattern: /\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]/g,
+    context: /\bGSTIN?\b|goods and services tax/iu,
+    checksum: checks.gstin,
+    plausible: always,
+  },
+  {
+    type: 'IN_VOTER',
+    pattern: /[A-Z]{3}\d{7}/g,
+    context: /\bvoter\b|\bEPIC\b|election commission/iu,
+    checksum: never,
+  },
+  {
+    type: 'IN_PASSPORT',
+    pattern: /[A-PR-WY][1-9]\d ?\d{4}[1-9]/g,
+    context: /\bpassport\b/iu,
+    checksum: never,
+  },
+  {
+    type: 'FI_PERSONAL_IDENTITY_CODE',
+    pattern: /\d{6}[-+A-FU-Y]\d{3}[0-9A-FHJ-NPR-Y]/g,
+    context: /henkilötunnus|\bHETU\b|personal identity code|personbeteckning/iu,
+    checksum: checks.finnishIdentityCode,
+    plausible: always,
+  },
+  {
+    type: 'TH_TNIN',
+    pattern: /[1-8]\d{12}|[1-8]-\d{4}-\d{5}-\d{2}-\d/g,
+    context: /\bthai\b|\bTNIN\b|เลขประจำตัวประชาชน|บัตรประชาชน/iu,
+    checksum: checks.thaiId,
+  },
+  {
+    type: 'MEDICAL_LICENSE',
+    pattern: /[ABCDEFGHJKLMPRSTUX][A-Z9]\d{7}/g,
+    context: /\bDEA\b|medical licen[cs]e|prescriber/iu,
+    checksum: checks.dea,
+  },
+  {
+    type: 'IMEI',
+    pattern: /\d{15}|\d{2}-\d{6}-\d{6}-\d/g,
+    context: /\bIMEI\b/iu,
+    checksum: checks.shortLuhn,
+  },
+  {
+    type: 'SWIFT_CODE',
+    pattern: /[A-Z]{6}[A-Z0-9]{2}(?:[A-Z0-9]{3})?/g,
+    context: /\b(?:SWIFT|BIC)\b/iu,
+    checksum: never,
+    valid: checks.swiftCode,
+  },
+  {
+    type: 'SG_UEN',
+    pattern: /\d{8}[A-Z]|(?:19|20)\d{7}[A-Z]|[TSR]\d{2}[A-Z]{2}\d{4}[A-Z]/g,
+    context: /\bUEN\b|unique entity number/iu,
+    checksum: never,
+  },
 ];
 function distinctiveShape(type, value) {
   return (
@@ -71,41 +220,46 @@ function distinctiveShape(type, value) {
     (type === 'RU_INN' && value.length === 12)
   );
 }
-export function detectNational(text, emit) {
-  for (const [type, pattern, context, checksum, plausible] of rules) {
-    for (const match of text.matchAll(pattern)) {
-      const start = match.index,
-        end = start + match[0].length;
-      if (!nationalBoundary(text, start, end)) {
-        continue;
-      }
-      const hasContext = context.test(
-        text.slice(Math.max(0, start - 64), end + 32)
-      );
-      if (
-        !hasContext &&
-        (numericNoise(text, start, end) || epochNumber(match[0]))
-      ) {
-        continue;
-      }
-      const checked = checksum(match[0]);
-      if (checked || hasContext || plausible?.(match[0])) {
+export function detectNational(text, emit, rules = nationalRules) {
+  for (const rule of rules) {
+    for (const match of text.matchAll(rule.pattern)) {
+      const confidence = nationalMatch(text, rule, match);
+      if (confidence !== undefined) {
         emit({
-          start,
-          end,
-          type,
+          start: match.index,
+          end: match.index + match[0].length,
+          type: rule.type,
           category: 'personal',
           rule: 'national-format',
-          confidence: nationalConfidence(
-            hasContext,
-            checked,
-            plausible?.(match[0]) ||
-              (checked && distinctiveShape(type, match[0]))
-          ),
+          confidence,
         });
       }
     }
   }
+}
+// Confidence for one candidate, or undefined when it is not an identifier.
+function nationalMatch(text, rule, match) {
+  const value = match[0],
+    start = match.index,
+    end = start + value.length;
+  if (!nationalBoundary(text, start, end) || rule.valid?.(value) === false) {
+    return undefined;
+  }
+  const hasContext = rule.context.test(
+    text.slice(Math.max(0, start - 64), end + 32)
+  );
+  if (!hasContext && (numericNoise(text, start) || epochNumber(value))) {
+    return undefined;
+  }
+  const checked = rule.checksum(value),
+    plausible = rule.plausible?.(value);
+  return checked || hasContext || plausible
+    ? nationalConfidence(
+        hasContext,
+        checked,
+        plausible || (checked && distinctiveShape(rule.type, value))
+      )
+    : undefined;
 }
 function nationalBoundary(text, start, end) {
   return !(

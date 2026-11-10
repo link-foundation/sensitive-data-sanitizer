@@ -26,6 +26,9 @@ export {
 } from './external.js';
 
 export { entityCatalogs } from './entities.js';
+export { nationalRules } from './national.js';
+export * as identifierChecks from './national-checks.js';
+export { createIdentifierDetector } from './identifier-detector.js';
 export {
   sanitizeStream,
   sanitizeStreamToFile,
