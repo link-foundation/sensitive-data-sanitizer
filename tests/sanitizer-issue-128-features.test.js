@@ -193,6 +193,19 @@ describe('escape runs, NUL-interleaved text and HTML formatting', () => {
   });
 });
 
+describe('IPv4 addresses at the end of a sentence', () => {
+  // redact-pii fixture: "my ip: 10.1.1.235." with the full stop after it.
+  it('detects an address followed by a full stop', () => {
+    expect(sanitize('my ip: 8.8.4.5.').text).toBe('my ip: [REDACTED].');
+    expect(
+      sanitize('my ip: 10.1.1.235.', { publicKnowledge: false }).text
+    ).toBe('my ip: [REDACTED].');
+  });
+  it('still leaves dotted versions with more parts alone', () => {
+    expect(sanitize('version 1.2.3.4.5 ok').text).toBe('version 1.2.3.4.5 ok');
+  });
+});
+
 describe('per-type confidence thresholds', () => {
   it('overrides minConfidence for listed types only', () => {
     const text = 'Contact John Smith at john@private.test';

@@ -339,7 +339,7 @@ function detectPersonalFormats(text, options, emit) {
   );
   collectMatches(
     text,
-    /(?<![\w.])(?:\d{1,3}\.){3}\d{1,3}(?![\w.])/g,
+    /(?<![\w.])(?:\d{1,3}\.){3}\d{1,3}(?!\w|\.\d)/g,
     emit,
     { type: 'IP_ADDRESS', category: 'personal', rule: 'ipv4' },
     0,
