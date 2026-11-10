@@ -3,6 +3,7 @@ export function hasWorkerCallbacks(options) {
   return Boolean(
     options.debug ||
     options.verifyPublic ||
+    options.exempt ||
     options.detectors?.length ||
     [
       options.transformation,

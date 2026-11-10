@@ -30,6 +30,7 @@ import { fakeIdentityValue, isIdentityType } from './identity.js';
 import { rejectRestoreMap } from './restore-map.js';
 import { allowListed, validateAllowList } from './allow-list.js';
 import { templatedCredential } from './credentials.js';
+import { exemptFindings, validateExempt } from './exempt.js';
 import { builtInRules } from './rule-catalog.js';
 import {
   initializePlaceholders,
@@ -105,6 +106,7 @@ const optionNames = new Set([
   'minConfidenceByType',
   'allowList',
   'inlineAllow',
+  'exempt',
 ]);
 
 export function applyProfile(options = {}) {
@@ -230,6 +232,7 @@ export function validateOptions(options = {}) {
   ) {
     throw failure('ERR_CONFIG');
   }
+  validateExempt(options.exempt);
   validateCollections(options);
   validateAllowList(options);
   validateDetectors(options.detectors);
@@ -449,7 +452,14 @@ function locations(text, findings) {
 
 export function inspect(text, options = {}) {
   try {
-    return inspectText(text, options);
+    const exempt = options?.exempt;
+    if (!exempt) {
+      return inspectText(text, options);
+    }
+    // Nested views (structured values, decoded runs) are screened once, at
+    // the offsets of the text the caller sees.
+    const findings = inspectText(text, { ...options, exempt: undefined });
+    return exemptFindings(text, findings, exempt);
   } catch (error) {
     throw internalFailure(error);
   }

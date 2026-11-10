@@ -114,6 +114,19 @@ export interface SanitizerOptions {
    * same rules as allowList.
    */
   inlineAllow?: boolean;
+  /**
+   * Keeps a finding the caller's policy knows is not sensitive. Runs after
+   * detection and before transformation, once per finding, with the text the
+   * offsets refer to; it must return a boolean (`true` keeps the span as-is).
+   * Verification of the output consults it again per span, so the same value
+   * elsewhere is still caught. Declared knownSecrets/knownPersonal/
+   * confirmedPersonal values and JSON_VALUE denials are never offered.
+   * createSyncSanitizer and sanitize() require a synchronous hook.
+   */
+  exempt?: (
+    finding: Readonly<Finding & { value: string }>,
+    text: string
+  ) => boolean | Promise<boolean>;
   /** Explicit network/callback verification; credentials never qualify. */
   verifyPublic?: (candidate: {
     type: PublicEntity['type'];

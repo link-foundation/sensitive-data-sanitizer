@@ -787,6 +787,41 @@ A mixed value such as `alice:${DB_PASSWORD}` or `<x>abc123…` is still redacted
 Findings from custom detectors are never dropped this way. The value-free debug
 event `{event: 'template-value', rule}` reports each skipped match.
 
+### Exempting findings with a hook
+
+`exempt(finding, text) => boolean` keeps findings that the caller's own policy
+knows are not sensitive: a configuration flag, a token counter, a version
+range, a value another tool already masked. It runs after detection and before
+transformation, once per finding. The finding carries `value` and the offsets
+into `text`. Return `true` to keep the span unchanged and `false` to transform
+it. Any other result, including `undefined` from a forgotten `return`, is
+`ERR_CONFIG`.
+
+```js
+createSyncSanitizer({
+  credentialsOnly: true,
+  // The key before the value decides; offsets point into `text`.
+  exempt: (finding, text) =>
+    /FEATURE_TOKEN=$/.test(text.slice(0, finding.start)),
+}).sanitize(
+  'FEATURE_TOKEN=keep-this-value-123 other_token=keep-this-value-123'
+);
+// → 'FEATURE_TOKEN=keep-this-value-123 other_token=[REDACTED]'
+```
+
+Unlike a callback transformation that returns the original value, which fails
+with `ERR_RESIDUAL`, an exempted span is excluded from residual verification
+by span, not by value. Verification of the published text calls the hook again
+for every finding in the output, so the same value elsewhere is still caught
+unless the hook keeps that span too. The hook is explicit code, so it can keep
+credential findings without `allowCredentialDisable`. Declared
+`knownSecrets`/`knownPersonal` values, confirmed personal values and structured
+`JSON_VALUE` denials are never offered to it.
+
+`createSanitizer` awaits a hook that returns a `Promise`.
+`createSyncSanitizer` and `sanitize()` need a synchronous hook. A `Promise`
+there is `ERR_CONFIG`.
+
 ## Per-type thresholds
 
 `minConfidenceByType` maps finding types to a threshold that overrides

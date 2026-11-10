@@ -121,8 +121,20 @@ function emitValue(text, start, end, emit, details, keyName = '') {
   emit({ start, end, ...details });
 }
 
+// `HIVE_MIND_ROUTER_AUTH_GUARD=0`, `GIT_AUTH_TRANSPORT=1`, `AUTH_MODE=2`:
+// a number or a boolean under a configuration name is a setting. Credential
+// names (`AUTH_TOKEN=123456`, `AUTH_PASSWORD=1`) do not end in one of these.
+const configurationSuffix =
+  /[_.-](?:guard|transport|mode|method|type|kind|flow|strategy|scheme|protocol|port|level|state|status|enabled?|disabled?|required|strict|debug|verbose|timeout|ttl|interval|retries|retry|attempts|count|limit|max|min|size|length|version|flag)$/i;
+const configurationValue =
+  /^(?:[+-]?\d{1,9}(?:\.\d+)?|true|false|yes|no|on|off|enabled|disabled|none)$/i;
+export function configurationSetting(keyName, value) {
+  return configurationSuffix.test(keyName) && configurationValue.test(value);
+}
+
 function credentialMetadata(keyName, value) {
   return (
+    configurationSetting(keyName, value) ||
     (/(?:^|[_.-])auth[_.-](?:mode|method|type)$/i.test(keyName) &&
       /^(?:chatgpt|oauth2?|apikey|api_key|bearer|basic|none)$/i.test(value)) ||
     (keyName === 'id-token' && /^(?:write|read|none)$/.test(value)) ||
