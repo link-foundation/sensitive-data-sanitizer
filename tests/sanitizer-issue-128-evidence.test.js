@@ -5,6 +5,7 @@ import { describe, it, expect } from 'test-anywhere';
 import { sanitize, inspect, redact, builtInRules } from '../src/index.js';
 import * as checks from '../src/national-checks.js';
 import { cryptoAddress } from '../src/crypto-addresses.js';
+import { itUnless } from './helpers/skip.js';
 
 // Phrase-level and format cases taken from competitor test suites and
 // documentation (Presidio, Scrubadub, LLM Guard, OpenRedaction, Google SDP,
@@ -342,18 +343,18 @@ describe('lookbehinds stay linear in the JavaScriptCore interpreter (#128)', () 
     }
     console.log(JSON.stringify(ratios));
   `;
-  it('grows about fourfold, not sixteenfold, for a four times longer tab run', () => {
-    if (!bun) {
-      return;
+  itUnless(!bun && 'BUN_JSC_useRegExpJIT applies to Bun only')(
+    'grows about fourfold, not sixteenfold, for a four times longer tab run',
+    () => {
+      const run = spawnSync(globalThis.process.execPath, ['-e', script], {
+        encoding: 'utf8',
+        env: { ...globalThis.process.env, BUN_JSC_useRegExpJIT: '0' },
+        timeout: 25000,
+      });
+      expect(run.status).toBe(0);
+      for (const ratio of Object.values(JSON.parse(run.stdout))) {
+        expect(ratio).toBeLessThan(7);
+      }
     }
-    const run = spawnSync(globalThis.process.execPath, ['-e', script], {
-      encoding: 'utf8',
-      env: { ...globalThis.process.env, BUN_JSC_useRegExpJIT: '0' },
-      timeout: 25000,
-    });
-    expect(run.status).toBe(0);
-    for (const ratio of Object.values(JSON.parse(run.stdout))) {
-      expect(ratio).toBeLessThan(7);
-    }
-  });
+  );
 });
