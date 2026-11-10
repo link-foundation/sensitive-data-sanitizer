@@ -91,6 +91,9 @@ Secretlint preset, the Presidio, Gitleaks and TruffleHog bridges and
 | `59144ef` | `tokenChecksum` and `tokenWithChecksum` exports                                             |
 | `3a6f5bf` | IPv4 address followed by a full stop (found by the redact-pii probe)                        |
 | `4c9e038` | The exported national rule table is frozen (found by the architecture audit)                |
+| `74b97f5` | Evidence label patterns stay linear on long tab runs (CodeQL `js/polynomial-redos`)         |
+| `c17ddd0` | Credential range and mask helpers split under complexity 15 (`--max-warnings 0` in CI)      |
+| `30efdd5` | Prettier and ruff formatting; generated Betterleaks files left out of Prettier              |
 
 The comparison pages, this case study and the changeset are in the final
 documentation commit.
@@ -173,6 +176,7 @@ All in [`experiments/issue-128/`](../../../experiments/issue-128/):
 | `fill-template.mjs`         | Rebuild split credential samples                                        |
 | `rule-ids.mjs`              | List rule IDs for the catalog                                           |
 | `why.mjs`                   | Explain which rule redacted a given input                               |
+| `redos-evidence.mjs`        | Time the old and rewritten evidence label patterns on a tab run         |
 
 ## Reproduce
 
