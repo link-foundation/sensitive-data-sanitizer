@@ -4,6 +4,9 @@ import { readFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import * as credentials from '../src/credentials-entry.js';
+// Registers the personal features in this process, as a shared test runner
+// or an application that imports both entries does.
+import '../src/index.js';
 
 // Synthetic value, assembled at run time so secret scanners skip the source.
 const GH = ['ghp_', 'Zx9Qw7Er5Ty3Ui1Op0As', '2Df4Gh6Jk8Lz0Xc2Vb4N'].join('');
@@ -102,9 +105,15 @@ describe('credentials entry point (issue 137)', () => {
         credentials.createSyncSanitizer({ transformation: { mode: 'fake' } })
       )
     ).toBe('ERR_CONFIG');
-    expect(
-      code(() => credentials.sanitize('x', { properNames: 'capitalized' }))
-    ).toBe('ERR_CONFIG');
+    // The root entry is loaded in this process, so its personal features are
+    // registered; the credentials entry still rejects these options.
+    for (const options of [
+      { properNames: 'capitalized' },
+      { properNames: 'off' },
+      { scripts: ['Cyrl'] },
+    ]) {
+      expect(code(() => credentials.sanitize('x', options))).toBe('ERR_CONFIG');
+    }
   });
 
   itUnless(nodeOnly)(
