@@ -155,6 +155,11 @@ describe('identifier validators (#128)', () => {
     ];
     expect(custom.length).toBe(nationalRules.length + 1);
   });
+  it('keeps the shared national rule table read-only', () => {
+    expect(Object.isFrozen(nationalRules)).toBe(true);
+    expect(nationalRules.every((rule) => Object.isFrozen(rule))).toBe(true);
+    expect(() => nationalRules.push({})).toThrow(TypeError);
+  });
 });
 
 describe('checksum-valid fakes for new identifiers (#128)', () => {
