@@ -61,7 +61,13 @@ export function templatedCredential(text, finding) {
   const pemEnd =
     finding.rule === 'private-key' &&
     /^-----END [A-Z0-9 ]*PRIVATE KEY-----/.test(text.slice(finding.end));
-  return (pemEnd || !/[\w$%+/=.-]/.test(after)) && templatedValue(value);
+  const sentenceEnd = /^[.,;:!?]+(?:\s|$)/.test(
+    text.slice(finding.start + value.length)
+  );
+  return (
+    (pemEnd || sentenceEnd || !/[\w$%+/=.-]/.test(after)) &&
+    templatedValue(value)
+  );
 }
 // Only variable references and the documented gh lookup are exempt. Arbitrary
 // shell commands and Actions expressions can contain literal credentials.
