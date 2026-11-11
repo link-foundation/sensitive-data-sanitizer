@@ -4,6 +4,7 @@ export interface Finding {
   start: number;
   end: number;
   category: Category;
+  /** Native PEM and PuTTY private-key findings use PRIVATE_KEY. */
   type: string;
   rule: string;
   /** Detector confidence, not a cross-engine probability calibration. */

@@ -293,6 +293,23 @@ profile; bare 10-digit organizational INN remains 0.35. See the effective
 
 Without a profile, full redaction is the library default. `transformation` selects a global mode; `transformations` maps finding types to overrides. Credentials receive full redaction except for explicit `hive-mask` or `fake` with `credentials: true`:
 
+Native `private-key` (PEM, including RSA, EC, DSA, OpenSSH and encrypted keys)
+and `putty-private-key` (PuTTY v2/v3) findings have type `PRIVATE_KEY` and category
+`credential`. They previously used `SECRET`; policies targeting these keys should
+use `PRIVATE_KEY`. To fully redact keys while partially masking other credentials:
+
+```js
+const options = {
+  credentialsOnly: true,
+  transformation: { mode: 'hive-mask' },
+  transformations: { PRIVATE_KEY: { mode: 'redact' } },
+};
+```
+
+This policy works with both the main and `/credentials` entry points. PEM body
+material becomes `[REDACTED]`, preserving BEGIN/END markers and surrounding text;
+PuTTY blocks are redacted in full. Other credentials keep the global transformation.
+
 | Mode                | Configuration and behavior                                                                                             |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | `redact`            | Complete `[REDACTED]` replacement                                                                                      |

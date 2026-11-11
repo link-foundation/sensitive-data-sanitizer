@@ -143,7 +143,12 @@ function detectPuttyPrivateKeys(text, emit) {
     mac.lastIndex = newline.index + 1;
     const terminator = mac.exec(text);
     const end = terminator ? mac.lastIndex : text.length;
-    emit({ start: header.index, end, ...details('putty-private-key') });
+    emit({
+      start: header.index,
+      end,
+      ...details('putty-private-key'),
+      type: 'PRIVATE_KEY',
+    });
     headers.lastIndex = end;
   }
 }
