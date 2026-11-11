@@ -1,0 +1,1819 @@
+[
+  {
+    "set": "open-source-pii",
+    "total": 371,
+    "skipped": 0,
+    "misses": 60,
+    "overRedactions": 16,
+    "errors": 0,
+    "cases": [
+      {
+        "index": 9,
+        "tool": "presidio",
+        "types": [
+          "CREDIT_CARD"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_credit_card_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 21,
+        "tool": "presidio",
+        "types": [
+          "US_SSN"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 23,
+        "tool": "presidio",
+        "types": [
+          "US_SSN"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 30,
+        "tool": "presidio",
+        "types": [
+          "US_SSN"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_ssn_recognizer.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 33,
+        "tool": "presidio",
+        "types": [
+          "ABA_ROUTING_NUMBER"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_aba_routing_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 34,
+        "tool": "presidio",
+        "types": [
+          "ABA_ROUTING_NUMBER"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_aba_routing_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 35,
+        "tool": "presidio",
+        "types": [
+          "ABA_ROUTING_NUMBER"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_aba_routing_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 47,
+        "tool": "presidio",
+        "types": [
+          "UK_NHS"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_nhs_recognizer.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 49,
+        "tool": "presidio",
+        "types": [
+          "UK_NINO"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_uk_nino_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 57,
+        "tool": "presidio",
+        "types": [
+          "IN_AADHAAR"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_in_aadhaar_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 58,
+        "tool": "presidio",
+        "types": [
+          "IN_AADHAAR"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_in_aadhaar_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 64,
+        "tool": "presidio",
+        "types": [
+          "AU_TFN"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_au_tfn_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 65,
+        "tool": "presidio",
+        "types": [
+          "AU_MEDICARE"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_au_medicare_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 66,
+        "tool": "presidio",
+        "types": [
+          "PL_PESEL"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_pl_pesel_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 68,
+        "tool": "presidio",
+        "types": [
+          "FI_PERSONAL_IDENTITY_CODE"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_fi_personal_identity_code_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 76,
+        "tool": "presidio",
+        "types": [
+          "US_ITIN"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_us_itin_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 78,
+        "tool": "presidio",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_ip_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 79,
+        "tool": "presidio",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_ip_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 80,
+        "tool": "presidio",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_ip_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 81,
+        "tool": "presidio",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_ip_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 87,
+        "tool": "presidio",
+        "types": [
+          "URL"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_url_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 88,
+        "tool": "presidio",
+        "types": [
+          "URL"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_url_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 94,
+        "tool": "presidio",
+        "types": [
+          "PHONE_NUMBER"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_phone_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 95,
+        "tool": "presidio",
+        "types": [
+          "DATE_TIME"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_date_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 97,
+        "tool": "presidio",
+        "types": [
+          "UUID"
+        ],
+        "source": "https://github.com/data-privacy-stack/presidio/blob/main/presidio-analyzer/tests/test_uuid_recognizer.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 111,
+        "tool": "scrubadub",
+        "types": [
+          "drivers_licence"
+        ],
+        "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_drivers_licence.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 112,
+        "tool": "scrubadub",
+        "types": [
+          "national_insurance_number"
+        ],
+        "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_national_insurance_number.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 113,
+        "tool": "scrubadub",
+        "types": [
+          "tax_reference_number"
+        ],
+        "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_tax_reference_number.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 117,
+        "tool": "scrubadub",
+        "types": [
+          "postalcode"
+        ],
+        "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_postalcode.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 122,
+        "tool": "scrubadub",
+        "types": [
+          "url"
+        ],
+        "source": "https://github.com/LeapBeyond/scrubadub/blob/master/tests/test_detector_url.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 133,
+        "tool": "llm-guard",
+        "types": [
+          "DATE_TIME"
+        ],
+        "source": "https://github.com/protectai/llm-guard/blob/main/tests/input_scanners/test_anonymize.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 134,
+        "tool": "llm-guard",
+        "types": [
+          "CREDIT_CARD"
+        ],
+        "source": "https://github.com/protectai/llm-guard/blob/main/tests/input_scanners/test_anonymize.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 139,
+        "tool": "llm-guard",
+        "types": [
+          "PHONE_NUMBER_ZH"
+        ],
+        "source": "https://github.com/protectai/llm-guard/blob/main/llm_guard/input_scanners/anonymize_helpers/regex_patterns.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 145,
+        "tool": "openredaction",
+        "types": [
+          "CREDIT_CARD"
+        ],
+        "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/detector.test.ts",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 148,
+        "tool": "openredaction",
+        "types": [
+          "CUSTOM"
+        ],
+        "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/detector.test.ts",
+        "outcome": "misses"
+      },
+      {
+        "index": 160,
+        "tool": "openredaction",
+        "types": [
+          "NHS_NUMBER"
+        ],
+        "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+        "outcome": "misses"
+      },
+      {
+        "index": 167,
+        "tool": "openredaction",
+        "types": [
+          "SSN"
+        ],
+        "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/validators.test.ts",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 188,
+        "tool": "openredaction",
+        "types": [
+          "SOCIAL_MEDIA_HANDLE"
+        ],
+        "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/digital-identity-patterns.test.ts",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 192,
+        "tool": "openredaction",
+        "types": [
+          "SAUDI_NATIONAL_ID"
+        ],
+        "source": "https://github.com/sam247/openredaction/blob/main/packages/core/tests/middle-east-patterns.test.ts",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 200,
+        "tool": "redact-pii",
+        "types": [
+          "PERSON_NAME"
+        ],
+        "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+        "outcome": "misses"
+      },
+      {
+        "index": 215,
+        "tool": "redact-pii",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+        "outcome": "misses"
+      },
+      {
+        "index": 216,
+        "tool": "redact-pii",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+        "outcome": "misses"
+      },
+      {
+        "index": 226,
+        "tool": "redact-pii",
+        "types": [
+          "DIGITS"
+        ],
+        "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+        "outcome": "misses"
+      },
+      {
+        "index": 227,
+        "tool": "redact-pii",
+        "types": [
+          "URL"
+        ],
+        "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+        "outcome": "misses"
+      },
+      {
+        "index": 228,
+        "tool": "redact-pii",
+        "types": [
+          "URL"
+        ],
+        "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+        "outcome": "misses"
+      },
+      {
+        "index": 230,
+        "tool": "redact-pii",
+        "types": [
+          "ANIMAL"
+        ],
+        "source": "https://github.com/solvvy/redact-pii/blob/main/test/redactor.test.ts",
+        "outcome": "misses"
+      },
+      {
+        "index": 239,
+        "tool": "datafog",
+        "types": [
+          "ANY"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 249,
+        "tool": "datafog",
+        "types": [
+          "ANY"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 253,
+        "tool": "datafog",
+        "types": [
+          "ANY"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 254,
+        "tool": "datafog",
+        "types": [
+          "ANY"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 255,
+        "tool": "datafog",
+        "types": [
+          "SSN"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 259,
+        "tool": "datafog",
+        "types": [
+          "ANY"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 260,
+        "tool": "datafog",
+        "types": [
+          "ANY"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 271,
+        "tool": "datafog",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 272,
+        "tool": "datafog",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 273,
+        "tool": "datafog",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 274,
+        "tool": "datafog",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 279,
+        "tool": "datafog",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 280,
+        "tool": "datafog",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 282,
+        "tool": "datafog",
+        "types": [
+          "DATE"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 283,
+        "tool": "datafog",
+        "types": [
+          "DATE"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 284,
+        "tool": "datafog",
+        "types": [
+          "DATE"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 285,
+        "tool": "datafog",
+        "types": [
+          "DATE"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 286,
+        "tool": "datafog",
+        "types": [
+          "DATE"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 289,
+        "tool": "datafog",
+        "types": [
+          "DATE"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 290,
+        "tool": "datafog",
+        "types": [
+          "DATE"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 300,
+        "tool": "datafog",
+        "types": [
+          "ZIP_CODE"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/structured_pii.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 319,
+        "tool": "datafog",
+        "types": [
+          "EMAIL",
+          "PERSON"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 322,
+        "tool": "datafog",
+        "types": [
+          "ANY"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 330,
+        "tool": "datafog",
+        "types": [
+          "EMAIL",
+          "SSN"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 331,
+        "tool": "datafog",
+        "types": [
+          "DATE"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/corpus/edge_cases.json",
+        "outcome": "misses"
+      },
+      {
+        "index": 339,
+        "tool": "datafog",
+        "types": [
+          "EMAIL"
+        ],
+        "source": "https://github.com/DataFog/datafog-python/blob/dev/tests/test_regex_annotator.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 357,
+        "tool": "phileas",
+        "types": [
+          "TRACKING_NUMBER"
+        ],
+        "source": "https://github.com/philterd/phileas/blob/main/phileas-core/src/test/java/ai/philterd/phileas/filters/TrackingNumberFilterTest.java",
+        "outcome": "misses"
+      },
+      {
+        "index": 360,
+        "tool": "philter",
+        "types": [
+          "PERSON",
+          "ZIP_CODE",
+          "SSN"
+        ],
+        "source": "https://github.com/philterd/philter/blob/main/README.md",
+        "outcome": "misses"
+      },
+      {
+        "index": 363,
+        "tool": "pino-redact",
+        "types": [
+          "PATH"
+        ],
+        "source": "https://github.com/pinojs/pino/blob/main/docs/redaction.md",
+        "outcome": "misses"
+      },
+      {
+        "index": 366,
+        "tool": "rehydra",
+        "types": [
+          "EMAIL",
+          "PERSON",
+          "PHONE"
+        ],
+        "source": "https://github.com/rehydra-ai/rehydra-sdk",
+        "outcome": "misses"
+      }
+    ]
+  },
+  {
+    "set": "open-source-secrets",
+    "total": 298,
+    "skipped": 15,
+    "misses": 15,
+    "overRedactions": 82,
+    "errors": 0,
+    "cases": [
+      {
+        "index": 5,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 6,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 7,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 8,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 9,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 10,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 11,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 12,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 13,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 14,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 15,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 17,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 18,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 20,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 22,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 23,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/generic.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 29,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/curl.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 32,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/curl.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 33,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/curl.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 35,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/curl.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 37,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/curl.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 38,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/curl.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 39,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/curl.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 51,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/cmd/generate/config/rules/curl.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 52,
+        "tool": "gitleaks",
+        "source": "https://github.com/gitleaks/gitleaks/blob/v8.30.1/detect/codec/decoder_test.go",
+        "outcome": "misses"
+      },
+      {
+        "index": 53,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/internal/codec/decoder_test.go",
+        "outcome": "misses"
+      },
+      {
+        "index": 55,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/internal/codec/decoder_test.go",
+        "outcome": "misses"
+      },
+      {
+        "index": 56,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/internal/codec/decoder_test.go",
+        "outcome": "misses"
+      },
+      {
+        "index": 77,
+        "tool": "trufflehog",
+        "source": "https://github.com/trufflesecurity/trufflehog/blob/v3.99.8/pkg/decoders/html_test.go",
+        "outcome": "misses"
+      },
+      {
+        "index": 78,
+        "tool": "trufflehog",
+        "source": "https://github.com/trufflesecurity/trufflehog/blob/v3.99.8/pkg/decoders/html_test.go",
+        "outcome": "misses"
+      },
+      {
+        "index": 79,
+        "tool": "trufflehog",
+        "source": "https://github.com/trufflesecurity/trufflehog/blob/v3.99.8/pkg/decoders/html_test.go",
+        "outcome": "misses"
+      },
+      {
+        "index": 82,
+        "tool": "trufflehog",
+        "source": "https://github.com/trufflesecurity/trufflehog/blob/v3.99.8/pkg/decoders/html_test.go",
+        "outcome": "misses"
+      },
+      {
+        "index": 101,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 102,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 104,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 105,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 108,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 109,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 110,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 111,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 112,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 113,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 114,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 115,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 116,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 117,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 118,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 119,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 124,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_password.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 132,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_credential_uri.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 133,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_credential_uri.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 134,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_credential_uri.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 135,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_credential_uri.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 138,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_credential_uri.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 139,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_credential_uri.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 140,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_credential_uri.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 141,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_credential_uri.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 150,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_structured_test.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 152,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_structured_test.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 154,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_structured_test.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 155,
+        "tool": "betterleaks",
+        "source": "https://github.com/betterleaks/betterleaks/blob/main/cmd/generate/config/rules/generic_structured_test.go",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 159,
+        "tool": "detect-secrets",
+        "source": "https://github.com/Yelp/detect-secrets/blob/master/tests/filters/heuristic_filter_test.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 160,
+        "tool": "detect-secrets",
+        "source": "https://github.com/Yelp/detect-secrets/blob/master/tests/filters/heuristic_filter_test.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 161,
+        "tool": "detect-secrets",
+        "source": "https://github.com/Yelp/detect-secrets/blob/master/tests/filters/heuristic_filter_test.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 162,
+        "tool": "detect-secrets",
+        "source": "https://github.com/Yelp/detect-secrets/blob/master/tests/filters/heuristic_filter_test.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 174,
+        "tool": "detect-secrets",
+        "source": "https://github.com/Yelp/detect-secrets/blob/master/tests/filters/heuristic_filter_test.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 175,
+        "tool": "detect-secrets",
+        "source": "https://github.com/Yelp/detect-secrets/blob/master/tests/filters/heuristic_filter_test.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 180,
+        "tool": "detect-secrets",
+        "source": "https://github.com/Yelp/detect-secrets/blob/master/tests/filters/heuristic_filter_test.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 187,
+        "tool": "detect-secrets",
+        "source": "https://github.com/Yelp/detect-secrets/blob/master/tests/plugins/keyword_test.py",
+        "outcome": "misses"
+      },
+      {
+        "index": 197,
+        "tool": "detect-secrets",
+        "source": "https://github.com/Yelp/detect-secrets/blob/master/tests/plugins/keyword_test.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 201,
+        "tool": "detect-secrets",
+        "source": "https://github.com/Yelp/detect-secrets/blob/master/tests/plugins/keyword_test.py",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 207,
+        "tool": "ripsecrets",
+        "source": "https://github.com/sirwart/ripsecrets/blob/main/test/one_per_line/random",
+        "outcome": "misses"
+      },
+      {
+        "index": 211,
+        "tool": "ripsecrets",
+        "source": "https://github.com/sirwart/ripsecrets/tree/main/test/one_per_line/npm",
+        "outcome": "misses"
+      },
+      {
+        "index": 212,
+        "tool": "ripsecrets",
+        "source": "https://github.com/sirwart/ripsecrets/blob/main/test/none",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 213,
+        "tool": "ripsecrets",
+        "source": "https://github.com/sirwart/ripsecrets/blob/main/test/none",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 214,
+        "tool": "ripsecrets",
+        "source": "https://github.com/sirwart/ripsecrets/blob/main/test/none",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 215,
+        "tool": "ripsecrets",
+        "source": "https://github.com/sirwart/ripsecrets/blob/main/test/none",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 218,
+        "tool": "ripsecrets",
+        "source": "https://github.com/sirwart/ripsecrets/blob/main/test/none",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 219,
+        "tool": "ripsecrets",
+        "source": "https://github.com/sirwart/ripsecrets/blob/main/test/none",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 220,
+        "tool": "ripsecrets",
+        "source": "https://github.com/sirwart/ripsecrets/blob/main/test/none",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 221,
+        "tool": "ripsecrets",
+        "source": "https://github.com/sirwart/ripsecrets/blob/main/test/none",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 222,
+        "tool": "whispers",
+        "source": "https://github.com/Skyscanner/whispers/blob/master/tests/fixtures/.htpasswd",
+        "outcome": "misses"
+      },
+      {
+        "index": 223,
+        "tool": "whispers",
+        "source": "https://github.com/Skyscanner/whispers/blob/master/tests/fixtures/.htpasswd",
+        "outcome": "misses"
+      },
+      {
+        "index": 237,
+        "tool": "whispers",
+        "source": "https://github.com/Skyscanner/whispers/blob/master/tests/fixtures/language.sh",
+        "outcome": "misses"
+      },
+      {
+        "index": 249,
+        "tool": "whispers",
+        "source": "https://github.com/Skyscanner/whispers/blob/master/tests/fixtures/jdbc.xml",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 251,
+        "tool": "whispers",
+        "source": "https://github.com/Skyscanner/whispers/blob/master/tests/fixtures/pip.conf",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 252,
+        "tool": "whispers",
+        "source": "https://github.com/Skyscanner/whispers/blob/master/tests/fixtures/placeholders.yml",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 253,
+        "tool": "whispers",
+        "source": "https://github.com/Skyscanner/whispers/blob/master/tests/fixtures/placeholders.yml",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 255,
+        "tool": "whispers",
+        "source": "https://github.com/Skyscanner/whispers/blob/master/tests/fixtures/placeholders.yml",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 264,
+        "tool": "whispers",
+        "source": "https://github.com/Skyscanner/whispers/blob/master/tests/fixtures/falsepositive.yml",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 265,
+        "tool": "whispers",
+        "source": "https://github.com/Skyscanner/whispers/blob/master/tests/fixtures/falsepositive.yml",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 270,
+        "tool": "whispers",
+        "source": "https://github.com/Skyscanner/whispers/blob/master/tests/fixtures/language.sh",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 271,
+        "tool": "whispers",
+        "source": "https://github.com/Skyscanner/whispers/blob/master/tests/fixtures/language.sh",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 277,
+        "tool": "detect-secrets",
+        "source": "https://github.com/Yelp/detect-secrets#inline-allowlisting",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 278,
+        "tool": "detect-secrets",
+        "source": "https://github.com/Yelp/detect-secrets#inline-allowlisting",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 279,
+        "tool": "kingfisher",
+        "source": "https://github.com/mongodb/kingfisher/blob/main/docs/ADVANCED.md#inline-ignore-directives",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 296,
+        "tool": "ripsecrets",
+        "source": "https://github.com/sirwart/ripsecrets/tree/main/test/one_per_line/twilio",
+        "outcome": "misses"
+      }
+    ]
+  },
+  {
+    "set": "closed-source",
+    "total": 184,
+    "skipped": 5,
+    "misses": 41,
+    "overRedactions": 15,
+    "errors": 0,
+    "cases": [
+      {
+        "index": 9,
+        "tool": "google-sdp",
+        "types": [
+          "C_MRN"
+        ],
+        "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/creating-custom-infotypes-likelihood",
+        "outcome": "misses"
+      },
+      {
+        "index": 10,
+        "tool": "google-sdp",
+        "types": [
+          "US_SOCIAL_SECURITY_NUMBER"
+        ],
+        "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/creating-custom-infotypes-likelihood",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 14,
+        "tool": "google-sdp",
+        "types": [
+          "DATE"
+        ],
+        "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-date-shifting",
+        "outcome": "misses"
+      },
+      {
+        "index": 15,
+        "tool": "google-sdp",
+        "types": [
+          "DATE"
+        ],
+        "source": "https://docs.cloud.google.com/sensitive-data-protection/docs/concepts-date-shifting",
+        "outcome": "misses"
+      },
+      {
+        "index": 21,
+        "tool": "azure-ai-language-pii",
+        "types": [
+          "PersonType",
+          "USSocialSecurityNumber"
+        ],
+        "source": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/quickstart",
+        "outcome": "misses"
+      },
+      {
+        "index": 24,
+        "tool": "azure-ai-language-pii",
+        "types": [
+          "CE_WeakSSN"
+        ],
+        "source": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/how-to/adapt-to-domain-pii",
+        "outcome": "misses"
+      },
+      {
+        "index": 25,
+        "tool": "aws-comprehend",
+        "types": [
+          "NAME",
+          "CREDIT_DEBIT_NUMBER",
+          "ADDRESS"
+        ],
+        "source": "https://docs.aws.amazon.com/comprehend/latest/dg/how-pii.html",
+        "outcome": "misses"
+      },
+      {
+        "index": 27,
+        "tool": "aws-comprehend",
+        "types": [
+          "AGE"
+        ],
+        "source": "https://docs.aws.amazon.com/comprehend/latest/dg/how-pii.html",
+        "outcome": "misses"
+      },
+      {
+        "index": 28,
+        "tool": "aws-cloudwatch-logs",
+        "types": [
+          "EmployeeId"
+        ],
+        "source": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html",
+        "outcome": "misses"
+      },
+      {
+        "index": 33,
+        "tool": "limina-private-ai",
+        "types": [
+          "CELL_TYPE"
+        ],
+        "source": "https://docs.getlimina.ai/configuration-and-operations/entity-detection-and-redaction/customizing-detection.md",
+        "outcome": "misses"
+      },
+      {
+        "index": 34,
+        "tool": "limina-private-ai",
+        "types": [
+          "NAME"
+        ],
+        "source": "https://docs.getlimina.ai/configuration-and-operations/entity-detection-and-redaction/customizing-redaction.md",
+        "outcome": "misses"
+      },
+      {
+        "index": 35,
+        "tool": "limina-private-ai",
+        "types": [
+          "ORGANIZATION",
+          "DATE",
+          "CONDITION"
+        ],
+        "source": "https://docs.getlimina.ai/configuration-and-operations/entity-detection-and-redaction/customizing-redaction.md",
+        "outcome": "misses"
+      },
+      {
+        "index": 37,
+        "tool": "tonic-textual",
+        "types": [
+          "NAME_GIVEN",
+          "DATE_TIME",
+          "ORGANIZATION"
+        ],
+        "source": "https://tonic-textual-sdk.readthedocs-hosted.com/en/latest/redact/redacting_text.html",
+        "outcome": "misses"
+      },
+      {
+        "index": 38,
+        "tool": "tonic-textual",
+        "types": [
+          "ORGANIZATION",
+          "DATE_TIME"
+        ],
+        "source": "https://tonic-textual-sdk.readthedocs-hosted.com/en/latest/redact/redacting_text.html",
+        "outcome": "misses"
+      },
+      {
+        "index": 40,
+        "tool": "portkey",
+        "types": [
+          "EMAIL_ADDRESS",
+          "PHONE_NUMBER"
+        ],
+        "source": "https://portkey.ai/docs/product/guardrails/pii-redaction",
+        "outcome": "misses"
+      },
+      {
+        "index": 41,
+        "tool": "portkey",
+        "types": [
+          "SSN",
+          "CREDIT_CARD"
+        ],
+        "source": "https://portkey.ai/docs/product/guardrails/pii-redaction",
+        "outcome": "misses"
+      },
+      {
+        "index": 43,
+        "tool": "splunk",
+        "types": [
+          "SSN",
+          "CREDIT_CARD"
+        ],
+        "source": "https://help.splunk.com/en/splunk-enterprise/get-started/get-data-in/10.4/configure-event-processing/anonymize-data",
+        "outcome": "misses"
+      },
+      {
+        "index": 46,
+        "tool": "github-secret-scanning",
+        "types": [
+          "CUSTOM_PATTERN"
+        ],
+        "source": "https://docs.github.com/en/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/custom-patterns/defining-custom-patterns-for-secret-scanning",
+        "outcome": "misses"
+      },
+      {
+        "index": 47,
+        "tool": "github-secret-scanning",
+        "types": [
+          "CUSTOM_PATTERN"
+        ],
+        "source": "https://docs.github.com/en/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/custom-patterns/defining-custom-patterns-for-secret-scanning",
+        "outcome": "misses"
+      },
+      {
+        "index": 48,
+        "tool": "github-secret-scanning",
+        "types": [
+          "CUSTOM_PATTERN"
+        ],
+        "source": "https://docs.github.com/en/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/custom-patterns/defining-custom-patterns-for-secret-scanning",
+        "outcome": "misses"
+      },
+      {
+        "index": 58,
+        "tool": "gitguardian",
+        "types": [
+          "Generic Password"
+        ],
+        "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_password",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 59,
+        "tool": "gitguardian",
+        "types": [
+          "Generic Password"
+        ],
+        "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_password",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 62,
+        "tool": "gitguardian",
+        "types": [
+          "Generic High Entropy Secret"
+        ],
+        "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_high_entropy_secret",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 63,
+        "tool": "gitguardian",
+        "types": [
+          "Generic High Entropy Secret"
+        ],
+        "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_high_entropy_secret",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 65,
+        "tool": "gitguardian",
+        "types": [
+          "Generic High Entropy Secret"
+        ],
+        "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_high_entropy_secret",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 66,
+        "tool": "gitguardian",
+        "types": [
+          "Generic High Entropy Secret"
+        ],
+        "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/generic_high_entropy_secret",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 68,
+        "tool": "gitguardian",
+        "types": [
+          "Username Password"
+        ],
+        "source": "https://docs.gitguardian.com/secrets-detection/secrets-detection-engine/detectors/generics/username_password",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 71,
+        "tool": "lakera-guard",
+        "types": [
+          "FULL_NAME"
+        ],
+        "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+        "outcome": "misses"
+      },
+      {
+        "index": 75,
+        "tool": "lakera-guard",
+        "types": [
+          "FULL_NAME"
+        ],
+        "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 76,
+        "tool": "lakera-guard",
+        "types": [
+          "FULL_NAME"
+        ],
+        "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 85,
+        "tool": "lakera-guard",
+        "types": [
+          "US_PHONE"
+        ],
+        "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 88,
+        "tool": "lakera-guard",
+        "types": [
+          "US_PHONE"
+        ],
+        "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 97,
+        "tool": "lakera-guard",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+        "outcome": "misses"
+      },
+      {
+        "index": 98,
+        "tool": "lakera-guard",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+        "outcome": "misses"
+      },
+      {
+        "index": 99,
+        "tool": "lakera-guard",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+        "outcome": "misses"
+      },
+      {
+        "index": 104,
+        "tool": "lakera-guard",
+        "types": [
+          "IP_ADDRESS"
+        ],
+        "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 123,
+        "tool": "lakera-guard",
+        "types": [
+          "IBAN"
+        ],
+        "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 125,
+        "tool": "lakera-guard",
+        "types": [
+          "IBAN"
+        ],
+        "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+        "outcome": "overRedactions"
+      },
+      {
+        "index": 127,
+        "tool": "lakera-guard",
+        "types": [
+          "US_SSN"
+        ],
+        "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+        "outcome": "misses"
+      },
+      {
+        "index": 128,
+        "tool": "lakera-guard",
+        "types": [
+          "US_SSN"
+        ],
+        "source": "https://docs.lakera.ai/docs/data-leakage-prevention.md",
+        "outcome": "misses"
+      },
+      {
+        "index": 137,
+        "tool": "sentry-relay",
+        "types": [
+          "IP"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 138,
+        "tool": "sentry-relay",
+        "types": [
+          "IP"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 139,
+        "tool": "sentry-relay",
+        "types": [
+          "IP"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 140,
+        "tool": "sentry-relay",
+        "types": [
+          "IP"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 144,
+        "tool": "sentry-relay",
+        "types": [
+          "IMEI"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 145,
+        "tool": "sentry-relay",
+        "types": [
+          "IMEI"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 146,
+        "tool": "sentry-relay",
+        "types": [
+          "IMEI"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 151,
+        "tool": "sentry-relay",
+        "types": [
+          "UUID"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 152,
+        "tool": "sentry-relay",
+        "types": [
+          "UUID"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 153,
+        "tool": "sentry-relay",
+        "types": [
+          "UUID"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 154,
+        "tool": "sentry-relay",
+        "types": [
+          "UUID"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 164,
+        "tool": "sentry-relay",
+        "types": [
+          "CREDIT_CARD"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 165,
+        "tool": "sentry-relay",
+        "types": [
+          "CREDIT_CARD"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 166,
+        "tool": "sentry-relay",
+        "types": [
+          "CREDIT_CARD"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 167,
+        "tool": "sentry-relay",
+        "types": [
+          "CREDIT_CARD"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      },
+      {
+        "index": 168,
+        "tool": "sentry-relay",
+        "types": [
+          "CREDIT_CARD"
+        ],
+        "source": "https://github.com/getsentry/relay/blob/master/relay-pii/src/builtin.rs",
+        "outcome": "misses"
+      }
+    ]
+  }
+]

@@ -17,6 +17,8 @@ export const publicTechnologies = [
   ['Redis', 'https://redis.io/'],
   ['Elasticsearch', 'https://www.elastic.co/elasticsearch'],
   ['Docker', 'https://www.docker.com/'],
+  ['Linux', 'https://www.kernel.org/'],
+  ['Git', 'https://git-scm.com/'],
   ['Kubernetes', 'https://kubernetes.io/'],
   ['React', 'https://react.dev/'],
   ['Vue', 'https://vuejs.org/'],

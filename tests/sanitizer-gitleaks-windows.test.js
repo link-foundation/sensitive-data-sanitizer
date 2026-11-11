@@ -19,6 +19,8 @@ it('retains complete vendored generic credential matches through keyword-window 
     const found = [];
     detectGitleaks(input, (f) => found.push(f));
     for (const rule of rules) {
+      // re2-wasm never frees compiled objects. Share the scanner's cache so
+      // reference checks cannot exhaust its fixed heap later in the suite.
       const pattern = compiledRule(`gitleaks/${rule.id}`, rule.regex);
       pattern.lastIndex = 0;
       let match;

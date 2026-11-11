@@ -27,6 +27,7 @@ import { sessionStructuralFields } from '../src/structured.js';
 import { placeholderOptions, saveMap, restoreCommand } from './placeholders.js';
 import {
   createGitleaksDetector,
+  createBetterleaksDetector,
   createTrufflehogDetector,
   createPresidioDetector,
 } from '../src/external.js';
@@ -50,6 +51,7 @@ history rewrite SOURCE --output DIRECTORY [--apply]
 --env-secrets       Include values of all credential-named environment variables
 --gh-config         Include tokens from the local gh hosts.yml credential file
 --paranoid          Add entropy detection (can redact innocent identifiers)
+--betterleaks       Require local Betterleaks (full rules; validation disabled)
 --gitleaks          Require locally installed Gitleaks in the detector union
 --trufflehog        Require local TruffleHog with verification/updates disabled
 --presidio PATH     Require a local Presidio JSON bridge (see examples)
@@ -101,6 +103,7 @@ function parseArgs(argv) {
     ['--gh-config', 'ghConfig'],
     ['--paranoid', 'paranoid'],
     ['--gitleaks', 'gitleaks'],
+    ['--betterleaks', 'betterleaks'],
     ['--trufflehog', 'trufflehog'],
     ['--stream', 'stream'],
     ['--allow-binary', 'allowBinary'],
@@ -405,6 +408,7 @@ function selectedDetectors(config, detectors = []) {
   const selected = [...detectors];
   for (const [flag, factory] of [
     ['gitleaks', createGitleaksDetector],
+    ['betterleaks', createBetterleaksDetector],
     ['trufflehog', createTrufflehogDetector],
   ]) {
     if (config[flag]) {

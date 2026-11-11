@@ -47,7 +47,7 @@ validation are not ported ([provenance](../../src/vendor/betterleaks/provenance.
 | Template / placeholder negatives                | Y                                      | Y              | Y                | Y          | Y                     | ?     | Y              | –          | Y          | –     | –        | Y        |
 | Ciphertext / hash negatives                     | – (redacted on purpose)                | –              | Y                | –          | –                     | –     | –              | –          | –          | –     | –        | –        |
 | Canary-token labelling                          | –                                      | –              | –                | –          | Y                     | –     | –              | –          | –          | –     | –        | –        |
-| Live verification / revocation                  | – (by design)                          | –              | Y                | Y          | Y                     | Y     | P              | –          | –          | –     | –        | –        |
+| Live verification / revocation                  | P (read-only checks; no revocation)    | –              | Y                | Y          | Y                     | Y     | P              | –          | –          | –     | –        | –        |
 | Caller-known secrets (env, gh config)           | Y                                      | –              | –                | –          | –                     | –     | –              | –          | –          | –     | –        | –        |
 | Credentials in personal-data context            | Y (one pass)                           | –              | –                | –          | P                     | –     | –              | –          | –          | –     | P        | –        |
 
@@ -60,7 +60,7 @@ validation are not ported ([provenance](../../src/vendor/betterleaks/provenance.
 - `--paranoid` adds entropy heuristics.
 - `tokenChecksum(value)` and the 0.99 confidence for checksum-valid GitHub and
   npm tokens are described in [the API](../API.md#offline-token-checksums).
-- `createGitleaksDetector()`, `createTrufflehogDetector()` and the
+- `createGitleaksDetector()`, `createBetterleaksDetector()`, `createTrufflehogDetector()` and the
   detect-secrets baseline adapter run or import the real scanners
   ([extensibility](extensibility.md)).
 
@@ -82,4 +82,5 @@ validation are not ported ([provenance](../../src/vendor/betterleaks/provenance.
 - Ciphertext, hash and algorithm-name negatives from Betterleaks are
   intentionally redacted; they account for most remaining over-redactions in
   [measured results](measured-results.md#secrets).
-- No canary-token labels and no live verification.
+- No canary-token labels. [Optional verification](../VERIFICATION.md) covers
+  twelve providers, not all token types or popular services.

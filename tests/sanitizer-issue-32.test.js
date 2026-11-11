@@ -52,7 +52,9 @@ describe('issue 32 name and identity regressions', () => {
         'experiments/issue-32/document-whitespace.mjs'
       );
       expect(probe.bytes > 128 * 1024).toBe(true);
-      expect(probe.milliseconds < 1000).toBe(true);
+      // Concurrent test files share CI CPUs. Measure sanitizer CPU work while
+      // boundedProbe independently enforces its two-second wall-clock deadline.
+      expect(probe.cpuMilliseconds).toBeLessThan(1000);
     }
   );
   for (const input of [...filenames, ...pairs]) {

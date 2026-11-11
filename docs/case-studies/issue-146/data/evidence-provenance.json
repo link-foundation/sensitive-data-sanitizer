@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-10",
+  "repository": "link-foundation/sensitive-data-sanitizer",
+  "sources": [
+    "GET /repos/link-foundation/sensitive-data-sanitizer/issues?state=all (paginated)",
+    "GET /repos/link-foundation/sensitive-data-sanitizer/issues/comments (paginated)"
+  ],
+  "note": "Public synthetic webhook examples replaced with a marker so collected issue text cannot be mistaken for an active webhook. Original response hashes below. Issue and comment URLs retain original evidence.",
+  "files": [
+    {
+      "file": "issues.json",
+      "originalSha256": "72ab929a9d1c0b77aa96888fc92ad5f971f5a67f9b6b2ef90e51f68389b0e912",
+      "webhookExamplesReplaced": 2
+    },
+    {
+      "file": "issue-comments.json",
+      "originalSha256": "d495794493015f86a5edcfb99c6f278d5a59560798f021de5c8677c928696d75",
+      "webhookExamplesReplaced": 0
+    }
+  ]
+}

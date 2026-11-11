@@ -65,21 +65,45 @@ function run(
   });
 }
 
-export function createGitleaksDetector({
-  command = 'gitleaks',
-  timeoutMs,
-  maxOutputBytes,
-} = {}) {
+export function createGitleaksDetector(options = {}) {
+  return createLeakScanner('gitleaks', options);
+}
+
+// Use the upstream rule engine for filters/components omitted by native imports.
+export function createBetterleaksDetector(options = {}) {
+  return createLeakScanner('betterleaks', options, ['--validation=false']);
+}
+
+function createLeakScanner(
+  id,
+  { command = id, timeoutMs, maxOutputBytes } = {},
+  flags = []
+) {
   return {
-    id: 'gitleaks',
+    id,
     async detect(text) {
       const directory = await mkdtemp(join(tmpdir(), 'sanitizer-gitleaks-'));
       const report = join(directory, 'report.json');
       try {
+        const configuration = [];
+        if (id === 'betterleaks') {
+          const config = join(directory, 'config.toml');
+          await writeFile(config, '[extend]\nuseDefault = true\n', {
+            mode: 0o600,
+          });
+          configuration.push(
+            '--config',
+            config,
+            '--gitleaks-ignore-path',
+            directory
+          );
+        }
         await run(
           command,
           [
             'stdin',
+            ...flags,
+            ...configuration,
             '--no-banner',
             '--log-level',
             'error',
@@ -98,7 +122,10 @@ export function createGitleaksDetector({
           report,
           maxOutputBytes ?? 10 * 1024 * 1024
         );
-        return fromGitleaks(text, JSON.parse(json));
+        return fromGitleaks(text, JSON.parse(json)).map((finding) => ({
+          ...finding,
+          rule: id,
+        }));
       } catch {
         throw failure('ERR_ENGINE');
       } finally {

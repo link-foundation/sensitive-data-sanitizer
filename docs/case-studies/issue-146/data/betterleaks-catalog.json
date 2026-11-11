@@ -1,0 +1,3816 @@
+{
+  "release": "v1.10.0",
+  "source": "https://github.com/betterleaks/betterleaks/releases/tag/v1.10.0",
+  "sha256": "2b3f4163f68529c26895c6e31dc729f39e6722aa39424307b38774426cf95c7c",
+  "rules": [
+    {
+      "id": "1password-secret-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "1password-service-account-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "abuseipdb-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "adafruit-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "adobe-client-id",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "adobe-client-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "age-secret-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "aikido-ci-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "aikido-client-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "aikido-client-secret",
+      "nativeImport": "betterleaks",
+      "components": [
+        "aikido-client-id"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "airtable-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "airtable-oauth-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "airtable-personnal-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "aiven-auth-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "algolia-api-key",
+      "nativeImport": "gitleaks",
+      "components": [
+        "algolia-application-id"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "algolia-application-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "alibaba-access-key-id",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "alibaba-secret-key",
+      "nativeImport": "gitleaks",
+      "components": [
+        "alibaba-access-key-id"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "alibaba-sts-access-key-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "alibaba-sts-access-key-secret",
+      "nativeImport": "betterleaks",
+      "components": [
+        "alibaba-sts-access-key-id",
+        "alibaba-sts-security-token"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "alibaba-sts-security-token",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "amplitude-secret-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "anthropic-admin-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "anthropic-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "apify-api-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "apollo-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "artifactory-api-key",
+      "nativeImport": "gitleaks",
+      "components": [
+        "artifactory-jfrog-url"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "artifactory-jfrog-url",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "artifactory-reference-token",
+      "nativeImport": "gitleaks",
+      "components": [
+        "artifactory-jfrog-url"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "asaas-api-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "asana-client-id",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "asana-client-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "assemblyai-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "atlassian-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "auth0-client-id.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "auth0-client-secret.1",
+      "nativeImport": "betterleaks",
+      "components": [
+        "auth0-client-id.1",
+        "auth0-domain.1"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "auth0-domain.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "authress-service-client-access-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "aws-access-token",
+      "nativeImport": "gitleaks",
+      "components": [
+        "aws-secret-access-key"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "aws-amazon-bedrock-api-key-long-lived",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "aws-amazon-bedrock-api-key-short-lived",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "aws-secret-access-key",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "azure-ad-client-secret",
+      "nativeImport": "gitleaks",
+      "components": [
+        "azure-tenant-id",
+        "azure-client-id"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "azure-app-configuration-connection-string",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "azure-client-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "azure-servicebus-connection-string",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "azure-storage-account-key",
+      "nativeImport": "betterleaks",
+      "components": [
+        "azure-storage-account-name"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "azure-storage-account-name",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "azure-tenant-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "beamer-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "bitbucket-client-id",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "bitbucket-client-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "bitbucket-data-center-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "bitly-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "bitrise-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "bittrex-access-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "bittrex-secret-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "box-api-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "brave-search-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "browserstack-access-key.1",
+      "nativeImport": "betterleaks",
+      "components": [
+        "browserstack-username.1"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "browserstack-username.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "buildkite-service-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "buildkite-user-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "canadian-digital-service-notify-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "canva-client-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "canva-client-secret",
+      "nativeImport": "betterleaks",
+      "components": [
+        "canva-client-id"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "cartesia-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "cerebras-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "checkout-secret-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "circleci-personal-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "circleci-project-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "cisco-meraki-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "civo-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "clerk-secret-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "clickhouse-cloud-api-secret-key",
+      "nativeImport": "gitleaks",
+      "components": [
+        "clickhouse-cloud-key-id"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "clickhouse-cloud-key-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "clickup-personal-api-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "clojars-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "cloudflare-account-id.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "cloudflare-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "cloudflare-api-key.2",
+      "nativeImport": "betterleaks",
+      "components": [
+        "cloudflare-account-id.1"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "cloudflare-global-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "cloudflare-origin-ca-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "cloudinary-api-key",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "cloudinary-api-secret",
+      "nativeImport": "betterleaks",
+      "components": [
+        "cloudinary-api-key",
+        "cloudinary-cloud-name"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "cloudinary-cloud-name",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "cloudsmith-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "cockroachlabs-cloud-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "codecov-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "cohere-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "coinbase-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "configcat-sdk-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "configcat-sdk-key-extended",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "confluent-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "confluent-secret-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "contentful-delivery-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "couchbase-capella-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "coveralls-personal-api-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "crates-io-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "curl-auth-header",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "curl-auth-user",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "cursor-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "databento-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "databricks-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "datadog-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "datadog-application-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "datagov-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "datastax-astra-application-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "deepgram-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "deepseek-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "defined-networking-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "deno-account-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "devcycle-client-sdk-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "devcycle-mobile-sdk-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "devcycle-server-sdk-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "devin-personal-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "devin-service-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "devin-service-user-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "digitalocean-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "digitalocean-pat",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "digitalocean-refresh-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "discord-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "discord-client-id",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "discord-client-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "disqus-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "docker-swarm-join-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "docker-swarm-unlock-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "dockerhub-organization-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "dockerhub-personal-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "doppler-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "droneci-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "dropbox-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "dropbox-long-lived-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "dropbox-short-lived-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "duffel-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "dynatrace-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "easypost-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "easypost-test-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "ebay-client-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "ebay-client-secret",
+      "nativeImport": "betterleaks",
+      "components": [
+        "ebay-client-id"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "elastic-cloud-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "elevenlabs-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "endorlabs-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "endorlabs-api-secret",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "etsy-open-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "exoscale-api-key",
+      "nativeImport": "betterleaks",
+      "components": [
+        "exoscale-api-secret"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "exoscale-api-secret",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "facebook-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "facebook-page-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "facebook-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "fal-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "fastly-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "figma-personal-access-header-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "figma-personal-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "finicity-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "finicity-client-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "finnhub-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "flickr-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "flutterwave-encryption-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "flutterwave-public-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "flutterwave-secret-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "flyio-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "frameio-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "freemius-secret-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "freshbooks-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "fullstory-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gcp-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gcp-application-default-credentials",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "gcp-gemini-api",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gcp-service-account",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "generic-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "generic-credential-uri",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "generic-password",
+      "nativeImport": null,
+      "components": [
+        "generic-username"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "generic-username",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitea-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "github-app-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "github-fine-grained-pat",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "github-oauth",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "github-pat",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "github-refresh-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-cicd-job-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-deploy-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-feature-flag-client-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-feed-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-incoming-mail-address-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-incoming-mail-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-kubernetes-agent-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-oauth-app-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-pat",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-pat-routable",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-pat-routable-versioned",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-ptt",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-rrt",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-runner-authentication-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-runner-authentication-token-routable",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-scim-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitlab-session-cookie",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gitter-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gocardless-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "grafana-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "grafana-cloud-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "grafana-service-account-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "greptile-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "groq-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "gumroad-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "harness-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "hashicorp-tf-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "hashicorp-tf-password",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "heroku-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "heroku-api-key-v2",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "highnote-secret-live-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "honeycomb-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "hubspot-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "huggingface-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "huggingface-organization-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "hunter-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "ibm-cloud-user-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "influxdb-api-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "infomaniak-api-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "infracost-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "instantly-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "intercom-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "intra42-client-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "ionic-personal-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "jumpcloud-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "jwt",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "jwt-base64",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "kagi-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "kimi-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "klaviyo-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "kraken-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "kubernetes-secret-yaml",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "kucoin-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "kucoin-secret-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "langchain-langsmith-personal-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "langchain-langsmith-service-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "langfuse-public-key.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "langfuse-secret-key.1",
+      "nativeImport": "betterleaks",
+      "components": [
+        "langfuse-public-key.1"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "lark-app-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "lark-app-secret",
+      "nativeImport": "betterleaks",
+      "components": [
+        "lark-app-id"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "launchdarkly-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "lichess-personal-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "lighton-paradigm-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "linear-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "linear-client-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "linkedin-client-id",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "linkedin-client-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "llama-cloud-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "lob-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "lob-pub-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "looker-client-id",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "looker-client-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "mailchimp-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "mailersend-api-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "mailgun-private-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "mailgun-pub-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "mailgun-signing-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "mapbox-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "mattermost-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "maxmind-license-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "mem0-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "mercury-production-api-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "mergify-application-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "messagebird-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "messagebird-client-id",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "microsoft-teams-webhook",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "midtrans-production-server-client-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "minimax-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "miro-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "miro-client-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "miro-client-secret",
+      "nativeImport": "betterleaks",
+      "components": [
+        "miro-client-id"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "mistral-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "monday-api-token.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "mongodb-atlas-service-account-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "mongodb-atlas-service-account-secret",
+      "nativeImport": "betterleaks",
+      "components": [
+        "mongodb-atlas-service-account-id"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "mongodb-connection-string",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "mux-access-token-id.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "mux-access-token-secret.1",
+      "nativeImport": "betterleaks",
+      "components": [
+        "mux-access-token-id.1"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "neon-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "netlify-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "new-relic-browser-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "new-relic-insert-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "new-relic-user-api-id",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "new-relic-user-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "ngrok-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "notion-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "npm-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "nuget-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "nuget-config-password",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "nvidia-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "nylas-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "nytimes-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "octopus-deploy-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "okta-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "ollama-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "onesignal-rich-authentication-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "onfido-live-api-token-ca",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "onfido-live-api-token-eu",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "onfido-live-api-token-us",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "openai-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "openrouter-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "openshift-user-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "openweather-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "opsgenie-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "ovh-application-key",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "ovh-application-secret",
+      "nativeImport": "betterleaks",
+      "components": [
+        "ovh-application-key",
+        "ovh-consumer-key"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "ovh-consumer-key",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "paddle-live-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "pagerduty-authorization-token.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "paypal-client-id.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "paypal-client-secret.1",
+      "nativeImport": "betterleaks",
+      "components": [
+        "paypal-client-id.1"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "perplexity-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "persona-production-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "pinecone-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "pinecone-api-key.2",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "pinterest-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "pkcs12-file",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "plaid-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "plaid-client-id",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "plaid-secret-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "planetscale-api-token",
+      "nativeImport": "gitleaks",
+      "components": [
+        "planetscale-id"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "planetscale-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "planetscale-oauth-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "planetscale-password",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "plivo-auth-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "plivo-auth-token",
+      "nativeImport": "betterleaks",
+      "components": [
+        "plivo-auth-id"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "polar-oauth-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "polar-organization-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "polar-personal-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "polymarket-address",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "polymarket-api-key",
+      "nativeImport": "betterleaks",
+      "components": [
+        "polymarket-api-secret",
+        "polymarket-passphrase"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "polymarket-api-secret",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "polymarket-passphrase",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "polymarket-private-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "posthog-personal-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "posthog-project-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "postman-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "postmark-api-token.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "prefect-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "private-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "privateai-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "proof-full-access-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "pulumi-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "pypi-upload-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "rainforest-pay-production-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "ramp-client-id",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "ramp-client-secret",
+      "nativeImport": "betterleaks",
+      "components": [
+        "ramp-client-id"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "rapidapi-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "razorpay-key-id.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "razorpay-key-secret.1",
+      "nativeImport": "betterleaks",
+      "components": [
+        "razorpay-key-id.1"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "readme-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "redirect-pizza-api-token.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "render-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "replicate-api-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "resend-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "retell-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "rootly-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "rubygems-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "runpod-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "salesforce-access-token.1",
+      "nativeImport": "betterleaks",
+      "components": [
+        "salesforce-instance-url.1"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "salesforce-instance-url.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "samsara-api-token.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "scaleway-secret-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "scalingo-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "scalr-api-access-token.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "segment-public-api-token.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "sendbird-access-id",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "sendbird-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "sendgrid-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "sendinblue-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "sentry-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "sentry-org-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "sentry-user-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "settlemint-application-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "settlemint-personal-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "settlemint-service-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "shippo-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "shopify-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "shopify-custom-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "shopify-private-app-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "shopify-shared-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "sidekiq-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "sidekiq-sensitive-url",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "slack-app-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "slack-bot-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "slack-config-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "slack-config-refresh-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "slack-legacy-bot-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "slack-legacy-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "slack-legacy-workspace-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "slack-session-cookie",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "slack-session-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "slack-user-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "slack-webhook-url",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "snowflake-account-host.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "snowflake-programmatic-access-token.1",
+      "nativeImport": "betterleaks",
+      "components": [
+        "snowflake-account-host.1"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "snyk-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "sonar-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "sourcegraph-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "square-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "squarespace-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "sslmate-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "stability-ai-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "stripe-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "sumologic-access-id",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "sumologic-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "supabase-management-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "supabase-project-api-key",
+      "nativeImport": "betterleaks",
+      "components": [
+        "supabase-project-url"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "supabase-project-url",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "tableau-personal-access-token-name.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "tableau-personal-access-token.1",
+      "nativeImport": "betterleaks",
+      "components": [
+        "tableau-personal-access-token-name.1",
+        "tableau-server-host.1"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "tableau-server-host.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "tailscale-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "telegram-bot-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "telnyx-api-v2-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "temporal-cloud-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "thunderstore-api-token.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "togetherai-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "travisci-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "twilio-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "twitch-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "twitter-access-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "twitter-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "twitter-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "twitter-api-secret",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "twitter-bearer-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "typeform-api-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "unkey-root-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "upcloud-api-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "upstage-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "upstash-redis-rest-token.1",
+      "nativeImport": "betterleaks",
+      "components": [
+        "upstash-redis-rest-url.1"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "upstash-redis-rest-url.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "val-town-api-token.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "vault-batch-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "vault-service-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "vercel-ai-gateway-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "vercel-api-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "vercel-app-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "vercel-app-refresh-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "vercel-integration-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "vercel-personal-access-token",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "virustotal-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "voyageai-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "vultr-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "wakatime-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "wakatime-api-key.2",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "weatherstack-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "weights-and-biases-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "weights-and-biases-api-key-v1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "wiz-client-id.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "wiz-client-secret.1",
+      "nativeImport": "betterleaks",
+      "components": [
+        "wiz-client-id.1"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "woocommerce-consumer-secret.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "workato-developer-api-token.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "workos-production-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "xai-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "xendit-production-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "yandex-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "yandex-api-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "yandex-aws-access-token",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": false,
+      "hasValidation": false
+    },
+    {
+      "id": "zai-api-key",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "zendesk-secret-key",
+      "nativeImport": "gitleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "zoho-client-id.1",
+      "nativeImport": null,
+      "components": [],
+      "skipReport": true,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "zoho-client-secret.1",
+      "nativeImport": "betterleaks",
+      "components": [
+        "zoho-client-id.1"
+      ],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "zoho-oauth-token.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "zoho-zapi-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    },
+    {
+      "id": "zuplo-consumer-api-key.1",
+      "nativeImport": "betterleaks",
+      "components": [],
+      "skipReport": false,
+      "hasFilter": true,
+      "hasValidation": false
+    }
+  ]
+}
