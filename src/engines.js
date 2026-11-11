@@ -18,7 +18,7 @@ import { projectText } from './projection.js';
 import { decodedRuns } from './encoded.js';
 import { hasCustomTransforms } from './transforms.js';
 import { builtInEnabled } from './policy.js';
-import { exemptFindingsAsync } from './exempt.js';
+import { exemptFindingsAsync, escapedExemptionView } from './exempt.js';
 import {
   initializePlaceholders,
   placeholderKnown,
@@ -235,6 +235,59 @@ function configuredEngines(options) {
   return engines;
 }
 
+async function screenDecodedFindings(text, findings, options, depth, screened) {
+  const retained = [];
+  for (const finding of findings) {
+    const view = escapedExemptionView(text, finding, depth);
+    const clean =
+      view !== undefined &&
+      !(
+        await screened(
+          view,
+          [],
+          true,
+          { ...options, findings: [], structured: undefined },
+          undefined,
+          depth + 1
+        )
+      ).length;
+    if (clean) {
+      options.debug?.({ event: 'exempt-decoded-view', rule: finding.rule });
+    } else {
+      retained.push(finding);
+    }
+  }
+  return retained;
+}
+
+function createScreened(analyze, options) {
+  // The caller's `exempt` hook screens the findings of the text it sees,
+  // including the verification passes over the published output.
+  return async function screened(
+    text,
+    initial,
+    plain,
+    scopedOptions = options,
+    nativeFindings,
+    exemptionDepth = 0
+  ) {
+    const findings = await exemptFindingsAsync(
+      text,
+      await analyze(text, initial, plain, scopedOptions, nativeFindings),
+      scopedOptions.exempt
+    );
+    return scopedOptions.exempt
+      ? screenDecodedFindings(
+          text,
+          findings,
+          scopedOptions,
+          exemptionDepth,
+          screened
+        )
+      : findings;
+  };
+}
+
 export function createSanitizer(options = {}) {
   options = applyProfile(options);
   validateOptions(options);
@@ -281,21 +334,7 @@ export function createSanitizer(options = {}) {
       : detected;
   }
 
-  // The caller's `exempt` hook screens the findings of the text it sees,
-  // including the verification passes over the published output.
-  async function screened(
-    text,
-    initial,
-    plain,
-    scopedOptions = options,
-    nativeFindings
-  ) {
-    return exemptFindingsAsync(
-      text,
-      await analyze(text, initial, plain, scopedOptions, nativeFindings),
-      scopedOptions.exempt
-    );
-  }
+  const screened = createScreened(analyze, options);
 
   const sanitizer = {
     inspect: guarded(screened),
