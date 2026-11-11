@@ -158,6 +158,8 @@ export type DebugEvent =
   | { event: 'residual-redaction'; round: number }
   | { event: 'template-value'; rule: string }
   | { event: 'exempt-decoded-view'; rule: string }
+  /** One structured JSON key or string view; `cached` when this call already inspected it. */
+  | { event: 'structured-value'; count: number; cached?: true }
   | { event: 'two-pass-confirmation'; type: string }
   | { event: 'propagation-skipped'; reason: 'length'; type: string }
   | { event: 'gitleaks-rule'; rule: string; length: number; ms: number };

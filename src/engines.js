@@ -1,6 +1,7 @@
 import { actionable } from './confidence.js';
 import {
   auditFaked,
+  mergeSameSpanFindings,
   redactAgain,
   inspect,
   redactResultAsync,
@@ -19,6 +20,7 @@ import { decodedRuns } from './encoded.js';
 import { hasCustomTransforms } from './transforms.js';
 import { builtInEnabled } from './policy.js';
 import { exemptFindingsAsync, escapedExemptionView } from './exempt.js';
+import { structuredInspection, withStructuredMemo } from './structured-memo.js';
 import {
   initializePlaceholders,
   placeholderKnown,
@@ -163,40 +165,47 @@ async function analyzeStructured(
   analyze
 ) {
   const findings = [];
+  // Each distinct view is analyzed a single time per sanitize call.
+  const memo = structuredInspection(options);
+  const kind = nativeFindings === undefined ? 'async' : 'async-native';
   for (const batch of structuredBatches(text, options)) {
     findings.push(...structuredFieldFindings(batch, options));
     for (const finding of mapStructuredFindings(
       batch,
-      await analyze(
-        batch.text,
-        [],
-        true,
-        {
-          ...options,
-          detectors: [],
-          properNames: undefined,
-          documentEntities: options.properNames
-            ? false
-            : options.documentEntities,
-        },
-        nativeFindings === undefined ? undefined : []
-      ),
+      await memo(`${kind}-batch`, batch.text, false, () =>
+        analyze(
+          batch.text,
+          [],
+          true,
+          {
+            ...options,
+            detectors: [],
+            properNames: undefined,
+            documentEntities: options.properNames
+              ? false
+              : options.documentEntities,
+          },
+          nativeFindings === undefined ? undefined : []
+        )
+      ).findings,
       options
     )) {
       findings.push(finding);
     }
     for (const view of structuredValueViews(batch, options)) {
-      const detected = await analyze(
-        view.text,
-        [],
-        true,
-        {
-          ...options,
-          structured: undefined,
-          properNames: view.prose ? options.properNames : undefined,
-        },
-        nativeFindings === undefined ? undefined : []
-      );
+      const detected = await memo(`${kind}-value`, view.text, view.prose, () =>
+        analyze(
+          view.text,
+          [],
+          true,
+          {
+            ...options,
+            structured: undefined,
+            properNames: view.prose ? options.properNames : undefined,
+          },
+          nativeFindings === undefined ? undefined : []
+        )
+      ).findings;
       for (const finding of detected) {
         const mapped = view.map(finding);
         if (mapped) {
@@ -337,7 +346,9 @@ export function createSanitizer(options = {}) {
   const screened = createScreened(analyze, options);
 
   const sanitizer = {
-    inspect: guarded(screened),
+    inspect: guarded(async (text) =>
+      mergeSameSpanFindings(await screened(text))
+    ),
     sanitize: guarded(sanitizeText, () => discardPlaceholderState(options)),
     sanitizeJsonl: (text) =>
       createSanitizer({ ...options, structured: 'jsonl' }).sanitize(text),
@@ -363,7 +374,7 @@ export function createSanitizer(options = {}) {
     scopedOptions = options,
     round = 0
   ) {
-    const options = scopedOptions;
+    const options = withStructuredMemo(scopedOptions);
     const findings =
       depth === 0 && prepared?.text === text
         ? prepared.findings

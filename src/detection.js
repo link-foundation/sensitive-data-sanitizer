@@ -79,6 +79,46 @@ export function escapePattern(text) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+/**
+ * Visits matches like `text.matchAll(regex)` without cloning the
+ * expression. `matchAll` copies it on every call, and a short structured
+ * value pays that copy for each shared pattern (issue 165). The scan keeps
+ * its own position, so `visit` may reuse the expression, and leaves
+ * `lastIndex` as it found it. Every scan starts at index 0.
+ */
+export function eachMatch(text, regex, visit) {
+  const pattern = regex.global
+    ? regex
+    : new RegExp(regex.source, `${regex.flags}g`);
+  const initial = pattern.lastIndex;
+  const unicode = pattern.unicode || pattern.unicodeSets;
+  let next = 0;
+  try {
+    for (;;) {
+      pattern.lastIndex = next;
+      const match = pattern.exec(text);
+      if (match === null) {
+        return;
+      }
+      next =
+        match[0] === ''
+          ? advanceIndex(text, pattern.lastIndex, unicode)
+          : pattern.lastIndex;
+      pattern.lastIndex = initial;
+      visit(match);
+    }
+  } finally {
+    pattern.lastIndex = initial;
+  }
+}
+
+/** All matches of `eachMatch` as an array. */
+export function scanMatches(text, regex) {
+  const matches = [];
+  eachMatch(text, regex, (match) => matches.push(match));
+  return matches;
+}
+
 export function collectMatches(
   text,
   regex,
@@ -87,27 +127,35 @@ export function collectMatches(
   group = 0,
   accept = () => true
 ) {
-  // matchAll clones global expressions and leaves their lastIndex untouched.
-  const pattern =
-    regex.global && regex.lastIndex === 0
-      ? regex
-      : new RegExp(
-          regex.source,
-          regex.global ? regex.flags : `${regex.flags}g`
-        );
-  for (const match of text.matchAll(pattern)) {
-    const raw = match[group];
-    const value = details.category === 'personal' ? raw?.trim() : raw;
-    if (!value || value.trim() === REDACTED || !accept(value, match)) {
-      continue;
-    }
-    const offset = group ? match[0].lastIndexOf(value) : 0;
-    emit({
-      start: match.index + offset,
-      end: match.index + offset + value.length,
-      ...details,
-    });
+  eachMatch(text, regex, (match) =>
+    collectMatch(match, group, details, accept, emit)
+  );
+}
+
+function advanceIndex(text, index, unicode) {
+  if (!unicode || index + 1 >= text.length) {
+    return index + 1;
   }
+  const code = text.charCodeAt(index);
+  if (code < 0xd800 || code > 0xdbff) {
+    return index + 1;
+  }
+  const low = text.charCodeAt(index + 1);
+  return low >= 0xdc00 && low <= 0xdfff ? index + 2 : index + 1;
+}
+
+function collectMatch(match, group, details, accept, emit) {
+  const raw = match[group];
+  const value = details.category === 'personal' ? raw?.trim() : raw;
+  if (!value || value.trim() === REDACTED || !accept(value, match)) {
+    return;
+  }
+  const offset = group ? match[0].lastIndexOf(value) : 0;
+  emit({
+    start: match.index + offset,
+    end: match.index + offset + value.length,
+    ...details,
+  });
 }
 
 export function entropy(value) {

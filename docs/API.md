@@ -788,6 +788,17 @@ Typed special-category attributes take precedence over generic `ProperName`
 guesses, including capitalized caller stems in Cyrillic prose. Strict coverage
 includes the 34 additional nationality, religion, health, criminal-record,
 political and union terms reported in issue 144, even as standalone words.
+Diagnosis and community acronyms (`HIV`/`ВИЧ`, `AIDS`/`СПИД` with its case
+forms, `ADHD`/`СДВГ`, `PTSD`/`ПТСР`, `LGBT`/`ЛГБТ`, `LGBTQ+`/`ЛГБТК`) match in
+any letter case as whole words, so `спидометр` stays readable. A hyphenated
+compound around a matched term is one attribute: `вич-инфекция`,
+`женщина-врач` and `диабет-2` redact whole instead of leaving a fragment.
+
+`inspect`, the engines' `inspect` and `sanitize(...).findings` report one
+personal finding per span and type. When several personal rules flag the same
+span (`location-gazetteer` and `location-residence` on `Москва`), the
+caller-known value or, failing that, the most confident rule is kept.
+Credential findings and `redactions` are unchanged (issue 164).
 
 With default `publicKnowledge`, exact public technology spellings such as Python,
 SQL, PostgreSQL, Docker, Kubernetes, React, AWS and Azure remain readable when

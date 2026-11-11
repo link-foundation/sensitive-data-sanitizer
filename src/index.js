@@ -2,7 +2,7 @@
 
 import './personal-features.js';
 
-export { inspect, sanitize, redact } from './sanitizer.js';
+export { inspectReport as inspect, sanitize, redact } from './sanitizer.js';
 export { createSanitizer } from './engines.js';
 export { compileKnown } from './compiled-known.js';
 export { builtInRules } from './rule-catalog.js';
