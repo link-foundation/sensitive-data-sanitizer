@@ -1,5 +1,5 @@
 import {
-  inspect,
+  inspectReport,
   sanitize,
   validateOptions,
   applyProfile,
@@ -10,7 +10,7 @@ export function createSyncSanitizer(options = {}) {
   options = applyProfile(options);
   validateOptions(options);
   return Object.freeze({
-    inspect: (text) => inspect(text, options),
+    inspect: (text) => inspectReport(text, options),
     sanitize: (text) => sanitize(text, options),
   });
 }

@@ -49,7 +49,7 @@ const believerNoun = `(?:а|у|ом|е|ы|ов|ам|ами|ах|к${femaleNoun}|
 // These terms are sensitive even without an adjacent personal cue. Keep
 // bounded endings and whole-word boundaries, as for the existing categories.
 const followUpVocabulary = new RegExp(
-  `(?<![\\p{L}\\p{N}_])(?:иудаизм${hardNoun}|старовер${believerNoun}|эпилептик${softNoun}|паралич${softNoun}|наркомани[\\p{L}]{1,4}|профсоюз${hardNoun}|коммунист${believerNoun}|uzbek|tajik|chechen|romani|gypsy|latino|latina|baptist|aids|bipolar|adhd|wheelchair|lgbt|convicted|felony|trade[ \\t]+union)(?![\\p{L}\\p{N}_])`,
+  `(?<![\\p{L}\\p{N}_])(?:иудаизм${hardNoun}|старовер${believerNoun}|эпилептик${softNoun}|паралич${softNoun}|наркомани[\\p{L}]{1,4}|профсоюз${hardNoun}|коммунист${believerNoun}|uzbek|tajik|chechen|romani|gypsy|latino|latina|baptist|aids|bipolar|adhd|ptsd|wheelchair|lgbt(?:q(?:ia)?)?\\+?|спид(?:а|у|ом|е)?|сдвг|птср|лгбт(?:к(?:иа)?)?\\+?|convicted|felony|trade[ \\t]+union)(?![\\p{L}\\p{N}_])`,
   'giu'
 );
 const specialVocabulary = new RegExp(
@@ -90,6 +90,24 @@ function personalContext(text, match) {
   );
 }
 
+const compoundTail = /^(?:-[\p{L}\p{N}]+)+/u;
+const compoundHead = /(?:[\p{L}\p{N}]+-)+$/u;
+function hyphenatedCompound(text, finding) {
+  const head = text
+    .slice(Math.max(0, finding.start - 64), finding.start)
+    .match(compoundHead)?.[0];
+  const tail = text
+    .slice(finding.end, finding.end + 64)
+    .match(compoundTail)?.[0];
+  return head || tail
+    ? {
+        ...finding,
+        start: finding.start - (head?.length ?? 0),
+        end: finding.end + (tail?.length ?? 0),
+      }
+    : finding;
+}
+
 export function detectStrictAttributes(text, emit, options) {
   let detected = 0,
     suppressed = 0;
@@ -99,9 +117,12 @@ export function detectStrictAttributes(text, emit, options) {
     category: 'personal',
     confidence: 0.9,
   };
+  // A hyphenated compound (`вич-инфекция`, `женщина-врач`, `диабет-2`) is one
+  // word: a partial span would leave `PersonalAttribute-1-инфекция`, which the
+  // residual check rightly rejects as a capitalized name.
   const report = (finding) => {
     detected++;
-    emit(finding);
+    emit(hyphenatedCompound(text, finding));
   };
   for (const pattern of [
     attributes,

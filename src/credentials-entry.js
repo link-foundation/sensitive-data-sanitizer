@@ -6,7 +6,7 @@
  * Every function here runs with `credentialsOnly: true` (issue 137).
  */
 import {
-  inspect as inspectText,
+  inspectReport as inspectText,
   sanitize as sanitizeText,
   redact as redactText,
 } from './sanitizer.js';

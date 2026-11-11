@@ -1,6 +1,7 @@
 import { actionable } from './confidence.js';
 import {
   auditFaked,
+  mergeSameSpanFindings,
   redactAgain,
   inspect,
   redactResultAsync,
@@ -337,7 +338,9 @@ export function createSanitizer(options = {}) {
   const screened = createScreened(analyze, options);
 
   const sanitizer = {
-    inspect: guarded(screened),
+    inspect: guarded(async (text) =>
+      mergeSameSpanFindings(await screened(text))
+    ),
     sanitize: guarded(sanitizeText, () => discardPlaceholderState(options)),
     sanitizeJsonl: (text) =>
       createSanitizer({ ...options, structured: 'jsonl' }).sanitize(text),

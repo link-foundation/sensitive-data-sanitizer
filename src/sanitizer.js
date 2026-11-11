@@ -459,6 +459,45 @@ function locations(text, findings) {
   });
 }
 
+// Personal rules that agree on one span and type (a gazetteer city that is
+// also a residence value) are reported once. Internal passes keep every rule,
+// because structural and propagation policy depend on the rule; only the
+// public result is merged. Caller-supplied values win, then the more
+// confident rule. Credential rules keep their per-engine provenance.
+const exactRules = new Set(['known-personal', 'confirmed-personal']);
+const mergeRank = (f) => [exactRules.has(f.rule) ? 1 : 0, f.confidence ?? 0];
+export function mergeSameSpanFindings(findings) {
+  const kept = new Map();
+  const result = [];
+  for (const f of findings) {
+    if (f.category !== 'personal') {
+      result.push(f);
+      continue;
+    }
+    const key = `${f.start}:${f.end}:${f.type}`;
+    const index = kept.get(key);
+    if (index === undefined) {
+      kept.set(key, result.length);
+      result.push(f);
+      continue;
+    }
+    const [exact, confidence] = mergeRank(f);
+    const [keptExact, keptConfidence] = mergeRank(result[index]);
+    if (
+      exact > keptExact ||
+      (exact === keptExact && confidence > keptConfidence)
+    ) {
+      result[index] = f;
+    }
+  }
+  return result;
+}
+
+/** Public inspection: one finding per personal span and type. */
+export function inspectReport(text, options = {}) {
+  return mergeSameSpanFindings(inspect(text, options));
+}
+
 export function inspect(text, options = {}, exemptionDepth = 0) {
   try {
     const exempt = options?.exempt;
@@ -1187,7 +1226,7 @@ export function redactAgain(result, findings, options, round, rerun) {
 
 export function auditFaked(findings, options, result) {
   const spans = fakedResults.get(result) ?? [];
-  return findings.map((f) =>
+  return mergeSameSpanFindings(findings).map((f) =>
     actionable(f, options) &&
     spans.some((span) => span.start <= f.start && span.end >= f.end)
       ? { ...f, faked: true }
