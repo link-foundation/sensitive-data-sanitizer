@@ -143,6 +143,10 @@ export function configurationSetting(keyName, value) {
 function credentialMetadata(keyName, value) {
   return (
     configurationSetting(keyName, value) ||
+    // This documented opt-out enum is public; other authority values and
+    // names still carry credential evidence.
+    (keyName === 'HIVE_MIND_CLAUDE_AUTH_AUTHORITY' &&
+      value === 'conventional') ||
     (/(?:^|[_.-])auth[_.-](?:mode|method|type)$/i.test(keyName) &&
       /^(?:chatgpt|oauth2?|apikey|api_key|bearer|basic|none)$/i.test(value)) ||
     (keyName === 'id-token' && /^(?:write|read|none)$/.test(value)) ||
@@ -160,11 +164,13 @@ function credentialMetadata(keyName, value) {
 // Only a quote at the same escape depth closes it; embedded quotes belong to
 // the value. Offsets cover escape bytes as well as the decoded characters.
 export function valueRange(text, start, mode = 'token', maxLength = Infinity) {
-  const reference = referencePrefix(text.slice(start, start + 512));
+  const reference = referencePrefix(
+    text.slice(start, markdownEnd(text, start, 512))
+  );
   if (reference) {
     return { start, end: start + reference[0].length };
   }
-  const opening = text.slice(start).match(/^(\\*)(["'])/);
+  const opening = text.slice(start).match(/^(\\*)(["']|`+)/);
   if (opening) {
     const range = quotedRange(text, start, opening, maxLength);
     const outer = outerQuoteEnd(text, range.start, range.end);
@@ -173,7 +179,8 @@ export function valueRange(text, start, mode = 'token', maxLength = Infinity) {
   if (/^[{[]/.test(text.slice(start, start + 1))) {
     return undefined;
   }
-  const tail = text.slice(start, start + maxLength);
+  const tail = text.slice(start, markdownEnd(text, start, maxLength));
+  // Only a matching surrounding Markdown delimiter ends an unquoted value.
   const terminator =
     mode === 'query'
       ? /[\s&#"'<>]/
@@ -321,6 +328,9 @@ function quotedRange(text, start, opening, maxLength) {
   const depth = opening[1].length,
     quote = opening[2];
   const valueStart = start + opening[0].length;
+  if (quote[0] === '`') {
+    return markdownRange(text, valueStart, quote.length, maxLength);
+  }
   for (
     let i = valueStart;
     i < Math.min(text.length, valueStart + maxLength);
@@ -351,6 +361,64 @@ function quotedRange(text, start, opening, maxLength) {
     start: valueStart,
     end: Math.min(text.length, valueStart + maxLength),
   };
+}
+
+// Markdown closes only at a run of the same length. Scan each run once so
+// long unmatched backtick runs cannot cause repeated prefix comparisons.
+function markdownRange(text, start, length, maxLength) {
+  const limit = Math.min(text.length, start + maxLength);
+  for (let i = start; i < limit; i++) {
+    if (text[i] !== '`') {
+      continue;
+    }
+    let end = i + 1;
+    while (end < limit && text[end] === '`') {
+      end++;
+    }
+    if (end - i === length && text[end] !== '`') {
+      return { start, end: i };
+    }
+    i = end - 1;
+  }
+  return { start, end: limit };
+}
+
+// Recognize surrounding inline Markdown within a bounded logical line. When
+// its opening or closing delimiter cannot be established, keep scanning the
+// full credential, including any literal material following a placeholder.
+function markdownEnd(text, start, maxLength) {
+  const end = Math.min(text.length, start + maxLength);
+  const from = Math.max(0, start - 4096);
+  const prefix = text.slice(from, start);
+  const lineStart =
+    Math.max(prefix.lastIndexOf('\n'), prefix.lastIndexOf('\r')) + 1;
+  if (from && !lineStart) {
+    return end;
+  }
+  let length = 0;
+  for (const run of prefix.slice(lineStart).matchAll(/`+/g)) {
+    if (!length) {
+      let slashes = 0;
+      for (
+        let i = lineStart + run.index - 1;
+        i >= 0 && prefix[i] === '\\';
+        i--
+      ) {
+        slashes++;
+      }
+      if (slashes % 2 === 0) {
+        length = run[0].length;
+      }
+    } else if (length === run[0].length) {
+      length = 0;
+    }
+  }
+  if (!length) {
+    return end;
+  }
+  const limit = Math.min(end, start + 4096);
+  const close = markdownRange(text, start, length, limit - start).end;
+  return close < limit ? close : end;
 }
 
 function plausibleLabel(value, type) {
@@ -534,8 +602,11 @@ const angleEnd = {
 // detection view instead.
 const formattingTag = new RegExp(`^${htmlTag}`, 'i');
 function angleValue(text, start, mode) {
-  const tail = text.slice(start, start + 4096);
-  if (text[start] !== '<' || !angleEnd[mode] || formattingTag.test(tail)) {
+  if (text[start] !== '<' || !angleEnd[mode]) {
+    return undefined;
+  }
+  const tail = text.slice(start, markdownEnd(text, start, 4096));
+  if (formattingTag.test(tail)) {
     return undefined;
   }
   const placeholder = /^<[^<>\r\n]{1,64}>/.exec(tail)?.[0];
@@ -550,6 +621,23 @@ function angleValue(text, start, mode) {
   return { start, end: start + (stop < 0 ? tail.length : stop) };
 }
 
+// Scheme-prefixed values carry the credential after the keyword, just as
+// Authorization headers do. Never mask only `token` and leave its value.
+function credentialValueRange(text, start, mode) {
+  const valueStart = start;
+  if (mode === 'token') {
+    start +=
+      /^(?:token|Bearer|Basic)[ \t]+(?=\S)/i.exec(text.slice(start))?.[0]
+        .length ?? 0;
+  }
+  const range = angleValue(text, start, mode) ?? valueRange(text, start, mode);
+  // Keep the prefix in the value used for metadata checks: `token 0` is not
+  // the exact public setting `0`, even under a configuration name.
+  return range && start !== valueStart
+    ? { ...range, start: valueStart }
+    : range;
+}
+
 function credentialRange(text, match, camel) {
   const start = match.index + match[0].length;
   if (
@@ -562,7 +650,7 @@ function credentialRange(text, match, camel) {
     return authorizationRanges(text, start);
   }
   const mode = credentialMode(text, match);
-  const range = angleValue(text, start, mode) ?? valueRange(text, start, mode);
+  const range = credentialValueRange(text, start, mode);
   const value = range && mode === 'prose' ? generatedWord(text, range) : range;
   if (value && /^(?:set-)?cookie$/i.test(match[1])) {
     return cookieValues(text, value.start, value.end);
@@ -601,7 +689,8 @@ function detectCredentials(text, emit) {
   }
   const flags = new RegExp(`--(${key})(?:[ \\t]+|=)`, 'giu');
   for (const match of text.matchAll(flags)) {
-    const range = valueRange(text, match.index + match[0].length);
+    const start = match.index + match[0].length;
+    const range = credentialValueRange(text, start, 'token');
     if (range) {
       emitValue(text, range.start, range.end, emit, details, match[1]);
     }
