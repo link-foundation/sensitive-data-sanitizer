@@ -353,3 +353,15 @@ Job 130279163685's log at lines 298–309 identifies the documentation add/add
 conflict in the fresh-merge check. Runtime setup and Bun tests never started.
 This failure requires synchronizing the branch. It provides no Bun test failure
 evidence. The preceding source head `7bcdcfa` passed every workflow.
+
+### Main release 0.21.6 and runner setup failure
+
+Main's release `0910660` publishes 0.21.6 and consumes its Markdown patch
+changeset. Its merge updates package metadata and the changelog. This PR's
+single minor changeset remains pending.
+
+The next integration run's macOS Node shard 2/3 fails before checkout or tests.
+Job 130290082111 records failed action downloads at lines 32 and 34, followed
+by the DNS error for `codeload.github.com` at lines 36–37 after three attempts.
+The other runtime shards pass. The preserved log identifies a hosted-runner
+network failure. The new integration commit requires another CI execution.

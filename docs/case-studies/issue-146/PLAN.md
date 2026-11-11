@@ -84,3 +84,9 @@ above remain unfinished. Resolving merge conflicts does not satisfy them.
 The earlier unchecked R1/R3/R4 criteria remain open. In particular, the new
 regressions extend the historical audit to the current downstream reports
 without establishing an exhaustive audit of all historical requirements.
+
+- [x] Preserve job 130290082111's setup log and identify GitHub action-download
+      DNS failures before checkout or test execution. Every other runtime shard
+      passes on `9b6e49a`.
+- [x] Merge main release `0910660` (0.21.6), consuming its independent Markdown
+      patch fragment and retaining this PR's single pending minor changeset.
