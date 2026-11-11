@@ -325,3 +325,17 @@ detected password, and runs workers sequentially with a 128 MiB heap and a
 Record count offers no useful explanation or improvement for this failure.
 The original fixture and all scanner settings and deadlines are retained.
 Current-head CI verification must include a passing execution of this test.
+
+### Successful runtime verification and main release 0.21.5
+
+All five workflows pass on `7bcdcfa`, including all runtime shards. In the
+current-head macOS Bun job 130264253075, the large-file assertion completes in
+7.55 s at log line 1732. The summary at lines 1945–1949 records 1,314 passing
+tests, one explicit platform skip and zero failures, within the original
+200-second suite budget. The fixture and per-test limits need no adjustment.
+
+Main advanced during final synchronization to `5e0fc61` (release 0.21.5,
+including PR 159). Its Authorization fix is already integrated in this branch,
+so the clean merge changes only package versions and the changelog. The
+already-released Authorization entry is removed from this PR's pending minor
+changeset. This latest integration requires its own current-head CI results.

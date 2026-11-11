@@ -73,8 +73,10 @@ above remain unfinished. Resolving merge conflicts does not satisfy them.
 - [x] Preserve macOS job 130247955358 logs, investigate its elapsed-time
       assertion, retain all process deadlines and verify all 76 focused tests.
 - [x] Integrate main release `61a7975` (0.21.4).
-- [ ] Verify all five workflows against the final updated head.
-- [ ] Record current-head CI evidence in the PR description.
+- [x] Verify all five workflows on `7bcdcfa`, including the large-file Bun
+      regression, and record current-head CI evidence in the PR description.
+- [x] Merge main release `5e0fc61` (0.21.5) with no additional source changes.
+- [ ] Verify all five workflows on the latest release-integration head.
 
 The earlier unchecked R1/R3/R4 criteria remain open. In particular, the new
 regressions extend the historical audit to the current downstream reports

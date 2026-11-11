@@ -10,6 +10,4 @@ Preserve unquoted JavaScript constructor calls under credential assignment names
 
 Preserve complete credential placeholders and public configuration values before Markdown backticks, including the exact `HIVE_MIND_CLAUDE_AUTH_AUTHORITY=conventional` opt-out. Keep masking actual HTML/script and keyword-prefixed credentials, with exact known secrets taking priority.
 
-Preserve Authorization and Proxy-Authorization scheme words when overlapping credential heuristics match exactly the scheme before a separate payload. Continue masking payloads, bare credentials, and exact known secrets.
-
 Expose PRIVATE_KEY for native PEM and PuTTY private-key findings so per-type redaction overrides apply under a global hive-mask transformation. PEM markers and surrounding log text remain readable.
