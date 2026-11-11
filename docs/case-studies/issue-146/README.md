@@ -124,7 +124,7 @@ these measurements.
 | Default case set       | Total | Skipped | Misses | Over-redactions | Errors |
 | ---------------------- | ----: | ------: | -----: | --------------: | -----: |
 | Open-source PII        |   371 |       0 |     60 |              16 |      0 |
-| Open-source secrets    |   298 |      15 |     15 |              83 |      0 |
+| Open-source secrets    |   298 |      15 |     15 |              82 |      0 |
 | Closed-source examples |   184 |       5 |     41 |              15 |      0 |
 
 Misses include Presidio (23), DataFog (18), Sentry Relay (16), redact-pii (7)
@@ -280,3 +280,12 @@ bodies and comments for issues 148–154. Combined Node verification passes all
 credential formats, PuTTY keys, context/configuration/shapes/encoding, session
 identity, the verifier and the Betterleaks adapter. Targeted ESLint and Prettier
 pass, and README navigation reaches all 92 Markdown documents.
+
+A fresh 853-case corpus run after integration has zero sanitizer errors. The
+positive misses stay at 60 PII, 15 secrets and 41 closed-source examples. Secrets
+over-redactions decrease from 83 to 82 because case 173's complete variable
+reference is preserved. These recorded expectations still require independent
+upstream-engine review, including decoder-only examples and policy differences.
+The refreshed JSON retains the per-case evidence. Another 39 Node attribute,
+package and placeholder tests pass, and 52 Bun integration checks pass across
+the new issue suites, Authorization context and PEM boundaries.

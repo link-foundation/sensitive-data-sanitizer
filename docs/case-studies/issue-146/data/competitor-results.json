@@ -704,7 +704,7 @@
     "total": 298,
     "skipped": 15,
     "misses": 15,
-    "overRedactions": 83,
+    "overRedactions": 82,
     "errors": 0,
     "cases": [
       {
@@ -1093,12 +1093,6 @@
       },
       {
         "index": 162,
-        "tool": "detect-secrets",
-        "source": "https://github.com/Yelp/detect-secrets/blob/master/tests/filters/heuristic_filter_test.py",
-        "outcome": "overRedactions"
-      },
-      {
-        "index": 173,
         "tool": "detect-secrets",
         "source": "https://github.com/Yelp/detect-secrets/blob/master/tests/filters/heuristic_filter_test.py",
         "outcome": "overRedactions"
