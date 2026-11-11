@@ -247,3 +247,36 @@ the new issue-149 study as unreachable; adding it to the case-study index
 restores navigation to all 92 Markdown documents. The preceding merge commit
 `ebb89ba` passed all five CI workflows, including all runtime shards; the
 new integration requires its own current-head CI verification.
+
+## Second merge restart and issues 151–154
+
+Main at `841deb9` includes PR 160's issue 153 fix. The conflict is the same
+`templatedCredential` return expression, with two independently required checks.
+The merged expression preserves adjacent PEM end armor, sentence punctuation and
+canonical short encoded masks. Main's bounded escaped-view policy inspection
+and exact-known-secret handling are retained.
+
+The newer issue bodies and all comments were read, including issue 153's
+escaped-view feedback. There are no explicit sub-issues on issues 146 or 151–154.
+PRs 158, 159 and 161 have no conversation, inline or review feedback at this
+restart. Their fixes are integrated with original commit authorship, and their
+release fragments are consolidated into this PR's minor changeset.
+
+| Requirement                                                                  | Root cause and implementation                                                                                                                                                                                                                            | Reproducing regression                                                                     |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Issue 151, preserve Markdown placeholders and public configuration values    | Context parsing included closing backticks. Reuse matching Markdown delimiter boundaries and exact public configuration checks. Retain literal suffixes, quoted backticks, HTML/script literals, keyword-prefixed credentials and known-secret priority. | `tests/sanitizer-issue-151.test.js`, six failing tests on the merged baseline              |
+| Issue 152, preserve arbitrary Authorization schemes across overlapping rules | A Gitleaks generic finding covered the scheme despite the native parser bounding the payload. Share scheme parsing with exact-span refinement while preserving payloads, overlapping spans, bare credentials and known-secret priority.                  | `tests/sanitizer-issue-142-context.test.js`, fourteen failing tests on the merged baseline |
+| Issue 153, short encoded masks and escaped JSON policy views                 | Main supplies canonical short-mask checks and independently reinspects escaped views using the configured policy with finite depth and size limits.                                                                                                      | `tests/sanitizer-issue-153.test.js`, existing regressions pass after conflict resolution   |
+| Issue 154, private-key type overrides                                        | Native PEM/PuTTY findings used `SECRET`. They now use `PRIVATE_KEY`, allowing existing per-type transformations and reserved placeholders. PEM armor stays readable and other credentials retain their configured transformation.                        | `tests/sanitizer-issue-154.test.js`, fifteen failing tests on the merged baseline          |
+
+The before run has 50 tests, 15 passing and 35 failing. This establishes the
+reported defects independently of the upstream PR descriptions. The source
+changes use existing detectors, span refinement and renderers. The complete
+remaining competitor and historical-audit requirements above stay unfinished.
+
+The [refreshed issue evidence](data/restart-issues.json) preserves complete
+bodies and comments for issues 148–154. Combined Node verification passes all
+226 tests in fifteen focused files, including PEM boundaries, issues 148/150–154,
+credential formats, PuTTY keys, context/configuration/shapes/encoding, session
+identity, the verifier and the Betterleaks adapter. Targeted ESLint and Prettier
+pass, and README navigation reaches all 92 Markdown documents.

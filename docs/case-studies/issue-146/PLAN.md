@@ -54,3 +54,25 @@ adapter is not evidence that proprietary detection behaves identically.
 
 The original unchecked parity, provider coverage and historical-audit criteria
 above remain unfinished. Resolving merge conflicts does not satisfy them.
+
+## Second restart, 2026-11-11
+
+- [x] Read current issue and PR conversation, inline feedback and reviews.
+      The issue has no explicit sub-issues. Read newer issues 151–154 and all
+      their comments, plus PR 158/159/161 descriptions and feedback endpoints.
+- [x] Merge latest main at `841deb9`, combining adjacent PEM-end handling with
+      short canonical encoded-mask recognition. Existing focused regressions pass.
+- [x] Reproduce issues 151, 152 and 154 with the upstream regression suites.
+      The merged baseline fails 35 of 50 checks. Preserve the fixes and their
+      authorship from PRs 158, 159 and 161 in this PR.
+- [x] Consolidate the three additional release fragments into this PR's single
+      minor changeset, retaining main's independent pending patch fragment.
+- [x] Verify 226 combined regression checks, targeted lint/format and README
+      navigation to all 92 Markdown documents.
+- [ ] Review the final diff, push, confirm latest main is an ancestor, and
+      investigate every non-passing current-head CI job using preserved logs.
+- [ ] Record current-head CI evidence in the PR description.
+
+The earlier unchecked R1/R3/R4 criteria remain open. In particular, the new
+regressions extend the historical audit to the current downstream reports
+without establishing an exhaustive audit of all historical requirements.
