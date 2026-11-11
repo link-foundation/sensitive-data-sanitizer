@@ -290,7 +290,6 @@ The refreshed JSON retains the per-case evidence. Another 39 Node attribute,
 package and placeholder tests pass, and 52 Bun integration checks pass across
 the new issue suites, Authorization context and PEM boundaries.
 
-
 ### macOS timing investigation
 
 On `b0feeab`, macOS Node shard 1/3 failed the document-name probe's elapsed-time
