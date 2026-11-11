@@ -308,3 +308,20 @@ measures 286 ms elapsed and 291 ms CPU, and all 76 issue-32 tests pass.
 
 Main's metadata-only release `61a7975` (0.21.4) is also merged. It consumes the
 independent main changeset and retains this PR's single minor changeset.
+
+### Large-file Bun deadline investigation
+
+The same run's macOS Bun shard 2/3 reached the existing thirty-second test
+limit in `tests/sanitizer-stream.test.js`. Job 130254826529's preserved log
+records the timeout at lines 1820–1821 and the suite summary at 2036–2045.
+The other 1,313 tests passed. The focused assertion passes locally in 12.2 s.
+
+The finite `experiments/issue-146/stream-record-shape.mjs` comparison keeps
+both files above 10 MiB, retains 512 KiB batches and a final automatically
+detected password, and runs workers sequentially with a 128 MiB heap and a
+25-second inactivity deadline. Changing 11,000 one-KiB records into 172
+64-KiB records gives 10.76 s versus 10.65 s locally. CPU profiling gives
+11.12 s versus 11.42 s, with samples distributed across native regex scans.
+Record count offers no useful explanation or improvement for this failure.
+The original fixture and all scanner settings and deadlines are retained.
+Current-head CI verification must include a passing execution of this test.
