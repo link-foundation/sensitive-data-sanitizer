@@ -289,3 +289,23 @@ upstream-engine review, including decoder-only examples and policy differences.
 The refreshed JSON retains the per-case evidence. Another 39 Node attribute,
 package and placeholder tests pass, and 52 Bun integration checks pass across
 the new issue suites, Authorization context and PEM boundaries.
+
+
+### macOS timing investigation
+
+On `b0feeab`, macOS Node shard 1/3 failed the document-name probe's elapsed-time
+assertion. Preserved job 130247955358 logs identify the failure at lines 1582
+and 2094–2102. The suite passed 1,412 of 1,413 tests and finished within its
+300-second budget. The child completed within its independent two-second work
+deadline, then failed the stricter one-second elapsed-time assertion.
+
+The shard runner launches concurrent Node test files. Elapsed time includes CPU
+scheduling delays, making this assertion sensitive to other suites. The probe
+now reports both elapsed time and process CPU usage, and the regression asserts
+the same one-second budget against CPU work. The independent two-second wall
+limit, fifteen-second startup limit, 128 MiB child heap and 1 MiB stack limits
+remain enforced. No test or job timeout is increased. A local finite probe
+measures 286 ms elapsed and 291 ms CPU, and all 76 issue-32 tests pass.
+
+Main's metadata-only release `61a7975` (0.21.4) is also merged. It consumes the
+independent main changeset and retains this PR's single minor changeset.

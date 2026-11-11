@@ -69,8 +69,11 @@ above remain unfinished. Resolving merge conflicts does not satisfy them.
       minor changeset, retaining main's independent pending patch fragment.
 - [x] Verify 226 combined regression checks, targeted lint/format and README
       navigation to all 92 Markdown documents.
-- [ ] Review the final diff, push, confirm latest main is an ancestor, and
-      investigate every non-passing current-head CI job using preserved logs.
+- [x] Review the source diff, push, and confirm latest main is an ancestor.
+- [x] Preserve macOS job 130247955358 logs, investigate its elapsed-time
+      assertion, retain all process deadlines and verify all 76 focused tests.
+- [x] Integrate main release `61a7975` (0.21.4).
+- [ ] Verify all five workflows against the final updated head.
 - [ ] Record current-head CI evidence in the PR description.
 
 The earlier unchecked R1/R3/R4 criteria remain open. In particular, the new
