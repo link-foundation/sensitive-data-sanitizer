@@ -138,7 +138,47 @@ function boundedWrappedBinary(raw) {
 }
 
 function candidateMatches(text, pattern) {
-  return pattern ? text.matchAll(pattern) : jsonStringRuns(text);
+  return pattern === WRAPPED
+    ? wrappedMatches(text)
+    : pattern
+      ? text.matchAll(pattern)
+      : jsonStringRuns(text);
+}
+
+function* wrappedMatches(text) {
+  const pattern = new RegExp(WRAPPED);
+  let match;
+  while ((match = pattern.exec(text))) {
+    const raw = match[0];
+    // An unpadded payload has no alphabet delimiter before the next line.
+    // The greedy matcher can include prose (e.g. "trailing"), invalidating
+    // the complete UTF-8 decode. Recover the longest textual prefix at a
+    // newline to keep the decoded payload intact.
+    // Only ordinary, bounded text is retried; large runs use their normal
+    // binary inspection and fail-closed limits.
+    if (raw.length <= 8192 && !hasTextCandidate(raw)) {
+      let end = raw.lastIndexOf('\n');
+      while (end >= 0) {
+        const prefix = raw.slice(0, raw[end - 1] === '\r' ? end - 1 : end);
+        if (!prefix.includes('\n')) {
+          break;
+        }
+        if (hasTextCandidate(prefix)) {
+          yield Object.assign([prefix], { index: match.index });
+          // The rejected suffix may contain another independent payload.
+          pattern.lastIndex = match.index + prefix.length;
+          break;
+        }
+        end = raw.lastIndexOf('\n', end - 1);
+      }
+    } else {
+      yield match;
+    }
+  }
+}
+
+function hasTextCandidate(raw) {
+  return decodeCandidates(raw).some((c) => decodedText(raw, c.text));
 }
 
 function decodedText(raw, decoded) {
