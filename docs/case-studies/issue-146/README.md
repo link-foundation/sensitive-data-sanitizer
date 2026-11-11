@@ -373,3 +373,18 @@ regression tests are already integrated. The documentation add/add conflict
 in `experiments/issue-154/README.md` retains upstream's newer 36-test evidence.
 The merge retains main's independent patch changeset and removes the duplicate
 private-key entry from this PR's minor changeset.
+
+### Deterministic budget-boundary regression
+
+All five workflows pass on `37ae601`. Main's subsequent PR 161 run exposes
+a separate timing-sensitive test on macOS Deno. Job 130307490310 records
+exit 124 in the boundary-alignment test at lines 1337–1354. The test expects
+a 1.4-second sleep to finish within a two-second budget, while hosted-runner
+scheduling also contributes to elapsed time.
+
+The boundary regression now extracts the actual deadline predicate and checks
+clock values 0, 1, 2 and 3 against budget 2 with Bash's dynamic clock disabled.
+The premature `-ge` predicate fails this test, and the current `-gt` predicate
+passes. Existing integration cases exercise real command completion, expiry
+and termination. All 15 wrapper tests pass under Node, and the focused
+regression passes under Node, Bun and Deno. ESLint and Prettier pass.

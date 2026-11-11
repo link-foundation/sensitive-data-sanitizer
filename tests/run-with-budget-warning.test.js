@@ -331,23 +331,29 @@ describe('process group survivor records', () => {
 
 describe('budget boundary regression', () => {
   itUnless(sandboxed, noPosixShell)(
-    'never kills a command that finishes inside its budget at a second boundary',
+    'enforces the deadline only after its complete boundary second',
     () => {
-      const align = `
-        const { spawnSync } = require('node:child_process');
-        const delay = (750 - Date.now() % 1000 + 1000) % 1000;
-        setTimeout(() => {
-          const result = spawnSync('bash', [process.argv[1], '2', 'aligned', 'sleep', '1.4'], {
-            encoding: 'utf8', env: { ...process.env, BUDGET_POLL_SECONDS: '0.05' }
-          });
-          process.stdout.write(result.stdout + result.stderr);
-          process.exit(result.status);
-        }, delay);
-      `;
-      const result = spawnSync('node', ['-e', align, scriptPath], {
-        encoding: 'utf8',
-      });
+      const deadlineElapsed = script.match(/^deadline_elapsed\(\).*$/m)?.[0];
+      // Unsetting Bash's special clock makes each boundary value deterministic.
+      // The integration cases above exercise real command completion and expiry.
+      const result = spawnSync(
+        'bash',
+        [
+          '-c',
+          `${deadlineElapsed}
+          unset SECONDS
+          for SECONDS in 0 1 2 3; do
+            if deadline_elapsed 2; then
+              printf 'expired\\n'
+            else
+              printf 'within\\n'
+            fi
+          done`,
+        ],
+        { encoding: 'utf8' }
+      );
       expect(result.status).toBe(0);
+      expect(result.stdout).toBe('within\nwithin\nwithin\nexpired\n');
     }
   );
 });

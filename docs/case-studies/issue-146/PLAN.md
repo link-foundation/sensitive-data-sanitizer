@@ -93,3 +93,8 @@ without establishing an exhaustive audit of all historical requirements.
 - [x] Merge main's PR 161 at `ec14a6c`, retaining its newer private-key
       verification notes and independent patch changeset. Source and tests
       are already integrated.
+- [x] Verify all five workflows on `37ae601`.
+- [x] Diagnose main job 130307490310's boundary-alignment timing failure,
+      replace its scheduling-sensitive assertion with deterministic boundary
+      values, prove the premature predicate fails, and verify all 15 Node
+      wrapper tests plus the focused Bun/Deno regression.
