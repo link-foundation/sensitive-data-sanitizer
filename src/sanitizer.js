@@ -28,7 +28,11 @@ import { isIdentityType } from './identity-types.js';
 import { rejectRestoreMap } from './restore-map.js';
 import { allowListed, validateAllowList } from './allow-list.js';
 import { templatedCredential } from './credentials.js';
-import { exemptFindings, validateExempt } from './exempt.js';
+import {
+  exemptFindings,
+  escapedExemptionView,
+  validateExempt,
+} from './exempt.js';
 import { builtInRules } from './rule-catalog.js';
 import {
   initializePlaceholders,
@@ -455,16 +459,31 @@ function locations(text, findings) {
   });
 }
 
-export function inspect(text, options = {}) {
+export function inspect(text, options = {}, exemptionDepth = 0) {
   try {
     const exempt = options?.exempt;
     if (!exempt) {
       return inspectText(text, options);
     }
-    // Nested views (structured values, decoded runs) are screened once, at
-    // the offsets of the text the caller sees.
+    // Screen source offsets first, then independently inspect escaped JSON
+    // with the same policy. A clean decoded view must not become a stale
+    // whole-view finding that rendering would replace with [REDACTED].
     const findings = inspectText(text, { ...options, exempt: undefined });
-    return exemptFindings(text, findings, exempt);
+    return exemptFindings(text, findings, exempt).filter((finding) => {
+      const view = escapedExemptionView(text, finding, exemptionDepth);
+      if (view === undefined) {
+        return true;
+      }
+      const clean = !inspect(
+        view,
+        { ...options, findings: [], structured: undefined },
+        exemptionDepth + 1
+      ).length;
+      if (clean) {
+        options.debug?.({ event: 'exempt-decoded-view', rule: finding.rule });
+      }
+      return !clean;
+    });
   } catch (error) {
     throw internalFailure(error);
   }
@@ -542,6 +561,14 @@ function inspectText(text, options = {}) {
   if (projection.changed) {
     nativeDetect(text, options, emit);
     detectSync(text, options, emit);
+  } else if (
+    (options.knownSecrets ?? []).some(
+      (value, index) => value !== nativeOptions.knownSecrets[index]
+    )
+  ) {
+    // Encoded exact bytes must remain detectable even when the declared
+    // secret normalizes (for example the ellipsis in a known Hive mask).
+    nativeDetect(text, { ...options, knownOnly: true }, emit);
   }
   nativeDetect(projection.text, nativeOptions, mapped);
   detectSync(projection.text, nativeOptions, mapped);

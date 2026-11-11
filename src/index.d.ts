@@ -125,6 +125,8 @@ export interface SanitizerOptions {
    * Verification of the output consults it again per span, so the same value
    * elsewhere is still caught. Declared knownSecrets/knownPersonal/
    * confirmedPersonal values and JSON_VALUE denials are never offered.
+   * Bounded escaped JSON findings are independently inspected with the same
+   * policy (up to three levels); hooks there receive decoded text/offsets.
    * createSyncSanitizer and sanitize() require a synchronous hook.
    */
   exempt?: (
@@ -154,6 +156,7 @@ export type DebugEvent =
   | { event: 'document-experience' | 'proper-name-prose'; count: number }
   | { event: 'residual-redaction'; round: number }
   | { event: 'template-value'; rule: string }
+  | { event: 'exempt-decoded-view'; rule: string }
   | { event: 'two-pass-confirmation'; type: string }
   | { event: 'propagation-skipped'; reason: 'length'; type: string }
   | { event: 'gitleaks-rule'; rule: string; length: number; ms: number };
