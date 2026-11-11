@@ -9,6 +9,8 @@ import {
 } from '../src/index.js';
 
 import * as credentials from '../src/credentials-entry.js';
+import { createRequire } from 'node:module';
+import { decodedRuns } from '../src/encoded.js';
 
 // Synthetic values, assembled at run time so secret scanners skip the source.
 const GH = ['ghp_', 'Zx9Qw7Er5Ty3Ui1Op0As', '2Df4Gh6Jk8Lz0Xc2Vb4N'].join('');
@@ -288,4 +290,84 @@ describe('wrapped base64 publication (issue 149)', () => {
     expect(output.includes(SECRET)).toBe(false);
     expect(output.endsWith('\npassword=gho…111\n')).toBe(true);
   });
+});
+
+describe('unpadded wrapped base64 followed by prose (issue 162)', () => {
+  const secret = ['gho_', 'SYNTHETIC0000NotARealToken', '1'.repeat(10)].join(
+    ''
+  );
+  const document = JSON.stringify({ token: secret, note: 'keep me' });
+  const commonjs = createRequire(import.meta.url)(
+    '@link-foundation/sensitive-data-sanitizer/credentials'
+  );
+  for (const width of [20, 40, 46, 64, 76]) {
+    for (const newline of ['\n', '\r\n']) {
+      it(`preserves the complete JSON at width ${width} with ${JSON.stringify(newline)}`, async () => {
+        const raw = Buffer.from(document).toString('base64');
+        expect(raw.endsWith('=')).toBe(false);
+        const body = wrap(Buffer.from(document), width, newline);
+        const prefix = `start of output${newline}response body=${newline}`;
+        const suffix = `${newline}trailing line${newline}`;
+        const input = prefix + body + suffix;
+        const expectedBody = wrap(
+          Buffer.from(JSON.stringify({ token: 'gho…111', note: 'keep me' })),
+          width,
+          newline
+        );
+        const expected = prefix + expectedBody + suffix;
+        expect(
+          [...decodedRuns(input)]
+            .filter((r) => r.depth === 0)
+            .map((r) => [r.start, r.end, r.text])
+        ).toEqual([[prefix.length, prefix.length + body.length, document]]);
+        const findings = credentials.inspect(input);
+        expect(findings.map((f) => [f.rule, f.start, f.end])).toEqual([
+          ['encoded', prefix.length, prefix.length + body.length],
+        ]);
+        for (const entry of [credentials, commonjs]) {
+          expect(entry.createSyncSanitizer(HIVE).sanitize(input).text).toBe(
+            expected
+          );
+          expect((await entry.createSanitizer(HIVE).sanitize(input)).text).toBe(
+            expected
+          );
+        }
+        // Place a chunk boundary before and inside the following prose, as in
+        // the consumer, and exercise a small batch at every input boundary.
+        for (let split = 1; split < input.length; split++) {
+          let output = '';
+          for await (const chunk of sanitizeStream(
+            [input.slice(0, split), input.slice(split)],
+            { ...OPTIONS, batchBytes: 32 }
+          )) {
+            output += chunk;
+          }
+          expect(output).toBe(expected);
+        }
+        expect(JSON.parse(decode(expectedBody))).toEqual({
+          token: 'gho…111',
+          note: 'keep me',
+        });
+      });
+    }
+  }
+});
+
+it('recovers before multiple alphabet-only prose lines and scans later payloads', () => {
+  const value = JSON.stringify({ token: SECRET.slice(0, -1), note: 'keep me' });
+  const body = wrap(Buffer.from(value), 20);
+  const prose = '\ntrailing\nline\n';
+  const input = `${body}${prose}${body}\ntrailing line\n`;
+  const expected = sanitize(body);
+  expect(sanitize(input)).toBe(
+    `${expected}${prose}${expected}\ntrailing line\n`
+  );
+  expect(
+    [...decodedRuns(input)]
+      .filter((r) => r.depth === 0)
+      .map((r) => [r.start, r.end, r.text])
+  ).toEqual([
+    [0, body.length, value],
+    [body.length + prose.length, 2 * body.length + prose.length, value],
+  ]);
 });
