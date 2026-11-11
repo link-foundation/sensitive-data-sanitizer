@@ -16,6 +16,30 @@ const declared = new Set([
 const offered = (finding) =>
   !declared.has(finding.rule) && finding.type !== 'JSON_VALUE';
 
+// Only bounded escaped JSON views qualify for an independent policy check.
+// Keep the decoder's 8192-character bound and cap recursive checks at three;
+// malformed, oversized and other encoded findings retain normal handling.
+export function escapedExemptionView(text, finding, depth) {
+  if (
+    depth >= 3 ||
+    finding.type !== 'ENCODED_SENSITIVE' ||
+    !['encoded', 'encoded-engine'].includes(finding.rule) ||
+    finding.end - finding.start > 8192
+  ) {
+    return undefined;
+  }
+  const raw = text.slice(finding.start, finding.end);
+  if (!raw.includes('\\')) {
+    return undefined;
+  }
+  try {
+    const decoded = JSON.parse(`"${raw}"`);
+    return decoded !== raw ? decoded : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function view(text, finding) {
   return Object.freeze({
     ...finding,

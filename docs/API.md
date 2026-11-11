@@ -317,7 +317,7 @@ Generated replacements carry `faked: true`. A private bounded registry recognize
 
 Faking is pseudonymisation: a private key and retained ages, relations and structure can permit linking. Keep the key out of published data. See [the realistic fake example](../examples/realistic-fakes.mjs) and [the complete requirement/research record](case-studies/issue-24/REQUIREMENTS.md).
 
-`preserveEncoding: true` sanitizes decoded payloads with the same required engine union, re-encodes them and verifies decoding reproduces the sanitized content. Supported formats include base64/base64url, hex, percent, numeric HTML and UTF-8 byte escapes. Escaped JSON string content is sanitized and re-encoded even under default redaction so nested session JSON stays parseable. Wrapped base64 and hex keep their line width and line separator (`\n` or `\r\n`), and a wrapped run is reported as one finding. When the sanitized payload cannot be re-encoded in a form the decoder recognizes (for example hex shorter than 32 digits), the encoded text is masked as it stands rather than blocking the input. Known encoding candidates and nesting are bounded.
+`preserveEncoding: true` sanitizes decoded payloads with the same required engine union, re-encodes them and verifies decoding reproduces the sanitized content. Supported formats include base64/base64url, hex, percent, numeric HTML and UTF-8 byte escapes. Escaped JSON string content is sanitized and re-encoded even under default redaction so nested session JSON stays parseable. Wrapped base64 and hex keep their line width and line separator (`\n` or `\r\n`), and a wrapped run is reported as one finding. When the sanitized payload cannot be re-encoded in a form the decoder recognizes (for example hex shorter than 32 digits), the encoded text is masked as it stands rather than blocking the input. Known encoding candidates and nesting are bounded. Canonical base64/base64url encodings of complete Hive masks (including short forms such as `Z2hv4oCmOTk5`, encoding `gho…999`) remain intact on repeated passes. Arbitrary decoded text, malformed encodings and literal text appended to a mask receive no mask exemption; exact known secrets still take priority.
 
 ## Identity policy and structured sessions
 
@@ -955,6 +955,13 @@ unless the hook keeps that span too. The hook is explicit code, so it can keep
 credential findings without `allowCredentialDisable`. Declared
 `knownSecrets`/`knownPersonal` values, confirmed personal values and structured
 `JSON_VALUE` denials are never offered to it.
+
+For escaped JSON findings up to 8192 characters, the engine independently
+inspects the decoded view with the same configured policy and detectors before
+keeping a clean view. Hooks in that inspection receive decoded text and its
+offsets. Additional inspection stops after three levels; malformed, oversized,
+and deeper views retain normal fail-closed handling. The optional value-free
+`exempt-decoded-view` debug event reports a clean view.
 
 `createSanitizer` awaits a hook that returns a `Promise`.
 `createSyncSanitizer` and `sanitize()` need a synchronous hook. A `Promise`
