@@ -1,3 +1,4 @@
+import { structuredInspection, withStructuredMemo } from './structured-memo.js';
 import { generatedValues } from './fake-memory.js';
 import { feature, withFeature } from './features.js';
 import { isCompiledKnown, projectedKnown } from './compiled-known.js';
@@ -532,20 +533,23 @@ function inspectText(text, options = {}) {
   validateOptions(options);
   validateInput(text, options);
   if (options.structured) {
+    const memo = structuredInspection(options);
     const findings = structuredBatches(text, options).flatMap((batch) => [
       ...structuredFieldFindings(batch, options),
       ...mapStructuredFindings(
         batch,
-        inspect(batch.text, {
-          ...options,
-          structured: undefined,
-          findings: [],
-          detectors: [],
-          properNames: undefined,
-          documentEntities: options.properNames
-            ? false
-            : options.documentEntities,
-        }),
+        memo('batch', batch.text, false, () =>
+          inspect(batch.text, {
+            ...options,
+            structured: undefined,
+            findings: [],
+            detectors: [],
+            properNames: undefined,
+            documentEntities: options.properNames
+              ? false
+              : options.documentEntities,
+          })
+        ).findings,
         options
       ),
       ...inspectStructuredValues(batch, options, (value, prose) =>
@@ -1145,7 +1149,9 @@ export function sanitize(text, options = {}) {
 function sanitizeText(text, options = {}, round = 0) {
   options = applyProfile(options);
   validateOptions(options);
-  options = placeholderKnown(initializePlaceholders(options));
+  options = withStructuredMemo(
+    placeholderKnown(initializePlaceholders(options))
+  );
   const findings = inspect(text, options);
   const result = redactResult(text, findings, options);
   if (

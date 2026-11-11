@@ -18,6 +18,17 @@ export function generatedValues(options) {
       : []
   );
 }
+/** How many fake values the transformations remember; grows during a call. */
+export function generatedCount(options) {
+  let count = 0;
+  for (const t of [
+    options.transformation,
+    ...Object.values(options.transformations ?? {}),
+  ]) {
+    count += t?.mode === 'fake' ? (generated.get(t)?.size ?? 0) : 0;
+  }
+  return count;
+}
 export function remember(value, transform, credential) {
   let values = generated.get(transform);
   if (!values) {

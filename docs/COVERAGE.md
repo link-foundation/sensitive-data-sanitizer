@@ -213,6 +213,19 @@ unchanged values and whitespace remain byte-identical. Numeric primitives still
 require a caller schema policy. `debug` can observe `structured-value` events
 with finding counts, without logging the string contents.
 
+Each key and string value is a separate inspection, so structured cost grows
+with the number of distinct keys and string values rather than with text length.
+One `sanitize` call inspects each distinct view once under one policy; its
+verification passes reuse the result (`structured-value` events then carry
+`cached: true`), and a view is inspected again only after the placeholder map
+or the policy changed. Results are not reused across calls. Measured with
+[`experiments/issue-165/bench.mjs`](../experiments/issue-165/bench.mjs) on one
+32-field log record (`documents`, `strict`, capitalized names), a call takes
+about 15–18 ms against about 3–5 ms for the same line as text: about 48
+distinct views at about 0.25–0.3 ms each. That fixed per-value cost is the
+detector catalog itself (about 160 shared expressions and 30 detectors per
+value), which no longer clones each expression for every scan (issue 165).
+
 The `documents` profile additionally recognizes:
 
 - Russian mobile numbers with dashed, dotted, spaced or parenthesized forms,

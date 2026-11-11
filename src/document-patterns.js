@@ -1,3 +1,4 @@
+import { scanMatches } from './detection.js';
 import { firstNames } from './names.js';
 import { isNameForm } from './russian-names.js';
 import { isDocumentTechnology } from './document-experience.js';
@@ -184,7 +185,7 @@ const rules = [
 
 export function detectDocumentPatterns(text, emit) {
   for (const [type, rule, pattern, group] of rules) {
-    for (const match of text.matchAll(pattern)) {
+    for (const match of scanMatches(text, pattern)) {
       const value =
         group === -1
           ? match.slice(1).find((part) => part !== undefined)

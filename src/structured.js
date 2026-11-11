@@ -1,3 +1,4 @@
+import { structuredInspection } from './structured-memo.js';
 import { failure } from './detection.js';
 import { documentFieldType } from './document-fields.js';
 import { hasPlaceholders } from './placeholders.js';
@@ -430,9 +431,16 @@ export function* structuredValueViews(
 }
 export function inspectStructuredValues(batch, options, inspectValue) {
   const result = [];
+  const memo = structuredInspection(options);
   for (const view of structuredValueViews(batch, options)) {
-    const findings = inspectValue(view.text, view.prose);
-    options.debug?.({ event: 'structured-value', count: findings.length });
+    const { findings, cached } = memo('value', view.text, view.prose, () =>
+      inspectValue(view.text, view.prose)
+    );
+    options.debug?.({
+      event: 'structured-value',
+      count: findings.length,
+      ...(cached ? { cached } : {}),
+    });
     for (const finding of findings) {
       const mapped = view.map(finding);
       if (mapped) {
