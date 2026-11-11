@@ -1,4 +1,5 @@
 import { maskedValue } from './credentials.js';
+import { authorizationScheme } from './context.js';
 
 // Credential findings cover the secret, not the readable context around it:
 // PEM markers, URL hosts and user names, cookie names and the rest of a
@@ -159,7 +160,22 @@ function pemMarkers(text, findings) {
 
 export function refineCredentialSpans(text, findings) {
   const markers = pemMarkers(text, findings);
+  const schemes = new Map();
+  for (const header of text.matchAll(
+    /(?<![\w-])(?:Proxy-)?Authorization(?:\\*["'])?[ \t]*:[ \t]*/gi
+  )) {
+    const scheme = authorizationScheme(text, header.index + header[0].length);
+    if (scheme) {
+      schemes.set(scheme.start, scheme.end);
+    }
+  }
   const narrow = findings
+    .filter(
+      (finding) =>
+        finding.category !== 'credential' ||
+        finding.rule === 'known-secret' ||
+        schemes.get(finding.start) !== finding.end
+    )
     .filter(
       (finding) =>
         finding.category === 'credential' ||
