@@ -76,7 +76,10 @@ above remain unfinished. Resolving merge conflicts does not satisfy them.
 - [x] Verify all five workflows on `7bcdcfa`, including the large-file Bun
       regression, and record current-head CI evidence in the PR description.
 - [x] Merge main release `5e0fc61` (0.21.5) with no additional source changes.
-- [ ] Verify all five workflows on the latest release-integration head.
+- [x] Diagnose job 130279163685 as a fresh-merge documentation conflict
+      before runtime setup. Merge main `77d24dc`, retaining upstream
+      verification evidence and its independent pending patch changeset.
+- [ ] Verify all five workflows on the latest integration head.
 
 The earlier unchecked R1/R3/R4 criteria remain open. In particular, the new
 regressions extend the historical audit to the current downstream reports

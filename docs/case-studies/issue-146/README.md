@@ -339,3 +339,17 @@ including PR 159). Its Authorization fix is already integrated in this branch,
 so the clean merge changes only package versions and the changelog. The
 already-released Authorization entry is removed from this PR's pending minor
 changeset. This latest integration requires its own current-head CI results.
+
+### Main's Markdown integration
+
+Main next advanced to `77d24dc` through PR 158. Its Markdown implementation
+and regression tests are already present in this branch. The new conflict
+concerns only `experiments/issue-151/README.md`, where upstream records newer
+97-test verification results. The merge retains those current results and the
+independent patch changeset from main. The duplicated Markdown release entry
+is removed from this PR's pending minor changeset.
+
+Job 130279163685's log at lines 298–309 identifies the documentation add/add
+conflict in the fresh-merge check. Runtime setup and Bun tests never started.
+This failure requires synchronizing the branch. It provides no Bun test failure
+evidence. The preceding source head `7bcdcfa` passed every workflow.

@@ -61,9 +61,11 @@ node --test --test-concurrency=1 --test-timeout=30000 \
   tests/sanitizer-issue-142-config.test.js \
   tests/sanitizer-issue-142-shapes.test.js \
   tests/sanitizer-issue-142-encoding.test.js \
-  tests/sanitizer-issue-148.test.js
+  tests/sanitizer-issue-148.test.js \
+  tests/sanitizer-issue-153.test.js
 ```
 
-All 61 focused checks pass on Node.js 26.13.0. Changed JavaScript is checked
+All 97 focused checks pass on Node.js 26.13.0 after merging the wrapped-binary,
+short encoded-mask and Authorization-scheme fixes from `main`. Changed JavaScript is checked
 with ESLint (zero warnings) and all changed files with Prettier. The existing
 CI supplies full Node/Bun/Deno platform suites, security and application checks.
