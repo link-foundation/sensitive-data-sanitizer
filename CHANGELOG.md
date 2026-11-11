@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.21.5
+
+### Patch Changes
+
+- e61a218: Preserve Authorization and Proxy-Authorization scheme words when overlapping credential heuristics match exactly the scheme before a separate payload. Continue masking payloads, bare credentials, and exact known secrets.
+
 ## 0.21.4
 
 ### Patch Changes
