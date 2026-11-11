@@ -21,6 +21,10 @@ unverified. Competitor cells come from their source code, tests or
 documentation as linked in the research files; marketing-only claims are marked
 **?**.
 
+The [issue 146 audit](case-studies/issue-146/README.md) distinguishes historical
+catalog counts from tested release coverage. The optional Betterleaks adapter
+executes the upstream engine; native rule imports remain a subset.
+
 ## What changed in the market
 
 - **Gitleaks** 8.30.1 is frozen (security fixes only). Its author now develops
@@ -52,7 +56,7 @@ documentation as linked in the research files; marketing-only claims are marked
 | Rewrites the text (not only reports)       | Y                                                           | P                      | –          | P          | –              | P          | Y        | Y             | Y         | Y          | Y         | Y         | Y      |
 | Reversible output                          | Y (placeholders, AES-256-GCM)                               | –                      | –          | –          | –              | –          | Y        | Y             | Y         | Y          | –         | Y         | Y      |
 | Offline checksum confidence (CRC32, Luhn)  | Y                                                           | –                      | –          | Y          | –              | –          | Y        | Y             | Y         | Y          | ?         | ?         | ?      |
-| Live credential verification               | – (by design)                                               | P (Betterleaks)        | Y          | Y          | P              | –          | –        | –             | –         | –          | –         | –         | –      |
+| Live credential verification               | P ([12 opt-in read-only checks](VERIFICATION.md))           | P (Betterleaks)        | Y          | Y          | P              | –          | –        | –             | –         | –          | –         | –         | –      |
 | Encoded content (base64, hex, escapes)     | Y                                                           | Y                      | Y          | P          | –              | –          | –        | –             | –         | –          | –         | –         | –      |
 | Structured JSON/JSONL streaming            | Y                                                           | –                      | –          | –          | –              | –          | P        | ?             | –         | Y          | –         | Y         | Y      |
 | Allow list and inline suppression          | Y                                                           | Y                      | Y          | Y          | Y              | Y          | Y        | Y             | Y         | Y          | Y         | Y         | Y      |

@@ -1130,3 +1130,47 @@ repos:
     hooks:
       - id: sensitive-data-sanitizer
 ```
+
+## Local Betterleaks detector
+
+`createBetterleaksDetector({ command, timeoutMs, maxOutputBytes })` adds the
+installed upstream scanner as a required detector to the asynchronous engine:
+
+```js
+import {
+  createSanitizer,
+  createBetterleaksDetector,
+} from '@link-foundation/sensitive-data-sanitizer';
+const sanitizer = createSanitizer({
+  detectors: [createBetterleaksDetector()],
+});
+const result = await sanitizer.sanitize(privateText);
+// Publish only result.text after successful verification.
+```
+
+CLI: `sensitive-data-sanitizer redact input.txt --betterleaks`. Install and pin
+Betterleaks separately; v1.10.0 is the tested CLI contract. The adapter uses its
+default upstream config in a private temporary directory, overrides environment
+config and local ignore files, ignores inline allow directives and explicitly
+passes `--validation=false`. It delegates upstream filters and component rules
+to the actual engine rather than approximating them in JavaScript. Rules that
+only supply components do not independently emit findings, per upstream behavior.
+This does not promise parity with every scanner or native JavaScript coverage
+of every Betterleaks rule.
+
+The default deadline is 30000 ms and maximum report/stdout size is 10 MiB.
+Missing executables, scanner failures, oversized reports and unmappable findings
+raise `ERR_ENGINE`; no output is published. Credentials never appear in
+subprocess arguments and scanner diagnostics are discarded. The engine reruns
+the detector against proposed output as part of publication verification.
+Archive/file discovery features of the CLI are not invoked by this text adapter.
+
+## Credential provider verification
+
+`createCredentialVerifier(options)` returns an async function accepting
+`{ provider, token }`. `credentialProviders` exports the supported fixed
+endpoints and primary documentation links. Verification is disabled unless
+`enabled: true`; it is independent from detection and publication. See
+[the verification guide](VERIFICATION.md) for the twelve provider contracts,
+limits, statuses and explicit unsupported token types. Never use an invalid or
+inconclusive result to keep a detected credential in published text.

@@ -23,6 +23,7 @@ export { knownSecretsFromEnv, personalVariants } from './known.js';
 export { auditGitHistory } from './history.js';
 export {
   createGitleaksDetector,
+  createBetterleaksDetector,
   createTrufflehogDetector,
   createPresidioDetector,
 } from './external.js';
@@ -64,3 +65,7 @@ export {
   reservedPlaceholderTypes,
   isPlaceholderToken,
 } from './placeholder-types.js';
+export {
+  createCredentialVerifier,
+  credentialProviders,
+} from './credential-verifier.js';

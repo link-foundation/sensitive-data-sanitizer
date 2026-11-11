@@ -891,23 +891,45 @@ function preferredType(current, candidate, options) {
   if (candidate === 'ENCODED_SENSITIVE') {
     return true;
   }
-  if (current === 'ENCODED_SENSITIVE' || options.transformations?.[current]) {
+  if (options.transformations?.[current]) {
     return false;
   }
   if (options.transformations?.[candidate] || candidate === 'PASSPORT_MRZ') {
     return true;
   }
-  return preferredSpecificType(current, candidate);
-}
-function preferredSpecificType(current, candidate) {
+  const semantic = semanticTypePreference(current, candidate);
+  if (semantic !== undefined) {
+    return semantic;
+  }
   const broad = (type) =>
     ['ID', 'PASSPORT'].includes(type) ||
     (/PASSPORT/.test(type) &&
       !['PASSPORT_MRZ', 'PASSPORT_NUMBER'].includes(type));
-  return (
-    (current === 'PROPER_NAME' && candidate === 'PERSONAL_ATTRIBUTE') ||
-    (broad(current) && isIdentityType(candidate) && !broad(candidate))
-  );
+  return broad(current) && isIdentityType(candidate) && !broad(candidate);
+}
+// Typed evidence takes precedence over the generic capitalized-word guess.
+function semanticTypePreference(current, candidate) {
+  if (
+    (current === 'PERSONAL_ATTRIBUTE' &&
+      [
+        'PERSON',
+        'PROPER_NAME',
+        'LOCATION',
+        'ORGANIZATION',
+        'EDUCATION',
+      ].includes(candidate)) ||
+    (candidate === 'PERSONAL_ATTRIBUTE' &&
+      [
+        'PERSON',
+        'PROPER_NAME',
+        'LOCATION',
+        'ORGANIZATION',
+        'EDUCATION',
+      ].includes(current))
+  ) {
+    return candidate === 'PERSONAL_ATTRIBUTE';
+  }
+  return undefined;
 }
 export function redactResult(
   text,

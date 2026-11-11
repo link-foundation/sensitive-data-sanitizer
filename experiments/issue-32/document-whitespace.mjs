@@ -7,12 +7,15 @@ import { sanitize } from '../../src/index.js';
 const text = `/cache/QAZVELA_ZORVETA_PASSPORT${'\t'.repeat(128 * 1024)}tail`;
 process.send?.({ event: 'ready' });
 const started = performance.now();
+const cpuStarted = process.cpuUsage();
 const output = sanitize(text).text;
+const cpu = process.cpuUsage(cpuStarted);
 assert(!output.includes('QAZVELA'));
 assert(output.endsWith('tail'));
 console.log(
   JSON.stringify({
     bytes: text.length,
     milliseconds: performance.now() - started,
+    cpuMilliseconds: (cpu.user + cpu.system) / 1000,
   })
 );

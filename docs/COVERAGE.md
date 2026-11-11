@@ -6,7 +6,7 @@ Coverage is a union of maintained detectors, explicit known values, context and 
 
 The native provider supplements in `src/rules.js` cover GitHub, GitLab, OpenAI, Anthropic, AWS access IDs, Google API/OAuth, Slack, Stripe, SendGrid, Twilio, npm, PyPI, Telegram, Discord, Hugging Face, Shopify, Databricks, Square, Mailchimp, DigitalOcean, Vault, Grafana, Linear, Notion, Vercel, and JWT-shaped values. Prefix matches also protect selected truncated tokens; they do not validate a token with a provider.
 
-The default native engine bundles 221 text rules from Gitleaks 8.30.1 (222 upstream rules; the path-only PKCS12 rule is outside text detection), compiled unchanged with RE2/WASM or RE2JS for inputs above 1 MiB (re2-wasm has a fixed 16 MiB heap shared by every compiled rule and copied subject). Dense rule matches switch to RE2JS after at most eight WASM matches per view, bounding repeated whole-input copies without truncating secrets or changing anchors. The MIT license, commit and sync script are retained in `src/vendor/gitleaks`. Because Gitleaks is no longer updated, 203 further rules from its maintained successor Betterleaks 1.10.0 (ids absent from the Gitleaks set, such as Groq, Cerebras, xAI, Vercel, Supabase and Cloudflare v2 tokens) run the same way as `betterleaks/<id>` findings, with their MIT license, provenance and `scripts/sync-betterleaks.py` in `src/vendor/betterleaks`. Their entropy floors and secret-only `matchesAny`/`containsAny` filters are honoured; BPE token-ratio and nearby-line filters, live validation, validation-only components and the context-dependent `generic-*` rules are not, so these rules can only report more than Betterleaks, not less. Keyword prefilters and configured entropy thresholds run natively; upstream comment/path allowlists cannot suppress a sanitizer finding. Quoted hex/base64 entropy detection supplements those rules. The default asynchronous engine additionally uses the pinned Secretlint recommended scanners, excluding its comment-filter rule. Embedded disable directives in untrusted text cannot suppress findings. Optional Gitleaks and TruffleHog invoke their installed detector sets, and custom detectors can add formats. Service counts are not a measure of comparative recall.
+The default native engine bundles 221 text rules from Gitleaks 8.30.1 (222 upstream rules; the path-only PKCS12 rule is outside text detection), compiled unchanged with RE2/WASM or RE2JS for inputs above 1 MiB (re2-wasm has a fixed 16 MiB heap shared by every compiled rule and copied subject). Dense rule matches switch to RE2JS after at most eight WASM matches per view, bounding repeated whole-input copies without truncating secrets or changing anchors. The MIT license, commit and sync script are retained in `src/vendor/gitleaks`. Because Gitleaks is no longer updated, 203 further rules from its maintained successor Betterleaks 1.10.0 (ids absent from the Gitleaks set, such as Groq, Cerebras, xAI, Vercel, Supabase and Cloudflare v2 tokens) run the same way as `betterleaks/<id>` findings, with their MIT license, provenance and `scripts/sync-betterleaks.py` in `src/vendor/betterleaks`. Their entropy floors and secret-only `matchesAny`/`containsAny` filters are honoured; BPE token-ratio and nearby-line filters, live validation, validation-only components and the context-dependent `generic-*` rules are not, so native imports do not establish equivalent precision or recall to the upstream engine. Keyword prefilters and configured entropy thresholds run natively; upstream comment/path allowlists cannot suppress a sanitizer finding. Quoted hex/base64 entropy detection supplements those rules. The default asynchronous engine additionally uses the pinned Secretlint recommended scanners, excluding its comment-filter rule. Embedded disable directives in untrusted text cannot suppress findings. Optional Gitleaks, Betterleaks and TruffleHog invoke their installed detector sets, and custom detectors can add formats. Service counts are not a measure of comparative recall.
 
 Context rules recognize credential labels with bounded key affixes, JSON and nested escaped JSON, YAML/env/INI assignments, Ruby/Perl/PHP hash rockets before a quoted literal (`'password' => '…'`), shell flags including plural credential names (`--access-tokens`, but not `--max-tokens`), XML values (also with attributes and camelCase element names), values that start with markup (`token: <script>…`; a bare `<placeholder>` stays), all-caps CI/test credential markers that contain a digit (`SYNTHETIC_TOKEN_ALPHA_123456`, rule `marker-token`), URL userinfo, authorization headers, cookies, webhook paths, and complete or truncated private-key PEM blocks. Low-entropy contextual values such as `password=1234` are protected; a number or boolean under a configuration name (`AUTH_MODE=2`, `ROUTER_AUTH_GUARD=0`) is a setting. Generic token counters, booleans/null/language literals and ordinary Git hashes are excluded to retain useful logs. Supply literal known values for ambiguous credentials or unusual key names.
 
@@ -591,3 +591,26 @@ IAM tokens (`t1.` including optional base64 padding), static access key IDs
 and do not require an assignment label. See the official
 [token grammar](https://yandex.cloud/en/docs/iam/concepts/authorization/iam-token)
 and [credential formats](https://yandex.cloud/en/docs/security/standard/authentication).
+
+## Issue 146 additions and remaining parity limits
+
+The [Betterleaks adapter](API.md#local-betterleaks-detector) executes the pinned
+upstream CLI with isolated default configuration and live validation disabled.
+This avoids approximating its filters and composite matching in the native
+JavaScript subset. A passing smoke test is not a per-rule equivalence proof.
+
+[Read-only credential verification](VERIFICATION.md) is explicitly enabled and
+independent of redaction. Twelve built-in provider checks do not cover every
+service, scoped token or paired credential. The default sanitizer stays offline.
+
+Issue 144's 34 reported attribute forms now receive `PERSONAL_ATTRIBUTE` in the
+three reported frames. Exact reviewed public technology names are exempt only
+from generic proper-name guesses; known private values and credentials retain
+precedence, and `publicKnowledge: false` disables these exemptions. Vocabulary
+compilation reuses caller identity caches and precompiled cue sets; treat each
+vocabulary object as immutable and pass a new object to change its lists. Placeholder prechecks conservatively retain custom
+formats and escaped tokens, with a linear default counter check.
+
+The [case study](case-studies/issue-146/README.md) records evidence, measurements
+and unfinished criteria. Proprietary detector labels and previously closed
+issues are not evidence of complete behavioral parity.

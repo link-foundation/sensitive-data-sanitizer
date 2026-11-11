@@ -1,6 +1,7 @@
 import {
   createSanitizer,
   createGitleaksDetector,
+  createBetterleaksDetector,
   createTrufflehogDetector,
   createPresidioDetector,
 } from '../src/index.js';
@@ -11,6 +12,7 @@ import { fileURLToPath, URL } from 'node:url';
 const sanitizer = createSanitizer({
   detectors: [
     createGitleaksDetector(),
+    createBetterleaksDetector(),
     createTrufflehogDetector(),
     createPresidioDetector({
       args: [fileURLToPath(new URL('./presidio-bridge.py', import.meta.url))],

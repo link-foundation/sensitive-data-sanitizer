@@ -288,6 +288,9 @@ export interface LocalScannerOptions {
 export declare function createGitleaksDetector(
   options?: LocalScannerOptions
 ): Detector;
+export declare function createBetterleaksDetector(
+  options?: LocalScannerOptions
+): Detector;
 export declare function createTrufflehogDetector(
   options?: LocalScannerOptions
 ): Detector;
@@ -598,3 +601,28 @@ export declare function rewriteGitHistory(
     maxTotalBytes?: number;
   }
 ): Promise<HistoryRewrite>;
+
+/** Read-only checks are disabled unless enabled is explicitly true. */
+export interface CredentialVerification {
+  provider: string;
+  status: 'disabled' | 'unsupported' | 'valid' | 'invalid' | 'unknown';
+  reason?: 'budget' | 'http' | 'response' | 'request';
+}
+export const credentialProviders: ReadonlyArray<
+  Readonly<{
+    id: string;
+    endpoint: string;
+    method: 'GET';
+    source: string;
+  }>
+>;
+export function createCredentialVerifier(options?: {
+  enabled?: boolean;
+  fetch?: typeof globalThis.fetch;
+  timeoutMs?: number;
+  maxChecks?: number;
+  maxResponseBytes?: number;
+}): (candidate: {
+  provider: string;
+  token: string;
+}) => Promise<CredentialVerification>;

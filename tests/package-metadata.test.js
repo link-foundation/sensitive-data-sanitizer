@@ -127,6 +127,10 @@ describe('publishable package metadata', () => {
       'docs/RULES.md',
       'examples/custom-log-policy.mjs',
       'examples/second-pass-placeholders.mjs',
+      'docs/README.md',
+      'docs/USE-CASES.md',
+      'docs/VERIFICATION.md',
+      'examples/verify-credential.mjs',
     ]);
   });
 });

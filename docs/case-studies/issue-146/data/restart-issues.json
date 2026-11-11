@@ -1,0 +1,77 @@
+{
+  "capturedAt": "2026-11-11",
+  "issues": [
+    {
+      "body": "Found while validating 0.21.0 for link-assistant/hive-mind#3741, with the lightweight `/credentials` entry.\n\nA first pass correctly preserves prose after a vendor token. A second pass masks the already masked value together with that prose. This is a remaining interaction between #132 and #133.\n\n```js\nimport assert from 'node:assert/strict';\nimport { createSyncSanitizer } from '@link-foundation/sensitive-data-sanitizer/credentials';\nconst engine = createSyncSanitizer({ preserveEncoding: true, transformation: { mode: 'hive-mask' } });\nconst synthetic = ['ghp_', 'Zx9Qw7Er5Ty3Ui1Op0As', '2Df4Gh6Jk8Lz0Xc2Vb4N'].join('');\nconst once = engine.sanitize(`User token: ${synthetic}. Next sentence`).text;\nassert.equal(once, 'User token: ghp…b4N. Next sentence'); // passes\nassert.equal(engine.sanitize(once).text, once); // fails: User token: ghp…nce\n```\n\nExpected: both passes preserve `. Next sentence` and the original partial mask.\n\nHive Mind workaround: the verified `exempt` hook keeps a `context` finding that starts with a complete existing mask followed by punctuation/whitespace and prose. Other findings and exact known secrets remain detected. Suggested fix: bound a context finding after an already masked value as well as after a vendor-format value, then recognize the bounded mask as already clean. Please cover repeated plaintext and encoded passes, with another real credential later on the same line.\n",
+      "comments": [],
+      "number": 148,
+      "state": "CLOSED",
+      "title": "0.21.0 hive-mask: second pass swallows prose after an already masked vendor credential",
+      "url": "https://github.com/link-foundation/sensitive-data-sanitizer/issues/148"
+    },
+    {
+      "body": "Version: 0.21.0, Node 26, `@link-foundation/sensitive-data-sanitizer/credentials`.\n\nTwo related wrapped-base64 problems remain in credentials-only sanitization:\n\n1. A harmless binary payload wrapped at 76 columns is entirely replaced with a mask once it exceeds 8192 characters. `inspect` calls it `encoded-limit`. A flat JSON image containing the same bytes survives. Finite reproducer:\n\n```js\nimport { createSyncSanitizer } from '@link-foundation/sensitive-data-sanitizer/credentials';\nconst s = createSyncSanitizer({ credentialsOnly: true, preserveEncoding: true, transformation: { mode: 'hive-mask' } });\nconst input = Buffer.alloc(150000, 147).toString('base64').match(/.{1,76}/g).join('\\n') + '\\n';\nconsole.log(input.length, s.sanitize(input).text.length); // 202632, 8\n```\n\nExpected: preserve noncredential binary bytes, keep work bounded. A bounded decoding limit must still fail closed for uninspected text containing credentials; blanket exemption is insufficient.\n\n2. A preceding base64-alphabet word shifts the wrapped candidate's byte alignment. Only the first line is sanitized; the full record can no longer be decoded. Reproducer (synthetic token):\n\n```js\nconst secret = 'gho_SYNTHETIC0000NotARealToken11111111111';\nconst json = JSON.stringify({ token: secret, note: 'keep me' });\nconst wrapped = Buffer.from(json).toString('base64').match(/.{1,20}/g).join('\\n');\nconst input = `start of output\\nresponse body=\\n${wrapped}\\ntrailing line\\n`;\nconst output = s.sanitize(input).text;\nconsole.log(output);\n```\n\nExpected: sanitize the complete decoded JSON, preserve `note`, re-encode the complete payload with the original wrapping, and retain surrounding prose. Compare the result with the same JSON without the preceding `body=` line. Hive Mind's existing encoded-credential regression reproduces this difference between whole-text and stream sanitization.\n\nDownstream PR: https://github.com/link-assistant/hive-mind/pull/3741 . We will keep the existing bounded wrapped decoder for these cases, have the library sanitize decoded text, and exempt only encoded findings fully contained in those already-inspected bounded spans. Plaintext findings and exact-known-secret findings remain active. Runs above the local bound retain fail-closed handling.\n",
+      "comments": [],
+      "number": 149,
+      "state": "CLOSED",
+      "title": "Wrapped base64 still loses harmless binary and misaligns after a preceding alphabet word (0.21.0)",
+      "url": "https://github.com/link-foundation/sensitive-data-sanitizer/issues/149"
+    },
+    {
+      "body": "Library 0.21.0, credentials-only synchronous entry:\n\n```js\nimport { createSyncSanitizer } from '@link-foundation/sensitive-data-sanitizer/credentials';\nconst s = createSyncSanitizer({ credentialsOnly: true, transformation: { mode: 'hive-mask' } });\nconst input = 'const sessionToken = new SessionToken();';\nconsole.log(s.sanitize(input).text);\n// const sessionToken = [REDACTED] SessionToken();\n```\n\nExpected: preserve the constructor expression. `new` is JavaScript syntax here, not a credential. Other language keyword assignments (await, false, null, undefined, None) already survive. A real credential whose value merely starts with a keyword must still be masked (`token=new-secret-0123456789`).\n\nDownstream regression predates the migration: https://github.com/link-assistant/hive-mind/blob/main/tests/issue-2400-keyword-assignment-not-masked.test.mjs . The library adapter migration in https://github.com/link-assistant/hive-mind/pull/3741 exposed this remaining gap; a narrow `exempt` hook can retain exactly the `new` keyword when followed by a constructor call, while exact known secrets remain unexemptable.\n",
+      "comments": [],
+      "number": 150,
+      "state": "OPEN",
+      "title": "Credentials-only mode masks JavaScript new keyword in a constructor assignment",
+      "url": "https://github.com/link-foundation/sensitive-data-sanitizer/issues/150"
+    },
+    {
+      "body": "Credentials-only library 0.21.0 still changes noncredential documentation when the value is followed by a Markdown code-span delimiter. Reproducer:\n\n```js\nimport { createSyncSanitizer } from '@link-foundation/sensitive-data-sanitizer/credentials';\nconst s = createSyncSanitizer({ credentialsOnly: true, transformation: { mode: 'hive-mask' } });\nfor (const input of [\n  'set `password=<secret>` in the config',\n  '`-c model_auto_compact_token_limit=<tokens>` overrides.',\n  '`HIVE_MIND_CLAUDE_AUTH_AUTHORITY=conventional` to opt out.',\n  '`HIVE_MIND_ROUTER_AUTH_GUARD=0` disables it.',\n  '`HIVE_MIND_DISABLE_GIT_AUTH_TRANSPORT=1` opts out.',\n]) console.log(s.sanitize(input).text);\n```\n\nExpected: all five strings unchanged. Actual: the placeholders or ordinary configuration value are masked, together with the closing backtick (and following space in the `<tokens>` case). Findings are all `context`. The values without backticks already survive apart from the string configuration enum.\n\nThese are existing release-note regressions in https://github.com/link-assistant/hive-mind/blob/main/tests/issue-3445-release-notes-not-masked.test.mjs . Actual credentials in the same prose, including an HTML/script literal after a token key and keyword-prefixed credential values, must remain masked. Downstream PR https://github.com/link-assistant/hive-mind/pull/3741 will retain narrowly scoped exemptions for complete placeholder syntax or exact noncredential configuration name/value pairs while awaiting native handling. Exact known secrets cannot be exempted.\n",
+      "comments": [],
+      "number": 151,
+      "state": "OPEN",
+      "title": "Markdown backticks defeat placeholder/configuration exemptions in credentials-only mode",
+      "url": "https://github.com/link-foundation/sensitive-data-sanitizer/issues/151"
+    },
+    {
+      "body": "Library 0.21.0 still masks a scheme word via its overlapping Gitleaks generic API-key rule, despite #131's authorization fix:\n\n```js\nimport { createSyncSanitizer } from '@link-foundation/sensitive-data-sanitizer/credentials';\nconst s = createSyncSanitizer({ credentialsOnly: true, preserveEncoding: true, transformation: { mode: 'hive-mask' } });\nconsole.log(s.sanitize('Authorization: SharedAccessSignature sr=namespace&sig=abcdefghijklmnopqrstuvwxyz123456&se=123456').text);\n// Authorization: Sha…ure sr=…456\n```\n\nExpected: `Authorization: SharedAccessSignature sr=…456`. The scheme is structural context, while the opaque payload is still masked. `inspect` reports `gitleaks/generic-api-key` at [15,36), exactly the scheme, and `authorization` plus `context` at [37,96), the payload. This affects the original requirement that **every** Authorization scheme survive, beyond Bearer/Basic/token.\n\nDownstream PR https://github.com/link-assistant/hive-mind/pull/3741 will exempt findings exactly covering a scheme immediately after an Authorization header key and before a separate nonempty payload. It must not exempt a bare credential with no scheme, a payload finding, or an exact known secret.\n",
+      "comments": [],
+      "number": 152,
+      "state": "OPEN",
+      "title": "Overlapping Gitleaks finding still masks SharedAccessSignature Authorization scheme (0.21.0)",
+      "url": "https://github.com/link-foundation/sensitive-data-sanitizer/issues/152"
+    },
+    {
+      "body": "Library 0.21.0, credentials-only + preserveEncoding + hive-mask, does not preserve an encoded Hive mask when it is short. A first pass re-encodes a 40-character GitHub credential to `Z2hv4oCmOTk5` (base64 for `gho…999`); the next context/Gitleaks pass sees only 12 bytes, below its encoded-candidate threshold, and replaces the mask with `[REDACTED]`.\n\nMinimal reproduction:\n\n```js\nimport { createSyncSanitizer } from '@link-foundation/sensitive-data-sanitizer/credentials';\nconst s = createSyncSanitizer({ credentialsOnly: true, preserveEncoding: true, transformation: { mode: 'hive-mask' } });\nconsole.log(s.sanitize('\"token\":\"Z2hv4oCmOTk5\"').text);\n// \"token\":\"[REDACTED]\"\n```\n\nExpected: unchanged; it already decodes to a complete sanitized mask. This also breaks the first sanitize call on a base64 credential inside escaped JSON log content, because the library itself repeats verification/rendering. Synthetic end-to-end reproduction is `experiments/issue-3739/encoding-probes.mjs` in https://github.com/link-assistant/hive-mind/pull/3741; existing regression is `tests/test-encoded-secretlint-layer-2156.mjs`.\n\nThe downstream workaround will exempt only canonical base64/base64url spellings decoding to a complete existing mask, never arbitrary decodable text or exact known secrets. Please keep the mask contract (first/last three for >12-character credentials) through internal passes, including short re-encodings.\n",
+      "comments": [
+        {
+          "id": "IC_kwDOU_Omgc8AAAABk-JmhA",
+          "author": {
+            "login": "konard"
+          },
+          "authorAssociation": "MEMBER",
+          "body": "The short-mask exemption also exposes a related decoded-view gap: `encodedDetect` runs native/context rules on an escaped JSON view without applying the supplied exemption hook there. The view is already clean under the configured policy, but a stale `encoded` finding makes `renderReplacement` substitute `[REDACTED]` for the whole view when recursive sanitization returns it unchanged.\n\nDownstream workaround: for a bounded escaped-JSON finding only, JSON-decode the view and call the configured engine's `inspect()` on it. Exempt the outer finding only if that independent policy inspection reports no findings. Limit recursive exemption inspection to three levels; decoding errors and oversized views retain normal fail-closed handling. Exact known secrets remain unexemptable. The existing escaped-GHCR-log regression must preserve both the record structure and encoded mask.\n",
+          "createdAt": "2026-11-10T18:42:22Z",
+          "includesCreatedEdit": false,
+          "isMinimized": false,
+          "minimizedReason": "",
+          "reactionGroups": [],
+          "url": "https://github.com/link-foundation/sensitive-data-sanitizer/issues/153#issuecomment-6776055428",
+          "viewerDidAuthor": true
+        }
+      ],
+      "number": 153,
+      "state": "CLOSED",
+      "title": "Short base64-encoded Hive masks are re-redacted by context/Gitleaks during verified sanitize",
+      "url": "https://github.com/link-foundation/sensitive-data-sanitizer/issues/153"
+    },
+    {
+      "body": "In library 0.21.0, the native `private-key` rule returns `type: 'SECRET'`. Therefore `transformations: { PRIVATE_KEY: { mode: 'redact' } }` is ignored when the general transformation is `hive-mask`; it reveals the first and last three characters of private-key material.\n\n```js\nimport { createSyncSanitizer } from '@link-foundation/sensitive-data-sanitizer/credentials';\nconst s = createSyncSanitizer({ credentialsOnly: true, transformation: { mode: 'hive-mask' }, transformations: { PRIVATE_KEY: { mode: 'redact' } } });\nconst input = '-----BEGIN PRIVATE KEY-----\\nSYNTHETIC_PRIVATE_KEY_MATERIAL_123456\\n-----END PRIVATE KEY-----';\nconsole.log(s.inspect(input)); // rule: private-key, type: SECRET\nconsole.log(s.sanitize(input).text); // body is SYN…456\n```\n\nThe downstream policy in https://github.com/link-assistant/hive-mind/pull/3741 requires complete private-key body redaction while keeping PEM markers and surrounding log text. The temporary workaround is a transformation callback selecting native `redact` rendering for private-key rule findings and native `hive-mask` rendering for everything else; no duplicated credential detector or renderer is needed.\n\nPlease expose a stable private-key type (including PuTTY keys) or support rule-specific transformations so the intended type override works. Regression: `tests/test-credential-sanitization-2111.mjs` and `experiments/issue-3739/private-key-probe.mjs` downstream.\n",
+      "comments": [],
+      "number": 154,
+      "state": "OPEN",
+      "title": "Private-key findings use SECRET type, defeating PRIVATE_KEY redact transformation",
+      "url": "https://github.com/link-foundation/sensitive-data-sanitizer/issues/154"
+    }
+  ]
+}

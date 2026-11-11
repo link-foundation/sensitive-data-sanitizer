@@ -79,6 +79,7 @@ const nativeTypes = [
   'ZA_ID_NUMBER',
 ];
 let reserved;
+let reservedSet;
 // Every type that a built-in rule can turn into a `Type-n` token.
 export function reservedPlaceholderTypes() {
   reserved ??= Object.freeze(
@@ -93,7 +94,7 @@ const patternCacheSize = 64;
 // The namespace pattern depends only on the format and on the types beyond the
 // reserved list, so it is compiled once per format and cached.
 export function namespacePattern(format = defaultFormat, extraTypes = []) {
-  const base = new Set(reservedPlaceholderTypes());
+  const base = (reservedSet ??= new Set(reservedPlaceholderTypes()));
   const extra = [...new Set(extraTypes)].filter((type) => !base.has(type));
   const key = `${format}\0${extra.sort().join('\0')}`;
   const cached = patterns.get(key);

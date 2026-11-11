@@ -42,4 +42,5 @@ Legend: **Y** supported, **P** partial, **–** absent, **?** unverified.
 
 - Archives, Office documents, PDF and images.
 - Remote sources such as GitHub organisations, S3 buckets or Slack.
-- Live verification is excluded by design.
+- Live checks are [explicitly opt-in](../VERIFICATION.md) for twelve providers;
+  paired credentials and other token types remain unsupported.
