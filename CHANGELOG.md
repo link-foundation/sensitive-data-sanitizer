@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.21.4
+
+### Patch Changes
+
+- 7454024: Preserve canonical short base64/base64url Hive masks and escaped JSON log structure through verified sanitization. Reinspect bounded escaped JSON views with the configured exemption policy and detectors, while retaining exact known-secret detection and fail-closed handling at inspection limits.
+
 ## 0.21.3
 
 ### Patch Changes
