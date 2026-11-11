@@ -402,3 +402,11 @@ suite are already present. The merge also incorporates upstream's six macOS
 Bun shards and the matrix coverage regression, retaining its existing
 200-second suite budget. Main's independent constructor patch changeset is
 retained and its duplicated entry removed from this PR's minor changeset.
+
+All five workflows and 61 applicable checks pass on `9ace87b`. Main's PR 156
+run independently hits the earlier elapsed-time assertion in the finite
+issue-32 document-name probe, at job 130316123517 log lines 1874–1885.
+This branch already measures that probe's CPU work with independent wall
+bounds. Main's failed job passes its targeted retry, enabling release 0.21.8
+at `1f4be5f`. The clean metadata merge consumes its constructor patch fragment.
+All nine focused constructor/matrix checks pass after the PR 156 integration.

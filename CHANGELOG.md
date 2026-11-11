@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.21.8
+
+### Patch Changes
+
+- bf828bc: Preserve unquoted JavaScript `new` constructor assignments under credential names while continuing to mask literal credentials and exact known secrets.
+
 ## 0.21.7
 
 ### Patch Changes

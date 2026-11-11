@@ -103,3 +103,8 @@ without establishing an exhaustive audit of all historical requirements.
 - [x] Read PR 156's latest description and all feedback endpoints. Merge
       main `5cd34f5`, including its six-shard macOS Bun matrix and regression,
       and preserve its independent constructor patch fragment.
+- [x] Verify all five workflows and 61 applicable checks on `9ace87b`.
+- [x] Preserve main job 130316123517's repeated issue-32 elapsed-time failure,
+      confirm its targeted retry passes, and merge release `1f4be5f` (0.21.8).
+      This branch already contains the CPU-work regression correction.
+- [x] Verify all nine constructor/matrix checks after incorporating PR 156.
