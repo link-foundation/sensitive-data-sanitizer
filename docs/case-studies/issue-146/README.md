@@ -388,3 +388,9 @@ The premature `-ge` predicate fails this test, and the current `-gt` predicate
 passes. Existing integration cases exercise real command completion, expiry
 and termination. All 15 wrapper tests pass under Node, and the focused
 regression passes under Node, Bun and Deno. ESLint and Prettier pass.
+
+Main's failed Deno job passes on its targeted retry, allowing release 0.21.7
+at `e37f228`. The metadata-only merge consumes the independent private-key
+patch fragment. This branch retains its single minor changeset, with the
+constructor correction still pending release. The new integration head needs
+its own complete CI verification.

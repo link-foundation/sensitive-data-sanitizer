@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.21.7
+
+### Patch Changes
+
+- 33a1157: Expose PRIVATE_KEY for native PEM and PuTTY private-key findings so per-type redaction overrides apply under a global hive-mask transformation. PEM markers and surrounding log text remain readable.
+
 ## 0.21.6
 
 ### Patch Changes

@@ -98,3 +98,5 @@ without establishing an exhaustive audit of all historical requirements.
       replace its scheduling-sensitive assertion with deterministic boundary
       values, prove the premature predicate fails, and verify all 15 Node
       wrapper tests plus the focused Bun/Deno regression.
+- [x] Confirm main's failed Deno job passes its targeted retry and merge
+      release `e37f228` (0.21.7), consuming its private-key patch changeset.
