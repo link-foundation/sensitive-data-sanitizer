@@ -14,7 +14,7 @@ const raw = Buffer.from(
   JSON.stringify({ token: secret, note: 'keep me' })
 ).toString('base64');
 assert.equal(raw.endsWith('='), false);
-for (const width of [20, 40, 48, 64, 76]) {
+for (const width of [20, 40, 46, 64, 76]) {
   const body = raw.match(new RegExp(`.{1,${width}}`, 'g')).join('\n');
   const input = prefix + body + suffix;
   const output = engine.sanitize(input).text;

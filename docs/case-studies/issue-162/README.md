@@ -40,7 +40,7 @@ valid candidate remains the interpretation, as for other encoded text.
 | Requirement                                        | Evidence                                                                                                        |
 | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | Complete unpadded JSON is sanitized and re-encoded | Exact decoded JSON and output assertions in the issue-162 tests in `tests/sanitizer-issue-142-encoding.test.js` |
-| Preserve the note, surrounding prose and wrapping  | Exact expected wrapped output at widths 20, 40, 48, 64 and 76 with LF and CRLF                                  |
+| Preserve the note, surrounding prose and wrapping  | Exact expected wrapped output at widths 20, 40, 46, 64 and 76 with LF and CRLF                                  |
 | One complete payload span                          | Decoder and finding offset assertions; width 20 retains `[31, 127)`                                             |
 | ESM and CommonJS `/credentials` entries            | Import and package self-reference through `createRequire`, with sync and async engines                          |
 | Whole-text and streaming agree                     | Every two-chunk split of each input, using small 32-byte batches                                                |

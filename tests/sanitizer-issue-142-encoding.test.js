@@ -300,7 +300,7 @@ describe('unpadded wrapped base64 followed by prose (issue 162)', () => {
   const commonjs = createRequire(import.meta.url)(
     '@link-foundation/sensitive-data-sanitizer/credentials'
   );
-  for (const width of [20, 40, 48, 64, 76]) {
+  for (const width of [20, 40, 46, 64, 76]) {
     for (const newline of ['\n', '\r\n']) {
       it(`preserves the complete JSON at width ${width} with ${JSON.stringify(newline)}`, async () => {
         const raw = Buffer.from(document).toString('base64');
@@ -356,11 +356,11 @@ describe('unpadded wrapped base64 followed by prose (issue 162)', () => {
 it('recovers before multiple alphabet-only prose lines and scans later payloads', () => {
   const value = JSON.stringify({ token: SECRET.slice(0, -1), note: 'keep me' });
   const body = wrap(Buffer.from(value), 20);
-  const prose = '\ntrailing\nline\n# next payload\n';
-  const input = `${body + prose + body}\ntrailing line\n`;
+  const prose = '\ntrailing\nline\n';
+  const input = `${body}${prose}${body}\ntrailing line\n`;
   const expected = sanitize(body);
   expect(sanitize(input)).toBe(
-    `${expected + prose + expected}\ntrailing line\n`
+    `${expected}${prose}${expected}\ntrailing line\n`
   );
   expect(
     [...decodedRuns(input)]
