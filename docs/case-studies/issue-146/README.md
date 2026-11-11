@@ -365,3 +365,11 @@ Job 130290082111 records failed action downloads at lines 32 and 34, followed
 by the DNS error for `codeload.github.com` at lines 36–37 after three attempts.
 The other runtime shards pass. The preserved log identifies a hosted-runner
 network failure. The new integration commit requires another CI execution.
+
+### Main's private-key integration
+
+Main advances to `ec14a6c` through PR 161. Its private-key implementation and
+regression tests are already integrated. The documentation add/add conflict
+in `experiments/issue-154/README.md` retains upstream's newer 36-test evidence.
+The merge retains main's independent patch changeset and removes the duplicate
+private-key entry from this PR's minor changeset.

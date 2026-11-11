@@ -13,7 +13,10 @@ Issue: https://github.com/link-foundation/sensitive-data-sanitizer/issues/154
 - [x] Cover both public entry points, sync/async engines, JSON, encoded payloads
       and streaming; retain default redaction and explicit partial masking.
 - [x] Document the type change and prepare a patch changeset for release.
-- [ ] Review the final PR diff and verify all CI checks on the pushed commit.
+- [x] Review the implementation, tests and documentation in the PR diff.
+
+Final CI verification is tracked on [PR #161](https://github.com/link-foundation/sensitive-data-sanitizer/pull/161)
+against its latest pushed commit. The PR description records the final result.
 
 ## Root cause and solution
 
@@ -39,6 +42,9 @@ node --test --test-concurrency=1 --test-timeout=30000 tests/sanitizer-issue-154.
 Before the fix, all 14 original regression cases failed: native findings reported
 `SECRET`; the stream case exposed `SYN…456` instead of `[REDACTED]`. After the fix,
 all 14 passed. An additional case checks the reserved placeholder namespace.
+All 36 focused checks pass with the existing credential-format and PuTTY
+regressions. Changed JavaScript passes ESLint with zero warnings and all changed
+files pass Prettier.
 Fixtures are synthetic and finite. Tests cover PEM, RSA, EC, DSA, OpenSSH,
 encrypted PEM, CRLF and literal escaped newlines, PuTTY v2/v3, unterminated PEM,
 JSON and base64, both entries and async Secretlint union detection. No detector

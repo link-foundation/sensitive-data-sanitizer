@@ -90,3 +90,6 @@ without establishing an exhaustive audit of all historical requirements.
       passes on `9b6e49a`.
 - [x] Merge main release `0910660` (0.21.6), consuming its independent Markdown
       patch fragment and retaining this PR's single pending minor changeset.
+- [x] Merge main's PR 161 at `ec14a6c`, retaining its newer private-key
+      verification notes and independent patch changeset. Source and tests
+      are already integrated.
