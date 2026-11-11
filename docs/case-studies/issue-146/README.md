@@ -394,3 +394,11 @@ at `e37f228`. The metadata-only merge consumes the independent private-key
 patch fragment. This branch retains its single minor changeset, with the
 constructor correction still pending release. The new integration head needs
 its own complete CI verification.
+
+### Main's constructor and Bun-sharding integration
+
+Main advances to `5cd34f5` through PR 156. The constructor fix and regression
+suite are already present. The merge also incorporates upstream's six macOS
+Bun shards and the matrix coverage regression, retaining its existing
+200-second suite budget. Main's independent constructor patch changeset is
+retained and its duplicated entry removed from this PR's minor changeset.

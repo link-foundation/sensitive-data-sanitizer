@@ -100,3 +100,6 @@ without establishing an exhaustive audit of all historical requirements.
       wrapper tests plus the focused Bun/Deno regression.
 - [x] Confirm main's failed Deno job passes its targeted retry and merge
       release `e37f228` (0.21.7), consuming its private-key patch changeset.
+- [x] Read PR 156's latest description and all feedback endpoints. Merge
+      main `5cd34f5`, including its six-shard macOS Bun matrix and regression,
+      and preserve its independent constructor patch fragment.
