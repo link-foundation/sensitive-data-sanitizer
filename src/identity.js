@@ -1,6 +1,7 @@
 import { collectMatches } from './detection.js';
 
 import { isIdentityType } from './identity-types.js';
+import { flatRegExp } from './unicode-runs.js';
 
 export { identityTypes, isIdentityType } from './identity-types.js';
 const personal = (type, rule, confidence = 0.85) => ({
@@ -9,8 +10,9 @@ const personal = (type, rule, confidence = 0.85) => ({
   category: 'personal',
   confidence,
 });
-const passportContext =
-  /(?<![\p{L}\p{N}_])(?:passports?|series and number|document number|паспорт[\p{L}]*|загран[\p{L}]*|серия|номер|pasaporte|Reisepass|passeport|passaporto|护照|パスポート)(?![\p{L}\p{N}_])/iu;
+const passportContext = flatRegExp(
+  /(?<![\p{L}\p{N}_])(?:passports?|series and number|document number|паспорт[\p{L}]*|загран[\p{L}]*|серия|номер|pasaporte|Reisepass|passeport|passaporto|护照|パスポート)(?![\p{L}\p{N}_])/iu
+);
 
 export function mrzCheck(value) {
   let sum = 0;

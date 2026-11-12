@@ -20,6 +20,7 @@ import { builtInEnabled } from './policy.js';
 import { feature } from './features.js';
 import { tokenChecksum } from './token-checksum.js';
 import { refineCredentialSpans, cookieValues } from './credential-spans.js';
+import { unicodeRun } from './unicode-runs.js';
 
 export const REDACTED = '[REDACTED]';
 export const failure = (code = 'ERR_SANITIZATION', location = {}) =>
@@ -33,8 +34,30 @@ export const failure = (code = 'ERR_SANITIZATION', location = {}) =>
         .map((key) => [key, location[key]])
     ),
   });
+// Unexpected errors are replaced by a generic failure so no input text can
+// leak through an error message. `SENSITIVE_DATA_SANITIZER_DEBUG=1` prints
+// the original stack to stderr for local diagnosis (for example a
+// `RangeError` from V8's regular-expression stack, #170 and #172); it is off
+// by default because a message may quote part of the input.
+const debugFailures = (() => {
+  try {
+    return /^(?:1|true|yes)$/i.test(
+      globalThis.process?.env?.SENSITIVE_DATA_SANITIZER_DEBUG ?? ''
+    );
+  } catch {
+    return false;
+  }
+})();
 export function internalFailure(error) {
-  return /^ERR_[A-Z_]+$/.test(error?.code) ? error : failure();
+  if (/^ERR_[A-Z_]+$/.test(error?.code)) {
+    return error;
+  }
+  if (debugFailures) {
+    globalThis.process?.stderr?.write(
+      `sensitive-data-sanitizer internal failure: ${error?.stack ?? error}\n`
+    );
+  }
+  return failure();
 }
 export const maxPropagationLength = 256;
 // Verification redacts values found again after a replacement, up to this many
@@ -158,14 +181,36 @@ function collectMatch(match, group, details, accept, emit) {
   });
 }
 
+// Shannon entropy per code point, divided by the UTF-16 length. Numeric code
+// points (a surrogate pair is one) are counted without allocating a string
+// per character, so a multi-megabyte value scores quickly. Terms are summed
+// in order of first occurrence, which keeps the result bit-identical to a
+// string-keyed count (experiments/issue-173/entropy-equivalence.mjs).
 export function entropy(value) {
-  const counts = new Map();
-  for (const char of value) {
-    counts.set(char, (counts.get(char) ?? 0) + 1);
+  const ascii = new Float64Array(128);
+  const other = new Map();
+  const order = [];
+  for (let index = 0; index < value.length; index++) {
+    const char = value.charCodeAt(index);
+    if (char < 128) {
+      if (ascii[char]++ === 0) {
+        order.push(char);
+      }
+      continue;
+    }
+    const point = value.codePointAt(index);
+    if (point > 0xffff) {
+      index++;
+    }
+    const count = other.get(point);
+    if (count === undefined) {
+      order.push(point);
+    }
+    other.set(point, (count ?? 0) + 1);
   }
   let result = 0;
-  for (const count of counts.values()) {
-    const p = count / value.length;
+  for (const char of order) {
+    const p = (char < 128 ? ascii[char] : other.get(char)) / value.length;
     result -= p * Math.log2(p);
   }
   return result;
@@ -357,10 +402,17 @@ function emailAfterMention(text, finding) {
     : { ...finding, start: finding.start - 1 };
 }
 
+// The local part is a `unicodeRun`: a plain `[\p{L}…]+` loop pushed one
+// backtracking entry per character on a two-byte string, so a long letter
+// run overflowed V8's regular-expression stack (#172).
+const email = new RegExp(
+  `(?<![\\p{L}\\p{N}_.!#$%&'*+/?^\`{|}~-])${unicodeRun("[\\p{L}\\p{N}_.!#$%&'*+/?^`{|}~-]")}@[\\p{L}\\p{N}](?:[\\p{L}\\p{N}.-]{0,252})\\.[\\p{L}]{2,63}(?![\\p{L}\\p{N}_-])`,
+  'gu'
+);
 function detectPersonalFormats(text, options, emit) {
   collectMatches(
     text,
-    /(?<![\p{L}\p{N}_.!#$%&'*+/?^`{|}~-])[\p{L}\p{N}_.!#$%&'*+/?^`{|}~-]+@[\p{L}\p{N}](?:[\p{L}\p{N}.-]{0,252})\.[\p{L}]{2,63}(?![\p{L}\p{N}_-])/gu,
+    email,
     (finding) => {
       // `https://user:password@host` is URL user info, not an address.
       if (

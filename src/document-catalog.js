@@ -1,5 +1,7 @@
 import { collectMatches } from './detection.js';
 import { isDocumentTechnology } from './document-experience.js';
+import { flatRegExp } from './unicode-runs.js';
+const letterRuns = flatRegExp(/[\p{L}]+/gu);
 
 const b = '[\\p{L}\\p{N}_]';
 const proper = '[\\p{Lu}][\\p{L}\\p{M}.-]{1,47}';
@@ -37,13 +39,17 @@ const rules = [
   [
     'URL',
     'document-social-link',
-    /(?<![\p{L}\p{N}_./-])(?:https?:\/\/)?(?:www\.)?(?:ok\.ru\/profile|gitlab\.com|habr\.com\/ru\/users|facebook\.com)\/[\p{L}\p{N}_.-]{2,100}(?:\/)?(?:[?#][^\s"<>\\]*)?/giu,
+    flatRegExp(
+      /(?<![\p{L}\p{N}_./-])(?:https?:\/\/)?(?:www\.)?(?:ok\.ru\/profile|gitlab\.com|habr\.com\/ru\/users|facebook\.com)\/[\p{L}\p{N}_.-]{2,100}(?:\/)?(?:[?#][^\s"<>\\]*)?/giu
+    ),
     0,
   ],
   [
     'URL',
     'document-resume-link',
-    /https?:\/\/[^\s/"<>\\]+\/(?:cv\.pdf(?:[?#][^\s"<>\\]*)?|cv(?:\/[^\s"<>\\]*)?|~[\p{L}\p{N}_.-]{1,100}\/?)/giu,
+    flatRegExp(
+      /https?:\/\/[^\s/"<>\\]+\/(?:cv\.pdf(?:[?#][^\s"<>\\]*)?|cv(?:\/[^\s"<>\\]*)?|~[\p{L}\p{N}_.-]{1,100}\/?)/giu
+    ),
     0,
   ],
   [
@@ -225,7 +231,7 @@ export function detectDocumentCatalog(text, emit) {
     x: 'х',
     y: 'у',
   };
-  const folded = text.replace(/[\p{L}]+/gu, (word) =>
+  const folded = text.replace(letterRuns, (word) =>
     /[А-Яа-яЁё]/u.test(word)
       ? word.replace(/[AaBCcEeHKMOoPpTXxy]/g, (c) => lookalikes[c])
       : word

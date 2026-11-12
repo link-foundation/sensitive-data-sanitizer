@@ -2,6 +2,7 @@
 // never writes to the original text, and offsets remain valid after emoji.
 import { failure } from './detection.js';
 import { htmlTag, inlineTags } from './html-tags.js';
+import { flatRegExp } from './unicode-runs.js';
 
 // Unicode Nd zero codepoints. NFKC already maps mathematical/fullwidth digits;
 // other numeral systems need explicit conversion with original-source spans.
@@ -40,9 +41,12 @@ const projectionTrigger = new RegExp(
   String.raw`\x1b\[|\0|\\u[\da-fA-F{]|\\x\{[\da-fA-F]|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|U\+[\da-fA-F]{4}|\\[\da-fA-F]{1,6} \\|[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]|${htmlTag}`,
   'u'
 );
-const projectionUnits = new RegExp(
-  String.raw`\x1b\[[0-?]*[ -/]*[@-~]|\\u[\da-fA-F]{4}|\\[ux]\{[\da-fA-F]{1,6}\}|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|${htmlTag}|[\s\S]\p{M}*`,
-  'guy'
+// `[\s\S]\p{M}*` stays flat on a long run of combining marks (#172).
+const projectionUnits = flatRegExp(
+  new RegExp(
+    String.raw`\x1b\[[0-?]*[ -/]*[@-~]|\\u[\da-fA-F]{4}|\\[ux]\{[\da-fA-F]{1,6}\}|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|${htmlTag}|[\s\S]\p{M}*`,
+    'guy'
+  )
 );
 // ASCII characters that cannot start an escape, ANSI sequence, HTML tag or
 // invisible unit. Each one is its own unit and projects to itself, so a run

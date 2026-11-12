@@ -4,6 +4,9 @@ import {
   isDocumentTechnology,
 } from './document-experience.js';
 import { isDocumentShareLink } from './proper-names.js';
+import { flatRegExp } from './unicode-runs.js';
+// A value-shaped e-mail; the loops stay flat on long values (#172).
+const emailValue = flatRegExp(/^[^\s@]+@[^\s@]+\.[\p{L}]{2,63}$/u);
 
 const boundary = '[\\p{L}\\p{N}_]';
 const proper = '[\\p{Lu}][\\p{L}\\p{M}\\p{N}.-]{0,46}[\\p{L}\\p{M}\\p{N}]';
@@ -76,13 +79,17 @@ export function detectDocumentExtras(text, emit, range, debug, options) {
     [
       'URL',
       'document-personal-path',
-      /(?<![\p{L}\p{N}_])(?:https?:\/\/[^\s/"<>]+)?\/(?:u|in|users?|profiles?|people|members?|home)\/[^\s?&#"<>\\]{1,128}/giu,
+      flatRegExp(
+        /(?<![\p{L}\p{N}_])(?:https?:\/\/[^\s/"<>]+)?\/(?:u|in|users?|profiles?|people|members?|home)\/[^\s?&#"<>\\]{1,128}/giu
+      ),
       0,
     ],
     [
       'URL',
       'document-share-link',
-      /https?:\/\/[^\s/"<>]+\/(?:[^\s/?#"<>]{1,64}\/){0,5}[A-Za-z0-9_-]{24,128}(?:\/[^\s?&#"<>\\]{0,64})?/gu,
+      flatRegExp(
+        /https?:\/\/[^\s/"<>]+\/(?:[^\s/?#"<>]{1,64}\/){0,5}[A-Za-z0-9_-]{24,128}(?:\/[^\s?&#"<>\\]{0,64})?/gu
+      ),
       0,
     ],
   ]) {
@@ -116,7 +123,7 @@ export function detectDocumentExtras(text, emit, range, debug, options) {
   detectQueryContacts(text, emit);
   collectMatches(
     text,
-    /https?:\/\/[^\s"<>\\]+/gu,
+    flatRegExp(/https?:\/\/[^\s"<>\\]+/gu),
     emit,
     {
       type: 'URL',
@@ -179,11 +186,7 @@ function detectQueryContacts(text, emit) {
       continue;
     }
     const email = match[1].toLowerCase() === 'email';
-    if (
-      !(
-        email ? /^[^\s@]+@[^\s@]+\.[\p{L}]{2,63}$/u : /^\+?[\d () .-]{7,40}$/
-      ).test(value)
-    ) {
+    if (!(email ? emailValue : /^\+?[\d () .-]{7,40}$/).test(value)) {
       continue;
     }
     if (value === '[REDACTED]') {

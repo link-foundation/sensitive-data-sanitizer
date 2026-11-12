@@ -4,6 +4,7 @@ import { labels } from './rules.js';
 import { transliteratedGivenNames } from './transliteration.js';
 import { serviceAccounts } from './public.js';
 import { isCommonProseWord } from './prose-words.js';
+import { flatRegExp, unicodeRun } from './unicode-runs.js';
 const labelWords = new Set(Object.values(labels).flat());
 
 const details = (type, rule, confidence = 0.85) => ({
@@ -37,8 +38,11 @@ const ibanLengths = Object.fromEntries(
 );
 
 // `@handle/jane@example.com` is a mention and an address, not a package path.
-const mentionedEmail =
-  /^\/[\p{L}\p{N}_.!#$%&'*+?^`{|}~-]+@[\p{L}\p{N}][\p{L}\p{N}.-]{0,252}\.\p{L}{2,63}(?![\p{L}\p{N}_-])/u;
+// The local part is a `unicodeRun`, flat on two-byte strings (#172).
+const mentionedEmail = new RegExp(
+  `^/${unicodeRun("[\\p{L}\\p{N}_.!#$%&'*+?^`{|}~-]")}@[\\p{L}\\p{N}][\\p{L}\\p{N}.-]{0,252}\\.\\p{L}{2,63}(?![\\p{L}\\p{N}_-])`,
+  'u'
+);
 export function iban(value) {
   const compact = value.replace(/[\s-]/g, '').toUpperCase();
   if (
@@ -118,12 +122,13 @@ const givenWords = new Set(
     .flatMap((list) => list.toLowerCase().split(' '))
     .concat(transliteratedGivenNames.map((name) => name.toLowerCase()))
 );
+const capitalizedToken = flatRegExp(
+  /^(?:\p{Lu}\p{Ll}[\p{L}\p{M}]*|\p{Lu}{2,32})$/u
+);
 function nameShaped(candidates) {
   return (
     candidates.some((token) => givenWords.has(token[0].toLowerCase())) ||
-    candidates.every((token) =>
-      /^(?:\p{Lu}\p{Ll}[\p{L}\p{M}]*|\p{Lu}{2,32})$/u.test(token[0])
-    )
+    candidates.every((token) => capitalizedToken.test(token[0]))
   );
 }
 function documentReference(text, match) {
@@ -266,7 +271,9 @@ export function detectPersonal(text, emit) {
   );
   collectMatches(
     text,
-    /(?<![\p{L}\p{N}])\d{1,6}[A-Za-z]?[ \t]+(?:[\p{Lu}][\p{L}.'-]*[ \t]+){1,5}(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Boulevard|Blvd|Way|Terrace|Court|Ct|Place|Pl|Parkway|Pkwy|Circle|Highway|Hwy|Square|Crescent|Close|Straße|Strasse|Rue|Calle|Rua)\b(?:,?[ \t]+(?:Apt|Apartment|Suite|Ste|Unit|Floor|Fl|Room|Rm)\.?[ \t]*#?[A-Za-z0-9-]{1,6}\b|[ \t]+#[A-Za-z0-9-]{1,6}\b)?(?:,[ \t]+(?:(?:[^ \t\r\n<>][^\r\n<>]{0,79}?[ \t]+)?(?:[A-Z]{1,2}\d[A-Z\d]?[ \t]+\d[A-Z]{2}|\d{5}(?:-\d{4})?)\b|(?:[\p{Lu}][\p{Ll}.'-]+[ \t]*){1,4}))?/gu,
+    flatRegExp(
+      /(?<![\p{L}\p{N}])\d{1,6}[A-Za-z]?[ \t]+(?:[\p{Lu}][\p{L}.'-]*[ \t]+){1,5}(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Boulevard|Blvd|Way|Terrace|Court|Ct|Place|Pl|Parkway|Pkwy|Circle|Highway|Hwy|Square|Crescent|Close|Straße|Strasse|Rue|Calle|Rua)\b(?:,?[ \t]+(?:Apt|Apartment|Suite|Ste|Unit|Floor|Fl|Room|Rm)\.?[ \t]*#?[A-Za-z0-9-]{1,6}\b|[ \t]+#[A-Za-z0-9-]{1,6}\b)?(?:,[ \t]+(?:(?:[^ \t\r\n<>][^\r\n<>]{0,79}?[ \t]+)?(?:[A-Z]{1,2}\d[A-Z\d]?[ \t]+\d[A-Z]{2}|\d{5}(?:-\d{4})?)\b|(?:[\p{Lu}][\p{Ll}.'-]+[ \t]*){1,4}))?/gu
+    ),
     emit,
     details('ADDRESS', 'postal-address')
   );

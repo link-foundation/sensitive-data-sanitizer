@@ -1,0 +1,5 @@
+---
+'@link-foundation/sensitive-data-sanitizer': patch
+---
+
+Sanitizing text that holds a long letter run and any character above U+00FF, such as an emoji, `—` or a `xx-…789` mask, no longer fails with `ERR_SANITIZATION` (#172). With the `u` flag, V8 compiled the `\p{L}`/`[^\s]` loops of the credential-key, camelCase-key, e-mail, mail display-name, URL, document-link, token and projection expressions as loops with one backtracking entry per character on such strings, so a 4 MiB run overflowed its regular-expression stack. Those loops now list the BMP members of their class and allow at most 256 astral members per run. They match the same text and stay flat on runs of any length. A long value after a credential keyword (`password=` or `api_key: ` followed by 1 MiB) is now scanned in about 1 s rather than 13 s (#173), because the vendored Gitleaks rules scan a view in which the inside of each long base64 run is replaced by a fixed filler, with offsets mapped back. Set `SENSITIVE_DATA_SANITIZER_DEBUG=1` to print the stack of an unexpected internal failure to stderr.

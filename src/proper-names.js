@@ -1,12 +1,13 @@
 import { failure } from './detection.js';
 import { documentDateRange } from './document-dates.js';
 import { keepsProseWord } from './prose-words.js';
+import { flatRegExp } from './unicode-runs.js';
 
 const scriptPatterns = new Map();
 const dateRange = new RegExp(`\\(${documentDateRange}\\)`, 'u');
 const commaMobile = /,[ \t]*[78]9\d{9}(?![\p{L}\p{N}_])/u;
 const mobile = /^[78]9\d{9}$/u;
-const tokenPattern = /[\p{L}\p{M}\p{N}_./:\\?&#%=@+'’~+-]+/gu;
+const tokenPattern = flatRegExp(/[\p{L}\p{M}\p{N}_./:\\?&#%=@+'’~+-]+/gu);
 const upper = /[\p{Lu}\p{Lt}]/u;
 // Only known labels are exempt before colons in activated Cyrillic prose.
 const proseLabels = new Set(

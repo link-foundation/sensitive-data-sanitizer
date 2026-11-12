@@ -1,5 +1,6 @@
 import { collectMatches } from './detection.js';
 import { credentialPlaceholder } from './credentials.js';
+import { flatRegExp, unicodeRun } from './unicode-runs.js';
 
 // Phrase-level evidence collected from competitor test suites (#128):
 // self-introductions, letter salutations and sign-offs, mail display names,
@@ -11,7 +12,11 @@ const personal = (type, rule, confidence = 0.85) => ({
   category: 'personal',
   confidence,
 });
-const word = "\\p{Lu}[\\p{Ll}\\p{M}'’]+(?:\\p{Lu}[\\p{Ll}\\p{M}]+)?";
+// Lowercase runs are `unicodeRun`s: a plain `[\p{Ll}…]+` loop pushed one
+// backtracking entry per letter on a two-byte string, so a long `Aaaa…` run
+// overflowed V8's regular-expression stack (#172).
+const word = `\\p{Lu}${unicodeRun("[\\p{Ll}\\p{M}'’]")}(?:\\p{Lu}${unicodeRun('[\\p{Ll}\\p{M}]')})?`;
+const mailbox = unicodeRun('[^\\s<>@]');
 const nameWords = `${word}(?:-${word})?(?:[ \\t]+(?:${word}(?:-${word})?|\\p{Lu}\\.)){0,2}`;
 // Addressees and senders that are roles, not people.
 const roleWord =
@@ -61,7 +66,7 @@ function detectNames(text, emit) {
   collectMatches(
     text,
     new RegExp(
-      `(?<![\\p{L}\\p{N}_])"?(${word}(?:[ \\t]+(?:${word}|\\p{Lu}\\.)){1,3})"?[ \\t]*<[^\\s<>@]+@[^\\s<>@]+>`,
+      `(?<![\\p{L}\\p{N}_])"?(${word}(?:[ \\t]+(?:${word}|\\p{Lu}\\.)){1,3})"?[ \\t]*<${mailbox}@${mailbox}>`,
       'gu'
     ),
     emit,
@@ -79,9 +84,12 @@ const dot =
   '(?:[ \\t]*[[({<][ \\t]*dot[ \\t]*[\\])}>][ \\t]*|[ \\t]+dot[ \\t]+|\\.)';
 // At most 16 dotted parts on either side of `at`: an unbounded group pushes
 // a backtracking entry per part, so a long `a.a.a.…` run overflowed V8's
-// regular-expression stack and failed sanitization closed (#170).
+// regular-expression stack and failed sanitization closed (#170). Each part
+// is a `unicodeRun`, which stays a simple loop on two-byte strings (#172).
+const localPart = unicodeRun('[\\p{L}\\p{N}_+-]', '+', true);
+const domainPart = unicodeRun('[\\p{L}\\p{N}-]', '+', true);
 const obfuscatedEmail = new RegExp(
-  `(?<![\\p{L}\\p{N}_.+-])[\\p{L}\\p{N}_+-]+(?:${dot}[\\p{L}\\p{N}_+-]+){0,16}${at}[\\p{L}\\p{N}-]+(?:${dot}[\\p{L}\\p{N}-]+){0,16}${dot}\\p{L}{2,24}(?![\\p{L}\\p{N}_-])`,
+  `(?<![\\p{L}\\p{N}_.+-])${localPart}(?:${dot}${localPart}){0,16}${at}${domainPart}(?:${dot}${domainPart}){0,16}${dot}\\p{L}{2,24}(?![\\p{L}\\p{N}_-])`,
   'giu'
 );
 // Spelled-out separators are evidence; a plain " at " needs a well-known
@@ -138,7 +146,7 @@ const credentialPair = new RegExp(
     .join('|'),
   'giu'
 );
-const placeholder = /^\[[\p{L}\p{N}_ -]+\]$/u;
+const placeholder = flatRegExp(/^\[[\p{L}\p{N}_ -]+\]$/u);
 function detectCredentialPairs(text, emit) {
   for (const match of text.matchAll(credentialPair)) {
     const user = match[1] ?? match[3];
