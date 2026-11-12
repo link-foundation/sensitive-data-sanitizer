@@ -42,10 +42,15 @@ const projectionUnits = new RegExp(
 );
 // ASCII characters that cannot start an escape, ANSI sequence, HTML tag or
 // invisible unit. Each one is its own unit and projects to itself, so a run
-// of them is copied in bulk instead of matching and normalizing per
+// of them is copied in bulk without matching and normalizing each
 // character. `\0`, ESC, `%`, `<`, `U` and `\` still go through the units.
-// eslint-disable-next-line no-control-regex -- ASCII control characters are plain units.
-const plainRun = /[\x01-\x1a\x1c-\x24\x26-\x3b\x3d-\x54\x56-\x5b\x5d-\x7f]+/y;
+// The `hive-mask` ellipsis (`ghp…b4N`) also stays as itself: NFKC would turn
+// it into `...`, which no token alphabet needs, and a changed view costs a
+// second scan of the original text, so re-sanitizing a sanitized log would
+// pay for every mask it already holds (#168). Masks match in both forms.
+const plainRun =
+  // eslint-disable-next-line no-control-regex -- ASCII control characters are plain units.
+  /[\x01-\x1a\x1c-\x24\x26-\x3b\x3d-\x54\x56-\x5b\x5d-\x7f\u2026]+/y;
 // A combining mark joins the character before it into one unit.
 const leadingMark = /\p{M}/uy;
 
@@ -138,7 +143,9 @@ export function projectText(input) {
     changed = projectUnit(writer, match[0], index) || changed;
     index += match[0].length;
   }
-  return { ...writer.finish(), changed };
+  return changed
+    ? { ...writer.finish(), changed }
+    : { text: input, changed: false };
 }
 
 export function codePointRange(text, start, end) {

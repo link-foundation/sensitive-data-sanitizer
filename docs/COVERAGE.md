@@ -226,6 +226,17 @@ distinct views at about 0.25–0.3 ms each. That fixed per-value cost is the
 detector catalog itself (about 160 shared expressions and 30 detectors per
 value), which no longer clones each expression for every scan (issue 165).
 
+Text that is already sanitized costs about as much as the same text without
+masks. The detection view keeps the `hive-mask` ellipsis (`ghp…b4N`) as it is,
+so a log that only holds masks needs no second scan of the original text, and
+a call that finds nothing returns without inspecting its unchanged output
+again. Measured with
+[`experiments/issue-168/bench.mjs`](../experiments/issue-168/bench.mjs) on
+6000 `credentialsOnly` lines, a masked GitHub token runs at about 1.5–2.9 MB/s
+and a masked `Authorization: Bearer 012…567` header at about 0.6–0.9 MB/s,
+the same as the ASCII `...` spelling; the header cost is the header detection
+itself (issue 168).
+
 The `documents` profile additionally recognizes:
 
 - Russian mobile numbers with dashed, dotted, spaced or parenthesized forms,

@@ -44,10 +44,24 @@ describe('issue 165: one inspection per structured view and call', () => {
       ...policy,
       structured: 'json',
     });
-    // 35 keys and 13 string values; verification passes reuse them.
+    // 35 keys and 13 string values. The clean record renders unchanged, so
+    // no verification pass inspects it again (issue 168).
     expect(inspected).toBe(48);
-    expect(total).toBe(144);
+    expect(total).toBe(48);
     expect(result.text).toBe(record(32));
+  });
+
+  it('reuses unchanged views when verifying a redacted record', () => {
+    const text = `${JSON.stringify({
+      level: 'INFO',
+      token: `ghp_${'a1B2'.repeat(9)}`,
+    })}\n`;
+    const { result, total, inspected } = views(text, {
+      ...policy,
+      structured: 'json',
+    });
+    expect(result.text).not.toBe(text);
+    expect(total).toBeGreaterThan(inspected);
   });
 
   it('shares a repeated view within one record', () => {
