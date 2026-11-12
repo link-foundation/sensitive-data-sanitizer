@@ -72,7 +72,9 @@ describe('issue 173: long credential values', () => {
   it('keeps entropy bit-identical with the character-count formula', () => {
     const reference = (value) => {
       const counts = new Map();
-      for (const char of value) counts.set(char, (counts.get(char) ?? 0) + 1);
+      for (const char of value) {
+        counts.set(char, (counts.get(char) ?? 0) + 1);
+      }
       let sum = 0;
       for (const count of counts.values()) {
         // The original divides by the UTF-16 length.

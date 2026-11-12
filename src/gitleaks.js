@@ -145,7 +145,7 @@ export function shortenedView(text, start) {
   let copied = 0,
     removed = 0;
   runBlock.lastIndex = 0;
-  for (let block; (block = runBlock.exec(text)); ) {
+  for (let block; (block = runBlock.exec(text));) {
     // Scanning resumes after the previous run, so a block starts its run.
     runRest.lastIndex = block.index;
     const end = block.index + runRest.exec(text)[0].length;
