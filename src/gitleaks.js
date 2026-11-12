@@ -56,7 +56,7 @@ export function detectGitleaks(text, emit, trace) {
     }
     const started = trace ? performance.now() : 0;
     for (const view of ruleViews(text, rule)) {
-      scanRule(view.text, view.start, { rule, name }, emit, large);
+      scanRule(view, { rule, name }, emit, large);
     }
     trace?.({
       rule: name.startsWith('gitleaks/') ? rule.id : name,
@@ -108,13 +108,74 @@ function* ruleViews(text, rule) {
     if (/[\uDC00-\uDFFF]/.test(text[start] ?? '')) {
       start--;
     }
-    while (end < text.length && /[\w.=/+-]/.test(text[end])) {
-      end++;
-    }
+    valueRun.lastIndex = end;
+    end += valueRun.exec(text)[0].length;
     end = Math.min(text.length, end + 3);
     coveredEnd = end;
-    yield { text: text.slice(start, end), start };
+    yield shortenedView(text.slice(start, end), start);
   }
+}
+
+// The three targeted rules share one shape: a bounded key part (at most 50
+// prefix characters, the keyword, 20 + 3 separator characters and a
+// four-character operator) and a secret followed by a terminator. Inside a
+// long `[A-Za-z0-9+/]` run there is no operator, quote, `=` or terminator, so
+// no match starts or ends there, no secret starts or ends there, and only
+// the unbounded `[a-z0-9][a-z0-9+/]{11,}` secret of generic-api-key can cover
+// it, as a whole. Every bounded part is shorter than `RUN_EDGE`, and the
+// filler is longer than the 150-character secret alternative, so replacing
+// the inside of such a run with `RUN_FILLER` changes neither which matches
+// RE2 finds nor where they start and end. RE2 then never walks its capture
+// NFA over a multi-megabyte value (#173); offsets and secrets are mapped back
+// to the original view. experiments/issue-173/equivalence.mjs fuzzes this.
+const RUN_EDGE = 256;
+const RUN_FILLER = 'A'.repeat(256);
+const RUN_MIN = 2 * RUN_EDGE + 2 * RUN_FILLER.length;
+// Plain (non-`u`) single-class loops: V8 runs them without a backtracking
+// entry per character, on one-byte and two-byte strings alike. A counted
+// `[A-Za-z0-9+/]{1024,}` does push one per character and overflows on 16 MiB
+// (experiments/issue-173/run-scan.mjs), so probe a fixed block and extend it.
+const valueRun = /[\w.=/+-]*/y;
+const runBlock = /[A-Za-z0-9+/]{64}/g;
+const runRest = /[A-Za-z0-9+/]*/y;
+
+export function shortenedView(text, start) {
+  const parts = [];
+  const shifts = [];
+  let copied = 0,
+    removed = 0;
+  runBlock.lastIndex = 0;
+  for (let block; (block = runBlock.exec(text)); ) {
+    // Scanning resumes after the previous run, so a block starts its run.
+    runRest.lastIndex = block.index;
+    const end = block.index + runRest.exec(text)[0].length;
+    runBlock.lastIndex = end;
+    if (end - block.index < RUN_MIN) {
+      continue;
+    }
+    const cut = block.index + RUN_EDGE,
+      resume = end - RUN_EDGE,
+      filler = cut - removed;
+    parts.push(text.slice(copied, cut), RUN_FILLER);
+    copied = resume;
+    removed += resume - cut - RUN_FILLER.length;
+    // Shortened-view offsets after this filler move right by `shift`.
+    shifts.push({ at: filler + RUN_FILLER.length, shift: removed });
+  }
+  if (!shifts.length) {
+    return { text, start };
+  }
+  parts.push(text.slice(copied));
+  const position = (offset) => {
+    let shift = 0;
+    for (const entry of shifts) {
+      if (offset >= entry.at) {
+        shift = entry.shift;
+      }
+    }
+    return offset + shift;
+  };
+  return { text: parts.join(''), start, source: text, position };
 }
 
 function* boundedViews(text, prefix, id) {
@@ -142,19 +203,28 @@ function* boundedViews(text, prefix, id) {
   }
 }
 
-function scanRule(text, base, { rule, name }, emit, large) {
-  for (const match of ruleMatches(text, name, rule, large)) {
-    const secret = capturedSecret(rule, match);
-    if (!secret) {
+function scanRule(view, { rule, name }, emit, large) {
+  const position = view.position ?? ((offset) => offset);
+  for (const match of ruleMatches(view.text, name, rule, large)) {
+    const captured = capturedText(rule, match);
+    if (!captured) {
       continue;
     }
     // RE2's wrapper exposes full-match offsets, not subgroup indices. If the
     // span includes each occurrence when a captured substring is repeated.
-    const offset = match[0].indexOf(secret),
-      last = match[0].lastIndexOf(secret);
+    const offset = match.index + match[0].indexOf(captured),
+      last = match.index + match[0].lastIndexOf(captured);
+    // A shortened view (#173) holds a filler inside long runs: filter and
+    // score the secret as it stands in the original text.
+    const secret = view.source
+      ? view.source.slice(position(offset), position(offset + captured.length))
+      : captured;
+    if (!acceptedSecret(rule, secret)) {
+      continue;
+    }
     emit({
-      start: base + match.index + offset,
-      end: base + match.index + last + secret.length,
+      start: view.start + position(offset),
+      end: view.start + position(last + captured.length),
       type: 'SECRET',
       category: 'credential',
       rule: name,
@@ -240,13 +310,14 @@ function* linearMatches(text, name, source, resume = 0) {
   }
 }
 
-function capturedSecret(rule, match) {
-  const secret = rule.secretGroup
+function capturedText(rule, match) {
+  return rule.secretGroup
     ? match[rule.secretGroup]
     : (match.slice(1).find(Boolean) ?? match[0]);
-  return !secret || secret === REDACTED || filtered(rule, secret)
-    ? undefined
-    : secret;
+}
+
+function acceptedSecret(rule, secret) {
+  return Boolean(secret) && secret !== REDACTED && !filtered(rule, secret);
 }
 
 // Secret-only Betterleaks filter clauses, translated by the sync script.
