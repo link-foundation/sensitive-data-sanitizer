@@ -23,6 +23,12 @@ Import the root entry with `import` or `require`; complete declarations are in `
 
 `redactions` counts merged replacement spans. `findings` can contain several detector hits for one replacement. Findings have `{start, end, type, category, rule, line, column}`; no text, quote, match, entropy score, provider details, or raw diagnostic is copied. The optional `strict-attributes` debug event reports only detected and suppressed match counts. Debugging is off by default; `debug(event)` receives value-free counts, rule timings, residual rounds and registry event metadata (see `DebugEvent` in the TypeScript declarations).
 
+An unexpected internal error, such as a `RangeError` from the JavaScript
+engine, fails closed with the generic `ERR_SANITIZATION` code, so no input text
+leaks through an error message. For local diagnosis, set the environment
+variable `SENSITIVE_DATA_SANITIZER_DEBUG=1` to print the original stack to
+stderr. It is off by default because a message may quote part of the input.
+
 ### Credentials-only entry
 
 `@link-foundation/sensitive-data-sanitizer/credentials` exports `inspect`,

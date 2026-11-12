@@ -250,6 +250,27 @@ an 8 MiB `a-a-a-…` line takes about 1.2 s of `credentialsOnly` context
 detection, and a 10 MiB `%41%41…` run about 0.5 s of encoded-run scanning
 (issue 170).
 
+The same holds for strings that contain any character above U+00FF, such as an
+emoji, `—` or a `…` mask. With the `u` flag, V8 compiles a class that can match
+a code point above U+FFFF (`[\p{L}\p{N}]`, `[^\s]`) as a loop that keeps one
+backtracking entry per character on such strings. A 4 MiB run then overflowed
+the stack, even though one-byte strings passed. Every class loop that can span
+a whole text or value is spelled as `[BMP members]*` with at most 256 single
+astral members between them. It matches the same text whenever a run holds at
+most 256 characters above U+FFFF, and it stays flat on any run. The loops are
+spelled by `unicodeRun` and `flatRegExp` in `src/unicode-runs.js`. Measured with
+[`experiments/issue-172/sweep.mjs`](../experiments/issue-172/sweep.mjs) on 6 MiB
+runs of 38 shapes, in the default and `credentialsOnly` modes, with no overflow,
+and per-call time is unchanged (issue 172).
+
+A long value after a credential keyword (`password=` followed by 1 MiB) takes
+about 1 s rather than 13 s. The vendored Gitleaks rules scan a view in which
+every base64 run of 1024 characters or more keeps its first and last 256
+characters, a fixed 256-character filler replaces the rest, and offsets are
+mapped back, so findings are unchanged. Measured
+with [`experiments/issue-173/repro.mjs`](../experiments/issue-173/repro.mjs)
+(issue 173).
+
 The `documents` profile additionally recognizes:
 
 - Russian mobile numbers with dashed, dotted, spaced or parenthesized forms,
