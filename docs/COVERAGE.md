@@ -260,7 +260,7 @@ astral members between them. It matches the same text whenever a run holds at
 most 256 characters above U+FFFF, and it stays flat on any run. The loops are
 spelled by `unicodeRun` and `flatRegExp` in `src/unicode-runs.js`. Measured with
 [`experiments/issue-172/sweep.mjs`](../experiments/issue-172/sweep.mjs) on 6 MiB
-runs of 38 shapes, in the default and `credentialsOnly` modes, with no overflow,
+runs of 29 shapes, in the default and `credentialsOnly` modes, with no overflow,
 and per-call time is unchanged (issue 172).
 
 A long value after a credential keyword (`password=` followed by 1 MiB) takes
