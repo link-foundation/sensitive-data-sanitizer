@@ -239,8 +239,9 @@ itself (issue 168).
 
 A long single-line run, such as a base64 blob embedded in a JSONL record, costs
 time linear in its length. The key and e-mail expressions do not repeat a group
-once per word of a run, and wrapped base64 and percent-encoded runs are matched
-line by line and escape by escape, because V8 keeps one backtracking entry per
+once per word of a run, and wrapped base64, percent-encoded and `U+0041`/CSS
+escape runs are matched line by line, escape by escape and unit by unit,
+because V8 keeps one backtracking entry per
 repetition and a run of 8 MiB or more overflowed its regular-expression stack,
 which failed sanitization closed. Measured with
 [`experiments/issue-170/probe.mjs`](../experiments/issue-170/probe.mjs) on 168

@@ -3,6 +3,8 @@ import { describe, it, expect } from 'test-anywhere';
 import { detectContext } from '../src/context.js';
 import { detectPersonalEvidence } from '../src/personal-evidence.js';
 import { decodedRuns } from '../src/encoded.js';
+import { projectText } from '../src/projection.js';
+import { detectCredentialFormats } from '../src/credentials.js';
 import { createSyncSanitizer } from '../src/credentials-entry.js';
 
 // Issue 170: one long single-line letter run (a base64 blob) made the
@@ -124,5 +126,25 @@ describe('issue 170: long letter runs', () => {
     const result = engine.sanitize(run('Ab%', large) + tail);
     expect(result.text.includes(secret)).toBe(false);
     expect(result.text.includes('Ab%Ab%')).toBe(false);
+  });
+
+  it('projects 12 MiB `U+0041` and CSS `\\41` escape runs without overflowing', () => {
+    // Before the fix both escape-run expressions overflowed at 12 MiB.
+    for (const unit of ['U+0041 ', '\\41 ']) {
+      const { text } = projectText(run(unit, large));
+      expect(text.length).toBeGreaterThan(large / 8);
+      expect(/^A+ ?$/.test(text)).toBe(true);
+    }
+  });
+
+  it('finds a WordPress key with an 8 MiB value without overflowing', () => {
+    // Before the fix the value expression overflowed from 8 MiB.
+    const value = run('a', 8 * 1024 * 1024);
+    const text = `define('AUTH_KEY', '${value}');`;
+    const found = [];
+    detectCredentialFormats(text, (finding) => found.push(finding));
+    expect(found.map((f) => text.slice(f.start, f.end).length)).toEqual([
+      value.length,
+    ]);
   });
 });

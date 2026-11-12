@@ -30,14 +30,18 @@ const inlineTag = new RegExp(String.raw`^<\/?(?:${inlineTags})[\s/>]`);
 // TruffleHog-style escape runs: `U+0074 U+006F ...` and CSS `\74 \6f ...`.
 // Runs need four or more units so prose such as "U+200B" stays untouched.
 // The space after the last unit stays in the view as a word boundary.
-const codeRun = String.raw`(?:U\+[\da-fA-F]{4,6} ?){3,}U\+[\da-fA-F]{4,6}`;
-const cssRun = String.raw`(?:\\[\da-fA-F]{1,6} ){3,}\\[\da-fA-F]{1,6}`;
+// Runs are matched unit by unit: `(?:U\+[\da-fA-F]{4,6} ?){3,}…` pushed a
+// backtracking entry per unit, so a long run overflowed V8's
+// regular-expression stack and failed sanitization closed (issue 170).
+const codeUnit = /U\+[\da-fA-F]{4,6}( ?)/y;
+// CSS units are separated by one space; a unit without one ends the run.
+const cssUnit = /\\[\da-fA-F]{1,6}( ?)/y;
 const projectionTrigger = new RegExp(
   String.raw`\x1b\[|\0|\\u[\da-fA-F{]|\\x\{[\da-fA-F]|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|U\+[\da-fA-F]{4}|\\[\da-fA-F]{1,6} \\|[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]|${htmlTag}`,
   'u'
 );
 const projectionUnits = new RegExp(
-  String.raw`\x1b\[[0-?]*[ -/]*[@-~]|\\u[\da-fA-F]{4}|\\[ux]\{[\da-fA-F]{1,6}\}|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|${codeRun}|${cssRun}|${htmlTag}|[\s\S]\p{M}*`,
+  String.raw`\x1b\[[0-?]*[ -/]*[@-~]|\\u[\da-fA-F]{4}|\\[ux]\{[\da-fA-F]{1,6}\}|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|${htmlTag}|[\s\S]\p{M}*`,
   'guy'
 );
 // ASCII characters that cannot start an escape, ANSI sequence, HTML tag or
@@ -53,6 +57,24 @@ const plainRun =
   /[\x01-\x1a\x1c-\x24\x26-\x3b\x3d-\x54\x56-\x5b\x5d-\x7f\u2026]+/y;
 // A combining mark joins the character before it into one unit.
 const leadingMark = /\p{M}/uy;
+
+// The end of the escape run of four or more units at `index`, or -1.
+function escapeRunEnd(input, index) {
+  const code = input[index] === 'U';
+  const unit = code ? codeUnit : cssUnit;
+  unit.lastIndex = index;
+  let units = 0;
+  let end = -1;
+  let match;
+  while ((match = unit.exec(input))) {
+    units++;
+    end = unit.lastIndex - match[1].length;
+    if (!code && !match[1]) {
+      break;
+    }
+  }
+  return units >= 4 ? end : -1;
+}
 
 function decodeEscape(raw) {
   const escape = /^(?:\\[ux]\{?|\\U|%u)([\da-fA-F]+)\}?$/.exec(raw);
@@ -138,10 +160,19 @@ export function projectText(input) {
         continue;
       }
     }
-    projectionUnits.lastIndex = index;
-    const match = projectionUnits.exec(input);
-    changed = projectUnit(writer, match[0], index) || changed;
-    index += match[0].length;
+    const runEnd =
+      input[index] === 'U' || input[index] === '\\'
+        ? escapeRunEnd(input, index)
+        : -1;
+    let raw;
+    if (runEnd > index) {
+      raw = input.slice(index, runEnd);
+    } else {
+      projectionUnits.lastIndex = index;
+      raw = projectionUnits.exec(input)[0];
+    }
+    changed = projectUnit(writer, raw, index) || changed;
+    index += raw.length;
   }
   return changed
     ? { ...writer.finish(), changed }

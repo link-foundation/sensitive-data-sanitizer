@@ -120,9 +120,12 @@ export function detectCredentialFormats(text, emit) {
     emit,
     details('nuget')
   );
+  // The value repeats a group only per escape or other quote: a group per
+  // character pushed a backtracking entry per character, so a long value
+  // overflowed V8's regular-expression stack (issue 170).
   collectMatches(
     text,
-    /\bdefine\s*\(\s*(['"])(?:AUTH|SECURE_AUTH|LOGGED_IN|NONCE)_(?:KEY|SALT)\1\s*,\s*(['"])((?:\\.|(?!\2)[^\\\r\n])+)\2\s*\)/g,
+    /\bdefine\s*\(\s*(['"])(?:AUTH|SECURE_AUTH|LOGGED_IN|NONCE)_(?:KEY|SALT)\1\s*,\s*(['"])((?!\2)[^'"\\\r\n]*(?:(?:\\.|(?!\2)['"])[^'"\\\r\n]*)*)\2\s*\)/g,
     emit,
     details('wordpress'),
     3,
