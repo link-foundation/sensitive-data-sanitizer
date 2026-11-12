@@ -32,9 +32,9 @@ export function credentialPlaceholder(value) {
 // One template or mask token: ${NAME}, $${NAME}, $NAME, $1, <name>, [NAME],
 // ****, XXXX or an ellipsis. Values made only of these (optionally split by
 // a user:password colon) carry no credential material.
-// `hive-mask` and `mask` output (`ghp…b4N`, `ab***yz`; NFKC projection turns
-// `…` into `...`) keeps at most a few characters around the marker, so a
-// second pass leaves it unchanged.
+// `hive-mask` and `mask` output (`ghp…b4N`, `ab***yz`; NFKC turns `…` into
+// `...` in values normalized elsewhere) keeps at most a few characters around
+// the marker, so a second pass leaves it unchanged.
 const templateToken =
   /^(?:\$?\$\{[A-Za-z_][\w.-]*\}|\$[A-Za-z_]\w*|\$\d|<[^<>\r\n]{1,64}>|\[[A-Z][A-Z0-9_ ]{0,63}\]|[^\s…*.]{0,4}(?:…|\.{3}|\*{3,})[^\s…*.]{0,4}|[xX]{4,})$/u;
 // A whole value that is already a template, a mask or `[REDACTED]`.

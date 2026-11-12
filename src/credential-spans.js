@@ -122,24 +122,40 @@ function maskedPrefix(text, start, end) {
 
 // `token: ghp_… . Next sentence` — a context value that a vendor rule ends
 // earlier stops at that end when only punctuation or a space follows.
-function bounded(text, finding, findings) {
+// `boundaries` holds the bounding findings grouped by start offset, so a
+// text with many findings does not compare every pair of them.
+function bounded(text, finding, boundaries) {
   if (!openEnded.has(finding.rule) || finding.category !== 'credential') {
     return finding;
   }
   let end = maskedPrefix(text, finding.start, finding.end);
-  for (const other of findings) {
+  for (const other of boundaries.get(finding.start) ?? []) {
     if (
-      other.category === 'credential' &&
-      !notBounding.has(other.rule) &&
-      other.start === finding.start &&
       other.end < end &&
-      other.end > other.start &&
       /^[.,;:!?]*(?:\s|$)/.test(text.slice(other.end, finding.end))
     ) {
       end = other.end;
     }
   }
   return end === finding.end ? finding : { ...finding, end };
+}
+function boundingFindings(findings) {
+  const boundaries = new Map();
+  for (const other of findings) {
+    if (
+      other.category === 'credential' &&
+      !notBounding.has(other.rule) &&
+      other.end > other.start
+    ) {
+      const group = boundaries.get(other.start);
+      if (group) {
+        group.push(other);
+      } else {
+        boundaries.set(other.start, [other]);
+      }
+    }
+  }
+  return boundaries;
 }
 
 // PEM armor (`-----BEGIN RSA PRIVATE KEY-----`) stays readable, and its
@@ -184,7 +200,8 @@ export function refineCredentialSpans(text, findings) {
         )
     )
     .flatMap((finding) => narrowed(text, finding));
-  return narrow.map((finding) => bounded(text, finding, narrow));
+  const boundaries = boundingFindings(narrow);
+  return narrow.map((finding) => bounded(text, finding, boundaries));
 }
 
 // `Cookie: a=1; b=2` and `Set-Cookie: id=…; Path=/; HttpOnly`: each cookie

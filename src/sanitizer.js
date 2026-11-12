@@ -1154,12 +1154,18 @@ function sanitizeText(text, options = {}, round = 0) {
   );
   const findings = inspect(text, options);
   const result = redactResult(text, findings, options);
-  if (
-    hasCustomTransforms(options) &&
-    inspect(result.text, { ...options, findings: [] }).some((f) =>
+  // Text without findings renders unchanged. Inspecting that same text again
+  // with the same built-in policy repeats the first inspection, which found
+  // nothing, so verification of an already sanitized log costs one pass.
+  // Custom detectors and caller findings keep the full second inspection.
+  const clean =
+    !findings.length && !options.findings?.length && !options.detectors?.length;
+  const residual = (output) =>
+    !(clean && output === text) &&
+    inspect(output, { ...options, findings: [] }).some((f) =>
       actionable(f, options)
-    )
-  ) {
+    );
+  if (hasCustomTransforms(options) && residual(result.text)) {
     throw failure('ERR_RESIDUAL');
   }
   const sanitized = redactResult(text, findings, {
@@ -1169,11 +1175,7 @@ function sanitizeText(text, options = {}, round = 0) {
     identityMask: false,
     preserveEncoding: false,
   }).text;
-  if (
-    inspect(sanitized, { ...options, findings: [] }).some((f) =>
-      actionable(f, options)
-    )
-  ) {
+  if (residual(sanitized)) {
     return redactAgain(result, findings, options, round, (next, nextRound) =>
       sanitizeText(result.text, next, nextRound)
     );
@@ -1181,12 +1183,7 @@ function sanitizeText(text, options = {}, round = 0) {
   if (options.structured) {
     verifyStructured(result.text, options);
   }
-  if (
-    hasPlaceholders(options) &&
-    inspect(result.text, { ...options, findings: [] }).some((f) =>
-      actionable(f, options)
-    )
-  ) {
+  if (hasPlaceholders(options) && residual(result.text)) {
     throw failure('ERR_RESIDUAL');
   }
   return { ...result, findings: auditFaked(findings, options, result) };

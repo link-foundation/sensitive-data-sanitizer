@@ -38,8 +38,21 @@ const projectionTrigger = new RegExp(
 );
 const projectionUnits = new RegExp(
   String.raw`\x1b\[[0-?]*[ -/]*[@-~]|\\u[\da-fA-F]{4}|\\[ux]\{[\da-fA-F]{1,6}\}|\\U[\da-fA-F]{8}|%u[\da-fA-F]{4}|${codeRun}|${cssRun}|${htmlTag}|[\s\S]\p{M}*`,
-  'gu'
+  'guy'
 );
+// ASCII characters that cannot start an escape, ANSI sequence, HTML tag or
+// invisible unit. Each one is its own unit and projects to itself, so a run
+// of them is copied in bulk without matching and normalizing each
+// character. `\0`, ESC, `%`, `<`, `U` and `\` still go through the units.
+// The `hive-mask` ellipsis (`ghp…b4N`) also stays as itself: NFKC would turn
+// it into `...`, which no token alphabet needs, and a changed view costs a
+// second scan of the original text, so re-sanitizing a sanitized log would
+// pay for every mask it already holds (#168). Masks match in both forms.
+const plainRun =
+  // eslint-disable-next-line no-control-regex -- ASCII control characters are plain units.
+  /[\x01-\x1a\x1c-\x24\x26-\x3b\x3d-\x54\x56-\x5b\x5d-\x7f\u2026]+/y;
+// A combining mark joins the character before it into one unit.
+const leadingMark = /\p{M}/uy;
 
 function decodeEscape(raw) {
   const escape = /^(?:\\[ux]\{?|\\U|%u)([\da-fA-F]+)\}?$/.exec(raw);
@@ -110,10 +123,29 @@ export function projectText(input) {
   }
   const writer = projectionWriter(input.length);
   let changed = false;
-  for (const match of input.matchAll(projectionUnits)) {
-    changed = projectUnit(writer, match[0], match.index) || changed;
+  let index = 0;
+  while (index < input.length) {
+    plainRun.lastIndex = index;
+    if (plainRun.test(input)) {
+      let end = plainRun.lastIndex;
+      leadingMark.lastIndex = end;
+      if (leadingMark.test(input)) {
+        end--;
+      }
+      if (end > index) {
+        writer.copy(input, index, end);
+        index = end;
+        continue;
+      }
+    }
+    projectionUnits.lastIndex = index;
+    const match = projectionUnits.exec(input);
+    changed = projectUnit(writer, match[0], index) || changed;
+    index += match[0].length;
   }
-  return { ...writer.finish(), changed };
+  return changed
+    ? { ...writer.finish(), changed }
+    : { text: input, changed: false };
 }
 
 export function codePointRange(text, start, end) {
@@ -147,31 +179,43 @@ function projectionWriter(inputLength) {
   const parts = [];
   let length = 0,
     chunk = '';
+  function reserve(size) {
+    if (length + size > maxLength) {
+      throw failure('ERR_LIMIT');
+    }
+    if (length + size > capacity) {
+      capacity = Math.min(Math.max(capacity * 2, length + size), maxLength);
+      const nextStarts = new Uint32Array(capacity),
+        nextEnds = new Uint32Array(capacity);
+      nextStarts.set(starts);
+      nextEnds.set(ends);
+      starts = nextStarts;
+      ends = nextEnds;
+    }
+  }
+  function write(value) {
+    chunk += value;
+    if (chunk.length >= 8192) {
+      parts.push(chunk);
+      chunk = '';
+    }
+  }
   return {
     append(value, start, end) {
-      if (length + value.length > maxLength) {
-        throw failure('ERR_LIMIT');
-      }
-      if (length + value.length > capacity) {
-        capacity = Math.min(
-          Math.max(capacity * 2, length + value.length),
-          maxLength
-        );
-        const nextStarts = new Uint32Array(capacity),
-          nextEnds = new Uint32Array(capacity);
-        nextStarts.set(starts);
-        nextEnds.set(ends);
-        starts = nextStarts;
-        ends = nextEnds;
-      }
-      chunk += value;
-      if (chunk.length >= 8192) {
-        parts.push(chunk);
-        chunk = '';
-      }
+      reserve(value.length);
+      write(value);
       for (let j = 0; j < value.length; j++) {
         starts[length] = start;
         ends[length++] = end;
+      }
+    },
+    // Characters that project to themselves keep their own offsets.
+    copy(input, start, end) {
+      reserve(end - start);
+      write(input.slice(start, end));
+      for (let j = start; j < end; j++) {
+        starts[length] = j;
+        ends[length++] = j + 1;
       }
     },
     finish() {
