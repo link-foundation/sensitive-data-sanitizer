@@ -1,10 +1,14 @@
 // Usage: node prof.cjs <dir>  — prints self and inclusive sample counts.
 const fs = require('fs');
 const dir = process.argv[2];
-const p = JSON.parse(fs.readFileSync(dir + '/' + fs.readdirSync(dir)[0]));
+const p = JSON.parse(fs.readFileSync(`${dir}/${fs.readdirSync(dir)[0]}`));
 const byId = new Map(p.nodes.map((n) => [n.id, n]));
 const parent = new Map();
-for (const n of p.nodes) for (const c of n.children ?? []) parent.set(c, n.id);
+for (const n of p.nodes) {
+  for (const c of n.children ?? []) {
+    parent.set(c, n.id);
+  }
+}
 const name = (n) =>
   `${n.callFrame.functionName} ${n.callFrame.url.split('/').pop()}:${n.callFrame.lineNumber}`.slice(
     0,
@@ -34,5 +38,5 @@ const top = (m) =>
 console.log(
   'total samples',
   p.samples.length,
-  '\n-- self\n' + top(self) + '\n-- inclusive\n' + top(incl)
+  `\n-- self\n${top(self)}\n-- inclusive\n${top(incl)}`
 );

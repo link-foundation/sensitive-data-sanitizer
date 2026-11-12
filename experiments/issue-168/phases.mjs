@@ -1,4 +1,5 @@
 // Time the main phases of one credentialsOnly sanitize call on a slice.
+import { performance } from 'node:perf_hooks';
 import { createSyncSanitizer } from '../../src/credentials-entry.js';
 import { nativeDetect } from '../../src/detection.js';
 import { projectText } from '../../src/projection.js';
@@ -14,7 +15,7 @@ const make = {
   gh: (i) => `line ${i} token ghp…b4N`,
   plain: (i) => `line ${i} with ordinary words only`,
 }[process.argv[2] ?? 'bearer'];
-const text = Array.from({ length: 6000 }, (_, i) => make(i)).join('\n') + '\n';
+const text = `${Array.from({ length: 6000 }, (_, i) => make(i)).join('\n')}\n`;
 const time = (label, fn) => {
   const t = performance.now();
   const r = fn();
