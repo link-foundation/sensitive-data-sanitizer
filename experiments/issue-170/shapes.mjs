@@ -5,7 +5,7 @@ import { randomBytes } from 'node:crypto';
 import { mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createSanitizer } from '../../src/index.js';
+import { createSanitizer, sanitizeFileToFile } from '../../src/index.js';
 const mib = Number(process.argv[2] ?? 10);
 const modes = process.argv[3]
   ? [process.argv[3]]
@@ -41,7 +41,9 @@ for (const mode of modes) {
         const input = join(dir, 'in.log');
         const output = join(dir, 'out.log');
         writeFileSync(input, text);
-        await sanitizer.sanitizeFileToFile(input, output);
+        await sanitizeFileToFile(input, output, {
+          maxInputLength: 64 * 1024 * 1024,
+        });
         result = readFileSync(output, 'utf8').includes('xx-private-value')
           ? 'LEAK'
           : 'ok';
