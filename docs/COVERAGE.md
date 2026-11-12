@@ -8,7 +8,7 @@ The native provider supplements in `src/rules.js` cover GitHub, GitLab, OpenAI, 
 
 The default native engine bundles 221 text rules from Gitleaks 8.30.1 (222 upstream rules; the path-only PKCS12 rule is outside text detection), compiled unchanged with RE2/WASM or RE2JS for inputs above 1 MiB (re2-wasm has a fixed 16 MiB heap shared by every compiled rule and copied subject). Dense rule matches switch to RE2JS after at most eight WASM matches per view, bounding repeated whole-input copies without truncating secrets or changing anchors. The MIT license, commit and sync script are retained in `src/vendor/gitleaks`. Because Gitleaks is no longer updated, 203 further rules from its maintained successor Betterleaks 1.10.0 (ids absent from the Gitleaks set, such as Groq, Cerebras, xAI, Vercel, Supabase and Cloudflare v2 tokens) run the same way as `betterleaks/<id>` findings, with their MIT license, provenance and `scripts/sync-betterleaks.py` in `src/vendor/betterleaks`. Their entropy floors and secret-only `matchesAny`/`containsAny` filters are honoured; BPE token-ratio and nearby-line filters, live validation, validation-only components and the context-dependent `generic-*` rules are not, so native imports do not establish equivalent precision or recall to the upstream engine. Keyword prefilters and configured entropy thresholds run natively; upstream comment/path allowlists cannot suppress a sanitizer finding. Quoted hex/base64 entropy detection supplements those rules. The default asynchronous engine additionally uses the pinned Secretlint recommended scanners, excluding its comment-filter rule. Embedded disable directives in untrusted text cannot suppress findings. Optional Gitleaks, Betterleaks and TruffleHog invoke their installed detector sets, and custom detectors can add formats. Service counts are not a measure of comparative recall.
 
-Context rules recognize credential labels with bounded key affixes, JSON and nested escaped JSON, YAML/env/INI assignments, Ruby/Perl/PHP hash rockets before a quoted literal (`'password' => '…'`), shell flags including plural credential names (`--access-tokens`, but not `--max-tokens`), XML values (also with attributes and camelCase element names), values that start with markup (`token: <script>…`; a bare `<placeholder>` stays), all-caps CI/test credential markers that contain a digit (`SYNTHETIC_TOKEN_ALPHA_123456`, rule `marker-token`), URL userinfo, authorization headers, cookies, webhook paths, and complete or truncated private-key PEM blocks. Low-entropy contextual values such as `password=1234` are protected; a number or boolean under a configuration name (`AUTH_MODE=2`, `ROUTER_AUTH_GUARD=0`) is a setting. Generic token counters, booleans/null/language literals and ordinary Git hashes are excluded to retain useful logs. Supply literal known values for ambiguous credentials or unusual key names.
+Context rules recognize credential labels with bounded key affixes (at most 16 separated words on each side, as in `spring.datasource.password`, and any camelCase prefix, as in `serviceAccountClientSecret`), JSON and nested escaped JSON, YAML/env/INI assignments, Ruby/Perl/PHP hash rockets before a quoted literal (`'password' => '…'`), shell flags including plural credential names (`--access-tokens`, but not `--max-tokens`), XML values (also with attributes and camelCase element names), values that start with markup (`token: <script>…`; a bare `<placeholder>` stays), all-caps CI/test credential markers that contain a digit (`SYNTHETIC_TOKEN_ALPHA_123456`, rule `marker-token`), URL userinfo, authorization headers, cookies, webhook paths, and complete or truncated private-key PEM blocks. Low-entropy contextual values such as `password=1234` are protected; a number or boolean under a configuration name (`AUTH_MODE=2`, `ROUTER_AUTH_GUARD=0`) is a setting. Generic token counters, booleans/null/language literals and ordinary Git hashes are excluded to retain useful logs. Supply literal known values for ambiguous credentials or unusual key names.
 
 Broader unquoted entropy scanning is opt-in (`paranoid: true`), uses Shannon entropy ≥4.2 on bounded candidates, and exempts ordinary hex hashes and common tool identifiers. Quoted hex/base64 and entropy checks belonging to bundled provider rules run by default. Entropy has both false positives and false negatives; contextual detection and known-secret dictionaries remain necessary.
 
@@ -236,6 +236,19 @@ again. Measured with
 and a masked `Authorization: Bearer 012…567` header at about 0.6–0.9 MB/s,
 the same as the ASCII `...` spelling; the header cost is the header detection
 itself (issue 168).
+
+A long single-line run, such as a base64 blob embedded in a JSONL record, costs
+time linear in its length. The key and e-mail expressions do not repeat a group
+once per word of a run, and wrapped base64, percent-encoded and `U+0041`/CSS
+escape runs are matched line by line, escape by escape and unit by unit,
+because V8 keeps one backtracking entry per repetition and a run of 8 MiB or
+more overflowed its regular-expression stack, which failed sanitization closed. Measured with
+[`experiments/issue-170/probe.mjs`](../experiments/issue-170/probe.mjs) on 168
+run shapes (letters, digits and separators) and with
+[`experiments/issue-170/threshold.mjs`](../experiments/issue-170/threshold.mjs),
+an 8 MiB `a-a-a-…` line takes about 1.2 s of `credentialsOnly` context
+detection, and a 10 MiB `%41%41…` run about 0.5 s of encoded-run scanning
+(issue 170).
 
 The `documents` profile additionally recognizes:
 

@@ -60,7 +60,12 @@ const glued =
 // other plurals (`--max-tokens`, `tokens: 1234`) are accounting.
 const plural =
   '(?:access|refresh|auth|session|api|bearer|client)[_.-]?(?:tokens|keys|secrets)';
-const key = `(?:[\\p{L}\\p{N}]+[_.-])*(?:auth|authorization|PGPASSWORD|${glued}|${plural}|${label}|pass|pw)(?:[_.-][\\p{L}\\p{N}]+)*`;
+// At most 16 separated words stand on either side of the credential word
+// (`spring.datasource.password`, `DB_PASSWORD_FILE`). An unbounded
+// `(?:[\p{L}\p{N}]+[_.-])*` pushes a backtracking entry per word, so one
+// long `a_a_a_…` run overflowed V8's regular-expression stack, and every word
+// after `-` or `.` restarted a scan to the end of the run (#170).
+const key = `(?:[\\p{L}\\p{N}]+[_.-]){0,16}(?:auth|authorization|PGPASSWORD|${glued}|${plural}|${label}|pass|pw)(?:[_.-][\\p{L}\\p{N}]+){0,16}`;
 // Ruby/Perl/PHP hash rockets (`'password' => 'x'`, `:token => "x"`) take a
 // quoted literal; an arrow function (`token => token.trim()`) does not.
 const rocket = `=>(?=[ \\t]*\\\\*["'])`;
@@ -74,8 +79,12 @@ const credentialPrefix = new RegExp(
 // camelCase and PascalCase keys (`clientSecret`, `secretKey`, `dbPassword`,
 // `ApiSecret`) are case-sensitive: the credential word starts a new word, so
 // `tokenType`, `secretName` and `maxTokens` stay configuration metadata.
+// The words before the credential word are one character class: a nested
+// `(?:\p{Lu}[\p{Ll}\p{N}]*)*?` group accepts the same keys but makes V8
+// push a backtracking entry per capital letter, so one long letter run (a
+// base64 blob) overflowed the regular-expression stack (#170).
 const camelKey =
-  '[\\p{L}][\\p{Ll}\\p{N}]*(?:\\p{Lu}[\\p{Ll}\\p{N}]*)*?(?:Secret|Password|Passwd|Passphrase|Pass|Pwd|Token|Credentials?|(?:Api|Private|Access|Secret|Signing|Encryption|Master|Client|App|Subscription|Account|Storage)Key)(?:Key|Value)?|(?:[Ss]ecret|[Pp]assword|[Pp]asswd|[Tt]oken|[Pp]rivate|[Aa]ccess|[Ss]igning|[Ee]ncryption)(?:Key|Value|Secret|Token)';
+  '[\\p{L}][\\p{Ll}\\p{Lu}\\p{N}]*?(?:Secret|Password|Passwd|Passphrase|Pass|Pwd|Token|Credentials?|(?:Api|Private|Access|Secret|Signing|Encryption|Master|Client|App|Subscription|Account|Storage)Key)(?:Key|Value)?|(?:[Ss]ecret|[Pp]assword|[Pp]asswd|[Tt]oken|[Pp]rivate|[Aa]ccess|[Ss]igning|[Ee]ncryption)(?:Key|Value|Secret|Token)';
 const camelPrefix = new RegExp(
   `(?<![\\p{L}\\p{N}_$])(?:\\\\*["'])?(${camelKey})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?[ \\t]*(${rocket}|[:=])[ \\t]*`,
   'gu'

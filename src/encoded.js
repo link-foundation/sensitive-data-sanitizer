@@ -11,8 +11,22 @@ const WINDOW_CANDIDATES = 4096;
 // Ordinary text detection retains its 8 KiB cap.
 const WRAPPED_BINARY_LIMIT = 256 * 1024;
 
-const WRAPPED =
-  /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{16,128}(?:\r?\n[A-Za-z0-9_+/-]{1,128})+={0,2}(?![A-Za-z0-9_+/-])/g;
+// Wrapped runs are `[A-Za-z0-9_+/-]{16,128}(?:\r?\n[A-Za-z0-9_+/-]{1,128})+`
+// followed by up to two `=`, and percent-encoded runs are
+// `(?:[^\s"'<>?=&:/]{0,128}%[\da-fA-F]{2})+[^\s"'<>?=&:/]{0,128}`. Both are
+// matched line by line and escape by escape: as one regular expression, the
+// outer loop pushes a backtracking entry per line or escape, so a long run
+// overflowed V8's regular-expression stack and failed sanitization closed
+// (issue 170).
+const WRAPPED = 'wrapped';
+const PERCENT = 'percent';
+const WRAPPED_HEAD =
+  /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{16,128}(?=\r?\n[A-Za-z0-9_+/-])/g;
+const WRAPPED_LINE = /\r?\n[A-Za-z0-9_+/-]{1,128}(?![A-Za-z0-9_+/-])/y;
+const WRAPPED_PADDING = /={1,2}(?![A-Za-z0-9_+/-])/y;
+const PERCENT_ESCAPE = /%[\da-fA-F]{2}/g;
+const PERCENT_STOP = /[\s"'<>?=&:/]/;
+const PERCENT_GAP = 128;
 
 export function* decodedRuns(text, depth = 0) {
   if (depth >= 2) {
@@ -23,7 +37,7 @@ export function* decodedRuns(text, depth = 0) {
   const patterns = [
     WRAPPED,
     /(?<![A-Za-z0-9_+/-])[A-Za-z0-9_+/-]{16}[A-Za-z0-9_+/-]*={0,2}(?![A-Za-z0-9_+/-])/g,
-    /(?:[^\s"'<>?=&:/]{0,128}%[\da-fA-F]{2})+(?:[^\s"'<>?=&:/]{0,128})/g,
+    PERCENT,
     /(?:&#(?:x[\da-fA-F]{1,6}|\d{1,7});|&(?:amp|lt|gt|quot|apos|nbsp);){2,2048}/g,
     /(?:\\x[\da-fA-F]{2}){2,2048}/g,
     undefined, // JSON candidates use a linear scanner below.
@@ -138,17 +152,80 @@ function boundedWrappedBinary(raw) {
 }
 
 function candidateMatches(text, pattern) {
-  return pattern === WRAPPED
-    ? wrappedMatches(text)
-    : pattern
-      ? text.matchAll(pattern)
-      : jsonStringRuns(text);
+  if (pattern === WRAPPED) {
+    return wrappedMatches(text);
+  }
+  if (pattern === PERCENT) {
+    return percentMatches(text);
+  }
+  return pattern ? text.matchAll(pattern) : jsonStringRuns(text);
+}
+
+// The next wrapped run at or after `from`: a head line of 16 to 128 characters
+// and one or more complete lines of at most 128 characters.
+function wrappedAt(text, from) {
+  const head = new RegExp(WRAPPED_HEAD);
+  head.lastIndex = from;
+  const line = new RegExp(WRAPPED_LINE);
+  const padding = new RegExp(WRAPPED_PADDING);
+  let found;
+  while ((found = head.exec(text))) {
+    let end = head.lastIndex;
+    line.lastIndex = end;
+    while (line.test(text)) {
+      end = line.lastIndex;
+    }
+    if (end > head.lastIndex) {
+      padding.lastIndex = end;
+      if (padding.test(text)) {
+        end = padding.lastIndex;
+      }
+      return Object.assign([text.slice(found.index, end)], {
+        index: found.index,
+      });
+    }
+  }
+  return null;
+}
+
+// Each match starts at most 128 characters before its first escape, chains
+// escapes at most 128 characters apart and keeps up to 128 more characters,
+// all within one run of characters outside `PERCENT_STOP`.
+function* percentMatches(text) {
+  const escape = new RegExp(PERCENT_ESCAPE);
+  const stop = new RegExp(PERCENT_STOP, 'g');
+  let from = 0;
+  let runEnd = 0;
+  let found = escape.exec(text);
+  while (found) {
+    const floor = Math.max(from, found.index - PERCENT_GAP);
+    let start = found.index;
+    while (start > floor && !PERCENT_STOP.test(text[start - 1])) {
+      start--;
+    }
+    // Later matches in the same run reuse its end, keeping the scan linear.
+    if (runEnd <= found.index) {
+      stop.lastIndex = found.index;
+      runEnd = stop.exec(text)?.index ?? text.length;
+    }
+    let end = escape.lastIndex;
+    while (
+      (found = escape.exec(text)) &&
+      found.index < runEnd &&
+      found.index - end <= PERCENT_GAP
+    ) {
+      end = escape.lastIndex;
+    }
+    from = Math.min(end + PERCENT_GAP, runEnd);
+    yield Object.assign([text.slice(start, from)], { index: start });
+  }
 }
 
 function* wrappedMatches(text) {
-  const pattern = new RegExp(WRAPPED);
+  let from = 0;
   let match;
-  while ((match = pattern.exec(text))) {
+  while ((match = wrappedAt(text, from))) {
+    from = match.index + match[0].length;
     const raw = match[0];
     // An unpadded payload has no alphabet delimiter before the next line.
     // The greedy matcher can include prose (e.g. "trailing"), invalidating
@@ -166,7 +243,7 @@ function* wrappedMatches(text) {
         if (hasTextCandidate(prefix)) {
           yield Object.assign([prefix], { index: match.index });
           // The rejected suffix may contain another independent payload.
-          pattern.lastIndex = match.index + prefix.length;
+          from = match.index + prefix.length;
           break;
         }
         end = raw.lastIndexOf('\n', end - 1);
