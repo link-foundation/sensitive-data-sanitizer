@@ -38,8 +38,8 @@ for (const mode of modes) {
     let result;
     try {
       if (mode === 'file') {
-        const input = join(dir, 'in.log');
-        const output = join(dir, 'out.log');
+        const input = join(dir, `${name}.in.log`);
+        const output = join(dir, `${name}.out.log`);
         writeFileSync(input, text);
         await sanitizeFileToFile(input, output, {
           maxInputLength: 64 * 1024 * 1024,
