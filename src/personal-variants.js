@@ -1,6 +1,7 @@
 import { escapePattern, failure } from './detection.js';
 import { russianNameRoles } from './russian-names.js';
 import { compiledPatterns } from './compiled-known.js';
+import { flatRegExp } from './unicode-runs.js';
 
 const boundary = '[\\p{L}\\p{M}\\p{N}_]';
 export function organizationCore(value) {
@@ -155,9 +156,11 @@ export function personalRegex(value, type) {
       end--;
     }
     core = core.slice(0, end);
-    return new RegExp(
-      `(?<![\\p{L}\\p{N}_./-])(?:https?:\\/\\/)?${escapePattern(core)}(?:\\/)?(?:[?#][^\\s"<>\\\\]*)?(?![\\p{L}\\p{N}_-])`,
-      'giu'
+    return flatRegExp(
+      new RegExp(
+        `(?<![\\p{L}\\p{N}_./-])(?:https?:\\/\\/)?${escapePattern(core)}(?:\\/)?(?:[?#][^\\s"<>\\\\]*)?(?![\\p{L}\\p{N}_-])`,
+        'giu'
+      )
     );
   }
   return new RegExp(

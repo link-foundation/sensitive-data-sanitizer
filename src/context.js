@@ -1,5 +1,12 @@
 import { labels } from './rules.js';
 import { escapePattern, REDACTED } from './detection.js';
+import { flatRegExp, unicodeRun } from './unicode-runs.js';
+// Value checks; their loops stay flat on long values (#172).
+const firstToken = flatRegExp(/^[^\s]+/u);
+const emailValue = flatRegExp(/^[^\s@]+@[^\s@]+\.[\p{L}]{2,63}$/u);
+const codeReference = flatRegExp(
+  /\b[\p{L}_$][\p{L}\p{N}_$]*(?:\s*\(|\.[\p{L}_$])/u
+);
 import { credentialPlaceholder, referencePrefix } from './credentials.js';
 import { servicePath } from './public.js';
 import { cookieValues } from './credential-spans.js';
@@ -65,7 +72,13 @@ const plural =
 // `(?:[\p{L}\p{N}]+[_.-])*` pushes a backtracking entry per word, so one
 // long `a_a_a_…` run overflowed V8's regular-expression stack, and every word
 // after `-` or `.` restarted a scan to the end of the run (#170).
-const key = `(?:[\\p{L}\\p{N}]+[_.-]){0,16}(?:auth|authorization|PGPASSWORD|${glued}|${plural}|${label}|pass|pw)(?:[_.-][\\p{L}\\p{N}]+){0,16}`;
+// With the `u` flag a class that can match an astral letter is not a simple
+// loop on a two-byte string (one holding any character above U+00FF, such as
+// an emoji, `—` or a `…` mask), so V8 pushed a backtracking entry per
+// character and a 4 MiB letter run overflowed its stack (#172). `unicodeRun`
+// spells the same loop with a BMP-only class.
+const word = unicodeRun('[\\p{L}\\p{N}]', '+', true);
+const key = `(?:${word}[_.-]){0,16}(?:auth|authorization|PGPASSWORD|${glued}|${plural}|${label}|pass|pw)(?:[_.-]${word}){0,16}`;
 // Ruby/Perl/PHP hash rockets (`'password' => 'x'`, `:token => "x"`) take a
 // quoted literal; an arrow function (`token => token.trim()`) does not.
 const rocket = `=>(?=[ \\t]*\\\\*["'])`;
@@ -82,9 +95,9 @@ const credentialPrefix = new RegExp(
 // The words before the credential word are one character class: a nested
 // `(?:\p{Lu}[\p{Ll}\p{N}]*)*?` group accepts the same keys but makes V8
 // push a backtracking entry per capital letter, so one long letter run (a
-// base64 blob) overflowed the regular-expression stack (#170).
-const camelKey =
-  '[\\p{L}][\\p{Ll}\\p{Lu}\\p{N}]*?(?:Secret|Password|Passwd|Passphrase|Pass|Pwd|Token|Credentials?|(?:Api|Private|Access|Secret|Signing|Encryption|Master|Client|App|Subscription|Account|Storage)Key)(?:Key|Value)?|(?:[Ss]ecret|[Pp]assword|[Pp]asswd|[Tt]oken|[Pp]rivate|[Aa]ccess|[Ss]igning|[Ee]ncryption)(?:Key|Value|Secret|Token)';
+// base64 blob) overflowed the regular-expression stack (#170). `unicodeRun`
+// keeps that class a simple loop on two-byte strings, as in `key` (#172).
+const camelKey = `[\\p{L}]${unicodeRun('[\\p{Ll}\\p{Lu}\\p{N}]', '*?')}(?:Secret|Password|Passwd|Passphrase|Pass|Pwd|Token|Credentials?|(?:Api|Private|Access|Secret|Signing|Encryption|Master|Client|App|Subscription|Account|Storage)Key)(?:Key|Value)?|(?:[Ss]ecret|[Pp]assword|[Pp]asswd|[Tt]oken|[Pp]rivate|[Aa]ccess|[Ss]igning|[Ee]ncryption)(?:Key|Value|Secret|Token)`;
 const camelPrefix = new RegExp(
   `(?<![\\p{L}\\p{N}_$])(?:\\\\*["'])?(${camelKey})(?![\\p{L}\\p{N}_])(?:\\\\*["'])?[ \\t]*(${rocket}|[:=])[ \\t]*`,
   'gu'
@@ -92,7 +105,7 @@ const camelPrefix = new RegExp(
 // Bare generic labels are common English nouns. After a verb they need a
 // value that looks generated; "the token is valid" is prose, not a secret.
 function generatedWord(text, range) {
-  const word = /^[^\s]+/u
+  const word = firstToken
     .exec(text.slice(range.start, range.end))?.[0]
     .replace(/[.,;:!?)]+$/u, '');
   if (
@@ -475,7 +488,7 @@ function shapedValueAllowed(value, type) {
     );
   }
   if (type === 'EMAIL') {
-    return /^[^\s@]+@[^\s@]+\.[\p{L}]{2,63}$/u.test(value);
+    return emailValue.test(value);
   }
   // A URL holds no whitespace, so prose under a `url` key is left to the
   // detectors of what the prose contains.
@@ -521,10 +534,7 @@ export function personalValueAllowed(text, range, type, labelStart) {
       .slice(Math.max(0, labelStart - 100), labelStart)
       .split(/[\r\n]/)
       .at(-1);
-    if (
-      /\b(?:const|let|var)\s+$/.test(before) ||
-      /\b[\p{L}_$][\p{L}\p{N}_$]*(?:\s*\(|\.[\p{L}_$])/u.test(value)
-    ) {
+    if (/\b(?:const|let|var)\s+$/.test(before) || codeReference.test(value)) {
       return false;
     }
   }

@@ -1,5 +1,7 @@
 import { isNameForm } from './russian-names.js';
 import { compiledVocabulary, defaultVocabulary } from './vocabulary.js';
+import { flatRegExp } from './unicode-runs.js';
+const letterWord = flatRegExp(/^\p{L}+$/u);
 
 // Words that are capitalized by position or politeness in prose but identify
 // nobody. `properNames: 'capitalized'` leaves them readable. Any word that is
@@ -96,7 +98,7 @@ export function isCommonProseWord(word, options) {
 // Decides whether a capitalized prose token is an ordinary word of the
 // sentence and not a name.
 export function keepsProseWord(text, value, start, end, options) {
-  if (!/^\p{L}+$/u.test(value) || isNameForm(value)) {
+  if (!letterWord.test(value) || isNameForm(value)) {
     return false;
   }
   if (isCommonProseWord(value, options)) {

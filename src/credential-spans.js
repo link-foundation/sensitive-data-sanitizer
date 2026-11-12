@@ -1,5 +1,7 @@
 import { maskedValue } from './credentials.js';
 import { authorizationScheme } from './context.js';
+import { flatRegExp } from './unicode-runs.js';
+const firstToken = flatRegExp(/^[^\s]+/u);
 
 // Credential findings cover the secret, not the readable context around it:
 // PEM markers, URL hosts and user names, cookie names and the rest of a
@@ -111,7 +113,7 @@ function narrowed(text, finding) {
 // A complete existing mask bounds context too: vendor rules no longer match
 // it on the next pass. Only strip sentence punctuation, never a glued suffix.
 function maskedPrefix(text, start, end) {
-  const token = /^[^\s]+/u.exec(text.slice(start, end))?.[0] ?? '';
+  const token = firstToken.exec(text.slice(start, end))?.[0] ?? '';
   let length = token.length;
   while (length > 0 && /[.,;:!?]/.test(token[length - 1])) {
     length--;
