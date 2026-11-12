@@ -1,5 +1,6 @@
-// Compares camelCase key expressions on long letter runs (issue #170).
+// Compares camelCase key expressions on long letter runs (issue 170).
 // Usage: node experiments/issue-170/variants.mjs [MiB]
+import { performance } from 'node:perf_hooks';
 const suffix =
   '(?:Secret|Password|Passwd|Passphrase|Pass|Pwd|Token|Credentials?|(?:Api|Private|Access|Secret|Signing|Encryption|Master|Client|App|Subscription|Account|Storage)Key)(?:Key|Value)?';
 const exact =
@@ -18,8 +19,7 @@ for (const [name, key] of Object.entries(variants)) {
     'gu'
   );
   for (const unit of ['A', 'Ab', 'aB', 'a', 'Aé', 'A1']) {
-    const text =
-      unit.repeat((mib * 1024 * 1024) / unit.length) + 'ClientSecret: x\n';
+    const text = `${unit.repeat((mib * 1024 * 1024) / unit.length)}ClientSecret: x\n`;
     const t = performance.now();
     let result;
     try {

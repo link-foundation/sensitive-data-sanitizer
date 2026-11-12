@@ -1,4 +1,4 @@
-// Fuzzes the original camelCase key scan against the linear one (issue #170):
+// Fuzzes the original camelCase key scan against the linear one (issue 170):
 // both must report the same matches, groups and indexes on short inputs.
 const suffix =
   '(?:Secret|Password|Passwd|Passphrase|Pass|Pwd|Token|Credentials?|(?:Api|Private|Access|Secret|Signing|Encryption|Master|Client|App|Subscription|Account|Storage)Key)(?:Key|Value)?';
@@ -15,10 +15,46 @@ const before = build(
 );
 const after = build(`[\\p{L}][\\p{Ll}\\p{Lu}\\p{N}]*?${suffix}|${exact}`);
 const pieces = [
-  'Secret', 'secret', 'Token', 'token', 'Key', 'Value', 'Api', 'Client',
-  'Pass', 'Password', 'Credential', 'Credentials', 'Access', 'App', 'a', 'A',
-  'b', 'Z', '1', '_', '$', '-', '.', 'ǅ', 'ʰ', '中', 'é', 'É', '𝐀', '𝐚', '"',
-  "'", '\\', ' ', '\t', ':', '=', '=>', '\n', 'x',
+  'Secret',
+  'secret',
+  'Token',
+  'token',
+  'Key',
+  'Value',
+  'Api',
+  'Client',
+  'Pass',
+  'Password',
+  'Credential',
+  'Credentials',
+  'Access',
+  'App',
+  'a',
+  'A',
+  'b',
+  'Z',
+  '1',
+  '_',
+  '$',
+  '-',
+  '.',
+  'ǅ',
+  'ʰ',
+  '中',
+  'é',
+  'É',
+  '𝐀',
+  '𝐚',
+  '"',
+  "'",
+  '\\',
+  ' ',
+  '\t',
+  ':',
+  '=',
+  '=>',
+  '\n',
+  'x',
 ];
 let seed = 170;
 const random = () => {
@@ -36,7 +72,9 @@ for (let i = 0; i < runs; i++) {
   for (let j = 0; j < length; j++) {
     text += pieces[Math.floor(random() * pieces.length)];
   }
-  if (show(before, text) !== "[]") matched++;
+  if (show(before, text) !== '[]') {
+    matched++;
+  }
   if (show(before, text) !== show(after, text)) {
     differences++;
     if (differences < 5) {
@@ -44,4 +82,4 @@ for (let i = 0; i < runs; i++) {
     }
   }
 }
-console.log("runs", runs, "matched", matched, "differences", differences);
+console.log('runs', runs, 'matched', matched, 'differences', differences);

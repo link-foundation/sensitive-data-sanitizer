@@ -1,6 +1,7 @@
 import { performance } from 'node:perf_hooks';
 import { describe, it, expect } from 'test-anywhere';
 import { detectContext } from '../src/context.js';
+import { detectPersonalEvidence } from '../src/personal-evidence.js';
 import { createSyncSanitizer } from '../src/credentials-entry.js';
 
 // Issue 170: one long single-line letter run (a base64 blob) made the
@@ -77,5 +78,22 @@ describe('issue 170: long letter runs', () => {
     ]) {
       expect(values(text)).toEqual([secret]);
     }
+  });
+
+  it('scans a 16 MiB dotted run for obfuscated e-mail without overflowing', () => {
+    const emails = (text) => {
+      const found = [];
+      detectPersonalEvidence(text, (finding) => found.push(finding));
+      return found
+        .filter((finding) => finding.type === 'EMAIL')
+        .map((finding) => text.slice(finding.start, finding.end));
+    };
+    const email = 'jane.roe (at) example (dot) org';
+    expect(emails(`${run('a.', 16 * 1024 * 1024)}\nmail ${email}\n`)).toEqual([
+      email,
+    ]);
+    expect(emails(`write to a.b.c.d.e.f.g.h [at] mail.example.co.uk`)).toEqual([
+      'a.b.c.d.e.f.g.h [at] mail.example.co.uk',
+    ]);
   });
 });

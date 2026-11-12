@@ -77,8 +77,11 @@ const at =
   '(?:[ \\t]*[[({<][ \\t]*at[ \\t]*[\\])}>][ \\t]*|[ \\t]+at[ \\t]+|@)';
 const dot =
   '(?:[ \\t]*[[({<][ \\t]*dot[ \\t]*[\\])}>][ \\t]*|[ \\t]+dot[ \\t]+|\\.)';
+// At most 16 dotted parts on either side of `at`: an unbounded group pushes
+// a backtracking entry per part, so a long `a.a.a.…` run overflowed V8's
+// regular-expression stack and failed sanitization closed (#170).
 const obfuscatedEmail = new RegExp(
-  `(?<![\\p{L}\\p{N}_.+-])[\\p{L}\\p{N}_+-]+(?:${dot}[\\p{L}\\p{N}_+-]+)*${at}[\\p{L}\\p{N}-]+(?:${dot}[\\p{L}\\p{N}-]+)*${dot}\\p{L}{2,24}(?![\\p{L}\\p{N}_-])`,
+  `(?<![\\p{L}\\p{N}_.+-])[\\p{L}\\p{N}_+-]+(?:${dot}[\\p{L}\\p{N}_+-]+){0,16}${at}[\\p{L}\\p{N}-]+(?:${dot}[\\p{L}\\p{N}-]+){0,16}${dot}\\p{L}{2,24}(?![\\p{L}\\p{N}_-])`,
   'giu'
 );
 // Spelled-out separators are evidence; a plain " at " needs a well-known
