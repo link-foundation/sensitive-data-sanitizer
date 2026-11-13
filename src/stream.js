@@ -173,18 +173,25 @@ function advanceNetrc(line, state) {
 // Steps: 0 idle, 1 expects the machine name, 2 `login`, 3 the user,
 // 4 `password`, 5 the password value. Completing an entry returns to idle.
 function netrcStep(step, token) {
-  const expected = [
-    undefined,
-    netrcName.test(token),
-    token === 'login',
-    netrcName.test(token),
-    token === 'password',
-    true,
-  ][step];
-  if (expected) {
+  if (netrcContinues(step, token)) {
     return step === 5 ? 0 : step + 1;
   }
   return token === 'machine' ? 1 : token === 'default' ? 2 : 0;
+}
+function netrcContinues(step, token) {
+  switch (step) {
+    case 1:
+    case 3:
+      return netrcName.test(token);
+    case 2:
+      return token === 'login';
+    case 4:
+      return token === 'password';
+    case 5:
+      return true;
+    default:
+      return false;
+  }
 }
 function releaseBoundary(text, final) {
   let offset = 0,
