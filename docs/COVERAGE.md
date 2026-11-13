@@ -169,7 +169,10 @@ continue to preserve timestamps, order IDs and routine tool identifiers.
 
 Credential rules add complete netrc triplets, NuGet oy2 keys, all eight WordPress
 key/salt constants and complete/truncated PuTTY v2/v3 private blocks. Streaming
-holds netrc/PuTTY blocks across chunks. Placeholder exclusions do not override
+holds netrc/PuTTY blocks across chunks; a netrc entry is held only while its
+`machine`/`default`, `login`, `password` token sequence can still complete, so
+lines like `default = ["macro"]` cost linear time
+([regression](../tests/sanitizer-issue-176.test.js)). Placeholder exclusions do not override
 known secrets. [The requirement matrix](case-studies/repository-issue-13/REQUIREMENTS.md)
 records standards, alternatives and regression coverage for each feature.
 
