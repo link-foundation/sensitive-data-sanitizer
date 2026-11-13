@@ -256,10 +256,14 @@ export function authorizationScheme(text, start) {
     ? { start, end: start + scheme[1].length, payloadStart }
     : undefined;
 }
+// Inside a Markdown code span the closing backtick ends the credential, as
+// it does for `key=value` pairs, so `<value>` placeholders stay recognizable
+// and the span's delimiter is never consumed by redaction.
 function authorizationEnd(text, tokenStart) {
   const brackets = [];
+  const limit = markdownEnd(text, tokenStart, Infinity);
   let end = tokenStart;
-  for (; end < text.length; end++) {
+  for (; end < limit; end++) {
     const char = text[end];
     const code = text.charCodeAt(end);
     if (authorizationDelimiter(char, code)) {
@@ -335,7 +339,9 @@ function authParamValue(text, start) {
     }
     return { start: start + quote[0].length, end: close, after, quoted: true };
   }
-  const token = /^[^\s,"'\\]{1,4096}/.exec(text.slice(start, start + 4096));
+  const token = /^[^\s,"'\\]{1,4096}/.exec(
+    text.slice(start, Math.min(start + 4096, markdownEnd(text, start, 4096)))
+  );
   return token
     ? { start, end: start + token[0].length, after: start + token[0].length }
     : undefined;

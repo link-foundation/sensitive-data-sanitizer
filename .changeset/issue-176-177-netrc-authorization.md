@@ -1,0 +1,5 @@
+---
+'@link-foundation/sensitive-data-sanitizer': patch
+---
+
+Streaming no longer turns quadratic after a line that only looks like the start of a netrc entry, such as `default = ["macro"]`, `default LocaleContext …` or `machine learning is fun` (#176). The stream tracks the `machine <name>` or `default`, `login <user>`, `password <value>` token sequence and releases held text as soon as a token breaks it, so each token costs constant time. Under Node.js, `sanitizeFileToFile` on 8,000 log lines after `default = ["macro"]` took 6.5 s and now takes 0.44 s, the same as without that line. Genuine multi-line entries are still held and redacted, including an entry whose `default` or `machine` keyword ends a line of other text. In a Markdown code span, an `Authorization:` value now ends at the span's closing backtick (#177): `` `Authorization: token <value>` ``, `` `Authorization: Bearer $TOKEN` `` and `` `Authorization: Bearer ${TOKEN}` `` stay readable, and a real credential is masked as `` `Authorization: token [REDACTED]` `` with its closing backtick kept.
