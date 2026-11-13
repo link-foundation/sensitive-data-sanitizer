@@ -143,7 +143,7 @@ function opensQuote(char, previous) {
     char === '"' || (char === "'" && !/[\p{L}\p{N}]/u.test(previous ?? ''))
   );
 }
-function advanceCredentials(line, text, offset, state) {
+function advanceCredentials(line, state) {
   if (/-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----/.test(line)) {
     state.pem = true;
   }
@@ -156,20 +156,35 @@ function advanceCredentials(line, text, offset, state) {
   if (/^Private-MAC:[ \t]*[a-fA-F0-9]+/.test(line)) {
     state.putty = false;
   }
-  if (
-    state.netrcStart < 0 &&
-    /^\s*(?:machine\s+\S+|default)(?:\s|$)/.test(line)
-  ) {
-    state.netrcStart = offset;
+  advanceNetrc(line, state);
+}
+// A netrc entry is the token sequence `machine <name> | default`, `login
+// <user>`, `password <value>`, possibly across lines. Hold text only while the
+// tokens seen so far are a proper prefix of that sequence; any other token
+// abandons the entry. Lines like `default = ["macro"]` or `machine learning
+// is fun` are therefore released at once, and each token costs O(1), so held
+// text is never rescanned for every following line.
+const netrcName = /^[^\s"'<>]+$/;
+function advanceNetrc(line, state) {
+  for (const [token] of line.matchAll(/\S+/g)) {
+    state.netrc = netrcStep(state.netrc, token);
   }
-  if (
-    state.netrcStart >= 0 &&
-    /(?:machine\s+\S+|default)\s+login\s+\S+\s+password\s+\S+/.test(
-      text.slice(state.netrcStart, offset + line.length)
-    )
-  ) {
-    state.netrcStart = -1;
+}
+// Steps: 0 idle, 1 expects the machine name, 2 `login`, 3 the user,
+// 4 `password`, 5 the password value. Completing an entry returns to idle.
+function netrcStep(step, token) {
+  const expected = [
+    undefined,
+    netrcName.test(token),
+    token === 'login',
+    netrcName.test(token),
+    token === 'password',
+    true,
+  ][step];
+  if (expected) {
+    return step === 5 ? 0 : step + 1;
   }
+  return token === 'machine' ? 1 : token === 'default' ? 2 : 0;
 }
 function releaseBoundary(text, final) {
   let offset = 0,
@@ -180,7 +195,7 @@ function releaseBoundary(text, final) {
     escaped: false,
     pem: false,
     putty: false,
-    netrcStart: -1,
+    netrc: 0,
   };
   for (const match of text.matchAll(/[^\n]*\n|[^\n]+$/g)) {
     const line = match[0];
@@ -195,10 +210,10 @@ function releaseBoundary(text, final) {
     if (!base64) {
       base64Start = -1;
     }
-    advanceCredentials(line, text, offset, state);
+    advanceCredentials(line, state);
     advanceQuotes(line, state);
     offset += line.length;
-    if (state.quote || state.pem || state.putty || state.netrcStart >= 0) {
+    if (state.quote || state.pem || state.putty || state.netrc) {
       continue;
     }
     if (base64Start >= 0) {
