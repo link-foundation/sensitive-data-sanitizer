@@ -12,18 +12,15 @@ export function selectTests(files, shard) {
     );
   }
   const [, index, count] = match.map(Number);
-  // Seed separate shards with the measured slow suites. Merely sorting all
-  // filenames can colocate these whenever another test is added. The 8 MiB
-  // long-run suite takes about a minute under Deno on macOS Intel, so it comes
-  // last and wraps onto the first seed, the lightest of the subprocess suites.
+  // Seed separate shards with the measured subprocess-heavy suites. Merely
+  // sorting all filenames can colocate these whenever another test is added.
   const expensive = [
-    'detect-code-changes.test.js',
-    'release-api-integrity.test.js',
     'pr-guards.test.js',
+    'release-api-integrity.test.js',
+    'detect-code-changes.test.js',
     'run-with-budget-warning.test.js',
     'release-preflight.test.js',
     'sanitizer-jsonl-stream.test.js',
-    'sanitizer-issue-172.test.js',
   ];
   const tests = files.filter((file) => file.endsWith('.test.js')).sort();
   const ordered = [

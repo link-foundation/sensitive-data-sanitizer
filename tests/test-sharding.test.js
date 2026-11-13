@@ -68,20 +68,6 @@ it('covers every runtime and OS once while distributing Windows Bun and Deno fix
               ).length <= 1
           )
         ).toBe(true);
-        // The 8 MiB long-run suite takes about a minute under Deno here, so
-        // it may share a job only with the lightest subprocess suite.
-        const longRun = shards
-          .map(({ shard }) => selectTests(files, shard))
-          .find((shard) => shard.includes('tests/sanitizer-issue-172.test.js'));
-        expect(
-          longRun.filter((file) =>
-            expensive.some(
-              (name) =>
-                name !== 'detect-code-changes.test.js' &&
-                file === `tests/${name}`
-            )
-          )
-        ).toEqual([]);
       }
     }
   }
