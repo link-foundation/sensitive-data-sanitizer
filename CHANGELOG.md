@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.22.5
+
+### Patch Changes
+
+- 8ee08c3: Preserve Authorization placeholders and trailing literal backticks in Markdown code spans with longer delimiters. Keep embedded backticks and literal credential suffixes sensitive. Stabilize JavaScriptCore lookbehind regression checks with warm-up and median sampling while retaining detection of quadratic growth on noisy CI runners.
+
 ## 0.22.4
 
 ### Patch Changes
