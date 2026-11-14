@@ -66,3 +66,10 @@ The related issue-47, issue-50, issue-128-features, issue-142-context and
 issue-177 suites pass together: 98 tests, no failures or skips. Changed
 JavaScript passes ESLint with zero warnings and Secretlint; all changed files
 pass Prettier and `git diff --check`.
+
+The first CI run exposed an older issue-168 projection assertion that expected
+a trailing NUL to disappear. Its expected text and source spans now retain
+that separator. All 31 tests in issue-168 and issue-50 pass together locally.
+The saved Windows Node log reports that assertion at line 5556, and the
+Windows Deno log at line 1968; both belong to run 43541158090 on commit
+`3d0fc40`. Final CI validation uses the subsequent commit.
