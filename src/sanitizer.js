@@ -168,19 +168,21 @@ function validateCollections(options) {
       : (options.knownPersonal ?? [])),
     ...(options.confirmedPersonal ?? []),
   ]) {
-    if (
-      !entry ||
-      typeof entry.value !== 'string' ||
-      !entry.value ||
-      !validType(entry.type) ||
-      entryFlags.some(
-        (flag) => entry[flag] !== undefined && typeof entry[flag] !== 'boolean'
-      )
-    ) {
+    if (!validPersonalEntry(entry)) {
       throw failure('ERR_CONFIG');
     }
   }
 }
+
+// A `{type, value}` entry whose optional matching flags are booleans.
+const validPersonalEntry = (entry) =>
+  Boolean(entry) &&
+  typeof entry.value === 'string' &&
+  Boolean(entry.value) &&
+  validType(entry.type) &&
+  entryFlags.every(
+    (flag) => entry[flag] === undefined || typeof entry[flag] === 'boolean'
+  );
 
 export function validatePublic(entry) {
   if (
