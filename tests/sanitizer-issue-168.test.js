@@ -57,11 +57,12 @@ describe('issue 168: already-masked credentials', () => {
       [2, 3],
       [3, 4],
     ]);
-    expect(view('x<b>y</b>\x1b[31mz\0').text).toBe('xyz');
+    expect(view('x<b>y</b>\x1b[31mz\0').text).toBe('xyz\0');
     expect(view('x<b>y</b>\x1b[31mz\0').spans).toEqual([
       [0, 1],
       [4, 5],
       [14, 15],
+      [15, 16],
     ]);
     expect(view('k \\u0041\\u0042 …').text).toBe('k AB …');
     expect(view('U+0061 U+0062 U+0063 U+0064 q').text).toBe('abcd q');

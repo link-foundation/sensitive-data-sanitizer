@@ -205,12 +205,12 @@ export function valueRange(text, start, mode = 'token', maxLength = Infinity) {
   // Only a matching surrounding Markdown delimiter ends an unquoted value.
   const terminator =
     mode === 'query'
-      ? /[\s&#"'<>]/
+      ? /[\0\s&#"'<>]/
       : mode === 'line'
-        ? /[\r\n<>"]|\\+[nrt"']/
+        ? /[\0\r\n<>"]|\\+[nrt"']/
         : mode === 'prose'
-          ? /[\r\n<>]|\\+[nrt"']|(?<![ \t])[ \t]+(?:for the|for my|для|pour|para|für|لـ)(?:[ \t]|$)/iu
-          : /[\s,;}\]"'<>]|\\+[nrt"']/;
+          ? /[\0\r\n<>]|\\+[nrt"']|(?<![ \t])[ \t]+(?:for the|for my|для|pour|para|für|لـ)(?:[ \t]|$)/iu
+          : /[\0\s,;}\]"'<>]|\\+[nrt"']/;
   const stop = tail.search(terminator);
   const end = stop < 0 ? start + tail.length : start + stop;
   return { start, end: Math.min(end, outerQuoteEnd(text, start, end) ?? end) };
