@@ -6,6 +6,7 @@ import { sanitize, inspect, redact, builtInRules } from '../src/index.js';
 import * as checks from '../src/national-checks.js';
 import { cryptoAddress } from '../src/crypto-addresses.js';
 import { itUnless } from './helpers/skip.js';
+import { measureGrowth } from './helpers/growth.js';
 
 // Phrase-level and format cases taken from competitor test suites and
 // documentation (Presidio, Scrubadub, LLM Guard, OpenRedaction, Google SDP,
@@ -325,36 +326,79 @@ describe('evidence labels before long tab runs (#128)', () => {
 // the whole whitespace run each time: about 10 s for 60 000 tabs. Lookbehinds
 // that follow a literal ("Ms(?<!\d[ \t]*Ms)") run only where it matched.
 // Quadrupling the run measured 11-13x before the rewrite and 3-4x after.
+// Warm up both inputs and use medians: a single wall-clock sample failed on
+// shared macOS Intel runners (issue 182). Eight is the geometric midpoint
+// between linear (4x) and quadratic (16x), not just a relaxed noise bound.
 describe('lookbehinds stay linear in the JavaScriptCore interpreter (#128)', () => {
   const bun = globalThis.process?.versions?.bun;
   const script = `
     const { sanitize } = await import(${JSON.stringify(
       new URL('../src/index.js', import.meta.url).href
     )});
+    const { measureGrowth } = await import(${JSON.stringify(
+      new URL('./helpers/growth.js', import.meta.url).href
+    )});
     const time = (text) => {
       const start = performance.now();
       sanitize(text);
       return performance.now() - start;
     };
-    const ratios = {};
-    for (const prefix of ['30', 'a,', 'Dear Ms']) {
-      const short = time(prefix + '\\t'.repeat(4000) + 'x');
-      ratios[prefix] = time(prefix + '\\t'.repeat(16000) + 'x') / short;
-    }
-    console.log(JSON.stringify(ratios));
+    const prefix = process.argv[1];
+    console.log(JSON.stringify(measureGrowth(
+      time, prefix + '\\t'.repeat(4000) + 'x', prefix + '\\t'.repeat(16000) + 'x'
+    )));
   `;
-  itUnless(!bun && 'BUN_JSC_useRegExpJIT applies to Bun only')(
-    'grows about fourfold, not sixteenfold, for a four times longer tab run',
-    () => {
-      const run = spawnSync(globalThis.process.execPath, ['-e', script], {
-        encoding: 'utf8',
-        env: { ...globalThis.process.env, BUN_JSC_useRegExpJIT: '0' },
-        timeout: 25000,
-      });
-      expect(run.status).toBe(0);
-      for (const ratio of Object.values(JSON.parse(run.stdout))) {
-        expect(ratio).toBeLessThan(7);
+  // Each prefix has its own hang guard, below the existing 30-second test
+  // limit. Sampling all prefixes in one child would multiply its CI budget.
+  for (const prefix of ['30', 'a,', 'Dear Ms']) {
+    itUnless(!bun && 'BUN_JSC_useRegExpJIT applies to Bun only')(
+      `${prefix}: grows about fourfold, not sixteenfold, for a four times longer tab run`,
+      () => {
+        const run = spawnSync(
+          globalThis.process.execPath,
+          ['-e', script, prefix],
+          {
+            encoding: 'utf8',
+            env: { ...globalThis.process.env, BUN_JSC_useRegExpJIT: '0' },
+            timeout: 25000,
+          }
+        );
+        expect(run.status).toBe(0, `${prefix}: ${run.error ?? run.stderr}`);
+        const samples = JSON.parse(run.stdout);
+        expect(samples.ratio).toBeLessThan(
+          8,
+          `${prefix}: ${JSON.stringify(samples)}`
+        );
       }
-    }
-  );
+    );
+  }
+});
+
+describe('growth sampling under runner noise (issue 182)', () => {
+  it('ignores warm-up and isolated pauses or fast samples for linear growth', () => {
+    const timings = {
+      short: [100, 1, 1, 1, 0.01, 1],
+      long: [400, 4, 4, 400, 4, 4],
+    };
+    const samples = measureGrowth(
+      (size) => timings[size].shift(),
+      'short',
+      'long'
+    );
+    expect(samples.ratio).toBe(4);
+    expect(timings).toEqual({ short: [], long: [] });
+  });
+  it('still rejects quadratic growth despite isolated timing outliers', () => {
+    const timings = {
+      short: [100, 1, 1, 100, 1, 1],
+      long: [400, 16, 16, 0.01, 16, 16],
+    };
+    const samples = measureGrowth(
+      (size) => timings[size].shift(),
+      'short',
+      'long'
+    );
+    expect(samples.ratio).toBe(16);
+    expect(samples.ratio > 8).toBe(true);
+  });
 });

@@ -256,9 +256,9 @@ export function authorizationScheme(text, start) {
     ? { start, end: start + scheme[1].length, payloadStart }
     : undefined;
 }
-// Inside a Markdown code span the closing backtick ends the credential, as
-// it does for `key=value` pairs, so `<value>` placeholders stay recognizable
-// and the span's delimiter is never consumed by redaction.
+// A recognized code span bounds the credential. Literal trailing backticks
+// inside a longer-delimited span also stay readable, so quoted inline examples
+// keep their placeholders. Embedded backticks remain credential material.
 function authorizationEnd(text, tokenStart) {
   const brackets = [];
   const limit = markdownEnd(text, tokenStart, Infinity);
@@ -278,6 +278,15 @@ function authorizationEnd(text, tokenStart) {
     } else if (/[}\]>]/.test(char) && char !== brackets.pop()) {
       // An unmatched closer belongs to the enclosing log structure.
       break;
+    }
+  }
+  return trimAuthorizationTicks(text, tokenStart, end, limit);
+}
+
+function trimAuthorizationTicks(text, start, end, markdownLimit) {
+  if (markdownLimit < text.length) {
+    while (end > start && text[end - 1] === '`') {
+      end--;
     }
   }
   return end;
@@ -339,12 +348,19 @@ function authParamValue(text, start) {
     }
     return { start: start + quote[0].length, end: close, after, quoted: true };
   }
+  const markdownLimit = markdownEnd(text, start, Infinity);
   const token = /^[^\s,"'\\]{1,4096}/.exec(
-    text.slice(start, Math.min(start + 4096, markdownEnd(text, start, 4096)))
+    text.slice(start, Math.min(start + 4096, markdownLimit))
   );
-  return token
-    ? { start, end: start + token[0].length, after: start + token[0].length }
-    : undefined;
+  if (!token) {
+    return undefined;
+  }
+  const after = start + token[0].length;
+  return {
+    start,
+    end: trimAuthorizationTicks(text, start, after, markdownLimit),
+    after,
+  };
 }
 function usableAuthorization(token) {
   return Boolean(token) && !credentialPlaceholder(token);
