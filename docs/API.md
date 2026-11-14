@@ -168,7 +168,7 @@ This is conservative heuristic identity linking, not general coreference:
 ambiguous surnames/initials and unrelated people are not intentionally merged.
 
 A PERSON entry of a reused map matches the same forms as an explicit
-`knownPersonal` value: the full value and its contiguous parts together, all
+`knownPersonal` value: the full value and its surname-bearing parts, all
 cases, both orders and initials. A bare part does not match in the next document
 unless it is stored as its own value, so `Петров Данил` from one CV leaves
 `петров день` and `Петров пришёл.` in the next one untouched. A single stored word
@@ -189,11 +189,36 @@ A listed Russian PERSON value also matches all six grammatical cases, including
 the instrumental (`Петровым Данилом Сергеевичем`), every word order, `ё`/`е`
 spelling differences in either direction, upper case, and initials with or
 without spaces in both positions and all cases (`Петрову Д. С.`, `Д.С. Петрова`).
-The contiguous name parts of a listed three-part name match together
-(`Петров Данил`, `Данил Сергеевич`, `с Петровым Данилом`). A part on its own does
-not: a bare `Данил` or `Сергеевич` is too ambiguous to imply from a longer value,
-so list each part you want matched alone as its own `knownPersonal` entry. Listing
-parts next to the full name keeps one token and one fake identity.
+The surname of a listed three-part name matches together with the given name
+(`Петров Данил`, `с Петровым Данилом`) or with the given-name initial, and the
+given name matches with the surname initial (`Данил П.`, `John S.`). A part on
+its own does not, and neither does a given name with the patronymic
+(`Данил Сергеевич`): without the surname they are too ambiguous to imply from a
+longer value, so list each part or pair you want matched alone as its own
+`knownPersonal` entry. Listing parts next to the full name keeps one token and
+one fake identity, and a listed part inside a matched full name is reported once,
+as the full name.
+
+The parts of a listed value may be separated by one line break, optionally
+followed by a comment or quote prefix that continues the line (`//`, `#`, `--`,
+`*`, `>`, `;`), so a name wrapped in a code comment or a quoted e-mail still
+matches. A blank line still separates.
+
+Two optional boolean flags widen the match of an entry; pass them on the entry
+(`{type, value, identifiers: true}`) or as `compileKnown` defaults:
+
+- `identifiers` also matches the value as a segment of a code identifier:
+  `tyutyunnik_id`, `getTyutyunnikName`, `TYUTYUNNIK_KEY`, and its words joined by
+  `_`, `-`, `.` or case changes (`evsey_tyutyunnik`, `evseyTyutyunnik`). A
+  lower-case segment must start a word, so `ann` does not match `planner`.
+- `transliterate` also matches the Latin spellings of Cyrillic words under the
+  common systems (ICAO/passport, BGN/PCGN, GOST 7.79 B, ISO 9 and popular
+  spelling): `Тютюнник Евсей` matches `Evsey Tyutyunnik`, `Tiutiunnik Evsei` and
+  `Yevsey Tjutjunnik`, including a trailing initial (`Tyutyunnik E.`). Latin
+  spellings are matched in the form written in the entry; Russian case endings
+  apply to the Cyrillic form only.
+
+See the [known names in code example](../examples/known-names-in-code.mjs).
 Every replaced occurrence retains its exact original surface privately. With
 one identical token, a derived answer cannot encode the original grammatical
 case; it receives the canonical spelling. Two distinct originals that produce
@@ -233,7 +258,7 @@ new document recognizers; `documentEntities: false` turns them off explicitly.
 | `profile`                | Off; `'publication'` sets a 0.3 threshold and identity masking; `'documents'` enables document entities                                                          |
 | `knownOnly`              | `false`; disable all automatic detection (including credentials, Secretlint and custom detectors); use explicit findings, known values and reused map identities |
 | `knownSecrets`           | `[]`; exact literal credential values, regardless of length or format, plus their standalone hex (either case) and base64/base64url spellings                    |
-| `knownPersonal`          | `[]`; `{type, value}` values with whole-word Unicode case-insensitive matching and bounded Russian forms; list parts to match them alone                         |
+| `knownPersonal`          | `[]`; `{type, value, identifiers?, transliterate?}`; whole-word case-insensitive matching with bounded Russian forms; list parts to match them alone             |
 | `publicEntities`         | `[]`; exact PERSON/ORGANIZATION/EDUCATION/LOCATION/EMAIL exception with HTTPS evidence and review date                                                           |
 | `findings`               | `[]`; validated detections for the original input, supplied by the caller                                                                                        |
 | `detectors`              | `[]`; required callbacks in both engines; sync methods require arrays                                                                                            |
@@ -877,22 +902,39 @@ const merged = compileKnown(known, [{ type: 'LOCATION', value: 'Тверь' }]);
 sanitize('Живу в Твери', { knownPersonal: merged });
 ```
 
-Compilation copies only `{type, value, properCase?}`, deduplicates and freezes the
-entries/array, and precompiles normalized projections and matching expressions.
+Compilation copies only `{type, value, properCase?, identifiers?, transliterate?}`,
+deduplicates and freezes the entries/array, and precompiles normalized
+projections and the literal anchors of each matching expression. A trailing
+options object sets defaults for entries without their own flag and may request
+eager compilation:
+
+```js
+const names = compileKnown(list, { identifiers: true, transliterate: true });
+const warmed = compileKnown(list, { warm: true });
+```
+
+Each call scans the text once for the anchors (up to four literal characters at
+the start of every spelling, compared after case folding), then runs only the
+expressions whose anchors occur, and only at those positions. A regular
+expression is compiled the first time its anchor appears, so a first call with
+2,500 entries on text that names none of them takes about a millisecond instead
+of seconds. `warm: true` compiles every expression up front, moving that cost to
+`compileKnown`. An expression without a literal start, such as an entry that
+begins with a space, runs on every call.
 There is no process-wide registry of caller values; weak metadata is released
 with the compiled list. Mutating the input cannot change it. Compiled arrays
 work with the same APIs as plain arrays, with identical output.
 
-| Type                             | Matching behavior                                                                                                                                                                     |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `PERSON`                         | Unicode whole-word, case-insensitive; Russian cases, ё/е, reversed two-part names, supported full-name orders/initials and contiguous parts; list a part separately to match it alone |
-| `ORGANIZATION`                   | Russian word forms, legal-form/quote-free core for names of at least three characters                                                                                                 |
-| `EDUCATION`, `LOCATION`          | Whole-word case-insensitive with bounded Russian noun/adjective forms (e.g. МГУ / мгу, Тверь / Твери)                                                                                 |
-| `URL`                            | Optional HTTP(S) scheme; query, fragment and trailing slash are consumed with the known path                                                                                          |
-| `DATE`, `DATE_OF_BIRTH`, `PHONE` | Literal spellings by default; use `personalVariants(entries)` before compilation for ISO/day-first date and numeric phone variants                                                    |
-| Other uppercase type ids         | Same whole-word case-insensitive and bounded Russian word forms; type labels the finding/transform and does not activate a new parser                                                 |
+| Type                             | Matching behavior                                                                                                                                                                 |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PERSON`                         | Unicode whole-word, case-insensitive; Russian cases, ё/е, reversed two-part names, full-name orders/initials and parts with the surname; list a part separately to match it alone |
+| `ORGANIZATION`                   | Russian word forms, legal-form/quote-free core for names of at least three characters                                                                                             |
+| `EDUCATION`, `LOCATION`          | Whole-word case-insensitive with bounded Russian noun/adjective forms (e.g. МГУ / мгу, Тверь / Твери)                                                                             |
+| `URL`                            | Optional HTTP(S) scheme; query, fragment and trailing slash are consumed with the known path                                                                                      |
+| `DATE`, `DATE_OF_BIRTH`, `PHONE` | Literal spellings by default; use `personalVariants(entries)` before compilation for ISO/day-first date and numeric phone variants                                                |
+| Other uppercase type ids         | Same whole-word case-insensitive and bounded Russian word forms; type labels the finding/transform and does not activate a new parser                                             |
 
-No helper invents transliterations. Values longer than 256 code units use literal
+Transliterations are generated only for entries with `transliterate: true`. Values longer than 256 code units use literal
 matching instead of word-form expansion. `properCase: true` rejects a lower-case
 first character (used by reused map identities). Explicit private values remain
 private despite public exceptions. The 500-entry measurement and reproduction

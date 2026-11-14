@@ -99,8 +99,13 @@ Placeholder results report `irreversibleRedactions`; a nonzero count means some
 replacements, such as credentials excluded from the map, cannot be restored.
 
 Known Russian names match in all six cases and in any word order, with `ё`/`е`
-spelling variants and initials (`с Петровым Данилом Сергеевичем`, `Петров Д. С.`).
-A part of a longer name is matched alone only when it is listed itself.
+spelling variants and initials (`с Петровым Данилом Сергеевичем`, `Петров Д. С.`,
+`Данил П.`), also when a line break or a comment prefix splits them.
+A part of a longer name is matched alone only when it is listed itself; a given
+name with a patronymic counts as such a part. Flag an entry with
+`identifiers: true` to find it inside code identifiers (`petrov_id`,
+`getPetrovName`) or `transliterate: true` to find Latin spellings of a Cyrillic
+name (`Danil Petrov`); see the [example](examples/known-names-in-code.mjs).
 
 With `properNames: 'capitalized'`, placeholder output keeps the sentence around a
 name (`Кандидат Person-1`, `Меня зовут Person-1`, `Благодарим Вас, Person-1`), and

@@ -627,6 +627,18 @@ is measurement noise), below the allowed 10% of the no-list call, excluding
 matching. Compilation skips per-record entry validation, normalization and regex
 construction; matching itself still scales with list length and pipeline passes.
 
+A literal-anchor prefilter limits that scaling: each call scans the text once for
+the case-folded first characters of every entry and compiles and runs only the
+expressions whose anchors occur, as sticky expressions at those positions. With
+2,500 generated Russian names on a short text naming none of them (Node v26.13.0,
+Linux x64), 0.22.5 spent **7,991 ms** in the first `inspect` call, **2,381 ms** in
+the second and about **14 ms** later; with the prefilter each call takes about
+**1 ms**, and `compileKnown` takes **772 ms** instead of 1,190 ms. On a 100 KB
+adversarial text built from the same syllables, where every entry's anchor occurs,
+a steady call takes about **0.8 s** instead of 5.4 s. Reproduce with
+`node experiments/issue-190/warmup-cost.mjs 500 1000 2500` and
+`node experiments/issue-190/long-text-cost.mjs 2500`.
+
 Reproduce with `node --max-old-space-size=384 experiments/issue-118/measure.mjs`.
 The [raw results](case-studies/issue-118/measurements.json) include environment,
 exact-span counts and measurement method. This fixed experiment uses no large

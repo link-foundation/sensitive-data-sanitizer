@@ -1,7 +1,11 @@
 import { structuredInspection, withStructuredMemo } from './structured-memo.js';
 import { generatedValues } from './fake-memory.js';
 import { feature, withFeature } from './features.js';
-import { isCompiledKnown, projectedKnown } from './compiled-known.js';
+import {
+  entryFlags,
+  isCompiledKnown,
+  projectedKnown,
+} from './compiled-known.js';
 import { detectSync, validateDetectors } from './sync-detectors.js';
 import { validatePolicyControls, builtInEnabled } from './policy.js';
 import { compiledVocabulary } from './vocabulary.js';
@@ -164,16 +168,21 @@ function validateCollections(options) {
       : (options.knownPersonal ?? [])),
     ...(options.confirmedPersonal ?? []),
   ]) {
-    if (
-      !entry ||
-      typeof entry.value !== 'string' ||
-      !entry.value ||
-      !validType(entry.type)
-    ) {
+    if (!validPersonalEntry(entry)) {
       throw failure('ERR_CONFIG');
     }
   }
 }
+
+// A `{type, value}` entry whose optional matching flags are booleans.
+const validPersonalEntry = (entry) =>
+  Boolean(entry) &&
+  typeof entry.value === 'string' &&
+  Boolean(entry.value) &&
+  validType(entry.type) &&
+  entryFlags.every(
+    (flag) => entry[flag] === undefined || typeof entry[flag] === 'boolean'
+  );
 
 export function validatePublic(entry) {
   if (
@@ -491,7 +500,26 @@ export function mergeSameSpanFindings(findings) {
       result[index] = f;
     }
   }
-  return result;
+  return dropNestedKnown(result);
+}
+
+// A listed surname inside a listed full name is one person, not two: a known
+// or confirmed finding that lies inside another one of the same type is
+// dropped.
+function dropNestedKnown(findings) {
+  const exact = findings
+    .filter((f) => f.category === 'personal' && exactRules.has(f.rule))
+    .sort((a, b) => a.start - b.start || b.end - a.end);
+  const nested = new Set();
+  const reach = new Map();
+  for (const f of exact) {
+    if ((reach.get(f.type) ?? -1) >= f.end) {
+      nested.add(f);
+    } else {
+      reach.set(f.type, f.end);
+    }
+  }
+  return nested.size ? findings.filter((f) => !nested.has(f)) : findings;
 }
 
 /** Public inspection: one finding per personal span and type. */
