@@ -131,6 +131,7 @@ describe('publishable package metadata', () => {
       'docs/USE-CASES.md',
       'docs/VERIFICATION.md',
       'examples/verify-credential.mjs',
+      'examples/known-names-in-code.mjs',
     ]);
   });
 });

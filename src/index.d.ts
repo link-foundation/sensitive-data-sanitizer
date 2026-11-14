@@ -25,6 +25,18 @@ export interface PersonalValue {
   type: string;
   value: string;
   properCase?: boolean;
+  /** Also match the value as a segment of a code identifier (`name_id`, `getNameValue`). */
+  identifiers?: boolean;
+  /** Also match common Latin spellings of Cyrillic words (`Evsey Tyutyunnik`). */
+  transliterate?: boolean;
+}
+export interface CompileKnownOptions {
+  /** Compile every matching expression now instead of on first use. */
+  warm?: boolean;
+  /** Default for entries without their own `identifiers` flag. */
+  identifiers?: boolean;
+  /** Default for entries without their own `transliterate` flag. */
+  transliterate?: boolean;
 }
 export type VocabularyList =
   readonly string[] | { values: readonly string[]; replace: true };
@@ -187,6 +199,13 @@ export declare function createSyncSanitizer(
 /** Copies and freezes caller values, merging lists and caching matching/projection. */
 export declare function compileKnown(
   ...lists: Array<readonly PersonalValue[]>
+): readonly Readonly<PersonalValue>[];
+/** The trailing options object sets entry defaults and eager compilation. */
+export declare function compileKnown(
+  ...args: [
+    ...lists: Array<readonly PersonalValue[]>,
+    options: CompileKnownOptions,
+  ]
 ): readonly Readonly<PersonalValue>[];
 export declare const builtInRules: readonly string[];
 export declare const defaultVocabulary: Readonly<
