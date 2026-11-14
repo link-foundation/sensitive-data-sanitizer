@@ -209,7 +209,8 @@ function isReal(candidate, type, options) {
       value,
     })),
   ].some(
-    (entry) => entry.type === type && samePersonal(candidate, entry.value, type)
+    (entry) =>
+      entry.type === type && samePersonal(candidate, entry.value, type, entry)
   );
 }
 // A deterministic start, then the next free name so that two entities of one

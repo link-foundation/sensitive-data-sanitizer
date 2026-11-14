@@ -488,7 +488,7 @@ export function canonicalPerson(value, people) {
 }
 function canonicalKnown(value, type, options, state) {
   const known = (options.knownPersonal ?? []).filter(
-    (e) => e.type === type && samePersonal(value, e.value, type)
+    (e) => e.type === type && samePersonal(value, e.value, type, e)
   );
   // `Петров Данил` and `Петров Данил Сергеевич` are one person: the fullest wins.
   const longest = Math.max(0, ...known.map((e) => e.value.length));
@@ -514,7 +514,7 @@ function rememberListedParts(entry, value, options) {
     if (
       known.type === 'PERSON' &&
       singleWord(known.value) &&
-      samePersonal(value, known.value, 'PERSON') &&
+      samePersonal(value, known.value, 'PERSON', known) &&
       !entry.standalone?.includes(known.value)
     ) {
       (entry.standalone ??= []).push(known.value);

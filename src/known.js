@@ -1,4 +1,5 @@
 import { failure } from './detection.js';
+import { entryFlags } from './compiled-known.js';
 import { readTextFile } from './files.js';
 
 /** Explicitly load every host/account token from gh's local YAML config. */
@@ -133,10 +134,19 @@ export function personalVariants(entries) {
       !entry ||
       typeof entry.value !== 'string' ||
       !entry.value ||
-      !/^[A-Z][A-Z0-9_]{0,63}$/.test(entry.type)
+      !/^[A-Z][A-Z0-9_]{0,63}$/.test(entry.type) ||
+      entryFlags.some(
+        (flag) => entry[flag] !== undefined && typeof entry[flag] !== 'boolean'
+      )
     ) {
       throw failure('ERR_CONFIG');
     }
+    // Matching options stay with every variant of the entry.
+    const flags = Object.fromEntries(
+      entryFlags
+        .filter((flag) => entry[flag] !== undefined)
+        .map((flag) => [flag, entry[flag]])
+    );
     const values = new Set([entry.value]);
     const numeric = entry.value.replace(/\D/g, '');
     if (numeric.length >= 6 && /^[+\d ()/.-]+$/.test(entry.value)) {
@@ -152,7 +162,7 @@ export function personalVariants(entries) {
     if (local) {
       values.add(`${local[3]}-${local[2]}-${local[1]}`);
     }
-    return [...values].map((value) => ({ type: entry.type, value }));
+    return [...values].map((value) => ({ type: entry.type, value, ...flags }));
   });
 }
 
