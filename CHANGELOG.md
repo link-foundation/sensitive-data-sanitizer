@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.22.4
+
+### Patch Changes
+
+- Sanitizing text that holds a long letter run and any character above U+00FF, such as an emoji, `—` or a `xx-…789` mask, no longer fails with `ERR_SANITIZATION` (#172). With the `u` flag, V8 compiled the `\p{L}`/`[^\s]` loops of the credential-key, camelCase-key, e-mail, mail display-name, URL, document-link, token and projection expressions as loops with one backtracking entry per character on such strings, so a 4 MiB run overflowed its regular-expression stack. Those loops now list the BMP members of their class and allow at most 256 astral members per run. They match the same text and stay flat on runs of any length. A long value after a credential keyword (`password=` or `api_key: ` followed by 1 MiB) is now scanned in about 1 s rather than 13 s (#173), because the vendored Gitleaks rules scan a view in which the inside of each long base64 run is replaced by a fixed filler, with offsets mapped back. Set `SENSITIVE_DATA_SANITIZER_DEBUG=1` to print the stack of an unexpected internal failure to stderr.
+
+  Streaming no longer turns quadratic after a line that only looks like the start of a netrc entry, such as `default = ["macro"]`, `default LocaleContext …` or `machine learning is fun` (#176). The stream tracks the `machine <name>` or `default`, `login <user>`, `password <value>` token sequence and releases held text as soon as a token breaks it, so each token costs constant time. Under Node.js, `sanitizeFileToFile` on 8,000 log lines after `default = ["macro"]` took 6.5 s and now takes 0.44 s, the same as without that line. Genuine multi-line entries are still held and redacted, including an entry whose `default` or `machine` keyword ends a line of other text. In a Markdown code span, an `Authorization:` value now ends at the span's closing backtick (#177): `` `Authorization: token <value>` ``, `` `Authorization: Bearer $TOKEN` `` and `` `Authorization: Bearer ${TOKEN}` `` stay readable, and a real credential is masked as `` `Authorization: token [REDACTED]` `` with its closing backtick kept.
+
+  Preserve NUL separators and subsequent log fields when redacting credentials with `--allow-binary`, including whole-input and streaming paths. Contextual credential values also stop at NUL. Uniformly NUL-interleaved text remains detectable without joining ordinary NUL-delimited fields to a credential.
+
 ## 0.22.3
 
 ### Patch Changes

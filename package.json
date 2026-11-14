@@ -1,6 +1,6 @@
 {
   "name": "@link-foundation/sensitive-data-sanitizer",
-  "version": "0.22.3",
+  "version": "0.22.4",
   "description": "Offline sensitive-text sanitization with credential, multilingual personal-data and scanner union detection",
   "type": "module",
   "main": "src/index.js",
