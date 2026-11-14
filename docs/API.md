@@ -596,6 +596,11 @@ Ordinary UTF-8 string encoding would replace them and lose information.
 including workers and both passes. NUL bytes identify binary input and block publication by default. Plain streams accept `allowBinary: true`, and CLI file/stdin/scan/output/in-place paths accept `--allow-binary`, to preserve NUL as an ordinary byte while continuing credential detection. The opt-in is rejected for JSON/JSONL and history; it does not relax configuration/scanner validation. JSON/JSONL, scanner protocol files and configuration retain
 strict UTF-8 validation; malformed bytes cannot represent valid JSON text.
 
+An ordinary NUL ends a credential field and remains in the output together
+with the following log text. The detection view only removes NULs inside
+uniformly interleaved runs of at least four characters (UTF-16 text read as
+single bytes); it keeps separators beside ordinary multi-character fields.
+
 Default detection keeps RFC 1918, loopback, link-local and IPv6 local addresses,
 recognized auth-mode metadata, npm dependency version declarations, Actions
 permission values and literal credential references. `publicKnowledge: false`

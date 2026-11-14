@@ -23,10 +23,12 @@ function asciiDigits(value) {
   });
 }
 
-// Invisible format characters and NUL (UTF-16 text read as bytes) never
-// carry meaning inside a token, so they are removed from the detection view.
+// Invisible format characters never carry meaning inside a token. NUL is
+// instead a log-field boundary, except in uniformly interleaved runs (UTF-16
+// read as single bytes). Removing an ordinary NUL joins a secret to the next
+// field and makes the detector redact that field too (issue 180).
 const invisible =
-  /^[\0\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]$/u;
+  /^[\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]$/u;
 const inlineTag = new RegExp(String.raw`^<\/?(?:${inlineTags})[\s/>]`);
 // TruffleHog-style escape runs: `U+0074 U+006F ...` and CSS `\74 \6f ...`.
 // Runs need four or more units so prose such as "U+200B" stays untouched.
@@ -111,9 +113,13 @@ function appendRun(writer, raw, offset) {
   }
 }
 
-function projectUnit(writer, raw, offset) {
+function projectUnit(writer, raw, offset, interleaved) {
   const end = offset + raw.length;
-  if (raw.startsWith('\x1b[') || invisible.test(raw)) {
+  if (
+    raw.startsWith('\x1b[') ||
+    invisible.test(raw) ||
+    (raw === '\0' && interleaved(offset))
+  ) {
     return true;
   }
   if (raw[0] === '<' && raw.length > 2 && raw.endsWith('>')) {
@@ -148,6 +154,7 @@ export function projectText(input) {
     return { text: input, changed: false };
   }
   const writer = projectionWriter(input.length);
+  const interleaved = nulInterleavedRuns(input);
   let changed = false;
   let index = 0;
   while (index < input.length) {
@@ -175,12 +182,47 @@ export function projectText(input) {
       projectionUnits.lastIndex = index;
       raw = projectionUnits.exec(input)[0];
     }
-    changed = projectUnit(writer, raw, index) || changed;
+    changed = projectUnit(writer, raw, index, interleaved) || changed;
     index += raw.length;
   }
   return changed
     ? { ...writer.finish(), changed }
     : { text: input, changed: false };
+}
+
+// Decode at least four characters separated by NUL, including runs embedded
+// in ordinary text. A NUL next to a multi-character field stays a separator:
+// `ghp_...\0a\0b\0c\0d` must not join that field to the credential. Leading
+// and trailing NULs also stay outside a decoded run. Cache the scanned end
+// even for short runs. Pairwise scanning takes linear time and constant
+// stack space.
+function nulInterleavedRuns(input) {
+  let run = { start: -1, end: -1, scanned: -1 };
+  return (offset) => {
+    if (offset > run.scanned) {
+      run = nulInterleavedRun(input, offset);
+    }
+    return offset >= run.start && offset <= run.end;
+  };
+}
+
+function nulInterleavedRun(input, first) {
+  let last = first;
+  while (input[last + 1] !== '\0' && input[last + 2] === '\0') {
+    last += 2;
+  }
+  let start = first;
+  let end = last;
+  if (first === 0 || (first > 1 && !/\s/.test(input[first - 2]))) {
+    start += 2;
+  }
+  if (
+    last + 1 === input.length ||
+    (input[last + 2] && !/\s/.test(input[last + 2]))
+  ) {
+    end -= 2;
+  }
+  return { start, end: end - start >= 4 ? end : -1, scanned: last };
 }
 
 export function codePointRange(text, start, end) {
