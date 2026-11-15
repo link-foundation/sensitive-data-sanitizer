@@ -204,6 +204,57 @@ followed by a comment or quote prefix that continues the line (`//`, `#`, `--`,
 `*`, `>`, `;`), so a name wrapped in a code comment or a quoted e-mail still
 matches. A blank line still separates.
 
+Between its parts a listed name may also carry the punctuation of tables,
+CSV, lists, quotes and Markdown: `,` `;` `|` `/` `\`, brackets, straight and
+typographic quotes (`"` `«»` `“”` `„`, and `'` outside a word), Markdown
+emphasis (`*` `_` `` ` ``) and dashes (`—` `–`). `Пряжкина, Велимира`,
+`| Пряжкина | Велимира |`, `"Пряжкина", "Велимира"`, `**Пряжкина** Велимира`
+and `Пряжкина (Велимира)` all match; the reported span covers the punctuation.
+A `-`, `'` or `_` between two letters keeps them one word (`Римская-Корсакова`,
+`O'Neil`, `snake_case`), and a `.` ends a sentence, so `Пряжкина-Велимира` and
+`Пряжкина. Велимира` do not match. When such a span is replaced, each part is
+replaced on its own, so the cells, quotes and SQL values of the input stay:
+`| Пряжкина | Велимира |` becomes `| Person-1 | Person-1 |` (in fake mode
+`| Денисова | Ирина |`). Parts joined by spaces or a line break, an encoded
+name, and one value with `_` inside it (`Петров_Иван_CV.pdf`) keep one span.
+Around a value of several words a `_` at a word edge is Markdown emphasis
+(`_Пряжкина Велимира_`); around a one-word value it stays part of the word,
+so `_Lee` and `Lee_` are not `Lee`.
+
+An initial is an upper-case letter with an optional dot, before or after the
+surname (`Тютюнник Е.`, `Е. Тютюнник`, `Е.О.Тютюнник`, `Пряжкина В. О.`), so a
+lone lower-case preposition or particle (`Он же в офисе.` for `Же Варлаам`)
+is not an initial. A listed surname also matches its plural forms
+(`Пряжкины`, `Пряжкиных`, `Ольховецкие`, `Ольховецкими`).
+
+The parts of a listed PERSON value may be split over the fields of one record:
+`{"first_name": "Велимира", "last_name": "Пряжкина"}`, YAML, `.env` and INI
+assignments, CSV/TSV rows under a header, Markdown tables, XML elements, SQL
+`INSERT` columns and URL query parameters. A key names a role when it reads as a
+given name (`first_name`, `givenName`, `fname`, `имя`), a surname
+(`last_name`, `familyName`, `surname`, `фамилия`) or a patronymic
+(`middle_name`, `отчество`). The fields must belong to one record: a blank
+line, another JSON object, another list item or another XML parent separates
+them, and a record must hold the surname and at least one other listed part.
+Each field is reported and replaced on its own and links to the same person.
+`structured: 'json'`/`'jsonl'` input reads the same records from the parsed
+values.
+
+Listed values are also found where they are encoded or decorated, through a
+decoded view used only by the known-value matcher: URL percent-encoding (with
+`+` between letters as a space), HTML numeric and named character references
+(`&#1055;`, `&#x41f;`, `&Pcy;`, `&nbsp;`, `&shy;`), literal `\n`, `\t`, `\r`
+and `\\` escapes, invisible format characters (soft hyphen, zero-width
+spaces and joiners, bidirectional marks),
+combining stress marks (`Велими́ра`) and look-alike Latin and Cyrillic letters
+inside a word of the other script (`Пряжкинa` with a Latin `a`). A finding
+covers the encoded original text, so it is replaced as a whole and links to
+the same person as the plain spelling. With `decode: false` the view keeps
+percent-encoding, character references and escapes as they are; invisible
+characters, stress marks and look-alike letters are still normalized. Names in
+`\uXXXX` escapes are found through the general detection view described under
+encoded content, and are also replaced as the same person.
+
 Two optional boolean flags widen the match of an entry; pass them on the entry
 (`{type, value, identifiers: true}`) or as `compileKnown` defaults:
 
@@ -263,7 +314,7 @@ new document recognizers; `documentEntities: false` turns them off explicitly.
 | `findings`               | `[]`; validated detections for the original input, supplied by the caller                                                                                        |
 | `detectors`              | `[]`; required callbacks in both engines; sync methods require arrays                                                                                            |
 | `secretlint`             | `true` in the asynchronous engine                                                                                                                                |
-| `decode`                 | `true`; bounded base64/base64url, hex and percent decoding                                                                                                       |
+| `decode`                 | `true`; bounded base64/base64url, hex and percent decoding; `false` also keeps known values from matching percent, HTML and escaped spellings                    |
 | `paranoid`               | `false`; entropy-based supplemental credential heuristic                                                                                                         |
 | `maxInputLength`         | 33,554,432 UTF-16 units                                                                                                                                          |
 | `maxFindings`            | 100,000 detector hits before deduplication                                                                                                                       |

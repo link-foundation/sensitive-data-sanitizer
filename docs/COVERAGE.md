@@ -297,6 +297,13 @@ The `documents` profile additionally recognizes:
 - Surname/initial shapes in Cyrillic and selected Latin Slavic forms, known
   given-name plus initial, Russian surname/given-name pairs using finite case
   forms and lower case, and surnames after г-жа/господин/госпожа.
+- Listed `knownPersonal` names across table, CSV, quote, Markdown and dash
+  punctuation, in plural surname forms, with upper-case initials before or
+  after the surname, split over the name fields of one JSON, YAML, CSV/TSV,
+  Markdown, XML, SQL, `.env`/INI or query-string record, and behind URL
+  percent-encoding, HTML character references, `\n` and `\uXXXX` escapes, invisible
+  format characters, stress marks and look-alike letters of another script.
+  Unlisted names in these shapes still depend on the free-text rules.
 - Birth years with д.р./г.р./год рождения/родился/родилась/Born in context;
   Russian age expressions and Пол labels, English Sex, and gender beside age.
   Bare age-in-years expressions are ambiguous and remain unchanged without
