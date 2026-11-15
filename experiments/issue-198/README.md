@@ -5,17 +5,18 @@ Every name in these experiments is made up.
 
 ## Scripts
 
-| Script                   | What it shows                                                                                 |
-| ------------------------ | --------------------------------------------------------------------------------------------- |
-| `reproduce.mjs`          | All 73 calls of the six issues with the expected spans (`node reproduce.mjs` → `73/73`)       |
-| `records.mjs`            | A name split over record fields in JSON, YAML, CSV/TSV, Markdown, XML, SQL, env, INI, queries |
-| `encoded-now.mjs`        | Percent, HTML, escaped, stress-marked and look-alike spellings                                |
-| `separated-sanitize.mjs` | Placeholder and fake output for names split by cells, quotes and Markdown                     |
-| `restore.mjs`            | Placeholder output restores to the input                                                      |
-| `probe.mjs`              | Underscore edges and lone surnames                                                            |
-| `view-timing.mjs`        | Cost of the decoded view on 1 MB inputs                                                       |
-| `records-timing.mjs`     | Cost of record matching on 1 MB inputs                                                        |
-| `gap-timing.mjs`         | Long runs of separator marks cannot backtrack quadratically                                   |
+| Script                      | What it shows                                                                                 |
+| --------------------------- | --------------------------------------------------------------------------------------------- |
+| `reproduce.mjs`             | All 73 calls of the six issues with the expected spans (`node reproduce.mjs` → `73/73`)       |
+| `records.mjs`               | A name split over record fields in JSON, YAML, CSV/TSV, Markdown, XML, SQL, env, INI, queries |
+| `encoded-now.mjs`           | Percent, HTML, escaped, stress-marked and look-alike spellings                                |
+| `separated-sanitize.mjs`    | Placeholder and fake output for names split by cells, quotes and Markdown                     |
+| `restore.mjs`               | Placeholder output restores to the input                                                      |
+| `probe.mjs`                 | Underscore edges and lone surnames                                                            |
+| `known-forms-semicolon.mjs` | The older known-forms test with `;` between mentions keeps its output                         |
+| `view-timing.mjs`           | Cost of the decoded view on 1 MB inputs                                                       |
+| `records-timing.mjs`        | Cost of record matching on 1 MB inputs                                                        |
+| `gap-timing.mjs`            | Long runs of separator marks cannot backtrack quadratically                                   |
 
 ## Requirements and where they are met
 
