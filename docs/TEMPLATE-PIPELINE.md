@@ -199,7 +199,9 @@ provide a single global per-test timeout flag, so Deno tests are
 protected by their step budget and the matrix job backstop.
 
 A test that is slow by nature, such as the 8 MiB long-run tests in
-`tests/sanitizer-issue-172.test.js`, sets its own bound with
+`tests/sanitizer-issue-172.test.js`, the 10 MiB bounded worker test in
+`tests/sanitizer-stream.test.js` and the 7 MB record test in
+`tests/sanitizer-jsonl-stream.test.js`, sets its own bound with
 `itWithin(name, timeout, fn)` from `tests/helpers/long-test.js`
 (`LONG_TEST_TIMEOUT` is 90 s). test-anywhere's `it(name, fn)` takes no
 options, so the helper registers the test with `node:test` (a `timeout`
