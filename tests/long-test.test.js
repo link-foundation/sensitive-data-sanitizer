@@ -24,10 +24,12 @@ const runFixture = (bound, sleep) => {
     const args = bun
       ? ['test', '--timeout', '300', file]
       : ['--test', '--test-timeout=300', file];
-    // A nested `node --test` that sees NODE_TEST_CONTEXT reports to this
-    // runner; without it the child is a test run of its own.
-    const env = { ...process.env };
-    delete env.NODE_TEST_CONTEXT;
+    // A nested `node --test` that has NODE_TEST_CONTEXT in its environment,
+    // even a blank one, reports to this runner; without it the child is a
+    // test run of its own.
+    const env = Object.fromEntries(
+      Object.entries(process.env).filter(([key]) => key !== 'NODE_TEST_CONTEXT')
+    );
     return spawnSync(process.execPath, args, {
       encoding: 'utf8',
       env,
