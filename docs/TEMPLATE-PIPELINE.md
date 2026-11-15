@@ -198,6 +198,14 @@ the suite, which is why the suite budget above exists. Deno does not
 provide a single global per-test timeout flag, so Deno tests are
 protected by their step budget and the matrix job backstop.
 
+A test that is slow by nature, such as the 8 MiB long-run tests in
+`tests/sanitizer-issue-172.test.js`, sets its own bound with
+`itWithin(name, timeout, fn)` from `tests/helpers/long-test.js`
+(`LONG_TEST_TIMEOUT` is 90 s). test-anywhere's `it(name, fn)` takes no
+options, so the helper registers the test with `node:test` (a `timeout`
+option) or `bun:test` (a third argument); a per-test bound overrides the
+global flag in both runners. `tests/long-test.test.js` checks that it does.
+
 See [BEST-PRACTICES.md](BEST-PRACTICES.md) for detailed explanations of each practice.
 
 #### Robust Changeset Handling

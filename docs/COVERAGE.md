@@ -300,7 +300,8 @@ The `documents` profile additionally recognizes:
 - Listed `knownPersonal` names across table, CSV, quote, Markdown and dash
   punctuation, in plural surname forms, with upper-case initials before or
   after the surname, split over the name fields of one JSON, YAML, CSV/TSV,
-  Markdown, XML, SQL, `.env`/INI or query-string record, and behind URL
+  Markdown (also bold keys, list items and key/value table rows), XML, SQL,
+  `.env`/INI or query-string record, and behind URL
   percent-encoding, HTML character references, `\n` and `\uXXXX` escapes, invisible
   format characters, stress marks and look-alike letters of another script.
   Unlisted names in these shapes still depend on the free-text rules.
@@ -645,6 +646,29 @@ adversarial text built from the same syllables, where every entry's anchor occur
 a steady call takes about **0.8 s** instead of 5.4 s. Reproduce with
 `node experiments/issue-190/warmup-cost.mjs 500 1000 2500` and
 `node experiments/issue-190/long-text-cost.mjs 2500`.
+
+`knownOnly: true` on short texts (Node v26.13.0, Linux x64, three listed names
+with `identifiers` and `transliterate`, 4,000 windows of about 1.1 KB, steady
+round, 0 findings):
+
+| Input                         | 0.23.0  | 0.24 before #202 | Now    |
+| ----------------------------- | ------- | ---------------- | ------ |
+| 4,000 short windows           | 1320 ms | 2900 ms          | 720 ms |
+| 1 MB mixed Cyrillic/Latin     | —       | 456 ms           | 130 ms |
+| 1 MB percent-encoded URLs     | —       | 786 ms           | 439 ms |
+| 1 MB HTML references          | —       | 1636 ms          | 935 ms |
+| 1 MB YAML records             | —       | 937 ms           | 572 ms |
+| 1 MB Markdown key/value table | —       | 614 ms           | 708 ms |
+
+A trie of the entries' case-folded anchors (up to four characters) finds the
+anchor positions in one pass, and a word start is checked only at a character
+that starts an anchor. The decoded
+view is skipped when it would change nothing a match can see, such as an
+`&amp;` in a text that names no record key and lists no value with `&`.
+Reproduce with `node experiments/issue-203/short-windows.mjs`,
+`node experiments/issue-198/view-timing.mjs`,
+`node experiments/issue-198/records-timing.mjs` and
+`node experiments/issue-203/markdown-timing.mjs`.
 
 Reproduce with `node --max-old-space-size=384 experiments/issue-118/measure.mjs`.
 The [raw results](case-studies/issue-118/measurements.json) include environment,

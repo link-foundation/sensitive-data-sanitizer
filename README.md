@@ -106,7 +106,10 @@ table, CSV, quote or Markdown punctuation separates them (`Петров, Дан�
 parts sit in the name fields of one record (`{"first_name": "Данил",
 "last_name": "Петров"}`, CSV, YAML, SQL, XML, query strings) and when they are
 percent-encoded, HTML-escaped, carry stress marks, invisible characters or
-look-alike letters of another script. Separated parts are replaced one by one,
+look-alike letters of another script. Name fields also join as Markdown
+list items (`- **Фамилия:** Петров` and `- **Имя:** Данил`) and key/value
+table rows (`| Фамилия | Петров |`), and bold or italic markers around a key
+or value stay outside the finding. Separated parts are replaced one by one,
 so `| Петров | Данил |` becomes `| Person-1 | Person-1 |`. An initial must be
 an upper-case letter.
 A part of a longer name is matched alone only when it is listed itself; a given
