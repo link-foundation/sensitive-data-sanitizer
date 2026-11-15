@@ -151,19 +151,24 @@ function matchRecords(records, entries, rule, emit, options) {
   );
 }
 
-const trimmed = (text, start, end) => {
-  while (start < end && /\s/u.test(text[start])) {
+const trimmed = (text, start, end, edge = /\s/u) => {
+  while (start < end && edge.test(text[start])) {
     start++;
   }
-  while (end > start && /\s/u.test(text[end - 1])) {
+  while (end > start && edge.test(text[end - 1])) {
     end--;
   }
   return { start, end };
 };
+// A value without the Markdown emphasis around it: `**Пряжкина**`,
+// `_Пряжкина_`, `` `Пряжкина` `` (issue 201). No name starts or ends with
+// these marks, so the span covers the value only and a replacement keeps them.
+const unmarked = (text, start, end) => trimmed(text, start, end, /[\s*_`]/u);
 
-// `"key": "value"`, `key: value`, `key = value`, `key=value&`, `key => 'v'`.
+// `"key": "value"`, `key: value`, `key = value`, `key=value&`, `key => 'v'`,
+// and in Markdown `**key:** value`, `**key**: value`, `key: **value**`.
 const pairPattern =
-  /(?<![\p{L}\p{N}_$])(["'`]?)([\p{L}_$](?:[\p{L}\p{N}_$.-]| (?=[\p{L}\p{N}])){0,63})\1[ \t]*(?::=|=>|:|=)[ \t]*(?:"((?:[^"\\\r\n]|\\.){0,200})"|'((?:[^'\\\r\n]|\\.){0,200})'|([^\s,;&|{}[\]<>"'#][^\r\n,;&|{}[\]<>"'#]{0,199}))/gu;
+  /(?<![\p{L}\p{N}_$])(["'`]?)([\p{L}_$](?:[\p{L}\p{N}_$.-]| (?=[\p{L}\p{N}])){0,63})\1\*{0,3}[ \t]*(?::=|=>|:|=)[ \t]*(?:"((?:[^"\\\r\n]|\\.){0,200})"|'((?:[^'\\\r\n]|\\.){0,200})'|([^\s,;&|{}[\]<>"'#][^\r\n,;&|{}[\]<>"'#]{0,199}))/gu;
 const xmlPattern =
   /<([\p{L}_][\p{L}\p{N}_.:-]{0,63})(?:\s[^<>]{0,200})?>([^<>\r\n]{1,200})<\/\1>/gu;
 
@@ -180,7 +185,11 @@ function pairs(text) {
       match[0].length -
       raw.length -
       (match[5] === undefined ? 1 : 0);
-    found.push({ role, ...trimmed(text, offset, offset + raw.length) });
+    found.push({
+      role,
+      key: match.index,
+      ...unmarked(text, offset, offset + raw.length),
+    });
   }
   for (const match of text.matchAll(xmlPattern)) {
     const role = nameRole(match[1]);
@@ -188,7 +197,8 @@ function pairs(text) {
       const offset = match.index + match[0].length - match[1].length - 3;
       found.push({
         role,
-        ...trimmed(text, offset - match[2].length, offset),
+        key: match.index,
+        ...unmarked(text, offset - match[2].length, offset),
       });
     }
   }
@@ -197,10 +207,32 @@ function pairs(text) {
     .sort((a, b) => a.start - b.start);
 }
 
-// A blank line, a new list item, leaving the enclosing object or a long gap
-// ends a record, as does a field the record already has.
-function separate(gap) {
-  if (gap.length > 400 || /\n[ \t]*\r?\n|\n[ \t]*-[ \t]/u.test(gap)) {
+// A Markdown or YAML list item: `- `, `* `, `+ `, `1. `, `1) `.
+const listItem = /^[ \t]*(?:[-*+]|\d{1,9}[.)])[ \t]/u;
+// Whether the key of a pair starts a list item: `- **Фамилия:** Пряжкина`.
+const startsItem = (text, pair) => {
+  const line = text.slice(text.lastIndexOf('\n', pair.key - 1) + 1, pair.key);
+  return listItem.test(line) && /^[ \t]*\S+[ \t]+[*_]{0,3}$/u.test(line);
+};
+
+// A blank line, leaving the enclosing object or a long gap ends a record, as
+// does a field the record already has. A new list item ends it too, unless
+// both fields are list items with nothing but list items between them: the
+// fields of a Markdown person card, `- **Фамилия:** …\n- **Имя:** …`
+// (issue 201). In a YAML list of objects the next object's first field is a
+// list item and the last field of the previous one is not.
+function separate(gap, items) {
+  if (gap.length > 400 || /\n[ \t]*\r?\n/u.test(gap)) {
+    return true;
+  }
+  if (
+    items
+      ? gap
+          .split('\n')
+          .slice(1, -1)
+          .some((line) => !listItem.test(line))
+      : /\n[ \t]*-[ \t]/u.test(gap)
+  ) {
     return true;
   }
   let depth = 0;
@@ -225,18 +257,21 @@ function separate(gap) {
 function pairRecords(text) {
   const records = [];
   let record = [],
-    end = 0;
+    end = 0,
+    item = false;
   for (const pair of pairs(text)) {
+    const starts = startsItem(text, pair);
     if (
       record.length &&
-      (record.some((item) => item.role === pair.role) ||
-        separate(text.slice(end, pair.start)))
+      (record.some((part) => part.role === pair.role) ||
+        separate(text.slice(end, pair.start), item && starts))
     ) {
       records.push(record);
       record = [];
     }
     record.push(pair);
     end = pair.end;
+    item = starts;
   }
   records.push(record);
   return records;
@@ -269,19 +304,67 @@ function cells(text, start, end, delimiter) {
 
 const delimiters = ['|', '\t', ';', ','];
 
+function lines(text) {
+  const result = [];
+  let position = 0;
+  for (const match of text.matchAll(/\r\n?|\n/gu)) {
+    result.push({ start: position, end: match.index });
+    position = match.index + match[0].length;
+  }
+  result.push({ start: position, end: text.length });
+  return result;
+}
+
+// The cells of a Markdown table row, without the empty cells outside its
+// leading and trailing `|`.
+function rowCells(text, line) {
+  const row = cells(text, line.start, line.end, '|');
+  if (row.length > 1 && row[0].start === row[0].end) {
+    row.shift();
+  }
+  if (row.length > 1 && row.at(-1).start === row.at(-1).end) {
+    row.pop();
+  }
+  return row;
+}
+
+// A key/value table holds one field per row, the key in the first cell and
+// the value in the second: `| Фамилия | Пряжкина |` (issue 201). The rows of
+// one table form a record, ended by a line that is not a table row or by a
+// field the record already has. A header row of name columns, such as
+// `| Фамилия | Имя |`, is not a field.
+function fieldRows(text) {
+  const records = [];
+  let record = [];
+  for (const line of lines(text)) {
+    if (!text.slice(line.start, line.end).includes('|')) {
+      records.push(record);
+      record = [];
+      continue;
+    }
+    const row = rowCells(text, line);
+    const role =
+      row.length >= 2 && nameRole(text.slice(row[0].start, row[0].end));
+    if (!role || nameRole(text.slice(row[1].start, row[1].end))) {
+      continue;
+    }
+    if (record.some((part) => part.role === role)) {
+      records.push(record);
+      record = [];
+    }
+    record.push({ role, ...unmarked(text, row[1].start, row[1].end) });
+  }
+  records.push(record);
+  return records;
+}
+
 // A header row such as `last_name,first_name` or `| Фамилия | Имя |` names the
 // columns of the rows below it, up to a blank line.
 function tableRecords(text) {
   const records = [];
-  const lines = [];
-  let position = 0;
-  for (const match of text.matchAll(/\r\n?|\n/gu)) {
-    lines.push({ start: position, end: match.index });
-    position = match.index + match[0].length;
-  }
-  lines.push({ start: position, end: text.length });
-  for (let index = 0; index < lines.length; index++) {
-    const line = lines[index];
+  const rows = lines(text);
+  for (let index = 0; index < rows.length; index++) {
+    const line = rows[index];
     const head = text.slice(line.start, line.end);
     if (!roleHint.test(head)) {
       continue;
@@ -297,8 +380,8 @@ function tableRecords(text) {
         continue;
       }
       let row = index + 1;
-      for (; row < lines.length; row++) {
-        const { start, end } = lines[row];
+      for (; row < rows.length; row++) {
+        const { start, end } = rows[row];
         const content = text.slice(start, end);
         if (!content.trim()) {
           break;
@@ -311,7 +394,11 @@ function tableRecords(text) {
           columns
             .map(
               (role, column) =>
-                role && values[column] && { role, ...values[column] }
+                role &&
+                values[column] && {
+                  role,
+                  ...unmarked(text, values[column].start, values[column].end),
+                }
             )
             .filter(Boolean)
         );
@@ -380,6 +467,7 @@ export function detectKnownRecords(text, entries, rule, emit, options) {
   const records = [
     ...pairRecords(text),
     ...tableRecords(text),
+    ...fieldRows(text),
     ...insertRecords(text),
   ].map((record) =>
     record.map((part) => ({ ...part, value: text.slice(part.start, part.end) }))
