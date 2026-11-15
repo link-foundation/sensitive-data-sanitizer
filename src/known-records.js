@@ -437,7 +437,7 @@ const encodedSpan = /%[\da-fA-F]{2}|&#?[\dA-Za-z]+;|\\[ntru\\]/u;
 // `| Person-1 | Person-1 |`, not `| Person-1 |`.
 export function separatedParts(text, finding) {
   const raw = text.slice(finding.start, finding.end);
-  if (!/[^\p{L}\p{M}\p{N}\s.'-]/u.test(raw) || encodedSpan.test(raw)) {
+  if (!/\t|[^\p{L}\p{M}\p{N}\s.'-]/u.test(raw) || encodedSpan.test(raw)) {
     return [finding];
   }
   const parts = [];

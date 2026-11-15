@@ -194,7 +194,7 @@ function plusIsSpace(text, index) {
   );
 }
 
-function decodeUnit(writer, text, raw, index) {
+function decodeUnit(writer, text, raw, index, decoding) {
   const end = index + raw.length;
   if (raw[0] === '%' && raw.length > 1) {
     appendPercent(writer, raw, index);
@@ -205,7 +205,7 @@ function decodeUnit(writer, text, raw, index) {
       ? decodeReference(raw)
       : raw[0] === '\\' && raw.length === 2
         ? escapes[raw[1]]
-        : raw === '+' && plusIsSpace(text, index)
+        : raw === '+' && decoding && plusIsSpace(text, index)
           ? ' '
           : undefined;
   if (value === undefined) {
@@ -217,7 +217,9 @@ function decodeUnit(writer, text, raw, index) {
   }
 }
 
-function decode(text) {
+// With `decoding` off (the `decode: false` option) only invisible characters
+// go: encodings stay as they are.
+function decode(text, decoding) {
   const writer = projectionWriter(text.length);
   let index = 0;
   while (index < text.length) {
@@ -228,8 +230,8 @@ function decode(text) {
       continue;
     }
     units.lastIndex = index;
-    const raw = units.exec(text)[0];
-    decodeUnit(writer, text, raw, index);
+    const raw = decoding ? units.exec(text)[0] : text[index];
+    decodeUnit(writer, text, raw, index, decoding);
     index += raw.length;
   }
   return writer.finish();
@@ -304,12 +306,13 @@ function normalizeWords(view) {
 }
 
 // The decoded view of `text`, or undefined when nothing in it would change.
-export function knownView(text) {
+// `decoding: false` keeps percent-encoding, HTML references and escapes.
+export function knownView(text, decoding = true) {
   const mixed = cyrillicLetter.test(text) && /[A-Za-z]/u.test(text);
   if (!mixed && !trigger.test(text)) {
     return undefined;
   }
-  const decoded = decode(text);
+  const decoded = decode(text, decoding);
   const view = normalizeWords(decoded);
   return view.text === text ? undefined : view;
 }

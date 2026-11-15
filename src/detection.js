@@ -280,7 +280,7 @@ function detectKnownValues(text, options, emit) {
   if (!lists.length) {
     return;
   }
-  const view = options.decode === false ? undefined : knownView(text);
+  const view = knownView(text, options.decode !== false);
   const decoded = (finding) => {
     const start = view.starts[finding.start];
     const end = view.ends[finding.end - 1];

@@ -360,6 +360,13 @@ function caseless(pattern) {
     return [...variants].length > 1 ? `[${variants}]` : part;
   });
 }
+// A `_` joins a value of several words to a word only between letters or
+// digits (`tyutyunnik evsey_cv`); at a word edge it is Markdown emphasis
+// (`_Тютюнник Евсей_`, `__Тютюнник__ Евсей`). A one-word value keeps `_` as
+// part of a word, since `_Lee` and `Lee_` may be identifier fragments.
+const wordChar = '[\\p{L}\\p{M}\\p{N}]';
+const textStart = `(?<!${wordChar}|${wordChar}_+)`;
+const textEnd = `(?!${wordChar}|_+${wordChar})`;
 // Person expressions spell out both cases of each letter and run without the
 // `i` flag, so an initial can require an upper-case letter.
 export function personalSource(value, type, flags) {
@@ -381,7 +388,9 @@ export function personalSource(value, type, flags) {
     return `${segmentStart}(?:${caseless(alternatives)})${segmentEnd}`;
   }
   const body = type === 'PERSON' ? caseless(alternatives) : alternatives;
-  return `(?<!${boundary})(?:${body})(?!${boundary})`;
+  return /\s/u.test(value.trim())
+    ? `${textStart}(?:${body})${textEnd}`
+    : `(?<!${boundary})(?:${body})(?!${boundary})`;
 }
 // `sticky` expressions match only at their lastIndex; the known matcher sets
 // it to each position where an anchor of the entry occurs.
