@@ -82,6 +82,22 @@ function entityLemma(value, type, options) {
     if (lemma.length === 1) {
       return lemma[0];
     }
+    // A record field holds one word of a listed name (`"first_name":
+    // "Велимира"`): that name decides the slot and the sex of its fake.
+    const holders = [
+      ...new Set(
+        group === known && type === 'PERSON' && wordCount(value) === 1
+          ? known.filter((other) =>
+              other
+                .split(/\s+/u)
+                .some((word) => samePersonal(value.trim(), word, type))
+            )
+          : []
+      ),
+    ];
+    if (holders.length === 1) {
+      return holders[0];
+    }
   }
   return type === 'PERSON' ? canonicalPerson(value, mentions) : value;
 }

@@ -40,6 +40,10 @@ import {
 } from './exempt.js';
 import { builtInRules } from './rule-catalog.js';
 import {
+  structuredRecordFindings,
+  structuredRecords,
+} from './known-records.js';
+import {
   initializePlaceholders,
   placeholderKnown,
   preparePlaceholderText,
@@ -427,8 +431,14 @@ function encodedDetect(text, options, emit) {
     detectSync(view, options, (f) =>
       found.push(sanitizeFinding(f, view.length))
     );
-    const sensitive = reviewFindings(view, found, options).filter((f) =>
-      actionable(f, options)
+    // The known-value view decodes percent and HTML references itself and
+    // reports a listed name as that person, so the run is not reported again
+    // for it, unless the caller asked to keep the encoding.
+    const knownDecoded =
+      !options.preserveEncoding &&
+      /^(?:percent|html-)/u.test(run.encoding ?? '');
+    const sensitive = reviewFindings(view, found, options).filter(
+      (f) => actionable(f, options) && !(knownDecoded && exactRules.has(f.rule))
     );
     if (sensitive.length) {
       emit({
@@ -562,13 +572,15 @@ function inspectText(text, options = {}) {
   validateInput(text, options);
   if (options.structured) {
     const memo = structuredInspection(options);
-    const findings = structuredBatches(text, options).flatMap((batch) => [
+    const batches = structuredBatches(text, options);
+    const findings = batches.flatMap((batch) => [
       ...structuredFieldFindings(batch, options),
       ...mapStructuredFindings(
         batch,
         memo('batch', batch.text, false, () =>
           inspect(batch.text, {
             ...options,
+            [structuredRecords]: true,
             structured: undefined,
             findings: [],
             detectors: [],
@@ -591,7 +603,11 @@ function inspectText(text, options = {}) {
     ]);
     return inspectFindingsOnly(
       text,
-      [...findings, ...declaredFieldFindings(text, options)],
+      [
+        ...findings,
+        ...structuredRecordFindings(batches, options),
+        ...declaredFieldFindings(text, options),
+      ],
       options
     );
   }

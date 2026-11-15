@@ -16,6 +16,8 @@ import {
 } from './credentials.js';
 import { localAddress } from './public.js';
 import { detectKnownPersonal } from './personal-variants.js';
+import { detectKnownRecords } from './known-records.js';
+import { knownView } from './known-view.js';
 import { builtInEnabled } from './policy.js';
 import { feature } from './features.js';
 import { tokenChecksum } from './token-checksum.js';
@@ -267,6 +269,37 @@ export function nativeDetect(text, options, emit) {
   }
 }
 
+// Listed names are matched in the text, in the records it holds and in its
+// decoded view (`%D0%9F…`, `&#1055;…`, `Велими́ра`, `Пряжкинa`). A finding
+// of the view covers the original characters it was decoded from.
+function detectKnownValues(text, options, emit) {
+  const lists = [
+    [options.knownPersonal, 'known-personal'],
+    [options.confirmedPersonal, 'confirmed-personal'],
+  ].filter(([entries]) => entries?.length);
+  if (!lists.length) {
+    return;
+  }
+  const view = options.decode === false ? undefined : knownView(text);
+  const decoded = (finding) => {
+    const start = view.starts[finding.start];
+    const end = view.ends[finding.end - 1];
+    if (
+      text.slice(start, end) !== view.text.slice(finding.start, finding.end)
+    ) {
+      emit({ ...finding, start, end });
+    }
+  };
+  for (const [entries, rule] of lists) {
+    detectKnownPersonal(text, entries, rule, emit, options);
+    detectKnownRecords(text, entries, rule, emit, options);
+    if (view) {
+      detectKnownPersonal(view.text, entries, rule, decoded, options);
+      detectKnownRecords(view.text, entries, rule, decoded, options);
+    }
+  }
+}
+
 function detectNative(text, options, emit) {
   const credential = { type: 'SECRET', category: 'credential' };
   for (const value of options.knownSecrets ?? []) {
@@ -279,20 +312,7 @@ function detectNative(text, options, emit) {
       rule: 'known-secret',
     });
   }
-  detectKnownPersonal(
-    text,
-    options.knownPersonal,
-    'known-personal',
-    emit,
-    options
-  );
-  detectKnownPersonal(
-    text,
-    options.confirmedPersonal,
-    'confirmed-personal',
-    emit,
-    options
-  );
+  detectKnownValues(text, options, emit);
   if (options.knownOnly) {
     return;
   }
