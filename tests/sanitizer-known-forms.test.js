@@ -61,12 +61,14 @@ describe('known Russian names', () => {
   });
 
   it('uses one token for a name listed with its parts', () => {
+    // Sentences keep the mentions apart: a `;` or `,` between the parts is a
+    // separator inside one name (issue 192).
     expect(
       person(
         ['Данил Сергеевич', 'Петров Данил Сергеевич', 'Петров'],
-        'Данил Сергеевич; Петрову Данилу Сергеевичу; Петрову'
+        'Данил Сергеевич. Петрову Данилу Сергеевичу. Петрову'
       )
-    ).toBe('Person-1; Person-1; Person-1');
+    ).toBe('Person-1. Person-1. Person-1');
   });
 
   it('does not match a part unless that part is listed', () => {
