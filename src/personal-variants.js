@@ -29,17 +29,28 @@ const fleeting = { павел: 'Павл', лев: 'Льв' };
 const hardCases = '(?:а|у|ом|е)';
 // Only caller-confirmed Russian words receive finite case alternatives. A
 // minimum three-letter stem avoids turning short names into broad matches.
+// A family is named by the plural of a possessive or -ский surname:
+// `Пряжкины`, `у Пряжкиных`, `с Ольховецкими`. Either gender of the
+// surname names the family.
+const possessivePlural = '|ы|ых|ым|ыми';
+const adjectivePlural = '|ие|их|им|ими';
 function cyrillicPattern(word, type) {
   const endings = [
-    [/(?:ова|ева|ина)$/u, 1, '(?:а|ой|ою|у|е|ы)'],
+    [/(?:ова|ева|ёва|ина|ына)$/u, 1, `(?:а|ой|ою|у|е|ы${possessivePlural})`],
+    [/(?:ск|цк)ая$/u, 2, `(?:ая|ой|ою|ую${adjectivePlural})`],
     [/(?:ая)$/u, 2, '(?:ая|ой|ою|ую)'],
+    [
+      /(?:ск|цк)ий$/u,
+      2,
+      `(?:ий|ый|ой|ого|его|ому|ему|ым|ом|ем|ия|ию|ием|ии${adjectivePlural})`,
+    ],
     [
       /(?:ий|ый|ой)$/u,
       2,
       '(?:ий|ый|ой|ого|его|ому|ему|им|ым|ом|ем|ия|ию|ием|ии)',
     ],
     [/[аеуюя]й$/u, 1, '(?:й|я|ю|ем|е)'],
-    [/(?:ов|ев|ин)$/u, 0, '(?:а|у|ым|ом|е|ой)?'],
+    [/(?:ов|ев|ёв|ин|ын)$/u, 0, `(?:а|у|ом|е|ой${possessivePlural})?`],
     [/[жчшщц]$/u, 0, '(?:а|у|ем|ом|е)?'],
     [/[жчшщц]а$/u, 1, '(?:а|и|е|у|ей|ею|ой|ою)'],
     [/а$/u, 1, '(?:а|ы|и|е|у|ой|ою)'],
@@ -157,32 +168,74 @@ export function wordPattern(word, type, flags) {
     .join('-');
   return `(?:${native}|${latin})`;
 }
-// The parts of a name may also be split by one line break, optionally followed
-// by the comment or quote prefix that continues the line. A blank
-// line still separates. Every whitespace run is bounded by one quantifier, so
-// a long run of spaces cannot backtrack quadratically.
+// The line break that may split a listed value, optionally followed by the
+// comment or quote prefix that continues the line.
 const lineBreak =
   '[ \\t\\u00a0]*(?:\\r\\n?|\\n)[ \\t\\u00a0]*(?:(?:\\/\\/+|#+|--|\\*+|(?:>[ \\t]?)+|;+)[ \\t\\u00a0]*)?';
-const plainGap = `(?:[ \\t]+|${lineBreak})`;
+// In text the parts of a name are split by spaces and by the punctuation of
+// tables, lists, quotes and Markdown: `Пряжкина, Велимира`,
+// `| Пряжкина | Велимира |`, `"Пряжкина", "Велимира"`, `**Пряжкина** Велимира`,
+// `Пряжкина (Велимира)`, `Пряжкина — Велимира`. One line break may follow,
+// with the comment or quote prefix (`//`, `#`, `--`, `*`, `>`, `;`) that
+// continues the line; a blank line still separates. Only `'`, `-` or `_`
+// between two letters keeps the letters one word, as in `O'Neil`,
+// `Римский-Корсаков` or `snake_case`. The marks before and after the line break are two
+// quantifiers that the line break divides, so a long run of marks cannot
+// backtrack quadratically.
+const marks = ' \\t\\u00a0,;|/\\\\()\\[\\]{}"«»“”„‘’\'*_`—–‒―\\-';
+const gapMarks = `[${marks}]`;
+const nextLineMarks = `[${marks}#>]`;
+const textGap = `(?![_'’\\-]+\\p{L})(?=[${marks}\\r\\n])${gapMarks}*(?:(?:\\r\\n?|\\n)${nextLineMarks}*)?`;
 // In identifiers the words of a value are also joined by `_`, `-`, `.` or a
 // case change: `evsey_tyutyunnik`, `EvseyTyutyunnik`.
-const identifierGap = `(?:[ \\t]+|${lineBreak}|[_.-]|(?<=\\p{Ll})(?=\\p{Lu}))`;
-const gapFor = (flags) => (flags?.identifiers ? identifierGap : plainGap);
-const wideGap = `(?:[ \\t\\u00a0]+|${lineBreak})`;
-const initialGap = `(?:[ \\t\\u00a0]*|${lineBreak})`;
+const identifierGap = `(?:${textGap}|[_.-]|(?<=\\p{Ll})(?=\\p{Lu}))`;
+const gapFor = (flags) => (flags?.identifiers ? identifierGap : textGap);
+// Initials may touch each other and the surname: `Е.О.Тютюнник`.
+const initialGap = `(?:${textGap})?`;
 const separator = new RegExp(`([ \\t]+|${lineBreak})`, 'u');
+// An initial is an upper-case letter: a lone lower-case letter is a
+// preposition, conjunction or particle (`в`, `с`, `и`, `ж`), so
+// `Он же в офисе.` is no `Же В.`. Person expressions run without the `i`
+// flag (see `personalSource`), and the letter is a code point escape, which
+// `caseless` keeps in its one case.
+const upperEscape = (text) =>
+  [...text.toUpperCase()]
+    .map((char) => `\\u{${char.codePointAt(0).toString(16)}}`)
+    .join('');
 function initialLetter(word, flags) {
   const first = [...word][0];
-  const native = foldYo(escapePattern(first));
-  return flags?.transliterate && cyrillicWord.test(first)
-    ? `(?:${native}|${anyOf(latinChunks(first)[0].filter(Boolean))})`
-    : native;
+  const native = [
+    ...new Set([first, ...(/[её]/iu.test(first) ? ['е', 'ё'] : [])]),
+  ];
+  const latin =
+    flags?.transliterate && cyrillicWord.test(first)
+      ? latinChunks(first)[0].filter(Boolean)
+      : [];
+  const options = [
+    ...new Set(native.map(upperEscape)),
+    ...latin.map(
+      (chunk) => upperEscape([...chunk][0]) + escapePattern(chunk.slice(1))
+    ),
+  ];
+  return options.length === 1 ? options[0] : `(?:${options.join('|')})`;
 }
 const initialPattern = (word, flags) => `${initialLetter(word, flags)}\\.`;
+// The initial of a patronymic that is not listed: `Тютюнник Е.О.` for the
+// listed `Тютюнник Евсей`.
+const anyInitial = '\\p{Lu}\\.';
+const withSecond = (initial) => `${initial}(?:${initialGap}${anyInitial})?`;
 // A given name with the initial of the surname, as in `Велимира П.` or
 // `Velimira P.`, is the everyday short form in chats and notes.
 const givenAndInitial = (given, surname, type, flags) =>
-  `${wordPattern(given, type, flags)}${wideGap}${initialLetter(surname, flags)}\\.?`;
+  `${wordPattern(given, type, flags)}${textGap}${initialLetter(surname, flags)}\\.?`;
+// A surname with the initial of the given name after or before it, whatever
+// the surname's ending: `Тютюнник Е.`, `Е. Тютюнник`, `Е.Тютюнник`. When no
+// patronymic is listed, any second initial stands for it: `Тютюнник Е.О.`,
+// `Е. О. Тютюнник`.
+const initialForms = (last, initial, gap) => [
+  `${last}${gap}${withSecond(initial)}`,
+  `${withSecond(initial)}${initialGap}${last}`,
+];
 // Everyday orders, partial forms and initials of a Russian full name, longest
 // first so that alternation prefers the complete form at each position. A
 // given name with its patronymic names the person least: the text matches it
@@ -203,8 +256,7 @@ function russianForms(words, roles, type, flags, related) {
   const short = [
     full(name.surname, name.given),
     full(name.given, name.surname),
-    `${last}${gap}${initial}`,
-    `${initial}${wideGap}${last}`,
+    ...initialForms(last, initial, gap),
     givenAndInitial(name.given, name.surname, type, flags),
   ];
   if (name.patronymic === undefined) {
@@ -214,20 +266,25 @@ function russianForms(words, roles, type, flags, related) {
   return [
     full(name.surname, name.given, name.patronymic),
     full(name.given, name.patronymic, name.surname),
-    `${last}${wideGap}${initials}`,
-    `${initials}${wideGap}${last}`,
+    `${last}${textGap}${initials}`,
+    `${initials}${initialGap}${last}`,
     ...short,
     ...(related ? [full(name.given, name.patronymic)] : []),
   ];
 }
 // Two words whose roles are unknown, such as `Тютюнник Евсей` or `John Smith`,
-// match in either order and with the other word reduced to its initial.
+// match in either order and with the other word reduced to its initial,
+// written after the word or, with a period, before it.
 function pairForms(words, type, flags) {
   const [first, second] = words.map((word) => wordPattern(word, type, flags));
+  const withInitial = (name, word) =>
+    `${name}${textGap}${initialLetter(word, flags)}(?:\\.(?:${initialGap}${anyInitial})?)?`;
   return [
     `${second}${gapFor(flags)}${first}`,
-    givenAndInitial(words[0], words[1], type, flags),
-    givenAndInitial(words[1], words[0], type, flags),
+    withInitial(first, words[1]),
+    withInitial(second, words[0]),
+    `${withSecond(initialPattern(words[0], flags))}${initialGap}${second}`,
+    `${withSecond(initialPattern(words[1], flags))}${initialGap}${first}`,
   ];
 }
 export function personalPatterns(value, type, flags, related = false) {
@@ -303,6 +360,15 @@ function caseless(pattern) {
     return [...variants].length > 1 ? `[${variants}]` : part;
   });
 }
+// A `_` joins a value of several words to a word only between letters or
+// digits (`tyutyunnik evsey_cv`); at a word edge it is Markdown emphasis
+// (`_Тютюнник Евсей_`, `__Тютюнник__ Евсей`). A one-word value keeps `_` as
+// part of a word, since `_Lee` and `Lee_` may be identifier fragments.
+const wordChar = '[\\p{L}\\p{M}\\p{N}]';
+const textStart = `(?<!${wordChar}|${wordChar}_+)`;
+const textEnd = `(?!${wordChar}|_+${wordChar})`;
+// Person expressions spell out both cases of each letter and run without the
+// `i` flag, so an initial can require an upper-case letter.
 export function personalSource(value, type, flags) {
   if (type === 'URL') {
     let core = value.replace(/^https?:\/\//iu, '');
@@ -318,9 +384,13 @@ export function personalSource(value, type, flags) {
     return `(?<![\\p{L}\\p{N}_./-])(?:https?:\\/\\/)?${escapePattern(core)}(?:\\/)?(?:[?#][^\\s"<>\\\\]*)?(?![\\p{L}\\p{N}_-])`;
   }
   const alternatives = personalPatterns(value, type, flags).join('|');
-  return flags?.identifiers
-    ? `${segmentStart}(?:${caseless(alternatives)})${segmentEnd}`
-    : `(?<!${boundary})(?:${alternatives})(?!${boundary})`;
+  if (flags?.identifiers) {
+    return `${segmentStart}(?:${caseless(alternatives)})${segmentEnd}`;
+  }
+  const body = type === 'PERSON' ? caseless(alternatives) : alternatives;
+  return /\s/u.test(value.trim())
+    ? `${textStart}(?:${body})${textEnd}`
+    : `(?<!${boundary})(?:${body})(?!${boundary})`;
 }
 // `sticky` expressions match only at their lastIndex; the known matcher sets
 // it to each position where an anchor of the entry occurs.
@@ -329,7 +399,8 @@ export function sourceRegex(source, type, flags, sticky = false) {
   if (type === 'URL') {
     return flatRegExp(new RegExp(source, `${mode}iu`));
   }
-  return new RegExp(source, `${mode}${flags?.identifiers ? '' : 'i'}u`);
+  const caseFlag = flags?.identifiers || type === 'PERSON' ? '' : 'i';
+  return new RegExp(source, `${mode}${caseFlag}u`);
 }
 export const personalRegex = (value, type, flags) =>
   sourceRegex(personalSource(value, type, flags), type, flags);

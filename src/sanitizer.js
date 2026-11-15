@@ -40,6 +40,11 @@ import {
 } from './exempt.js';
 import { builtInRules } from './rule-catalog.js';
 import {
+  separatedParts,
+  structuredRecordFindings,
+  structuredRecords,
+} from './known-records.js';
+import {
   initializePlaceholders,
   placeholderKnown,
   preparePlaceholderText,
@@ -427,8 +432,14 @@ function encodedDetect(text, options, emit) {
     detectSync(view, options, (f) =>
       found.push(sanitizeFinding(f, view.length))
     );
-    const sensitive = reviewFindings(view, found, options).filter((f) =>
-      actionable(f, options)
+    // The known-value view decodes percent and HTML references itself and
+    // reports a listed name as that person, so the run is not reported again
+    // for it, unless the caller asked to keep the encoding.
+    const knownDecoded =
+      !options.preserveEncoding &&
+      /^(?:percent|html-)/u.test(run.encoding ?? '');
+    const sensitive = reviewFindings(view, found, options).filter(
+      (f) => actionable(f, options) && !(knownDecoded && exactRules.has(f.rule))
     );
     if (sensitive.length) {
       emit({
@@ -562,13 +573,15 @@ function inspectText(text, options = {}) {
   validateInput(text, options);
   if (options.structured) {
     const memo = structuredInspection(options);
-    const findings = structuredBatches(text, options).flatMap((batch) => [
+    const batches = structuredBatches(text, options);
+    const findings = batches.flatMap((batch) => [
       ...structuredFieldFindings(batch, options),
       ...mapStructuredFindings(
         batch,
         memo('batch', batch.text, false, () =>
           inspect(batch.text, {
             ...options,
+            [structuredRecords]: true,
             structured: undefined,
             findings: [],
             detectors: [],
@@ -591,7 +604,11 @@ function inspectText(text, options = {}) {
     ]);
     return inspectFindingsOnly(
       text,
-      [...findings, ...declaredFieldFindings(text, options)],
+      [
+        ...findings,
+        ...structuredRecordFindings(batches, options),
+        ...declaredFieldFindings(text, options),
+      ],
       options
     );
   }
@@ -898,6 +915,11 @@ function validatedSpans(text, findings, options) {
   }
   const sorted = alignEscapes(text, findings)
     .map((f) => sanitizeFinding(f, text.length))
+    .flatMap((f) =>
+      f.type === 'PERSON' && exactRules.has(f.rule)
+        ? separatedParts(text, f)
+        : [f]
+    )
     .map((f) => ({ ...f, kept: undefined }));
   const retained = markFake(text, sorted, options)
     .filter((f) => actionable(f, options))

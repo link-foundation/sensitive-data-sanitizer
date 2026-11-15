@@ -67,6 +67,12 @@ describe('known Russian names', () => {
         'Данил Сергеевич; Петрову Данилу Сергеевичу; Петрову'
       )
     ).toBe('Person-1; Person-1; Person-1');
+    expect(
+      person(
+        ['Данил Сергеевич', 'Петров Данил Сергеевич', 'Петров'],
+        'Данил Сергеевич. Петрову Данилу Сергеевичу. Петрову'
+      )
+    ).toBe('Person-1. Person-1. Person-1');
   });
 
   it('does not match a part unless that part is listed', () => {

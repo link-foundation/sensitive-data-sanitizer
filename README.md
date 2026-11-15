@@ -100,7 +100,15 @@ replacements, such as credentials excluded from the map, cannot be restored.
 
 Known Russian names match in all six cases and in any word order, with `ё`/`е`
 spelling variants and initials (`с Петровым Данилом Сергеевичем`, `Петров Д. С.`,
-`Данил П.`), also when a line break or a comment prefix splits them.
+`Данил П.`), also when a line break or a comment prefix splits them, when
+table, CSV, quote or Markdown punctuation separates them (`Петров, Данил`,
+`| Петров | Данил |`, `**Петров** Данил`), in plural forms (`Петровы`), when the
+parts sit in the name fields of one record (`{"first_name": "Данил",
+"last_name": "Петров"}`, CSV, YAML, SQL, XML, query strings) and when they are
+percent-encoded, HTML-escaped, carry stress marks, invisible characters or
+look-alike letters of another script. Separated parts are replaced one by one,
+so `| Петров | Данил |` becomes `| Person-1 | Person-1 |`. An initial must be
+an upper-case letter.
 A part of a longer name is matched alone only when it is listed itself; a given
 name with a patronymic counts as such a part. Flag an entry with
 `identifiers: true` to find it inside code identifiers (`petrov_id`,

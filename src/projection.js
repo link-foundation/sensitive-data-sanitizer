@@ -246,7 +246,7 @@ export function codePointRange(text, start, end) {
   return { start: offsets[start], end: offsets[end] };
 }
 
-function projectionWriter(inputLength) {
+export function projectionWriter(inputLength) {
   // Input length has already been checked by the caller. Unicode NFKC can
   // expand a single scalar to at most 18 scalars; retain a finite bound.
   const maxLength = Math.max(inputLength * 18, 16);
@@ -294,6 +294,14 @@ function projectionWriter(inputLength) {
         starts[length] = j;
         ends[length++] = j + 1;
       }
+    },
+    // A stretch of an earlier view keeps that view's offsets.
+    carry(view, start, end) {
+      reserve(end - start);
+      write(view.text.slice(start, end));
+      starts.set(view.starts.subarray(start, end), length);
+      ends.set(view.ends.subarray(start, end), length);
+      length += end - start;
     },
     finish() {
       parts.push(chunk);
