@@ -311,9 +311,82 @@ function eachGlobal(text, pattern, visit) {
 }
 
 // Positions where a known value may start: after a non-letter, or at a case
-// change inside an identifier such as `tyutyunnikCase` or `HTTPServer`.
-const startPattern =
+// change inside an identifier such as `tyutyunnikCase` or `HTTPServer`. This
+// is the expression `isStart` evaluates at one position; the tests compare
+// the two on every character class it distinguishes.
+export const startPattern =
   /(?<!\p{L})\S|(?<=\p{Ll})\p{Lu}|(?<=\p{Lu})\p{Lu}(?=\p{Ll})/gu;
+
+// Character classes of the start expression, computed once per code point:
+// bit 1 marks a computed entry, then letter, upper case, lower case, space.
+const computed = 1,
+  letter = 2,
+  upper = 4,
+  lower = 8,
+  space = 16;
+const bmpClasses = new Uint8Array(0x10000);
+const astralClasses = new Map();
+function classify(code) {
+  const char = String.fromCodePoint(code);
+  return (
+    computed |
+    (/\p{L}/u.test(char) ? letter : 0) |
+    (/\p{Lu}/u.test(char) ? upper : 0) |
+    (/\p{Ll}/u.test(char) ? lower : 0) |
+    (/\s/u.test(char) ? space : 0)
+  );
+}
+function classOf(code) {
+  if (code < 0) {
+    return computed;
+  }
+  if (code < 0x10000) {
+    return (bmpClasses[code] ||= classify(code));
+  }
+  if (!astralClasses.has(code)) {
+    astralClasses.set(code, classify(code));
+  }
+  return astralClasses.get(code);
+}
+// The code point that ends before `index`, or -1 at the start of the text.
+function codeBefore(text, index) {
+  if (index <= 0) {
+    return -1;
+  }
+  const low = text.charCodeAt(index - 1);
+  if (low >= 0xdc00 && low <= 0xdfff && index > 1) {
+    const high = text.charCodeAt(index - 2);
+    if (high >= 0xd800 && high <= 0xdbff) {
+      return ((high - 0xd800) << 10) + (low - 0xdc00) + 0x10000;
+    }
+  }
+  return low;
+}
+const codeAt = (text, index) =>
+  index < text.length ? text.codePointAt(index) : -1;
+
+/**
+ * Whether `startPattern` matches at `index`, for an index that does not
+ * split a surrogate pair. Reading the classes of two or three code points
+ * replaces a global expression scan that allocated a match object for every
+ * word of the text.
+ */
+export function isStart(text, index) {
+  const code = codeAt(text, index);
+  const current = classOf(code);
+  const before = classOf(codeBefore(text, index));
+  if (!(before & letter)) {
+    return !(current & space);
+  }
+  if (!(current & upper)) {
+    return false;
+  }
+  return (
+    Boolean(before & lower) ||
+    (Boolean(before & upper) &&
+      Boolean(classOf(codeAt(text, index + (code > 0xffff ? 2 : 1))) & lower))
+  );
+}
 
 /**
  * Builds a matcher for `entries`. `sourceOf(entry)` returns the expression
@@ -326,7 +399,9 @@ const startPattern =
 export function createMatcher(entries, sourceOf, regexOf) {
   const sources = [];
   const always = [];
-  const byLength = new Map();
+  // Anchors as a trie of folded UTF-16 code units: a node lists the entries
+  // whose anchor ends at it and the nodes of the next code unit.
+  const root = new Map();
   for (const [index, entry] of entries.entries()) {
     const source = sourceOf(entry);
     sources.push(source);
@@ -336,17 +411,22 @@ export function createMatcher(entries, sourceOf, regexOf) {
       continue;
     }
     for (const anchor of anchors) {
-      if (!byLength.has(anchor.length)) {
-        byLength.set(anchor.length, new Map());
+      let next = root,
+        node;
+      for (let i = 0; i < anchor.length; i++) {
+        const code = anchor.charCodeAt(i);
+        node = next.get(code);
+        if (!node) {
+          node = { next: new Map(), entries: [] };
+          next.set(code, node);
+        }
+        next = node.next;
       }
-      const table = byLength.get(anchor.length);
-      if (!table.has(anchor)) {
-        table.set(anchor, []);
+      if (!node.entries.includes(index)) {
+        node.entries.push(index);
       }
-      table.get(anchor).push(index);
     }
   }
-  const lengths = [...byLength.entries()];
   const alwaysSet = new Set(always);
   const regexes = new Array(entries.length);
   const regex = (index) => {
@@ -363,25 +443,27 @@ export function createMatcher(entries, sourceOf, regexOf) {
     for (const index of always) {
       found[index] = null;
     }
-    if (lengths.length === 0) {
+    if (root.size === 0) {
       return found;
     }
+    // Only a character that starts an anchor can start a match, so the
+    // start test runs at those characters, and the trie is walked by code
+    // unit without slicing the text.
     const folded = foldText(text);
-    startPattern.lastIndex = 0;
-    for (
-      let start = startPattern.exec(text);
-      start;
-      start = startPattern.exec(text)
-    ) {
-      for (const [length, table] of lengths) {
-        for (const index of table.get(
-          folded.slice(start.index, start.index + length)
-        ) ?? []) {
+    for (let start = 0; start < folded.length; start++) {
+      let node = root.get(folded.charCodeAt(start));
+      if (node === undefined || !isStart(text, start)) {
+        continue;
+      }
+      for (let i = start + 1; node !== undefined; i++) {
+        for (const index of node.entries) {
           const list = (found[index] ??= []);
-          if (list.at(-1) !== start.index) {
-            list.push(start.index);
+          if (list.at(-1) !== start) {
+            list.push(start);
           }
         }
+        node =
+          i < folded.length ? node.next.get(folded.charCodeAt(i)) : undefined;
       }
     }
     return found;

@@ -54,6 +54,9 @@ const suffixRoles = [
 const roleHint =
   /first|last|given|family|surname|forename|middle|patronym|[flm]name|имя|фамили|отчеств/iu;
 
+// Whether the text may hold a name field at all.
+export const hasRecordKey = (text) => roleHint.test(text);
+
 export function nameRole(key) {
   const normal = key
     .normalize('NFC')
