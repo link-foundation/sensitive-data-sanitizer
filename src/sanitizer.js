@@ -40,6 +40,7 @@ import {
 } from './exempt.js';
 import { builtInRules } from './rule-catalog.js';
 import {
+  separatedParts,
   structuredRecordFindings,
   structuredRecords,
 } from './known-records.js';
@@ -914,6 +915,11 @@ function validatedSpans(text, findings, options) {
   }
   const sorted = alignEscapes(text, findings)
     .map((f) => sanitizeFinding(f, text.length))
+    .flatMap((f) =>
+      f.type === 'PERSON' && exactRules.has(f.rule)
+        ? separatedParts(text, f)
+        : [f]
+    )
     .map((f) => ({ ...f, kept: undefined }));
   const retained = markFake(text, sorted, options)
     .filter((f) => actionable(f, options))

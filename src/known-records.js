@@ -419,3 +419,41 @@ export function structuredRecordFindings(batches, options) {
   }
   return findings;
 }
+
+// Marks that separate the cells, values or quoted parts a listed name was
+// found across (issue 192). A plain `-` or `.` stays inside a part, `'`
+// separates only next to another mark (`O'Neil`, `Е.О.` stay whole), and
+// Markdown emphasis only next to a space, so `Petrov_Ivan_CV.pdf` stays one
+// value. A line break joins the lines of one name (`// Тютюнник\n// Евсей`).
+const separator =
+  /[\t,;|/\\()[\]{}"«»“”„‟—–]|'[^\p{L}]|[^\p{L}]'|\s[*_`]|[*_`]\s/u;
+// A name found in a decoded view keeps one span: its `;` and `\` are part of
+// the encoding.
+const encodedSpan = /%[\da-fA-F]{2}|&#?[\dA-Za-z]+;|\\[ntru\\]/u;
+
+// The parts of a listed-name finding whose span crosses separators, each a
+// finding of its own, so a replacement keeps the table cells, quotes and SQL
+// values of the original: `| Пряжкина | Велимира |` becomes
+// `| Person-1 | Person-1 |`, not `| Person-1 |`.
+export function separatedParts(text, finding) {
+  const raw = text.slice(finding.start, finding.end);
+  if (!/[^\p{L}\p{M}\p{N}\s.'-]/u.test(raw) || encodedSpan.test(raw)) {
+    return [finding];
+  }
+  const parts = [];
+  let start = 0;
+  for (const gap of raw.matchAll(/[^\p{L}\p{M}\p{N}.-]+/gu)) {
+    if (separator.test(gap[0]) && !/[\n\r]/u.test(gap[0])) {
+      parts.push([start, gap.index]);
+      start = gap.index + gap[0].length;
+    }
+  }
+  parts.push([start, raw.length]);
+  return parts
+    .filter(([from, to]) => /\p{L}/u.test(raw.slice(from, to)))
+    .map(([from, to]) => ({
+      ...finding,
+      start: finding.start + from,
+      end: finding.start + to,
+    }));
+}
