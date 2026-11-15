@@ -63,7 +63,7 @@ Every name in these experiments is made up.
 
 ## Existing libraries considered
 
-- **HTML references:** [`he`](https://www.npmjs.com/package/he) (Mathias
+- **HTML references:** [`he`](https://github.com/mathiasbynens/he) (Mathias
   Bynens) and [`entities`](https://github.com/fb55/entities) (fb55) decode all
   of the 2,231 HTML named references. The view only needs numeric references
   and the names that can sit inside or between the words of a name (spaces,
@@ -81,7 +81,7 @@ Every name in these experiments is made up.
   swaps the 18 Latin and Cyrillic letters that look the same, and only inside a
   word that mixes the two scripts, toward the script of most of its letters.
 - **Known-value recognizers:** [Presidio's deny-list
-  recognizer](https://microsoft.github.io/presidio/tutorial/01_deny_list)
+  recognizer](https://presidio.dataprivacystack.org/tutorial/01_deny_list/)
   matches listed words exactly; misspellings, inflections and encodings must be
   listed by hand. The repository's own matcher already generates Russian forms,
   initials and transliterations, so the fixes extend it.
