@@ -42,6 +42,23 @@ describe('issue 262 repository regressions', () => {
         const invalid = run();
         assert.equal(invalid.status, 1);
         assert.match(invalid.stderr, /Pin hosted runners/);
+        writeFileSync(workflow, 'jobs:\n  test:\n    runs-on: ubuntu-24.04\n');
+        writeFileSync(
+          join(root, '.github/zizmor.yml'),
+          'rules:\n  self-repository:\n    ignore:\n      - test.yml\n'
+        );
+        const unusedException = run();
+        assert.equal(unusedException.status, 1);
+        assert.match(
+          unusedException.stderr,
+          /Unused or broad self-repository exception: test\.yml/
+        );
+        writeFileSync(
+          workflow,
+          'jobs:\n  test:\n    runs-on: ubuntu-24.04\n    steps:\n      - uses: ./local\n'
+        );
+        const listedUser = run();
+        assert.equal(listedUser.status, 0, listedUser.stderr);
         rmSync(join(root, '.github/workflows'), { recursive: true });
         const missingRequired = run();
         assert.equal(missingRequired.status, 1);

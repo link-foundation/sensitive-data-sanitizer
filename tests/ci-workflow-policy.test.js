@@ -1,5 +1,30 @@
 import { describe, it, expect } from 'test-anywhere';
-import { checkWorkflowPolicy } from '../scripts/check-ci-workflows.mjs';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import {
+  checkSelfRepositoryPolicy,
+  checkWorkflowPolicy,
+} from '../scripts/check-ci-workflows.mjs';
+
+function readWorkflowTree() {
+  const files = {};
+  const walk = (directory) => {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      if (entry.name === 'node_modules') {
+        continue;
+      }
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) {
+        walk(path);
+      } else if (/\.ya?ml$/.test(path)) {
+        files[path] = readFileSync(path, 'utf8');
+      }
+    }
+  };
+  walk('.github/workflows');
+  walk('.github/actions');
+  return files;
+}
 
 describe('workflow policy regression protection', () => {
   for (const spec of [
@@ -50,6 +75,59 @@ describe('workflow policy regression protection', () => {
     ).toBeGreaterThan(0);
     expect(
       checkWorkflowPolicy(workflow.replaceAll('1.32.0', '9.0.0')).length
+    ).toBeGreaterThan(0);
+  });
+});
+
+describe('self-repository action exception', () => {
+  const files = readWorkflowTree();
+  const config = readFileSync('.github/zizmor.yml', 'utf8');
+
+  it('lists exactly the workflows and actions that call a local action', () => {
+    expect(checkSelfRepositoryPolicy(files, config)).toEqual([]);
+  });
+
+  it('accepts Windows paths and CRLF configuration', () => {
+    const windowsFiles = Object.fromEntries(
+      Object.entries(files).map(([path, text]) => [
+        path.replaceAll('/', '\\'),
+        text,
+      ])
+    );
+    expect(
+      checkSelfRepositoryPolicy(windowsFiles, config.replace(/\r?\n/g, '\r\n'))
+    ).toEqual([]);
+  });
+
+  it('accepts a tree with neither local actions nor an exception', () => {
+    expect(checkSelfRepositoryPolicy({}, '')).toEqual([]);
+  });
+
+  it('rejects a local action user missing from the exception', () => {
+    const errors = checkSelfRepositoryPolicy(
+      {
+        ...files,
+        '.github/workflows/new.yml':
+          'steps:\n  - uses: ./.github/actions/setup-node\n',
+      },
+      config
+    );
+    expect(errors).toEqual([
+      'Unlisted self-repository action user: .github/workflows/new.yml',
+    ]);
+    expect(checkSelfRepositoryPolicy(files, '').length).toBeGreaterThan(0);
+  });
+
+  it('rejects an exception entry for a file without a local action', () => {
+    expect(
+      checkSelfRepositoryPolicy(
+        files,
+        `${config.trimEnd()}\n      - stale.yml\n`
+      )
+    ).toEqual(['Unused or broad self-repository exception: stale.yml']);
+    expect(
+      checkSelfRepositoryPolicy(files, `${config.trimEnd()}\n      - "*.yml"\n`)
+        .length
     ).toBeGreaterThan(0);
   });
 });

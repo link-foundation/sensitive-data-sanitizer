@@ -72,6 +72,45 @@ function workflowFiles(directory) {
   });
 }
 
+/**
+ * Keeps the zizmor `self-repository` ignore list equal to the set of
+ * workflow and composite-action files that call a local action with
+ * `uses: ./`, so the actionlint compatibility exception never covers a file
+ * that does not need it and never misses one that does.
+ *
+ * @param {Record<string, string>} files Workflow and action YAML by path.
+ * @param {string} config Contents of .github/zizmor.yml ('' when absent).
+ * @returns {string[]} Policy violations.
+ */
+export function checkSelfRepositoryPolicy(files, config) {
+  const block =
+    config
+      .replace(/\r\n/g, '\n')
+      .match(
+        /\n {2}self-repository:\n {4}ignore:\n((?: {6}- [^\n]+\r?\n?)*)/
+      )?.[1] ?? '';
+  const allowed = new Set(
+    Array.from(block.matchAll(/- ([^\s]+)[ \t]*$/gm), (match) => match[1])
+  );
+  const errors = [];
+  const used = new Set();
+  for (const [path, text] of Object.entries(files)) {
+    if (/^\s*(?:- )?uses: ['"]?\.\//m.test(text)) {
+      const name = path.split(/[\\/]/).at(-1);
+      used.add(name);
+      if (!allowed.has(name)) {
+        errors.push(`Unlisted self-repository action user: ${path}`);
+      }
+    }
+  }
+  for (const name of allowed) {
+    if (!used.has(name)) {
+      errors.push(`Unused or broad self-repository exception: ${name}`);
+    }
+  }
+  return errors;
+}
+
 if (
   process.argv[1] &&
   import.meta.url === pathToFileURL(resolve(process.argv[1])).href
@@ -85,6 +124,21 @@ if (
       console.error(`::error file=${path}::${error}`);
       process.exitCode = 1;
     }
+  }
+  let selfRepositoryConfig = '';
+  try {
+    selfRepositoryConfig = readFileSync('.github/zizmor.yml', 'utf8');
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      throw error;
+    }
+  }
+  for (const error of checkSelfRepositoryPolicy(
+    Object.fromEntries(files.map((path) => [path, readFileSync(path, 'utf8')])),
+    selfRepositoryConfig
+  )) {
+    console.error(`::error::${error}`);
+    process.exitCode = 1;
   }
   if (!process.exitCode) {
     console.log('Workflow package, zizmor, and hosted runner pins verified');
