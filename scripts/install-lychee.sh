@@ -14,7 +14,8 @@
 #   LYCHEE_SHA256_AARCH64        SHA-256 of the aarch64 Linux GNU archive
 #   LYCHEE_DOWNLOAD_BASE_URL     release download root (tests use loopback)
 #   LYCHEE_DOWNLOAD_RETRIES      curl retries per download (default 5)
-#   LYCHEE_DOWNLOAD_RETRY_DELAY  seconds between retries (default 5)
+#   LYCHEE_DOWNLOAD_RETRY_DELAY  seconds between retries (default 5; curl reads 0
+#                                as its default backoff, which starts at 1s)
 #   LYCHEE_INSTALL_DEBUG=1       print every command
 set -euo pipefail
 [ "${LYCHEE_INSTALL_DEBUG:-}" = 1 ] && set -x

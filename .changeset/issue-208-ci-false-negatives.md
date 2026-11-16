@@ -15,3 +15,5 @@ Use secretlint 14, which builds the recommended rules into `@secretlint/core`, s
 - Start budget annotations on a new line after unterminated command output.
 - Report lint warnings anywhere in a changed file, and every warning when the lint configuration changes.
 - Assert the shape of action pins in tests, so Dependabot bumps keep them green.
+- Split the Ubuntu Bun test suite into two shards, and fail the lychee download fixtures only where a test needs the retry.
+- Explain the expected error annotations of the simulated Buildx registry outage with a notice.

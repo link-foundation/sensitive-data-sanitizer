@@ -25,6 +25,7 @@ async function installFixture({
   unavailable = false,
   version = 'v9.9.9',
   missingBinary = false,
+  flaky = false,
 } = {}) {
   const root = mkdtempSync(join(tmpdir(), 'lychee-install-'));
   const requests = new Map();
@@ -52,8 +53,10 @@ async function installFixture({
     server = createServer((request, response) => {
       const count = (requests.get(request.url) || 0) + 1;
       requests.set(request.url, count);
-      // Both the archive and checksum fail once, independently.
-      if (unavailable || count === 1) {
+      // A flaky server fails the archive and checksum once, independently.
+      // Only the recovery test needs it: curl treats a zero retry delay as
+      // its default backoff, which starts at 1s per retry.
+      if (unavailable || (flaky && count === 1)) {
         response.writeHead(503).end('try again');
       } else {
         response.end(
@@ -112,7 +115,7 @@ describe('lychee release installer', () => {
   check(
     'recovers from a 503 on both downloads, verifies and installs a nested binary',
     async () => {
-      const result = await installFixture();
+      const result = await installFixture({ flaky: true });
       assert.equal(result.status, 0, result.stderr);
       assert.match(result.stdout, /lychee 9\.9\.9 fixture/);
       assert.deepEqual([...result.requests.values()], [2, 2]);

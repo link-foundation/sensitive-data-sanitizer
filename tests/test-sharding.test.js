@@ -17,7 +17,7 @@ it('partitions every test file exactly once, independent of directory order', ()
   ).toBe(true);
 });
 
-it('covers every runtime and OS once while distributing Windows Bun and Deno fixtures', () => {
+it('covers every runtime and OS once while distributing Bun and Deno fixtures', () => {
   const workflow = parse(readFileSync('.github/workflows/release.yml', 'utf8'));
   const matrix = workflow.jobs.test.strategy.matrix;
   const legs = matrix.os.flatMap((os) =>
@@ -46,6 +46,16 @@ it('covers every runtime and OS once while distributing Windows Bun and Deno fix
         expect(
           shards.every(
             ({ shard }) => selectTests(files, shard).length < whole.length / 2
+          )
+        ).toBe(true);
+      }
+      if (os === 'ubuntu-24.04' && runtime === 'bun') {
+        // Bun runs files serially; the whole suite neared its 200s budget.
+        expect(shards.length).toBeGreaterThan(1);
+        expect(
+          shards.every(
+            ({ shard }) =>
+              selectTests(files, shard).length <= Math.ceil(whole.length / 2)
           )
         ).toBe(true);
       }
@@ -90,7 +100,7 @@ it('keeps measured expensive suites apart as unrelated files are added', () => {
     'release-preflight.test.js',
     'sanitizer-jsonl-stream.test.js',
   ];
-  for (const count of [3, 4, 6]) {
+  for (const count of [2, 3, 4, 6]) {
     for (let extra = 0; extra <= 12; extra++) {
       const files = [
         ...expensive,

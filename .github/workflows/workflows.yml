@@ -320,6 +320,10 @@ jobs:
           mirror_attempts=1
           if [[ "$MODE" == exhausted ]]; then mirror_attempts=5; fi
           [[ $(grep -c '^mirror.gcr.io/moby/buildkit:' "$BUILDX_PULL_LOG") == "$mirror_attempts" ]]
+          # The upstream action annotates each injected outage as an error,
+          # and a uses: step's annotations cannot be suppressed. Say next to
+          # them that they are the fixture, so a green run reads as green.
+          echo "::notice title=Simulated registry outages::The 'simulated ... outage' error annotations of this job come from the injected fixture and are expected; this step asserted the ${MODE} outcome."
 
   # Terminal status gate: runs even when the jobs above fail or are
   # cancelled, and turns a `timeout-minutes` kill (reported as cancelled)

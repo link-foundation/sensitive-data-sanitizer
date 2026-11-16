@@ -358,6 +358,7 @@ jobs:
         runtime: [node, bun, deno]
         shard: ['1/1']
         exclude:
+          - { os: ubuntu-24.04, runtime: bun, shard: '1/1' }
           - { os: windows-2025, runtime: bun, shard: '1/1' }
           - { os: windows-2025, runtime: deno, shard: '1/1' }
         # Intel runners avoid ARM64 capacity failures. Partition the suite so
@@ -365,6 +366,10 @@ jobs:
         # Windows Bun runs subprocess fixtures serially and Deno initializes
         # a separate worker graph per file. Partition both within their budgets.
         include:
+          # Bun runs files serially on Ubuntu too: the whole suite reached
+          # 162s of its 200s budget (issue 208), so it runs in two halves.
+          - { os: ubuntu-24.04, runtime: bun, shard: '1/2' }
+          - { os: ubuntu-24.04, runtime: bun, shard: '2/2' }
           - { os: windows-2025, runtime: bun, shard: '1/3' }
           - { os: windows-2025, runtime: bun, shard: '2/3' }
           - { os: windows-2025, runtime: bun, shard: '3/3' }
