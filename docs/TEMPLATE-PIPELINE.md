@@ -162,7 +162,7 @@ The GitHub Actions workflow (`.github/workflows/release.yml`) implements a fast-
 
 1. **Test compilation**: Syntax-checks all `.mjs` files with `node --check`
 2. **Lint, format & secrets scan**: ESLint, Prettier, jscpd, and [secretlint](https://github.com/secretlint/secretlint) for credential leak detection
-3. **File line limits**: Enforces the 1500-line limit on JavaScript (`.js`, `.mjs`, `.cjs`) and Markdown (`.md`) files plus `release.yml`
+3. **File line limits**: Enforces the 1500-line limit on tracked JavaScript (`.js`, `.mjs`, `.cjs`), Python (`.py`), shell (`.sh` and `.husky/` hooks), Markdown (`.md`), and YAML (`.yml`, `.yaml`) files
 4. **Changeset check**: Validates PR has exactly one changeset (added by that PR)
 5. **Version check**: Blocks manual version changes in `package.json`
 6. **Documentation validation**: Checks required doc files (doc line limits are enforced by the file line limits check)

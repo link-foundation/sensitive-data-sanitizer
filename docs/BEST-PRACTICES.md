@@ -186,8 +186,10 @@ Slow test matrix only runs after all fast checks pass. This dramatically reduces
 In addition to the ESLint `max-lines` rule (which only covers the source files it lints), a separate CI check enforces the 1500-line limit on:
 
 - All JavaScript files (`.js`, `.mjs`, `.cjs`, including scripts)
+- All Python files (`.py`)
+- All shell scripts (`.sh`) and the extensionless Git hooks in `.husky/`
 - All Markdown files (`.md`, including documentation)
-- `.github/workflows/release.yml` (to prevent workflow bloat)
+- All YAML files (`.yml`, `.yaml`, including workflows, to prevent workflow bloat)
 
 This is enforced by `scripts/check-file-line-limits.sh`. Case-study and generated-data files under `docs/case-studies/*/data/` are exempt because they mirror external sources verbatim (the same paths are ignored by ESLint).
 
