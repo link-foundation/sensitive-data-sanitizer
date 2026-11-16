@@ -52,7 +52,7 @@ describe('check-file-line-limits.sh scope', () => {
 
     expect(script).toContain('LIMIT=1500');
     expect(script).toContain('WARN_THRESHOLD=1350');
-    expect(script).toContain("EXTENSIONS='js|mjs|cjs|py|md|yml|yaml'");
+    expect(script).toContain("EXTENSIONS='js|mjs|cjs|py|sh|md|yml|yaml'");
     expect(script).toContain('git ls-files -z');
     expect(script).toContain('git rev-parse --show-toplevel');
     expect(script).toContain('this check verified nothing');
@@ -73,6 +73,35 @@ describe('check-file-line-limits.sh scope', () => {
         expect(result.stdout).toContain(
           'ERROR: scripts/large.py has 1501 lines'
         );
+      } finally {
+        rmSync(root, { recursive: true, force: true });
+      }
+    }
+  );
+});
+
+describe('check-file-line-limits.sh shell scripts', () => {
+  itUnless(sandboxed, noPosixShell)(
+    'fails shell scripts and extensionless Git hooks over the hard limit',
+    () => {
+      const root = createFixture({
+        'scripts/too-large.sh': 1501,
+        '.husky/pre-commit': 1600,
+        'scripts/within-limit.sh': 1500,
+      });
+
+      try {
+        const result = runLineLimitCheck(root);
+
+        expect(result.status).toBe(1);
+        expect(result.stdout).toContain(
+          'ERROR: scripts/too-large.sh has 1501 lines (limit: 1500)'
+        );
+        expect(result.stdout).toContain(
+          'ERROR: .husky/pre-commit has 1600 lines (limit: 1500)'
+        );
+        expect(result.stdout).toContain('scripts/within-limit.sh: 1500 lines');
+        expect(result.stdout).not.toContain('ERROR: scripts/within-limit.sh');
       } finally {
         rmSync(root, { recursive: true, force: true });
       }

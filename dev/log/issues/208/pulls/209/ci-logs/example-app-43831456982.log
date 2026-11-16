@@ -1,0 +1,104 @@
+Package desktop app (windows-2025)	Setup Node.js	﻿2026-11-16T08:28:47.8705576Z Prepare all required actions
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:47.8706133Z Getting action download info
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:47.9426249Z Download action repository 'actions/setup-node@v7.1.0' (SHA:949feb2413d6458794dcd2491c4babbbce0c15c1)
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.0944372Z ##[group]Run ./.github/actions/setup-node
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.0944607Z with:
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.0944767Z   cache: npm
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.0944993Z   cache-dependency-path: examples/universal-app/package-lock.json
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.0945268Z env:
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.0945400Z   GIT_CONFIG_COUNT: 1
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.0945579Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.0945774Z   GIT_CONFIG_VALUE_0: main
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.0945931Z ##[endgroup]
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.0998064Z ##[start-action display=Run actions/setup-node@v7.1.0;id=__self.__actions_setup-node]
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.1173535Z ##[group]Run actions/setup-node@v7.1.0
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.1173760Z with:
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.1173906Z   node-version-file: .nvmrc
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.1174146Z   package-manager-cache: false
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.1174322Z   check-latest: false
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.1177017Z   token: ***
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.1177157Z env:
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.1177295Z   GIT_CONFIG_COUNT: 1
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.1177461Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.1177653Z   GIT_CONFIG_VALUE_0: main
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.1178028Z ##[endgroup]
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.2626893Z Node version file is not JSON file
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.2631837Z Node version file is not TOML file
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.2632346Z Resolved .nvmrc as 26.13.0
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.2646523Z Attempting to download 26.13.0...
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:48.9539553Z Acquiring 26.13.0 - x64 from https://github.com/actions/node-versions/releases/download/26.13.0-41378513395/node-26.13.0-win32-x64.7z
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:49.2451436Z Extracting ...
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:28:52.1003689Z Adding to the cache ...
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:04.6578177Z ##[group]Environment details
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.3966406Z node: v26.13.0
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.3966706Z npm: 11.20.0
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.3966857Z yarn: 1.22.22
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.3967244Z ##[endgroup]
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.4110347Z ##[end-action id=__self.__actions_setup-node;outcome=success;conclusion=success;duration_ms=17310]
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.4112826Z ##[start-action display=Install reviewed npm;id=__self.__run]
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.4247761Z ##[group]Run bash scripts/run-with-budget-warning.sh 60 "Reviewed npm install" bash scripts/install-reviewed-npm.sh 12.2.2
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.4248494Z ^[[36;1mbash scripts/run-with-budget-warning.sh 60 "Reviewed npm install" bash scripts/install-reviewed-npm.sh 12.2.2^[[0m
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.4265985Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.4266317Z env:
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.4266462Z   GIT_CONFIG_COUNT: 1
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.4266639Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.4266844Z   GIT_CONFIG_VALUE_0: main
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.4267013Z ##[endgroup]
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:05.7947429Z Running Reviewed npm install with a 60s budget (warning at 42s).
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:36.9454072Z 
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:36.9454748Z added 1 package in 29s
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:29:47.8491467Z ##[warning]Reviewed npm install has run for 42s of its 60s budget.
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:30:04.4186610Z 
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:30:04.4189605Z removed 8 packages, and changed 77 packages in 24s
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:30:06.5776254Z ##[error]Reviewed npm install did not finish within its 60s budget, so termination was requested. Shorten the step or raise its budget (keeping it below the job's timeout-minutes backstop).
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:30:08.6914360Z ##[error]Process completed with exit code 124.
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:30:08.6922558Z ##[end-action id=__self.__run;outcome=failure;conclusion=failure;duration_ms=63280]
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:30:08.6926265Z ##[start-action display=Enable npm debug logging;id=__self.__run_2]
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:30:08.6930962Z ##[end-action id=__self.__run_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:30:08.6932668Z ##[start-action display=Restore requested package cache with current npm;id=__self.__actions_setup-node_2]
+Package desktop app (windows-2025)	Setup Node.js	2026-11-16T08:30:08.6939448Z ##[end-action id=__self.__actions_setup-node_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+Pipeline Status	Fail the run when a required job was cancelled or failed	﻿2026-11-16T08:36:04.1881691Z ##[group]Run bash scripts/check-pipeline-status.sh
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.1882068Z ^[[36;1mbash scripts/check-pipeline-status.sh^[[0m
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.1909481Z shell: /usr/bin/bash -e {0}
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.1909807Z env:
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.1910012Z   GIT_CONFIG_COUNT: 1
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.1910304Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.1910571Z   GIT_CONFIG_VALUE_0: main
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.1911505Z   NEEDS_JSON: {
+Pipeline Status	Fail the run when a required job was cancelled or failed	  "web-build": {
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+Pipeline Status	Fail the run when a required job was cancelled or failed	  "pages-deploy": {
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+Pipeline Status	Fail the run when a required job was cancelled or failed	  "desktop-package": {
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "failure",
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+Pipeline Status	Fail the run when a required job was cancelled or failed	  "android-build": {
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+Pipeline Status	Fail the run when a required job was cancelled or failed	  "ios-build": {
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+Pipeline Status	Fail the run when a required job was cancelled or failed	  "preview-tools": {
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+Pipeline Status	Fail the run when a required job was cancelled or failed	  "preview-regen": {
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "skipped",
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+Pipeline Status	Fail the run when a required job was cancelled or failed	  }
+Pipeline Status	Fail the run when a required job was cancelled or failed	}
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.1914409Z   GH_TOKEN: ***
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.1914667Z   RUN_SHA: 1f5737639ea4597be7a92e0b165b2a56b55e5099
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.1915327Z   HEAD_REF: refs/pull/209/head
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.1915590Z ##[endgroup]
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.2373202Z Failed jobs:    desktop-package
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.2373707Z Cancelled jobs: <none>
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.2387105Z ##[error]Failing jobs: desktop-package
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:36:04.7390190Z ##[error]Process completed with exit code 1.

@@ -1,0 +1,11 @@
+# experiments/issue-208/dense-token-growth.mjs, local Linux, 2026-11-16
+# Current code (8 WASM attempts, then RE2JS):
+## node 4 32
+{"shortKib":4,"longKib":32,"coldMs":249,"growthMs":659,"ratio":6.06,"short":[16,11,12,18,10],"long":[97,72,84,65,55]}
+## bun 4 32
+{"shortKib":4,"longKib":32,"coldMs":234,"growthMs":592,"ratio":4.75,"short":[14,10,12,9,23],"long":[75,55,57,85,55]}
+## deno 4 32
+{"shortKib":4,"longKib":32,"coldMs":325,"growthMs":891,"ratio":7.13,"short":[15,19,12,26,13],"long":[143,117,86,105,89]}
+# Pre-fix behavior simulated by a temporary local edit (attempts < Infinity in src/gitleaks.js), node:
+{"shortKib":4,"longKib":32,"coldMs":255,"growthMs":8230,"ratio":40.61,"short":[33,28,62,26,45],"long":[1260,1398,1414,1328,1320]}
+# Same edit, full test: node --test tests/sanitizer-issue-51.test.js failed with ratio 49.4 (fullMs 85023)

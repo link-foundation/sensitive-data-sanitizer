@@ -1,0 +1,15 @@
+example-app.yml:web-build: "Install app dependencies": npm ci --prefix examples/universal-app --no-audit --no-fund
+example-app.yml:desktop-package: "Install app dependencies": npm ci --prefix examples/universal-app --no-audit --no-fund
+example-app.yml:android-build: "Install app dependencies": npm ci --prefix examples/universal-app --no-audit --no-fund
+example-app.yml:ios-build: "Install app dependencies": npm ci --prefix examples/universal-app --no-audit --no-fund
+example-app.yml:preview-regen: "Install example app dependencies": npm ci --prefix examples/universal-app --no-audit --no-fund
+example-app.yml:preview-regen: "Install browser automation dependencies": npm install --no-save --package-lock=false --no-audit --no-fund browser-commander@0.8.1 playwright@1.59.1
+release.yml:changeset-check: "Install dependencies": npm ci
+release.yml:lint: "Check for secrets": npx --yes -p secretlint@13.0.7 -p @secretlint/secretlint-rule-preset-recommend@13.0.7 node scripts/check-secrets.mjs
+release.yml:lint: "Install dependencies": npm ci
+release.yml:test: "Install dependencies (runtime tests and native fixtures)": npm ci
+release.yml:test: "Install native CI adapter dependencies": npm ci --prefix .github/actions/artifact-transport --ignore-scripts --no-audit --no-fund
+release.yml:instant-release: "Install dependencies": npm ci
+release.yml:changeset-pr: "Install dependencies": npm ci
+workflows.yml:artifact-roundtrip: "Install pinned artifact dependencies": npm ci --prefix .github/actions/artifact-transport --ignore-scripts --no-audit --no-fund
+.github/actions/artifact-transport: "Install pinned artifact SDK": npm ci --prefix "$ACTION_DIRECTORY" --ignore-scripts --no-audit --no-fund

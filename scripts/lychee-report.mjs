@@ -22,3 +22,40 @@ export function validateLycheeReport(
     );
   }
 }
+
+/**
+ * Extract one failure section ("Errors per input" or "Timeouts per input")
+ * of a lychee markdown report.
+ *
+ * Every other section - most importantly "## Redirects per input" - describes
+ * links that resolved, so scanning the whole report would make every
+ * redirected link look broken. Only a report with no "... per input" section
+ * at all (a hand-written fixture, a bare list of entries) is read in full,
+ * and only for the Errors kind; a report that has sections but lacks the
+ * requested one yields nothing.
+ *
+ * @param {string} content - The markdown content from lychee
+ * @param {'Errors'|'Timeouts'} kind - Failure section name; defaults to Errors
+ * @returns {string} The section body, the whole sectionless document, or ''
+ */
+export function extractErrorsSection(content, kind = 'Errors') {
+  const lines = content.split('\n');
+  const start = lines.findIndex(
+    (line) => /^#+\s+(Errors|Timeouts) per input\s*$/.exec(line)?.[1] === kind
+  );
+  if (start === -1) {
+    return kind === 'Errors' && !/^#+\s+[^\r\n]+ per input\s*$/m.test(content)
+      ? content
+      : '';
+  }
+  const heading = /^(#+)\s/.exec(lines[start])[1].length;
+  const section = [];
+  for (const line of lines.slice(start + 1)) {
+    const next = /^(#+)\s/.exec(line);
+    if (next && next[1].length <= heading) {
+      break; // a sibling or parent heading ends the errors section
+    }
+    section.push(line);
+  }
+  return section.join('\n');
+}

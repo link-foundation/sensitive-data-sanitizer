@@ -1,0 +1,7 @@
+# CI annotations for 6f6d173 (runs 43866759997 43866760066 43866760085 43866760024 43866760108)
+# All five workflows concluded success; 74 jobs. Every annotation follows (job, level, title, message).
+Buildx registry recovery (exhausted)	notice	Simulated registry outages	The 'simulated ... outage' error annotations of this job come from the injected fixture and are expected; this step asserted the exhausted outcome.
+Buildx registry recovery (exhausted)	failure		502 Bad Gateway: simulated mirror outage
+Buildx registry recovery (exhausted)	failure		500 Internal Server Error: simulated canonical registry outage
+Buildx registry recovery (recovered)	notice	Simulated registry outages	The 'simulated ... outage' error annotations of this job come from the injected fixture and are expected; this step asserted the recovered outcome.
+Buildx registry recovery (recovered)	failure		500 Internal Server Error: simulated canonical registry outage

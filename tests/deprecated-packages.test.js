@@ -6,8 +6,10 @@ import { describe, expect, it } from 'test-anywhere';
  * Every committed lockfile must install without deprecated packages. There
  * is deliberately no allowlist: replace or override a deprecated dependency
  * (see docs/CONTRIBUTING.md).
- * npm records `deprecated` when it writes a lockfile, so a package that is
- * deprecated later shows up after the next lockfile update.
+ * npm records `deprecated` when it writes a lockfile, so this catches a
+ * version deprecated before the last lockfile update. Later deprecations come
+ * from the registry: scripts/check-deprecated-packages.mjs, run by the
+ * npm-audit job of the security workflow.
  */
 const LOCKFILES = [
   'package-lock.json',

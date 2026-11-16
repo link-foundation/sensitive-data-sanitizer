@@ -70,7 +70,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check:duplication": "jscpd .",
-    "check:secrets": "secretlint \"**/*\"",
+    "check:secrets": "secretlint \"**/*\" && node scripts/check-secrets.mjs",
     "check": "npm run lint && npm run format:check && npm run check:duplication",
     "example:web:dev": "npm --prefix examples/universal-app run dev",
     "example:web:build": "npm --prefix examples/universal-app run build",
@@ -130,7 +130,7 @@
     "mrz": "^5.0.2",
     "playwright": "1.65.0",
     "prettier": "^3.9.10",
-    "secretlint": "13.1.0",
+    "secretlint": "14.0.0",
     "semver": "^7.8.6",
     "test-anywhere": "^0.9.1"
   },
@@ -145,7 +145,7 @@
       "prettier --check"
     ],
     "*.sh": [
-      "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
+      "pipx run --no-path-check --spec shellcheck-py==0.11.0.1 shellcheck"
     ],
     "*.py": [
       "pipx run --spec ruff==0.17.4 ruff check --fix --force-exclude",
@@ -153,14 +153,13 @@
       "pipx run --spec ruff==0.17.4 ruff format --check --force-exclude"
     ],
     ".husky/*": [
-      "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
+      "pipx run --no-path-check --spec shellcheck-py==0.11.0.1 shellcheck"
     ]
   },
   "dependencies": {
     "@faker-js/faker": "^10.6.0",
-    "@secretlint/core": "13.1.0",
-    "@secretlint/profiler": "13.1.0",
-    "@secretlint/secretlint-rule-preset-recommend": "13.1.0",
+    "@secretlint/core": "14.0.0",
+    "@secretlint/profiler": "14.0.0",
     "libphonenumber-js": "1.13.15",
     "links-notation": "0.31.0",
     "re2-wasm": "1.0.2",
@@ -168,6 +167,7 @@
     "yaml": "^2.9.1"
   },
   "allowScripts": {
+    "better-sqlite3": false,
     "node-pty": false
   },
   "overrides": {

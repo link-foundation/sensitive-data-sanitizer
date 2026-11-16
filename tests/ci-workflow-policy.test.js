@@ -1,5 +1,30 @@
 import { describe, it, expect } from 'test-anywhere';
-import { checkWorkflowPolicy } from '../scripts/check-ci-workflows.mjs';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import {
+  checkSelfRepositoryPolicy,
+  checkWorkflowPolicy,
+} from '../scripts/check-ci-workflows.mjs';
+
+function readWorkflowTree() {
+  const files = {};
+  const walk = (directory) => {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      if (entry.name === 'node_modules') {
+        continue;
+      }
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) {
+        walk(path);
+      } else if (/\.ya?ml$/.test(path)) {
+        files[path] = readFileSync(path, 'utf8');
+      }
+    }
+  };
+  walk('.github/workflows');
+  walk('.github/actions');
+  return files;
+}
 
 describe('workflow policy regression protection', () => {
   for (const spec of [
@@ -40,16 +65,93 @@ describe('workflow policy regression protection', () => {
       checkWorkflowPolicy('# runs-on: ubuntu-latest\nruns-on: macos-15')
     ).toEqual([]);
   });
+  // The fixture reuses the repository's own pins, so a reviewed bump of the
+  // action and the supportedZizmor table needs no test edit.
+  const workflowsYml = readFileSync('.github/workflows/workflows.yml', 'utf8');
+  const action = workflowsYml.match(/zizmorcore\/zizmor-action@(\S+)/)[1];
+  const cli = workflowsYml.match(/zizmor==(\d+\.\d+\.\d+)/)[1];
+  const zizmorWorkflow = `uses: zizmorcore/zizmor-action@${action}\nwith:\n  version: ${cli}\nrun: pipx run zizmor==${cli}\n# pipx run zizmor==${cli}`;
+
   it('rejects zizmor version drift and versions unsupported by the pinned action', () => {
-    const workflow =
-      'uses: zizmorcore/zizmor-action@v0.8.1\nwith:\n  version: 1.32.0\nrun: pipx run zizmor==1.32.0\n# pipx run zizmor==1.32.0';
-    expect(checkWorkflowPolicy(workflow)).toEqual([]);
+    expect(checkWorkflowPolicy(workflowsYml)).toEqual([]);
+    expect(checkWorkflowPolicy(zizmorWorkflow)).toEqual([]);
     expect(
-      checkWorkflowPolicy(workflow.replace('zizmor==1.32.0', 'zizmor==1.29.0'))
-        .length
+      checkWorkflowPolicy(
+        zizmorWorkflow.replace(`zizmor==${cli}`, 'zizmor==0.0.1')
+      ).length
     ).toBeGreaterThan(0);
     expect(
-      checkWorkflowPolicy(workflow.replaceAll('1.32.0', '9.0.0')).length
+      checkWorkflowPolicy(zizmorWorkflow.replaceAll(cli, '9.0.0')).length
+    ).toBeGreaterThan(0);
+  });
+
+  it('names both pins and the table to edit when the action is bumped', () => {
+    const errors = checkWorkflowPolicy(
+      zizmorWorkflow.replace(`zizmor-action@${action}`, 'zizmor-action@v99.0.0')
+    );
+    expect(errors.length).toBe(1);
+    expect(errors[0]).toContain('zizmorcore/zizmor-action@v99.0.0');
+    expect(errors[0]).toContain(`zizmor CLI ${cli}`);
+    expect(errors[0]).toContain(
+      'https://github.com/zizmorcore/zizmor-action/tree/v99.0.0/support'
+    );
+    expect(errors[0]).toContain(
+      'supportedZizmor in scripts/check-ci-workflows.mjs'
+    );
+    expect(errors[0]).toContain(`zizmor-action@${action} -> zizmor ${cli}`);
+  });
+});
+
+describe('self-repository action exception', () => {
+  const files = readWorkflowTree();
+  const config = readFileSync('.github/zizmor.yml', 'utf8');
+
+  it('lists exactly the workflows and actions that call a local action', () => {
+    expect(checkSelfRepositoryPolicy(files, config)).toEqual([]);
+  });
+
+  it('accepts Windows paths and CRLF configuration', () => {
+    const windowsFiles = Object.fromEntries(
+      Object.entries(files).map(([path, text]) => [
+        path.replaceAll('/', '\\'),
+        text,
+      ])
+    );
+    expect(
+      checkSelfRepositoryPolicy(windowsFiles, config.replace(/\r?\n/g, '\r\n'))
+    ).toEqual([]);
+  });
+
+  it('accepts a tree with neither local actions nor an exception', () => {
+    expect(checkSelfRepositoryPolicy({}, '')).toEqual([]);
+  });
+
+  it('rejects a local action user missing from the exception', () => {
+    for (const step of [
+      '  - uses: ./.github/actions/setup-node',
+      '  -   uses:  "./.github/actions/setup-node"',
+    ]) {
+      const errors = checkSelfRepositoryPolicy(
+        { ...files, '.github/workflows/new.yml': `steps:\n${step}\n` },
+        config
+      );
+      expect(errors).toEqual([
+        'Unlisted self-repository action user: .github/workflows/new.yml',
+      ]);
+    }
+    expect(checkSelfRepositoryPolicy(files, '').length).toBeGreaterThan(0);
+  });
+
+  it('rejects an exception entry for a file without a local action', () => {
+    expect(
+      checkSelfRepositoryPolicy(
+        files,
+        `${config.trimEnd()}\n      - stale.yml\n`
+      )
+    ).toEqual(['Unused or broad self-repository exception: stale.yml']);
+    expect(
+      checkSelfRepositoryPolicy(files, `${config.trimEnd()}\n      - "*.yml"\n`)
+        .length
     ).toBeGreaterThan(0);
   });
 });

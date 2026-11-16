@@ -156,6 +156,16 @@ jobs:
           AUDIT_FIXABLE_LEVEL: ${{ github.event_name == 'schedule' && 'moderate' || '' }}
         run: node "$GITHUB_WORKSPACE/scripts/npm-audit-report.mjs"
 
+      # npm writes `deprecated` into the lock only when it resolves a package,
+      # so the lockfile test misses a version deprecated later. This asks the
+      # registry about every locked version: pull requests get a warning, the
+      # weekly run fails, and an unanswered request always fails.
+      - name: Check live deprecations
+        working-directory: ${{ matrix.directory }}
+        env:
+          DEPRECATED_FAIL: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
+        run: bash "$GITHUB_WORKSPACE/scripts/run-with-budget-warning.sh" 120 "Live deprecation check" node "$GITHUB_WORKSPACE/scripts/check-deprecated-packages.mjs" package-lock.json
+
   python-audit:
     name: Audit resolved Python requirements
     runs-on: ubuntu-24.04
@@ -172,23 +182,23 @@ jobs:
           python-version-file: .python-version
       - name: Install pinned metadata resolver and auditor
         run: |
-          pipx install uv==0.13.7
-          pipx install pip-audit==2.10.1
+          bash scripts/run-with-budget-warning.sh 60 "uv install" pipx install uv==0.13.7
+          bash scripts/run-with-budget-warning.sh 60 "pip-audit install" pipx install pip-audit==2.10.1
       - name: Audit every tracked Python requirements file
-        run: python scripts/audit-python-dependencies.py
+        run: bash scripts/run-with-budget-warning.sh 90 "Python requirements audit" python scripts/audit-python-dependencies.py
       # Presidio 2.2.366 caps preshed below the Python 3.15 runtime fix.
       # Use the current 3.14 security release until upstream removes that cap:
       # https://github.com/data-privacy-stack/presidio/issues/2431
       - name: Verify locked benchmark dependencies on current Python
         run: |
-          uv pip install --system --require-hashes -r experiments/benchmark/requirements.lock -c experiments/benchmark/requirements.txt
+          bash scripts/run-with-budget-warning.sh 90 "Benchmark dependency install" uv pip install --system --require-hashes -r experiments/benchmark/requirements.lock -c experiments/benchmark/requirements.txt
           # Check that every direct requirement is actually present in the lock.
           uv pip install --system --no-index --no-deps -r experiments/benchmark/requirements.txt
           uv pip check --system
           python -c 'import detect_secrets, presidio_analyzer, scrubadub, spacy'
       - name: Exercise the pinned offline benchmark scanners
         run: |
-          uv pip install --system --no-deps 'https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl#sha256=1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85'
+          bash scripts/run-with-budget-warning.sh 60 "spaCy model install" uv pip install --system --no-deps 'https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl#sha256=1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85'
           uv pip check --system
           python experiments/benchmark/python-bridge.py < experiments/benchmark/smoke.json > "$RUNNER_TEMP/benchmark-smoke.json"
           python - "$RUNNER_TEMP/benchmark-smoke.json" <<'PY'

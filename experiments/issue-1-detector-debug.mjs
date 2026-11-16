@@ -1,5 +1,5 @@
 import { inspect, redact, createSanitizer } from '../src/index.js';
-import { rules } from '@secretlint/secretlint-rule-preset-recommend';
+import { recommendedRules as rules } from '@secretlint/core/builtin';
 
 for (const input of ['Имя: Иван Петров', 'name: Zoë Dubois', 'password=1234']) {
   const findings = inspect(input);

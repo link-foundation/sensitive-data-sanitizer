@@ -87,14 +87,133 @@ describe('CodeQL local result gate', () => {
       }
     );
   }
+  itUnless(sandboxed)('names the file and line of each finding', () => {
+    const result = check([
+      report([
+        {
+          ruleId: 'js/incomplete-sanitization',
+          level: 'warning',
+          message: { text: 'replaces only the first occurrence' },
+          locations: [
+            {
+              physicalLocation: {
+                artifactLocation: { uri: 'tests/example.test.js' },
+                region: { startLine: 31 },
+              },
+            },
+          ],
+        },
+      ]),
+    ]);
+    assert.notEqual(result.status, 0);
+    assert.match(result.stdout + result.stderr, /tests\/example\.test\.js:31/);
+  });
   it('makes full analysis and the strict result gate prerequisites of terminal success', () => {
     const workflow = readFileSync('.github/workflows/security.yml', 'utf8');
     assert.match(workflow, /CODEQL_ACTION_DIFF_INFORMED_QUERIES: 'false'/);
     assert.match(workflow, /output: codeql-results/);
     assert.ok(
       workflow.indexOf('scripts/check-codeql-results.mjs') >
-        workflow.indexOf('github/codeql-action/analyze@v4')
+        workflow.search(/uses: github\/codeql-action\/analyze@v\d+\.\d+\.\d+\s/)
     );
     assert.match(workflow, /path: codeql-results/);
   });
+});
+
+describe('CodeQL invocation notifications and log escaping', () => {
+  const withNotification = (key, notification) => {
+    const data = report();
+    data.runs[0].invocations[0][key] = [notification];
+    return data;
+  };
+  for (const key of [
+    'toolExecutionNotifications',
+    'toolConfigurationNotifications',
+  ]) {
+    for (const [level, status] of [
+      ['error', 1],
+      ['warning', 1],
+      [undefined, 1],
+      ['note', 0],
+      ['none', 0],
+    ]) {
+      itUnless(sandboxed)(
+        `${key} with level ${level ?? 'default warning'} exits ${status} without findings`,
+        () => {
+          const result = check([
+            withNotification(key, {
+              level,
+              descriptor: { id: 'extractor/diagnostic' },
+              message: { text: 'Extraction diagnostic' },
+              locations: [
+                {
+                  physicalLocation: {
+                    artifactLocation: { uri: 'src/example.js' },
+                    region: { startLine: 42 },
+                  },
+                },
+              ],
+            }),
+          ]);
+          assert.equal(result.status, status, result.stdout + result.stderr);
+          if (status) {
+            assert.match(
+              result.stderr,
+              /extractor\/diagnostic src\/example\.js:42/
+            );
+            assert.match(result.stderr, /Extraction diagnostic/);
+          }
+        }
+      );
+    }
+    itUnless(sandboxed)(`${key} notification without a message fails`, () => {
+      const result = check([
+        withNotification(key, {
+          level: 'note',
+          descriptor: { id: 'extractor/diagnostic' },
+        }),
+      ]);
+      assert.equal(result.status, 1, result.stdout + result.stderr);
+      assert.match(result.stderr, /malformed \w+ notification/);
+    });
+  }
+  itUnless(sandboxed)('malformed notification arrays fail', () => {
+    const data = report();
+    data.runs[0].invocations[0].toolExecutionNotifications = {};
+    const result = check([data]);
+    assert.equal(result.status, 1, result.stdout + result.stderr);
+    assert.match(result.stderr, /malformed toolExecutionNotifications/);
+  });
+  for (const field of ['ruleId', 'message', 'notification']) {
+    itUnless(sandboxed)(
+      `escapes workflow commands in an untrusted SARIF ${field}`,
+      () => {
+        const injected =
+          'x\n::error title=spoof::forged\r::add-mask::secret\n##[error]legacy';
+        const data = report([
+          {
+            ruleId: field === 'ruleId' ? injected : 'rule',
+            level: 'error',
+            message: { text: field === 'message' ? injected : 'finding' },
+          },
+        ]);
+        if (field === 'notification') {
+          data.runs[0].invocations[0].toolExecutionNotifications = [
+            {
+              level: 'warning',
+              descriptor: { id: injected },
+              message: { text: injected },
+            },
+          ];
+        }
+        const result = check([data]);
+        assert.equal(result.status, 1, result.stdout + result.stderr);
+        assert.match(result.stderr, /spoof/);
+        assert.doesNotMatch(
+          result.stdout + result.stderr,
+          /::(?:error|add-mask)|##\[error\]/
+        );
+      }
+    );
+  }
 });

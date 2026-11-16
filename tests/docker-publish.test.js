@@ -2,6 +2,7 @@ import { describe, it, expect } from 'test-anywhere';
 import { readFileSync } from 'node:fs';
 
 import { evaluateDockerPublishConfig } from '../scripts/check-docker-publish.mjs';
+import { pinnedUses } from './helpers/action-pins.js';
 
 const releaseWorkflow = readFileSync('.github/workflows/release.yml', 'utf8');
 const dockerHubAction = readFileSync(
@@ -121,10 +122,10 @@ describe('optional Docker Hub publishing workflow', () => {
     expect(dockerHubAction).toContain(
       'uses: ./.github/actions/setup-buildx-resilient'
     );
-    expect(dockerHubAction).toContain('uses: docker/login-action@v4');
+    expect(dockerHubAction).toMatch(pinnedUses('docker/login-action'));
     expect(dockerHubAction).toContain('password: ${{ inputs.token }}');
-    expect(dockerHubAction).toContain('uses: docker/metadata-action@v6');
-    expect(dockerHubAction).toContain('uses: docker/build-push-action@v7');
+    expect(dockerHubAction).toMatch(pinnedUses('docker/metadata-action'));
+    expect(dockerHubAction).toMatch(pinnedUses('docker/build-push-action'));
   });
 
   it('builds amd64 and arm64 images concurrently on native runners', () => {

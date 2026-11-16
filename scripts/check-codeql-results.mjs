@@ -3,6 +3,12 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
+// Quote newlines and escape modern and legacy workflow command delimiters.
+const quote = (value) =>
+  JSON.stringify(String(value))
+    .replaceAll('::', '\\u003a\\u003a')
+    .replaceAll('##[', '##\\u005b');
+
 function reportsIn(directory) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const file = join(directory, entry.name);
@@ -12,6 +18,68 @@ function reportsIn(directory) {
         ? [file]
         : [];
   });
+}
+
+function describeLocations(item) {
+  return Array.isArray(item?.locations)
+    ? item.locations
+        .map((location) => {
+          const physical = location?.physicalLocation;
+          return `${physical?.artifactLocation?.uri ?? 'unknown location'}:${physical?.region?.startLine ?? '?'}`;
+        })
+        .join(', ')
+    : '';
+}
+
+function describeNotification(notification) {
+  const descriptor =
+    notification?.descriptor?.id ??
+    notification?.associatedRule?.id ??
+    'unknown diagnostic';
+  return `${descriptor} ${describeLocations(notification)}`;
+}
+
+function validNotification(notification, message, level) {
+  return (
+    notification &&
+    !Array.isArray(notification) &&
+    typeof notification === 'object' &&
+    typeof message === 'string' &&
+    ['error', 'warning', 'note', 'none'].includes(level)
+  );
+}
+
+// A successful invocation can still report incomplete extraction or
+// configuration; warning and error notifications (SARIF default: warning)
+// and notifications without a message fail the gate.
+function invocationDiagnostics(invocation, file, runIndex) {
+  const failures = [];
+  for (const key of [
+    'toolExecutionNotifications',
+    'toolConfigurationNotifications',
+  ]) {
+    const notifications = invocation[key];
+    if (notifications === undefined) {
+      continue;
+    }
+    if (!Array.isArray(notifications)) {
+      failures.push(`${file} run ${runIndex}: malformed ${key}`);
+      continue;
+    }
+    for (const notification of notifications) {
+      const level = notification?.level ?? 'warning';
+      const message =
+        notification?.message?.text ?? notification?.message?.markdown;
+      if (!validNotification(notification, message, level)) {
+        failures.push(`${file} run ${runIndex}: malformed ${key} notification`);
+      } else if (level === 'error' || level === 'warning') {
+        failures.push(
+          `${file} run ${runIndex}: ${key} ${describeNotification(notification)} [${level}] ${message}`
+        );
+      }
+    }
+  }
+  return failures;
 }
 
 function checkRun(run, index, file) {
@@ -29,10 +97,15 @@ function checkRun(run, index, file) {
       `Invalid results/tool or unsuccessful invocation in run ${index}`
     );
   }
-  return run.results.map(
-    (finding) =>
-      `${file} run ${index}: ${finding?.ruleId ?? 'unknown rule'} [${finding?.level ?? 'unspecified severity'}] ${finding?.message?.text ?? 'CodeQL finding'}`
-  );
+  return [
+    ...(run.invocations ?? []).flatMap((invocation) =>
+      invocationDiagnostics(invocation, file, index)
+    ),
+    ...run.results.map(
+      (finding) =>
+        `${file} run ${index}: ${finding?.ruleId ?? 'unknown rule'} [${finding?.level ?? 'unspecified severity'}] ${describeLocations(finding) || 'unknown location'} ${finding?.message?.text ?? 'CodeQL finding'}`
+    ),
+  ];
 }
 
 function checkReport(file) {
@@ -67,7 +140,7 @@ export function checkCodeqlResults(directory, log = console.error) {
     }
   }
   for (const failure of failures) {
-    log(failure);
+    log(quote(failure));
   }
   if (failures.length) {
     throw new Error(
@@ -86,7 +159,7 @@ if (
       `CodeQL result gate: ${checkCodeqlResults(process.argv[2] || 'codeql-results')} clean report(s)`
     );
   } catch (error) {
-    console.error(error.message);
+    console.error(quote(error.message));
     process.exitCode = 1;
   }
 }

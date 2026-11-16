@@ -1,0 +1,5 @@
+release.yml:lint: "Install pinned npm": npm install --global npm@12.2.2
+security.yml:npm-audit: "Install pinned npm": npm install --global npm@12.2.2
+workflows.yml:artifact-roundtrip: "Install pinned npm": npm install --global npm@12.2.2
+workflows.yml:artifact-roundtrip: "Install pinned artifact dependencies": npm ci --ignore-scripts --no-audit --no-fund
+workflows.yml:artifact-roundtrip: "Verify committed action bundle": echo "  npm ci --prefix .github/actions/artifact --ignore-scripts"

@@ -162,7 +162,7 @@ The GitHub Actions workflow (`.github/workflows/release.yml`) implements a fast-
 
 1. **Test compilation**: Syntax-checks all `.mjs` files with `node --check`
 2. **Lint, format & secrets scan**: ESLint, Prettier, jscpd, and [secretlint](https://github.com/secretlint/secretlint) for credential leak detection
-3. **File line limits**: Enforces the 1500-line limit on JavaScript (`.js`, `.mjs`, `.cjs`) and Markdown (`.md`) files plus `release.yml`
+3. **File line limits**: Enforces the 1500-line limit on tracked JavaScript (`.js`, `.mjs`, `.cjs`), Python (`.py`), shell (`.sh` and `.husky/` hooks), Markdown (`.md`), and YAML (`.yml`, `.yaml`) files
 4. **Changeset check**: Validates PR has exactly one changeset (added by that PR)
 5. **Version check**: Blocks manual version changes in `package.json`
 6. **Documentation validation**: Checks required doc files (doc line limits are enforced by the file line limits check)
@@ -199,7 +199,7 @@ provide a single global per-test timeout flag, so Deno tests are
 protected by their step budget and the matrix job backstop.
 
 A test that is slow by nature, such as the 8 MiB long-run tests in
-`tests/sanitizer-issue-172.test.js`, the 10 MiB bounded worker test in
+`tests/sanitizer-issue-172*.test.js`, the 10 MiB bounded worker test in
 `tests/sanitizer-stream.test.js` and the 7 MB record test in
 `tests/sanitizer-jsonl-stream.test.js`, sets its own bound with
 `itWithin(name, timeout, fn)` from `tests/helpers/long-test.js`
@@ -266,7 +266,7 @@ variants without script edits.
 
 The link checker workflow (`.github/workflows/links.yml`) validates all links in Markdown and HTML files:
 
-1. **Detection**: Uses [lychee](https://github.com/lycheeverse/lychee-action) to scan all `*.md` and `*.html` files
+1. **Detection**: Uses [lychee](https://github.com/lycheeverse/lychee) to scan all `*.md` and `*.html` files. `scripts/install-lychee.sh` installs the release pinned in `links.yml` (`LYCHEE_VERSION`), retrying the download and requiring the archive to match both the committed `LYCHEE_SHA256_X86_64`/`LYCHEE_SHA256_AARCH64` digest and the published checksum; update all three together. The step fails when lychee writes no report, exits with anything but 0 or 2, or reports no checked links. The link cache is restored on every run and saved only from pushes to `main`
 2. **Web Archive fallback**: For any broken links found, automatically checks the [Wayback Machine](https://web.archive.org) for archived versions
 3. **Actionable suggestions**: Reports one of three outcomes for each broken link:
    - **Archived**: Suggests the Web Archive URL as a replacement

@@ -14,12 +14,13 @@ import { describe, it } from 'test-anywhere';
 import { itUnless, sandboxed } from './helpers/skip.js';
 
 describe('issue 262 repository regressions', () => {
-  it('runs the pinned secrets scan after Node setup and before installation', () => {
+  // The scan needs `npm ci` first: it runs the lockfile-pinned secretlint.
+  it('runs the locked secrets scan after Node setup and the installation', () => {
     const workflow = readFileSync('.github/workflows/release.yml', 'utf8');
     const lint = workflow.split('\n  lint:')[1].split('\n  test:')[0];
-    const scan = lint.indexOf('secretlint "**/*"');
+    const scan = lint.indexOf('run: npm run check:secrets');
     assert.ok(scan > lint.indexOf('uses: ./.github/actions/setup-node'));
-    assert.ok(scan < lint.indexOf('- name: Install dependencies'));
+    assert.ok(scan > lint.indexOf('- name: Install dependencies'));
   });
 
   itUnless(sandboxed)(
@@ -41,6 +42,23 @@ describe('issue 262 repository regressions', () => {
         const invalid = run();
         assert.equal(invalid.status, 1);
         assert.match(invalid.stderr, /Pin hosted runners/);
+        writeFileSync(workflow, 'jobs:\n  test:\n    runs-on: ubuntu-24.04\n');
+        writeFileSync(
+          join(root, '.github/zizmor.yml'),
+          'rules:\n  self-repository:\n    ignore:\n      - test.yml\n'
+        );
+        const unusedException = run();
+        assert.equal(unusedException.status, 1);
+        assert.match(
+          unusedException.stderr,
+          /Unused or broad self-repository exception: test\.yml/
+        );
+        writeFileSync(
+          workflow,
+          'jobs:\n  test:\n    runs-on: ubuntu-24.04\n    steps:\n      - uses: ./local\n'
+        );
+        const listedUser = run();
+        assert.equal(listedUser.status, 0, listedUser.stderr);
         rmSync(join(root, '.github/workflows'), { recursive: true });
         const missingRequired = run();
         assert.equal(missingRequired.status, 1);

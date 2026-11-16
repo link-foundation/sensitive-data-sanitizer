@@ -12,15 +12,25 @@ export function selectTests(files, shard) {
     );
   }
   const [, index, count] = match.map(Number);
-  // Seed separate shards with the measured subprocess-heavy suites. Merely
-  // sorting all filenames can colocate these whenever another test is added.
+  // Seed separate shards with the measured heavy suites. Merely sorting all
+  // filenames can colocate these whenever another test is added. They are
+  // dealt round-robin in this order: the six heaviest first, then the rest
+  // lightest first, so that with six shards (macOS Intel) the heaviest
+  // shares its job with the lightest. The times are from a slow macOS Intel
+  // Bun run, where the issue 172 tests took 128 s of a 200 s suite budget as
+  // one file (issue 208).
   const expensive = [
-    'pr-guards.test.js',
-    'release-api-integrity.test.js',
-    'detect-code-changes.test.js',
-    'run-with-budget-warning.test.js',
-    'release-preflight.test.js',
-    'sanitizer-jsonl-stream.test.js',
+    'sanitizer-issue-172-engines.test.js', // 60 s
+    'sanitizer-issue-172-file.test.js', // 43 s
+    'run-with-budget-warning.test.js', // 32 s
+    'release-preflight.test.js', // 26 s
+    'sanitizer-issue-170.test.js', // 26 s
+    'sanitizer-issue-128-evidence.test.js', // 24 s
+    'pr-guards.test.js', // 15 s
+    'detect-code-changes.test.js', // 15 s
+    'release-api-integrity.test.js', // 18 s
+    'sanitizer-jsonl-stream.test.js', // 21 s
+    'sanitizer-issue-172.test.js', // 24 s
   ];
   const tests = files.filter((file) => file.endsWith('.test.js')).sort();
   const ordered = [

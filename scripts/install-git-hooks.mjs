@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// Husky reports installation errors through returned messages.
-// Verify core.hooksPath after installation so prepare cannot silently succeed.
+// Husky reports installation errors through returned messages, so any message
+// fails the install, and so does an unset core.hooksPath afterwards; an old
+// hooks path left by an earlier install cannot make prepare silently succeed.
 import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -35,7 +36,7 @@ export async function installGitHooks({
   } catch {
     hooksPath = '';
   }
-  if (!hooksPath) {
+  if (message || !hooksPath) {
     log(`git hooks were not installed: ${message || 'husky said nothing'}`);
     return 1;
   }

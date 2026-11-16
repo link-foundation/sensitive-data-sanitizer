@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'test-anywhere';
 import { existsSync, readFileSync } from 'node:fs';
+import { pinnedUses } from './helpers/action-pins.js';
 
 const exampleRoot = 'examples/universal-app';
 const packageJsonPath = `${exampleRoot}/package.json`;
@@ -85,7 +86,7 @@ describe('universal React example app', () => {
     );
     expect(workflow).toContain('npm run example:web:build');
     expect(workflow).toContain('npm run example:desktop:package');
-    expect(workflow).toContain('actions/configure-pages@v6');
+    expect(workflow).toMatch(pinnedUses('actions/configure-pages'));
     expect(workflow).toContain('uses: ./.github/actions/artifact-transport');
     expect(workflow).toContain("pages: 'true'");
     expect(workflow).toContain(

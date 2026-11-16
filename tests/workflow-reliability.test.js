@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'test-anywhere';
 import { readFileSync, readdirSync } from 'node:fs';
+import { pinnedUses } from './helpers/action-pins.js';
 
 const WORKFLOW_DIRECTORY = '.github/workflows';
 // GitHub documents `queue` although actionlint 1.7.12 does not know it yet:
@@ -129,7 +130,8 @@ function expectOrdered(text, markers) {
   let lastIndex = -1;
 
   for (const marker of markers) {
-    const index = text.indexOf(marker);
+    const index =
+      typeof marker === 'string' ? text.indexOf(marker) : text.search(marker);
     expect(index).toBeGreaterThan(lastIndex);
     lastIndex = index;
   }
@@ -326,7 +328,7 @@ describe('workflow reliability policy', () => {
         'workflow_dispatch:',
         gitDefaultBranchEnv,
         'jobs:',
-        '- uses: actions/checkout@v7',
+        new RegExp(`- ${pinnedUses('actions/checkout').source}`),
       ]);
     }
   });
@@ -346,7 +348,7 @@ describe('workflow reliability policy', () => {
       '--exclude-path dev/log',
       `--exclude-path ${viteSourceHtmlPath}`,
       '--exclude-path tests/fixtures',
-      '\n            .',
+      ' . || code=$?',
     ]);
   });
 
@@ -388,7 +390,9 @@ describe('workflow reliability policy', () => {
     expect(previewRegenJob).toContain('container:');
     expect(imageVersion).toBe('1.65.0');
     expect(devDependencies.playwright).toBe(imageVersion);
-    expect(previewRegenJob).toContain('run: npm ci --no-audit --no-fund');
+    expect(previewRegenJob).toContain(
+      'run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci --no-audit --no-fund'
+    );
     expect(previewRegenJob).toContain("PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'");
     expect(previewRegenJob).not.toContain('npx playwright install');
     expect(previewRegenJob).not.toContain('~/.cache/ms-playwright');

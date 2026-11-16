@@ -30,6 +30,43 @@ function runBudget(args, env = {}) {
   };
 }
 
+describe('run-with-budget-warning.sh annotations', () => {
+  itUnless(sandboxed, noPosixShell)(
+    'starts its workflow commands on a new line after unterminated output',
+    () => {
+      const result = spawnSync(
+        'bash',
+        [
+          scriptPath,
+          '10',
+          'open line',
+          'bash',
+          '-c',
+          "printf 'M\\0src.js\\0'; sleep 2",
+        ],
+        {
+          encoding: 'utf8',
+          env: { ...process.env, BUDGET_WARN_PERCENT: '10' },
+        }
+      );
+      const lines = result.stdout.split('\n');
+
+      expect(result.status).toBe(0);
+      expect(lines).toContain('M\0src.js\0');
+      expect(
+        lines.some((line) =>
+          line.startsWith(
+            '::warning title=open line is approaching its execution budget::'
+          )
+        )
+      ).toBe(true);
+      expect(
+        lines.some((line) => line.startsWith('open line finished in'))
+      ).toBe(true);
+    }
+  );
+});
+
 describe('run-with-budget-warning.sh', () => {
   itUnless(sandboxed, noPosixShell)(
     'passes a successful command through with its output and exit code',
@@ -193,6 +230,45 @@ describe('run-with-budget-warning.sh', () => {
       expect(result.output).toContain(
         'Could not create budget control state under'
       );
+    }
+  );
+});
+
+describe('run-with-budget-warning.sh diagnostics', () => {
+  // A hung step (a stalled `npm ci`, say) prints nothing about what it waits
+  // on, so the overrun itself must name the processes it stops.
+  itUnless(sandboxed, noPosixShell)(
+    'names the processes still running when the budget expires',
+    () => {
+      const marker = 800000 + (process.pid % 1000);
+      const result = runBudget(['2', 'stalled install', 'sleep', `${marker}`], {
+        BUDGET_GRACE_SECONDS: '2',
+      });
+
+      expect(result.status).toBe(124);
+      expect(result.output).toContain(
+        'Processes still running when the 2s budget expired'
+      );
+      expect(result.output).toContain(`sleep ${marker}`);
+    }
+  );
+
+  itUnless(sandboxed, noPosixShell)(
+    'traces only when verbose or GitHub debug logging is requested',
+    () => {
+      const quiet = runBudget(['30', 'quiet', 'true'], {
+        BUDGET_VERBOSE: '',
+        RUNNER_DEBUG: '',
+      });
+      const debug = runBudget(['30', 'debug', 'true'], { RUNNER_DEBUG: '1' });
+      const explicitOff = runBudget(['30', 'off', 'true'], {
+        RUNNER_DEBUG: '1',
+        BUDGET_VERBOSE: '0',
+      });
+
+      expect(quiet.output).not.toContain('[budget]');
+      expect(debug.output).toContain('[budget] control state:');
+      expect(explicitOff.output).not.toContain('[budget]');
     }
   );
 });

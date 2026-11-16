@@ -20,6 +20,7 @@ on:
       - 'scripts/check-artifact-archive.mjs'
       - 'scripts/artifact-transport.mjs'
       - 'scripts/artifact-files.mjs'
+      - 'scripts/run-with-budget-warning.sh'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -38,6 +39,7 @@ on:
       - 'scripts/check-artifact-archive.mjs'
       - 'scripts/artifact-transport.mjs'
       - 'scripts/artifact-files.mjs'
+      - 'scripts/run-with-budget-warning.sh'
   workflow_dispatch:
 
 # Least-privilege default; these jobs only need to read the checked-out tree.
@@ -91,8 +93,14 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
+      # The pinned shellcheck runs from a private venv by absolute path, so
+      # no tool-runner PATH probe runs and no PATH warning is printed.
       - name: Check standalone shell scripts and hooks
-        run: git ls-files -z '*.sh' '.husky/*' | xargs -0 pipx run --spec shellcheck-py==0.11.0.1 shellcheck
+        run: |
+          python3 -m venv "$RUNNER_TEMP/shellcheck"
+          bash scripts/run-with-budget-warning.sh 60 "shellcheck install" \
+            "$RUNNER_TEMP/shellcheck/bin/pip" install --quiet --disable-pip-version-check shellcheck-py==0.11.0.1
+          git ls-files -z '*.sh' '.husky/*' | xargs -0 "$RUNNER_TEMP/shellcheck/bin/shellcheck"
 
   python-check:
     name: Python static checks
@@ -190,7 +198,8 @@ jobs:
       # importing the noise. Measured: after the digest pins below it reports
       # nothing, and stays silent until someone reintroduces a mutable image.
       - name: Audit for pedantic-only high-severity findings
-        timeout-minutes: 10
+        # Measured at ~4s; the step deadline stays well inside the job backstop.
+        timeout-minutes: 5
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -201,7 +210,7 @@ jobs:
   artifact-roundtrip:
     name: Artifact Transport Regression
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 22
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-artifacts
       cancel-in-progress: true
@@ -213,7 +222,8 @@ jobs:
       - uses: ./.github/actions/setup-node
 
       - name: Install pinned artifact dependencies
-        run: npm ci --prefix .github/actions/artifact-transport --ignore-scripts --no-audit --no-fund
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Artifact SDK install" npm ci --prefix .github/actions/artifact-transport --ignore-scripts --no-audit --no-fund
 
       - name: Exercise actual SDK archive dependencies
         run: node --pending-deprecation --throw-deprecation scripts/check-artifact-archive.mjs
@@ -310,6 +320,10 @@ jobs:
           mirror_attempts=1
           if [[ "$MODE" == exhausted ]]; then mirror_attempts=5; fi
           [[ $(grep -c '^mirror.gcr.io/moby/buildkit:' "$BUILDX_PULL_LOG") == "$mirror_attempts" ]]
+          # The upstream action annotates each injected outage as an error,
+          # and a uses: step's annotations cannot be suppressed. Say next to
+          # them that they are the fixture, so a green run reads as green.
+          echo "::notice title=Simulated registry outages::The 'simulated ... outage' error annotations of this job come from the injected fixture and are expected; this step asserted the ${MODE} outcome."
 
   # Terminal status gate: runs even when the jobs above fail or are
   # cancelled, and turns a `timeout-minutes` kill (reported as cancelled)

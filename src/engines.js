@@ -45,13 +45,14 @@ export const prepareStreamEngine = (engine, text, nativeFindings) =>
 async function secretlintDetect(text) {
   upstream ??= Promise.all([
     import('@secretlint/core'),
-    import('@secretlint/secretlint-rule-preset-recommend'),
+    // secretlint ships the recommended preset as part of core.
+    import('@secretlint/core/builtin'),
     import('@secretlint/profiler'),
   ]);
-  const [core, preset, profiler] = await upstream;
+  const [core, builtin, profiler] = await upstream;
   profiler.secretLintProfiler.setEnabled(false);
   // Log text is untrusted: embedded disable comments cannot suppress results.
-  const rules = preset.rules.filter(
+  const rules = builtin.recommendedRules.filter(
     (rule) => rule.meta.id !== '@secretlint/secretlint-rule-filter-comments'
   );
   const result = await core.lintSource({

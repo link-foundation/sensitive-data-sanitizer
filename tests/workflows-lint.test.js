@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'test-anywhere';
 import { checkWorkflowPolicy } from '../scripts/check-ci-workflows.mjs';
+import { parse } from 'yaml';
 
 function readWorkflow(filePath) {
   return readFileSync(filePath, 'utf8').replaceAll('\r\n', '\n');
@@ -94,7 +95,7 @@ describe('workflow linting job', () => {
       '    timeout-minutes: 5',
       '    timeout-minutes: 10',
       '    timeout-minutes: 10',
-      '    timeout-minutes: 10',
+      '    timeout-minutes: 22',
       '    timeout-minutes: 5',
       '    timeout-minutes: 5',
     ]);
@@ -239,16 +240,18 @@ describe('reproducible workflow tooling and runner policy', () => {
     expect(versions).toEqual([version, version]);
     expect(checkWorkflowPolicy(workflowsWorkflow)).toEqual([]);
   });
-  it('pins both secretlint packages to the same exact version', () => {
-    const cli = releaseWorkflow.match(/-p secretlint@(\d+\.\d+\.\d+)/)?.[1];
-    const preset = releaseWorkflow.match(
-      /-p @secretlint\/secretlint-rule-preset-recommend@(\d+\.\d+\.\d+)/
-    )?.[1];
-    expect(cli).toBe(
-      JSON.parse(readFileSync('package.json', 'utf8')).devDependencies
-        .secretlint
+  it('scans for secrets with the locked secretlint after the install', () => {
+    const runs = parse(releaseWorkflow).jobs.lint.steps.map(
+      (step) => step.run ?? ''
     );
-    expect(preset).toBe(cli);
+
+    expect(runs.filter((run) => /\bnpx\b/.test(run))).toEqual([]);
+    expect(runs.indexOf('npm run check:secrets')).toBeGreaterThan(
+      runs.findIndex((run) => run.includes('"Dependency install" npm ci'))
+    );
+    expect(
+      JSON.parse(readFileSync('package.json', 'utf8')).scripts['check:secrets']
+    ).toMatch(/^secretlint /);
   });
   it('pins every hosted OS image in every workflow', () => {
     for (const file of activeWorkflows) {

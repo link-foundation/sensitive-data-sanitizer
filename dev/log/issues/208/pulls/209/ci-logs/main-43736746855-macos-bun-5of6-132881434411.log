@@ -1,0 +1,1235 @@
+﻿2026-11-15T16:58:25.7631920Z Current runner version: '2.338.2'
+2026-11-15T16:58:25.7679140Z ##[group]Runner Image Provisioner
+2026-11-15T16:58:25.7680890Z Hosted Compute Agent
+2026-11-15T16:58:25.7682150Z Version: 20260819.586
+2026-11-15T16:58:25.7683540Z Commit: 3cc4a88dfa507ef76119ad1bb3eccc6378bb2b76
+2026-11-15T16:58:25.7685220Z Build Date: 2026-08-18T23:20:18Z
+2026-11-15T16:58:25.7686750Z Worker ID: {7db7681d-d844-4b14-9e34-d713baba450d}
+2026-11-15T16:58:25.7688410Z Azure Region: westus
+2026-11-15T16:58:25.7689610Z ##[endgroup]
+2026-11-15T16:58:25.7693020Z ##[group]Operating System
+2026-11-15T16:58:25.7694370Z macOS
+2026-11-15T16:58:25.7695440Z 26.6.1
+2026-11-15T16:58:25.7696500Z 25G76
+2026-11-15T16:58:25.7697570Z ##[endgroup]
+2026-11-15T16:58:25.7698730Z ##[group]Runner Image
+2026-11-15T16:58:25.7699990Z Image: macos-26
+2026-11-15T16:58:25.7701180Z Version: 20260824.0517.1
+2026-11-15T16:58:25.7704120Z Included Software: https://github.com/actions/runner-images/blob/macos-26/20260824.0517/images/macos/macos-26-Readme.md
+2026-11-15T16:58:25.7708710Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-26%2F20260824.0517
+2026-11-15T16:58:25.7711190Z ##[endgroup]
+2026-11-15T16:58:25.7714020Z ##[group]GITHUB_TOKEN Permissions
+2026-11-15T16:58:25.7719040Z Contents: read
+2026-11-15T16:58:25.7720300Z Metadata: read
+2026-11-15T16:58:25.7721470Z ##[endgroup]
+2026-11-15T16:58:25.7725850Z Secret source: Actions
+2026-11-15T16:58:25.7727860Z Cache mode: write
+2026-11-15T16:58:25.7730760Z Prepare workflow directory
+2026-11-15T16:58:25.8854740Z Prepare all required actions
+2026-11-15T16:58:25.8936450Z Getting action download info
+2026-11-15T16:58:26.3910150Z Download action repository 'actions/checkout@v7.0.1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-15T16:58:26.9360340Z Download action repository 'oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+2026-11-15T16:58:27.3894200Z Download action repository 'denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed' (SHA:22d081ff2d3a40755e97629de92e3bcbfa7cf2ed)
+2026-11-15T16:58:28.0576480Z Complete job name: Test runtimes (macos-26-intel, bun, 5/6)
+2026-11-15T16:58:28.2135810Z ##[group]Run actions/checkout@v7.0.1
+2026-11-15T16:58:28.2137740Z with:
+2026-11-15T16:58:28.2138540Z   fetch-depth: 0
+2026-11-15T16:58:28.2139390Z   persist-credentials: false
+2026-11-15T16:58:28.2140520Z   repository: link-foundation/sensitive-data-sanitizer
+2026-11-15T16:58:28.2149350Z   token: ***
+2026-11-15T16:58:28.2150180Z   ssh-strict: true
+2026-11-15T16:58:28.2150990Z   ssh-user: git
+2026-11-15T16:58:28.2151780Z   clean: true
+2026-11-15T16:58:28.2152610Z   sparse-checkout-cone-mode: true
+2026-11-15T16:58:28.2153610Z   fetch-tags: false
+2026-11-15T16:58:28.2154460Z   show-progress: true
+2026-11-15T16:58:28.2155340Z   lfs: false
+2026-11-15T16:58:28.2156480Z   submodules: false
+2026-11-15T16:58:28.2157860Z   set-safe-directory: true
+2026-11-15T16:58:28.2159270Z   allow-unsafe-pr-checkout: false
+2026-11-15T16:58:28.2162570Z env:
+2026-11-15T16:58:28.2164180Z   GIT_CONFIG_COUNT: 1
+2026-11-15T16:58:28.2165560Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T16:58:28.2167410Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T16:58:28.2169070Z   TEST_SHARD: 5/6
+2026-11-15T16:58:28.2170270Z ##[endgroup]
+2026-11-15T16:58:28.7118450Z Syncing repository: link-foundation/sensitive-data-sanitizer
+2026-11-15T16:58:28.7124600Z ##[group]Getting Git version info
+2026-11-15T16:58:28.7127540Z Working directory is '/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer'
+2026-11-15T16:58:28.7132060Z [command]/usr/local/bin/git version
+2026-11-15T16:58:28.7571460Z git version 2.55.0
+2026-11-15T16:58:28.7604470Z ##[endgroup]
+2026-11-15T16:58:28.7615880Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/3f6db9b7-4677-4dd4-99e1-7403c259b047/.gitconfig'
+2026-11-15T16:58:28.7634470Z Temporarily overriding HOME='/Users/runner/work/_temp/3f6db9b7-4677-4dd4-99e1-7403c259b047' before making global git config changes
+2026-11-15T16:58:28.7640000Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-15T16:58:28.7647220Z [command]/usr/local/bin/git config --global --add safe.directory /Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+2026-11-15T16:58:28.7840260Z Deleting the contents of '/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer'
+2026-11-15T16:58:28.7847790Z ##[group]Determining repository object format
+2026-11-15T16:58:28.7852930Z ##[endgroup]
+2026-11-15T16:58:28.7856530Z ##[group]Initializing the repository
+2026-11-15T16:58:28.7861260Z [command]/usr/local/bin/git init /Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+2026-11-15T16:58:28.8376760Z Initialized empty Git repository in /Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/
+2026-11-15T16:58:28.8392640Z [command]/usr/local/bin/git remote add origin https://github.com/link-foundation/sensitive-data-sanitizer
+2026-11-15T16:58:28.8616620Z ##[endgroup]
+2026-11-15T16:58:28.8622130Z ##[group]Disabling automatic garbage collection
+2026-11-15T16:58:28.8627430Z [command]/usr/local/bin/git config --local gc.auto 0
+2026-11-15T16:58:28.8792750Z ##[endgroup]
+2026-11-15T16:58:28.8797660Z ##[group]Setting up auth
+2026-11-15T16:58:28.8801570Z Removing SSH command configuration
+2026-11-15T16:58:28.8806160Z [command]/usr/local/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T16:58:28.9004110Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-15T16:58:29.1392450Z Removing HTTP extra header
+2026-11-15T16:58:29.1402680Z [command]/usr/local/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T16:58:29.1545830Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-15T16:58:29.3364280Z Removing includeIf entries pointing to credentials config files
+2026-11-15T16:58:29.3371120Z [command]/usr/local/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T16:58:29.3509850Z [command]/usr/local/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-15T16:58:29.5277760Z [command]/usr/local/bin/git config --file /Users/runner/work/_temp/git-credentials-2b7b2cd0-7cd0-497a-a26d-d10985b34fab.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-15T16:58:29.5423090Z [command]/usr/local/bin/git config --local includeIf.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path /Users/runner/work/_temp/git-credentials-2b7b2cd0-7cd0-497a-a26d-d10985b34fab.config
+2026-11-15T16:58:29.5554990Z [command]/usr/local/bin/git config --local includeIf.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path /Users/runner/work/_temp/git-credentials-2b7b2cd0-7cd0-497a-a26d-d10985b34fab.config
+2026-11-15T16:58:29.5682950Z [command]/usr/local/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-2b7b2cd0-7cd0-497a-a26d-d10985b34fab.config
+2026-11-15T16:58:29.5812390Z [command]/usr/local/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-2b7b2cd0-7cd0-497a-a26d-d10985b34fab.config
+2026-11-15T16:58:29.5937280Z ##[endgroup]
+2026-11-15T16:58:29.5940720Z ##[group]Fetching the repository
+2026-11-15T16:58:29.5947730Z [command]/usr/local/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-11-15T16:58:31.9350570Z From https://github.com/link-foundation/sensitive-data-sanitizer
+2026-11-15T16:58:31.9353260Z  * [new branch]      issue-1-b188f503edf3   -> origin/issue-1-b188f503edf3
+2026-11-15T16:58:31.9368370Z  * [new branch]      issue-100-3ee178fbdee1 -> origin/issue-100-3ee178fbdee1
+2026-11-15T16:58:31.9372900Z  * [new branch]      issue-102-b6ecf86c9f05 -> origin/issue-102-b6ecf86c9f05
+2026-11-15T16:58:31.9494700Z  * [new branch]      issue-106-e528442ca6c2 -> origin/issue-106-e528442ca6c2
+2026-11-15T16:58:31.9498520Z  * [new branch]      issue-118-bfb692598f84 -> origin/issue-118-bfb692598f84
+2026-11-15T16:58:31.9501540Z  * [new branch]      issue-120-75801fa5c894 -> origin/issue-120-75801fa5c894
+2026-11-15T16:58:31.9504580Z  * [new branch]      issue-122-34f73532cdd3 -> origin/issue-122-34f73532cdd3
+2026-11-15T16:58:31.9507540Z  * [new branch]      issue-124-e3156f13f3cd -> origin/issue-124-e3156f13f3cd
+2026-11-15T16:58:31.9511050Z  * [new branch]      issue-126-5ea993b133e4 -> origin/issue-126-5ea993b133e4
+2026-11-15T16:58:31.9518010Z  * [new branch]      issue-128-e3cb1240cec3 -> origin/issue-128-e3cb1240cec3
+2026-11-15T16:58:31.9519920Z  * [new branch]      issue-13-ae4189325e07  -> origin/issue-13-ae4189325e07
+2026-11-15T16:58:31.9532010Z  * [new branch]      issue-142-5e0e1a2b2a47 -> origin/issue-142-5e0e1a2b2a47
+2026-11-15T16:58:31.9543750Z  * [new branch]      issue-144-8601a000905a -> origin/issue-144-8601a000905a
+2026-11-15T16:58:31.9547130Z  * [new branch]      issue-146-eadba84d290c -> origin/issue-146-eadba84d290c
+2026-11-15T16:58:31.9549940Z  * [new branch]      issue-148-2aee718b2627 -> origin/issue-148-2aee718b2627
+2026-11-15T16:58:31.9553230Z  * [new branch]      issue-149-cc1e74298dbb -> origin/issue-149-cc1e74298dbb
+2026-11-15T16:58:31.9556670Z  * [new branch]      issue-150-2b7b7513a315 -> origin/issue-150-2b7b7513a315
+2026-11-15T16:58:31.9566280Z  * [new branch]      issue-151-91ceeb862285 -> origin/issue-151-91ceeb862285
+2026-11-15T16:58:31.9568320Z  * [new branch]      issue-152-98b329eb0b4d -> origin/issue-152-98b329eb0b4d
+2026-11-15T16:58:31.9570250Z  * [new branch]      issue-153-251074c8d373 -> origin/issue-153-251074c8d373
+2026-11-15T16:58:31.9572160Z  * [new branch]      issue-154-9dd4e45be37f -> origin/issue-154-9dd4e45be37f
+2026-11-15T16:58:31.9574840Z  * [new branch]      issue-162-90da9a9fbec6 -> origin/issue-162-90da9a9fbec6
+2026-11-15T16:58:31.9576690Z  * [new branch]      issue-166-1c3a0db28af9 -> origin/issue-166-1c3a0db28af9
+2026-11-15T16:58:31.9578490Z  * [new branch]      issue-168-b786a429c41d -> origin/issue-168-b786a429c41d
+2026-11-15T16:58:31.9580270Z  * [new branch]      issue-170-49405b384e0c -> origin/issue-170-49405b384e0c
+2026-11-15T16:58:31.9582060Z  * [new branch]      issue-174-f268fc455254 -> origin/issue-174-f268fc455254
+2026-11-15T16:58:31.9583820Z  * [new branch]      issue-178-5b158e6082cf -> origin/issue-178-5b158e6082cf
+2026-11-15T16:58:31.9585650Z  * [new branch]      issue-180-aafece4fff0c -> origin/issue-180-aafece4fff0c
+2026-11-15T16:58:31.9587590Z  * [new branch]      issue-184-e5d0caea945a -> origin/issue-184-e5d0caea945a
+2026-11-15T16:58:31.9589440Z  * [new branch]      issue-190-544583eaa070 -> origin/issue-190-544583eaa070
+2026-11-15T16:58:31.9591250Z  * [new branch]      issue-198-c131c7c54d68 -> origin/issue-198-c131c7c54d68
+2026-11-15T16:58:31.9593020Z  * [new branch]      issue-24-4efef94003ab  -> origin/issue-24-4efef94003ab
+2026-11-15T16:58:31.9594740Z  * [new branch]      issue-32-18721f994a02  -> origin/issue-32-18721f994a02
+2026-11-15T16:58:31.9596440Z  * [new branch]      issue-34-979b472b0be1  -> origin/issue-34-979b472b0be1
+2026-11-15T16:58:31.9598270Z  * [new branch]      issue-36-581486aaaa3f  -> origin/issue-36-581486aaaa3f
+2026-11-15T16:58:31.9600090Z  * [new branch]      issue-38-bc8becdd8d18  -> origin/issue-38-bc8becdd8d18
+2026-11-15T16:58:31.9602120Z  * [new branch]      issue-43-840a44177950  -> origin/issue-43-840a44177950
+2026-11-15T16:58:31.9603990Z  * [new branch]      issue-48-91ec9d5d4db8  -> origin/issue-48-91ec9d5d4db8
+2026-11-15T16:58:31.9605690Z  * [new branch]      issue-52-5379832e5bd4  -> origin/issue-52-5379832e5bd4
+2026-11-15T16:58:31.9607360Z  * [new branch]      issue-56-4276380c7297  -> origin/issue-56-4276380c7297
+2026-11-15T16:58:31.9611760Z  * [new branch]      issue-65-41acbb882c38  -> origin/issue-65-41acbb882c38
+2026-11-15T16:58:31.9613570Z  * [new branch]      issue-71-63a050a5595f  -> origin/issue-71-63a050a5595f
+2026-11-15T16:58:31.9615170Z  * [new branch]      issue-75-bf955ea89a1c  -> origin/issue-75-bf955ea89a1c
+2026-11-15T16:58:31.9616670Z  * [new branch]      issue-84-7c4f150def22  -> origin/issue-84-7c4f150def22
+2026-11-15T16:58:31.9618400Z  * [new branch]      issue-89-9faef95b7b9a  -> origin/issue-89-9faef95b7b9a
+2026-11-15T16:58:31.9620060Z  * [new branch]      issue-92-255abc3c67f8  -> origin/issue-92-255abc3c67f8
+2026-11-15T16:58:31.9621880Z  * [new branch]      issue-95-5445009fe5d0  -> origin/issue-95-5445009fe5d0
+2026-11-15T16:58:31.9623370Z  * [new branch]      main                   -> origin/main
+2026-11-15T16:58:31.9624580Z  * [new tag]         v0.12.0                -> v0.12.0
+2026-11-15T16:58:31.9625700Z  * [new tag]         v0.12.1                -> v0.12.1
+2026-11-15T16:58:31.9627050Z  * [new tag]         v0.12.2                -> v0.12.2
+2026-11-15T16:58:31.9628250Z  * [new tag]         v0.13.0                -> v0.13.0
+2026-11-15T16:58:31.9629390Z  * [new tag]         v0.14.0                -> v0.14.0
+2026-11-15T16:58:31.9630240Z  * [new tag]         v0.15.0                -> v0.15.0
+2026-11-15T16:58:31.9631340Z  * [new tag]         v0.16.0                -> v0.16.0
+2026-11-15T16:58:31.9632370Z  * [new tag]         v0.16.1                -> v0.16.1
+2026-11-15T16:58:31.9633580Z  * [new tag]         v0.16.2                -> v0.16.2
+2026-11-15T16:58:31.9634640Z  * [new tag]         v0.17.0                -> v0.17.0
+2026-11-15T16:58:31.9636100Z  * [new tag]         v0.17.1                -> v0.17.1
+2026-11-15T16:58:31.9637260Z  * [new tag]         v0.18.0                -> v0.18.0
+2026-11-15T16:58:31.9638430Z  * [new tag]         v0.19.0                -> v0.19.0
+2026-11-15T16:58:31.9639950Z  * [new tag]         v0.19.1                -> v0.19.1
+2026-11-15T16:58:31.9641240Z  * [new tag]         v0.19.2                -> v0.19.2
+2026-11-15T16:58:31.9643920Z  * [new tag]         v0.19.3                -> v0.19.3
+2026-11-15T16:58:31.9645200Z  * [new tag]         v0.20.0                -> v0.20.0
+2026-11-15T16:58:31.9646480Z  * [new tag]         v0.21.0                -> v0.21.0
+2026-11-15T16:58:31.9647700Z  * [new tag]         v0.21.1                -> v0.21.1
+2026-11-15T16:58:31.9648920Z  * [new tag]         v0.21.2                -> v0.21.2
+2026-11-15T16:58:31.9650070Z  * [new tag]         v0.21.3                -> v0.21.3
+2026-11-15T16:58:31.9651220Z  * [new tag]         v0.21.4                -> v0.21.4
+2026-11-15T16:58:31.9652670Z  * [new tag]         v0.21.5                -> v0.21.5
+2026-11-15T16:58:31.9653850Z  * [new tag]         v0.21.6                -> v0.21.6
+2026-11-15T16:58:31.9654990Z  * [new tag]         v0.21.7                -> v0.21.7
+2026-11-15T16:58:31.9656140Z  * [new tag]         v0.21.8                -> v0.21.8
+2026-11-15T16:58:31.9657360Z  * [new tag]         v0.22.0                -> v0.22.0
+2026-11-15T16:58:31.9658540Z  * [new tag]         v0.22.1                -> v0.22.1
+2026-11-15T16:58:31.9660040Z  * [new tag]         v0.22.2                -> v0.22.2
+2026-11-15T16:58:31.9661190Z  * [new tag]         v0.22.3                -> v0.22.3
+2026-11-15T16:58:31.9662340Z  * [new tag]         v0.22.4                -> v0.22.4
+2026-11-15T16:58:31.9663490Z  * [new tag]         v0.22.5                -> v0.22.5
+2026-11-15T16:58:31.9664630Z  * [new tag]         v0.23.0                -> v0.23.0
+2026-11-15T16:58:31.9667750Z [command]/usr/local/bin/git branch --list --remote origin/main
+2026-11-15T16:58:31.9669090Z   origin/main
+2026-11-15T16:58:31.9671400Z [command]/usr/local/bin/git rev-parse refs/remotes/origin/main
+2026-11-15T16:58:31.9798290Z fa8143b74c88afe7c7d9e2529f57552022b5106e
+2026-11-15T16:58:31.9811460Z ##[endgroup]
+2026-11-15T16:58:31.9812810Z ##[group]Determining the checkout info
+2026-11-15T16:58:31.9814380Z ##[endgroup]
+2026-11-15T16:58:31.9816990Z [command]/usr/local/bin/git sparse-checkout disable
+2026-11-15T16:58:32.0051310Z [command]/usr/local/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-15T16:58:32.0246330Z ##[group]Checking out the ref
+2026-11-15T16:58:32.0248100Z [command]/usr/local/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-15T16:58:33.2000560Z Updating files:  30% (657/2172)
+2026-11-15T16:58:33.2128100Z Updating files:  31% (674/2172)
+2026-11-15T16:58:33.2243850Z Updating files:  32% (696/2172)
+2026-11-15T16:58:33.2448580Z Updating files:  33% (717/2172)
+2026-11-15T16:58:33.2602430Z Updating files:  34% (739/2172)
+2026-11-15T16:58:33.2769410Z Updating files:  35% (761/2172)
+2026-11-15T16:58:33.5529210Z Updating files:  36% (782/2172)
+2026-11-15T16:58:33.5663070Z Updating files:  37% (804/2172)
+2026-11-15T16:58:33.5788410Z Updating files:  38% (826/2172)
+2026-11-15T16:58:33.5914420Z Updating files:  39% (848/2172)
+2026-11-15T16:58:33.6078400Z Updating files:  40% (869/2172)
+2026-11-15T16:58:33.6162600Z Updating files:  41% (891/2172)
+2026-11-15T16:58:33.6238160Z Updating files:  42% (913/2172)
+2026-11-15T16:58:33.6325440Z Updating files:  43% (934/2172)
+2026-11-15T16:58:33.6407760Z Updating files:  44% (956/2172)
+2026-11-15T16:58:33.6505320Z Updating files:  45% (978/2172)
+2026-11-15T16:58:33.6729810Z Updating files:  46% (1000/2172)
+2026-11-15T16:58:33.6855780Z Updating files:  47% (1021/2172)
+2026-11-15T16:58:33.7033240Z Updating files:  48% (1043/2172)
+2026-11-15T16:58:33.7319970Z Updating files:  49% (1065/2172)
+2026-11-15T16:58:33.7504510Z Updating files:  50% (1086/2172)
+2026-11-15T16:58:33.8533180Z Updating files:  51% (1108/2172)
+2026-11-15T16:58:33.8652530Z Updating files:  52% (1130/2172)
+2026-11-15T16:58:33.8852340Z Updating files:  53% (1152/2172)
+2026-11-15T16:58:33.9391760Z Updating files:  54% (1173/2172)
+2026-11-15T16:58:33.9719190Z Updating files:  55% (1195/2172)
+2026-11-15T16:58:33.9802970Z Updating files:  56% (1217/2172)
+2026-11-15T16:58:33.9928460Z Updating files:  57% (1239/2172)
+2026-11-15T16:58:34.0034320Z Updating files:  58% (1260/2172)
+2026-11-15T16:58:34.0274250Z Updating files:  59% (1282/2172)
+2026-11-15T16:58:34.0396170Z Updating files:  60% (1304/2172)
+2026-11-15T16:58:34.0534120Z Updating files:  61% (1325/2172)
+2026-11-15T16:58:34.0640000Z Updating files:  62% (1347/2172)
+2026-11-15T16:58:34.0732520Z Updating files:  63% (1369/2172)
+2026-11-15T16:58:34.0856830Z Updating files:  64% (1391/2172)
+2026-11-15T16:58:34.0965160Z Updating files:  65% (1412/2172)
+2026-11-15T16:58:34.1074950Z Updating files:  66% (1434/2172)
+2026-11-15T16:58:34.1169190Z Updating files:  67% (1456/2172)
+2026-11-15T16:58:34.1257250Z Updating files:  68% (1477/2172)
+2026-11-15T16:58:34.1345760Z Updating files:  69% (1499/2172)
+2026-11-15T16:58:34.1435460Z Updating files:  70% (1521/2172)
+2026-11-15T16:58:34.1539250Z Updating files:  71% (1543/2172)
+2026-11-15T16:58:34.1630460Z Updating files:  72% (1564/2172)
+2026-11-15T16:58:34.1726060Z Updating files:  73% (1586/2172)
+2026-11-15T16:58:34.1831310Z Updating files:  74% (1608/2172)
+2026-11-15T16:58:34.1921910Z Updating files:  75% (1629/2172)
+2026-11-15T16:58:34.2029090Z Updating files:  76% (1651/2172)
+2026-11-15T16:58:34.2137570Z Updating files:  77% (1673/2172)
+2026-11-15T16:58:34.2235690Z Updating files:  78% (1695/2172)
+2026-11-15T16:58:34.2340040Z Updating files:  79% (1716/2172)
+2026-11-15T16:58:34.2455980Z Updating files:  80% (1738/2172)
+2026-11-15T16:58:34.2904130Z Updating files:  81% (1760/2172)
+2026-11-15T16:58:34.3170780Z Updating files:  82% (1782/2172)
+2026-11-15T16:58:34.3275550Z Updating files:  83% (1803/2172)
+2026-11-15T16:58:34.3365340Z Updating files:  84% (1825/2172)
+2026-11-15T16:58:34.3471460Z Updating files:  85% (1847/2172)
+2026-11-15T16:58:34.3563080Z Updating files:  86% (1868/2172)
+2026-11-15T16:58:34.3657690Z Updating files:  87% (1890/2172)
+2026-11-15T16:58:34.3761490Z Updating files:  88% (1912/2172)
+2026-11-15T16:58:34.3851400Z Updating files:  89% (1934/2172)
+2026-11-15T16:58:34.3944420Z Updating files:  90% (1955/2172)
+2026-11-15T16:58:34.4054800Z Updating files:  91% (1977/2172)
+2026-11-15T16:58:34.4145350Z Updating files:  92% (1999/2172)
+2026-11-15T16:58:34.4234630Z Updating files:  93% (2020/2172)
+2026-11-15T16:58:34.4331910Z Updating files:  94% (2042/2172)
+2026-11-15T16:58:34.4417810Z Updating files:  95% (2064/2172)
+2026-11-15T16:58:34.4507870Z Updating files:  96% (2086/2172)
+2026-11-15T16:58:34.4600570Z Updating files:  97% (2107/2172)
+2026-11-15T16:58:34.4690140Z Updating files:  98% (2129/2172)
+2026-11-15T16:58:34.4780250Z Updating files:  99% (2151/2172)
+2026-11-15T16:58:34.4781610Z Updating files: 100% (2172/2172)
+2026-11-15T16:58:34.4782470Z Updating files: 100% (2172/2172), done.
+2026-11-15T16:58:34.5051830Z Reset branch 'main'
+2026-11-15T16:58:34.5076680Z branch 'main' set up to track 'origin/main'.
+2026-11-15T16:58:34.5146420Z ##[endgroup]
+2026-11-15T16:58:34.5457800Z [command]/usr/local/bin/git log -1 --format=%H
+2026-11-15T16:58:34.5675990Z fa8143b74c88afe7c7d9e2529f57552022b5106e
+2026-11-15T16:58:34.5699740Z ##[group]Removing auth
+2026-11-15T16:58:34.5700570Z Removing SSH command configuration
+2026-11-15T16:58:34.5709260Z [command]/usr/local/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T16:58:34.5879770Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-15T16:58:34.8117140Z Removing HTTP extra header
+2026-11-15T16:58:34.8126940Z [command]/usr/local/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T16:58:34.8284600Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-15T16:58:35.0180790Z Removing includeIf entries pointing to credentials config files
+2026-11-15T16:58:35.0188080Z [command]/usr/local/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T16:58:35.0358790Z includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path
+2026-11-15T16:58:35.0361670Z includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path
+2026-11-15T16:58:35.0363670Z includeif.gitdir:/github/workspace/.git.path
+2026-11-15T16:58:35.0364880Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-15T16:58:35.0373060Z [command]/usr/local/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path
+2026-11-15T16:58:35.0523440Z /Users/runner/work/_temp/git-credentials-2b7b2cd0-7cd0-497a-a26d-d10985b34fab.config
+2026-11-15T16:58:35.0544050Z [command]/usr/local/bin/git config --local --unset includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path \/Users\/runner\/work\/_temp\/git\-credentials\-2b7b2cd0\-7cd0\-497a\-a26d\-d10985b34fab\.config
+2026-11-15T16:58:35.0704090Z [command]/usr/local/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path
+2026-11-15T16:58:35.0839940Z /Users/runner/work/_temp/git-credentials-2b7b2cd0-7cd0-497a-a26d-d10985b34fab.config
+2026-11-15T16:58:35.0858270Z [command]/usr/local/bin/git config --local --unset includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path \/Users\/runner\/work\/_temp\/git\-credentials\-2b7b2cd0\-7cd0\-497a\-a26d\-d10985b34fab\.config
+2026-11-15T16:58:35.1015460Z [command]/usr/local/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-15T16:58:35.1152710Z /github/runner_temp/git-credentials-2b7b2cd0-7cd0-497a-a26d-d10985b34fab.config
+2026-11-15T16:58:35.1168910Z [command]/usr/local/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-2b7b2cd0\-7cd0\-497a\-a26d\-d10985b34fab\.config
+2026-11-15T16:58:35.1312580Z [command]/usr/local/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-15T16:58:35.1469770Z /github/runner_temp/git-credentials-2b7b2cd0-7cd0-497a-a26d-d10985b34fab.config
+2026-11-15T16:58:35.1484720Z [command]/usr/local/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-2b7b2cd0\-7cd0\-497a\-a26d\-d10985b34fab\.config
+2026-11-15T16:58:35.1635410Z [command]/usr/local/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-15T16:58:35.3962950Z Removing credentials config '/Users/runner/work/_temp/git-credentials-2b7b2cd0-7cd0-497a-a26d-d10985b34fab.config'
+2026-11-15T16:58:35.3982220Z ##[endgroup]
+2026-11-15T16:58:35.4662610Z Prepare all required actions
+2026-11-15T16:58:35.4663780Z Getting action download info
+2026-11-15T16:58:35.5802050Z Download action repository 'actions/setup-node@v7.1.0' (SHA:949feb2413d6458794dcd2491c4babbbce0c15c1)
+2026-11-15T16:58:36.2008990Z ##[group]Run ./.github/actions/setup-node
+2026-11-15T16:58:36.2010000Z with:
+2026-11-15T16:58:36.2010690Z env:
+2026-11-15T16:58:36.2011180Z   GIT_CONFIG_COUNT: 1
+2026-11-15T16:58:36.2011830Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T16:58:36.2012580Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T16:58:36.2013170Z   TEST_SHARD: 5/6
+2026-11-15T16:58:36.2013660Z ##[endgroup]
+2026-11-15T16:58:36.2125980Z ##[start-action display=Run actions/setup-node@v7.1.0;id=__self.__actions_setup-node]
+2026-11-15T16:58:36.2332600Z ##[group]Run actions/setup-node@v7.1.0
+2026-11-15T16:58:36.2333220Z with:
+2026-11-15T16:58:36.2333630Z   node-version-file: .nvmrc
+2026-11-15T16:58:36.2334190Z   package-manager-cache: false
+2026-11-15T16:58:36.2334850Z   check-latest: false
+2026-11-15T16:58:36.2342330Z   token: ***
+2026-11-15T16:58:36.2342900Z env:
+2026-11-15T16:58:36.2343470Z   GIT_CONFIG_COUNT: 1
+2026-11-15T16:58:36.2344100Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T16:58:36.2344750Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T16:58:36.2345260Z   TEST_SHARD: 5/6
+2026-11-15T16:58:36.2345690Z ##[endgroup]
+2026-11-15T16:58:36.5553090Z Node version file is not JSON file
+2026-11-15T16:58:36.5564180Z Node version file is not TOML file
+2026-11-15T16:58:36.5566040Z Resolved .nvmrc as 26.13.0
+2026-11-15T16:58:36.5585350Z Attempting to download 26.13.0...
+2026-11-15T16:58:37.3726640Z Acquiring 26.13.0 - x64 from https://github.com/actions/node-versions/releases/download/26.13.0-41378513395/node-26.13.0-darwin-x64.tar.gz
+2026-11-15T16:58:40.1654160Z Extracting ...
+2026-11-15T16:58:40.2750730Z [command]/usr/bin/tar xz --strip 1 -C /Users/runner/work/_temp/83ef01fc-9b15-4eb7-aa00-e98d11fb6702 -f /Users/runner/work/_temp/66ace568-8a22-448c-b1ac-02aed683c3d7
+2026-11-15T16:58:44.8895190Z Adding to the cache ...
+2026-11-15T16:58:56.6974350Z ##[group]Environment details
+2026-11-15T16:58:58.5384570Z node: v26.13.0
+2026-11-15T16:58:58.5409890Z npm: 11.20.0
+2026-11-15T16:58:58.5452960Z yarn: 1.22.22
+2026-11-15T16:58:58.5484240Z ##[endgroup]
+2026-11-15T16:58:58.5672800Z ##[end-action id=__self.__actions_setup-node;outcome=success;conclusion=success;duration_ms=22343]
+2026-11-15T16:58:58.5683600Z ##[start-action display=Install reviewed npm;id=__self.__run]
+2026-11-15T16:58:58.5793460Z ##[group]Run npm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund
+2026-11-15T16:58:58.5795270Z [36;1mnpm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund[0m
+2026-11-15T16:58:58.5938600Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-15T16:58:58.5939430Z env:
+2026-11-15T16:58:58.5939900Z   GIT_CONFIG_COUNT: 1
+2026-11-15T16:58:58.5940680Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T16:58:58.5941720Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T16:58:58.5942370Z   TEST_SHARD: 5/6
+2026-11-15T16:58:58.5942910Z ##[endgroup]
+2026-11-15T16:59:09.0329690Z 
+2026-11-15T16:59:09.0341740Z removed 8 packages, and changed 77 packages in 10s
+2026-11-15T16:59:09.3133480Z ##[end-action id=__self.__run;outcome=success;conclusion=success;duration_ms=10739]
+2026-11-15T16:59:09.3142310Z ##[start-action display=Restore requested package cache with current npm;id=__self.__actions_setup-node_2]
+2026-11-15T16:59:09.3164750Z ##[end-action id=__self.__actions_setup-node_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-11-15T16:59:09.3274640Z ##[group]Run npm ci
+2026-11-15T16:59:09.3275570Z [36;1mnpm ci[0m
+2026-11-15T16:59:09.3382970Z shell: /bin/bash -e {0}
+2026-11-15T16:59:09.3383810Z env:
+2026-11-15T16:59:09.3384420Z   GIT_CONFIG_COUNT: 1
+2026-11-15T16:59:09.3385040Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T16:59:09.3385970Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T16:59:09.3386800Z   TEST_SHARD: 5/6
+2026-11-15T16:59:09.3387370Z ##[endgroup]
+2026-11-15T16:59:41.1419600Z npm notice run @link-foundation/sensitive-data-sanitizer@0.23.0 prepare
+2026-11-15T16:59:41.1426770Z npm notice run node scripts/install-git-hooks.mjs
+2026-11-15T16:59:41.6226050Z 
+2026-11-15T16:59:41.6227970Z added 295 packages, and audited 296 packages in 32s
+2026-11-15T16:59:41.6229400Z 
+2026-11-15T16:59:41.6230840Z 81 packages are looking for funding
+2026-11-15T16:59:41.6232930Z   run `npm fund` for details
+2026-11-15T16:59:41.6246710Z 
+2026-11-15T16:59:41.6248090Z found 0 vulnerabilities
+2026-11-15T16:59:41.6264730Z npm warn install-scripts 1 package had install scripts blocked because they are not covered by allowScripts:
+2026-11-15T16:59:41.6268130Z npm warn install-scripts   better-sqlite3@13.0.3 (install: node-gyp rebuild)
+2026-11-15T16:59:41.6269880Z npm warn install-scripts
+2026-11-15T16:59:41.6272730Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+2026-11-15T16:59:41.7886690Z ##[group]Run oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+2026-11-15T16:59:41.7887860Z with:
+2026-11-15T16:59:41.7888380Z   bun-version: 1.4.4
+2026-11-15T16:59:41.7889270Z   no-cache: false
+2026-11-15T16:59:41.7897240Z   token: ***
+2026-11-15T16:59:41.7897890Z env:
+2026-11-15T16:59:41.7898520Z   GIT_CONFIG_COUNT: 1
+2026-11-15T16:59:41.7899330Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T16:59:41.7900320Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T16:59:41.7901030Z   TEST_SHARD: 5/6
+2026-11-15T16:59:41.7901740Z ##[endgroup]
+2026-11-15T16:59:42.6519130Z Cache hit for: bun-WCIZkzNaVAqjKjn9kmK8w8T8JV4=
+2026-11-15T16:59:44.0053770Z Received 0 of 41364384 (0.0%), 0.0 MBs/sec
+2026-11-15T16:59:45.2479120Z Received 41364384 of 41364384 (100.0%), 17.5 MBs/sec
+2026-11-15T16:59:45.2529810Z Cache Size: ~39 MB (41364384 B)
+2026-11-15T16:59:45.2621390Z [command]/usr/local/bin/gtar -xf /Users/runner/work/_temp/8c31d549-fd38-4540-802a-55c34312a762/cache.tzst -P -C /Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer --delay-directory-restore --use-compress-program unzstd
+2026-11-15T16:59:47.2367890Z Cache restored successfully
+2026-11-15T16:59:47.2420450Z [command]/Users/runner/.bun/bin/bun --revision
+2026-11-15T16:59:47.3177730Z 1.4.4+38afee6c8
+2026-11-15T16:59:47.3189900Z Using a cached version of Bun: 1.4.4+38afee6c8
+2026-11-15T16:59:47.3526490Z ##[group]Run bash scripts/run-with-budget-warning.sh 200 "Bun test suite" node scripts/run-test-shard.mjs bun "$TEST_SHARD"
+2026-11-15T16:59:47.3529640Z [36;1mbash scripts/run-with-budget-warning.sh 200 "Bun test suite" node scripts/run-test-shard.mjs bun "$TEST_SHARD"[0m
+2026-11-15T16:59:47.3649350Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-15T16:59:47.3650550Z env:
+2026-11-15T16:59:47.3651230Z   GIT_CONFIG_COUNT: 1
+2026-11-15T16:59:47.3652920Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T16:59:47.3654000Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T16:59:47.3654940Z   TEST_SHARD: 5/6
+2026-11-15T16:59:47.3655770Z ##[endgroup]
+2026-11-15T16:59:47.5282860Z Running Bun test suite with a 200s budget (warning at 140s).
+2026-11-15T16:59:47.8964960Z Running bun shard 5/6: 31 test files
+2026-11-15T16:59:47.9025480Z bun test v1.4.4 (38afee6c8)
+2026-11-15T16:59:47.9271980Z 
+2026-11-15T16:59:47.9275280Z ##[group]tests/sanitizer-issue-142-shapes.test.js:
+2026-11-15T16:59:49.1915890Z (pass) credential shapes (issue 136) > masks all-caps credential markers that contain a digit [268.60ms]
+2026-11-15T16:59:49.1919140Z (pass) credential shapes (issue 136) > masks XML elements with attributes and camelCase names [34.87ms]
+2026-11-15T16:59:49.1922200Z (pass) credential shapes (issue 136) > treats a hash rocket before a quoted literal as a separator [83.26ms]
+2026-11-15T16:59:49.1925830Z (pass) credential shapes (issue 136) > masks values that start with markup but keeps placeholders [19.30ms]
+2026-11-15T16:59:49.1929140Z (pass) credential shapes (issue 136) > masks plural credential flags but not counters [22.38ms]
+2026-11-15T16:59:49.1930710Z 
+2026-11-15T16:59:49.1931950Z ##[endgroup]
+2026-11-15T16:59:49.1932390Z 
+2026-11-15T16:59:49.1933630Z ##[group]tests/sanitizer-cli-features.test.js:
+2026-11-15T16:59:49.1937120Z (pass) streaming publication CLI > uses the publication profile for bare identities and permits explicit full redaction [53.48ms]
+2026-11-15T16:59:49.1940750Z (pass) streaming publication CLI > streams records and applies opt-in compatible masking [84.44ms]
+2026-11-15T16:59:49.1944500Z (pass) streaming publication CLI > publishes nothing after late binary input and cleans private spool files [52.77ms]
+2026-11-15T16:59:49.1948150Z (pass) streaming publication CLI > rejects rewrite/stream flag combinations before publication [0.57ms]
+2026-11-15T16:59:49.1949780Z 
+2026-11-15T16:59:49.1950890Z ##[endgroup]
+2026-11-15T16:59:49.1951310Z 
+2026-11-15T16:59:49.1952970Z ##[group]tests/docker-publish.test.js:
+2026-11-15T16:59:49.1955800Z (pass) optional Docker Hub publishing workflow > adds a Docker publish job downstream of npm release jobs [1.17ms]
+2026-11-15T16:59:49.1962000Z (pass) optional Docker Hub publishing workflow > waits for the exact npm version before publishing Docker tags [1.41ms]
+2026-11-15T16:59:49.1966150Z (pass) optional Docker Hub publishing workflow > uses Docker official GitHub Actions with DOCKERHUB_TOKEN authentication [0.07ms]
+2026-11-15T16:59:49.1969880Z (pass) optional Docker Hub publishing workflow > builds amd64 and arm64 images concurrently on native runners [0.30ms]
+2026-11-15T16:59:49.1973900Z (pass) optional Docker Hub publishing workflow > checks artifact downloads without suppressing dependency deprecations [0.91ms]
+2026-11-15T16:59:49.1977480Z (pass) Docker publish configuration > keeps Docker publishing disabled until DOCKERHUB_IMAGE is configured [0.72ms]
+2026-11-15T16:59:49.1981060Z (pass) Docker publish configuration > reports missing Docker Hub credentials when publishing is enabled [0.48ms]
+2026-11-15T16:59:49.1984630Z (pass) Docker publish configuration > accepts complete Docker Hub configuration without exposing the token [0.21ms]
+2026-11-15T16:59:49.1986160Z 
+2026-11-15T16:59:49.1987150Z ##[endgroup]
+2026-11-15T16:59:49.1987620Z 
+2026-11-15T16:59:49.1988640Z ##[group]tests/sanitizer-reused-map-parts.test.js:
+2026-11-15T16:59:49.1994850Z (pass) issue 73: bare parts of a reused map entry > matches a fresh map on: Опыт: петров день, данил, мария. [146.12ms]
+2026-11-15T16:59:49.1998690Z (pass) issue 73: bare parts of a reused map entry > matches a fresh map on: Навыки: Битрикс петров, Excel. [18.39ms]
+2026-11-15T16:59:49.2002210Z (pass) issue 73: bare parts of a reused map entry > matches a fresh map on: Отзыв: Алина петрову, отдел. [15.09ms]
+2026-11-15T16:59:49.2029560Z (pass) issue 73: bare parts of a reused map entry > matches a fresh map on: Сильный мороз. Петров пришёл. [16.41ms]
+2026-11-15T16:59:49.2032820Z (pass) issue 73: bare parts of a reused map entry > matches a fresh map on: Данил пришёл. [18.03ms]
+2026-11-15T16:59:50.3498200Z (pass) issue 73: bare parts of a reused map entry > assigns the newly recognized full mention its own token: Навыки: Роман петров (CRM), отдел. [62.43ms]
+2026-11-15T16:59:50.3502950Z (pass) issue 73: bare parts of a reused map entry > assigns the newly recognized full mention its own token: Опыт.
+2026-11-15T16:59:50.3506590Z Стек: Максим петрова (ПМ), отдел. [27.35ms]
+2026-11-15T16:59:50.3509430Z (pass) issue 73: bare parts of a reused map entry > still resolves the full forms in: Петров Данил пришёл. [23.38ms]
+2026-11-15T16:59:50.3513410Z (pass) issue 73: bare parts of a reused map entry > still resolves the full forms in: Данил Петров пришёл. [21.18ms]
+2026-11-15T16:59:50.3517450Z (pass) issue 73: bare parts of a reused map entry > still resolves the full forms in: петров данил пришёл. [21.68ms]
+2026-11-15T16:59:50.3521180Z (pass) issue 73: bare parts of a reused map entry > still resolves the full forms in: ПЕТРОВ ДАНИЛ пришёл. [22.13ms]
+2026-11-15T16:59:50.3525110Z (pass) issue 73: bare parts of a reused map entry > still resolves the full forms in: Позвонили Петрову Данилу. [19.23ms]
+2026-11-15T16:59:50.3529160Z (pass) issue 73: bare parts of a reused map entry > still resolves the full forms in: С Петровым Данилом говорили. [17.76ms]
+2026-11-15T16:59:50.3533100Z (pass) issue 73: bare parts of a reused map entry > still resolves the full forms in: Д. Петров пришёл. [22.74ms]
+2026-11-15T16:59:50.3537140Z (pass) issue 73: bare parts of a reused map entry > still resolves the full forms in: Петров Д. пришёл. [35.41ms]
+2026-11-15T16:59:50.3540480Z (pass) issue 73: bare parts of a reused map entry > records no bare value while reusing a map [5.26ms]
+2026-11-15T16:59:50.3543900Z (pass) issue 73: bare parts of a reused map entry > agrees with an explicit known value [25.07ms]
+2026-11-15T16:59:50.3547760Z (pass) issue 73: bare parts of a reused map entry > follows a fresh map when the full name is in the same document [13.29ms]
+2026-11-15T16:59:50.3551190Z (pass) issue 73: bare parts of a reused map entry > keeps a surname with the full name of the same document [17.06ms]
+2026-11-15T16:59:50.3554480Z (pass) issue 73: bare parts of a reused map entry > keeps one token across values of one structured record [15.48ms]
+2026-11-15T16:59:50.3557690Z (pass) issue 73: bare parts of a reused map entry > keeps one token across the batches of one stream [160.02ms]
+2026-11-15T16:59:50.3562160Z (pass) issue 73: bare parts of a reused map entry > treats a bare part the same way in asynchronous sanitization [16.66ms]
+2026-11-15T16:59:50.3565820Z (pass) issue 73: bare parts of a reused map entry > covers a given name next to a surname confirmed in the document [5.58ms]
+2026-11-15T16:59:50.3569520Z (pass) issue 73: a part stored as its own value > survives a saved map and still matches alone [11.98ms]
+2026-11-15T16:59:50.3572210Z (pass) issue 73: a part stored as its own value > survives json serialization [5.82ms]
+2026-11-15T16:59:50.3574790Z (pass) issue 73: a part stored as its own value > survives lino serialization [15.70ms]
+2026-11-15T16:59:50.3577540Z (pass) issue 73: a part stored as its own value > does not match ordinary lower-case text [2.19ms]
+2026-11-15T16:59:50.3580680Z (pass) issue 73: a part stored as its own value > keeps the part listed next to a full name after saving [11.73ms]
+2026-11-15T16:59:50.3584640Z (pass) issue 73: a part stored as its own value > gives the whole mention its own token: Алина Мороз пришла. [6.38ms]
+2026-11-15T16:59:50.3589540Z (pass) issue 73: a part stored as its own value > gives the whole mention its own token: Алине Мороз звонили. [5.40ms]
+2026-11-15T16:59:50.3593510Z (pass) issue 73: a part stored as its own value > gives the whole mention its own token: Роман Мороз пришёл. [4.96ms]
+2026-11-15T16:59:50.3597260Z (pass) issue 73: a part stored as its own value > gives the whole mention its own token: Романа Мороз видели. [4.12ms]
+2026-11-15T16:59:50.3601040Z (pass) issue 73: a part stored as its own value > gives the whole mention its own token: Мороз Алина Игоревна пришла. [8.48ms]
+2026-11-15T16:59:50.3604810Z (pass) issue 73: a part stored as its own value > gives the whole mention its own token: Алина Игоревна Мороз пришла. [6.49ms]
+2026-11-15T16:59:50.3608550Z (pass) issue 73: a part stored as its own value > gives the whole mention its own token: Мороз Сергеевич пришёл. [6.80ms]
+2026-11-15T16:59:50.3612870Z (pass) issue 73: a part stored as its own value > leaves an unrelated capitalized neighbour alone [5.03ms]
+2026-11-15T16:59:50.3615130Z (pass) issue 73: a part stored as its own value > rejects a malformed stored list [1.83ms]
+2026-11-15T16:59:50.3616040Z 
+2026-11-15T16:59:50.3616710Z ##[endgroup]
+2026-11-15T16:59:50.3617020Z 
+2026-11-15T16:59:50.3617650Z ##[group]tests/sanitizer-issue-172.test.js:
+2026-11-15T17:00:03.1909230Z (pass) issue 172: long runs in two-byte strings > scans credential keys after an 8 MiB run without overflowing [12628.44ms]
+2026-11-15T17:00:06.9020480Z (pass) issue 172: long runs in two-byte strings > keeps keys glued to a long run detectable [4043.77ms]
+2026-11-15T17:00:20.0293400Z (pass) issue 172: long runs in two-byte strings > sanitizes the issue reproduction through createSyncSanitizer [12889.38ms]
+2026-11-15T17:00:55.2139250Z (fail) issue 172: long runs in two-byte strings > sanitizes a long run with personal data through createSanitizer [35456.42ms]
+2026-11-15T17:00:55.2177610Z   ^ this test timed out after 30000ms.
+2026-11-15T17:01:21.2794550Z offline
+2026-11-15T17:01:21.3023220Z (pass) issue 172: long runs in two-byte strings > sanitizes the gh-upload-log record shape through sanitizeFileToFile [25327.96ms]
+2026-11-15T17:01:21.3058730Z (pass) issue 172: long runs in two-byte strings > spells a class loop that matches what the plain loop matches [24.88ms]
+2026-11-15T17:01:21.3076180Z (pass) issue 172: long runs in two-byte strings > keeps a spelled loop flat on an 8 MiB two-byte run [84.18ms]
+2026-11-15T17:01:21.3179540Z (pass) issue 172: long runs in two-byte strings > flattens every class loop of a regular expression without changing matches [64.74ms]
+2026-11-15T17:01:21.3374770Z 
+2026-11-15T17:01:21.3429880Z ##[endgroup]
+2026-11-15T17:01:21.3504060Z 
+2026-11-15T17:01:21.3602850Z ##[group]tests/use-module-integration.test.js:
+2026-11-15T17:01:21.3631270Z (pass) lockfile-installed release helpers work offline > exposes callable command and argument APIs [445.00ms]
+2026-11-15T17:01:21.3646600Z (pass) lockfile-installed release helpers work offline > rejects when a real command exits nonzero [1.98ms]
+2026-11-15T17:01:21.3676720Z 
+2026-11-15T17:01:21.3723900Z ##[endgroup]
+2026-11-15T17:01:21.3781640Z 
+2026-11-15T17:01:21.3838390Z ##[group]tests/check-pages.test.js:
+2026-11-15T17:01:21.3889950Z (pass) check-pages.sh > reports a site deployed by GitHub Actions in both modes [193.37ms]
+2026-11-15T17:01:21.3935440Z (pass) check-pages.sh > warns and lets pull requests pass while Pages is off [142.11ms]
+2026-11-15T17:01:21.3964610Z (pass) check-pages.sh > fails the default branch with the setting to change [151.07ms]
+2026-11-15T17:01:22.5505130Z (pass) check-pages.sh > treats a branch-built site as misconfigured [94.29ms]
+2026-11-15T17:01:22.6510520Z (pass) check-pages.sh > fails closed on any other API error [258.77ms]
+2026-11-15T17:01:22.6612080Z (pass) check-pages.sh > runs before configure-pages with an explicit Pages read grant [0.62ms]
+2026-11-15T17:01:22.6710360Z 
+2026-11-15T17:01:22.6744830Z ##[endgroup]
+2026-11-15T17:01:22.6773320Z 
+2026-11-15T17:01:22.6813240Z ##[group]tests/merge-changesets.test.js:
+2026-11-15T17:01:22.6915200Z (pass) merge-changesets.mjs > fails without merging when any changeset has an unparseable bump type [74.23ms]
+2026-11-15T17:01:22.6986640Z (pass) merge-changesets.mjs > brackets contributor-authored descriptions as untrusted Actions output [68.56ms]
+2026-11-15T17:01:22.7832610Z 
+2026-11-15T17:01:22.7932400Z ##[endgroup]
+2026-11-15T17:01:22.8935370Z 
+2026-11-15T17:01:22.9938940Z ##[group]tests/sanitizer-pem-boundary.test.js:
+2026-11-15T17:01:23.0134420Z (pass) adjacent PEM armor and replacement boundaries > publishes same-line and HTML-wrapped blocks idempotently [76.89ms]
+2026-11-15T17:01:23.0166260Z (pass) adjacent PEM armor and replacement boundaries > still redacts literal material glued to a mask inside the body [4.84ms]
+2026-11-15T17:01:23.0198380Z 
+2026-11-15T17:01:23.0218010Z ##[endgroup]
+2026-11-15T17:01:23.0223970Z 
+2026-11-15T17:01:23.0234350Z ##[group]tests/preview-tools.test.js:
+2026-11-15T17:01:23.0265780Z (pass) preview container environment > checks the same container on pull requests before the main writer [0.41ms]
+2026-11-15T17:01:23.0372590Z (pass) preview container environment > verifies the pinned release bytes before extracting or exposing the CLI [0.20ms]
+2026-11-15T17:01:23.0416870Z (pass) preview container environment > reports a missing CLI before attempting credential setup [44.60ms]
+2026-11-15T17:01:23.0758300Z (skip) preview container environment > stops a bad download before extraction or PATH registration [skipped: Linux-only behaviour, runner is darwin]
+2026-11-15T17:01:23.1561010Z 
+2026-11-15T17:01:23.2565540Z ##[endgroup]
+2026-11-15T17:01:23.3568560Z 
+2026-11-15T17:01:23.3647980Z ##[group]tests/sanitizer-issue-50.test.js:
+2026-11-15T17:01:23.3709750Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Authorization "*** already" [12.75ms]
+2026-11-15T17:01:23.3784250Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Authorization "*** x" [6.97ms]
+2026-11-15T17:01:23.3856100Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Authorization "*** x" [5.65ms]
+2026-11-15T17:01:23.3883460Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Authorization "*** tail" [14.02ms]
+2026-11-15T17:01:23.4113410Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Authorization "*** x" [5.76ms]
+2026-11-15T17:01:23.4193450Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Authorization "*** x" [6.52ms]
+2026-11-15T17:01:23.4222660Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Authorization "*** x" [8.06ms]
+2026-11-15T17:01:23.4242450Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Authorization "*** tail" [5.50ms]
+2026-11-15T17:01:23.4292200Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Authorization "*** tail" [4.44ms]
+2026-11-15T17:01:23.4329420Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Proxy-Authorization "*** already" [6.44ms]
+2026-11-15T17:01:23.4455470Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Proxy-Authorization "*** x" [5.19ms]
+2026-11-15T17:01:23.4469510Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Proxy-Authorization "*** x" [3.96ms]
+2026-11-15T17:01:23.4504510Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Proxy-Authorization "*** tail" [4.31ms]
+2026-11-15T17:01:23.4509560Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Proxy-Authorization "*** x" [3.82ms]
+2026-11-15T17:01:23.4534480Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Proxy-Authorization "*** x" [4.92ms]
+2026-11-15T17:01:23.4797890Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Proxy-Authorization "*** x" [3.38ms]
+2026-11-15T17:01:23.5148690Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Proxy-Authorization "*** tail" [5.52ms]
+2026-11-15T17:01:23.5585070Z (pass) Authorization token boundaries (issue 50) > preserves complete tokens and surroundings: Proxy-Authorization "*** tail" [4.43ms]
+2026-11-15T17:01:23.5594530Z (pass) Authorization token boundaries (issue 50) > preserves every C0 control and DEL after a credential in both detectors [37.37ms]
+2026-11-15T17:01:23.8048040Z (pass) Authorization token boundaries (issue 50) > keeps placeholder behavior across schemes, quotes and JSON escape depths [473.87ms]
+2026-11-15T17:01:23.8167560Z (pass) Authorization token boundaries (issue 50) > preserves NUL and invalid bytes through CLI file/stdin and stream paths [1081.93ms]
+2026-11-15T17:01:25.1847800Z (pass) NUL-delimited credential fields (issue 180) > keeps fields immediately after bare and contextual credentials [94.20ms]
+2026-11-15T17:01:25.1853360Z (pass) NUL-delimited credential fields (issue 180) > still detects uniformly NUL-interleaved credentials in either byte order [39.94ms]
+2026-11-15T17:01:25.1857500Z (pass) NUL-delimited credential fields (issue 180) > preserves the NUL suffix at every stream chunk boundary [39.60ms]
+2026-11-15T17:01:29.2071950Z Output: npm_available=false
+2026-11-15T17:01:29.2874900Z (pass) NUL-delimited credential fields (issue 180) > preserves issue 180 bytes through CLI stdin/file, stream and output paths [4251.00ms]
+2026-11-15T17:01:29.2877900Z Output: npm_check_status=unknown
+2026-11-15T17:01:29.3166020Z 
+2026-11-15T17:01:29.3195350Z ##[endgroup]
+2026-11-15T17:01:29.3356060Z 
+2026-11-15T17:01:29.3378470Z ##[group]tests/sanitizer-issue-122.test.js:
+2026-11-15T17:01:29.3440840Z (pass) issue 122 credentials and prose (text) > AQVNaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_ [60.54ms]
+2026-11-15T17:01:29.3519430Z (pass) issue 122 credentials and prose (text) > t1.aB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_.aB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY [7.79ms]
+2026-11-15T17:01:29.3551410Z (pass) issue 122 credentials and prose (text) > YCAJEaB3_xY9kaB3_xY9kaB3_ [3.79ms]
+2026-11-15T17:01:29.3582910Z (pass) issue 122 credentials and prose (text) > YCaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY [4.17ms]
+2026-11-15T17:01:29.3597560Z (pass) issue 122 credentials and prose (text) > key AQVNaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_ [4.63ms]
+2026-11-15T17:01:29.4606980Z (pass) issue 122 credentials and prose (text) > candidate Ivan replied [3.96ms]
+2026-11-15T17:01:29.5127750Z (pass) issue 122 credentials and prose (text) > Dear John, [4.19ms]
+2026-11-15T17:01:29.5162530Z (pass) issue 122 credentials and prose (text) > Mr. Brown called [8.11ms]
+2026-11-15T17:01:29.5220000Z (pass) issue 122 credentials and prose (text) > message from Ivan: ok [5.46ms]
+2026-11-15T17:01:29.5250470Z (pass) issue 122 credentials and prose (text) > recruiter Alice replied [4.95ms]
+2026-11-15T17:01:29.5273600Z (pass) issue 122 credentials and prose (text) > applicant Petrov replied [4.73ms]
+2026-11-15T17:01:29.5292800Z (pass) issue 122 credentials and prose (text) > Hi Jane, [5.71ms]
+2026-11-15T17:01:29.5336260Z (pass) issue 122 credentials and prose (text) > Ms Brown called [4.93ms]
+2026-11-15T17:01:29.5386540Z (pass) issue 122 credentials and prose (text) > Dr. Smith called [6.89ms]
+2026-11-15T17:01:29.5420190Z (pass) issue 122 credentials and prose (text) > Request Failed: POST /api [3.23ms]
+2026-11-15T17:01:29.5526690Z (pass) issue 122 credentials and prose (text) > Candidate Stage changed [2.84ms]
+2026-11-15T17:01:29.5634610Z (pass) issue 122 credentials and prose (json) > AQVNaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_ [24.07ms]
+2026-11-15T17:01:29.5684020Z (pass) issue 122 credentials and prose (json) > t1.aB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_.aB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY [17.83ms]
+2026-11-15T17:01:29.5719790Z (pass) issue 122 credentials and prose (json) > YCAJEaB3_xY9kaB3_xY9kaB3_ [12.76ms]
+2026-11-15T17:01:29.5741240Z (pass) issue 122 credentials and prose (json) > YCaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY [12.56ms]
+2026-11-15T17:01:29.5757110Z (pass) issue 122 credentials and prose (json) > key AQVNaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_ [11.12ms]
+2026-11-15T17:01:29.5787400Z (pass) issue 122 credentials and prose (json) > candidate Ivan replied [13.73ms]
+2026-11-15T17:01:29.5825120Z (pass) issue 122 credentials and prose (json) > Dear John, [13.50ms]
+2026-11-15T17:01:29.5855420Z (pass) issue 122 credentials and prose (json) > Mr. Brown called [11.28ms]
+2026-11-15T17:01:29.5871800Z (pass) issue 122 credentials and prose (json) > message from Ivan: ok [11.52ms]
+2026-11-15T17:01:29.5893760Z (pass) issue 122 credentials and prose (json) > recruiter Alice replied [10.81ms]
+2026-11-15T17:01:29.5914750Z (pass) issue 122 credentials and prose (json) > applicant Petrov replied [11.65ms]
+2026-11-15T17:01:29.5933620Z (pass) issue 122 credentials and prose (json) > Hi Jane, [10.47ms]
+2026-11-15T17:01:29.5965360Z (pass) issue 122 credentials and prose (json) > Ms Brown called [13.34ms]
+2026-11-15T17:01:29.5975310Z (pass) issue 122 credentials and prose (json) > Dr. Smith called [28.16ms]
+2026-11-15T17:01:29.6006660Z (pass) issue 122 credentials and prose (json) > Request Failed: POST /api [7.02ms]
+2026-11-15T17:01:29.6070800Z (pass) issue 122 credentials and prose (json) > Candidate Stage changed [5.20ms]
+2026-11-15T17:01:29.6110790Z (pass) issue 122 credentials and prose (jsonl) > AQVNaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_ [10.84ms]
+2026-11-15T17:01:29.6518030Z (pass) issue 122 credentials and prose (jsonl) > t1.aB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_.aB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY [9.27ms]
+2026-11-15T17:01:29.6657420Z (pass) issue 122 credentials and prose (jsonl) > YCAJEaB3_xY9kaB3_xY9kaB3_ [8.62ms]
+2026-11-15T17:01:29.6700150Z (pass) issue 122 credentials and prose (jsonl) > YCaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY [12.32ms]
+2026-11-15T17:01:29.6731400Z (pass) issue 122 credentials and prose (jsonl) > key AQVNaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_ [13.49ms]
+2026-11-15T17:01:29.6763570Z (pass) issue 122 credentials and prose (jsonl) > candidate Ivan replied [10.50ms]
+2026-11-15T17:01:29.6814630Z (pass) issue 122 credentials and prose (jsonl) > Dear John, [9.92ms]
+2026-11-15T17:01:29.6901100Z (pass) issue 122 credentials and prose (jsonl) > Mr. Brown called [11.94ms]
+2026-11-15T17:01:29.6928660Z (pass) issue 122 credentials and prose (jsonl) > message from Ivan: ok [10.54ms]
+2026-11-15T17:01:29.6931230Z (pass) issue 122 credentials and prose (jsonl) > recruiter Alice replied [11.14ms]
+2026-11-15T17:01:29.6958100Z (pass) issue 122 credentials and prose (jsonl) > applicant Petrov replied [11.08ms]
+2026-11-15T17:01:29.6977760Z (pass) issue 122 credentials and prose (jsonl) > Hi Jane, [10.14ms]
+2026-11-15T17:01:29.7002480Z (pass) issue 122 credentials and prose (jsonl) > Ms Brown called [11.00ms]
+2026-11-15T17:01:29.7030440Z (pass) issue 122 credentials and prose (jsonl) > Dr. Smith called [13.56ms]
+2026-11-15T17:01:29.7058310Z (pass) issue 122 credentials and prose (jsonl) > Request Failed: POST /api [8.74ms]
+2026-11-15T17:01:29.7129540Z (pass) issue 122 credentials and prose (jsonl) > Candidate Stage changed [6.86ms]
+2026-11-15T17:01:29.7183640Z (pass) issue 122 personal fields (json) > candidateName [12.87ms]
+2026-11-15T17:01:29.7196600Z (pass) issue 122 personal fields (json) > candidate_name [9.08ms]
+2026-11-15T17:01:29.7214990Z (pass) issue 122 personal fields (json) > displayName [28.41ms]
+2026-11-15T17:01:29.7260550Z (pass) issue 122 personal fields (json) > fullName [10.37ms]
+2026-11-15T17:01:29.7297840Z (pass) issue 122 personal fields (json) > originalFileName [14.05ms]
+2026-11-15T17:01:29.7331190Z (pass) issue 122 personal fields (json) > age [10.83ms]
+2026-11-15T17:01:29.7364980Z (pass) issue 122 personal fields (json) > birthYear [8.68ms]
+2026-11-15T17:01:29.7406760Z (pass) issue 122 personal fields (jsonl) > candidateName [8.84ms]
+2026-11-15T17:01:29.7490140Z (pass) issue 122 personal fields (jsonl) > candidate_name [10.27ms]
+2026-11-15T17:01:29.7577510Z (pass) issue 122 personal fields (jsonl) > displayName [9.59ms]
+2026-11-15T17:01:29.7662140Z (pass) issue 122 personal fields (jsonl) > fullName [9.89ms]
+2026-11-15T17:01:29.7686720Z (pass) issue 122 personal fields (jsonl) > originalFileName [12.46ms]
+2026-11-15T17:01:29.7740290Z (pass) issue 122 personal fields (jsonl) > age [8.63ms]
+2026-11-15T17:01:29.7788360Z (pass) issue 122 personal fields (jsonl) > birthYear [8.89ms]
+2026-11-15T17:01:29.7806520Z (pass) issue 122 complete credential spans > AQVNa [1.18ms]
+2026-11-15T17:01:29.7844350Z (pass) issue 122 complete credential spans > t1.aB [0.94ms]
+2026-11-15T17:01:29.7873310Z (pass) issue 122 complete credential spans > YCAJE [0.78ms]
+2026-11-15T17:01:29.7902430Z (pass) issue 122 complete credential spans > YCaB3 [0.71ms]
+2026-11-15T17:01:29.7920440Z (pass) issue 122 policy and format boundaries > recognizes documented API-key lengths and padded IAM tokens [6.61ms]
+2026-11-15T17:01:29.7944310Z (pass) issue 122 policy and format boundaries > keeps credential protection outside document and strict profiles [4.51ms]
+2026-11-15T17:01:29.7974420Z (pass) issue 122 policy and format boundaries > does not infer credentials from short or embedded lookalikes [2.16ms]
+2026-11-15T17:01:29.8009460Z (pass) issue 122 policy and format boundaries > retains numeric formatting and keys around nested and escaped personal fields [20.33ms]
+2026-11-15T17:01:29.8014110Z (pass) issue 122 policy and format boundaries > keeps whole numeric replacements from propagating into string contents [28.27ms]
+2026-11-15T17:01:29.8080400Z (pass) issue 122 policy and format boundaries > keeps ambiguous fields and missing numeric values [6.32ms]
+2026-11-15T17:01:29.8097810Z (pass) issue 122 policy and format boundaries > honors scan-only fields, disabled types and replacement field vocabulary [31.54ms]
+2026-11-15T17:01:29.8116270Z (pass) issue 122 policy and format boundaries > permits disabling person cues and guards credential disabling [6.28ms]
+2026-11-15T17:01:29.8139630Z (pass) issue 122 policy and format boundaries > requires a complete cue and capitalized name in the same clause [6.80ms]
+2026-11-15T17:01:29.8169020Z 
+2026-11-15T17:01:29.8379800Z ##[endgroup]
+2026-11-15T17:01:29.8425580Z 
+2026-11-15T17:01:29.8504180Z ##[group]tests/wait-for-npm.test.js:
+2026-11-15T17:01:29.8536010Z (pass) parseArgs > parses release wait options [0.53ms]
+2026-11-15T17:01:29.8565820Z (pass) buildPackageVersionUrl > builds a version document url for unscoped packages [0.90ms]
+2026-11-15T17:01:29.8598710Z (pass) buildPackageVersionUrl > encodes the scope separator for scoped packages [0.12ms]
+2026-11-15T17:01:29.8623560Z (pass) checkNpmVersion > reports a published version as available [0.98ms]
+2026-11-15T17:01:29.9630720Z (pass) checkNpmVersion > sends an accept and user-agent header [0.26ms]
+2026-11-15T17:01:30.0176180Z (pass) checkNpmVersion > reports HTTP 404 as genuinely not published [0.29ms]
+2026-11-15T17:01:30.0258690Z (pass) checkNpmVersion > reports a 5xx as unknown, not as a missing version [0.22ms]
+2026-11-15T17:01:30.0288500Z (pass) checkNpmVersion > reports a 403 as unknown [0.20ms]
+2026-11-15T17:01:30.0320570Z (pass) checkNpmVersion > reports a network failure as unknown and keeps the reason [0.38ms]
+2026-11-15T17:01:30.0554480Z (pass) checkNpmVersion > reports a version mismatch as ok but unavailable [0.18ms]
+2026-11-15T17:01:30.0654960Z (pass) checkNpmVersion > reports an invalid package name as unknown [0.16ms]
+2026-11-15T17:01:30.0710910Z (pass) normalizeCheckResult > keeps boolean results working [0.14ms]
+2026-11-15T17:01:30.0784110Z (pass) normalizeCheckResult > defaults an unrecognized result to unknown [0.04ms]
+2026-11-15T17:01:30.0832490Z (pass) describeCheckResult > describes each status distinctly [0.16ms]
+2026-11-15T17:01:30.0895860Z (pass) waitForNpmVersion > retries until npm reports the requested version [0.67ms]
+2026-11-15T17:01:30.0926990Z (pass) waitForNpmVersion > carries the last unknown status out of an exhausted wait [0.36ms]
+2026-11-15T17:01:30.1041480Z (pass) waitForNpmVersion > logs the outcome of every attempt [0.26ms]
+2026-11-15T17:01:30.1083180Z (pass) formatFailureMessage > asserts a failed release only when npm answered [0.18ms]
+2026-11-15T17:01:30.1109960Z (pass) formatFailureMessage > does not blame the release when the registry was unreachable [0.12ms]
+2026-11-15T17:01:30.1123080Z (pass) wait-for-npm main > reports an unreachable registry distinctly from a missing version [5.05ms]
+2026-11-15T17:01:30.1282320Z 
+2026-11-15T17:01:30.1420740Z ##[endgroup]
+2026-11-15T17:01:30.1479580Z 
+2026-11-15T17:01:30.1616320Z ##[group]tests/sanitizer-issue-32.test.js:
+2026-11-15T17:01:31.8685950Z (pass) issue 32 name and identity regressions > bounds document-name guards on a finite hostile tab suffix [2131.10ms]
+2026-11-15T17:01:31.9833010Z (pass) issue 32 name and identity regressions > protects KOVALEVA_MARINA_PASSPORT.jpg [16.39ms]
+2026-11-15T17:01:32.0391330Z (pass) issue 32 name and identity regressions > protects IVANOV_IVAN_SCAN.pdf [4.21ms]
+2026-11-15T17:01:32.1392340Z (pass) issue 32 name and identity regressions > protects KUZNETSOVA-EKATERINA-ID.png [5.18ms]
+2026-11-15T17:01:32.2396900Z (pass) issue 32 name and identity regressions > protects SIDOROV_ALEKSEI_PHOTO.png [6.25ms]
+2026-11-15T17:01:32.3401520Z (pass) issue 32 name and identity regressions > protects SIDOROV-ALEKSEI-PHOTO.png [4.38ms]
+2026-11-15T17:01:32.4404360Z (pass) issue 32 name and identity regressions > protects TKACHENKO_BOGDAN_VISA.pdf [5.30ms]
+2026-11-15T17:01:32.5406580Z (pass) issue 32 name and identity regressions > protects ZHANG_WEI_PASSPORT.pdf [4.41ms]
+2026-11-15T17:01:32.6404550Z (pass) issue 32 name and identity regressions > protects NGUYEN_VAN_AN_PASSPORT.jpg [4.57ms]
+2026-11-15T17:01:32.7409680Z (pass) issue 32 name and identity regressions > protects scan_passport_kovaleva_marina.jpg [4.66ms]
+2026-11-15T17:01:32.9420010Z (pass) issue 32 name and identity regressions > protects ПАСПОРТ_Ковалева_Марина.pdf [17.02ms]
+2026-11-15T17:01:33.0420040Z (pass) issue 32 name and identity regressions > protects ВИЗА_Ковалева_Марина.pdf [2.98ms]
+2026-11-15T17:01:33.1422150Z (pass) issue 32 name and identity regressions > protects СКАН_Ковалева_Марина.pdf [3.00ms]
+2026-11-15T17:01:33.2424900Z (pass) issue 32 name and identity regressions > protects ФОТО_Ковалева_Марина.pdf [2.86ms]
+2026-11-15T17:01:33.3435360Z (pass) issue 32 name and identity regressions > protects Alexey Sidorov [4.54ms]
+2026-11-15T17:01:33.4438710Z (pass) issue 32 name and identity regressions > protects Ekaterina Kuznetsova [4.14ms]
+2026-11-15T17:01:33.5620420Z (pass) issue 32 name and identity regressions > protects for Olesya Zyryanova [8.77ms]
+2026-11-15T17:01:33.6626170Z (pass) issue 32 name and identity regressions > protects Zyryanova Olesya [3.10ms]
+2026-11-15T17:01:33.7627910Z (pass) issue 32 name and identity regressions > protects Aleksei Sidorov [4.12ms]
+2026-11-15T17:01:33.8629470Z (pass) issue 32 name and identity regressions > protects Alexei Sidorov [3.45ms]
+2026-11-15T17:01:33.9633810Z (pass) issue 32 name and identity regressions > protects Aleksey Sidorov [6.81ms]
+2026-11-15T17:01:34.0635500Z (pass) issue 32 name and identity regressions > protects Bogdan Tkachenko [3.88ms]
+2026-11-15T17:01:34.0998040Z (pass) issue 32 name and identity regressions > protects Ковалева Марина [3.45ms]
+2026-11-15T17:01:34.1516260Z (pass) issue 32 name and identity regressions > protects Зырянова Олеся [3.71ms]
+2026-11-15T17:01:34.1857680Z (pass) issue 32 name and identity regressions > protects ALEKSEY SIDOROV [3.74ms]
+2026-11-15T17:01:34.2081890Z (pass) issue 32 name and identity regressions > protects Olesia Zyryanova [3.85ms]
+2026-11-15T17:01:34.2130640Z (pass) issue 32 name and identity regressions > scores formatted SNILS 112-233-445 95 as strong [1.93ms]
+2026-11-15T17:01:34.2176470Z (pass) issue 32 name and identity regressions > scores formatted SNILS 112 233 445 95 as strong [1.30ms]
+2026-11-15T17:01:34.3181060Z (pass) issue 32 name and identity regressions > scores formatted SNILS 487-192-053 19 as strong [1.56ms]
+2026-11-15T17:01:34.4183760Z (pass) issue 32 name and identity regressions > recognizes SNILS context пенсионное [2.72ms]
+2026-11-15T17:01:34.5185720Z (pass) issue 32 name and identity regressions > recognizes SNILS context страховое свидетельство [0.98ms]
+2026-11-15T17:01:34.6188240Z (pass) issue 32 name and identity regressions > recognizes SNILS context СНИЛС [1.42ms]
+2026-11-15T17:01:34.6495910Z (pass) issue 32 name and identity regressions > recognizes SNILS context страховой номер [2.12ms]
+2026-11-15T17:01:34.6710030Z (pass) issue 32 name and identity regressions > protects a bare personal INN 500100732259 [2.56ms]
+2026-11-15T17:01:34.7016080Z (pass) issue 32 name and identity regressions > protects a bare personal INN 771829456048 [1.88ms]
+2026-11-15T17:01:34.7051460Z (pass) issue 32 name and identity regressions > recognizes English passport context series and number [1.02ms]
+2026-11-15T17:01:34.7093980Z (pass) issue 32 name and identity regressions > recognizes English passport context passport series [1.25ms]
+2026-11-15T17:01:34.7122280Z (pass) issue 32 name and identity regressions > recognizes English passport context document number [0.66ms]
+2026-11-15T17:01:34.7181030Z (pass) issue 32 name and identity regressions > propagates confirmed names between scripts [10.86ms]
+2026-11-15T17:01:34.7215280Z (pass) issue 32 name and identity regressions > propagates GOST diacritic spellings back to Cyrillic [3.31ms]
+2026-11-15T17:01:34.7251610Z (pass) issue 32 name and identity regressions > provides the publication profile without changing numeric-noise negatives [5.47ms]
+2026-11-15T17:01:34.7312150Z (pass) issue 32 public and code negatives > keeps Linus Torvalds [1.84ms]
+2026-11-15T17:01:34.7367160Z (pass) issue 32 public and code negatives > keeps Elon Musk tweeted [2.08ms]
+2026-11-15T17:01:34.7591520Z (pass) issue 32 public and code negatives > keeps Bill Gates [1.60ms]
+2026-11-15T17:01:34.8596310Z (pass) issue 32 public and code negatives > keeps Nelson Mandela [1.67ms]
+2026-11-15T17:01:34.9635920Z (pass) issue 32 public and code negatives > keeps Satya Nadella [1.62ms]
+2026-11-15T17:01:35.0640660Z (pass) issue 32 public and code negatives > keeps Tim Cook [1.82ms]
+2026-11-15T17:01:35.0804250Z (pass) issue 32 public and code negatives > keeps Grace Hopper [1.75ms]
+2026-11-15T17:01:35.0970370Z (pass) issue 32 public and code negatives > keeps Sergey Brin founded Google [2.22ms]
+2026-11-15T17:01:35.1084650Z (pass) issue 32 public and code negatives > keeps Pavel Durov said [1.99ms]
+2026-11-15T17:01:35.1325010Z (pass) issue 32 public and code negatives > keeps Vladimir Putin [1.89ms]
+2026-11-15T17:01:35.2330320Z (pass) issue 32 public and code negatives > keeps Marina Bay Sands hotel [3.24ms]
+2026-11-15T17:01:35.3114190Z (pass) issue 32 public and code negatives > keeps Marina Sands [2.31ms]
+2026-11-15T17:01:35.3159570Z (pass) issue 32 public and code negatives > keeps Marina Hotel [3.24ms]
+2026-11-15T17:01:35.3197390Z (pass) issue 32 public and code negatives > keeps Marina Street [2.09ms]
+2026-11-15T17:01:35.3233910Z (pass) issue 32 public and code negatives > keeps const userName = getUserName(); [2.27ms]
+2026-11-15T17:01:35.3296590Z (pass) issue 32 public and code negatives > keeps const userName = user.name; [2.07ms]
+2026-11-15T17:01:35.3691850Z (pass) issue 32 public and code negatives > keeps const userName = existingUserName; [3.64ms]
+2026-11-15T17:01:35.3727670Z (pass) issue 32 public and code negatives > keeps state:
+2026-11-15T17:01:35.3757220Z t [1.98ms]
+2026-11-15T17:01:35.3823330Z (pass) issue 32 public and code negatives > keeps Booking FAILED today [2.09ms]
+2026-11-15T17:01:35.4825440Z (pass) issue 32 public and code negatives > keeps Booking ERROR today [2.92ms]
+2026-11-15T17:01:35.5429260Z (pass) issue 32 public and code negatives > keeps Booking HTTP today [1.77ms]
+2026-11-15T17:01:35.5466960Z (pass) issue 32 public and code negatives > keeps Booking PENDING today [1.63ms]
+2026-11-15T17:01:35.5498900Z (pass) issue 32 public and code negatives > keeps Booking OK today [1.23ms]
+2026-11-15T17:01:35.5671630Z (pass) issue 32 public and code negatives > keeps Booking CANCELLED today [1.50ms]
+2026-11-15T17:01:35.6159190Z (pass) issue 32 public and code negatives > keeps Booking CONFIRMED today [1.64ms]
+2026-11-15T17:01:35.6232430Z (pass) issue 32 public and code negatives > keeps reservation HTTP 500 [1.48ms]
+2026-11-15T17:01:35.6268560Z (pass) issue 32 public and code negatives > retains private namesake and credential precedence [12.10ms]
+2026-11-15T17:01:35.6324790Z (pass) issue 32 public and code negatives > keeps Russian mobile fakes in a mobile range [6.88ms]
+2026-11-15T17:01:35.6595680Z (pass) issue 32 real-shaped session records > sanitizes valid JSONL without split escapes or residuals [45.80ms]
+2026-11-15T17:01:35.6662130Z (pass) issue 32 real-shaped session records > supports real-shaped sessions with 1 workers [42.61ms]
+2026-11-15T17:01:35.6750480Z (pass) issue 32 real-shaped session records > propagates confirmations across distant batches with 1 workers [312.25ms]
+2026-11-15T17:01:35.6809190Z (pass) issue 32 real-shaped session records > fails closed on a late confirmation with 1 workers [12.54ms]
+2026-11-15T17:01:35.6856300Z (pass) issue 32 real-shaped session records > supports real-shaped sessions with 4 workers [1636.15ms]
+2026-11-15T17:01:35.8350390Z (pass) issue 32 real-shaped session records > propagates confirmations across distant batches with 4 workers [1443.18ms]
+2026-11-15T17:01:35.8406230Z (pass) issue 32 real-shaped session records > fails closed on a late confirmation with 4 workers [151.25ms]
+2026-11-15T17:01:35.8440720Z 
+2026-11-15T17:01:35.8468730Z ##[endgroup]
+2026-11-15T17:01:35.8479270Z 
+2026-11-15T17:01:35.8502840Z ##[group]tests/release-badge.test.js:
+2026-11-15T17:01:35.8538790Z (pass) release badge version normalization > strips a plain v prefix for backward compatibility [0.20ms]
+2026-11-15T17:01:35.8612270Z (pass) release badge version normalization > strips a js-v prefix from multi-language release tags [0.04ms]
+2026-11-15T17:01:35.8661390Z (pass) release badge version normalization > strips a js_v prefix from auto-detected multi-language release tags [0.03ms]
+2026-11-15T17:01:35.8711250Z (pass) release badge version normalization > strips a rust-v prefix from multi-language release tags [0.03ms]
+2026-11-15T17:01:35.8759100Z (pass) release badge version normalization > strips a rust_v prefix from multi-language release tags [0.03ms]
+2026-11-15T17:01:35.8801630Z (pass) release badge version normalization > escapes hyphens in prerelease versions for shields.io static badge paths [0.09ms]
+2026-11-15T17:01:35.8854970Z (pass) release badge version normalization > builds a valid shields.io badge URL for prefixed tags [0.10ms]
+2026-11-15T17:01:35.8889910Z (pass) release badge version normalization > builds a valid shields.io badge URL for prefixed prerelease tags [0.05ms]
+2026-11-15T17:01:35.8922430Z (pass) generated npm badge detection > does not skip ordinary notes: ### Patch Changes
+2026-11-15T17:01:35.8953530Z - Fix img.shields.io URL handling [1.97ms]
+2026-11-15T17:01:35.8987290Z (pass) generated npm badge detection > does not skip ordinary notes: ![build](https://img.shields.io/badge/build-passing-green) [0.23ms]
+2026-11-15T17:01:35.8992300Z (pass) generated npm badge detection > does not skip ordinary notes: ![npm](https://img.shields.io.attacker.invalid/badge/npm-1-blue.svg) [0.07ms]
+2026-11-15T17:01:35.9032980Z (pass) generated npm badge detection > does not skip ordinary notes: ![npm](https://img.shields.io@attacker.invalid/badge/npm-1-blue.svg) [0.05ms]
+2026-11-15T17:01:35.9082640Z (pass) generated npm badge detection > does not skip ordinary notes: ![npm](https://attacker.invalid/img.shields.io/badge/npm-1-blue.svg) [0.04ms]
+2026-11-15T17:01:35.9121720Z (pass) generated npm badge detection > does not skip ordinary notes: ![npm](http://img.shields.io/badge/npm-1-blue.svg) [0.13ms]
+2026-11-15T17:01:35.9157770Z (pass) generated npm badge detection > does not skip ordinary notes: ![npm](https://user@img.shields.io/badge/npm-1-blue.svg) [0.06ms]
+2026-11-15T17:01:35.9206340Z (pass) generated npm badge detection > does not skip ordinary notes: https://img.shields.io/badge/npm-1-blue.svg [0.08ms]
+2026-11-15T17:01:35.9267290Z (pass) generated npm badge detection > recognizes the actual generated badge [0.48ms]
+2026-11-15T17:01:35.9378050Z 
+2026-11-15T17:01:35.9432750Z ##[endgroup]
+2026-11-15T17:01:35.9478910Z 
+2026-11-15T17:01:35.9532140Z ##[group]tests/issue-92-push.test.js:
+2026-11-15T17:01:35.9562100Z (pass) issue 92 release push recovery > retries the reported server error without rebasing or making a PR [1.69ms]
+2026-11-15T17:01:35.9617770Z (pass) issue 92 release push recovery > stops after three server failures and retains the actual error [0.71ms]
+2026-11-15T17:01:35.9668810Z (pass) issue 92 release push recovery > never classifies authentication failures or repository rules as transient [0.12ms]
+2026-11-15T17:01:35.9703710Z (pass) issue 92 release push recovery > fails permanent release rules without creating an automated PR [1.59ms]
+2026-11-15T17:01:35.9738100Z 
+2026-11-15T17:01:35.9783420Z ##[endgroup]
+2026-11-15T17:01:35.9828480Z 
+2026-11-15T17:01:35.9877350Z ##[group]tests/bootstrap-dependencies.test.js:
+2026-11-15T17:01:35.9976890Z (pass) bootstrapDependencies > returns a single loaded module when given one loader [0.60ms]
+2026-11-15T17:01:36.0038120Z (pass) bootstrapDependencies > returns modules in the order of the loaders [0.24ms]
+2026-11-15T17:01:36.0040960Z (pass) bootstrapDependencies > reports the failure as a GitHub error annotation [0.48ms]
+2026-11-15T17:01:36.0074470Z (pass) bootstrapDependencies > prints the cause, which carries the transport-level reason [0.27ms]
+2026-11-15T17:01:36.0116740Z (pass) bootstrapDependencies > writes the fallback outputs before exiting [0.33ms]
+2026-11-15T17:01:36.0168820Z (pass) bootstrapDependencies > does not run later loaders once one has failed [0.24ms]
+2026-11-15T17:01:36.0198680Z (pass) writeOutputs > writes nothing when GITHUB_OUTPUT is unset [0.08ms]
+2026-11-15T17:01:36.0228850Z (pass) writeOutputs > writes one line per output [0.11ms]
+2026-11-15T17:01:36.0263300Z (pass) writeOutputs > never throws when the output file cannot be written [0.09ms]
+2026-11-15T17:01:36.0286400Z 
+2026-11-15T17:01:36.0324310Z ##[endgroup]
+2026-11-15T17:01:36.0368070Z 
+2026-11-15T17:01:36.0430000Z ##[group]tests/scripts-use-module-adoption.test.js:
+2026-11-15T17:01:36.0485660Z (pass) pipeline scripts load installed dependencies through the interop shim > never destructures a package straight off use() [7.24ms]
+2026-11-15T17:01:36.0541420Z (pass) pipeline scripts load installed dependencies through the interop shim > never fetches and evals use.js inline [6.19ms]
+2026-11-15T17:01:36.0589350Z (pass) pipeline scripts load installed dependencies through the interop shim > never awaits a loader at module scope outside the bootstrap [10.54ms]
+2026-11-15T17:01:36.0637430Z (pass) pipeline scripts load installed dependencies through the interop shim > routes every command-stream consumer through the shim [6.86ms]
+2026-11-15T17:01:36.0680480Z 
+2026-11-15T17:01:36.0713370Z ##[endgroup]
+2026-11-15T17:01:36.0764270Z 
+2026-11-15T17:01:36.0801300Z ##[group]tests/sanitizer-stream-identity.test.js:
+2026-11-15T17:01:36.0855670Z (pass) prepared stream findings and verification > reuses coordinator findings while retaining required engines and final verification [17.45ms]
+2026-11-15T17:01:36.0933070Z (pass) prepared stream findings and verification > never reuses coordinator findings for residual verification [3.18ms]
+2026-11-15T17:01:48.7767470Z (pass) private stream confirmations and publication > protects distant cross-script MRZ reuse in a 1.7 MB session (1 workers) [12440.51ms]
+2026-11-15T17:01:59.9921050Z (pass) private stream confirmations and publication > protects distant cross-script MRZ reuse in a 1.7 MB session (4 workers) [11497.41ms]
+2026-11-15T17:02:00.0111010Z (pass) private stream confirmations and publication > shares confirmations with a supplied sanitizer and plain streams [40.49ms]
+2026-11-15T17:02:00.1120270Z (pass) private stream confirmations and publication > keeps a confirmed private public-figure namesake private across batches [79.22ms]
+2026-11-15T17:02:00.2127270Z (pass) private stream confirmations and publication > does not share identities with another stream [9.04ms]
+2026-11-15T17:02:00.2132080Z (pass) private stream confirmations and publication > uses publication thresholds consistently for registry confirmations [10.38ms]
+2026-11-15T17:02:00.3139300Z (pass) private stream confirmations and publication > fails closed on late numeric confirmation and registry exhaustion [13.93ms]
+2026-11-15T17:02:00.4148960Z (pass) private stream confirmations and publication > publishes valid sessions atomically and removes staging on late confirmation [253.28ms]
+2026-11-15T17:02:00.5164580Z 
+2026-11-15T17:02:00.5784460Z ##[endgroup]
+2026-11-15T17:02:00.5994050Z 
+2026-11-15T17:02:00.6296950Z ##[group]tests/ci-timeouts.test.js:
+2026-11-15T17:02:00.6470710Z (pass) CI timeout policy > sets timeout-minutes for every release workflow job [4.76ms]
+2026-11-15T17:02:00.6757750Z (pass) CI timeout policy > sets timeout-minutes for every link workflow job [0.61ms]
+2026-11-15T17:02:00.7030440Z (pass) CI timeout policy > parses workflow files checked out with Windows line endings [0.16ms]
+2026-11-15T17:02:00.7266250Z (pass) CI timeout policy > caps individual Node.js and Bun tests at 30 seconds [0.21ms]
+2026-11-15T17:02:00.7442110Z (pass) CI timeout policy > documents that the Bun flag bounds a test and not the suite [3.23ms]
+2026-11-15T17:02:00.7561570Z (pass) CI execution budgets > lets publish and Docker waits complete their default propagation window [8.08ms]
+2026-11-15T17:02:00.7649460Z (pass) CI execution budgets > keeps every declared step budget under the job backstop [7.36ms]
+2026-11-15T17:02:00.7752390Z (pass) CI execution budgets > warns at the same share of the budget that the invariant allows [0.15ms]
+2026-11-15T17:02:00.7957660Z (pass) step budget grouping > sums exclusive matrix legs as alternatives, not as a sequence [0.29ms]
+2026-11-15T17:02:00.8208910Z (pass) step budget grouping > still fails when a single leg exceeds the allowance [0.14ms]
+2026-11-15T17:02:00.8521600Z (pass) step budget grouping > adds unconditional budgets to the largest conditional group [0.14ms]
+2026-11-15T17:02:00.8833770Z (pass) step budget grouping > resolves a "$VAR" budget from the step, job, or workflow env [0.23ms]
+2026-11-15T17:02:00.8995540Z (pass) step budget grouping > reports a budget it cannot read and never skips one silently [0.14ms]
+2026-11-15T17:02:00.9441840Z 
+2026-11-15T17:02:00.9563470Z ##[endgroup]
+2026-11-15T17:02:00.9658620Z 
+2026-11-15T17:02:00.9883570Z ##[group]tests/sanitizer-keywords.test.js:
+2026-11-15T17:02:01.0043180Z (pass) matches includes semantics for overlapping keywords and the full vendored dictionary [10.47ms]
+2026-11-15T17:02:01.0143270Z (pass) skips irrelevant padding without losing overlaps or literal Unicode starters [2.25ms]
+2026-11-15T17:02:01.0206650Z 
+2026-11-15T17:02:01.0291430Z ##[endgroup]
+2026-11-15T17:02:01.0493100Z 
+2026-11-15T17:02:01.0642450Z ##[group]tests/sanitizer-fake.test.js:
+2026-11-15T17:02:01.0775350Z (pass) realistic keyed fake transformations > keeps the script of en names [25.33ms]
+2026-11-15T17:02:01.1047960Z (pass) realistic keyed fake transformations > keeps the script of es names [3.23ms]
+2026-11-15T17:02:01.1297720Z (pass) realistic keyed fake transformations > keeps the script of fr names [2.49ms]
+2026-11-15T17:02:01.1440860Z (pass) realistic keyed fake transformations > keeps the script of de names [7.23ms]
+2026-11-15T17:02:01.1973480Z (pass) realistic keyed fake transformations > keeps the script of pt names [1.38ms]
+2026-11-15T17:02:01.2527830Z (pass) realistic keyed fake transformations > keeps the script of ru names [4.88ms]
+2026-11-15T17:02:01.2674300Z (pass) realistic keyed fake transformations > keeps the script of ja names [1.44ms]
+2026-11-15T17:02:01.3109530Z (pass) realistic keyed fake transformations > keeps the script of zh names [1.12ms]
+2026-11-15T17:02:01.3305220Z (pass) realistic keyed fake transformations > keeps the script of zh-Hant names [0.86ms]
+2026-11-15T17:02:01.3483260Z (pass) realistic keyed fake transformations > keeps the script of ko names [1.08ms]
+2026-11-15T17:02:01.3648890Z (pass) realistic keyed fake transformations > keeps the script of ar names [1.09ms]
+2026-11-15T17:02:01.3748930Z (pass) realistic keyed fake transformations > keeps the script of he names [1.14ms]
+2026-11-15T17:02:01.3838090Z (pass) realistic keyed fake transformations > keeps the script of hi names [1.36ms]
+2026-11-15T17:02:01.3957590Z (pass) realistic keyed fake transformations > keeps the script of tr names [1.24ms]
+2026-11-15T17:02:01.4082170Z (pass) realistic keyed fake transformations > keeps the script of id names [1.36ms]
+2026-11-15T17:02:01.4263490Z (pass) realistic keyed fake transformations > keeps the script of vi names [3.22ms]
+2026-11-15T17:02:01.4373000Z (pass) realistic keyed fake transformations > keeps the script of th names [1.10ms]
+2026-11-15T17:02:01.4502940Z (pass) realistic keyed fake transformations > validates the UK_NHS_NUMBER catalog alias [1.09ms]
+2026-11-15T17:02:01.4634120Z (pass) realistic keyed fake transformations > validates the AU_TAX_FILE_NUMBER catalog alias [1.59ms]
+2026-11-15T17:02:01.4724800Z (pass) realistic keyed fake transformations > validates the SOUTH_AFRICA_ID_NUMBER catalog alias [1.57ms]
+2026-11-15T17:02:01.4813540Z (pass) realistic keyed fake transformations > generates valid Luhn cards, dotted CPF and NPI [4.24ms]
+2026-11-15T17:02:01.4898220Z (pass) realistic keyed fake transformations > shares valid payment-card fakes across card catalog aliases [0.68ms]
+2026-11-15T17:02:01.4983920Z (pass) realistic keyed fake transformations > generates independently valid TD1 MRZ [5.19ms]
+2026-11-15T17:02:01.5070530Z (pass) realistic keyed fake transformations > generates independently valid TD2 MRZ [5.86ms]
+2026-11-15T17:02:01.5159190Z (pass) keyed faking and cross-field consistency > is stable per key and changes with the key [42.90ms]
+2026-11-15T17:02:01.5345110Z (pass) keyed faking and cross-field consistency > keeps Russian script, gender, patronymics and transliteration consistent [6.04ms]
+2026-11-15T17:02:01.5590100Z (pass) keyed faking and cross-field consistency > generates valid plausible 07/12/1985 [0.60ms]
+2026-11-15T17:02:01.5679760Z (pass) keyed faking and cross-field consistency > generates valid plausible 1985-12-07 [0.23ms]
+2026-11-15T17:02:01.5793180Z (pass) keyed faking and cross-field consistency > generates valid plausible 07.12.1985 [0.19ms]
+2026-11-15T17:02:01.5905320Z (pass) keyed faking and cross-field consistency > uses a shared date offset across formats [0.37ms]
+2026-11-15T17:02:01.5994560Z (pass) keyed faking and cross-field consistency > generates valid same-format UK_NHS 12 [0.47ms]
+2026-11-15T17:02:01.6079560Z (pass) keyed faking and cross-field consistency > generates valid same-format KR_RRN 14 [0.38ms]
+2026-11-15T17:02:01.6173100Z (pass) keyed faking and cross-field consistency > generates valid same-format IT_FISCAL_CODE 16 [0.66ms]
+2026-11-15T17:02:01.6251680Z (pass) keyed faking and cross-field consistency > generates valid same-format SG_NRIC_FIN 9 [0.42ms]
+2026-11-15T17:02:01.6342730Z (pass) keyed faking and cross-field consistency > generates valid same-format PL_PESEL 11 [0.31ms]
+2026-11-15T17:02:01.6422610Z (pass) keyed faking and cross-field consistency > generates valid same-format SE_PERSONNUMMER 11 [0.28ms]
+2026-11-15T17:02:01.6518250Z (pass) keyed faking and cross-field consistency > generates valid same-format ZA_ID_NUMBER 13 [0.22ms]
+2026-11-15T17:02:01.6636000Z (pass) keyed faking and cross-field consistency > generates valid same-format AU_TFN 11 [0.20ms]
+2026-11-15T17:02:01.6774010Z (pass) keyed faking and cross-field consistency > generates valid same-format CA_SIN 11 [0.17ms]
+2026-11-15T17:02:01.6880020Z (pass) keyed faking and cross-field consistency > generates valid same-format RU_SNILS 14 [0.32ms]
+2026-11-15T17:02:01.6971120Z (pass) keyed faking and cross-field consistency > generates valid same-format RU_INN 10 [0.28ms]
+2026-11-15T17:02:01.7059030Z (pass) keyed faking and cross-field consistency > generates valid same-format RU_INN 12 [1.61ms]
+2026-11-15T17:02:01.7144930Z (pass) national date century consistency > shares the calendar offset across the century boundary for PL_PESEL [0.98ms]
+2026-11-15T17:02:01.7150030Z (pass) national date century consistency > shares the calendar offset across the century boundary for SE_PERSONNUMMER [0.48ms]
+2026-11-15T17:02:01.7243610Z (pass) fake contact values and provenance > uses Ofcom fixed-line ranges and retains valid Russian mobile prefixes [6.95ms]
+2026-11-15T17:02:01.7335920Z (pass) fake contact values and provenance > keeps country code and separators and uses reserved NANP/UK ranges [4.88ms]
+2026-11-15T17:02:01.7427160Z (pass) fake contact values and provenance > keeps reserved email and domain destinations [0.70ms]
+2026-11-15T17:02:01.7630240Z (pass) fake contact values and provenance > keeps IBAN country, spacing, length and independent mod-97 validity [0.88ms]
+2026-11-15T17:02:01.7775460Z (pass) fake contact values and provenance > does not let generated personal values exempt credential findings [8.15ms]
+2026-11-15T17:02:01.8613200Z (pass) fake contact values and provenance > audits actual faking while retaining full-redaction fallbacks [2.66ms]
+2026-11-15T17:02:01.9350960Z (pass) fake contact values and provenance > rejects malformed MRZ dates with full redaction [4.92ms]
+2026-11-15T17:02:01.9518830Z (pass) fake contact values and provenance > fully redacts credentials by default and only emits invalid marked credentials on opt-in [51.30ms]
+2026-11-15T17:02:02.0564640Z (pass) fake contact values and provenance > recognizes only the current keyed generators during residual verification [10.23ms]
+2026-11-15T17:02:02.0581690Z (pass) fake TD3 documents > generates independently valid TD3 MRZ and matching names and birth dates [15.58ms]
+2026-11-15T17:02:02.1567090Z 
+2026-11-15T17:02:02.1681360Z ##[endgroup]
+2026-11-15T17:02:02.1777250Z 
+2026-11-15T17:02:02.2026690Z ##[group]tests/status-gate-coverage.test.js:
+2026-11-15T17:02:02.2140520Z (pass) check-status-gate-covers-all-jobs.mjs > accepts comments and blank lines in block needs [215.33ms]
+2026-11-15T17:02:02.2287870Z (pass) check-status-gate-covers-all-jobs.mjs > confirms the shipped release workflow is fully covered [176.19ms]
+2026-11-15T17:02:02.2390100Z (pass) check-status-gate-covers-all-jobs.mjs > names the uncovered job when a job is dropped from needs [248.04ms]
+2026-11-15T17:02:02.2480980Z (pass) check-status-gate-covers-all-jobs.mjs > exits 2 when the workflow has no terminal status gate at all [240.15ms]
+2026-11-15T17:02:02.2602630Z (pass) check-status-gate-covers-all-jobs.mjs > accepts a differently named gate via --gate [172.79ms]
+2026-11-15T17:02:02.3109000Z (pass) check-status-gate-covers-all-jobs.mjs > parses the flow form of needs [151.07ms]
+2026-11-15T17:02:02.4127710Z (pass) check-status-gate-covers-all-jobs.mjs > wires the checker into the workflows meta-workflow for every workflow [0.48ms]
+2026-11-15T17:02:03.0919180Z (pass) check-status-gate-covers-all-jobs.mjs shipped coverage > confirms every other shipped workflow is fully covered [683.66ms]
+2026-11-15T17:02:03.1337600Z 
+2026-11-15T17:02:03.1527160Z ##[endgroup]
+2026-11-15T17:02:03.1590400Z 
+2026-11-15T17:02:03.2595490Z ##[group]tests/debug-print.test.js:
+2026-11-15T17:02:03.3177930Z (pass) debug-print > stays off by default [0.16ms]
+2026-11-15T17:02:03.3368030Z (pass) debug-print > honours each documented activation switch [0.10ms]
+2026-11-15T17:02:03.3508360Z (pass) debug-print > ignores unrelated values [0.05ms]
+2026-11-15T17:02:03.3572770Z (pass) debug-print > reports an unreadable environment variable as unset [0.20ms]
+2026-11-15T17:02:03.3879140Z (pass) debug-print > prints nothing while disabled [0.16ms]
+2026-11-15T17:02:03.4328680Z (pass) debug-print > prefixes every line with ::debug:: while enabled [0.32ms]
+2026-11-15T17:02:03.4435590Z (pass) debug-print > renders multi-line values without printing them [0.08ms]
+2026-11-15T17:02:03.4600650Z 
+2026-11-15T17:02:03.4786370Z ##[endgroup]
+2026-11-15T17:02:03.4899840Z 
+2026-11-15T17:02:03.5140420Z ##[group]tests/sanitizer-issue-128.test.js:
+2026-11-15T17:02:03.5562220Z (pass) competitor national and financial identifiers (#128) > redacts the whole US_ITIN value next to its label [12.71ms]
+2026-11-15T17:02:03.5804300Z (pass) competitor national and financial identifiers (#128) > redacts the whole ABA_ROUTING_NUMBER value next to its label [2.33ms]
+2026-11-15T17:02:03.5984820Z (pass) competitor national and financial identifiers (#128) > redacts the whole US_BANK_NUMBER value next to its label [2.04ms]
+2026-11-15T17:02:03.6119250Z (pass) competitor national and financial identifiers (#128) > redacts the whole US_DRIVER_LICENSE value next to its label [2.30ms]
+2026-11-15T17:02:03.6200040Z (pass) competitor national and financial identifiers (#128) > redacts the whole UK_DRIVING_LICENCE value next to its label [2.14ms]
+2026-11-15T17:02:03.6333690Z (pass) competitor national and financial identifiers (#128) > redacts the whole UK_NATIONAL_INSURANCE_NUMBER value next to its label [1.74ms]
+2026-11-15T17:02:03.6482720Z (pass) competitor national and financial identifiers (#128) > redacts the whole ES_NIE value next to its label [1.90ms]
+2026-11-15T17:02:03.6579560Z (pass) competitor national and financial identifiers (#128) > redacts the whole IT_VAT_CODE value next to its label [2.12ms]
+2026-11-15T17:02:03.6589660Z (pass) competitor national and financial identifiers (#128) > redacts the whole AU_ABN value next to its label [3.04ms]
+2026-11-15T17:02:03.6664080Z (pass) competitor national and financial identifiers (#128) > redacts the whole AU_ACN value next to its label [1.78ms]
+2026-11-15T17:02:03.6867890Z (pass) competitor national and financial identifiers (#128) > redacts the whole AU_MEDICARE value next to its label [1.80ms]
+2026-11-15T17:02:03.7029220Z (pass) competitor national and financial identifiers (#128) > redacts the whole IN_AADHAAR value next to its label [2.23ms]
+2026-11-15T17:02:03.7106100Z (pass) competitor national and financial identifiers (#128) > redacts the whole IN_GSTIN value next to its label [2.47ms]
+2026-11-15T17:02:03.7187640Z (pass) competitor national and financial identifiers (#128) > redacts the whole IN_VOTER value next to its label [2.76ms]
+2026-11-15T17:02:03.7286750Z (pass) competitor national and financial identifiers (#128) > redacts the whole FI_PERSONAL_IDENTITY_CODE value next to its label [3.96ms]
+2026-11-15T17:02:03.7399480Z (pass) competitor national and financial identifiers (#128) > redacts the whole TH_TNIN value next to its label [3.47ms]
+2026-11-15T17:02:03.7810030Z (pass) competitor national and financial identifiers (#128) > redacts the whole MEDICAL_LICENSE value next to its label [2.63ms]
+2026-11-15T17:02:03.8497860Z (pass) competitor national and financial identifiers (#128) > redacts the whole IMEI value next to its label [2.53ms]
+2026-11-15T17:02:03.8964820Z (pass) competitor national and financial identifiers (#128) > redacts the whole SWIFT_CODE value next to its label [1.94ms]
+2026-11-15T17:02:03.9376210Z (pass) competitor national and financial identifiers (#128) > redacts the whole SG_UEN value next to its label [1.89ms]
+2026-11-15T17:02:03.9531560Z (pass) competitor national and financial identifiers (#128) > redacts the whole VIN value next to its label [2.20ms]
+2026-11-15T17:02:03.9753660Z (pass) competitor national and financial identifiers (#128) > redacts the whole UK_POSTCODE value next to its label [1.70ms]
+2026-11-15T17:02:03.9960480Z (pass) competitor national and financial identifiers (#128) > keeps unlabelled or invalid lookalikes: SWIFT TRANSFER COMPLETED [0.64ms]
+2026-11-15T17:02:04.0788530Z (pass) competitor national and financial identifiers (#128) > keeps unlabelled or invalid lookalikes: order 123456789012 shipped [0.49ms]
+2026-11-15T17:02:04.1062020Z (pass) competitor national and financial identifiers (#128) > keeps unlabelled or invalid lookalikes: build 1101700207031 finished [0.57ms]
+2026-11-15T17:02:04.1261600Z (pass) competitor national and financial identifiers (#128) > keeps unlabelled or invalid lookalikes: request id 2345 6789 0125 [0.59ms]
+2026-11-15T17:02:04.1903590Z (pass) competitor national and financial identifiers (#128) > keeps checksum-valid numbers without context below the default threshold [4.65ms]
+2026-11-15T17:02:04.2342580Z (pass) competitor national and financial identifiers (#128) > treats distinctive formats as identifiers without a label [14.05ms]
+2026-11-15T17:02:04.3354780Z (pass) label words are not names or values (#128) > does not treat "My ITIN" as a person name [0.73ms]
+2026-11-15T17:02:04.4362830Z (pass) label words are not names or values (#128) > keeps the label and linking verb: my passport number is 912803456 [3.78ms]
+2026-11-15T17:02:04.4698320Z (pass) label words are not names or values (#128) > keeps the label and linking verb: passport is 912803456 [2.06ms]
+2026-11-15T17:02:04.4928130Z (pass) label words are not names or values (#128) > keeps the label and linking verb: Passport No: 912803456 [1.88ms]
+2026-11-15T17:02:04.5137810Z (pass) label words are not names or values (#128) > still recognizes Slavic name pairs [30.49ms]
+2026-11-15T17:02:04.5240110Z (pass) names and addresses from competitor examples (#128) > redacts Contact Mr. O'Brien today [3.08ms]
+2026-11-15T17:02:04.5418670Z (pass) names and addresses from competitor examples (#128) > redacts Dr Jane Smith signed [2.03ms]
+2026-11-15T17:02:04.5863380Z (pass) names and addresses from competitor examples (#128) > redacts Ms. Smith-Jones called [1.86ms]
+2026-11-15T17:02:04.6253920Z (pass) names and addresses from competitor examples (#128) > redacts He lives at 742 Evergreen Terrace, Springfield [1.14ms]
+2026-11-15T17:02:04.6549440Z (pass) names and addresses from competitor examples (#128) > keeps a street named after a title [0.60ms]
+2026-11-15T17:02:04.6555690Z (pass) identifier validators (#128) > abaRouting accepts 121000358 and rejects 121000359 [0.09ms]
+2026-11-15T17:02:04.6560490Z (pass) identifier validators (#128) > spanishNie accepts X1234567L and rejects X1234567M [0.02ms]
+2026-11-15T17:02:04.6564500Z (pass) identifier validators (#128) > abn accepts 51 824 753 556 and rejects 51 824 753 557 [0.05ms]
+2026-11-15T17:02:04.6569990Z (pass) identifier validators (#128) > acn accepts 005 499 981 and rejects 005 499 982 [0.02ms]
+2026-11-15T17:02:04.6598580Z (pass) identifier validators (#128) > medicare accepts 2123 45670 1 and rejects 2123 45671 1 [0.01ms]
+2026-11-15T17:02:04.6861060Z (pass) identifier validators (#128) > aadhaar accepts 2345 6789 0124 and rejects 2345 6789 0125 [0.03ms]
+2026-11-15T17:02:04.7234090Z (pass) identifier validators (#128) > gstin accepts 27AAPFU0939F1ZV and rejects 27AAPFU0939F1ZW [0.02ms]
+2026-11-15T17:02:04.7339060Z (pass) identifier validators (#128) > finnishIdentityCode accepts 131052-308T and rejects 131052-308U [0.03ms]
+2026-11-15T17:02:04.7697480Z (pass) identifier validators (#128) > thaiId accepts 1101700207030 and rejects 1101700207031 [0.02ms]
+2026-11-15T17:02:04.8042540Z (pass) identifier validators (#128) > dea accepts BB1388568 and rejects BB1388569
+2026-11-15T17:02:04.8357200Z (pass) identifier validators (#128) > swiftCode accepts DEUTDEFF and rejects TRANSFER [0.03ms]
+2026-11-15T17:02:04.8504550Z (pass) identifier validators (#128) > vin accepts 1HGBH41JXMN109186 and rejects 1HGBH41JXMN109187 [0.03ms]
+2026-11-15T17:02:04.8762060Z (pass) identifier validators (#128) > exposes the national rule table for reuse and extension [0.26ms]
+2026-11-15T17:02:04.9143230Z (pass) identifier validators (#128) > keeps the shared national rule table read-only [0.24ms]
+2026-11-15T17:02:04.9356320Z (pass) checksum-valid fakes for new identifiers (#128) > keeps ABA_ROUTING_NUMBER fakes valid and different [0.66ms]
+2026-11-15T17:02:04.9605940Z (pass) checksum-valid fakes for new identifiers (#128) > keeps ES_NIE fakes valid and different [1.33ms]
+2026-11-15T17:02:04.9759450Z (pass) checksum-valid fakes for new identifiers (#128) > keeps IT_VAT_CODE fakes valid and different [0.13ms]
+2026-11-15T17:02:05.0015370Z (pass) checksum-valid fakes for new identifiers (#128) > keeps AU_ACN fakes valid and different [0.10ms]
+2026-11-15T17:02:05.0255870Z (pass) checksum-valid fakes for new identifiers (#128) > keeps IN_AADHAAR fakes valid and different [0.13ms]
+2026-11-15T17:02:05.0461430Z (pass) checksum-valid fakes for new identifiers (#128) > keeps TH_TNIN fakes valid and different [0.11ms]
+2026-11-15T17:02:05.0707230Z (pass) checksum-valid fakes for new identifiers (#128) > keeps MEDICAL_LICENSE fakes valid and different [0.10ms]
+2026-11-15T17:02:05.1066080Z (pass) checksum-valid fakes for new identifiers (#128) > keeps IMEI fakes valid and different [0.08ms]
+2026-11-15T17:02:05.1255560Z (pass) custom identifier rules through the Detector port (#128) > redacts a caller-defined identifier with the built-in confidence model [2.16ms]
+2026-11-15T17:02:05.1792340Z (pass) custom identifier rules through the Detector port (#128) > can reuse built-in validators in a custom rule [0.17ms]
+2026-11-15T17:02:05.2013070Z (pass) custom identifier rules through the Detector port (#128) > rejects malformed identifier rules with ERR_CONFIG [0.10ms]
+2026-11-15T17:02:05.2176810Z (pass) custom identifier rules through the Detector port (#128) > rejects malformed identifier rules with ERR_CONFIG [0.02ms]
+2026-11-15T17:02:05.2387290Z (pass) custom identifier rules through the Detector port (#128) > rejects malformed identifier rules with ERR_CONFIG [0.02ms]
+2026-11-15T17:02:05.2622880Z (pass) custom identifier rules through the Detector port (#128) > rejects malformed identifier rules with ERR_CONFIG [0.02ms]
+2026-11-15T17:02:05.2778760Z (pass) custom identifier rules through the Detector port (#128) > rejects malformed identifier rules with ERR_CONFIG [0.03ms]
+2026-11-15T17:02:05.2886100Z 
+2026-11-15T17:02:05.3168250Z ##[endgroup]
+2026-11-15T17:02:05.4172790Z 
+2026-11-15T17:02:05.4757870Z ##[group]tests/release-preflight.test.js:
+2026-11-15T17:02:05.4863100Z (pass) release-preflight workflow wiring > runs the preflight job before anything can publish [0.24ms]
+2026-11-15T17:02:05.5063000Z (pass) release-preflight workflow wiring > probes with a write, not a login [6.27ms]
+2026-11-15T17:02:05.5151470Z (pass) release-preflight workflow wiring > gates every publishing job on an explicit preflight success [20.88ms]
+2026-11-15T17:02:05.5270910Z (pass) release-preflight workflow wiring > fails on main and manual instant releases, reports on pull requests [2.29ms]
+2026-11-15T17:02:05.5429440Z (pass) release-preflight workflow wiring > passes the publishing credentials to the probe [0.22ms]
+2026-11-15T17:02:05.5691160Z (pass) release-preflight workflow wiring > keeps the preflight checkout credential-free and observes the job [1.07ms]
+2026-11-15T17:02:05.5798690Z (pass) release-preflight probe behaviour (offline, curl stub) > passes in release mode when OIDC publishing is available [3305.52ms]
+2026-11-15T17:02:05.6008210Z (pass) release-preflight probe behaviour (offline, curl stub) > fails in release mode when there is nothing to publish with [40.42ms]
+2026-11-15T17:02:05.6221000Z (pass) release-preflight probe behaviour (offline, curl stub) > passes in report mode when there is nothing to publish with [42.76ms]
+2026-11-15T17:02:06.8036880Z (pass) release-preflight probe behaviour (offline, curl stub) > verifies the Docker Hub write when the registry accepts it [1248.00ms]
+2026-11-15T17:02:08.1783350Z ##[warning]Bun test suite has run for 141s of its 200s budget.
+2026-11-15T17:02:08.2112960Z (pass) release-preflight probe behaviour (offline, curl stub) > fails in release mode when Docker Hub refuses the write [1099.08ms]
+2026-11-15T17:02:09.4612020Z (pass) release-preflight probe behaviour (offline, curl stub) > never blocks a pull request on a refused credential [1146.07ms]
+2026-11-15T17:02:10.7629540Z (pass) release-preflight probe behaviour (offline, curl stub) > blocks release when any configured target remains unknown [1027.93ms]
+2026-11-15T17:02:10.7689430Z (pass) release-preflight npm token diagnostics > fails in release mode when npm rejects the token [696.90ms]
+2026-11-15T17:02:10.7728800Z (pass) release-preflight npm token diagnostics > fails in release mode when it verified nothing [84.39ms]
+2026-11-15T17:02:12.0794120Z (pass) npm OIDC package exchange regression > does not allow Docker success to hide npm exchange status 401 [812.25ms]
+2026-11-15T17:02:13.4276520Z (pass) npm OIDC package exchange regression > does not allow Docker success to hide npm exchange status 403 [882.39ms]
+2026-11-15T17:02:13.4316320Z (pass) npm OIDC package exchange regression > does not allow Docker success to hide npm exchange status 404 [874.90ms]
+2026-11-15T17:02:14.7939410Z (pass) npm OIDC package exchange regression > does not allow Docker success to hide npm exchange status 429 [825.64ms]
+2026-11-15T17:02:16.0922890Z (pass) npm OIDC package exchange regression > does not allow Docker success to hide npm exchange status 500 [834.16ms]
+2026-11-15T17:02:16.0927400Z (pass) npm OIDC package exchange regression > does not allow Docker success to hide npm exchange status 0 [807.83ms]
+2026-11-15T17:02:17.4439840Z (pass) npm OIDC package exchange regression > rejects malformed npm exchange body invalid JSON [638.47ms]
+2026-11-15T17:02:17.5445700Z (pass) npm OIDC package exchange regression > rejects malformed npm exchange body {} [673.67ms]
+2026-11-15T17:02:18.8006410Z (pass) npm OIDC package exchange regression > rejects malformed npm exchange body {"token":42} [653.24ms]
+2026-11-15T17:02:18.8288030Z (pass) npm OIDC package exchange regression > rejects malformed npm exchange body {"token":""} [636.21ms]
+2026-11-15T17:02:18.8334130Z (pass) npm OIDC package exchange regression > rejects malformed JWT responses without exchanging them [408.40ms]
+2026-11-15T17:02:20.1059310Z (pass) npm OIDC package exchange regression > rejects a missing GitHub request token [26.97ms]
+2026-11-15T17:02:20.1144910Z (pass) npm OIDC package exchange regression > preserves the token bootstrap path when npm reports a nonexistent package [838.82ms]
+2026-11-15T17:02:21.4601740Z (pass) npm OIDC package exchange regression > names the maintainer action when npm answers the package lookup with 404 [712.14ms]
+2026-11-15T17:02:21.4665940Z (pass) npm OIDC package exchange regression > names the maintainer action when npm answers the package lookup with 200 [693.07ms]
+2026-11-15T17:02:22.9005540Z (pass) npm OIDC package exchange regression > names the maintainer action when npm answers the package lookup with 000 [697.02ms]
+2026-11-15T17:02:22.9038190Z 
+2026-11-15T17:02:22.9093540Z ##[endgroup]
+2026-11-15T17:02:22.9135120Z 
+2026-11-15T17:02:22.9198530Z ##[group]tests/sanitizer-issue-153.test.js:
+2026-11-15T17:02:22.9221280Z (pass) short encoded masks (issue 153) > preserves the exact issue reproduction and encoded mask spellings [213.41ms]
+2026-11-15T17:02:22.9455040Z (pass) short encoded masks (issue 153) > keeps the credential ends and escaped GHCR record on every pass [76.09ms]
+2026-11-15T17:02:22.9512530Z (pass) short encoded masks (issue 153) > does not exempt arbitrary decoded text, partial masks or noncanonical bytes [32.92ms]
+2026-11-15T17:02:22.9589300Z (pass) short encoded masks (issue 153) > keeps explicit known secrets sensitive, even when they spell a mask [6.64ms]
+2026-11-15T17:02:22.9634170Z (pass) escaped JSON policy views (issue 153) > preserves a view only after independent inspection with the supplied policy [17.44ms]
+2026-11-15T17:02:23.0342720Z (pass) escaped JSON policy views (issue 153) > awaits async hooks in decoded views [7.93ms]
+2026-11-15T17:02:23.0355520Z (pass) escaped JSON policy views (issue 153) > keeps other credentials and exact known secrets sensitive in escaped views [57.50ms]
+2026-11-15T17:02:23.0360810Z (pass) escaped-view inspection limits > retains malformed and oversized findings [5.42ms]
+2026-11-15T17:02:23.0365630Z (pass) escaped-view inspection limits > checks nested views with a finite depth and preserves clean results [62.46ms]
+2026-11-15T17:02:23.0370370Z (pass) escaped-view inspection limits > includes independent async detectors when checking decoded views [15.78ms]
+2026-11-15T17:02:23.0375490Z (pass) escaped-view inspection limits > reports value-free decoded-view diagnostics only when requested [5.90ms]
+2026-11-15T17:02:23.0378210Z 
+2026-11-15T17:02:23.0380270Z ##[endgroup]
+2026-11-15T17:02:23.0384970Z 
+2026-11-15T17:02:23.0386900Z ##[group]tests/release-publication.test.js:
+2026-11-15T17:02:24.2100370Z 3bd4ab3b6a0e95200d0da660d97eea84904a1c8f
+2026-11-15T17:02:24.2375150Z From /var/folders/fq/bhsbs5bd52791c8x2z6s3dh40000gn/T/release-publication-wmUQmO/origin
+2026-11-15T17:02:24.2377230Z d44e4f2fe544f2eadd119cc6b2372fc90d449e0f
+2026-11-15T17:02:24.2437500Z  * branch            main       -> FETCH_HEAD
+2026-11-15T17:02:24.2439700Z d44e4f2fe544f2eadd119cc6b2372fc90d449e0f
+2026-11-15T17:02:24.2499350Z (pass) publication uses validated code > never pulls a newer source commit and recovers only version metadata [1963.70ms]
+2026-11-15T17:02:24.2514810Z 3bd4ab3b6a0e95200d0da660d97eea84904a1c8f
+2026-11-15T17:02:24.2646580Z 
+2026-11-15T17:02:24.2648290Z M source.js af1a3f35971ee3bd5e21c6e1c1b5f7c70adc78a0
+2026-11-15T17:02:24.2666950Z ##[endgroup]
+2026-11-15T17:02:24.2668300Z af1a3f35971ee3bd5e21c6e1c1b5f7c70adc78a0
+2026-11-15T17:02:24.2671310Z 
+2026-11-15T17:02:24.2672010Z 3bd4ab3b6a0e95200d0da660d97eea84904a1c8f
+2026-11-15T17:02:24.2676770Z ##[group]tests/sanitizer-document-entities.test.js:
+2026-11-15T17:02:24.2679770Z M package-lock.json M package.json {"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}
+2026-11-15T17:02:24.2685660Z (pass) document entity profile (#55) > has employer, school and city fixtures for every supported locale [0.12ms]
+2026-11-15T17:02:24.2689660Z {"name":"fixture","version":"1.0.0","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}}}
+2026-11-15T17:02:24.2692790Z {"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}
+2026-11-15T17:02:24.2699120Z {"name":"fixture","version":"1.0.1","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}}}
+2026-11-15T17:02:24.2704680Z af1a3f35971ee3bd5e21c6e1c1b5f7c70adc78a0
+2026-11-15T17:02:24.2708990Z af1a3f35971ee3bd5e21c6e1c1b5f7c70adc78a0
+2026-11-15T17:02:24.2716030Z 3bd4ab3b6a0e95200d0da660d97eea84904a1c8f
+2026-11-15T17:02:24.2725250Z M package-lock.json M package.json {"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}
+2026-11-15T17:02:24.2744400Z {"name":"fixture","version":"1.0.0","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}}}
+2026-11-15T17:02:24.2748520Z {"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}
+2026-11-15T17:02:24.2752550Z {"name":"fixture","version":"1.0.1","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}}}
+2026-11-15T17:02:24.2759460Z c9a8cf4e5efb265c9031a07b85f0692d3db91208
+2026-11-15T17:02:24.2760900Z c9a8cf4e5efb265c9031a07b85f0692d3db91208
+2026-11-15T17:02:24.2772250Z 3bd4ab3b6a0e95200d0da660d97eea84904a1c8f
+2026-11-15T17:02:24.2779750Z M package-lock.json M package.json {"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}
+2026-11-15T17:02:24.2783700Z {"name":"fixture","version":"1.0.0","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}}}
+2026-11-15T17:02:24.2798950Z {"name":"fixture","version":"1.0.1","dependencies":{"fixture":"2.0.0"}}
+2026-11-15T17:02:24.2802520Z {"name":"fixture","version":"1.0.1","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}}}
+2026-11-15T17:02:25.6496360Z (pass) document entity profile (#55) > detects list-form entities in en and supports reversible replacements [34.18ms]
+2026-11-15T17:02:25.7506480Z (pass) document entity profile (#55) > detects list-form entities in es and supports reversible replacements [12.26ms]
+2026-11-15T17:02:25.8480820Z (pass) document entity profile (#55) > detects list-form entities in fr and supports reversible replacements [9.98ms]
+2026-11-15T17:02:25.9487430Z (pass) document entity profile (#55) > detects list-form entities in de and supports reversible replacements [7.58ms]
+2026-11-15T17:02:26.0441990Z (pass) document entity profile (#55) > detects list-form entities in pt and supports reversible replacements [7.50ms]
+2026-11-15T17:02:26.0635640Z (pass) document entity profile (#55) > detects list-form entities in ru and supports reversible replacements [12.66ms]
+2026-11-15T17:02:26.0727330Z (pass) document entity profile (#55) > detects list-form entities in ja and supports reversible replacements [7.09ms]
+2026-11-15T17:02:26.0772340Z (pass) document entity profile (#55) > detects list-form entities in zh and supports reversible replacements [7.63ms]
+2026-11-15T17:02:26.0987120Z (pass) document entity profile (#55) > detects list-form entities in zh-Hant and supports reversible replacements [7.42ms]
+2026-11-15T17:02:26.1028410Z (pass) document entity profile (#55) > detects list-form entities in ko and supports reversible replacements [8.24ms]
+2026-11-15T17:02:26.1055280Z (pass) document entity profile (#55) > detects list-form entities in ar and supports reversible replacements [7.74ms]
+2026-11-15T17:02:26.1345360Z (pass) document entity profile (#55) > detects list-form entities in he and supports reversible replacements [7.33ms]
+2026-11-15T17:02:26.1427870Z (pass) document entity profile (#55) > detects list-form entities in hi and supports reversible replacements [5.28ms]
+2026-11-15T17:02:26.1585070Z (pass) document entity profile (#55) > detects list-form entities in tr and supports reversible replacements [6.38ms]
+2026-11-15T17:02:26.2587660Z (pass) document entity profile (#55) > detects list-form entities in id and supports reversible replacements [7.55ms]
+2026-11-15T17:02:26.2618940Z (pass) document entity profile (#55) > detects list-form entities in vi and supports reversible replacements [8.53ms]
+2026-11-15T17:02:26.2640000Z (pass) document entity profile (#55) > detects list-form entities in th and supports reversible replacements [7.38ms]
+2026-11-15T17:02:26.2672950Z (pass) document entity profile (#55) > detects legal forms in either order with and without quotes [24.63ms]
+2026-11-15T17:02:26.2676720Z (pass) document entity profile (#55) > detects labelled unknown places and bounded regions [1.13ms]
+2026-11-15T17:02:26.2705130Z (pass) document entity profile (#55) > exposes lower confidence, threshold control and an explicit off switch [3.54ms]
+2026-11-15T17:02:26.2723810Z (pass) document entity profile (#55) > keeps reviewed public entities while knownPersonal overrides the exemption [4.57ms]
+2026-11-15T17:02:26.2749080Z (pass) exempts contained legacy company findings and lets private policy override [2.15ms]
+2026-11-15T17:02:26.2798760Z 
+2026-11-15T17:02:26.2830220Z ##[endgroup]
+2026-11-15T17:02:26.2858880Z 
+2026-11-15T17:02:26.2881410Z ##[group]tests/sanitizer-issue-106.test.js:
+2026-11-15T17:02:26.2916510Z (pass) issue 104 complete reported document forms > text and JSON: Менеджер, Ромашка, Лютик (2019-05-01 — 2021-03-01) [32.36ms]
+2026-11-15T17:02:26.2942490Z (pass) issue 104 complete reported document forms > text and JSON: Менеджер, Ромашка (Лютик) (2019-05-01 — 2021-03-01) [5.73ms]
+2026-11-15T17:02:26.2973420Z (pass) issue 104 complete reported document forms > text and JSON: Менеджер, Romashka, LLC (2019-05-01 — 2021-03-01) [6.26ms]
+2026-11-15T17:02:26.3003290Z (pass) issue 104 complete reported document forms > text and JSON: Менеджер, Ромашка / Лютик (2019-05-01 — 2021-03-01) [6.81ms]
+2026-11-15T17:02:26.3045620Z (pass) issue 104 complete reported document forms > text and JSON: Маркетолог, Ромашка, Лютик (2019-05-01 — 2021-03-01) [5.64ms]
+2026-11-15T17:02:26.3065390Z (pass) issue 104 complete reported document forms > text and JSON: Маркетолог, Ромашка (Лютик) (2019-05-01 — 2021-03-01) [6.27ms]
+2026-11-15T17:02:26.3080360Z (pass) issue 104 complete reported document forms > text and JSON: Маркетолог, Romashka, LLC (2019-05-01 — 2021-03-01) [5.43ms]
+2026-11-15T17:02:26.3113840Z (pass) issue 104 complete reported document forms > text and JSON: Маркетолог, Ромашка / Лютик (2019-05-01 — 2021-03-01) [5.23ms]
+2026-11-15T17:02:26.3136930Z (pass) issue 104 complete reported document forms > text and JSON: Архивариус, Ромашка, Лютик (2019-05-01 — 2021-03-01) [7.60ms]
+2026-11-15T17:02:26.3158560Z (pass) issue 104 complete reported document forms > text and JSON: Архивариус, Ромашка (Лютик) (2019-05-01 — 2021-03-01) [8.56ms]
+2026-11-15T17:02:26.3162470Z (pass) issue 104 complete reported document forms > text and JSON: Архивариус, Romashka, LLC (2019-05-01 — 2021-03-01) [9.11ms]
+2026-11-15T17:02:26.3183620Z (pass) issue 104 complete reported document forms > text and JSON: Архивариус, Ромашка / Лютик (2019-05-01 — 2021-03-01) [8.25ms]
+2026-11-15T17:02:26.3216710Z (pass) issue 104 complete reported document forms > text and JSON: Сценограф, Ромашка, Лютик (2019-05-01 — 2021-03-01) [10.52ms]
+2026-11-15T17:02:26.3258390Z (pass) issue 104 complete reported document forms > text and JSON: Сценограф, Ромашка (Лютик) (2019-05-01 — 2021-03-01) [6.78ms]
+2026-11-15T17:02:26.3289090Z (pass) issue 104 complete reported document forms > text and JSON: Сценограф, Romashka, LLC (2019-05-01 — 2021-03-01) [6.60ms]
+2026-11-15T17:02:26.3312140Z (pass) issue 104 complete reported document forms > text and JSON: Сценограф, Ромашка / Лютик (2019-05-01 — 2021-03-01) [6.60ms]
+2026-11-15T17:02:26.3344220Z (pass) issue 104 complete reported document forms > text and JSON: Cartographer, Ромашка, Лютик (2019-05-01 — 2021-03-01) [6.91ms]
+2026-11-15T17:02:26.3374940Z (pass) issue 104 complete reported document forms > text and JSON: Cartographer, Ромашка (Лютик) (2019-05-01 — 2021-03-01) [7.34ms]
+2026-11-15T17:02:26.3383220Z (pass) issue 104 complete reported document forms > text and JSON: Cartographer, Romashka, LLC (2019-05-01 — 2021-03-01) [10.07ms]
+2026-11-15T17:02:26.3413110Z (pass) issue 104 complete reported document forms > text and JSON: Cartographer, Ромашка / Лютик (2019-05-01 — 2021-03-01) [13.21ms]
+2026-11-15T17:02:26.3437570Z (pass) issue 104 complete reported document forms > text and JSON: Marketer, Ромашка, Лютик (2019-05-01 — 2021-03-01) [11.77ms]
+2026-11-15T17:02:26.3462590Z (pass) issue 104 complete reported document forms > text and JSON: Marketer, Ромашка (Лютик) (2019-05-01 — 2021-03-01) [8.02ms]
+2026-11-15T17:02:26.3475290Z (pass) issue 104 complete reported document forms > text and JSON: Marketer, Romashka, LLC (2019-05-01 — 2021-03-01) [10.81ms]
+2026-11-15T17:02:26.3489710Z (pass) issue 104 complete reported document forms > text and JSON: Marketer, Ромашка / Лютик (2019-05-01 — 2021-03-01) [9.35ms]
+2026-11-15T17:02:26.3512440Z (pass) issue 104 complete reported document forms > text and JSON: Основатель, консультант, Ромашка (2019-05-01 — 2021-03-01) [7.41ms]
+2026-11-15T17:02:26.3525630Z (pass) issue 104 complete reported document forms > text and JSON: Founder, consultant, Ромашка (2019-05-01 — 2021-03-01) [11.12ms]
+2026-11-15T17:02:26.3546430Z (pass) issue 104 complete reported document forms > text and JSON: Маркетолог (B2B), Ромашка (2019-05-01 — 2021-03-01) [10.01ms]
+2026-11-15T17:02:26.3577670Z (pass) issue 104 complete reported document forms > text and JSON: Опыт: директор, основатель, Ромашка (2019-05-01 — 2021-03-01) [7.39ms]
+2026-11-15T17:02:26.3609380Z (pass) issue 104 complete reported document forms > text and JSON: Опыт работы: Менеджер, консультант, Ромашка (2019-05-01 — 2021-03-01) [7.47ms]
+2026-11-15T17:02:26.3632700Z (pass) issue 104 complete reported document forms > text and JSON: Опыт: менеджер (b2b), Ромашка (2019-05-01 — 2021-03-01) [7.09ms]
+2026-11-15T17:02:26.3644250Z (pass) issue 104 complete reported document forms > text and JSON: Стаж = 5 лет: Менеджер, Ромашка (2019-05-01 — 2021-03-01) [10.20ms]
+2026-11-15T17:02:26.3792940Z (pass) issue 104 complete reported document forms > text and JSON: = 3 года, Менеджер, Ромашка (2019-05-01 — 2021-03-01) [7.98ms]
+2026-11-15T17:02:26.3837190Z (pass) issue 104 complete reported document forms > text and JSON: Менеджер, Лютик (2019-05-01 — 2021-03-01). Директор, Ромашка (2019-05-01 — 2021-03-01) [9.65ms]
+2026-11-15T17:02:26.3877920Z (pass) issue 104 complete reported document forms > text and JSON: Менеджер, Ромашка | маркетинг, продажи (2019-05-01 — 2021-03-01) [23.27ms]
+2026-11-15T17:02:26.3914140Z (pass) issue 104 complete reported document forms > text and JSON: Менеджер, Ромашка Лютик | IT, связь (2019-05-01 — 2021-03-01) [7.38ms]
+2026-11-15T17:02:26.3930490Z (pass) issue 104 complete reported document forms > text and JSON: Маркетолог, ГК «Ромашка Лютик» (2019-05-01 — 2021-03-01) [7.35ms]
+2026-11-15T17:02:26.3939930Z (pass) issue 104 complete reported document forms > text and JSON: ГК «Ромашка» (2019-05-01 — 2021-03-01) [7.74ms]
+2026-11-15T17:02:26.3964530Z (pass) issue 104 complete reported document forms > text and JSON: ГК Ромашка, менеджер [6.37ms]
+2026-11-15T17:02:26.3972710Z (pass) issue 104 complete reported document forms > text and JSON: группа компаний Ромашка [15.25ms]
+2026-11-15T17:02:26.4001160Z (pass) issue 104 complete reported document forms > text and JSON: Группа компаний "ромашка лютик" [15.63ms]
+2026-11-15T17:02:26.4031960Z (pass) issue 104 complete reported document forms > text and JSON: ГК “Ромашка Лютик” [5.51ms]
+2026-11-15T17:02:26.4047760Z (pass) issue 104 complete reported document forms > text and JSON: Анна работала в Лютике, потом в Ромашке, затем в Васильке. [7.77ms]
+2026-11-15T17:02:26.4059400Z (pass) issue 104 complete reported document forms > text and JSON: Анна работала в Blue Sky, потом в Acme Labs. [6.21ms]
+2026-11-15T17:02:26.4066290Z (pass) issue 104 complete reported document forms > text and JSON: Анна работала в Лютике, потом в Ромашке. [5.20ms]
+2026-11-15T17:02:26.4091500Z (pass) issue 104 complete reported document forms > text and JSON: Анна, 89161234567, жду ответа [7.09ms]
+2026-11-15T17:02:26.4097110Z (pass) issue 104 complete reported document forms > text and JSON: Anna, 89161234567, жду ответа [7.79ms]
+2026-11-15T17:02:26.4106710Z (pass) issue 104 complete reported document forms > text and JSON: Письмо, 89161234567, жду ответа [5.35ms]
+2026-11-15T17:02:26.4122660Z (pass) issue 104 complete reported document forms > text and JSON: Letter, 89161234567, жду ответа [4.38ms]
+2026-11-15T17:02:26.4127200Z (pass) issue 104 complete reported document forms > text and JSON: Анна, 89161234567 [4.78ms]
+2026-11-15T17:02:26.4137640Z (pass) issue 104 complete reported document forms > text and JSON: Anna, 89161234567 [4.91ms]
+2026-11-15T17:02:26.4149390Z (pass) issue 104 complete reported document forms > text and JSON: Letter, 89161234567, waiting for a reply [4.47ms]
+2026-11-15T17:02:26.4159580Z (pass) issue 104 complete reported document forms > text and JSON: Иванова А., 79161234567, Москва [5.85ms]
+2026-11-15T17:02:26.4163440Z (pass) issue 104 complete reported document forms > text and JSON: (МГУ, 2012) [3.98ms]
+2026-11-15T17:02:26.4166490Z (pass) issue 104 complete reported document forms > text and JSON: Образование (МГУ) [3.74ms]
+2026-11-15T17:02:26.4169510Z (pass) issue 104 complete reported document forms > text and JSON: в МГТУ им. Баумана [4.32ms]
+2026-11-15T17:02:26.4172690Z (pass) issue 104 complete reported document forms > text and JSON: Обучение: Skillbox, 2020 [5.81ms]
+2026-11-15T17:02:26.4176590Z (pass) issue 104 complete reported document forms > text and JSON: https://drive.google.com/file/d/1aBcDeFgHiJkLmNo/view?usp=sharing [5.60ms]
+2026-11-15T17:02:26.4180820Z (pass) issue 104 complete reported document forms > text and JSON: https://docs.example.org/document/d/1AbCdEf/edit [5.85ms]
+2026-11-15T17:02:26.4184210Z (pass) issue 104 complete reported document forms > text and JSON: https://any.example/d/x [5.07ms]
+2026-11-15T17:02:26.4188260Z (pass) issue 104 complete reported document forms > text and JSON: Опыт: 3 года, 5 месяцев [2.80ms]
+2026-11-15T17:02:26.4191530Z (pass) issue 104 complete reported document forms > text and JSON: Директор, руководитель отдела [2.60ms]
+2026-11-15T17:02:26.4194790Z (pass) issue 104 complete reported document forms > text and JSON: Встреча, понедельник (2019-05-01 — 2021-03-01) [2.92ms]
+2026-11-15T17:02:26.4198020Z (pass) issue 104 complete reported document forms > text and JSON: Отпуск (2019-05-01 — 2021-03-01) [2.17ms]
+2026-11-15T17:02:26.4200670Z (pass) issue 104 complete reported document forms > text and JSON: order 89161234567 shipped [1.92ms]
+2026-11-15T17:02:26.4203120Z (pass) issue 104 complete reported document forms > text and JSON: id 79161234567 [2.42ms]
+2026-11-15T17:02:26.4206180Z (pass) issue 104 complete reported document forms > text and JSON: Встреча в понедельник с Романом [2.78ms]
+2026-11-15T17:02:26.4209080Z (pass) issue 104 complete reported document forms > text and JSON: Использовал Kubernetes и PostgreSQL [2.46ms]
+2026-11-15T17:02:26.4212070Z (pass) issue 104 complete reported document forms > text and JSON: опыт в Python и Go [2.75ms]
+2026-11-15T17:02:26.4215120Z (pass) issue 104 complete reported document forms > text and JSON: опыт в SQL, Excel и Power BI [1.99ms]
+2026-11-15T17:02:26.4218280Z (pass) issue 104 complete reported document forms > text and JSON: Kubernetes (5 лет) [1.92ms]
+2026-11-15T17:02:26.4221200Z (pass) issue 104 complete reported document forms > text and JSON: Python (2 года), Go (3 года) [2.37ms]
+2026-11-15T17:02:26.4224300Z (pass) issue 104 complete reported document forms > text and JSON: проекты для Telegram [29.97ms]
+2026-11-15T17:02:26.4227030Z (pass) issue 104 complete reported document forms > text and JSON: Роль в Scrum: мастер [2.28ms]
+2026-11-15T17:02:26.4230430Z (pass) issue 104 complete reported document forms > text and JSON: Релиз, Kubernetes (2019-05-01 — 2021-03-01) [2.30ms]
+2026-11-15T17:02:26.4234110Z (pass) issue 104 complete reported document forms > text and JSON: Менеджер, romashka (2019-05-01 — 2021-03-01) [2.32ms]
+2026-11-15T17:02:26.4237680Z (pass) issue 104 complete reported document forms > text and JSON: Менеджер, ромашка (2019-05-01 — 2021-03-01) [2.06ms]
+2026-11-15T17:02:26.4241710Z (pass) issue 104 complete reported document forms > text and JSON: Manager, romashka (2019-05-01 — 2021-03-01) [2.31ms]
+2026-11-15T17:02:26.4245740Z (pass) issue 104 complete reported document forms > normalizes declared sensitive names and keeps relative location paths [14.73ms]
+2026-11-15T17:02:26.4249730Z (pass) issue 105 opt-in structural prose > isolates and repeats: Работал в Ромашке менеджером по продажам. [39.24ms]
+2026-11-15T17:02:26.4253050Z (pass) issue 105 opt-in structural prose > isolates and repeats: Опыт: работал в Ромашке 5 лет [38.46ms]
+2026-11-15T17:02:26.4256650Z (pass) issue 105 opt-in structural prose > isolates and repeats: Маркетолог, ГК «ромашка лютик» (2019-05-01 — 2021-03-01) [35.01ms]
+2026-11-15T17:02:26.4260040Z (pass) issue 105 opt-in structural prose > isolates and repeats: Founder, consultant, Romashka (2019-2021) [31.17ms]
+2026-11-15T17:02:26.4264640Z (pass) issue 105 opt-in structural prose > isolates and repeats: Сотрудник работал в Romashka три года. [64.29ms]
+2026-11-15T17:02:26.4267720Z (pass) issue 105 opt-in structural prose > isolates and repeats: Живу в Твери [39.15ms]
+2026-11-15T17:02:26.4271820Z (pass) issue 105 opt-in structural prose > isolates and repeats: текст Санкт-Петербург A.B iPhone eBay [45.42ms]
+2026-11-15T17:02:26.4275300Z (pass) issue 105 opt-in structural prose > isolates and repeats: текст «ромашка лютик» “лютик” „ромашка“ [39.79ms]
+2026-11-15T17:02:26.4279190Z (pass) issue 105 opt-in structural prose > isolates and repeats: текст example.org/path https://other.example/ 89161234567 [44.77ms]
+2026-11-15T17:02:26.4282390Z (pass) issue 105 opt-in structural prose > isolates and repeats: Anna, 89161234567 [55.53ms]
+2026-11-15T17:02:26.4285310Z (pass) issue 105 opt-in structural prose > isolates and repeats: https://docs.example/d/x Anna [47.30ms]
+2026-11-15T17:02:26.4289500Z (pass) issue 105 opt-in structural prose > isolates and repeats: Ромашка: менеджер [71.30ms]
+2026-11-15T17:02:26.6443380Z (pass) issue 105 opt-in structural prose > isolates and repeats: Worked at Romashka for three years. [39.89ms]
+2026-11-15T17:02:26.6481320Z (pass) issue 105 opt-in structural prose > isolates and repeats: текст apps/SomePath /Opt/Apps C:\Some\Path Label: слово [47.18ms]
+2026-11-15T17:02:26.6488720Z Bun test suite finished in 159s of its 200s budget (exit 1).
+2026-11-15T17:02:26.6514600Z (pass) issue 105 opt-in structural prose > isolates and repeats: Connection to Postgres lost, retrying [49.07ms]
+2026-11-15T17:02:26.6534310Z (pass) issue 105 opt-in structural prose > isolates and repeats: order 89161234567 shipped [27.52ms]
+2026-11-15T17:02:26.6569280Z (pass) issue 105 opt-in structural prose > isolates and repeats: Window Closed (2026-01-15T10:30:00.000Z) [27.26ms]
+2026-11-15T17:02:26.6611070Z (pass) issue 105 opt-in structural prose > isolates and repeats: https://anna-smirnova.example.org/ [267.62ms]
+2026-11-15T17:02:26.6645640Z (pass) issue 105 opt-in structural prose > isolates and repeats: ромашка работает [45.47ms]
+2026-11-15T17:02:26.6656820Z (pass) issue 105 opt-in structural prose > isolates and repeats: 1991-03-12 [24.98ms]
+2026-11-15T17:02:26.6678200Z (pass) issue 105 opt-in structural prose > is off by default and supports explicitly selected scripts [5.37ms]
+2026-11-15T17:02:26.6698940Z (pass) issue 105 opt-in structural prose > preserves Unicode and escaped JSON keys and source formatting [13.32ms]
+2026-11-15T17:02:26.6714420Z (pass) issue 105 opt-in structural prose > rejects invalid mode/script configuration [0.46ms]
+2026-11-15T17:02:26.6715930Z 
+2026-11-15T17:02:26.6743310Z ##[endgroup]
+2026-11-15T17:02:26.6756540Z 
+2026-11-15T17:02:26.6771560Z ##[group]tests/package-info.test.js:
+2026-11-15T17:02:26.6786430Z (pass) package info helpers > reads scoped package names and versions from package.json content [0.58ms]
+2026-11-15T17:02:26.6802650Z (pass) package info helpers > formats npm package specifiers from the derived package name [0.07ms]
+2026-11-15T17:02:26.6818690Z (pass) package info helpers > formats changeset headers from the derived package name [0.10ms]
+2026-11-15T17:02:26.6834770Z (pass) package info helpers > matches changesets for the derived package name only [0.32ms]
+2026-11-15T17:02:26.6893210Z (pass) package info helpers > does not match version type prefixes as valid changeset bumps [0.07ms]
+2026-11-15T17:02:26.6920620Z (pass) package info helpers > reports missing package names clearly [8.56ms]
+2026-11-15T17:02:26.6921980Z 
+2026-11-15T17:02:26.6949560Z ##[endgroup]
+2026-11-15T17:02:26.6972280Z 
+2026-11-15T17:02:26.6981250Z 1 tests skipped:
+2026-11-15T17:02:26.7006800Z (skip) preview container environment > stops a bad download before extraction or PATH registration [skipped: Linux-only behaviour, runner is darwin]
+2026-11-15T17:02:26.7024400Z 
+2026-11-15T17:02:26.7031750Z 
+2026-11-15T17:02:26.7051410Z 1 tests failed:
+2026-11-15T17:02:26.7063260Z (fail) issue 172: long runs in two-byte strings > sanitizes a long run with personal data through createSanitizer [35456.42ms]
+2026-11-15T17:02:26.7083340Z   ^ this test timed out after 30000ms.
+2026-11-15T17:02:26.7097310Z 
+2026-11-15T17:02:26.7112270Z  640 pass
+2026-11-15T17:02:26.7127370Z  1 skip
+2026-11-15T17:02:26.7134220Z  1 fail
+2026-11-15T17:02:26.7151290Z Ran 642 tests across 31 files. [158.44s]
+2026-11-15T17:02:26.7165750Z ##[error]Process completed with exit code 1.
+2026-11-15T17:02:26.7711570Z Post job cleanup.
+2026-11-15T17:02:26.7725410Z ##[start-action display=Run actions/setup-node@v7.1.0;id=__844ad825-59d8-4840-acb1-e9caf53e5ad5.__actions_setup-node]
+2026-11-15T17:02:26.7731940Z ##[end-action id=__844ad825-59d8-4840-acb1-e9caf53e5ad5.__actions_setup-node;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-11-15T17:02:26.8000900Z Post job cleanup.
+2026-11-15T17:02:27.0948890Z [command]/usr/local/bin/git version
+2026-11-15T17:02:27.1136700Z git version 2.55.0
+2026-11-15T17:02:27.1391480Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/b42bd2fb-2b80-4973-bf3c-2103cdf2faa7/.gitconfig'
+2026-11-15T17:02:27.1425320Z Temporarily overriding HOME='/Users/runner/work/_temp/b42bd2fb-2b80-4973-bf3c-2103cdf2faa7' before making global git config changes
+2026-11-15T17:02:27.1454510Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-15T17:02:27.1506190Z [command]/usr/local/bin/git config --global --add safe.directory /Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+2026-11-15T17:02:27.1588550Z Removing SSH command configuration
+2026-11-15T17:02:27.1624230Z [command]/usr/local/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T17:02:27.1715490Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-15T17:02:27.4693460Z Removing HTTP extra header
+2026-11-15T17:02:27.4724040Z [command]/usr/local/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T17:02:27.4907390Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-15T17:02:27.8511050Z Removing includeIf entries pointing to credentials config files
+2026-11-15T17:02:27.8621650Z [command]/usr/local/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T17:02:27.8799710Z [command]/usr/local/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-15T17:02:28.1920730Z Cleaning up orphan processes

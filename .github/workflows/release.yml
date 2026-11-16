@@ -145,7 +145,7 @@ jobs:
   session-publication:
     name: Session Publication Corpus
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 8
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-session-publication
       cancel-in-progress: true
@@ -166,7 +166,8 @@ jobs:
         run: bash scripts/simulate-fresh-merge.sh
       - uses: ./.github/actions/setup-node
       - name: Install corpus dependencies
-        run: npm ci
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
       - name: Publish Codex and Claude session corpus with zero residuals
         run: bash scripts/run-with-budget-warning.sh 120 "Session publication corpus" node --max-old-space-size=512 experiments/issue-34/session-corpus.mjs
 
@@ -219,7 +220,8 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: Install dependencies
-        run: npm ci
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       - name: Check for changesets
         env:
@@ -274,11 +276,15 @@ jobs:
       - name: Setup Node.js
         uses: ./.github/actions/setup-node
 
-      - name: Check for secrets
-        run: npx --yes -p secretlint@13.1.0 -p @secretlint/secretlint-rule-preset-recommend@13.1.0 secretlint "**/*"
-
       - name: Install dependencies
-        run: npm ci
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
+
+      # The locked devDependency, not `npx --yes`: an ad-hoc install resolves
+      # secretlint's dependencies afresh, outside the lockfile, the audit and
+      # any install budget (issue #208).
+      - name: Check for secrets
+        run: npm run check:secrets
 
       - name: Dry-run release versioning (PR only)
         if: github.event_name == 'pull_request'
@@ -316,7 +322,7 @@ jobs:
     # only the backstop behind those budgets, sized so the budgets always
     # expire first. A job killed by timeout-minutes reports *cancelled*,
     # which hides the failure -- see docs/legacy/CI-TIMEOUT-BUDGETS.md.
-    timeout-minutes: 15
+    timeout-minutes: 16
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.runtime }}-${{ matrix.os }}-${{ matrix.shard }}
       cancel-in-progress: true
@@ -352,6 +358,7 @@ jobs:
         runtime: [node, bun, deno]
         shard: ['1/1']
         exclude:
+          - { os: ubuntu-24.04, runtime: bun, shard: '1/1' }
           - { os: windows-2025, runtime: bun, shard: '1/1' }
           - { os: windows-2025, runtime: deno, shard: '1/1' }
         # Intel runners avoid ARM64 capacity failures. Partition the suite so
@@ -359,6 +366,10 @@ jobs:
         # Windows Bun runs subprocess fixtures serially and Deno initializes
         # a separate worker graph per file. Partition both within their budgets.
         include:
+          # Bun runs files serially on Ubuntu too: the whole suite reached
+          # 162s of its 200s budget (issue 208), so it runs in two halves.
+          - { os: ubuntu-24.04, runtime: bun, shard: '1/2' }
+          - { os: ubuntu-24.04, runtime: bun, shard: '2/2' }
           - { os: windows-2025, runtime: bun, shard: '1/3' }
           - { os: windows-2025, runtime: bun, shard: '2/3' }
           - { os: windows-2025, runtime: bun, shard: '3/3' }
@@ -402,7 +413,8 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: Install dependencies (Node.js)
-        run: npm ci
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       - name: Run tests (Node.js)
         if: matrix.runtime == 'node'
@@ -433,8 +445,27 @@ jobs:
         # what bounds the whole run.
         run: bash scripts/run-with-budget-warning.sh 200 "Bun test suite" node scripts/run-test-shard.mjs bun "$TEST_SHARD"
 
+      # setup-deno retries its download for about 8 seconds and then fails the
+      # job. On PR #209 a macOS runner lost that whole window to
+      # `TypeError: fetch failed` before any test ran (issue 208). Try once
+      # more after a pause; a second failure still fails the job.
       - name: Setup Deno
+        id: setup-deno
         if: matrix.runtime == 'deno'
+        continue-on-error: true # Retried below; the retry has no exception.
+        uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
+        with:
+          deno-version: v2.9.8
+
+      - name: Wait before retrying the Deno download
+        if: matrix.runtime == 'deno' && steps.setup-deno.outcome == 'failure'
+        shell: bash
+        run: |
+          echo "::notice title=Deno download retried::The first setup-deno attempt failed; its error annotation above belongs to that attempt. The job's result depends on the retry."
+          sleep 20
+
+      - name: Setup Deno (retry)
+        if: matrix.runtime == 'deno' && steps.setup-deno.outcome == 'failure'
         uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
         with:
           deno-version: v2.9.8
@@ -444,15 +475,16 @@ jobs:
         shell: bash
         # Cold npm downloads previously consumed the test execution budget.
         # Bound dependency preparation separately, as for Node and Bun installs.
-        run: deno test -A --parallel --no-run --frozen
+        run: bash scripts/run-with-budget-warning.sh 60 "Deno dependency preparation" deno test -A --parallel --no-run --frozen
 
       - name: Run tests (Deno)
         if: matrix.runtime == 'deno'
         shell: bash
         # Deno runs files in parallel, but a single file runs serially: the
-        # 8 MiB long-run suite (tests/sanitizer-issue-172.test.js) alone takes
-        # about a minute on cold macOS Intel runners, so the shard holding it
-        # needs the same 200s budget as Bun.
+        # 8 MiB long-run tests (tests/sanitizer-issue-172*.test.js) take about
+        # a minute per file on cold macOS Intel runners, so the shard holding
+        # one needs the same 200s budget as Bun. scripts/run-test-shard.mjs
+        # deals the three files to separate shards.
         run: bash scripts/run-with-budget-warning.sh 200 "Deno test suite" node scripts/run-test-shard.mjs deno "$TEST_SHARD"
 
   # === DOCKER IMAGE BUILD CHECK (pull requests) ===
@@ -600,7 +632,7 @@ jobs:
         release-preflight,
       ]
     # Registry verification can take over 15 minutes after a successful publish.
-    timeout-minutes: 65
+    timeout-minutes: 66
     concurrency:
       group: main-writer-${{ github.repository }}-main
       cancel-in-progress: false
@@ -795,7 +827,8 @@ jobs:
         run: node scripts/sanitize-npm-userconfig.mjs
 
       - name: Install dependencies
-        run: npm ci
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       - name: Update npm for OIDC trusted publishing
         run: node scripts/setup-npm.mjs
@@ -905,7 +938,7 @@ jobs:
     name: Build Docker Image
     needs: [docker-publish-config]
     if: needs.docker-publish-config.outputs.enabled == 'true'
-    timeout-minutes: 30
+    timeout-minutes: 35
     strategy:
       fail-fast: false
       matrix:
@@ -1063,7 +1096,8 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: Install dependencies
-        run: npm ci
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       - name: Create changeset file
         env:
