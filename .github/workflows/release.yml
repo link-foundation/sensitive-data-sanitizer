@@ -145,7 +145,7 @@ jobs:
   session-publication:
     name: Session Publication Corpus
     runs-on: ubuntu-24.04
-    timeout-minutes: 7
+    timeout-minutes: 8
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-session-publication
       cancel-in-progress: true
@@ -322,7 +322,7 @@ jobs:
     # only the backstop behind those budgets, sized so the budgets always
     # expire first. A job killed by timeout-minutes reports *cancelled*,
     # which hides the failure -- see docs/legacy/CI-TIMEOUT-BUDGETS.md.
-    timeout-minutes: 15
+    timeout-minutes: 16
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.runtime }}-${{ matrix.os }}-${{ matrix.shard }}
       cancel-in-progress: true
@@ -445,8 +445,27 @@ jobs:
         # what bounds the whole run.
         run: bash scripts/run-with-budget-warning.sh 200 "Bun test suite" node scripts/run-test-shard.mjs bun "$TEST_SHARD"
 
+      # setup-deno retries its download for about 8 seconds and then fails the
+      # job. On PR #209 a macOS runner lost that whole window to
+      # `TypeError: fetch failed` before any test ran (issue 208). Try once
+      # more after a pause; a second failure still fails the job.
       - name: Setup Deno
+        id: setup-deno
         if: matrix.runtime == 'deno'
+        continue-on-error: true # Retried below; the retry has no exception.
+        uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
+        with:
+          deno-version: v2.9.8
+
+      - name: Wait before retrying the Deno download
+        if: matrix.runtime == 'deno' && steps.setup-deno.outcome == 'failure'
+        shell: bash
+        run: |
+          echo "::notice title=Deno download retried::The first setup-deno attempt failed; its error annotation above belongs to that attempt. The job's result depends on the retry."
+          sleep 20
+
+      - name: Setup Deno (retry)
+        if: matrix.runtime == 'deno' && steps.setup-deno.outcome == 'failure'
         uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
         with:
           deno-version: v2.9.8
@@ -613,7 +632,7 @@ jobs:
         release-preflight,
       ]
     # Registry verification can take over 15 minutes after a successful publish.
-    timeout-minutes: 65
+    timeout-minutes: 66
     concurrency:
       group: main-writer-${{ github.repository }}-main
       cancel-in-progress: false
