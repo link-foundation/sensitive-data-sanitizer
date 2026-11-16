@@ -1,0 +1,118 @@
+example-app.yml:web-build cap=10m total=360
+     60s ./.github/actions/setup-node > Reviewed npm install
+     60s Example app dependency install
+     60s ./.github/actions/artifact-transport > ./.github/actions/setup-node > Reviewed npm install
+     60s ./.github/actions/artifact-transport > Artifact SDK install
+     60s ./.github/actions/artifact-transport > ./.github/actions/setup-node > Reviewed npm install
+     60s ./.github/actions/artifact-transport > Artifact SDK install
+example-app.yml:pages-deploy cap=10m total=60
+     60s ./.github/actions/setup-node > Reviewed npm install
+example-app.yml:desktop-package cap=20m total=240
+     60s ./.github/actions/setup-node > Reviewed npm install
+     60s Example app dependency install
+     60s ./.github/actions/artifact-transport > ./.github/actions/setup-node > Reviewed npm install
+     60s ./.github/actions/artifact-transport > Artifact SDK install
+example-app.yml:android-build cap=30m total=240
+     60s ./.github/actions/setup-node > Reviewed npm install
+     60s Example app dependency install
+     60s ./.github/actions/artifact-transport > ./.github/actions/setup-node > Reviewed npm install
+     60s ./.github/actions/artifact-transport > Artifact SDK install
+example-app.yml:ios-build cap=30m total=120
+     60s ./.github/actions/setup-node > Reviewed npm install
+     60s Example app dependency install
+example-app.yml:preview-tools cap=10m total=270
+     60s ./.github/actions/setup-node > Reviewed npm install
+     90s Preview GitHub CLI install
+     60s Dependency install
+     60s Example app dependency install
+example-app.yml:preview-regen cap=20m total=390
+     60s ./.github/actions/setup-node > Reviewed npm install
+     90s Preview GitHub CLI install
+     60s Example app dependency install
+     60s Dependency install
+     60s ./.github/actions/artifact-transport > ./.github/actions/setup-node > Reviewed npm install
+     60s ./.github/actions/artifact-transport > Artifact SDK install
+example-app.yml:pipeline-status cap=5m total=60
+     60s ./.github/actions/setup-node > Reviewed npm install
+links.yml:link-checker cap=10m total=120
+     60s ./.github/actions/artifact-transport > ./.github/actions/setup-node > Reviewed npm install
+     60s ./.github/actions/artifact-transport > Artifact SDK install
+links.yml:pipeline-status cap=5m total=60
+     60s ./.github/actions/setup-node > Reviewed npm install
+release.yml:test-compilation cap=5m total=60
+     60s ./.github/actions/setup-node > Reviewed npm install
+release.yml:session-publication cap=6m total=240
+     60s ./.github/actions/setup-node > Reviewed npm install
+     60s Dependency install
+     120s Session publication corpus
+release.yml:changeset-check cap=10m total=120
+     60s ./.github/actions/setup-node > Reviewed npm install
+     60s Dependency install
+release.yml:lint cap=10m total=120
+     60s ./.github/actions/setup-node > Reviewed npm install
+     60s Dependency install
+release.yml:test cap=15m total=600
+     60s ./.github/actions/setup-node > Reviewed npm install
+     60s Dependency install
+     300s Node.js test suite
+     120s Install history rewrite tool
+     60s History rewrite integration
+     200s Bun test suite
+     60s Deno dependency preparation
+     200s Deno test suite
+release.yml:docker-build cap=30m total=1200
+     1200s step timeout-minutes
+release.yml:release cap=65m total=2700
+     60s ./.github/actions/setup-node > Reviewed npm install
+     240s Release dependency install
+     1800s npm publish and registry verification
+     600s npm package smoke test
+release.yml:instant-release cap=65m total=2520
+     60s ./.github/actions/setup-node > Reviewed npm install
+     60s Dependency install
+     1800s npm publish and registry verification
+     600s npm package smoke test
+release.yml:docker-publish-config cap=45m total=1800
+     1800s Docker npm availability wait
+release.yml:docker-publish-build cap=35m total=1320
+     1200s step timeout-minutes
+     60s ./.github/actions/artifact-transport > ./.github/actions/setup-node > Reviewed npm install
+     60s ./.github/actions/artifact-transport > Artifact SDK install
+release.yml:docker-publish cap=30m total=120
+     60s ./.github/actions/artifact-transport > ./.github/actions/setup-node > Reviewed npm install
+     60s ./.github/actions/artifact-transport > Artifact SDK install
+release.yml:changeset-pr cap=10m total=120
+     60s ./.github/actions/setup-node > Reviewed npm install
+     60s Dependency install
+release.yml:pipeline-status cap=5m total=60
+     60s ./.github/actions/setup-node > Reviewed npm install
+rerun-unacquired.yml:rerun cap=5m total=60
+     60s ./.github/actions/setup-node > Reviewed npm install
+security.yml:codeql cap=30m total=120
+     60s ./.github/actions/artifact-transport > ./.github/actions/setup-node > Reviewed npm install
+     60s ./.github/actions/artifact-transport > Artifact SDK install
+security.yml:npm-audit cap=10m total=60
+     60s ./.github/actions/setup-node > Reviewed npm install
+security.yml:python-audit cap=10m total=360
+     60s uv install
+     60s pip-audit install
+     90s Python requirements audit
+     90s Benchmark dependency install
+     60s spaCy model install
+security.yml:pipeline-status cap=5m total=60
+     60s ./.github/actions/setup-node > Reviewed npm install
+workflows.yml:zizmor cap=10m total=300
+     300s step timeout-minutes
+workflows.yml:artifact-roundtrip cap=15m total=600
+     60s ./.github/actions/setup-node > Reviewed npm install
+     60s Artifact SDK install
+     60s ./.github/actions/artifact-transport > ./.github/actions/setup-node > Reviewed npm install
+     60s ./.github/actions/artifact-transport > Artifact SDK install
+     60s ./.github/actions/artifact-transport > ./.github/actions/setup-node > Reviewed npm install
+     60s ./.github/actions/artifact-transport > Artifact SDK install
+     60s ./.github/actions/artifact-transport > ./.github/actions/setup-node > Reviewed npm install
+     60s ./.github/actions/artifact-transport > Artifact SDK install
+     60s ./.github/actions/artifact-transport > ./.github/actions/setup-node > Reviewed npm install
+     60s ./.github/actions/artifact-transport > Artifact SDK install
+workflows.yml:pipeline-status cap=5m total=60
+     60s ./.github/actions/setup-node > Reviewed npm install

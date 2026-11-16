@@ -1,0 +1,6 @@
+ahead ahead=22 files=85
+  acaac0b Merge pull request #288 from link-foundation/issue-287-a926233a8f41 | fix: preserve validated releases and enforce complete CI evidence
+  44a0901 Merge main and preserve the integrated JavaScript-first gate | 
+  c08b4a1 Merge pull request #293 from link-foundation/issue-292-88241f45d047 | fix: cancel stale checks and harden hook and link setup
+  34415b0 Merge pull request #231 from link-foundation/issue-759-js-first-standard | fix: scope JavaScript-first gates to Rust template integration
+  74de898 Merge pull request #300 from link-foundation/issue-299-ec8dd714c8d2 | fix: harden CI evidence and npm release gates

@@ -1,0 +1,2 @@
+::warning file=python/.github/actions/artifact/package-lock.json,title=deprecated packages (/tmp/probe-208/templates/python/.github/actions/artifact/package-lock.json)::@secretlint/secretlint-rule-preset-recommend@13.1.0 is deprecated: Built into secretlint v14 and later. Remove this package; the rule id still works. https://github.com/secretlint/secretlint/blob/HEAD/docs/rules/preset-recommend.md
+python/.github/actions/artifact/package-lock.json: 298 checked, 1 deprecated, 0 unanswered

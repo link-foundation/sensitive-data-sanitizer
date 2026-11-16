@@ -1,0 +1,5 @@
+133022147934	Test runtimes (macos-26-intel, node, 2/3)	failure		The job has exceeded the maximum execution time of 15m0s
+133033731605	Pipeline Status	failure		Process completed with exit code 1.
+133033731605	Pipeline Status	failure	Pipeline has cancelled jobs	test. No supersede accounts for these cancellations; timeout-minutes would otherwise leave the run grey.
+133022227071	Regenerate Preview Images	notice		Preview images are already up to date.
+133021849310	Check Links	notice		Summary report available at: https://github.com/link-foundation/sensitive-data-sanitizer/actions/runs/43782250465#summary-133021849310
