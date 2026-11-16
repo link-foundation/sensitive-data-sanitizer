@@ -4,7 +4,7 @@
 
 | # | Requirement (from the issue) | Where it is addressed |
 | --- | --- | --- |
-| R1 | Find and fix every false positive, false negative, warning and error in CI/CD | Findings F1–F23 below |
+| R1 | Find and fix every false positive, false negative, warning and error in CI/CD | Findings F1–F24 below |
 | R2 | Compare the full workflow and CI script trees with the JS and Python pipeline templates and adopt their best practices | `analysis/TEMPLATE-DELTA-REVIEW.md`; every (b) row is ported (F7–F14) |
 | R3 | Report issues found here that also exist in the templates | [Upstream reports](#upstream-reports) |
 | R4 | Follow hive-mind `docs/CI-CD-BEST-PRACTICES.md` | [Best-practices check](#hive-mind-ci-cd-best-practices) |
@@ -27,7 +27,7 @@ All times are UTC.
 
 ## Findings, root causes and fixes
 
-F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best practices that were missing here. F15 to F21 and F23 surfaced while CI ran on this PR, and F22 came from an independent review of the PR diff.
+F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best practices that were missing here. F15 to F21, F23 and F24 surfaced while CI ran on this PR, and F22 came from an independent review of the PR diff.
 
 ### F1. Cancelled macOS test leg on `main` (error)
 
@@ -140,7 +140,7 @@ F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best 
 
 ### F17. Windows reviewed-npm step over its budget
 
-- See F3. The step budget stays at 60 s. A raise to 90 s would have pushed three Linux jobs over their 70% backstops, so the redundant install was removed instead.
+- See F3. The step budget stays at 60 s. A raise to 90 s would have pushed three Linux jobs over their 70% backstops, so the redundant install was removed instead. F24 later raised it to 90 s for a slow macOS install, together with those three backstops.
 
 ### F18. Ubuntu Bun suite past its budget warning (warning)
 
@@ -163,7 +163,7 @@ F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best 
 - **Symptom.** On 6e8b74a the job "Test runtimes (macos-26-intel, bun, 6/6)" printed nothing from `install-reviewed-npm.sh` for 60s. It then failed with "Reviewed npm install did not finish within its 60s budget", leaving only the script itself running (`ci-logs/macos-bun-6of6-133205558054.log`). The other legs of the same run finished the step.
 - **Root cause.** The script called `npm install` with npm's defaults. The default `fetch-timeout` is 300 000 ms, so one stalled registry request waits five minutes before npm retries it, far beyond the 60s budget. `experiments/issue-208/npm-fetch-stall.mjs` reproduces this offline against a loopback registry that never answers. With the defaults, npm was still waiting on its second request when it was killed at 20s. With bounded flags it retried and failed with `FETCH_ERROR` after 4 requests (`analysis/npm-fetch-stall.txt`). The budget itself worked as intended: it turned the stall into a titled failure in its own step, where F1 had cost a 15 min cancellation.
 - **Fix.**
-  - Both installs pass `--fetch-timeout=10000 --fetch-retries=3 --fetch-retry-mintimeout=1000 --fetch-retry-maxtimeout=5000`, so a stalled request is retried after 10s. Four attempts plus backoff end within about 47s, so the retries fit the 60s budget. A 20s first draft would have needed about 87s, and the budget would have cut the retries off (F22).
+  - Both installs pass `--fetch-timeout=10000 --fetch-retries=3 --fetch-retry-mintimeout=1000 --fetch-retry-maxtimeout=5000`, so a stalled request is retried after 10s. Four attempts plus backoffs of 1s, 5s and 5s fail after 51.9s, measured offline (`analysis/npm-fetch-stall.txt`). This was first estimated as about 47s; F24 corrected it and raised the budget to 90s. A 20s first draft would have needed about 87s, and the budget would have cut the retries off (F22).
   - `INSTALL_NPM_FETCH_TIMEOUT_MS` overrides the timeout.
   - With `RUNNER_DEBUG` or `INSTALL_NPM_VERBOSE=1`, the script adds `--loglevel=http`, so the next stall names the request it waited on. It is off by default.
   - `tests/install-reviewed-npm.test.js` asserts the flags, the override and the tracing.
@@ -189,7 +189,7 @@ An independent review of the script and workflow changes found these. Each is fi
 - **Retry chains longer than their step budgets.** A budget that kills curl or npm mid-retry replaces the script's own diagnosis with a generic budget error, and makes the retry settings dead code.
   - `install-lychee.sh` allowed 60s per attempt and 180s of retries, inside a 60s step. Now each download is bounded at 10s per attempt with no retry after 15s, so two downloads take at most 50s. `tests/lychee-install.test.js` computes this against the budget in `links.yml`.
   - `setup-preview-gh.sh` allowed 4 × 60s inside 90s. Now attempts are bounded at 20s with no retry after 50s, so the download ends within 70s.
-  - The reviewed npm install is covered by F20's 10s request timeout.
+  - The reviewed npm install is covered by F20's 10s request timeout. Its chain ends after about 52s, inside the 63s warning of the 90s budget (F24).
 - **A race could hide a budget annotation.** `run-with-budget-warning.sh` decided whether the relayed output ended mid-line from the file's current last byte. The command may already have written past the relayed range. A `::error` could then land mid-line, where GitHub ignores it. The check now reads the last relayed byte.
 - **The self-repository check missed `uses:` with extra spaces (false negative).** `uses:  ./...` is now detected, and `tests/ci-workflow-policy.test.js` covers it.
 
@@ -219,6 +219,19 @@ The review raised further points that need no change:
     - It also measures wall-clock growth, which is fine-grained everywhere, and the test asserts on the lower of the two. A quadratic guard inflates both clocks, while a coarse clock or noise inflates only one.
     - The failure message now prints every measurement.
   - Locally growth is 4.7–5.6× on both clocks. With the old quadratic guard restored as a temporary local edit, both clocks give 64×.
+
+### F24. Budget warnings on macOS Intel at d3753e9 (warning)
+
+"Checks and release" run 43850709708 passed, but two macOS Intel jobs warned. Their logs are `ci-logs/job-133244338956.log.gz` and `ci-logs/job-133244338261.log.gz`.
+
+- **"Bun test suite has run for 140s of its 200s budget" on macOS Bun 5/6. The suite finished in 195s.**
+  - `analysis/macos-bun-file-times.txt` sums the per-test times of all six shards. `sanitizer-issue-172.test.js` took 127.6s in shard 5. The next shards took 105s, 71s, 61s, 50s and 48s.
+  - Root cause: the five 8 MiB tests of issue 172 (16, 8, 25, 36 and 43s on this runner) sat in one file, and a file runs serially in its shard. They took 36s on another macOS run of the same suite, so the runner speed varies about 3.5×. The 200s budget leaves room for the slow case only when the work is spread out.
+  - Fix: the file is split into three: detector and regular-expression tests, the two engine tests, and the file-to-file test. Shared inputs moved to `tests/helpers/issue-172.js`. The shard selector deals the measured heavy files round-robin: the six heaviest first, then the rest lightest first. With six shards the 60s engine file then shares a job with `pr-guards` (15s). Estimated from the measured times, the slowest shard drops from 195s to about 107s. `tests/test-sharding.test.js` asserts that the three parts land in separate macOS Intel shards.
+- **"Reviewed npm install has run for 42s of its 60s budget" on macOS Bun 1/6.**
+  - npm printed `removed 8 packages, and changed 77 packages in 47s`. The install made progress and did not stall. Other runs took 7–32s on macOS, 17–35s on Windows and 3–5s on Ubuntu.
+  - Measuring F20's retry chain offline at the production timeout gave 51.9s, not the 47s estimated before. A stalled registry would have left only 8s of the 60s budget.
+  - Fix: the budget is 90s. It warns at 63s, above both the slow healthy install and the stalled-registry chain. The CI timeout test charges every reviewed-npm call in a job in full, even the no-op second calls, so three Ubuntu jobs went over 70% of their backstops: `example-app.yml: web-build` went from 10 to 11 min, `release.yml: session-publication` from 6 to 7 min and `workflows.yml: artifact-roundtrip` from 15 to 18 min. `docs/legacy/CI-TIMEOUT-BUDGETS.md` lists the new sums.
 
 ## Upstream reports
 
@@ -285,6 +298,7 @@ This was checked against `docs/CI-CD-BEST-PRACTICES.md`:
   - `tests/install-reviewed-npm.test.js`
   - `tests/node-toolchain.test.js`
   - `tests/sanitizer-issue-32.test.js`
+  - `tests/test-sharding.test.js`
   - `tests/run-with-budget-warning.test.js`
   - `tests/lint-changed-files.test.js`
   - `tests/codeql-results.test.js`
@@ -298,4 +312,5 @@ This was checked against `docs/CI-CD-BEST-PRACTICES.md`:
 - That failure can no longer take the job down silently: it now fails in its own step, names the processes it was waiting on, and can be traced with `RUNNER_DEBUG`.
 - F22's line-state race has no deterministic test. The window lies between two reads of a growing file. The fix is covered by the existing annotation tests.
 - F23's Windows growth of 30 is not tied to the CPU clock by direct evidence. A recurrence would print its measurements.
+- F24's shard estimate uses one slow run's per-file times. The runner speed varies about 3.5×, so a slower runner could still warn, but it would no longer come near the budget.
 - F20's log shows no npm output, so which request stalled is not proven. A stalled request matches the silence and the reproduction. Bounded retries cover that case, and the `http` log under `RUNNER_DEBUG` will name the request if it recurs.

@@ -76,7 +76,7 @@ jobs:
   web-build:
     name: Build web app
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 11
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-web-build
       cancel-in-progress: true

@@ -263,7 +263,7 @@ describe('CI timeout policy', () => {
   it('sets timeout-minutes for every release workflow job', () => {
     const expectedTimeouts = {
       'detect-changes': 5,
-      'session-publication': 6,
+      'session-publication': 7,
       'test-compilation': 5,
       'check-file-line-limits': 5,
       'version-check': 5,

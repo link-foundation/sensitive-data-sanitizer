@@ -26,7 +26,7 @@ runs:
     # running into the job's timeout-minutes.
     - name: Install reviewed npm
       shell: bash
-      run: bash scripts/run-with-budget-warning.sh 60 "Reviewed npm install" bash scripts/install-reviewed-npm.sh 12.2.2
+      run: bash scripts/run-with-budget-warning.sh 90 "Reviewed npm install" bash scripts/install-reviewed-npm.sh 12.2.2
     # Off by default. A "Re-run with debug logging" (runner.debug) lists every
     # registry request, so an install that stalls shows what it waited on.
     - name: Enable npm debug logging

@@ -60,7 +60,7 @@ it('covers every runtime and OS once while distributing Bun and Deno fixtures', 
         ).toBe(true);
       }
       if (os === 'macos-26-intel' && ['bun', 'deno'].includes(runtime)) {
-        // These subprocess-heavy files consumed most of the suite budget
+        // These heavy files consumed most of the suite budget
         // together on a cold runner. Keep them in separate execution jobs.
         const expensive = [
           'pr-guards.test.js',
@@ -69,13 +69,28 @@ it('covers every runtime and OS once while distributing Bun and Deno fixtures', 
           'run-with-budget-warning.test.js',
           'release-preflight.test.js',
           'sanitizer-jsonl-stream.test.js',
+          'sanitizer-issue-172.test.js',
+          'sanitizer-issue-172-engines.test.js',
+          'sanitizer-issue-172-file.test.js',
+          'sanitizer-issue-170.test.js',
+          'sanitizer-issue-128-evidence.test.js',
         ];
-        expect(
-          shards.every(
+        const counted = (names) =>
+          shards.map(
             ({ shard }) =>
               selectTests(files, shard).filter((file) =>
-                expensive.some((name) => file === `tests/${name}`)
-              ).length <= 1
+                names.some((name) => file === `tests/${name}`)
+              ).length
+          );
+        expect(
+          counted(expensive).every(
+            (n) => n <= Math.ceil(expensive.length / shards.length)
+          )
+        ).toBe(true);
+        // The issue 172 parts took 128 s of the 200 s budget in one file.
+        expect(
+          counted(expensive.filter((name) => name.includes('issue-172'))).every(
+            (n) => n <= 1
           )
         ).toBe(true);
       }
@@ -99,6 +114,11 @@ it('keeps measured expensive suites apart as unrelated files are added', () => {
     'run-with-budget-warning.test.js',
     'release-preflight.test.js',
     'sanitizer-jsonl-stream.test.js',
+    'sanitizer-issue-172.test.js',
+    'sanitizer-issue-172-engines.test.js',
+    'sanitizer-issue-172-file.test.js',
+    'sanitizer-issue-170.test.js',
+    'sanitizer-issue-128-evidence.test.js',
   ];
   for (const count of [2, 3, 4, 6]) {
     for (let extra = 0; extra <= 12; extra++) {

@@ -23,3 +23,4 @@ Use secretlint 14, which builds the recommended rules into `@secretlint/core`, s
 - Fit the lychee, preview GitHub CLI and reviewed npm download retries inside their step budgets.
 - Keep budget annotations on their own line when the command writes during relaying, and detect local actions written with extra spaces.
 - Average the issue-32 small-input probe over several calls and compare wall-clock growth too, so coarse Windows CPU clocks cannot fail it.
+- Split the 8 MiB issue-172 tests into three files that run in separate shards, and give the reviewed npm install a 90s budget, so slow macOS Intel runners stay below the budget warnings.

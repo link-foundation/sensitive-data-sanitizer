@@ -145,7 +145,7 @@ jobs:
   session-publication:
     name: Session Publication Corpus
     runs-on: ubuntu-24.04
-    timeout-minutes: 6
+    timeout-minutes: 7
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-session-publication
       cancel-in-progress: true
@@ -462,9 +462,10 @@ jobs:
         if: matrix.runtime == 'deno'
         shell: bash
         # Deno runs files in parallel, but a single file runs serially: the
-        # 8 MiB long-run suite (tests/sanitizer-issue-172.test.js) alone takes
-        # about a minute on cold macOS Intel runners, so the shard holding it
-        # needs the same 200s budget as Bun.
+        # 8 MiB long-run tests (tests/sanitizer-issue-172*.test.js) take about
+        # a minute per file on cold macOS Intel runners, so the shard holding
+        # one needs the same 200s budget as Bun. scripts/run-test-shard.mjs
+        # deals the three files to separate shards.
         run: bash scripts/run-with-budget-warning.sh 200 "Deno test suite" node scripts/run-test-shard.mjs deno "$TEST_SHARD"
 
   # === DOCKER IMAGE BUILD CHECK (pull requests) ===

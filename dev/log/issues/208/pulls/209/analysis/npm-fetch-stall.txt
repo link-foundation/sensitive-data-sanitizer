@@ -1,2 +1,7 @@
 npm defaults: killed at the 20s cap after 20.1s, 2 request(s) 
 bounded (fetch-timeout 2000): exit 1 after 19.7s, 4 request(s) npm error code FETCH_ERROR
+
+# F24 (2026-11-16): the same experiment with the production timeout, run as
+# node experiments/issue-208/npm-fetch-stall.mjs 10000 75
+npm defaults: killed at the 75s cap after 75.1s, 2 request(s)
+bounded (fetch-timeout 10000): exit 1 after 51.9s, 4 request(s) npm error code FETCH_ERROR

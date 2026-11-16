@@ -210,7 +210,7 @@ jobs:
   artifact-roundtrip:
     name: Artifact Transport Regression
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 18
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-artifacts
       cancel-in-progress: true

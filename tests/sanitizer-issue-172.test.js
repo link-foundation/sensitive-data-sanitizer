@@ -1,33 +1,12 @@
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
 import { describe, it, expect } from 'test-anywhere';
 import { LONG_TEST_TIMEOUT, itWithin } from './helpers/long-test.js';
+import { large, run, secret } from './helpers/issue-172.js';
 import { detectContext } from '../src/context.js';
-import { createSyncSanitizer } from '../src/credentials-entry.js';
-import { createSanitizer, sanitizeFileToFile } from '../src/index.js';
 import { flatRegExp, unicodeRun } from '../src/unicode-runs.js';
 
-// Issue 172: with the `u` flag, V8 compiles a class that can match an astral
-// code point (`[\p{L}\p{N}]`) as a non-simple loop on a two-byte string (one
-// holding any character above U+00FF). Each character of a long letter run
-// then took a backtracking entry, and a 4 MiB run next to an emoji, a `—` or
-// a hive mask (`xx-…789`) overflowed the regular-expression stack, so
-// `sanitize()` failed closed with ERR_SANITIZATION. One-byte strings passed.
-// Before the fix 4 MiB failed in credentialPrefix and 6 MiB in the e-mail
-// scans; 8 MiB keeps a margin. These tests check that a long run does not
-// overflow, not how fast it is scanned: each has its own 90 s bound, since a
-// slow macOS Intel runner can take over the 30 s bound of every other test.
-const large = 8 * 1024 * 1024;
-const secret = 'xx-private-value';
-const run = (unit, bytes) => unit.repeat(Math.ceil(bytes / unit.length));
-const options = { maxInputLength: 64 * 1024 * 1024 };
-const tails = {
-  'emoji + token': '\n🔐 token refreshed\n',
-  'hive mask': '\npassword=xx-…789\n',
-  'dash + secret': `\n— password=${secret}\n`,
-};
-
+// The detector and regular-expression part of the issue 172 tests (see
+// helpers/issue-172.js). The engine and file-to-file tests live in
+// sanitizer-issue-172-engines.test.js and sanitizer-issue-172-file.test.js.
 describe('issue 172: long runs in two-byte strings', () => {
   itWithin(
     'scans credential keys after an 8 MiB run without overflowing',
@@ -57,51 +36,6 @@ describe('issue 172: long runs in two-byte strings', () => {
         expect([
           ...new Set(found.map((f) => text.slice(f.start, f.end))),
         ]).toEqual([secret]);
-      }
-    }
-  );
-
-  itWithin(
-    'sanitizes the issue reproduction through createSyncSanitizer',
-    LONG_TEST_TIMEOUT,
-    () => {
-      const engine = createSyncSanitizer({ credentialsOnly: true, ...options });
-      for (const [name, tail] of Object.entries(tails)) {
-        const result = engine.sanitize(run('Ab', large) + tail);
-        expect([name, result.text.includes(secret)]).toEqual([name, false]);
-      }
-    }
-  );
-
-  itWithin(
-    'sanitizes a long run with personal data through createSanitizer',
-    LONG_TEST_TIMEOUT,
-    async () => {
-      const text = `${run('A', large)}\n🔐 token refreshed — mail jane.doe@example.com\npassword=${secret}\n`;
-      const result = await createSanitizer(options).sanitize(text);
-      expect(result.text.includes(secret)).toBe(false);
-      expect(result.text.includes('jane.doe@example.com')).toBe(false);
-    }
-  );
-
-  itWithin(
-    'sanitizes the gh-upload-log record shape through sanitizeFileToFile',
-    LONG_TEST_TIMEOUT,
-    async () => {
-      const dir = mkdtempSync(join(tmpdir(), 'issue-172-'));
-      try {
-        const input = join(dir, 'in.log');
-        const output = join(dir, 'out.log');
-        writeFileSync(
-          input,
-          `✅ step started — ok\n{"type":"image","data":"${run('A', 6 * 1024 * 1024)}"}\n🔐 token refreshed\npassword=${secret}\n`
-        );
-        await sanitizeFileToFile(input, output, options);
-        const text = readFileSync(output, 'utf8');
-        expect(text.includes(secret)).toBe(false);
-        expect(text.includes('🔐 token refreshed')).toBe(true);
-      } finally {
-        rmSync(dir, { recursive: true, force: true });
       }
     }
   );
