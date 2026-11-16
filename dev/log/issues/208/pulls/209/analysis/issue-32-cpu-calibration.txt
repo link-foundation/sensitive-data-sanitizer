@@ -17,3 +17,10 @@
 ## CI evidence: macos-26-intel bun 1/6, job 133205558325 (ci-logs/macos-bun-1of6-133205558325.log)
 old probe: Expected 1149.577 to be less than 1000; test 4196.26ms (Ubuntu bun: 583.98ms)
 same file, other tests: KOVALEVA 26.24 vs 5.74ms, IVANOV 21.68 vs 2.44ms, TKACHENKO 22.22 vs 2.26ms (macOS vs Ubuntu)
+
+## F23: probe averaging small calls and comparing wall-clock growth (node experiments/issue-32/document-whitespace.mjs, local Linux, Node v26.13.0)
+{"bytes":131107,"milliseconds":208.86400099999992,"smallRuns":5,"smallCpuMilliseconds":21.395,"cpuMilliseconds":102.006,"smallWallMilliseconds":21.277400400000033,"wallMilliseconds":102.241581,"cpuGrowth":4.76774947417621,"wallGrowth":4.805172581139181,"growth":4.76774947417621}
+{"bytes":131107,"milliseconds":229.25899500000014,"smallRuns":6,"smallCpuMilliseconds":19.323833333333333,"cpuMilliseconds":108.076,"smallWallMilliseconds":19.452074166666648,"wallMilliseconds":112.22010300000011,"cpuGrowth":5.592886159578414,"wallGrowth":5.769055887741888,"growth":5.592886159578414}
+{"bytes":131107,"milliseconds":208.6049680000001,"smallRuns":5,"smallCpuMilliseconds":22.204,"cpuMilliseconds":97,"smallWallMilliseconds":22.34297439999991,"wallMilliseconds":96.64282600000001,"cpuGrowth":4.368582237434697,"wallGrowth":4.325423476294204,"growth":4.325423476294204}
+## same F23 probe with the pre-ee9c30e quadratic guard (temporary local edit, not committed)
+{"bytes":131107,"milliseconds":29221.604896999997,"smallRuns":1,"smallCpuMilliseconds":446.974,"cpuMilliseconds":28534.724,"smallWallMilliseconds":447.78615200000013,"wallMilliseconds":28773.462451,"cpuGrowth":63.83978486444401,"wallGrowth":64.25715114789881,"growth":63.83978486444401}

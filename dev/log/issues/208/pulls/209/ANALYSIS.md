@@ -4,7 +4,7 @@
 
 | # | Requirement (from the issue) | Where it is addressed |
 | --- | --- | --- |
-| R1 | Find and fix every false positive, false negative, warning and error in CI/CD | Findings F1–F22 below |
+| R1 | Find and fix every false positive, false negative, warning and error in CI/CD | Findings F1–F23 below |
 | R2 | Compare the full workflow and CI script trees with the JS and Python pipeline templates and adopt their best practices | `analysis/TEMPLATE-DELTA-REVIEW.md`; every (b) row is ported (F7–F14) |
 | R3 | Report issues found here that also exist in the templates | [Upstream reports](#upstream-reports) |
 | R4 | Follow hive-mind `docs/CI-CD-BEST-PRACTICES.md` | [Best-practices check](#hive-mind-ci-cd-best-practices) |
@@ -27,7 +27,7 @@ All times are UTC.
 
 ## Findings, root causes and fixes
 
-F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best practices that were missing here. F15 to F21 surfaced while CI ran on this PR, and F22 came from an independent review of the PR diff.
+F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best practices that were missing here. F15 to F21 and F23 surfaced while CI ran on this PR, and F22 came from an independent review of the PR diff.
 
 ### F1. Cancelled macOS test leg on `main` (error)
 
@@ -179,6 +179,7 @@ F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best 
   - The probe warms up before it signals readiness, so the two-second wall-clock deadline of `boundedProbe` covers only the measured work.
   - It then measures a 16 KiB and a 128 KiB suffix on the same machine, using main-thread CPU where `process.threadCpuUsage` exists. The test requires the growth to stay below 24×: linear matching gives about 8× (4.1–6.0× measured, also under load), quadratic about 64×.
   - Restoring the quadratic guard that ee9c30e replaced, as a temporary local edit, gave 56× and 29s. The new assertion and the deadline both still catch it.
+  - F23 hardens this measurement against coarse CPU clocks.
 
 ### F22. Review of the PR diff (false negative, and retries that could never run)
 
@@ -199,6 +200,25 @@ The review raised further points that need no change:
 - Warning-level CodeQL notifications failing the gate is the intended F7 behavior, and CI is green with it.
 - The lint path handling for runs from a subdirectory predates this PR.
 - The relative lockfile annotation path for sub-packages applies to no current matrix entry.
+
+### F23. Two test failures on 3a8a072 (error in this PR, and a false positive)
+
+"Checks and release" run 43848158112 failed in seven test jobs. Their logs are in `ci-logs/job-1332343*.log.gz`.
+
+- **`tests/node-toolchain.test.js` failed in six jobs (error in this PR).**
+  - Symptom: `undefined !== 1` on Ubuntu, Windows and all three runtimes.
+  - Root cause: the test found the scripts-off guarantee by searching each install line for a literal `--ignore-scripts`. F20 moved the flags into the shared `install_flags` array, so the search found nothing. The script still skipped scripts.
+  - The local checks for F20 ran only the install tests. The run of `ccd9f44` that would have caught it was still queued when the next head superseded it.
+  - Fix: the test now asserts that `install_flags` starts with `--ignore-scripts` and that both installs pass the array. Removing the flag, as a temporary local edit, fails the test.
+- **The issue-32 probe failed on Windows Bun 1/3 with "Expected 30 to be less than 24" (false positive).**
+  - `boundedProbe` always forks `node`, so the probe ran under Node 26 on Windows, not under Bun.
+  - Locally one 16 KiB call costs about 20 ms, and the CPU and wall clocks agree. Windows counts thread CPU time in 15.625 ms ticks, so one small sample can read 0 or 1 tick. A 0 reading becomes 1 ms through the `Math.max` guard, and either case inflates the ratio.
+  - The ratio being exactly 30 fits this, but the failure message did not include the measurements, so the mechanism is not proven.
+  - Fix:
+    - The probe averages 16 KiB calls until they span at least 100 ms, at most 8 calls. A slow runner stops after one call and stays inside the two-second deadline.
+    - It also measures wall-clock growth, which is fine-grained everywhere, and the test asserts on the lower of the two. A quadratic guard inflates both clocks, while a coarse clock or noise inflates only one.
+    - The failure message now prints every measurement.
+  - Locally growth is 4.7–5.6× on both clocks. With the old quadratic guard restored as a temporary local edit, both clocks give 64×.
 
 ## Upstream reports
 
@@ -263,6 +283,8 @@ This was checked against `docs/CI-CD-BEST-PRACTICES.md`:
 - Each fix comes with tests. The relevant files are:
   - `tests/ci-timeouts.test.js`
   - `tests/install-reviewed-npm.test.js`
+  - `tests/node-toolchain.test.js`
+  - `tests/sanitizer-issue-32.test.js`
   - `tests/run-with-budget-warning.test.js`
   - `tests/lint-changed-files.test.js`
   - `tests/codeql-results.test.js`
@@ -275,4 +297,5 @@ This was checked against `docs/CI-CD-BEST-PRACTICES.md`:
 - The cause of the stall in F1 is not proven, because GitHub deleted the cancelled job's log.
 - That failure can no longer take the job down silently: it now fails in its own step, names the processes it was waiting on, and can be traced with `RUNNER_DEBUG`.
 - F22's line-state race has no deterministic test. The window lies between two reads of a growing file. The fix is covered by the existing annotation tests.
+- F23's Windows growth of 30 is not tied to the CPU clock by direct evidence. A recurrence would print its measurements.
 - F20's log shows no npm output, so which request stalled is not proven. A stalled request matches the silence and the reproduction. Bounded retries cover that case, and the `http` log under `RUNNER_DEBUG` will name the request if it recurs.
