@@ -89,10 +89,22 @@ describe('complete pipeline requirements', () => {
     expect(source).toContain('      - shellcheck');
     expect(source).toContain('shellcheck-py==0.11.0.1');
     expect(source).toContain("git ls-files -z '*.sh' '.husky/*'");
+    const job = source.split('\n  shellcheck:\n')[1].split(/\n {2}\S/)[0];
+    // pipx warns that its bin directory is missing from PATH; a private venv
+    // runs the pinned binary by absolute path and prints no such warning.
+    expect(job).toContain('python3 -m venv "$RUNNER_TEMP/shellcheck"');
+    expect(job).toContain(
+      'bash scripts/run-with-budget-warning.sh 60 "shellcheck install"'
+    );
+    expect(job).toContain(
+      '"$RUNNER_TEMP/shellcheck/bin/pip" install --quiet --disable-pip-version-check shellcheck-py==0.11.0.1'
+    );
+    expect(job).toContain('xargs -0 "$RUNNER_TEMP/shellcheck/bin/shellcheck"');
+    expect(job).not.toContain('pipx');
     const { 'lint-staged': staged } = JSON.parse(read('package.json'));
     for (const pattern of ['*.sh', '.husky/*']) {
       expect(staged[pattern]).toEqual([
-        'pipx run --spec shellcheck-py==0.11.0.1 shellcheck',
+        'pipx run --no-path-check --spec shellcheck-py==0.11.0.1 shellcheck',
       ]);
     }
   });

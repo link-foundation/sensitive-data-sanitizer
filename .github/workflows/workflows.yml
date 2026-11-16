@@ -93,8 +93,14 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
+      # The pinned shellcheck runs from a private venv by absolute path, so
+      # no tool-runner PATH probe runs and no PATH warning is printed.
       - name: Check standalone shell scripts and hooks
-        run: git ls-files -z '*.sh' '.husky/*' | xargs -0 pipx run --spec shellcheck-py==0.11.0.1 shellcheck
+        run: |
+          python3 -m venv "$RUNNER_TEMP/shellcheck"
+          bash scripts/run-with-budget-warning.sh 60 "shellcheck install" \
+            "$RUNNER_TEMP/shellcheck/bin/pip" install --quiet --disable-pip-version-check shellcheck-py==0.11.0.1
+          git ls-files -z '*.sh' '.husky/*' | xargs -0 "$RUNNER_TEMP/shellcheck/bin/shellcheck"
 
   python-check:
     name: Python static checks

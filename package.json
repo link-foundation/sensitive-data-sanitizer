@@ -145,7 +145,7 @@
       "prettier --check"
     ],
     "*.sh": [
-      "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
+      "pipx run --no-path-check --spec shellcheck-py==0.11.0.1 shellcheck"
     ],
     "*.py": [
       "pipx run --spec ruff==0.17.4 ruff check --fix --force-exclude",
@@ -153,7 +153,7 @@
       "pipx run --spec ruff==0.17.4 ruff format --check --force-exclude"
     ],
     ".husky/*": [
-      "pipx run --spec shellcheck-py==0.11.0.1 shellcheck"
+      "pipx run --no-path-check --spec shellcheck-py==0.11.0.1 shellcheck"
     ]
   },
   "dependencies": {
