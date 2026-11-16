@@ -101,13 +101,36 @@ back to signalling the direct child.
 
 ## The invariant
 
-`tests/ci-timeouts.test.js` asserts, for every job that declares budgets, that
+`tests/ci-timeouts.test.js` parses every workflow and composite action as YAML
+and asserts, for every job that declares budgets, that
 
 - each individual budget is at most **70%** (`MAX_BUDGET_SHARE_PERCENT`) of the
   job's `timeout-minutes`, and
-- the budgets in a job sum to at most 70% of that cap, leaving headroom for the
-  unbudgeted setup — checkout, `npm ci`, the Bun install — that runs on the same
-  job clock.
+- the budgets that can run in the same job sum to at most 70% of that cap,
+  leaving headroom for the unbudgeted setup (checkout, toolchain caches) that
+  runs on the same job clock.
+
+How budgets are counted:
+
+- **Composite actions count per call.** A `uses: ./.github/actions/NAME` step
+  contributes every budget inside that action, recursively, each time it is
+  called: a job that calls `artifact-transport` twice pays its reviewed-npm and
+  SDK install budgets twice.
+- **Conditions are summed unless provably exclusive.** Each budget keeps the
+  `if:` of its step (and of the composite call it sits in). Two budgets are
+  treated as alternatives only when their conditions compare the same
+  expression with different literals (`matrix.runtime == 'node'` vs
+  `matrix.runtime == 'bun'`); anything else, such as an event check and a
+  matrix leg, is assumed to run together.
+- **The wrapper may be called through any path**, including a quoted
+  `"$GITHUB_WORKSPACE/scripts/run-with-budget-warning.sh"` from a step with a
+  `working-directory`.
+
+A second policy test, "wraps every networked install in workflows and composite
+actions", fails on any `npm ci`, `npm install`, `pip install`, `pipx install`,
+`uv pip install`, `curl`/`wget` download or similar networked install that is
+not inside the wrapper. Registry outages and slow mirrors are the most common
+way a job silently drifts into its backstop, so installs get budgets too.
 
 This invariant is what finds the _next_ occurrence rather than the one that
 already failed. In the reference incident the same sweep immediately surfaced a
@@ -116,14 +139,28 @@ neither of which was involved in the original failure.
 
 ## Current budgets
 
-| Job                     | Backstop | Step budgets                                     |
-| ----------------------- | -------- | ------------------------------------------------ |
-| `test`                  | 15 min   | Node.js 300s, Bun 200s, Deno 200s                |
-| `docker-build`          | 30 min   | image build 20 min                               |
-| `docker-publish-config` | 30 min   | npm availability wait 1100s                      |
-| `docker-publish-build`  | 30 min   | image build and push 20 min                      |
-| `release`               | 50 min   | install 240s, npm publish 1200s, smoke test 600s |
-| `instant-release`       | 50 min   | npm publish 1200s, smoke test 600s               |
+Concurrent sums as computed by the test. Every reviewed-npm install
+(`.github/actions/setup-node`) is 60s and every dependency install is 60s
+unless listed.
+
+| Workflow: job                        | Backstop | Sum   | Largest step budgets                                     |
+| ------------------------------------ | -------- | ----- | -------------------------------------------------------- |
+| `release.yml: test`                  | 15 min   | 600s  | Node.js 300s, Bun 200s, Deno 200s (legs exclusive)       |
+| `release.yml: session-publication`   | 6 min    | 240s  | corpus 120s                                              |
+| `release.yml: docker-build`          | 30 min   | 1200s | image build 20 min                                       |
+| `release.yml: release`               | 65 min   | 2700s | install 240s, npm publish 1800s, smoke test 600s         |
+| `release.yml: instant-release`       | 65 min   | 2520s | npm publish 1800s, smoke test 600s                       |
+| `release.yml: docker-publish-config` | 45 min   | 1800s | npm availability wait 1800s                              |
+| `release.yml: docker-publish-build`  | 35 min   | 1320s | image build and push 20 min, artifact transport 120s     |
+| `security.yml: npm-audit`            | 10 min   | 180s  | live deprecation check 120s                              |
+| `security.yml: python-audit`         | 10 min   | 360s  | requirements audit 90s, benchmark install 90s            |
+| `example-app.yml: web-build`         | 10 min   | 360s  | two artifact-transport calls 120s each                   |
+| `example-app.yml: preview-regen`     | 20 min   | 390s  | preview `gh` install 90s                                 |
+| `workflows.yml: zizmor`              | 10 min   | 300s  | zizmor 5 min                                             |
+| `workflows.yml: artifact-roundtrip`  | 15 min   | 600s  | four artifact-transport calls 120s each, SDK install 60s |
+
+Run `node --test tests/ci-timeouts.test.js` after changing a budget or a
+`timeout-minutes`; the failure message names the job and the budgets it summed.
 
 ## Reference
 

@@ -76,7 +76,8 @@ function getStepBlock(workflow, stepName) {
 // a call runs all of its steps again, so the job clock pays every time.
 // Every budget keeps the `if:` condition of the step it belongs to, so that
 // provably exclusive legs (a matrix leg, say) are not summed as a sequence.
-const BUDGET_PATTERN = /run-with-budget-warning\.sh\s+(\S+)\s+"([^"]+)"/g;
+// The script path may be quoted, as in "$GITHUB_WORKSPACE/scripts/…sh".
+const BUDGET_PATTERN = /run-with-budget-warning\.sh["']?\s+(\S+)\s+"([^"]+)"/g;
 
 function resolveBudget(raw, envs) {
   if (/^\d+$/.test(raw)) {
@@ -600,6 +601,21 @@ describe('step budget grouping across conditions and composite actions', () => {
       '',
     ].join('\n');
 
+  it('counts a wrapper called through a quoted workspace path', () => {
+    const budgets = getStepBudgetSeconds(
+      fixture([
+        '      - name: Nested directory',
+        '        working-directory: sub',
+        '        run: bash "$GITHUB_WORKSPACE/scripts/run-with-budget-warning.sh" 120 "check" node check.mjs',
+      ]),
+      'job'
+    );
+
+    expect(budgets.map(({ seconds, label }) => `${seconds} ${label}`)).toEqual([
+      '120 check',
+    ]);
+  });
+
   it('sums conditions that can hold together, such as an event and a leg', () => {
     const budgets = getStepBudgetSeconds(
       fixture([
@@ -713,7 +729,7 @@ function findUnbudgetedInstalls(steps, where) {
       if (
         INSTALL_COMMAND.test(line) &&
         !OFFLINE_INSTALL.test(line) &&
-        !/run-with-budget-warning\.sh\s+\S+\s+"[^"]+"/.test(line)
+        !/run-with-budget-warning\.sh["']?\s+\S+\s+"[^"]+"/.test(line)
       ) {
         findings.push(`${where}: "${step.name ?? step.uses}" runs ${line}`);
       }
