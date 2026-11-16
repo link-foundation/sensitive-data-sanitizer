@@ -324,6 +324,7 @@ This was checked against `docs/CI-CD-BEST-PRACTICES.md`:
   - `tests/check-deprecated-packages.test.js`
   - the secrets, lychee and workflow-policy tests
 - CI on the PR head runs all workflows on Ubuntu, macOS and Windows.
+- On 6f6d173 all five workflows passed, covering 74 jobs including all 26 test legs. The only annotations are the three expected Buildx fixture outages, each explained by its F19 notice. No step reported a budget warning (`analysis/ci-annotations-6f6d173.tsv`). No Deno download needed the retry in that run, so the retry path is covered by `tests/setup-deno-retry.test.js` only.
 
 ## Remaining uncertainty
 
