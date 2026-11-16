@@ -4,7 +4,7 @@
 
 | # | Requirement (from the issue) | Where it is addressed |
 | --- | --- | --- |
-| R1 | Find and fix every false positive, false negative, warning and error in CI/CD | Findings F1–F17 below |
+| R1 | Find and fix every false positive, false negative, warning and error in CI/CD | Findings F1–F19 below |
 | R2 | Compare the full workflow and CI script trees with the JS and Python pipeline templates and adopt their best practices | `analysis/TEMPLATE-DELTA-REVIEW.md`; every (b) row is ported (F7–F14) |
 | R3 | Report issues found here that also exist in the templates | [Upstream reports](#upstream-reports) |
 | R4 | Follow hive-mind `docs/CI-CD-BEST-PRACTICES.md` | [Best-practices check](#hive-mind-ci-cd-best-practices) |
@@ -27,7 +27,7 @@ All times are UTC.
 
 ## Findings, root causes and fixes
 
-F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best practices that were missing here. F15 to F17 surfaced while CI ran on this PR.
+F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best practices that were missing here. F15 to F19 surfaced while CI ran on this PR.
 
 ### F1. Cancelled macOS test leg on `main` (error)
 
@@ -141,6 +141,22 @@ F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best 
 ### F17. Windows reviewed-npm step over its budget
 
 - See F3. The step budget stays at 60 s. A raise to 90 s would have pushed three Linux jobs over their 70% backstops, so the redundant install was removed instead.
+
+### F18. Ubuntu Bun suite past its budget warning (warning)
+
+- **Symptom.** On 9f90431 the job "Test runtimes (ubuntu-24.04, bun, 1/1)" warned "Bun test suite has run for 140s of its 200s budget" and finished in 162s (`ci-logs/bun-133190645223.log`). On `main` (e2835dd) the same suite took 137s (`ci-logs/bun-main-133022147761.log`), 3s below the warning.
+- **Root cause.** Bun runs test files one after another, and Ubuntu ran the whole suite in one job. The tests this PR adds cost about 25s. The biggest share is `tests/lychee-install.test.js` at 9.5s: it sets `LYCHEE_DOWNLOAD_RETRY_DELAY=0`, but curl reads `--retry-delay 0` as "use the default backoff", which starts at 1s. Every fixture also failed its first request, so each test waited through retries.
+- **Fix.**
+  - Ubuntu Bun now runs as two shards, like Bun on Windows (3) and macOS (6). Every other budgeted step in the run stayed at or below 63% of its budget.
+  - Only the recovery test serves a first-request 503. The other lychee tests drop from about 2s to about 0.1s each.
+  - The installer documents what a zero delay means to curl.
+  - `tests/test-sharding.test.js` requires more than one Ubuntu Bun shard, each holding at most half of the files.
+
+### F19. Expected error annotations on a green Buildx recovery job (false positive)
+
+- **Symptom.** The jobs "Buildx registry recovery (recovered)" and "(exhausted)" passed, but carried `failure` annotations such as "500 Internal Server Error: simulated canonical registry outage" (`ci-logs/annotations-9f90431.tsv`).
+- **Root cause.** The fixture injects registry outages. The upstream `docker/setup-buildx-action` annotates each one as an error, and GitHub cannot suppress the annotations of a `uses:` step.
+- **Fix.** After asserting the outcome, the verification step adds a notice that names these annotations as the fixture's, so the annotation list explains itself.
 
 ## Upstream reports
 
