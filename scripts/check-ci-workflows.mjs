@@ -8,6 +8,29 @@ import { pathToFileURL } from 'node:url';
 // https://github.com/zizmorcore/zizmor-action/blob/v0.8.1/support/locks/zizmor-1.32.0.txt
 const supportedZizmor = { 'v0.8.1': '1.32.0' };
 
+/**
+ * Explains an unverified action/CLI pair: a Dependabot bump of the action
+ * lands here, so the message names both pins and the table to edit.
+ *
+ * @param {string} action zizmorcore/zizmor-action ref from the workflow.
+ * @param {string | undefined} version zizmor CLI version from the workflow.
+ * @returns {string}
+ */
+function zizmorSupportError(action, version) {
+  const known = Object.entries(supportedZizmor)
+    .map(([ref, cli]) => `zizmor-action@${ref} -> zizmor ${cli}`)
+    .join(', ');
+  return (
+    `zizmorcore/zizmor-action@${action} is not verified for zizmor CLI ` +
+    `${version ?? '(no version: input)'}. Check that ` +
+    `https://github.com/zizmorcore/zizmor-action/tree/${action}/support ` +
+    `lists that CLI version (support/locks or support/versions), then set ` +
+    `the action's version: input and every zizmor== pin to it and record ` +
+    `the pair in supportedZizmor in scripts/check-ci-workflows.mjs ` +
+    `(verified: ${known}).`
+  );
+}
+
 export function checkWorkflowPolicy(text) {
   const errors = [];
   const shellText = text.replace(/\\\r?\n\s*/g, ' ');
@@ -42,7 +65,7 @@ export function checkWorkflowPolicy(text) {
       );
     }
     if (supportedZizmor[action] !== version) {
-      errors.push(`Verify zizmor ${version} is supported by action ${action}`);
+      errors.push(zizmorSupportError(action, version));
     }
   }
   return errors;

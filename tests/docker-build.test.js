@@ -2,6 +2,7 @@ import { describe, it, expect } from 'test-anywhere';
 import { readFileSync } from 'node:fs';
 
 import { evaluateDockerBuildConfig } from '../scripts/check-docker-build.mjs';
+import { pinnedUses } from './helpers/action-pins.js';
 
 const releaseWorkflow = readFileSync(
   '.github/workflows/release.yml',
@@ -34,7 +35,7 @@ describe('pull-request Docker build check', () => {
   });
 
   it('builds without pushing so fork pull requests work without credentials', () => {
-    expect(dockerBuildJob).toContain('uses: docker/build-push-action@v7');
+    expect(dockerBuildJob).toMatch(pinnedUses('docker/build-push-action'));
     expect(dockerBuildJob).toContain('push: false');
     expect(dockerBuildJob).toContain('load: true');
     expect(dockerBuildJob).toContain('cache-from: type=gha,scope=docker-image');

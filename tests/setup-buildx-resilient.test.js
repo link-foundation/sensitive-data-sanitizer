@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'test-anywhere';
 import { readFileSync } from 'node:fs';
 import { parse } from 'yaml';
+import { pinnedRef } from './helpers/action-pins.js';
 
 const action = parse(
   readFileSync('.github/actions/setup-buildx-resilient/action.yml', 'utf8')
@@ -9,7 +10,7 @@ const [canonical, mirror] = action.runs.steps;
 
 describe('upstream Buildx retries and registry fallback', () => {
   it('delegates both pulls and bootstrap to the same reviewed upstream release', () => {
-    expect(canonical.uses).toBe('docker/setup-buildx-action@v4.4.1');
+    expect(canonical.uses).toMatch(pinnedRef('docker/setup-buildx-action'));
     expect(mirror.uses).toBe(canonical.uses);
     expect(canonical.with.version).toBe('v0.38.2');
     expect(mirror.with.version).toBe(canonical.with.version);

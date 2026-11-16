@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'test-anywhere';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import { pinnedUses } from './helpers/action-pins.js';
 
 const workflowPath = '.github/workflows/security.yml';
 const workflow = existsSync(workflowPath)
@@ -62,11 +63,11 @@ describe('security workflow', () => {
     );
     expect(codeql).toContain('      actions: read');
     expect(codeql).toContain('      security-events: write');
-    expect(codeql).toContain('uses: actions/checkout@v7');
-    expect(codeql).toContain('uses: github/codeql-action/init@v4');
+    expect(codeql).toMatch(pinnedUses('actions/checkout'));
+    expect(codeql).toMatch(pinnedUses('github/codeql-action/init'));
     expect(codeql).toContain('languages: ${{ matrix.language }}');
-    expect(codeql).toContain('uses: github/codeql-action/autobuild@v4');
-    expect(codeql).toContain('uses: github/codeql-action/analyze@v4');
+    expect(codeql).toMatch(pinnedUses('github/codeql-action/autobuild'));
+    expect(codeql).toMatch(pinnedUses('github/codeql-action/analyze'));
   });
 
   it('rejects high-severity dependency changes only on pull requests', () => {
@@ -84,8 +85,8 @@ describe('security workflow', () => {
       '      group: check-${{ github.workflow }}-${{ github.ref }}-dependency-review\n      cancel-in-progress: true'
     );
     expect(dependencyReview).toContain('      pull-requests: write');
-    expect(dependencyReview).toContain(
-      'uses: actions/dependency-review-action@v5'
+    expect(dependencyReview).toMatch(
+      pinnedUses('actions/dependency-review-action')
     );
     expect(dependencyReview).toContain('          fail-on-severity: high');
     expect(dependencyReview).toContain(

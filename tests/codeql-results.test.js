@@ -93,7 +93,7 @@ describe('CodeQL local result gate', () => {
     assert.match(workflow, /output: codeql-results/);
     assert.ok(
       workflow.indexOf('scripts/check-codeql-results.mjs') >
-        workflow.indexOf('github/codeql-action/analyze@v4')
+        workflow.search(/uses: github\/codeql-action\/analyze@v\d+\.\d+\.\d+\s/)
     );
     assert.match(workflow, /path: codeql-results/);
   });
