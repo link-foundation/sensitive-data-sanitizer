@@ -98,3 +98,101 @@ describe('CodeQL local result gate', () => {
     assert.match(workflow, /path: codeql-results/);
   });
 });
+
+describe('CodeQL invocation notifications and log escaping', () => {
+  const withNotification = (key, notification) => {
+    const data = report();
+    data.runs[0].invocations[0][key] = [notification];
+    return data;
+  };
+  for (const key of [
+    'toolExecutionNotifications',
+    'toolConfigurationNotifications',
+  ]) {
+    for (const [level, status] of [
+      ['error', 1],
+      ['warning', 1],
+      [undefined, 1],
+      ['note', 0],
+      ['none', 0],
+    ]) {
+      itUnless(sandboxed)(
+        `${key} with level ${level ?? 'default warning'} exits ${status} without findings`,
+        () => {
+          const result = check([
+            withNotification(key, {
+              level,
+              descriptor: { id: 'extractor/diagnostic' },
+              message: { text: 'Extraction diagnostic' },
+              locations: [
+                {
+                  physicalLocation: {
+                    artifactLocation: { uri: 'src/example.js' },
+                    region: { startLine: 42 },
+                  },
+                },
+              ],
+            }),
+          ]);
+          assert.equal(result.status, status, result.stdout + result.stderr);
+          if (status) {
+            assert.match(
+              result.stderr,
+              /extractor\/diagnostic src\/example\.js:42/
+            );
+            assert.match(result.stderr, /Extraction diagnostic/);
+          }
+        }
+      );
+    }
+    itUnless(sandboxed)(`${key} notification without a message fails`, () => {
+      const result = check([
+        withNotification(key, {
+          level: 'note',
+          descriptor: { id: 'extractor/diagnostic' },
+        }),
+      ]);
+      assert.equal(result.status, 1, result.stdout + result.stderr);
+      assert.match(result.stderr, /malformed \w+ notification/);
+    });
+  }
+  itUnless(sandboxed)('malformed notification arrays fail', () => {
+    const data = report();
+    data.runs[0].invocations[0].toolExecutionNotifications = {};
+    const result = check([data]);
+    assert.equal(result.status, 1, result.stdout + result.stderr);
+    assert.match(result.stderr, /malformed toolExecutionNotifications/);
+  });
+  for (const field of ['ruleId', 'message', 'notification']) {
+    itUnless(sandboxed)(
+      `escapes workflow commands in an untrusted SARIF ${field}`,
+      () => {
+        const injected =
+          'x\n::error title=spoof::forged\r::add-mask::secret\n##[error]legacy';
+        const data = report([
+          {
+            ruleId: field === 'ruleId' ? injected : 'rule',
+            level: 'error',
+            message: { text: field === 'message' ? injected : 'finding' },
+          },
+        ]);
+        if (field === 'notification') {
+          data.runs[0].invocations[0].toolExecutionNotifications = [
+            {
+              level: 'warning',
+              descriptor: { id: injected },
+              message: { text: injected },
+            },
+          ];
+        }
+        const result = check([data]);
+        assert.equal(result.status, 1, result.stdout + result.stderr);
+        assert.match(result.stderr, /spoof/);
+        assert.doesNotMatch(
+          result.stdout + result.stderr,
+          /::(?:error|add-mask)|##\[error\]/
+        );
+      }
+    );
+  }
+});
