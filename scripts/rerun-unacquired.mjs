@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Find the jobs of a workflow run that GitHub never started, and rerun them.
+ * Find the jobs of a workflow run that never got to test the commit (no
+ * runner was acquired, or the job stalled in its setup), and rerun them.
  *
  * When no hosted runner can be acquired (usually macOS arm64 under capacity
  * constraints) GitHub gives up with "The job was not acquired by Runner of
@@ -8,12 +9,27 @@
  * `failure` with no runner name and no steps: no code ran, so the result
  * says nothing about the commit.
  *
+ * A job can also stall in its setup: a dependency install that hangs on one
+ * host (`npm ci` on a macOS runner, say) until a step budget or the job's
+ * `timeout-minutes` ends it. The job ran, but stopped before any test step,
+ * so its result too says nothing about the commit. Such a job counts as
+ * stalled when the step it ended in is a setup step (`Set up …`, `Setup …`,
+ * `Install …`, `Prepare … dependencies`, a checkout), no later step ran,
+ * no earlier step ran tests, and its check run carries a timeout annotation:
+ * GitHub's "exceeded the maximum execution time" or "has timed out", or the
+ * "exceeded its execution budget" of scripts/run-with-budget-warning.sh. A
+ * job killed by `timeout-minutes` ends `cancelled`, and so does its run.
+ *
  * Modes:
  *
  * - `rerun` (default; .github/workflows/rerun-unacquired.yml): reads the
  *   `workflow_run` event and calls "rerun failed jobs" for a failed run whose
- *   failure is fully explained by unacquired jobs. It does nothing when
- *   - no job is unacquired;
+ *   failure is fully explained by unacquired or stalled jobs, and for a
+ *   cancelled run when at least one job stalled in its setup. It does
+ *   nothing when
+ *   - no job is unacquired or stalled;
+ *   - the run was cancelled and no job stalled (someone cancelled it, and
+ *     queued jobs then look unacquired);
  *   - another job failed after running steps (a real failure is never
  *     rerun, and rerunning cannot turn that run green);
  *   - the run already reached its attempt limit, was rerun by someone else,
@@ -31,6 +47,13 @@ import { describe, githubApi } from './github-api.mjs';
 export const GATE_JOBS = ['Pipeline Status'];
 export const MAX_ATTEMPTS = 3;
 const FAILED = new Set(['failure', 'cancelled', 'timed_out']);
+export const RERUN_CONCLUSIONS = ['failure', 'cancelled', 'timed_out'];
+export const SETUP_STEP =
+  /^(?:set ?up\b|setup\b|install\b|prepare\b.*\bdependencies\b|wait before retrying\b|run actions\/checkout@|checkout\b)/iu;
+const AFTERMATH_STEP = /^(?:post\b|complete job$)/iu;
+const TEST_STEP = /\btests?\b/iu;
+export const TIMEOUT_ANNOTATION =
+  /exceeded the maximum execution time|has timed out after|exceeded its execution budget/iu;
 
 /** A job GitHub gave up on before any runner picked it up. */
 export function isUnacquired(job) {
@@ -41,22 +64,91 @@ export function isUnacquired(job) {
   );
 }
 
+const started = (step) =>
+  step.status === 'in_progress' ||
+  (step.status === 'completed' && step.conclusion !== 'skipped');
+
+/**
+ * The setup step a failed job ended in, when no test ran, or undefined. It
+ * reads only the steps; `confirmStalled` checks that a timeout ended it.
+ */
+export function stalledSetupStep(job) {
+  if (!FAILED.has(job?.conclusion) || isUnacquired(job)) {
+    return undefined;
+  }
+  const steps = (job.steps ?? []).filter(
+    (step) => !AFTERMATH_STEP.test(step.name ?? '')
+  );
+  const ran = steps.filter(started);
+  const last = ran.at(-1);
+  if (
+    !last ||
+    last.conclusion === 'success' ||
+    !SETUP_STEP.test(last.name ?? '') ||
+    ran.some((step) => TEST_STEP.test(step.name ?? ''))
+  ) {
+    return undefined;
+  }
+  const after = steps.slice(steps.indexOf(last) + 1);
+  return after.some(started) ? undefined : last.name;
+}
+
 /**
  * Split the failed jobs of one attempt.
- * @returns {{unacquired: string[], failed: string[]}} `failed` are the jobs
- *   that ran and failed, other than status gates.
+ * @returns {{unacquired: string[], stalled: object[], failed: string[]}}
+ *   `stalled` are the jobs that ended in a setup step (still to be
+ *   confirmed), `failed` the other jobs that ran and failed, other than
+ *   status gates.
  */
 export function classifyJobs(jobs, { gateJobs = GATE_JOBS } = {}) {
   const unacquired = [];
+  const stalled = [];
   const failed = [];
   for (const job of jobs) {
     if (isUnacquired(job)) {
       unacquired.push(job.name);
     } else if (FAILED.has(job.conclusion) && !gateJobs.includes(job.name)) {
+      const step = stalledSetupStep(job);
+      if (step) {
+        stalled.push({ job, step });
+      } else {
+        failed.push(job.name);
+      }
+    }
+  }
+  return { unacquired, stalled, failed };
+}
+
+/** The annotations of a job's check run (the job ID is its check run ID). */
+async function annotations(request, repository, job) {
+  const body = await request(
+    'GET',
+    `/repos/${repository}/check-runs/${job.id}/annotations?per_page=100`
+  );
+  return Array.isArray(body) ? body : [];
+}
+
+/**
+ * Keep the stalled jobs whose check run says a timeout ended them; the
+ * others failed for a reason a rerun does not fix.
+ * @returns {Promise<{stalled: string[], failed: string[]}>} `stalled` as
+ *   "job (step)" labels.
+ */
+export async function confirmStalled(request, repository, candidates) {
+  const stalled = [];
+  const failed = [];
+  for (const { job, step } of candidates) {
+    const notes = await annotations(request, repository, job);
+    const timedOut = notes.some((note) =>
+      TIMEOUT_ANNOTATION.test(`${note.title ?? ''} ${note.message ?? ''}`)
+    );
+    if (timedOut) {
+      stalled.push(`${job.name} (${step})`);
+    } else {
       failed.push(job.name);
     }
   }
-  return { unacquired, failed };
+  return { stalled, failed };
 }
 
 /** Every job of one run attempt, following pagination. */
@@ -77,8 +169,8 @@ export async function listJobs(request, { repository, runId, attempt }) {
 
 /** Why the run must be left alone, or '' when it can be rerun. */
 async function reasonToSkip(request, repository, run, maxAttempts) {
-  if (run.conclusion !== 'failure') {
-    return `the run concluded ${run.conclusion}, not failure`;
+  if (!RERUN_CONCLUSIONS.includes(run.conclusion)) {
+    return `the run concluded ${run.conclusion}, not ${RERUN_CONCLUSIONS.join(' or ')}`;
   }
   if (run.run_attempt >= maxAttempts) {
     return `attempt ${run.run_attempt} reached the limit of ${maxAttempts}`;
@@ -110,7 +202,7 @@ async function reasonToSkip(request, repository, run, maxAttempts) {
 
 /**
  * Decide on and perform the rerun of one completed run.
- * @returns {Promise<{action: 'rerun'|'skip', reason: string, unacquired: string[], failed: string[]}>}
+ * @returns {Promise<{action: 'rerun'|'skip', reason: string, unacquired: string[], stalled: string[], failed: string[]}>}
  */
 export async function rerunUnacquired({
   request,
@@ -123,6 +215,7 @@ export async function rerunUnacquired({
   const label = `${run.name ?? 'workflow'} run ${run.id} attempt ${run.run_attempt}`;
   let reason = await reasonToSkip(request, repository, run, maxAttempts);
   let unacquired = [];
+  let stalled = [];
   let failed = [];
   if (!reason) {
     const jobs = await listJobs(request, {
@@ -130,11 +223,22 @@ export async function rerunUnacquired({
       runId: run.id,
       attempt: run.run_attempt,
     });
-    ({ unacquired, failed } = classifyJobs(jobs, { gateJobs }));
-    if (unacquired.length === 0) {
+    const classified = classifyJobs(jobs, { gateJobs });
+    ({ unacquired } = classified);
+    const confirmed = await confirmStalled(
+      request,
+      repository,
+      classified.stalled
+    );
+    stalled = confirmed.stalled;
+    failed = [...classified.failed, ...confirmed.failed];
+    if (unacquired.length === 0 && stalled.length === 0) {
       reason = 'every failed job ran on a runner';
     } else if (failed.length > 0) {
       reason = `${failed.join(', ')} failed after running steps; fix them and push`;
+    } else if (run.conclusion === 'cancelled' && stalled.length === 0) {
+      reason =
+        'the run was cancelled and no job stalled in its setup, so someone may have cancelled it';
     }
   }
   if (unacquired.length > 0) {
@@ -142,18 +246,23 @@ export async function rerunUnacquired({
       `::warning title=Hosted runner not acquired::${label}: ${unacquired.join(', ')}. GitHub could not provide a runner; no code ran.`
     );
   }
+  if (stalled.length > 0) {
+    log(
+      `::warning title=Job stalled in setup::${label}: ${stalled.join(', ')}. A timeout ended the job before any test ran.`
+    );
+  }
   if (reason) {
     log(`Not rerunning ${label}: ${reason}.`);
-    return { action: 'skip', reason, unacquired, failed };
+    return { action: 'skip', reason, unacquired, stalled, failed };
   }
   await request(
     'POST',
     `/repos/${repository}/actions/runs/${run.id}/rerun-failed-jobs`
   );
   log(
-    `Reran the failed jobs of ${label} (${unacquired.join(', ')} and their dependents).`
+    `Reran the failed jobs of ${label} (${[...unacquired, ...stalled].join(', ')} and their dependents).`
   );
-  return { action: 'rerun', reason: '', unacquired, failed };
+  return { action: 'rerun', reason: '', unacquired, stalled, failed };
 }
 
 /** The unacquired jobs of the current attempt, for the status gate. */
