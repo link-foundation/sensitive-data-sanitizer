@@ -1,0 +1,4 @@
+Test runtimes (ubuntu-24.04, bun, 1/1)	warning	Bun test suite has run for 140s of its 200s budget.
+Buildx registry recovery (recovered)	failure	500 Internal Server Error: simulated canonical registry outage
+Buildx registry recovery (exhausted)	failure	502 Bad Gateway: simulated mirror outage
+Buildx registry recovery (exhausted)	failure	500 Internal Server Error: simulated canonical registry outage

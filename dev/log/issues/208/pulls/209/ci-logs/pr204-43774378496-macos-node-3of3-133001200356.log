@@ -1,0 +1,2033 @@
+﻿2026-11-15T23:44:00.8748800Z Current runner version: '2.338.2'
+2026-11-15T23:44:00.8869600Z ##[group]Runner Image Provisioner
+2026-11-15T23:44:00.8871910Z Hosted Compute Agent
+2026-11-15T23:44:00.8873480Z Version: 20260819.586
+2026-11-15T23:44:00.8875480Z Commit: 3cc4a88dfa507ef76119ad1bb3eccc6378bb2b76
+2026-11-15T23:44:00.8878140Z Build Date: 2026-08-18T23:20:18Z
+2026-11-15T23:44:00.8880140Z Worker ID: {e4e03045-a49d-460b-98a1-bf5ea82f8a7b}
+2026-11-15T23:44:00.8882020Z Azure Region: westus
+2026-11-15T23:44:00.8883700Z ##[endgroup]
+2026-11-15T23:44:00.8889040Z ##[group]Operating System
+2026-11-15T23:44:00.8890650Z macOS
+2026-11-15T23:44:00.8892010Z 26.6.1
+2026-11-15T23:44:00.8893340Z 25G76
+2026-11-15T23:44:00.8894610Z ##[endgroup]
+2026-11-15T23:44:00.8896110Z ##[group]Runner Image
+2026-11-15T23:44:00.8897700Z Image: macos-26
+2026-11-15T23:44:00.8899170Z Version: 20260824.0517.1
+2026-11-15T23:44:00.8902590Z Included Software: https://github.com/actions/runner-images/blob/macos-26/20260824.0517/images/macos/macos-26-Readme.md
+2026-11-15T23:44:00.8907110Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-26%2F20260824.0517
+2026-11-15T23:44:00.8910190Z ##[endgroup]
+2026-11-15T23:44:00.8913480Z ##[group]GITHUB_TOKEN Permissions
+2026-11-15T23:44:00.8919890Z Contents: read
+2026-11-15T23:44:00.8921460Z Metadata: read
+2026-11-15T23:44:00.8923130Z ##[endgroup]
+2026-11-15T23:44:00.8928600Z Secret source: Actions
+2026-11-15T23:44:00.8931000Z Cache mode: write
+2026-11-15T23:44:00.8933580Z Prepare workflow directory
+2026-11-15T23:44:01.0521160Z Prepare all required actions
+2026-11-15T23:44:01.0661870Z Getting action download info
+2026-11-15T23:44:01.4803390Z Download action repository 'actions/checkout@v7.0.1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-15T23:44:02.1291780Z Download action repository 'oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+2026-11-15T23:44:02.9334220Z Download action repository 'denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed' (SHA:22d081ff2d3a40755e97629de92e3bcbfa7cf2ed)
+2026-11-15T23:44:03.7762290Z Complete job name: Test runtimes (macos-26-intel, node, 3/3)
+2026-11-15T23:44:04.2072070Z ##[group]Run actions/checkout@v7.0.1
+2026-11-15T23:44:04.2075680Z with:
+2026-11-15T23:44:04.2077520Z   fetch-depth: 0
+2026-11-15T23:44:04.2080010Z   persist-credentials: false
+2026-11-15T23:44:04.2083080Z   repository: link-foundation/sensitive-data-sanitizer
+2026-11-15T23:44:04.2120280Z   token: ***
+2026-11-15T23:44:04.2122550Z   ssh-strict: true
+2026-11-15T23:44:04.2124760Z   ssh-user: git
+2026-11-15T23:44:04.2126600Z   clean: true
+2026-11-15T23:44:04.2128570Z   sparse-checkout-cone-mode: true
+2026-11-15T23:44:04.2131100Z   fetch-tags: false
+2026-11-15T23:44:04.2133240Z   show-progress: true
+2026-11-15T23:44:04.2135700Z   lfs: false
+2026-11-15T23:44:04.2137430Z   submodules: false
+2026-11-15T23:44:04.2139440Z   set-safe-directory: true
+2026-11-15T23:44:04.2141710Z   allow-unsafe-pr-checkout: false
+2026-11-15T23:44:04.2145600Z env:
+2026-11-15T23:44:04.2147510Z   GIT_CONFIG_COUNT: 1
+2026-11-15T23:44:04.2149590Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T23:44:04.2152420Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T23:44:04.2154570Z   TEST_SHARD: 3/3
+2026-11-15T23:44:04.2156540Z ##[endgroup]
+2026-11-15T23:44:05.6350880Z Syncing repository: link-foundation/sensitive-data-sanitizer
+2026-11-15T23:44:05.6359580Z ##[group]Getting Git version info
+2026-11-15T23:44:05.6365700Z Working directory is '/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer'
+2026-11-15T23:44:05.6372930Z [command]/usr/local/bin/git version
+2026-11-15T23:44:05.6880240Z git version 2.55.0
+2026-11-15T23:44:05.6925810Z ##[endgroup]
+2026-11-15T23:44:05.6946700Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/62a3f5e8-08f6-4e3a-8847-3592791a403a/.gitconfig'
+2026-11-15T23:44:05.6973460Z Temporarily overriding HOME='/Users/runner/work/_temp/62a3f5e8-08f6-4e3a-8847-3592791a403a' before making global git config changes
+2026-11-15T23:44:05.6982410Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-15T23:44:05.6992900Z [command]/usr/local/bin/git config --global --add safe.directory /Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+2026-11-15T23:44:05.7236880Z Deleting the contents of '/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer'
+2026-11-15T23:44:05.7246480Z ##[group]Determining repository object format
+2026-11-15T23:44:05.7252180Z ##[endgroup]
+2026-11-15T23:44:05.7337030Z ##[group]Initializing the repository
+2026-11-15T23:44:05.7345920Z [command]/usr/local/bin/git init /Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+2026-11-15T23:44:05.7861360Z Initialized empty Git repository in /Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/
+2026-11-15T23:44:05.7884020Z [command]/usr/local/bin/git remote add origin https://github.com/link-foundation/sensitive-data-sanitizer
+2026-11-15T23:44:05.8118810Z ##[endgroup]
+2026-11-15T23:44:05.8124090Z ##[group]Disabling automatic garbage collection
+2026-11-15T23:44:05.8128590Z [command]/usr/local/bin/git config --local gc.auto 0
+2026-11-15T23:44:05.8331570Z ##[endgroup]
+2026-11-15T23:44:05.8339240Z ##[group]Setting up auth
+2026-11-15T23:44:05.8342490Z Removing SSH command configuration
+2026-11-15T23:44:05.8347610Z [command]/usr/local/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T23:44:05.8545540Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-15T23:44:06.1661890Z Removing HTTP extra header
+2026-11-15T23:44:06.1680730Z [command]/usr/local/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T23:44:06.1886610Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-15T23:44:06.7069790Z Removing includeIf entries pointing to credentials config files
+2026-11-15T23:44:06.9062400Z [command]/usr/local/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T23:44:07.0580740Z [command]/usr/local/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-15T23:44:07.0735180Z [command]/usr/local/bin/git config --file /Users/runner/work/_temp/git-credentials-b64ddf08-b43a-4087-98ef-95a48e9a8caf.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-15T23:44:07.1707870Z [command]/usr/local/bin/git config --local includeIf.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path /Users/runner/work/_temp/git-credentials-b64ddf08-b43a-4087-98ef-95a48e9a8caf.config
+2026-11-15T23:44:07.1996150Z [command]/usr/local/bin/git config --local includeIf.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path /Users/runner/work/_temp/git-credentials-b64ddf08-b43a-4087-98ef-95a48e9a8caf.config
+2026-11-15T23:44:07.2201260Z [command]/usr/local/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-b64ddf08-b43a-4087-98ef-95a48e9a8caf.config
+2026-11-15T23:44:07.2253800Z [command]/usr/local/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-b64ddf08-b43a-4087-98ef-95a48e9a8caf.config
+2026-11-15T23:44:07.2285850Z ##[endgroup]
+2026-11-15T23:44:07.2291280Z ##[group]Fetching the repository
+2026-11-15T23:44:07.2299440Z [command]/usr/local/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +fb357efc52d15c630e591369325ee0cc3c3c5ff8:refs/remotes/pull/204/merge
+2026-11-15T23:44:09.9518000Z From https://github.com/link-foundation/sensitive-data-sanitizer
+2026-11-15T23:44:09.9535490Z  * [new branch]      issue-1-b188f503edf3                     -> origin/issue-1-b188f503edf3
+2026-11-15T23:44:09.9544000Z  * [new branch]      issue-100-3ee178fbdee1                   -> origin/issue-100-3ee178fbdee1
+2026-11-15T23:44:09.9548360Z  * [new branch]      issue-102-b6ecf86c9f05                   -> origin/issue-102-b6ecf86c9f05
+2026-11-15T23:44:09.9552540Z  * [new branch]      issue-106-e528442ca6c2                   -> origin/issue-106-e528442ca6c2
+2026-11-15T23:44:09.9556980Z  * [new branch]      issue-118-bfb692598f84                   -> origin/issue-118-bfb692598f84
+2026-11-15T23:44:09.9561530Z  * [new branch]      issue-120-75801fa5c894                   -> origin/issue-120-75801fa5c894
+2026-11-15T23:44:09.9565680Z  * [new branch]      issue-122-34f73532cdd3                   -> origin/issue-122-34f73532cdd3
+2026-11-15T23:44:09.9569910Z  * [new branch]      issue-124-e3156f13f3cd                   -> origin/issue-124-e3156f13f3cd
+2026-11-15T23:44:09.9574210Z  * [new branch]      issue-126-5ea993b133e4                   -> origin/issue-126-5ea993b133e4
+2026-11-15T23:44:09.9578710Z  * [new branch]      issue-128-e3cb1240cec3                   -> origin/issue-128-e3cb1240cec3
+2026-11-15T23:44:09.9582860Z  * [new branch]      issue-13-ae4189325e07                    -> origin/issue-13-ae4189325e07
+2026-11-15T23:44:09.9586930Z  * [new branch]      issue-142-5e0e1a2b2a47                   -> origin/issue-142-5e0e1a2b2a47
+2026-11-15T23:44:09.9591180Z  * [new branch]      issue-144-8601a000905a                   -> origin/issue-144-8601a000905a
+2026-11-15T23:44:09.9595510Z  * [new branch]      issue-146-eadba84d290c                   -> origin/issue-146-eadba84d290c
+2026-11-15T23:44:09.9599630Z  * [new branch]      issue-148-2aee718b2627                   -> origin/issue-148-2aee718b2627
+2026-11-15T23:44:09.9603690Z  * [new branch]      issue-149-cc1e74298dbb                   -> origin/issue-149-cc1e74298dbb
+2026-11-15T23:44:09.9607820Z  * [new branch]      issue-150-2b7b7513a315                   -> origin/issue-150-2b7b7513a315
+2026-11-15T23:44:09.9613140Z  * [new branch]      issue-151-91ceeb862285                   -> origin/issue-151-91ceeb862285
+2026-11-15T23:44:09.9617510Z  * [new branch]      issue-152-98b329eb0b4d                   -> origin/issue-152-98b329eb0b4d
+2026-11-15T23:44:09.9621680Z  * [new branch]      issue-153-251074c8d373                   -> origin/issue-153-251074c8d373
+2026-11-15T23:44:09.9626270Z  * [new branch]      issue-154-9dd4e45be37f                   -> origin/issue-154-9dd4e45be37f
+2026-11-15T23:44:09.9630730Z  * [new branch]      issue-162-90da9a9fbec6                   -> origin/issue-162-90da9a9fbec6
+2026-11-15T23:44:09.9635240Z  * [new branch]      issue-166-1c3a0db28af9                   -> origin/issue-166-1c3a0db28af9
+2026-11-15T23:44:09.9639440Z  * [new branch]      issue-168-b786a429c41d                   -> origin/issue-168-b786a429c41d
+2026-11-15T23:44:09.9643760Z  * [new branch]      issue-170-49405b384e0c                   -> origin/issue-170-49405b384e0c
+2026-11-15T23:44:09.9648300Z  * [new branch]      issue-174-f268fc455254                   -> origin/issue-174-f268fc455254
+2026-11-15T23:44:09.9652250Z  * [new branch]      issue-178-5b158e6082cf                   -> origin/issue-178-5b158e6082cf
+2026-11-15T23:44:09.9656450Z  * [new branch]      issue-180-aafece4fff0c                   -> origin/issue-180-aafece4fff0c
+2026-11-15T23:44:09.9660760Z  * [new branch]      issue-184-e5d0caea945a                   -> origin/issue-184-e5d0caea945a
+2026-11-15T23:44:09.9665630Z  * [new branch]      issue-190-544583eaa070                   -> origin/issue-190-544583eaa070
+2026-11-15T23:44:09.9670960Z  * [new branch]      issue-198-c131c7c54d68                   -> origin/issue-198-c131c7c54d68
+2026-11-15T23:44:09.9675310Z  * [new branch]      issue-203-8585ba428494                   -> origin/issue-203-8585ba428494
+2026-11-15T23:44:09.9679280Z  * [new branch]      issue-24-4efef94003ab                    -> origin/issue-24-4efef94003ab
+2026-11-15T23:44:09.9685100Z  * [new branch]      issue-32-18721f994a02                    -> origin/issue-32-18721f994a02
+2026-11-15T23:44:09.9689410Z  * [new branch]      issue-34-979b472b0be1                    -> origin/issue-34-979b472b0be1
+2026-11-15T23:44:09.9693630Z  * [new branch]      issue-36-581486aaaa3f                    -> origin/issue-36-581486aaaa3f
+2026-11-15T23:44:09.9697710Z  * [new branch]      issue-38-bc8becdd8d18                    -> origin/issue-38-bc8becdd8d18
+2026-11-15T23:44:09.9702600Z  * [new branch]      issue-43-840a44177950                    -> origin/issue-43-840a44177950
+2026-11-15T23:44:09.9707320Z  * [new branch]      issue-48-91ec9d5d4db8                    -> origin/issue-48-91ec9d5d4db8
+2026-11-15T23:44:09.9711680Z  * [new branch]      issue-52-5379832e5bd4                    -> origin/issue-52-5379832e5bd4
+2026-11-15T23:44:09.9716180Z  * [new branch]      issue-56-4276380c7297                    -> origin/issue-56-4276380c7297
+2026-11-15T23:44:09.9720180Z  * [new branch]      issue-65-41acbb882c38                    -> origin/issue-65-41acbb882c38
+2026-11-15T23:44:09.9725180Z  * [new branch]      issue-71-63a050a5595f                    -> origin/issue-71-63a050a5595f
+2026-11-15T23:44:09.9729120Z  * [new branch]      issue-75-bf955ea89a1c                    -> origin/issue-75-bf955ea89a1c
+2026-11-15T23:44:09.9733430Z  * [new branch]      issue-84-7c4f150def22                    -> origin/issue-84-7c4f150def22
+2026-11-15T23:44:09.9737770Z  * [new branch]      issue-89-9faef95b7b9a                    -> origin/issue-89-9faef95b7b9a
+2026-11-15T23:44:09.9741990Z  * [new branch]      issue-92-255abc3c67f8                    -> origin/issue-92-255abc3c67f8
+2026-11-15T23:44:09.9746180Z  * [new branch]      issue-95-5445009fe5d0                    -> origin/issue-95-5445009fe5d0
+2026-11-15T23:44:09.9749990Z  * [new branch]      main                                     -> origin/main
+2026-11-15T23:44:09.9753510Z  * [new tag]         v0.12.0                                  -> v0.12.0
+2026-11-15T23:44:09.9757650Z  * [new tag]         v0.12.1                                  -> v0.12.1
+2026-11-15T23:44:09.9761860Z  * [new tag]         v0.12.2                                  -> v0.12.2
+2026-11-15T23:44:09.9765160Z  * [new tag]         v0.13.0                                  -> v0.13.0
+2026-11-15T23:44:09.9768370Z  * [new tag]         v0.14.0                                  -> v0.14.0
+2026-11-15T23:44:09.9771660Z  * [new tag]         v0.15.0                                  -> v0.15.0
+2026-11-15T23:44:09.9774890Z  * [new tag]         v0.16.0                                  -> v0.16.0
+2026-11-15T23:44:09.9778150Z  * [new tag]         v0.16.1                                  -> v0.16.1
+2026-11-15T23:44:09.9781450Z  * [new tag]         v0.16.2                                  -> v0.16.2
+2026-11-15T23:44:09.9784750Z  * [new tag]         v0.17.0                                  -> v0.17.0
+2026-11-15T23:44:09.9787960Z  * [new tag]         v0.17.1                                  -> v0.17.1
+2026-11-15T23:44:09.9792290Z  * [new tag]         v0.18.0                                  -> v0.18.0
+2026-11-15T23:44:09.9795750Z  * [new tag]         v0.19.0                                  -> v0.19.0
+2026-11-15T23:44:09.9798970Z  * [new tag]         v0.19.1                                  -> v0.19.1
+2026-11-15T23:44:09.9802390Z  * [new tag]         v0.19.2                                  -> v0.19.2
+2026-11-15T23:44:09.9805690Z  * [new tag]         v0.19.3                                  -> v0.19.3
+2026-11-15T23:44:09.9809060Z  * [new tag]         v0.20.0                                  -> v0.20.0
+2026-11-15T23:44:09.9812470Z  * [new tag]         v0.21.0                                  -> v0.21.0
+2026-11-15T23:44:09.9815960Z  * [new tag]         v0.21.1                                  -> v0.21.1
+2026-11-15T23:44:09.9819360Z  * [new tag]         v0.21.2                                  -> v0.21.2
+2026-11-15T23:44:09.9823040Z  * [new tag]         v0.21.3                                  -> v0.21.3
+2026-11-15T23:44:09.9827790Z  * [new tag]         v0.21.4                                  -> v0.21.4
+2026-11-15T23:44:09.9831140Z  * [new tag]         v0.21.5                                  -> v0.21.5
+2026-11-15T23:44:09.9834500Z  * [new tag]         v0.21.6                                  -> v0.21.6
+2026-11-15T23:44:09.9837810Z  * [new tag]         v0.21.7                                  -> v0.21.7
+2026-11-15T23:44:09.9841170Z  * [new tag]         v0.21.8                                  -> v0.21.8
+2026-11-15T23:44:09.9846060Z  * [new tag]         v0.22.0                                  -> v0.22.0
+2026-11-15T23:44:09.9850310Z  * [new tag]         v0.22.1                                  -> v0.22.1
+2026-11-15T23:44:09.9853730Z  * [new tag]         v0.22.2                                  -> v0.22.2
+2026-11-15T23:44:09.9857070Z  * [new tag]         v0.22.3                                  -> v0.22.3
+2026-11-15T23:44:09.9860350Z  * [new tag]         v0.22.4                                  -> v0.22.4
+2026-11-15T23:44:09.9863630Z  * [new tag]         v0.22.5                                  -> v0.22.5
+2026-11-15T23:44:09.9867190Z  * [new tag]         v0.23.0                                  -> v0.23.0
+2026-11-15T23:44:09.9870830Z  * [new ref]         fb357efc52d15c630e591369325ee0cc3c3c5ff8 -> pull/204/merge
+2026-11-15T23:44:09.9878740Z ##[endgroup]
+2026-11-15T23:44:09.9882600Z ##[group]Determining the checkout info
+2026-11-15T23:44:09.9886570Z ##[endgroup]
+2026-11-15T23:44:09.9889380Z [command]/usr/local/bin/git sparse-checkout disable
+2026-11-15T23:44:09.9895880Z [command]/usr/local/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-15T23:44:10.0035520Z ##[group]Checking out the ref
+2026-11-15T23:44:10.0043840Z [command]/usr/local/bin/git checkout --progress --force refs/remotes/pull/204/merge
+2026-11-15T23:44:11.2428900Z Updating files:  37% (819/2181)
+2026-11-15T23:44:11.3440440Z Updating files:  38% (829/2181)
+2026-11-15T23:44:11.4481520Z Updating files:  39% (851/2181)
+2026-11-15T23:44:11.7275130Z Updating files:  40% (873/2181)
+2026-11-15T23:44:11.7389640Z Updating files:  41% (895/2181)
+2026-11-15T23:44:11.7545690Z Updating files:  42% (917/2181)
+2026-11-15T23:44:11.7567520Z Updating files:  43% (938/2181)
+2026-11-15T23:44:11.8793130Z Updating files:  44% (960/2181)
+2026-11-15T23:44:11.8794420Z Updating files:  45% (982/2181)
+2026-11-15T23:44:12.0730320Z Updating files:  46% (1004/2181)
+2026-11-15T23:44:12.0908930Z Updating files:  46% (1009/2181)
+2026-11-15T23:44:12.1878060Z Updating files:  47% (1026/2181)
+2026-11-15T23:44:12.6768190Z Updating files:  48% (1047/2181)
+2026-11-15T23:44:12.7790930Z Updating files:  49% (1069/2181)
+2026-11-15T23:44:12.8807890Z Updating files:  50% (1091/2181)
+2026-11-15T23:44:13.0082440Z Updating files:  51% (1113/2181)
+2026-11-15T23:44:13.1098420Z Updating files:  52% (1135/2181)
+2026-11-15T23:44:13.1206170Z Updating files:  53% (1156/2181)
+2026-11-15T23:44:13.1322690Z Updating files:  53% (1173/2181)
+2026-11-15T23:44:13.1414080Z Updating files:  54% (1178/2181)
+2026-11-15T23:44:13.1928270Z Updating files:  55% (1200/2181)
+2026-11-15T23:44:13.1990910Z Updating files:  56% (1222/2181)
+2026-11-15T23:44:13.3174700Z Updating files:  57% (1244/2181)
+2026-11-15T23:44:13.4283800Z Updating files:  58% (1265/2181)
+2026-11-15T23:44:13.5102360Z Updating files:  59% (1287/2181)
+2026-11-15T23:44:13.5459140Z Updating files:  60% (1309/2181)
+2026-11-15T23:44:13.5873670Z Updating files:  61% (1331/2181)
+2026-11-15T23:44:13.6365110Z Updating files:  62% (1353/2181)
+2026-11-15T23:44:13.6603200Z Updating files:  63% (1375/2181)
+2026-11-15T23:44:13.7092670Z Updating files:  64% (1396/2181)
+2026-11-15T23:44:13.7641930Z Updating files:  65% (1418/2181)
+2026-11-15T23:44:13.9211610Z Updating files:  66% (1440/2181)
+2026-11-15T23:44:13.9341170Z Updating files:  67% (1462/2181)
+2026-11-15T23:44:13.9524250Z Updating files:  68% (1484/2181)
+2026-11-15T23:44:13.9901380Z Updating files:  69% (1505/2181)
+2026-11-15T23:44:14.0134970Z Updating files:  70% (1527/2181)
+2026-11-15T23:44:14.0258710Z Updating files:  71% (1549/2181)
+2026-11-15T23:44:14.0578890Z Updating files:  72% (1571/2181)
+2026-11-15T23:44:14.0750740Z Updating files:  72% (1583/2181)
+2026-11-15T23:44:14.0906790Z Updating files:  73% (1593/2181)
+2026-11-15T23:44:14.1163270Z Updating files:  74% (1614/2181)
+2026-11-15T23:44:14.1304320Z Updating files:  75% (1636/2181)
+2026-11-15T23:44:14.1441580Z Updating files:  76% (1658/2181)
+2026-11-15T23:44:14.1546370Z Updating files:  77% (1680/2181)
+2026-11-15T23:44:14.1650160Z Updating files:  78% (1702/2181)
+2026-11-15T23:44:14.1948060Z Updating files:  79% (1723/2181)
+2026-11-15T23:44:14.2012950Z Updating files:  80% (1745/2181)
+2026-11-15T23:44:14.2114870Z Updating files:  81% (1767/2181)
+2026-11-15T23:44:14.2240570Z Updating files:  82% (1789/2181)
+2026-11-15T23:44:14.2675950Z Updating files:  83% (1811/2181)
+2026-11-15T23:44:14.3009000Z Updating files:  84% (1833/2181)
+2026-11-15T23:44:14.3115100Z Updating files:  85% (1854/2181)
+2026-11-15T23:44:14.3165210Z Updating files:  86% (1876/2181)
+2026-11-15T23:44:14.3218720Z Updating files:  87% (1898/2181)
+2026-11-15T23:44:14.3847070Z Updating files:  88% (1920/2181)
+2026-11-15T23:44:14.4396150Z Updating files:  89% (1942/2181)
+2026-11-15T23:44:14.4922040Z Updating files:  90% (1963/2181)
+2026-11-15T23:44:14.5155480Z Updating files:  91% (1985/2181)
+2026-11-15T23:44:14.6126220Z Updating files:  92% (2007/2181)
+2026-11-15T23:44:14.6397280Z Updating files:  93% (2029/2181)
+2026-11-15T23:44:14.6518300Z Updating files:  94% (2051/2181)
+2026-11-15T23:44:14.6631530Z Updating files:  95% (2072/2181)
+2026-11-15T23:44:14.6729230Z Updating files:  96% (2094/2181)
+2026-11-15T23:44:14.6833010Z Updating files:  97% (2116/2181)
+2026-11-15T23:44:14.6954760Z Updating files:  98% (2138/2181)
+2026-11-15T23:44:14.7052720Z Updating files:  99% (2160/2181)
+2026-11-15T23:44:14.7053990Z Updating files: 100% (2181/2181)
+2026-11-15T23:44:14.7055390Z Updating files: 100% (2181/2181), done.
+2026-11-15T23:44:14.7167640Z HEAD is now at fb357ef Merge 6c37fd3e1cbe9c7cb4de91f5ceb4e5155a72289b into fa8143b74c88afe7c7d9e2529f57552022b5106e
+2026-11-15T23:44:14.7261070Z ##[endgroup]
+2026-11-15T23:44:14.7525420Z [command]/usr/local/bin/git log -1 --format=%H
+2026-11-15T23:44:14.7739830Z fb357efc52d15c630e591369325ee0cc3c3c5ff8
+2026-11-15T23:44:14.7765460Z ##[group]Removing auth
+2026-11-15T23:44:14.7766230Z Removing SSH command configuration
+2026-11-15T23:44:14.7776040Z [command]/usr/local/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T23:44:14.7985800Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-15T23:44:15.0673620Z Removing HTTP extra header
+2026-11-15T23:44:15.0798290Z [command]/usr/local/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T23:44:15.2081850Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-15T23:44:15.5993560Z Removing includeIf entries pointing to credentials config files
+2026-11-15T23:44:15.6072900Z [command]/usr/local/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T23:44:15.6190820Z includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path
+2026-11-15T23:44:15.6245460Z includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path
+2026-11-15T23:44:15.6272160Z includeif.gitdir:/github/workspace/.git.path
+2026-11-15T23:44:15.6287580Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-15T23:44:15.6413160Z [command]/usr/local/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path
+2026-11-15T23:44:15.6534980Z /Users/runner/work/_temp/git-credentials-b64ddf08-b43a-4087-98ef-95a48e9a8caf.config
+2026-11-15T23:44:15.7363490Z [command]/usr/local/bin/git config --local --unset includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path \/Users\/runner\/work\/_temp\/git\-credentials\-b64ddf08\-b43a\-4087\-98ef\-95a48e9a8caf\.config
+2026-11-15T23:44:15.7583920Z [command]/usr/local/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path
+2026-11-15T23:44:15.7605140Z /Users/runner/work/_temp/git-credentials-b64ddf08-b43a-4087-98ef-95a48e9a8caf.config
+2026-11-15T23:44:15.7750370Z [command]/usr/local/bin/git config --local --unset includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path \/Users\/runner\/work\/_temp\/git\-credentials\-b64ddf08\-b43a\-4087\-98ef\-95a48e9a8caf\.config
+2026-11-15T23:44:15.7877520Z [command]/usr/local/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-15T23:44:15.7907100Z /github/runner_temp/git-credentials-b64ddf08-b43a-4087-98ef-95a48e9a8caf.config
+2026-11-15T23:44:15.7957330Z [command]/usr/local/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-b64ddf08\-b43a\-4087\-98ef\-95a48e9a8caf\.config
+2026-11-15T23:44:15.8118220Z [command]/usr/local/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-15T23:44:15.8133990Z /github/runner_temp/git-credentials-b64ddf08-b43a-4087-98ef-95a48e9a8caf.config
+2026-11-15T23:44:15.8974240Z [command]/usr/local/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-b64ddf08\-b43a\-4087\-98ef\-95a48e9a8caf\.config
+2026-11-15T23:44:15.9261610Z [command]/usr/local/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-15T23:44:16.0605630Z Removing credentials config '/Users/runner/work/_temp/git-credentials-b64ddf08-b43a-4087-98ef-95a48e9a8caf.config'
+2026-11-15T23:44:16.0625280Z ##[endgroup]
+2026-11-15T23:44:16.1311220Z ##[group]Run bash scripts/simulate-fresh-merge.sh
+2026-11-15T23:44:16.1312590Z [36;1mbash scripts/simulate-fresh-merge.sh[0m
+2026-11-15T23:44:16.1557740Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-15T23:44:16.1558710Z env:
+2026-11-15T23:44:16.1559240Z   GIT_CONFIG_COUNT: 1
+2026-11-15T23:44:16.1559920Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T23:44:16.1560750Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T23:44:16.1561410Z   TEST_SHARD: 3/3
+2026-11-15T23:44:16.1561980Z   BASE_REF: main
+2026-11-15T23:44:16.1562540Z ##[endgroup]
+2026-11-15T23:44:16.2169910Z === Synchronizing PR with latest main ===
+2026-11-15T23:44:16.2173040Z This prevents stale merge preview issues (see docs/case-studies/issue-23)
+2026-11-15T23:44:16.2175560Z 
+2026-11-15T23:44:16.2567820Z Fetching latest main...
+2026-11-15T23:44:16.6372060Z From https://github.com/link-foundation/sensitive-data-sanitizer
+2026-11-15T23:44:16.6373670Z  * branch            main       -> FETCH_HEAD
+2026-11-15T23:44:16.6823610Z Current checkout (merge preview): fb357efc52d15c630e591369325ee0cc3c3c5ff8
+2026-11-15T23:44:16.6825470Z Latest base branch (main): fa8143b74c88afe7c7d9e2529f57552022b5106e
+2026-11-15T23:44:16.6826420Z 
+2026-11-15T23:44:16.7074570Z Merge preview is up-to-date with main. No simulation needed.
+2026-11-15T23:44:16.7075830Z 
+2026-11-15T23:44:16.7539570Z Prepare all required actions
+2026-11-15T23:44:16.7541810Z Getting action download info
+2026-11-15T23:44:16.8594670Z Download action repository 'actions/setup-node@v7.1.0' (SHA:949feb2413d6458794dcd2491c4babbbce0c15c1)
+2026-11-15T23:44:17.8594450Z ##[group]Run ./.github/actions/setup-node
+2026-11-15T23:44:17.8595510Z with:
+2026-11-15T23:44:17.8596150Z env:
+2026-11-15T23:44:17.8596780Z   GIT_CONFIG_COUNT: 1
+2026-11-15T23:44:17.8597610Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T23:44:17.8598580Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T23:44:17.8599360Z   TEST_SHARD: 3/3
+2026-11-15T23:44:17.8601860Z ##[endgroup]
+2026-11-15T23:44:17.8852220Z ##[start-action display=Run actions/setup-node@v7.1.0;id=__self.__actions_setup-node]
+2026-11-15T23:44:17.9565280Z ##[group]Run actions/setup-node@v7.1.0
+2026-11-15T23:44:17.9566110Z with:
+2026-11-15T23:44:17.9566680Z   node-version-file: .nvmrc
+2026-11-15T23:44:17.9567410Z   package-manager-cache: false
+2026-11-15T23:44:17.9568210Z   check-latest: false
+2026-11-15T23:44:17.9577250Z   token: ***
+2026-11-15T23:44:17.9577870Z env:
+2026-11-15T23:44:17.9578500Z   GIT_CONFIG_COUNT: 1
+2026-11-15T23:44:17.9579190Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T23:44:17.9580000Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T23:44:17.9580680Z   TEST_SHARD: 3/3
+2026-11-15T23:44:17.9581250Z ##[endgroup]
+2026-11-15T23:44:18.6282410Z Node version file is not JSON file
+2026-11-15T23:44:18.7294330Z Node version file is not TOML file
+2026-11-15T23:44:18.7652280Z Resolved .nvmrc as 26.13.0
+2026-11-15T23:44:18.8272180Z Attempting to download 26.13.0...
+2026-11-15T23:44:19.6316800Z Acquiring 26.13.0 - x64 from https://github.com/actions/node-versions/releases/download/26.13.0-41378513395/node-26.13.0-darwin-x64.tar.gz
+2026-11-15T23:44:22.7843850Z Extracting ...
+2026-11-15T23:44:22.8380980Z [command]/usr/bin/tar xz --strip 1 -C /Users/runner/work/_temp/920280a8-9584-4e70-ab2c-b4fd82a8d7f9 -f /Users/runner/work/_temp/4dc2b194-c453-4dde-baa0-fc459cd34936
+2026-11-15T23:44:30.4238640Z Adding to the cache ...
+2026-11-15T23:44:45.3773640Z ##[group]Environment details
+2026-11-15T23:44:46.7748580Z node: v26.13.0
+2026-11-15T23:44:46.7962040Z npm: 11.20.0
+2026-11-15T23:44:46.8090320Z yarn: 1.22.22
+2026-11-15T23:44:46.8167580Z ##[endgroup]
+2026-11-15T23:44:46.8358870Z ##[end-action id=__self.__actions_setup-node;outcome=success;conclusion=success;duration_ms=28950]
+2026-11-15T23:44:46.8384610Z ##[start-action display=Install reviewed npm;id=__self.__run]
+2026-11-15T23:44:46.8511360Z ##[group]Run npm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund
+2026-11-15T23:44:46.8513910Z [36;1mnpm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund[0m
+2026-11-15T23:44:46.8661550Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-15T23:44:46.8662650Z env:
+2026-11-15T23:44:46.8663300Z   GIT_CONFIG_COUNT: 1
+2026-11-15T23:44:46.8664090Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T23:44:46.8665020Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T23:44:46.8665820Z   TEST_SHARD: 3/3
+2026-11-15T23:44:46.8666540Z ##[endgroup]
+2026-11-15T23:44:59.5259880Z 
+2026-11-15T23:44:59.5441910Z removed 8 packages, and changed 77 packages in 12s
+2026-11-15T23:45:00.1486150Z ##[end-action id=__self.__run;outcome=success;conclusion=success;duration_ms=13309]
+2026-11-15T23:45:00.1494390Z ##[start-action display=Restore requested package cache with current npm;id=__self.__actions_setup-node_2]
+2026-11-15T23:45:00.1578300Z ##[end-action id=__self.__actions_setup-node_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-11-15T23:45:00.1811160Z ##[group]Run npm ci
+2026-11-15T23:45:00.1812470Z [36;1mnpm ci[0m
+2026-11-15T23:45:00.2094700Z shell: /bin/bash -e {0}
+2026-11-15T23:45:00.2095580Z env:
+2026-11-15T23:45:00.2096320Z   GIT_CONFIG_COUNT: 1
+2026-11-15T23:45:00.2097320Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T23:45:00.2098280Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T23:45:00.2099190Z   TEST_SHARD: 3/3
+2026-11-15T23:45:00.2099970Z ##[endgroup]
+2026-11-15T23:45:28.5847630Z npm notice run @link-foundation/sensitive-data-sanitizer@0.23.0 prepare
+2026-11-15T23:45:28.6853280Z npm notice run node scripts/install-git-hooks.mjs
+2026-11-15T23:45:29.2183450Z 
+2026-11-15T23:45:29.2197690Z npm warn install-scripts 1 package had install scripts blocked because they are not covered by allowScripts:
+2026-11-15T23:45:29.2256500Z npm warn install-scripts   better-sqlite3@13.0.3 (install: node-gyp rebuild)
+2026-11-15T23:45:29.2258920Z added 295 packages, and audited 296 packages in 29s
+2026-11-15T23:45:29.2273550Z 
+2026-11-15T23:45:29.2308510Z npm warn install-scripts
+2026-11-15T23:45:29.2311300Z 81 packages are looking for funding
+2026-11-15T23:45:29.2378750Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+2026-11-15T23:45:29.2384030Z   run `npm fund` for details
+2026-11-15T23:45:29.2508280Z 
+2026-11-15T23:45:29.2568990Z found 0 vulnerabilities
+2026-11-15T23:45:29.4822720Z ##[group]Run bash scripts/run-with-budget-warning.sh 300 "Node.js test suite" node scripts/run-test-shard.mjs node "$TEST_SHARD"
+2026-11-15T23:45:29.4826230Z [36;1mbash scripts/run-with-budget-warning.sh 300 "Node.js test suite" node scripts/run-test-shard.mjs node "$TEST_SHARD"[0m
+2026-11-15T23:45:29.4956520Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-15T23:45:29.4957660Z env:
+2026-11-15T23:45:29.4958400Z   GIT_CONFIG_COUNT: 1
+2026-11-15T23:45:29.4959290Z   GIT_CONFIG_KEY_0: init.defaultBranch
+2026-11-15T23:45:29.4960520Z   GIT_CONFIG_VALUE_0: main
+2026-11-15T23:45:29.4961390Z   TEST_SHARD: 3/3
+2026-11-15T23:45:29.4962120Z ##[endgroup]
+2026-11-15T23:45:29.6408170Z Running Node.js test suite with a 300s budget (warning at 210s).
+2026-11-15T23:45:30.8827300Z Running node shard 3/3: 64 test files
+2026-11-15T23:45:32.4196930Z ▶ artifact filesystem evidence
+2026-11-15T23:45:32.4496490Z   ✔ preserves file symlinks used by packaged applications (33.879885ms)
+2026-11-15T23:45:32.5502540Z   ✔ requires the report even when optional diagnostics exist (25.215648ms)
+2026-11-15T23:45:32.5777020Z   ✔ rejects real empty directories and keeps the Pages tar contract (222.409215ms)
+2026-11-15T23:45:32.5905660Z ✔ artifact filesystem evidence (284.56628ms)
+2026-11-15T23:45:32.6284840Z ▶ github-actions[bot] commit attribution
+2026-11-15T23:45:32.6879270Z   ✔ uses the prefixed bot e-mail in version-and-commit.mjs (3.047105ms)
+2026-11-15T23:45:32.7008880Z   ✔ uses the prefixed bot e-mail in simulate-fresh-merge.sh (0.76753ms)
+2026-11-15T23:45:32.7125280Z   ✔ never configures the unprefixed bot e-mail in scripts or workflows (19.514631ms)
+2026-11-15T23:45:32.7467000Z ✔ github-actions[bot] commit attribution (30.216773ms)
+2026-11-15T23:45:32.7534310Z ▶ check-changesets CLI
+2026-11-15T23:45:32.7643490Z   ✔ ignores stray Markdown files without valid changeset frontmatter (551.020113ms)
+2026-11-15T23:45:32.7740220Z   ✔ counts Markdown files with a recognized package bump in frontmatter (192.663154ms)
+2026-11-15T23:45:32.7932420Z   ✔ ignores changeset frontmatter for an unknown package (353.234351ms)
+2026-11-15T23:45:32.7997670Z ✔ check-changesets CLI (1100.39663ms)
+2026-11-15T23:45:34.2049680Z ▶ complete release gate (offline HTTP)
+2026-11-15T23:45:34.2477840Z   ✔ repairs a missing GitHub release for an npm-published version without bumping (782.401395ms)
+2026-11-15T23:45:34.2645720Z   ✔ does not release when both npm and GitHub already have the version (757.270757ms)
+2026-11-15T23:45:34.2715400Z   ✔ uses the same language-prefixed tag as release creation (784.158038ms)
+2026-11-15T23:45:35.5715820Z   ✔ does not release on an unknown GitHub result (401) (510.35226ms)
+2026-11-15T23:45:35.6724650Z   ✔ does not release on an unknown GitHub result (403) (485.283981ms)
+2026-11-15T23:45:37.0634880Z   ✔ does not release on an unknown GitHub result (429) (839.592471ms)
+2026-11-15T23:45:37.1653230Z   ✔ does not release on an unknown GitHub result (500) (473.1046ms)
+2026-11-15T23:45:38.3187440Z   ✔ does not release on a malformed GitHub response (843.878888ms)
+2026-11-15T23:45:38.3531010Z   ✔ does not release on a GitHub network failure (380.337632ms)
+2026-11-15T23:45:38.3887800Z   ✔ still releases an unpublished npm version without bumping (435.040606ms)
+2026-11-15T23:45:39.8373140Z   ✔ processes changesets without making remote lookups (295.604523ms)
+2026-11-15T23:45:39.8722370Z ✔ complete release gate (offline HTTP) (6596.329993ms)
+2026-11-15T23:45:39.9762800Z ▶ checkout credential persistence (artipacked)
+2026-11-15T23:45:39.9836890Z   ✔ drops the credential on every checkout in a job that does not push (18.505579ms)
+2026-11-15T23:45:39.9883150Z   ✔ keeps a credential for every job that pushes, and only those (10.540358ms)
+2026-11-15T23:45:40.0777230Z ✔ checkout credential persistence (artipacked) (31.792245ms)
+2026-11-15T23:45:40.0844560Z ▶ workflow policy regression protection
+2026-11-15T23:45:40.1213970Z   ✔ rejects unpinned package -p secretlint (4.462125ms)
+2026-11-15T23:45:40.1711530Z   ✔ rejects unpinned package --package=secretlint (1.757987ms)
+2026-11-15T23:45:40.1941460Z   ✔ rejects unpinned package -p @secretlint/preset (2.934398ms)
+2026-11-15T23:45:40.1978210Z   ✔ rejects unpinned package --package=@secretlint/preset (1.946001ms)
+2026-11-15T23:45:40.2057210Z   ✔ rejects unpinned package -p secretlint@latest (0.902216ms)
+2026-11-15T23:45:40.2209680Z   ✔ rejects unpinned package --package=secretlint@latest (0.415296ms)
+2026-11-15T23:45:40.2352570Z   ✔ rejects unpinned package -p secretlint@^13.0.7 (0.560875ms)
+2026-11-15T23:45:40.2437260Z   ✔ rejects unpinned package --package=secretlint@^13.0.7 (1.30165ms)
+2026-11-15T23:45:40.2494250Z   ✔ checks every package option and a continued shell command (6.802743ms)
+2026-11-15T23:45:40.2580920Z   ✔ rejects floating matrix and direct runner labels but ignores comments (2.435007ms)
+2026-11-15T23:45:40.2690280Z   ✔ rejects zizmor version drift and versions unsupported by the pinned action (3.089343ms)
+2026-11-15T23:45:40.2832230Z ✔ workflow policy regression protection (33.537928ms)
+2026-11-15T23:45:40.2898410Z ▶ container jobs
+2026-11-15T23:45:40.2952380Z   ✔ include the preview-image job (3.862838ms)
+2026-11-15T23:45:40.3001960Z   ✔ run scripts with bash and trust the checkout (2.098383ms)
+2026-11-15T23:45:40.3134860Z ✔ container jobs (10.96759ms)
+2026-11-15T23:45:40.3217140Z ▶ preview push authentication
+2026-11-15T23:45:40.3254050Z   ✔ uses the available push token and records only successfully landed images (1961.37526ms)
+2026-11-15T23:45:40.3277490Z ✔ preview push authentication (1961.814169ms)
+2026-11-15T23:45:40.3316570Z ▶ preview drift detection
+2026-11-15T23:45:40.3382870Z   ✔ reports only the preview outcome that actually happened (258.475426ms)
+2026-11-15T23:45:40.3434140Z   ✔ fails when git cannot read the checkout (88.738907ms)
+2026-11-15T23:45:40.3499280Z   ✔ reports drift in a changed checkout (197.898911ms)
+2026-11-15T23:45:40.3590200Z   ✔ reports a clean checkout as current (125.803957ms)
+2026-11-15T23:45:40.3756660Z ✔ preview drift detection (671.951532ms)
+2026-11-15T23:45:40.4157340Z ▶ dependency graph prerequisite
+2026-11-15T23:45:40.4352660Z   ✔ allows enabled graphs and warns on a plain disabled response in PRs (307.99664ms)
+2026-11-15T23:45:40.4535920Z   ✔ requires the setting outside PRs (153.46038ms)
+2026-11-15T23:45:40.4722300Z   ✔ retries ambiguous answers without diagnosing a disabled graph (3191.439536ms)
+2026-11-15T23:45:40.4921670Z ✔ dependency graph prerequisite (3659.535668ms)
+2026-11-15T23:45:40.4995950Z ▶ deprecated packages
+2026-11-15T23:45:40.5057640Z   ✔ package-lock.json has no deprecated packages (8.927324ms)
+2026-11-15T23:45:40.5196530Z   ✔ .github/actions/artifact-transport/package-lock.json has no deprecated packages (12.045901ms)
+2026-11-15T23:45:40.5274840Z   ✔ examples/universal-app/package-lock.json has no deprecated packages (68.577255ms)
+2026-11-15T23:45:40.5324550Z   ✔ covers every committed npm lockfile (104.200602ms)
+2026-11-15T23:45:40.5409030Z ✔ deprecated packages (199.586795ms)
+2026-11-15T23:46:15.4346790Z ▶ detect-code-changes CLI
+2026-11-15T23:46:15.5107170Z   ✔ detects code introduced by a real merge commit pushed to main (1246.450261ms)
+2026-11-15T23:46:15.6111890Z   ✔ keeps pull request merge commits scoped to the PR head commit diff (1203.447671ms)
+2026-11-15T23:46:15.6647980Z   ✔ ignores experiments/repro.mjs changes on pull_request (1344.239496ms)
+2026-11-15T23:46:15.7045470Z   ✔ ignores dev/log/repro.js changes on pull_request (1216.579833ms)
+2026-11-15T23:46:15.7364800Z   ✔ ignores docs/case-studies/issue-113/repro.md changes on pull_request (1285.940637ms)
+2026-11-15T23:46:15.7602530Z   ✔ ignores experiments/repro.mjs changes on push (961.822934ms)
+2026-11-15T23:46:15.7731940Z   ✔ ignores dev/log/repro.js changes on push (1369.498058ms)
+2026-11-15T23:46:15.7785090Z   ✔ ignores docs/case-studies/issue-113/repro.md changes on push (1206.135488ms)
+2026-11-15T23:46:15.7957300Z   ✔ keeps detecting non-ignored src/relevant.mjs changes (998.003539ms)
+2026-11-15T23:46:15.8196490Z   ✔ keeps detecting non-ignored docs/relevant.md changes (934.326827ms)
+2026-11-15T23:46:15.8309680Z   ✔ ignores js/examples/demo.mjs changes on pull_request in the multi-language layout (1237.073559ms)
+2026-11-15T23:46:15.8439500Z   ✔ ignores js/.changeset/tidy-cats-shine.md changes on pull_request in the multi-language layout (1194.410537ms)
+2026-11-15T23:46:15.8573980Z   ✔ ignores js/experiments/repro.mjs changes on pull_request in the multi-language layout (1071.038705ms)
+2026-11-15T23:46:15.8669330Z   ✔ ignores js/dev/log/repro.js changes on pull_request in the multi-language layout (1149.743041ms)
+2026-11-15T23:46:15.8740010Z   ✔ ignores js/docs/case-studies/issue-141/repro.md changes on pull_request in the multi-language layout (1247.239691ms)
+2026-11-15T23:46:15.8828090Z   ✔ ignores js/examples/demo.mjs changes on push in the multi-language layout (866.849002ms)
+2026-11-15T23:46:15.8940420Z   ✔ ignores js/.changeset/tidy-cats-shine.md changes on push in the multi-language layout (923.918958ms)
+2026-11-15T23:46:15.9060560Z   ✔ ignores js/experiments/repro.mjs changes on push in the multi-language layout (1053.058235ms)
+2026-11-15T23:46:15.9180570Z   ✔ ignores js/dev/log/repro.js changes on push in the multi-language layout (906.346389ms)
+2026-11-15T23:46:15.9388870Z   ✔ ignores js/docs/case-studies/issue-141/repro.md changes on push in the multi-language layout (868.565509ms)
+2026-11-15T23:46:15.9656960Z   ✔ keeps detecting js/src/relevant.mjs changes in the multi-language layout (936.916126ms)
+2026-11-15T23:46:16.0084280Z   ✔ keeps detecting js/docs/relevant.md changes in the multi-language layout (1514.380534ms)
+2026-11-15T23:46:16.0279840Z   ✔ keeps detecting .github/workflows/ci.yml changes in the multi-language layout (1096.224922ms)
+2026-11-15T23:46:16.0406030Z   ✔ ignores changes belonging to another language package (934.499625ms)
+2026-11-15T23:46:16.0691990Z ✔ detect-code-changes CLI (26775.829723ms)
+2026-11-15T23:46:16.1191160Z ▶ detect-code-changes file types
+2026-11-15T23:46:16.1343800Z   ✔ counts scripts/check-pages.sh as code on pull_request (1436.416494ms)
+2026-11-15T23:46:16.1517560Z   ✔ counts src/index.d.ts as code on pull_request (1103.523819ms)
+2026-11-15T23:46:16.1762970Z   ✔ counts Dockerfile as code on pull_request (1397.070852ms)
+2026-11-15T23:46:16.1999040Z   ✔ counts bunfig.toml as code on pull_request (1194.790114ms)
+2026-11-15T23:46:16.2291050Z   ✔ counts tests/fixtures/pages-stub/gh as code on pull_request (1110.267832ms)
+2026-11-15T23:46:16.2453130Z   ✔ counts scripts/check-pages.sh as code on push (846.107401ms)
+2026-11-15T23:46:16.2454990Z   ✔ counts src/index.d.ts as code on push (922.343762ms)
+2026-11-15T23:46:16.2556750Z   ✔ counts Dockerfile as code on push (834.942498ms)
+2026-11-15T23:46:16.2641400Z   ✔ counts bunfig.toml as code on push (888.2691ms)
+2026-11-15T23:46:16.2771380Z   ✔ counts tests/fixtures/pages-stub/gh as code on push (864.585833ms)
+2026-11-15T23:46:16.2897920Z   ✔ does not count a .gitkeep placeholder as code (855.446935ms)
+2026-11-15T23:46:16.3518040Z ✔ detect-code-changes file types (11455.736013ms)
+2026-11-15T23:46:18.6379140Z ▶ detect-code-changes push ranges
+2026-11-15T23:46:18.7381390Z   ✔ covers the whole push when the previous head passed (1782.421155ms)
+2026-11-15T23:46:20.1496810Z   ✔ widens to the full PR diff when the previous head never passed (1914.836554ms)
+2026-11-15T23:46:21.6873750Z   ✔ widens when the lookup fails (1694.515146ms)
+2026-11-15T23:46:23.0242060Z   ✔ keeps the push range when the lookup fails with no base SHA (1546.699528ms)
+2026-11-15T23:46:23.1249810Z   ✔ skips the lookup entirely without push SHAs (1381.46623ms)
+2026-11-15T23:46:23.2254690Z ✔ detect-code-changes push ranges (8321.186477ms)
+2026-11-15T23:46:23.3259200Z ▶ printing untrusted CI log text
+2026-11-15T23:46:23.3629730Z   ✔ prints ordinary local output without workflow markers (2.117092ms)
+2026-11-15T23:46:23.4384320Z   ✔ brackets the complete value while GitHub interprets log commands (0.465574ms)
+2026-11-15T23:46:23.5389690Z   ✔ uses a fresh unpredictable 128-bit token for each print (3.590853ms)
+2026-11-15T23:46:23.6392630Z   ✔ routes every changeset or operator-authored body through the guard (3.123768ms)
+2026-11-15T23:46:23.7393280Z ✔ printing untrusted CI log text (12.097991ms)
+2026-11-15T23:46:23.8397490Z ▶ repository-wide workflow audit coverage
+2026-11-15T23:46:23.9403270Z   ✔ triggers on all GitHub configs/actions and every script the jobs execute (4.999457ms)
+2026-11-15T23:46:24.0467080Z   ✔ reproduces the regular action audit against the entire repository (0.500239ms)
+2026-11-15T23:46:24.1470850Z   ✔ authenticates the pedantic audit and scans the entire repository (6.258356ms)
+2026-11-15T23:46:24.2472700Z ✔ repository-wide workflow audit coverage (15.848821ms)
+2026-11-15T23:46:24.3477700Z ▶ link checker input selection
+2026-11-15T23:46:24.3526130Z   ✔ walks hidden Markdown and HTML while retaining ignore/exclusion rules (4.443887ms)
+2026-11-15T23:46:24.5538690Z ✔ link checker input selection (4.953028ms)
+2026-11-15T23:46:24.5896260Z ▶ Deno lock and npm install script policies
+2026-11-15T23:46:24.6431580Z   ✔ keeps Deno workspace dependency ranges synchronized with package.json (3.767176ms)
+2026-11-15T23:46:24.7480710Z   ✔ requires an explicit decision for every install script, including optional OS packages (4.848228ms)
+2026-11-15T23:46:24.8129190Z ✔ Deno lock and npm install script policies (9.410191ms)
+2026-11-15T23:46:24.8792570Z ▶ npm propagation tail
+2026-11-15T23:46:24.9798310Z   ✔ verifies a version visible after 950 seconds without publishing twice (11.953598ms)
+2026-11-15T23:46:24.9801170Z   ✔ bounds absent-version verification at 25.5 minutes and reports elapsed wait (1.097798ms)
+2026-11-15T23:46:25.0227760Z   ✔ gives smoke/Docker waits the same 25.5-minute polling span (4.988577ms)
+2026-11-15T23:46:25.1244310Z ✔ npm propagation tail (18.728597ms)
+2026-11-15T23:46:25.1870700Z ▶ quiet, effective tooling configuration
+2026-11-15T23:46:25.2874830Z   ✔ uses jscpd 5 weak mode to omit comments (1.051324ms)
+2026-11-15T23:46:25.3351210Z   ✔ the installed jscpd parser accepts every config field (242.909835ms)
+2026-11-15T23:46:25.4355850Z   ✔ retains captured failure analysis without replaying live publish output (1.431761ms)
+2026-11-15T23:46:25.4922170Z ✔ quiet, effective tooling configuration (246.011978ms)
+2026-11-15T23:46:25.5606430Z ▶ issue 92 PuTTY scanning
+2026-11-15T23:46:25.6461820Z   ✔ bounds repeated incomplete headers separately from cold module startup (2913.225596ms)
+2026-11-15T23:46:25.7368980Z   ✔ preserves separate complete blocks and incomplete-body protection with "\n" (6.624938ms)
+2026-11-15T23:46:25.7969980Z   ✔ preserves separate complete blocks and incomplete-body protection with "\r" (0.511341ms)
+2026-11-15T23:46:25.8975680Z   ✔ preserves separate complete blocks and incomplete-body protection with "\r\n" (0.3467ms)
+2026-11-15T23:46:25.9599640Z ✔ issue 92 PuTTY scanning (2923.80909ms)
+2026-11-15T23:46:26.0603230Z ▶ broken link workflow
+2026-11-15T23:46:26.0604930Z   ✔ fails for every nonzero Lychee exit even when an archive exists (3.595221ms)
+2026-11-15T23:46:26.1179330Z   ✔ re-asks the links that never got an answer before giving up (1.739696ms)
+2026-11-15T23:46:26.2138250Z   ✔ downgrades a failure only when every unanswered link recovered (4.693518ms)
+2026-11-15T23:46:26.2813220Z   ✔ feeds the recovered list to the Web Archive check (1.256294ms)
+2026-11-15T23:46:26.3099200Z   ✔ triggers on changes to every file the check depends on (1.281343ms)
+2026-11-15T23:46:26.3969790Z   ✔ rechecks links weekly in addition to its change triggers (0.908922ms)
+2026-11-15T23:46:26.4326040Z   ✔ restores only a link cache saved on the same UTC day (2.463005ms)
+2026-11-15T23:46:26.4458770Z ✔ broken link workflow (27.73354ms)
+2026-11-15T23:46:26.5461900Z ▶ merge-changesets.mjs
+2026-11-15T23:46:26.6465440Z   ✔ fails without merging when any changeset has an unparseable bump type (315.620186ms)
+2026-11-15T23:46:26.6989050Z   ✔ brackets contributor-authored descriptions as untrusted Actions output (385.861057ms)
+2026-11-15T23:46:26.7213060Z ✔ merge-changesets.mjs (704.526581ms)
+2026-11-15T23:46:26.8188970Z ✔ installs the npm release required by the manifest on the reviewed Node release (36.403014ms)
+2026-11-15T23:46:26.9213640Z ▶ package info helpers
+2026-11-15T23:46:27.0212110Z   ✔ reads scoped package names and versions from package.json content (35.864205ms)
+2026-11-15T23:46:27.0907400Z   ✔ formats npm package specifiers from the derived package name (0.567801ms)
+2026-11-15T23:46:27.1442360Z   ✔ formats changeset headers from the derived package name (0.448395ms)
+2026-11-15T23:46:27.1689610Z   ✔ matches changesets for the derived package name only (1.528598ms)
+2026-11-15T23:46:27.2089200Z   ✔ does not match version type prefixes as valid changeset bumps (0.457315ms)
+2026-11-15T23:46:27.2309860Z   ✔ reports missing package names clearly (1.241477ms)
+2026-11-15T23:46:27.3317270Z ✔ package info helpers (43.657354ms)
+2026-11-15T23:46:27.4319880Z ▶ conditional GitHub Pages deployment
+2026-11-15T23:46:27.5331490Z   ✔ builds successfully with disabled or legacy Pages (8.404128ms)
+2026-11-15T23:46:27.6340520Z   ✔ surfaces authentication and server failures (1.406088ms)
+2026-11-15T23:46:27.7127000Z   ✔ gates configure, upload and deployment together (289.881036ms)
+2026-11-15T23:46:27.7409200Z ✔ conditional GitHub Pages deployment (305.57396ms)
+2026-11-15T23:46:27.7581140Z ▶ preview container environment
+2026-11-15T23:46:27.7641650Z   ✔ checks the same container on pull requests before the main writer (11.374362ms)
+2026-11-15T23:46:27.7651170Z   ✔ verifies the pinned release bytes before extracting or exposing the CLI (1.046852ms)
+2026-11-15T23:46:27.7655740Z   ✔ reports a missing CLI before attempting credential setup (251.239937ms)
+2026-11-15T23:46:27.7668670Z   ﹣ stops a bad download before extraction or PATH registration [skipped: Linux-only behaviour, runner is darwin] (0.482307ms) # SKIP
+2026-11-15T23:46:27.7678770Z ✔ preview container environment (268.584646ms)
+2026-11-15T23:46:27.7685410Z ▶ push failure classifier
+2026-11-15T23:46:27.7692060Z   ✔ classifies a GH013 ruleset rejection as a repository rule violation (2.505191ms)
+2026-11-15T23:46:27.7744500Z   ✔ never mistakes a ruleset rejection for a lost race (0.459358ms)
+2026-11-15T23:46:27.7952220Z   ✔ classifies a non-fast-forward rejection as a lost race (0.489922ms)
+2026-11-15T23:46:27.8145020Z   ✔ recognizes legacy GH006 protected-branch rejections (0.963721ms)
+2026-11-15T23:46:27.8488390Z   ✔ reads the message of a thrown command error, not just its output (1.452941ms)
+2026-11-15T23:46:27.8786390Z   ✔ is case-insensitive and accepts a plain string (0.89478ms)
+2026-11-15T23:46:27.9073760Z   ✔ treats other failures (auth, network) as neither (0.591216ms)
+2026-11-15T23:46:27.9140720Z ✔ push failure classifier (11.56198ms)
+2026-11-15T23:46:27.9539760Z ▶ release badge version normalization
+2026-11-15T23:46:28.0027930Z   ✔ strips a plain v prefix for backward compatibility (5.573149ms)
+2026-11-15T23:46:28.0289950Z   ✔ strips a js-v prefix from multi-language release tags (0.492051ms)
+2026-11-15T23:46:28.0391790Z   ✔ strips a js_v prefix from auto-detected multi-language release tags (0.43887ms)
+2026-11-15T23:46:28.0671130Z   ✔ strips a rust-v prefix from multi-language release tags (2.401476ms)
+2026-11-15T23:46:28.1010060Z   ✔ strips a rust_v prefix from multi-language release tags (0.747281ms)
+2026-11-15T23:46:28.1268090Z   ✔ escapes hyphens in prerelease versions for shields.io static badge paths (0.41319ms)
+2026-11-15T23:46:28.1497220Z   ✔ builds a valid shields.io badge URL for prefixed tags (3.001422ms)
+2026-11-15T23:46:28.1749690Z   ✔ builds a valid shields.io badge URL for prefixed prerelease tags (3.226985ms)
+2026-11-15T23:46:28.2511570Z ✔ release badge version normalization (21.095665ms)
+2026-11-15T23:46:28.2648960Z ▶ generated npm badge detection
+2026-11-15T23:46:28.2762310Z   ✔ does not skip ordinary notes: ### Patch Changes
+2026-11-15T23:46:28.2881810Z - Fix img.shields.io URL handling (11.082608ms)
+2026-11-15T23:46:28.2965000Z   ✔ does not skip ordinary notes: ![build](https://img.shields.io/badge/build-passing-green) (1.596167ms)
+2026-11-15T23:46:28.3108600Z   ✔ does not skip ordinary notes: ![npm](https://img.shields.io.attacker.invalid/badge/npm-1-blue.svg) (3.956519ms)
+2026-11-15T23:46:28.3306760Z   ✔ does not skip ordinary notes: ![npm](https://img.shields.io@attacker.invalid/badge/npm-1-blue.svg) (1.039238ms)
+2026-11-15T23:46:28.3411050Z   ✔ does not skip ordinary notes: ![npm](https://attacker.invalid/img.shields.io/badge/npm-1-blue.svg) (2.740644ms)
+2026-11-15T23:46:28.3495340Z   ✔ does not skip ordinary notes: ![npm](http://img.shields.io/badge/npm-1-blue.svg) (0.413767ms)
+2026-11-15T23:46:28.3543980Z   ✔ does not skip ordinary notes: ![npm](https://user@img.shields.io/badge/npm-1-blue.svg) (3.219235ms)
+2026-11-15T23:46:28.3611360Z   ✔ does not skip ordinary notes: https://img.shields.io/badge/npm-1-blue.svg (0.893432ms)
+2026-11-15T23:46:28.3715800Z   ✔ recognizes the actual generated badge (0.603835ms)
+2026-11-15T23:46:28.3772810Z ✔ generated npm badge detection (27.685834ms)
+2026-11-15T23:46:28.3965730Z ▶ release naming layout detection
+2026-11-15T23:46:28.4343480Z   ✔ treats js/package.json layouts as multi-language (6.65397ms)
+2026-11-15T23:46:28.4591840Z   ✔ treats root package.json layouts as single-language (0.505499ms)
+2026-11-15T23:46:28.4819970Z ✔ release naming layout detection (9.875824ms)
+2026-11-15T23:46:28.5833760Z ▶ release naming tag prefixes
+2026-11-15T23:46:28.6676280Z   ✔ uses js_v for auto-detected multi-language releases (0.651005ms)
+2026-11-15T23:46:28.6704070Z   ✔ uses v for auto-detected single-language releases (0.469874ms)
+2026-11-15T23:46:28.7084370Z   ✔ keeps an explicit tag prefix override (0.532623ms)
+2026-11-15T23:46:28.7840260Z ✔ release naming tag prefixes (2.415103ms)
+2026-11-15T23:46:28.8488130Z ▶ release naming tag construction
+2026-11-15T23:46:28.9049220Z   ✔ builds js_v tags in multi-language mode (3.514062ms)
+2026-11-15T23:46:28.9484880Z   ✔ builds plain v tags in single-language mode (1.062934ms)
+2026-11-15T23:46:28.9711910Z   ✔ does not double-prefix an already namespaced multi-language version (2.68226ms)
+2026-11-15T23:46:29.0370510Z   ✔ does not double-prefix an already tagged single-language version (1.374238ms)
+2026-11-15T23:46:29.0487380Z   ✔ supports explicit legacy dash prefixes (0.513269ms)
+2026-11-15T23:46:29.1135130Z   ✔ works with prerelease and build metadata versions (2.09903ms)
+2026-11-15T23:46:29.1776950Z ✔ release naming tag construction (12.717225ms)
+2026-11-15T23:46:29.2051320Z ▶ release naming title construction
+2026-11-15T23:46:29.2197950Z   ✔ prefixes the language in multi-language mode (0.962496ms)
+2026-11-15T23:46:29.2958410Z   ✔ uses package name and version in single-language mode (0.316357ms)
+2026-11-15T23:46:29.3479770Z   ✔ normalizes prefixed versions before building multi-language titles (0.256003ms)
+2026-11-15T23:46:29.3981680Z   ✔ normalizes prefixed versions before building single-language titles (0.182072ms)
+2026-11-15T23:46:29.4238200Z   ✔ falls back to JavaScript when a single-language package name is unavailable (0.202887ms)
+2026-11-15T23:46:29.4386590Z ✔ release naming title construction (3.143199ms)
+2026-11-15T23:46:29.4499510Z ▶ release naming version normalization
+2026-11-15T23:46:29.4591430Z   ✔ normalizes "1.2.3" to "1.2.3" (0.390649ms)
+2026-11-15T23:46:29.4688920Z   ✔ normalizes "v1.2.3" to "1.2.3" (0.11836ms)
+2026-11-15T23:46:29.4786470Z   ✔ normalizes "V1.2.3" to "1.2.3" (0.124174ms)
+2026-11-15T23:46:29.4903500Z   ✔ normalizes "js_v1.2.3" to "1.2.3" (0.115233ms)
+2026-11-15T23:46:29.5336170Z   ✔ normalizes "js-v1.2.3" to "1.2.3" (0.097607ms)
+2026-11-15T23:46:29.5693790Z   ✔ normalizes "rust_v0.3.4" to "0.3.4" (0.125935ms)
+2026-11-15T23:46:29.6245070Z   ✔ normalizes "rust-v0.3.4" to "0.3.4" (0.665915ms)
+2026-11-15T23:46:29.6699450Z   ✔ normalizes "csharp_v2.0.0" to "2.0.0" (0.190187ms)
+2026-11-15T23:46:29.7718030Z   ✔ normalizes "js_v1.2.3-beta.1" to "1.2.3-beta.1" (0.140394ms)
+2026-11-15T23:46:29.8724260Z   ✔ normalizes "js_v1.2.3+build.5" to "1.2.3+build.5" (0.137726ms)
+2026-11-15T23:46:29.9818400Z   ✔ normalizes "" to "" (0.131522ms)
+2026-11-15T23:46:29.9821450Z ✔ release naming version normalization (3.100495ms)
+2026-11-15T23:46:29.9822820Z 549c4718a8e1dca0ccd901e1094308b72a1101ee
+2026-11-15T23:46:29.9824790Z From /var/folders/fq/bhsbs5bd52791c8x2z6s3dh40000gn/T/release-publication-efsya5/origin
+2026-11-15T23:46:29.9827620Z  * branch            main       -> FETCH_HEAD
+2026-11-15T23:46:29.9829370Z 8b77299da2baf6adb5e19dd9544bfd24c514e213
+2026-11-15T23:46:29.9830570Z 8b77299da2baf6adb5e19dd9544bfd24c514e213
+2026-11-15T23:46:29.9831690Z 549c4718a8e1dca0ccd901e1094308b72a1101ee
+2026-11-15T23:46:29.9834990Z M source.js ffe9d4ae65221fd95aecdad5b0f8ac3ce54b4ab8
+2026-11-15T23:46:29.9836390Z ffe9d4ae65221fd95aecdad5b0f8ac3ce54b4ab8
+2026-11-15T23:46:29.9837850Z 549c4718a8e1dca0ccd901e1094308b72a1101ee
+2026-11-15T23:46:29.9840470Z M package-lock.json M package.json {"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}
+2026-11-15T23:46:29.9844040Z {"name":"fixture","version":"1.0.0","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}}}
+2026-11-15T23:46:29.9846750Z {"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}
+2026-11-15T23:46:29.9850630Z {"name":"fixture","version":"1.0.1","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}}}
+2026-11-15T23:46:29.9871050Z ffe9d4ae65221fd95aecdad5b0f8ac3ce54b4ab8
+2026-11-15T23:46:29.9872300Z ffe9d4ae65221fd95aecdad5b0f8ac3ce54b4ab8
+2026-11-15T23:46:29.9873480Z 549c4718a8e1dca0ccd901e1094308b72a1101ee
+2026-11-15T23:46:29.9876090Z M package-lock.json M package.json {"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}
+2026-11-15T23:46:29.9879660Z {"name":"fixture","version":"1.0.0","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}}}
+2026-11-15T23:46:29.9882790Z {"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}
+2026-11-15T23:46:29.9885750Z {"name":"fixture","version":"1.0.1","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}}}
+2026-11-15T23:46:29.9887970Z 449a1479d33e1040c1596ca5e0a2782d2b4088f6
+2026-11-15T23:46:30.0331930Z 449a1479d33e1040c1596ca5e0a2782d2b4088f6
+2026-11-15T23:46:30.0720230Z 549c4718a8e1dca0ccd901e1094308b72a1101ee
+2026-11-15T23:46:30.1128060Z M package-lock.json M package.json {"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}
+2026-11-15T23:46:30.2144690Z {"name":"fixture","version":"1.0.0","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.0","dependencies":{"fixture":"1.0.0"}}}}
+2026-11-15T23:46:30.3149070Z {"name":"fixture","version":"1.0.1","dependencies":{"fixture":"2.0.0"}}
+2026-11-15T23:46:30.4136620Z {"name":"fixture","version":"1.0.1","lockfileVersion":3,"packages":{"":{"name":"fixture","version":"1.0.1","dependencies":{"fixture":"1.0.0"}}}}
+2026-11-15T23:46:30.4889640Z ▶ publication uses validated code
+2026-11-15T23:46:30.5895550Z   ✔ never pulls a newer source commit and recovers only version metadata (3910.490401ms)
+2026-11-15T23:46:30.6896320Z ✔ publication uses validated code (3913.931215ms)
+2026-11-15T23:46:30.7369150Z ▶ npm user config sanitization
+2026-11-15T23:46:30.7986020Z   ✔ removes only deprecated always-auth entries from npmrc content (10.815627ms)
+2026-11-15T23:46:30.8182810Z   ✔ updates the user config file from NPM_CONFIG_USERCONFIG (2.18837ms)
+2026-11-15T23:46:30.9193870Z   ✔ skips cleanly when setup-node did not create a user config file (2.136102ms)
+2026-11-15T23:46:30.9523330Z ✔ npm user config sanitization (21.269998ms)
+2026-11-15T23:46:30.9813000Z ▶ streaming publication CLI
+2026-11-15T23:46:31.0281250Z   ✔ uses the publication profile for bare identities and permits explicit full redaction (659.41922ms)
+2026-11-15T23:46:31.0538540Z   ✔ streams records and applies opt-in compatible masking (1443.234785ms)
+2026-11-15T23:46:31.0955290Z   ✔ publishes nothing after late binary input and cleans private spool files (339.879521ms)
+2026-11-15T23:46:31.1225790Z   ✔ rejects rewrite/stream flag combinations before publication (1.663942ms)
+2026-11-15T23:46:31.1748210Z ✔ streaming publication CLI (2449.742706ms)
+2026-11-15T23:46:31.1865730Z ▶ provider and context coverage
+2026-11-15T23:46:31.2213770Z   ✔ masks the complete github value at punctuation boundaries (707.117923ms)
+2026-11-15T23:46:31.2332820Z   ✔ masks the complete gitlab value at punctuation boundaries (477.362054ms)
+2026-11-15T23:46:31.3205030Z   ✔ masks the complete openai value at punctuation boundaries (12.328464ms)
+2026-11-15T23:46:31.3737350Z   ✔ masks the complete anthropic value at punctuation boundaries (33.822405ms)
+2026-11-15T23:46:31.4742910Z   ✔ masks the complete aws value at punctuation boundaries (11.938581ms)
+2026-11-15T23:46:31.5645440Z   ✔ masks the complete google value at punctuation boundaries (12.872718ms)
+2026-11-15T23:46:31.5902260Z   ✔ masks the complete slack value at punctuation boundaries (100.050167ms)
+2026-11-15T23:46:31.6179860Z   ✔ masks the complete stripe value at punctuation boundaries (178.880498ms)
+2026-11-15T23:46:31.6302100Z   ✔ masks the complete sendgrid value at punctuation boundaries (38.024738ms)
+2026-11-15T23:46:31.6682700Z   ✔ masks the complete twilio value at punctuation boundaries (33.109518ms)
+2026-11-15T23:46:31.6921540Z   ✔ masks the complete npm value at punctuation boundaries (62.084879ms)
+2026-11-15T23:46:31.7212740Z   ✔ masks the complete pypi value at punctuation boundaries (2.844736ms)
+2026-11-15T23:46:31.7370140Z   ✔ masks the complete telegram value at punctuation boundaries (50.990511ms)
+2026-11-15T23:46:31.7892390Z   ✔ masks the complete discord value at punctuation boundaries (2.377621ms)
+2026-11-15T23:46:31.8147050Z   ✔ masks the complete huggingface value at punctuation boundaries (11.993193ms)
+2026-11-15T23:46:31.8934960Z   ✔ masks the complete shopify value at punctuation boundaries (12.941425ms)
+2026-11-15T23:46:31.9326910Z   ✔ masks the complete databricks value at punctuation boundaries (8.392172ms)
+2026-11-15T23:46:31.9927780Z   ✔ masks the complete square value at punctuation boundaries (30.953714ms)
+2026-11-15T23:46:32.0848990Z   ✔ masks the complete mailchimp value at punctuation boundaries (11.60996ms)
+2026-11-15T23:46:32.1263670Z   ✔ masks the complete digitalocean value at punctuation boundaries (7.297604ms)
+2026-11-15T23:46:32.1485640Z   ✔ masks the complete vault value at punctuation boundaries (37.682953ms)
+2026-11-15T23:46:32.1680680Z   ✔ masks the complete grafana value at punctuation boundaries (16.674017ms)
+2026-11-15T23:46:32.1867600Z   ✔ masks the complete linear value at punctuation boundaries (20.411922ms)
+2026-11-15T23:46:32.2153290Z   ✔ masks the complete notion value at punctuation boundaries (6.800125ms)
+2026-11-15T23:46:32.2496490Z   ✔ masks the complete vercel value at punctuation boundaries (269.646883ms)
+2026-11-15T23:46:32.2621380Z   ✔ masks the complete jwt value at punctuation boundaries (11.739224ms)
+2026-11-15T23:46:32.3391720Z   ✔ detects password credential context (315.004382ms)
+2026-11-15T23:46:32.3515610Z   ✔ detects password credential context (6.043697ms)
+2026-11-15T23:46:32.3790760Z   ✔ detects --password credential context (3.179742ms)
+2026-11-15T23:46:32.4635780Z   ✔ detects --password credential context (2.952642ms)
+2026-11-15T23:46:32.5254130Z   ✔ detects <password>abc</password> credential context (3.200089ms)
+2026-11-15T23:46:32.5701240Z   ✔ detects api_key credential context (3.749032ms)
+2026-11-15T23:46:32.6032310Z   ✔ detects https credential context (7.810444ms)
+2026-11-15T23:46:32.6291960Z   ✔ detects Authorization credential context (8.186276ms)
+2026-11-15T23:46:32.6405110Z   ✔ detects Cookie credential context (5.009406ms)
+2026-11-15T23:46:32.6725630Z   ✔ detects ?sig credential context (5.925597ms)
+2026-11-15T23:46:32.7097960Z   ✔ detects -----BEGIN credential context (58.460005ms)
+2026-11-15T23:46:32.7205080Z   ✔ detects -----BEGIN credential context (8.520925ms)
+2026-11-15T23:46:32.7347020Z   ✔ preserves delimiters in escaped JSON inside AI-session records (101.32957ms)
+2026-11-15T23:46:32.7494320Z   ✔ keeps counters, Git hashes, tool names, URLs and benign identifiers (23.237673ms)
+2026-11-15T23:46:32.8013080Z   ✔ handles long non-URL identifiers and captures actual URL credentials (27.324377ms)
+2026-11-15T23:46:32.8718400Z   ✔ protects known secrets regardless of shape or case in matching personal values (76.477072ms)
+2026-11-15T23:46:32.8882270Z   ✔ normalizes literal dictionaries with the same rules as the input view (1185.035557ms)
+2026-11-15T23:46:32.9421740Z   ✔ removes key fragments, email prefixes and suffixes completely (14.024364ms)
+2026-11-15T23:46:32.9521160Z ✔ provider and context coverage (4039.907518ms)
+2026-11-15T23:46:32.9721140Z ▶ languages and representations
+2026-11-15T23:46:32.9983720Z   ✔ recognizes the password label (138.71387ms)
+2026-11-15T23:46:33.0259370Z   ✔ recognizes the senha label (4.612663ms)
+2026-11-15T23:46:33.1055880Z   ✔ recognizes the contraseña label (4.15343ms)
+2026-11-15T23:46:33.1633700Z   ✔ recognizes the mot_de_passe label (4.088583ms)
+2026-11-15T23:46:33.1946500Z   ✔ recognizes the passwort label (9.312424ms)
+2026-11-15T23:46:33.2190260Z   ✔ recognizes the пароль label (152.75701ms)
+2026-11-15T23:46:33.2334030Z   ✔ recognizes the 密码 label (14.900032ms)
+2026-11-15T23:46:33.3337750Z   ✔ recognizes the 密碼 label (15.802262ms)
+2026-11-15T23:46:33.3340400Z   ✔ recognizes the パスワード label (3.983284ms)
+2026-11-15T23:46:33.3694270Z   ✔ recognizes the 비밀번호 label (3.36581ms)
+2026-11-15T23:46:33.3895340Z   ✔ recognizes the كلمة المرور label (4.816733ms)
+2026-11-15T23:46:33.4542980Z   ✔ recognizes the סיסמה label (5.482151ms)
+2026-11-15T23:46:33.5180430Z   ✔ recognizes the पासवर्ड label (6.84693ms)
+2026-11-15T23:46:33.5299720Z   ✔ recognizes the şifre label (3.561851ms)
+2026-11-15T23:46:33.5585590Z   ✔ recognizes the kata_sandi label (4.563443ms)
+2026-11-15T23:46:33.5847750Z   ✔ recognizes the mật_khẩu label (7.776638ms)
+2026-11-15T23:46:33.6062900Z   ✔ recognizes the รหัสผ่าน label (23.075242ms)
+2026-11-15T23:46:33.6381740Z   ✔ recognizes labelled Имя (24.319203ms)
+2026-11-15T23:46:33.6573670Z   ✔ recognizes labelled 姓名 (20.209344ms)
+2026-11-15T23:46:33.6909990Z   ✔ recognizes labelled 氏名 (20.05404ms)
+2026-11-15T23:46:33.7080950Z   ✔ recognizes labelled नाम (154.109601ms)
+2026-11-15T23:46:33.7385190Z   ✔ recognizes labelled الاسم (4.408787ms)
+2026-11-15T23:46:33.7532600Z   ✔ recognizes labelled name (18.730873ms)
+2026-11-15T23:46:33.7666690Z   ✔ keeps UTF-16 positions after emoji and maps fullwidth and JSON escapes (26.736669ms)
+2026-11-15T23:46:33.8533660Z   ✔ handles base64url, hex, percent encoding and bounded nested encodings (59.462004ms)
+2026-11-15T23:46:33.8679540Z   ✔ handles base64 wrapped across records and unknown formats recognized only by an adapter (655.683276ms)
+2026-11-15T23:46:33.8744370Z   ✔ validates card numbers and IP addresses and preserves invalid numbers (13.26337ms)
+2026-11-15T23:46:33.8839840Z   ✔ enforces finite input and finding limits and strict configuration (3.11961ms)
+2026-11-15T23:46:33.9426290Z ✔ languages and representations (1422.292891ms)
+2026-11-15T23:46:33.9615030Z ▶ scanner interoperability
+2026-11-15T23:46:33.9805050Z   ✔ rejects impossible calendar dates in reviewed public policies (4.076801ms)
+2026-11-15T23:46:34.0173560Z   ✔ rejects TruffleHog records without a usable raw detection (5.984801ms)
+2026-11-15T23:46:34.1178640Z   ✔ accepts explicit cloud offset units without copying returned quotations (8.752441ms)
+2026-11-15T23:46:34.1491910Z   ✔ collects selected local secrets and personal document spellings explicitly (28.356906ms)
+2026-11-15T23:46:34.2219010Z   ✔ maps decoded TruffleHog reports to the complete encoded source (13.931726ms)
+2026-11-15T23:46:34.2567590Z   ✔ rejects invalid ranges returned for encoded detection views (0.966176ms)
+2026-11-15T23:46:34.3501190Z   ✔ uses actual recommended Secretlint rules even when text has disable directives (544.169837ms)
+2026-11-15T23:46:34.4507610Z   ✔ redacts all occurrences from Gitleaks and TruffleHog without copying report metadata (8.538268ms)
+2026-11-15T23:46:34.4827370Z   ✔ maps Python codepoint and UTF-8 byte ranges exactly after non-ASCII text (4.141571ms)
+2026-11-15T23:46:34.5039310Z   ✔ supports hashed detect-secrets baselines by masking only the identified line (3.386037ms)
+2026-11-15T23:46:34.5220500Z ✔ scanner interoperability (623.546738ms)
+2026-11-15T23:46:34.5655560Z ▶ document entity profile (#55)
+2026-11-15T23:46:34.6091250Z   ✔ has employer, school and city fixtures for every supported locale (5.802392ms)
+2026-11-15T23:46:34.6565390Z   ✔ detects list-form entities in en and supports reversible replacements (2683.398974ms)
+2026-11-15T23:46:34.7082360Z   ✔ detects list-form entities in es and supports reversible replacements (406.147583ms)
+2026-11-15T23:46:34.7304980Z   ✔ detects list-form entities in fr and supports reversible replacements (39.812647ms)
+2026-11-15T23:46:34.7418070Z   ✔ detects list-form entities in de and supports reversible replacements (157.015642ms)
+2026-11-15T23:46:34.7793080Z   ✔ detects list-form entities in pt and supports reversible replacements (45.124102ms)
+2026-11-15T23:46:34.8207990Z   ✔ detects list-form entities in ru and supports reversible replacements (107.127535ms)
+2026-11-15T23:46:34.8437440Z   ✔ detects list-form entities in ja and supports reversible replacements (24.023946ms)
+2026-11-15T23:46:34.8597610Z   ✔ detects list-form entities in zh and supports reversible replacements (28.063998ms)
+2026-11-15T23:46:34.8721180Z   ✔ detects list-form entities in zh-Hant and supports reversible replacements (35.881093ms)
+2026-11-15T23:46:34.9053600Z   ✔ detects list-form entities in ko and supports reversible replacements (142.830004ms)
+2026-11-15T23:46:34.9417150Z   ✔ detects list-form entities in ar and supports reversible replacements (102.287464ms)
+2026-11-15T23:46:34.9985230Z   ✔ detects list-form entities in he and supports reversible replacements (138.865688ms)
+2026-11-15T23:46:35.0127150Z   ✔ detects list-form entities in hi and supports reversible replacements (80.77685ms)
+2026-11-15T23:46:35.0323180Z   ✔ detects list-form entities in tr and supports reversible replacements (163.091138ms)
+2026-11-15T23:46:35.0700550Z   ✔ detects list-form entities in id and supports reversible replacements (51.190827ms)
+2026-11-15T23:46:35.0935630Z   ✔ detects list-form entities in vi and supports reversible replacements (45.110588ms)
+2026-11-15T23:46:35.1077200Z   ✔ detects list-form entities in th and supports reversible replacements (35.704533ms)
+2026-11-15T23:46:35.1572230Z   ✔ detects legal forms in either order with and without quotes (730.774355ms)
+2026-11-15T23:46:35.2039840Z   ✔ detects labelled unknown places and bounded regions (7.014677ms)
+2026-11-15T23:46:35.2502590Z   ✔ exposes lower confidence, threshold control and an explicit off switch (17.178582ms)
+2026-11-15T23:46:35.2661260Z   ✔ keeps reviewed public entities while knownPersonal overrides the exemption (85.945851ms)
+2026-11-15T23:46:35.2745700Z ✔ document entity profile (#55) (5139.029795ms)
+2026-11-15T23:46:35.2887370Z ✔ exempts contained legacy company findings and lets private policy override (7.460385ms)
+2026-11-15T23:46:35.3016690Z ▶ CV experience lines
+2026-11-15T23:46:35.3212310Z   ✔ replaces the employer in: Менеджер по продажам, Северная торговая компания (2019-05 – 2021-03) (3042.406904ms)
+2026-11-15T23:46:35.3413810Z   ✔ replaces the employer in: Ведущий инженер, Ромашка (2018-01 – 2020-12) (100.685271ms)
+2026-11-15T23:46:35.3606550Z   ✔ replaces the employer in: QA engineer, Acme Solutions (2020-02 – 2023-06) (112.401088ms)
+2026-11-15T23:46:35.3795000Z   ✔ replaces the employer in: Аналитик, «Северный ветер» (2018-01 – 2020-12) (60.856037ms)
+2026-11-15T23:46:35.3937210Z   ✔ replaces the employer in: Менеджер, Северная торговая компания (май 2019 — март 2021) (52.512529ms)
+2026-11-15T23:46:35.4654170Z   ✔ replaces the employer in: Менеджер по продажам — Северная торговая компания, 2019–2021 (173.745451ms)
+2026-11-15T23:46:35.4961080Z   ✔ replaces the employer in: Менеджер (Северная торговая компания), 2019–2021 (19.576158ms)
+2026-11-15T23:46:35.5202100Z   ✔ replaces the employer in: Руководитель отдела, ООО Ромашка (2018-01 – 2020-12) (32.597203ms)
+2026-11-15T23:46:35.5626060Z   ✔ replaces the employer in: Инженер, Ромашка (2018 – 2020) (17.834804ms)
+2026-11-15T23:46:35.6174710Z   ✔ replaces the employer in: Инженер, Ромашка (май 2019 — по настоящее время) (31.734641ms)
+2026-11-15T23:46:35.6429120Z   ✔ replaces the employer in: Инженер, Ромашка (Май 2019 - н.в.) (139.694074ms)
+2026-11-15T23:46:35.6587970Z   ✔ replaces the employer in: - Senior QA Engineer, Acme Solutions (2020-02-01 – 2023-06-30) (32.496235ms)
+2026-11-15T23:46:35.6825500Z   ✔ replaces the employer in: Инженер, 2ГИС (2019 – 2021) (40.332405ms)
+2026-11-15T23:46:35.7018120Z ✔ CV experience lines (3863.422446ms)
+2026-11-15T23:46:35.7092410Z ▶ CV experience lines with a label or an open range
+2026-11-15T23:46:35.7116490Z   ✔ accepts a label or an open range in: Менеджер по продажам, Северная торговая компания (2019-05-01 — 2021-03-01) (42.938982ms)
+2026-11-15T23:46:35.7137550Z   ✔ accepts a label or an open range in: Опыт: Менеджер по продажам, Северная торговая компания (2019-05-01 — 2021-03-01) (95.806701ms)
+2026-11-15T23:46:35.7143100Z   ✔ accepts a label or an open range in: Опыт: Менеджер по продажам, Ромашка (2019-05-01 — 2021-03-01) (60.631736ms)
+2026-11-15T23:46:35.7209110Z   ✔ accepts a label or an open range in: Работа: Руководитель отдела продаж, Северный ветер (2018-01-01 — 2020-12-01) (22.782246ms)
+2026-11-15T23:46:35.7433180Z   ✔ accepts a label or an open range in: - Опыт: Менеджер, Ромашка (2018-01-01 — 2020-12-01) (184.505114ms)
+2026-11-15T23:46:35.7798100Z   ✔ accepts a label or an open range in: Должность: Менеджер | Опыт: Аналитик, Ромашка (2018-01-01 — 2020-12-01) (105.730428ms)
+2026-11-15T23:46:35.8019730Z   ✔ accepts a label or an open range in: Опыт - Менеджер, Ромашка (2018-01-01 — 2020-12-01) (41.584318ms)
+2026-11-15T23:46:35.8184440Z   ✔ accepts a label or an open range in: Менеджер, Ромашка (2018-01 – по н.в.) (37.183658ms)
+2026-11-15T23:46:35.8326330Z   ✔ accepts a label or an open range in: • Менеджер, Ромашка (2018-01-01 — 2020-12-01) (46.75985ms)
+2026-11-15T23:46:35.8430620Z   ✔ accepts a label or an open range in: Опыт | Менеджер, Ромашка (2018 – 2020) (25.863217ms)
+2026-11-15T23:46:35.8775280Z   ✔ accepts a label or an open range in: Опыт. Менеджер, Ромашка (2018 – 2020) (21.066047ms)
+2026-11-15T23:46:35.8993100Z   ✔ accepts a label or an open range in: Опыт работы: Менеджер, Ромашка (2018 – 2020) (27.073072ms)
+2026-11-15T23:46:35.9091810Z   ✔ accepts a label or an open range in: Опыт работы — Менеджер, Ромашка (2018 – 2020) (19.384169ms)
+2026-11-15T23:46:35.9258550Z   ✔ accepts a label or an open range in: Опыт : Менеджер, Ромашка (2018 – 2020) (27.529998ms)
+2026-11-15T23:46:35.9822720Z   ✔ accepts a label or an open range in: Опыт - Менеджер - Ромашка (2018 – 2020) (26.950401ms)
+2026-11-15T23:46:36.0036660Z   ✔ accepts a label or an open range in: Опыт: Менеджер (Ромашка), 2019–2021 (22.177385ms)
+2026-11-15T23:46:36.0284670Z   ✔ accepts a label or an open range in: Опыт: Старший менеджер по работе с ключевыми клиентами компании, Ромашка (2018 – 2020) (23.504545ms)
+2026-11-15T23:46:36.0730400Z   ✔ accepts a label or an open range in: Опыт: Менеджер, Ромашка (Май 2019 — По н.в.) (106.160131ms)
+2026-11-15T23:46:36.1200300Z   ✔ accepts a label or an open range in: Менеджер, Ромашка (2018-01 – по н/в) (11.152167ms)
+2026-11-15T23:46:36.1473060Z ✔ CV experience lines with a label or an open range (952.938333ms)
+2026-11-15T23:46:36.2157880Z ▶ CV experience line boundaries
+2026-11-15T23:46:36.2831650Z   ✔ propagates an employer to its other mentions in the same document (17.54872ms)
+2026-11-15T23:46:36.3569980Z   ✔ needs the date range: prose with a comma is unaffected (34.43535ms)
+2026-11-15T23:46:36.4049950Z   ✔ stays inside the documents profile (7.78574ms)
+2026-11-15T23:46:36.4659420Z   ✔ keeps the bounded rule fast on a long hostile line (325.1492ms)
+2026-11-15T23:46:36.4905030Z   ✔ keeps the labelled forms fast on long hostile lines (1066.335642ms)
+2026-11-15T23:46:36.5260700Z ✔ CV experience line boundaries (1451.845895ms)
+2026-11-15T23:46:36.5554490Z ▶ realistic keyed fake transformations
+2026-11-15T23:46:36.6027060Z   ✔ keeps the script of en names (134.846616ms)
+2026-11-15T23:46:36.6353600Z   ✔ keeps the script of es names (139.803931ms)
+2026-11-15T23:46:36.6444920Z   ✔ keeps the script of fr names (5.434511ms)
+2026-11-15T23:46:36.7201130Z   ✔ keeps the script of de names (4.175166ms)
+2026-11-15T23:46:36.7790860Z   ✔ keeps the script of pt names (4.248664ms)
+2026-11-15T23:46:36.8640690Z   ✔ keeps the script of ru names (36.116419ms)
+2026-11-15T23:46:36.9645020Z   ✔ keeps the script of ja names (4.435743ms)
+2026-11-15T23:46:37.0162510Z   ✔ keeps the script of zh names (3.877662ms)
+2026-11-15T23:46:37.0880720Z   ✔ keeps the script of zh-Hant names (5.818564ms)
+2026-11-15T23:46:37.1369230Z   ✔ keeps the script of ko names (8.047653ms)
+2026-11-15T23:46:37.1676790Z   ✔ keeps the script of ar names (11.289289ms)
+2026-11-15T23:46:37.2088650Z   ✔ keeps the script of he names (7.415814ms)
+2026-11-15T23:46:37.2252720Z   ✔ keeps the script of hi names (4.452421ms)
+2026-11-15T23:46:37.2413770Z   ✔ keeps the script of tr names (19.124021ms)
+2026-11-15T23:46:37.2901800Z   ✔ keeps the script of id names (3.250894ms)
+2026-11-15T23:46:37.3188540Z   ✔ keeps the script of vi names (8.1639ms)
+2026-11-15T23:46:37.3372340Z   ✔ keeps the script of th names (65.444261ms)
+2026-11-15T23:46:37.3462830Z   ✔ validates the UK_NHS_NUMBER catalog alias (2.359399ms)
+2026-11-15T23:46:37.3561220Z   ✔ validates the AU_TAX_FILE_NUMBER catalog alias (1.138012ms)
+2026-11-15T23:46:37.3717010Z   ✔ validates the SOUTH_AFRICA_ID_NUMBER catalog alias (25.389024ms)
+2026-11-15T23:46:37.3860350Z   ✔ generates valid Luhn cards, dotted CPF and NPI (452.335997ms)
+2026-11-15T23:46:37.4031360Z   ✔ shares valid payment-card fakes across card catalog aliases (16.581524ms)
+2026-11-15T23:46:37.4558780Z   ✔ generates independently valid TD1 MRZ (67.54563ms)
+2026-11-15T23:46:37.5123720Z   ✔ generates independently valid TD2 MRZ (367.931734ms)
+2026-11-15T23:46:37.5286070Z ✔ realistic keyed fake transformations (1418.727982ms)
+2026-11-15T23:46:37.5593670Z ▶ keyed faking and cross-field consistency
+2026-11-15T23:46:37.5754100Z   ✔ is stable per key and changes with the key (122.556758ms)
+2026-11-15T23:46:37.5915840Z   ✔ keeps Russian script, gender, patronymics and transliteration consistent (148.477726ms)
+2026-11-15T23:46:37.6285050Z   ✔ generates valid plausible 07/12/1985 (0.852534ms)
+2026-11-15T23:46:37.6373260Z   ✔ generates valid plausible 1985-12-07 (0.715479ms)
+2026-11-15T23:46:37.6503350Z   ✔ generates valid plausible 07.12.1985 (0.951053ms)
+2026-11-15T23:46:37.6854750Z   ✔ uses a shared date offset across formats (1.180369ms)
+2026-11-15T23:46:37.7234000Z   ✔ generates valid same-format UK_NHS 12 (1.577413ms)
+2026-11-15T23:46:37.7508990Z   ✔ generates valid same-format KR_RRN 14 (0.756327ms)
+2026-11-15T23:46:37.7796290Z   ✔ generates valid same-format IT_FISCAL_CODE 16 (1.053633ms)
+2026-11-15T23:46:37.7956010Z   ✔ generates valid same-format SG_NRIC_FIN 9 (1.596875ms)
+2026-11-15T23:46:37.8195480Z   ✔ generates valid same-format PL_PESEL 11 (4.754945ms)
+2026-11-15T23:46:37.8378500Z   ✔ generates valid same-format SE_PERSONNUMMER 11 (4.20978ms)
+2026-11-15T23:46:37.8714060Z   ✔ generates valid same-format ZA_ID_NUMBER 13 (1.259811ms)
+2026-11-15T23:46:37.8844060Z   ✔ generates valid same-format AU_TFN 11 (0.568353ms)
+2026-11-15T23:46:37.9007710Z   ✔ generates valid same-format CA_SIN 11 (0.816664ms)
+2026-11-15T23:46:37.9213100Z   ✔ generates valid same-format RU_SNILS 14 (0.696491ms)
+2026-11-15T23:46:37.9849030Z   ✔ generates valid same-format RU_INN 10 (0.618971ms)
+2026-11-15T23:46:38.0162910Z   ✔ generates valid same-format RU_INN 12 (0.512327ms)
+2026-11-15T23:46:38.0295450Z ✔ keyed faking and cross-field consistency (295.116407ms)
+2026-11-15T23:46:38.0406030Z ▶ national date century consistency
+2026-11-15T23:46:38.0892480Z   ✔ shares the calendar offset across the century boundary for PL_PESEL (1.540739ms)
+2026-11-15T23:46:38.1399680Z   ✔ shares the calendar offset across the century boundary for SE_PERSONNUMMER (2.596253ms)
+2026-11-15T23:46:38.2118110Z ✔ national date century consistency (4.516029ms)
+2026-11-15T23:46:38.2879290Z ▶ fake contact values and provenance
+2026-11-15T23:46:38.3396860Z   ✔ uses Ofcom fixed-line ranges and retains valid Russian mobile prefixes (59.222017ms)
+2026-11-15T23:46:38.3768890Z   ✔ keeps country code and separators and uses reserved NANP/UK ranges (27.187801ms)
+2026-11-15T23:46:38.4103870Z   ✔ keeps reserved email and domain destinations (1.135211ms)
+2026-11-15T23:46:38.4262280Z   ✔ keeps IBAN country, spacing, length and independent mod-97 validity (1.047006ms)
+2026-11-15T23:46:38.4609510Z   ✔ does not let generated personal values exempt credential findings (1023.579445ms)
+2026-11-15T23:46:38.4688970Z   ✔ audits actual faking while retaining full-redaction fallbacks (16.8612ms)
+2026-11-15T23:46:38.5007670Z   ✔ rejects malformed MRZ dates with full redaction (12.471991ms)
+2026-11-15T23:46:38.5567960Z   ✔ fully redacts credentials by default and only emits invalid marked credentials on opt-in (430.042987ms)
+2026-11-15T23:46:38.6572600Z   ✔ recognizes only the current keyed generators during residual verification (48.126979ms)
+2026-11-15T23:46:38.6884260Z ✔ fake contact values and provenance (1623.491058ms)
+2026-11-15T23:46:38.7187490Z ▶ fake TD3 documents
+2026-11-15T23:46:38.7328010Z   ✔ generates independently valid TD3 MRZ and matching names and birth dates (56.716809ms)
+2026-11-15T23:46:38.7690760Z ✔ fake TD3 documents (57.24739ms)
+2026-11-15T23:46:38.7794210Z ▶ identity validation and boundary cases
+2026-11-15T23:46:38.7957910Z   ✔ redacts complete and reflowed TD3 documents (766.695214ms)
+2026-11-15T23:46:38.8078980Z   ✔ redacts complete and reflowed TD2 documents (25.803495ms)
+2026-11-15T23:46:38.8235950Z   ✔ redacts complete and reflowed TD1 documents (26.947225ms)
+2026-11-15T23:46:38.8534840Z   ✔ redacts complete and reflowed MRV-A documents (13.226265ms)
+2026-11-15T23:46:38.8684660Z   ✔ redacts complete and reflowed MRV-B documents (11.629861ms)
+2026-11-15T23:46:38.8988040Z   ✔ detects soft wrapping between MRZ data groups (4.808732ms)
+2026-11-15T23:46:38.9754630Z   ✔ scores intact checks higher while redacting corrupted checks (3.225595ms)
+2026-11-15T23:46:38.9954260Z ✔ identity validation and boundary cases (856.097303ms)
+2026-11-15T23:46:39.0151060Z ▶ national checksum and identity policy boundaries
+2026-11-15T23:46:39.0401730Z   ✔ checks UK_NHS arithmetic and contextual confidence independently (93.269668ms)
+2026-11-15T23:46:39.0776720Z   ✔ checks KR_RRN arithmetic and contextual confidence independently (42.056259ms)
+2026-11-15T23:46:39.0952240Z   ✔ checks IT_FISCAL_CODE arithmetic and contextual confidence independently (4.498145ms)
+2026-11-15T23:46:39.1305320Z   ✔ checks SG_NRIC_FIN arithmetic and contextual confidence independently (4.021378ms)
+2026-11-15T23:46:39.1368010Z   ✔ checks PL_PESEL arithmetic and contextual confidence independently (6.95566ms)
+2026-11-15T23:46:39.1529990Z   ✔ checks SE_PERSONNUMMER arithmetic and contextual confidence independently (7.999459ms)
+2026-11-15T23:46:39.1728700Z   ✔ checks ZA_ID_NUMBER arithmetic and contextual confidence independently (6.582748ms)
+2026-11-15T23:46:39.1809430Z   ✔ checks AU_TFN arithmetic and contextual confidence independently (5.604048ms)
+2026-11-15T23:46:39.2655500Z   ✔ checks CA_SIN arithmetic and contextual confidence independently (4.801505ms)
+2026-11-15T23:46:39.2984320Z   ✔ checks RU_SNILS arithmetic and contextual confidence independently (10.048809ms)
+2026-11-15T23:46:39.3577450Z   ✔ checks RU_INN arithmetic and contextual confidence independently (5.32831ms)
+2026-11-15T23:46:39.4194060Z   ✔ checks RU_INN arithmetic and contextual confidence independently (777.33578ms)
+2026-11-15T23:46:39.4691300Z   ✔ rejects passport substring X583920471Y (1.464258ms)
+2026-11-15T23:46:39.5464370Z   ✔ rejects passport substring C3F7G9H2JA (1.367ms)
+2026-11-15T23:46:39.6138010Z   ✔ rejects passport substring AAK8392047 (1.826616ms)
+2026-11-15T23:46:39.6509250Z   ✔ rejects passport substring M583K20478 (1.315467ms)
+2026-11-15T23:46:39.6672390Z   ✔ rejects passport substring YA83920470 (2.459294ms)
+2026-11-15T23:46:39.7686110Z   ✔ rejects passport substring 1 45 17 839204 2 (2.450032ms)
+2026-11-15T23:46:39.8049910Z   ✔ rejects passport substring timestamp 583920471 (2.92479ms)
+2026-11-15T23:46:39.8528320Z ✔ national checksum and identity policy boundaries (985.217252ms)
+2026-11-15T23:46:39.9059970Z ▶ identity masking and exemption boundaries
+2026-11-15T23:46:39.9328810Z   ✔ applies identity overrides despite overlapping generic ID context (281.312264ms)
+2026-11-15T23:46:39.9355520Z   ✔ uses the fake policy in decoded external-detector views (35.738838ms)
+2026-11-15T23:46:39.9721730Z   ✔ preserves configured catalog masks while extending the preset to catalog identity types (11.16678ms)
+2026-11-15T23:46:40.0240120Z   ✔ audits specimens, repeated values and reviewed values without trusting incoming kept flags (36.979191ms)
+2026-11-15T23:46:40.0368640Z   ✔ keeps a specimen from exempting adjacent realistic MRZ data (27.737938ms)
+2026-11-15T23:46:40.0927070Z ✔ identity masking and exemption boundaries (393.541466ms)
+2026-11-15T23:46:40.1128170Z ▶ issue 104 complete reported document forms
+2026-11-15T23:46:40.1329530Z   ✔ text and JSON: Менеджер, Ромашка, Лютик (2019-05-01 — 2021-03-01) (2757.090301ms)
+2026-11-15T23:46:40.1476860Z   ✔ text and JSON: Менеджер, Ромашка (Лютик) (2019-05-01 — 2021-03-01) (245.850152ms)
+2026-11-15T23:46:40.1630940Z   ✔ text and JSON: Менеджер, Romashka, LLC (2019-05-01 — 2021-03-01) (30.007743ms)
+2026-11-15T23:46:40.1713110Z   ✔ text and JSON: Менеджер, Ромашка / Лютик (2019-05-01 — 2021-03-01) (28.24048ms)
+2026-11-15T23:46:40.1873530Z   ✔ text and JSON: Маркетолог, Ромашка, Лютик (2019-05-01 — 2021-03-01) (23.313444ms)
+2026-11-15T23:46:40.1988730Z   ✔ text and JSON: Маркетолог, Ромашка (Лютик) (2019-05-01 — 2021-03-01) (19.00248ms)
+2026-11-15T23:46:40.2992650Z   ✔ text and JSON: Маркетолог, Romashka, LLC (2019-05-01 — 2021-03-01) (19.253538ms)
+2026-11-15T23:46:40.3212870Z   ✔ text and JSON: Маркетолог, Ромашка / Лютик (2019-05-01 — 2021-03-01) (23.000877ms)
+2026-11-15T23:46:40.3387210Z   ✔ text and JSON: Архивариус, Ромашка, Лютик (2019-05-01 — 2021-03-01) (44.360163ms)
+2026-11-15T23:46:40.3536340Z   ✔ text and JSON: Архивариус, Ромашка (Лютик) (2019-05-01 — 2021-03-01) (22.238402ms)
+2026-11-15T23:46:40.3621590Z   ✔ text and JSON: Архивариус, Romashka, LLC (2019-05-01 — 2021-03-01) (22.331889ms)
+2026-11-15T23:46:40.3869470Z   ✔ text and JSON: Архивариус, Ромашка / Лютик (2019-05-01 — 2021-03-01) (17.330616ms)
+2026-11-15T23:46:40.4002180Z   ✔ text and JSON: Сценограф, Ромашка, Лютик (2019-05-01 — 2021-03-01) (22.913324ms)
+2026-11-15T23:46:40.4259960Z   ✔ text and JSON: Сценограф, Ромашка (Лютик) (2019-05-01 — 2021-03-01) (22.178693ms)
+2026-11-15T23:46:40.4567880Z   ✔ text and JSON: Сценограф, Romashka, LLC (2019-05-01 — 2021-03-01) (18.286186ms)
+2026-11-15T23:46:40.5059650Z   ✔ text and JSON: Сценограф, Ромашка / Лютик (2019-05-01 — 2021-03-01) (37.237051ms)
+2026-11-15T23:46:40.5343790Z   ✔ text and JSON: Cartographer, Ромашка, Лютик (2019-05-01 — 2021-03-01) (47.492949ms)
+2026-11-15T23:46:40.5741410Z   ✔ text and JSON: Cartographer, Ромашка (Лютик) (2019-05-01 — 2021-03-01) (63.155793ms)
+2026-11-15T23:46:40.5744640Z   ✔ text and JSON: Cartographer, Romashka, LLC (2019-05-01 — 2021-03-01) (16.057594ms)
+2026-11-15T23:46:40.7274320Z   ✔ text and JSON: Cartographer, Ромашка / Лютик (2019-05-01 — 2021-03-01) (21.690595ms)
+2026-11-15T23:46:40.7649330Z   ✔ text and JSON: Marketer, Ромашка, Лютик (2019-05-01 — 2021-03-01) (24.944124ms)
+2026-11-15T23:46:40.7803180Z   ✔ text and JSON: Marketer, Ромашка (Лютик) (2019-05-01 — 2021-03-01) (27.839238ms)
+2026-11-15T23:46:40.8146340Z   ✔ text and JSON: Marketer, Romashka, LLC (2019-05-01 — 2021-03-01) (22.397933ms)
+2026-11-15T23:46:40.8473910Z   ✔ text and JSON: Marketer, Ромашка / Лютик (2019-05-01 — 2021-03-01) (25.623388ms)
+2026-11-15T23:46:40.8586850Z   ✔ text and JSON: Основатель, консультант, Ромашка (2019-05-01 — 2021-03-01) (16.598149ms)
+2026-11-15T23:46:40.8754330Z   ✔ text and JSON: Founder, consultant, Ромашка (2019-05-01 — 2021-03-01) (16.06935ms)
+2026-11-15T23:46:40.9021020Z   ✔ text and JSON: Маркетолог (B2B), Ромашка (2019-05-01 — 2021-03-01) (11.759139ms)
+2026-11-15T23:46:40.9257530Z   ✔ text and JSON: Опыт: директор, основатель, Ромашка (2019-05-01 — 2021-03-01) (55.949794ms)
+2026-11-15T23:46:40.9342050Z   ✔ text and JSON: Опыт работы: Менеджер, консультант, Ромашка (2019-05-01 — 2021-03-01) (90.683398ms)
+2026-11-15T23:46:40.9501950Z   ✔ text and JSON: Опыт: менеджер (b2b), Ромашка (2019-05-01 — 2021-03-01) (15.900788ms)
+2026-11-15T23:46:41.0379570Z   ✔ text and JSON: Стаж = 5 лет: Менеджер, Ромашка (2019-05-01 — 2021-03-01) (23.212529ms)
+2026-11-15T23:46:41.0523360Z   ✔ text and JSON: = 3 года, Менеджер, Ромашка (2019-05-01 — 2021-03-01) (14.569442ms)
+2026-11-15T23:46:41.0687870Z   ✔ text and JSON: Менеджер, Лютик (2019-05-01 — 2021-03-01). Директор, Ромашка (2019-05-01 — 2021-03-01) (66.621947ms)
+2026-11-15T23:46:41.1694680Z   ✔ text and JSON: Менеджер, Ромашка | маркетинг, продажи (2019-05-01 — 2021-03-01) (19.497519ms)
+2026-11-15T23:46:41.2157230Z   ✔ text and JSON: Менеджер, Ромашка Лютик | IT, связь (2019-05-01 — 2021-03-01) (21.423762ms)
+2026-11-15T23:46:41.2822350Z   ✔ text and JSON: Маркетолог, ГК «Ромашка Лютик» (2019-05-01 — 2021-03-01) (34.261836ms)
+2026-11-15T23:46:41.3826320Z   ✔ text and JSON: ГК «Ромашка» (2019-05-01 — 2021-03-01) (30.042106ms)
+2026-11-15T23:46:41.4071950Z   ✔ text and JSON: ГК Ромашка, менеджер (85.829564ms)
+2026-11-15T23:46:41.4269700Z   ✔ text and JSON: группа компаний Ромашка (241.280707ms)
+2026-11-15T23:46:41.4547530Z   ✔ text and JSON: Группа компаний "ромашка лютик" (335.3798ms)
+2026-11-15T23:46:41.4661240Z   ✔ text and JSON: ГК “Ромашка Лютик” (13.253821ms)
+2026-11-15T23:46:41.4900590Z   ✔ text and JSON: Анна работала в Лютике, потом в Ромашке, затем в Васильке. (29.90126ms)
+2026-11-15T23:46:41.5518390Z   ✔ text and JSON: Анна работала в Blue Sky, потом в Acme Labs. (334.674199ms)
+2026-11-15T23:46:41.5790690Z   ✔ text and JSON: Анна работала в Лютике, потом в Ромашке. (21.129613ms)
+2026-11-15T23:46:41.5946360Z   ✔ text and JSON: Анна, 89161234567, жду ответа (48.219599ms)
+2026-11-15T23:46:41.6715870Z   ✔ text and JSON: Anna, 89161234567, жду ответа (16.871775ms)
+2026-11-15T23:46:41.7207450Z   ✔ text and JSON: Письмо, 89161234567, жду ответа (59.635499ms)
+2026-11-15T23:46:41.8014330Z   ✔ text and JSON: Letter, 89161234567, жду ответа (21.302664ms)
+2026-11-15T23:46:41.8745270Z   ✔ text and JSON: Анна, 89161234567 (20.729815ms)
+2026-11-15T23:46:41.9019480Z   ✔ text and JSON: Anna, 89161234567 (18.489554ms)
+2026-11-15T23:46:41.9248970Z   ✔ text and JSON: Letter, 89161234567, waiting for a reply (12.631134ms)
+2026-11-15T23:46:41.9731020Z   ✔ text and JSON: Иванова А., 79161234567, Москва (167.274586ms)
+2026-11-15T23:46:42.0613020Z   ✔ text and JSON: (МГУ, 2012) (97.448973ms)
+2026-11-15T23:46:42.1952770Z   ✔ text and JSON: Образование (МГУ) (20.732808ms)
+2026-11-15T23:46:42.2956030Z   ✔ text and JSON: в МГТУ им. Баумана (15.633485ms)
+2026-11-15T23:46:42.3974460Z   ✔ text and JSON: Обучение: Skillbox, 2020 (24.168616ms)
+2026-11-15T23:46:42.4165950Z   ✔ text and JSON: https://drive.google.com/file/d/1aBcDeFgHiJkLmNo/view?usp=sharing (29.485806ms)
+2026-11-15T23:46:42.5173380Z   ✔ text and JSON: https://docs.example.org/document/d/1AbCdEf/edit (159.605224ms)
+2026-11-15T23:46:42.6198260Z   ✔ text and JSON: https://any.example/d/x (18.496866ms)
+2026-11-15T23:46:42.7202850Z   ✔ text and JSON: Опыт: 3 года, 5 месяцев (7.200108ms)
+2026-11-15T23:46:42.8207030Z   ✔ text and JSON: Директор, руководитель отдела (7.300178ms)
+2026-11-15T23:46:42.9172010Z   ✔ text and JSON: Встреча, понедельник (2019-05-01 — 2021-03-01) (6.351919ms)
+2026-11-15T23:46:42.9977380Z   ✔ text and JSON: Отпуск (2019-05-01 — 2021-03-01) (7.645854ms)
+2026-11-15T23:46:43.0458550Z   ✔ text and JSON: order 89161234567 shipped (6.568842ms)
+2026-11-15T23:46:43.0782890Z   ✔ text and JSON: id 79161234567 (6.136488ms)
+2026-11-15T23:46:43.0868920Z   ✔ text and JSON: Встреча в понедельник с Романом (5.679998ms)
+2026-11-15T23:46:43.1874430Z   ✔ text and JSON: Использовал Kubernetes и PostgreSQL (18.621202ms)
+2026-11-15T23:46:43.2101630Z   ✔ text and JSON: опыт в Python и Go (64.664888ms)
+2026-11-15T23:46:43.2324290Z   ✔ text and JSON: опыт в SQL, Excel и Power BI (28.299198ms)
+2026-11-15T23:46:43.2466310Z   ✔ text and JSON: Kubernetes (5 лет) (16.26228ms)
+2026-11-15T23:46:43.2727250Z   ✔ text and JSON: Python (2 года), Go (3 года) (17.166776ms)
+2026-11-15T23:46:43.2904920Z   ✔ text and JSON: проекты для Telegram (204.225274ms)
+2026-11-15T23:46:43.3058090Z   ✔ text and JSON: Роль в Scrum: мастер (7.631863ms)
+2026-11-15T23:46:43.3214360Z   ✔ text and JSON: Релиз, Kubernetes (2019-05-01 — 2021-03-01) (15.51182ms)
+2026-11-15T23:46:43.3273160Z   ✔ text and JSON: Менеджер, romashka (2019-05-01 — 2021-03-01) (17.650628ms)
+2026-11-15T23:46:43.3416310Z   ✔ text and JSON: Менеджер, ромашка (2019-05-01 — 2021-03-01) (54.651191ms)
+2026-11-15T23:46:43.4090810Z   ✔ text and JSON: Manager, romashka (2019-05-01 — 2021-03-01) (14.072721ms)
+2026-11-15T23:46:43.4727640Z   ✔ normalizes declared sensitive names and keeps relative location paths (91.152349ms)
+2026-11-15T23:46:43.4836280Z ✔ issue 104 complete reported document forms (6423.176948ms)
+2026-11-15T23:46:43.5244950Z ▶ issue 105 opt-in structural prose
+2026-11-15T23:46:43.5834830Z   ✔ isolates and repeats: Работал в Ромашке менеджером по продажам. (195.482466ms)
+2026-11-15T23:46:43.6159820Z   ✔ isolates and repeats: Опыт: работал в Ромашке 5 лет (163.430039ms)
+2026-11-15T23:46:43.6357830Z   ✔ isolates and repeats: Маркетолог, ГК «ромашка лютик» (2019-05-01 — 2021-03-01) (124.901578ms)
+2026-11-15T23:46:43.6515950Z   ✔ isolates and repeats: Founder, consultant, Romashka (2019-2021) (122.579342ms)
+2026-11-15T23:46:43.6670120Z   ✔ isolates and repeats: Сотрудник работал в Romashka три года. (360.021293ms)
+2026-11-15T23:46:43.6679580Z   ✔ isolates and repeats: Живу в Твери (325.234579ms)
+2026-11-15T23:46:43.6825920Z   ✔ isolates and repeats: текст Санкт-Петербург A.B iPhone eBay (275.495713ms)
+2026-11-15T23:46:43.6983090Z   ✔ isolates and repeats: текст «ромашка лютик» “лютик” „ромашка“ (125.493385ms)
+2026-11-15T23:46:43.7230850Z   ✔ isolates and repeats: текст example.org/path https://other.example/ 89161234567 (274.775341ms)
+2026-11-15T23:46:43.7494110Z   ✔ isolates and repeats: Anna, 89161234567 (125.61616ms)
+2026-11-15T23:46:43.7717180Z   ✔ isolates and repeats: https://docs.example/d/x Anna (313.829816ms)
+2026-11-15T23:46:43.7813510Z   ✔ isolates and repeats: Ромашка: менеджер (228.280251ms)
+2026-11-15T23:46:43.7886140Z   ✔ isolates and repeats: Worked at Romashka for three years. (258.270632ms)
+2026-11-15T23:46:43.7931020Z   ✔ isolates and repeats: текст apps/SomePath /Opt/Apps C:\Some\Path Label: слово (178.229245ms)
+2026-11-15T23:46:43.8088870Z   ✔ isolates and repeats: Connection to Postgres lost, retrying (112.693922ms)
+2026-11-15T23:46:43.8256270Z   ✔ isolates and repeats: order 89161234567 shipped (54.424297ms)
+2026-11-15T23:46:43.8492210Z   ✔ isolates and repeats: Window Closed (2026-01-15T10:30:00.000Z) (187.78557ms)
+2026-11-15T23:46:43.8859760Z   ✔ isolates and repeats: https://anna-smirnova.example.org/ (52.668898ms)
+2026-11-15T23:46:43.9209200Z   ✔ isolates and repeats: ромашка работает (203.110967ms)
+2026-11-15T23:46:43.9371280Z   ✔ isolates and repeats: 1991-03-12 (52.838555ms)
+2026-11-15T23:46:43.9662910Z   ✔ is off by default and supports explicitly selected scripts (12.084839ms)
+2026-11-15T23:46:44.0667780Z   ✔ preserves Unicode and escaped JSON keys and source formatting (38.635352ms)
+2026-11-15T23:46:44.1421020Z   ✔ rejects invalid mode/script configuration (1.518863ms)
+2026-11-15T23:46:44.1640150Z ✔ issue 105 opt-in structural prose (3794.453247ms)
+2026-11-15T23:46:44.1913720Z ▶ custom policies across stream, worker and CLI entry points
+2026-11-15T23:46:44.2914230Z   ✔ keeps transformation callbacks in the JSONL coordinator (2291.641883ms)
+2026-11-15T23:46:44.3328860Z   ✔ uses callbacks in bounded file publication and rehydrates compiled worker lists (4703.569477ms)
+2026-11-15T23:46:44.3476380Z   ✔ applies JSON configuration through the CLI (1398.69874ms)
+2026-11-15T23:46:44.4024410Z ✔ custom policies across stream, worker and CLI entry points (8431.036469ms)
+2026-11-15T23:46:44.4506130Z ▶ issue 122 credentials and prose (text)
+2026-11-15T23:46:44.4932650Z   ✔ AQVNaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_ (1471.780606ms)
+2026-11-15T23:46:44.5295820Z   ✔ t1.aB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_.aB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY (21.645135ms)
+2026-11-15T23:46:44.6001160Z   ✔ YCAJEaB3_xY9kaB3_xY9kaB3_ (18.378644ms)
+2026-11-15T23:46:44.6360010Z   ✔ YCaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY (23.336863ms)
+2026-11-15T23:46:44.6605880Z   ✔ key AQVNaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_ (362.906742ms)
+2026-11-15T23:46:44.6733910Z   ✔ candidate Ivan replied (173.919028ms)
+2026-11-15T23:46:44.6844130Z   ✔ Dear John, (19.491258ms)
+2026-11-15T23:46:44.7092900Z   ✔ Mr. Brown called (10.474862ms)
+2026-11-15T23:46:44.7282600Z   ✔ message from Ivan: ok (58.582921ms)
+2026-11-15T23:46:44.7946980Z   ✔ recruiter Alice replied (92.343886ms)
+2026-11-15T23:46:44.8166500Z   ✔ applicant Petrov replied (44.399984ms)
+2026-11-15T23:46:44.8441020Z   ✔ Hi Jane, (52.999657ms)
+2026-11-15T23:46:44.8912480Z   ✔ Ms Brown called (27.32926ms)
+2026-11-15T23:46:44.9190370Z   ✔ Dr. Smith called (12.9781ms)
+2026-11-15T23:46:44.9303310Z   ✔ Request Failed: POST /api (10.213918ms)
+2026-11-15T23:46:44.9413310Z   ✔ Candidate Stage changed (9.139161ms)
+2026-11-15T23:46:44.9542000Z ✔ issue 122 credentials and prose (text) (2415.405078ms)
+2026-11-15T23:46:44.9780570Z ▶ issue 122 credentials and prose (json)
+2026-11-15T23:46:45.0462310Z   ✔ AQVNaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_ (209.581134ms)
+2026-11-15T23:46:45.0865340Z   ✔ t1.aB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_.aB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY (32.908773ms)
+2026-11-15T23:46:45.1097100Z   ✔ YCAJEaB3_xY9kaB3_xY9kaB3_ (163.470111ms)
+2026-11-15T23:46:45.1342430Z   ✔ YCaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY (40.111783ms)
+2026-11-15T23:46:45.1639470Z   ✔ key AQVNaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_ (32.558363ms)
+2026-11-15T23:46:45.1841450Z   ✔ candidate Ivan replied (29.020127ms)
+2026-11-15T23:46:45.2032980Z   ✔ Dear John, (31.001651ms)
+2026-11-15T23:46:45.2146050Z   ✔ Mr. Brown called (99.085286ms)
+2026-11-15T23:46:45.2324030Z   ✔ message from Ivan: ok (63.410443ms)
+2026-11-15T23:46:45.2451060Z   ✔ recruiter Alice replied (23.479965ms)
+2026-11-15T23:46:45.2642430Z   ✔ applicant Petrov replied (54.597562ms)
+2026-11-15T23:46:45.2916280Z   ✔ Hi Jane, (109.351678ms)
+2026-11-15T23:46:45.3057050Z   ✔ Ms Brown called (118.580899ms)
+2026-11-15T23:46:45.3209000Z   ✔ Dr. Smith called (34.286208ms)
+2026-11-15T23:46:45.3292380Z   ✔ Request Failed: POST /api (104.381452ms)
+2026-11-15T23:46:45.3469450Z   ✔ Candidate Stage changed (23.666164ms)
+2026-11-15T23:46:45.3604720Z ✔ issue 122 credentials and prose (json) (1171.910128ms)
+2026-11-15T23:46:45.3858680Z ▶ issue 122 credentials and prose (jsonl)
+2026-11-15T23:46:45.4151280Z   ✔ AQVNaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_ (34.42836ms)
+2026-11-15T23:46:45.4435530Z   ✔ t1.aB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_.aB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY (22.883008ms)
+2026-11-15T23:46:45.4563420Z   ✔ YCAJEaB3_xY9kaB3_xY9kaB3_ (38.230392ms)
+2026-11-15T23:46:45.4698290Z   ✔ YCaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY (68.491333ms)
+2026-11-15T23:46:45.4700270Z   ✔ key AQVNaB3_xY9kaB3_xY9kaB3_xY9kaB3_xY9kaB3_ (26.146916ms)
+2026-11-15T23:46:45.4772350Z   ✔ candidate Ivan replied (50.721217ms)
+2026-11-15T23:46:45.5113520Z   ✔ Dear John, (66.996076ms)
+2026-11-15T23:46:45.5400190Z   ✔ Mr. Brown called (25.593078ms)
+2026-11-15T23:46:45.5647960Z   ✔ message from Ivan: ok (22.156343ms)
+2026-11-15T23:46:45.5832020Z   ✔ recruiter Alice replied (136.313607ms)
+2026-11-15T23:46:45.5952300Z   ✔ applicant Petrov replied (82.201302ms)
+2026-11-15T23:46:45.6118130Z   ✔ Hi Jane, (54.009639ms)
+2026-11-15T23:46:45.6712100Z   ✔ Ms Brown called (41.178372ms)
+2026-11-15T23:46:45.7152750Z   ✔ Dr. Smith called (37.265492ms)
+2026-11-15T23:46:45.7396830Z   ✔ Request Failed: POST /api (125.588626ms)
+2026-11-15T23:46:45.8402340Z   ✔ Candidate Stage changed (24.091554ms)
+2026-11-15T23:46:45.9425290Z ✔ issue 122 credentials and prose (jsonl) (858.431966ms)
+2026-11-15T23:46:45.9793020Z ▶ issue 122 personal fields (json)
+2026-11-15T23:46:46.0457420Z   ✔ candidateName (73.058785ms)
+2026-11-15T23:46:46.0790390Z   ✔ candidate_name (19.564266ms)
+2026-11-15T23:46:46.0912800Z   ✔ displayName (100.970966ms)
+2026-11-15T23:46:46.1242010Z   ✔ fullName (44.049707ms)
+2026-11-15T23:46:46.1446010Z   ✔ originalFileName (118.857122ms)
+2026-11-15T23:46:46.1562220Z   ✔ age (35.093656ms)
+2026-11-15T23:46:46.1686970Z   ✔ birthYear (120.509865ms)
+2026-11-15T23:46:46.2182060Z ✔ issue 122 personal fields (json) (513.211682ms)
+2026-11-15T23:46:46.2276480Z ▶ issue 122 personal fields (jsonl)
+2026-11-15T23:46:46.2902190Z   ✔ candidateName (20.088041ms)
+2026-11-15T23:46:46.3044350Z   ✔ candidate_name (49.109314ms)
+2026-11-15T23:46:46.3357820Z   ✔ displayName (125.717016ms)
+2026-11-15T23:46:46.3661480Z   ✔ fullName (40.18391ms)
+2026-11-15T23:46:46.4053340Z   ✔ originalFileName (29.511662ms)
+2026-11-15T23:46:46.4280600Z   ✔ age (31.093489ms)
+2026-11-15T23:46:46.4594750Z   ✔ birthYear (49.939648ms)
+2026-11-15T23:46:46.4965400Z ✔ issue 122 personal fields (jsonl) (347.652152ms)
+2026-11-15T23:46:46.5334170Z ▶ issue 122 complete credential spans
+2026-11-15T23:46:46.5422540Z   ✔ AQVNa (1.990942ms)
+2026-11-15T23:46:46.5833660Z   ✔ t1.aB (1.526328ms)
+2026-11-15T23:46:46.5957720Z   ✔ YCAJE (1.347077ms)
+2026-11-15T23:46:46.6927830Z   ✔ YCaB3 (1.987407ms)
+2026-11-15T23:46:46.7084340Z ✔ issue 122 complete credential spans (12.703282ms)
+2026-11-15T23:46:46.7354150Z ▶ issue 122 policy and format boundaries
+2026-11-15T23:46:46.7834100Z   ✔ recognizes documented API-key lengths and padded IAM tokens (15.738454ms)
+2026-11-15T23:46:46.8184240Z   ✔ keeps credential protection outside document and strict profiles (17.281784ms)
+2026-11-15T23:46:46.8522000Z   ✔ does not infer credentials from short or embedded lookalikes (6.077718ms)
+2026-11-15T23:46:46.8716670Z   ✔ retains numeric formatting and keys around nested and escaped personal fields (62.243943ms)
+2026-11-15T23:46:46.9079370Z   ✔ keeps whole numeric replacements from propagating into string contents (99.548249ms)
+2026-11-15T23:46:46.9295180Z   ✔ keeps ambiguous fields and missing numeric values (9.747401ms)
+2026-11-15T23:46:46.9679710Z   ✔ honors scan-only fields, disabled types and replacement field vocabulary (52.886511ms)
+2026-11-15T23:46:47.0642090Z   ✔ permits disabling person cues and guards credential disabling (10.313535ms)
+2026-11-15T23:46:47.0860240Z   ✔ requires a complete cue and capitalized name in the same clause (10.23789ms)
+2026-11-15T23:46:47.1092580Z ✔ issue 122 policy and format boundaries (285.129179ms)
+2026-11-15T23:46:47.1761990Z ▶ offline token checksums
+2026-11-15T23:46:47.2301750Z   ✔ computes IEEE CRC32 and fixed-width base62 (2.554328ms)
+2026-11-15T23:46:47.2569260Z   ✔ classifies valid, invalid and unrelated values (1.439606ms)
+2026-11-15T23:46:47.2964110Z   ✔ raises confidence for valid tokens and still redacts invalid ones (2190.417519ms)
+2026-11-15T23:46:47.3413700Z ✔ offline token checksums (2197.098251ms)
+2026-11-15T23:46:47.3611820Z ▶ scan with several paths
+2026-11-15T23:46:47.3730370Z   ✔ reports every listed file, as a pre-commit hook passes them (338.434555ms)
+2026-11-15T23:46:47.4647520Z   ✔ keeps single-path commands strict (7.451497ms)
+2026-11-15T23:46:47.4790050Z ✔ scan with several paths (347.191876ms)
+2026-11-15T23:46:47.4987530Z ▶ competitor national and financial identifiers (#128)
+2026-11-15T23:46:47.5245790Z   ✔ redacts the whole US_ITIN value next to its label (599.324805ms)
+2026-11-15T23:46:47.5403730Z   ✔ redacts the whole ABA_ROUTING_NUMBER value next to its label (130.506722ms)
+2026-11-15T23:46:47.5519560Z   ✔ redacts the whole US_BANK_NUMBER value next to its label (52.406335ms)
+2026-11-15T23:46:47.5731300Z   ✔ redacts the whole US_DRIVER_LICENSE value next to its label (52.499107ms)
+2026-11-15T23:46:47.5809620Z   ✔ redacts the whole UK_DRIVING_LICENCE value next to its label (18.990337ms)
+2026-11-15T23:46:47.5981190Z   ✔ redacts the whole UK_NATIONAL_INSURANCE_NUMBER value next to its label (68.204549ms)
+2026-11-15T23:46:47.6204660Z   ✔ redacts the whole ES_NIE value next to its label (5.401425ms)
+2026-11-15T23:46:47.6323830Z   ✔ redacts the whole IT_VAT_CODE value next to its label (66.080957ms)
+2026-11-15T23:46:47.6996240Z   ✔ redacts the whole AU_ABN value next to its label (4.848353ms)
+2026-11-15T23:46:47.7317630Z   ✔ redacts the whole AU_ACN value next to its label (4.301563ms)
+2026-11-15T23:46:47.7597260Z   ✔ redacts the whole AU_MEDICARE value next to its label (4.481007ms)
+2026-11-15T23:46:47.7958450Z   ✔ redacts the whole IN_AADHAAR value next to its label (10.29698ms)
+2026-11-15T23:46:47.8216350Z   ✔ redacts the whole IN_GSTIN value next to its label (5.210524ms)
+2026-11-15T23:46:47.8587820Z   ✔ redacts the whole IN_VOTER value next to its label (5.685219ms)
+2026-11-15T23:46:47.8803360Z   ✔ redacts the whole FI_PERSONAL_IDENTITY_CODE value next to its label (4.799644ms)
+2026-11-15T23:46:47.9154660Z   ✔ redacts the whole TH_TNIN value next to its label (4.506535ms)
+2026-11-15T23:46:47.9255890Z   ✔ redacts the whole MEDICAL_LICENSE value next to its label (4.764559ms)
+2026-11-15T23:46:47.9468640Z   ✔ redacts the whole IMEI value next to its label (8.835553ms)
+2026-11-15T23:46:47.9875670Z   ✔ redacts the whole SWIFT_CODE value next to its label (8.248782ms)
+2026-11-15T23:46:48.0068660Z   ✔ redacts the whole SG_UEN value next to its label (8.638544ms)
+2026-11-15T23:46:48.0949910Z   ✔ redacts the whole VIN value next to its label (13.558344ms)
+2026-11-15T23:46:48.1450490Z   ✔ redacts the whole UK_POSTCODE value next to its label (147.379013ms)
+2026-11-15T23:46:48.1598830Z   ✔ keeps unlabelled or invalid lookalikes: SWIFT TRANSFER COMPLETED (2.285032ms)
+2026-11-15T23:46:48.1868500Z   ✔ keeps unlabelled or invalid lookalikes: order 123456789012 shipped (1.902466ms)
+2026-11-15T23:46:48.2021140Z   ✔ keeps unlabelled or invalid lookalikes: build 1101700207031 finished (1.933399ms)
+2026-11-15T23:46:48.2203270Z   ✔ keeps unlabelled or invalid lookalikes: request id 2345 6789 0125 (1.778121ms)
+2026-11-15T23:46:48.2386520Z   ✔ keeps checksum-valid numbers without context below the default threshold (38.347324ms)
+2026-11-15T23:46:48.2593110Z   ✔ treats distinctive formats as identifiers without a label (30.34627ms)
+2026-11-15T23:46:48.2750680Z ✔ competitor national and financial identifiers (#128) (1313.9407ms)
+2026-11-15T23:46:48.3130030Z ▶ label words are not names or values (#128)
+2026-11-15T23:46:48.3317080Z   ✔ does not treat "My ITIN" as a person name (4.306272ms)
+2026-11-15T23:46:48.3443380Z   ✔ keeps the label and linking verb: my passport number is 912803456 (131.148894ms)
+2026-11-15T23:46:48.3669000Z   ✔ keeps the label and linking verb: passport is 912803456 (10.253915ms)
+2026-11-15T23:46:48.3835550Z   ✔ keeps the label and linking verb: Passport No: 912803456 (6.124517ms)
+2026-11-15T23:46:48.4840790Z   ✔ still recognizes Slavic name pairs (1112.118991ms)
+2026-11-15T23:46:48.6485480Z ✔ label words are not names or values (#128) (1264.930625ms)
+2026-11-15T23:46:48.6491520Z ▶ names and addresses from competitor examples (#128)
+2026-11-15T23:46:48.6621550Z   ✔ redacts Contact Mr. O'Brien today (3.875143ms)
+2026-11-15T23:46:48.6997310Z   ✔ redacts Dr Jane Smith signed (14.436005ms)
+2026-11-15T23:46:48.7313360Z   ✔ redacts Ms. Smith-Jones called (352.104066ms)
+2026-11-15T23:46:48.7678910Z   ✔ redacts He lives at 742 Evergreen Terrace, Springfield (6.2369ms)
+2026-11-15T23:46:48.8434450Z   ✔ keeps a street named after a title (1.389157ms)
+2026-11-15T23:46:48.8666060Z ✔ names and addresses from competitor examples (#128) (378.947419ms)
+2026-11-15T23:46:48.8921820Z ▶ identifier validators (#128)
+2026-11-15T23:46:48.9318930Z   ✔ abaRouting accepts 121000358 and rejects 121000359 (0.51937ms)
+2026-11-15T23:46:48.9421880Z   ✔ spanishNie accepts X1234567L and rejects X1234567M (0.14238ms)
+2026-11-15T23:46:49.0060660Z   ✔ abn accepts 51 824 753 556 and rejects 51 824 753 557 (0.135279ms)
+2026-11-15T23:46:49.0759780Z   ✔ acn accepts 005 499 981 and rejects 005 499 982 (0.101161ms)
+2026-11-15T23:46:49.1209920Z   ✔ medicare accepts 2123 45670 1 and rejects 2123 45671 1 (0.718027ms)
+2026-11-15T23:46:49.1440490Z   ✔ aadhaar accepts 2345 6789 0124 and rejects 2345 6789 0125 (0.623262ms)
+2026-11-15T23:46:49.1918160Z   ✔ gstin accepts 27AAPFU0939F1ZV and rejects 27AAPFU0939F1ZW (1.390574ms)
+2026-11-15T23:46:49.2040860Z   ✔ finnishIdentityCode accepts 131052-308T and rejects 131052-308U (1.136324ms)
+2026-11-15T23:46:49.2256540Z   ✔ thaiId accepts 1101700207030 and rejects 1101700207031 (0.384862ms)
+2026-11-15T23:46:49.2486860Z   ✔ dea accepts BB1388568 and rejects BB1388569 (0.237939ms)
+2026-11-15T23:46:49.2628050Z   ✔ swiftCode accepts DEUTDEFF and rejects TRANSFER (0.169851ms)
+2026-11-15T23:46:49.2798590Z   ✔ vin accepts 1HGBH41JXMN109186 and rejects 1HGBH41JXMN109187 (0.14897ms)
+2026-11-15T23:46:49.3106900Z   ✔ exposes the national rule table for reuse and extension (0.412788ms)
+2026-11-15T23:46:49.3230340Z   ✔ keeps the shared national rule table read-only (0.790044ms)
+2026-11-15T23:46:49.3393920Z ✔ identifier validators (#128) (8.141806ms)
+2026-11-15T23:46:49.3753180Z ▶ checksum-valid fakes for new identifiers (#128)
+2026-11-15T23:46:49.3838200Z   ✔ keeps ABA_ROUTING_NUMBER fakes valid and different (6.438222ms)
+2026-11-15T23:46:49.4064350Z   ✔ keeps ES_NIE fakes valid and different (0.647391ms)
+2026-11-15T23:46:49.4287890Z   ✔ keeps IT_VAT_CODE fakes valid and different (0.706933ms)
+2026-11-15T23:46:49.4450930Z   ✔ keeps AU_ACN fakes valid and different (0.416765ms)
+2026-11-15T23:46:49.4913190Z   ✔ keeps IN_AADHAAR fakes valid and different (0.366808ms)
+2026-11-15T23:46:49.5184920Z   ✔ keeps TH_TNIN fakes valid and different (0.339289ms)
+2026-11-15T23:46:49.5981610Z   ✔ keeps MEDICAL_LICENSE fakes valid and different (0.34262ms)
+2026-11-15T23:46:49.6391240Z   ✔ keeps IMEI fakes valid and different (0.316578ms)
+2026-11-15T23:46:49.7076100Z ✔ checksum-valid fakes for new identifiers (#128) (10.235006ms)
+2026-11-15T23:46:49.7357620Z ▶ custom identifier rules through the Detector port (#128)
+2026-11-15T23:46:49.8358590Z   ✔ redacts a caller-defined identifier with the built-in confidence model (3.924929ms)
+2026-11-15T23:46:49.8557880Z   ✔ can reuse built-in validators in a custom rule (0.331715ms)
+2026-11-15T23:46:49.8779160Z   ✔ rejects malformed identifier rules with ERR_CONFIG (0.309014ms)
+2026-11-15T23:46:49.9013780Z   ✔ rejects malformed identifier rules with ERR_CONFIG (0.125295ms)
+2026-11-15T23:46:49.9356770Z   ✔ rejects malformed identifier rules with ERR_CONFIG (0.135845ms)
+2026-11-15T23:46:50.0122040Z   ✔ rejects malformed identifier rules with ERR_CONFIG (0.117376ms)
+2026-11-15T23:46:50.0311000Z   ✔ rejects malformed identifier rules with ERR_CONFIG (0.118542ms)
+2026-11-15T23:46:50.1311790Z ✔ custom identifier rules through the Detector port (#128) (5.527802ms)
+2026-11-15T23:47:01.2093550Z ▶ wrapped encodings (issue 138)
+2026-11-15T23:47:01.2618510Z   ✔ re-encodes with 40 columns and "\n" lines (1298.181177ms)
+2026-11-15T23:47:01.2892720Z   ✔ re-encodes with 76 columns and "\n" lines (52.96476ms)
+2026-11-15T23:47:01.3258520Z   ✔ re-encodes with 64 columns and "\r\n" lines (57.993849ms)
+2026-11-15T23:47:01.3351800Z   ✔ reports one finding for a wrapped run (8.229208ms)
+2026-11-15T23:47:01.3515190Z ✔ wrapped encodings (issue 138) (1421.033339ms)
+2026-11-15T23:47:01.4385510Z ▶ long encoded logs (issue 139)
+2026-11-15T23:47:01.4620950Z   ✔ scans more decodable lines than one candidate budget (3160.316604ms)
+2026-11-15T23:47:01.5431070Z   ✔ masks candidates past a dense window budget without blocking (3398.66783ms)
+2026-11-15T23:47:01.5748840Z   ✔ keeps identifier and commit hash lines readable (184.13926ms)
+2026-11-15T23:47:01.5912490Z   ✔ masks long wrapped text while preserving bounded binary payloads (48.799069ms)
+2026-11-15T23:47:01.6281590Z ✔ long encoded logs (issue 139) (6793.263167ms)
+2026-11-15T23:47:01.6486910Z ▶ encoded known secrets (issue 140)
+2026-11-15T23:47:01.6575760Z   ✔ masks hex and base64 forms of a 4-character known secret (7.739283ms)
+2026-11-15T23:47:01.6672680Z   ✔ masks hex and base64 forms of a 12-character known secret (44.631056ms)
+2026-11-15T23:47:01.6889600Z   ✔ masks hex and base64 forms of a 15-character known secret (7.936029ms)
+2026-11-15T23:47:01.7036080Z   ✔ masks hex and base64 forms of a 16-character known secret (16.279215ms)
+2026-11-15T23:47:01.7216200Z   ✔ masks hex and base64 forms of a 20-character known secret (15.483005ms)
+2026-11-15T23:47:01.7911210Z   ✔ masks a payload that cannot be re-encoded as it stands (36.493889ms)
+2026-11-15T23:47:01.8436370Z   ✔ leaves other hexadecimal and base64 text alone (1.340367ms)
+2026-11-15T23:47:01.8963370Z ✔ encoded known secrets (issue 140) (131.599978ms)
+2026-11-15T23:47:01.9332830Z ▶ wrapped base64 publication (issue 149)
+2026-11-15T23:47:01.9497640Z   ✔ preserves the complete harmless binary payload with "\n" (1229.854931ms)
+2026-11-15T23:47:02.0167960Z   ✔ keeps prose, JSON fields and wrapping after body= with "\n" (270.484588ms)
+2026-11-15T23:47:02.0383410Z   ✔ preserves the complete harmless binary payload with "\r\n" (1458.815345ms)
+2026-11-15T23:47:02.0692350Z   ✔ keeps prose, JSON fields and wrapping after body= with "\r\n" (29.275487ms)
+2026-11-15T23:47:02.1100670Z   ✔ fails closed for text with credentials beyond the bounded probe (9.038911ms)
+2026-11-15T23:47:02.1266660Z   ✔ detects credentials in text embedded after invalid UTF-8 bytes (346.383051ms)
+2026-11-15T23:47:02.1387720Z   ✔ fails closed for oversized nested text inside a bounded binary payload (71.821636ms)
+2026-11-15T23:47:02.1506410Z   ✔ fails closed for binary runs beyond the full classification bound (196.542378ms)
+2026-11-15T23:47:02.1539570Z   ✔ retains plaintext and exact-known-secret detection around inspected binary (75.509825ms)
+2026-11-15T23:47:02.1618360Z ✔ wrapped base64 publication (issue 149) (3688.821011ms)
+2026-11-15T23:47:02.1687610Z ▶ unpadded wrapped base64 followed by prose (issue 162)
+2026-11-15T23:47:02.2211900Z   ✔ preserves the complete JSON at width 20 with "\n" (1789.38799ms)
+2026-11-15T23:47:02.2390870Z   ✔ preserves the complete JSON at width 20 with "\r\n" (1823.764049ms)
+2026-11-15T23:47:02.2496200Z   ✔ preserves the complete JSON at width 40 with "\n" (1457.115396ms)
+2026-11-15T23:47:02.2759880Z   ✔ preserves the complete JSON at width 40 with "\r\n" (1997.50782ms)
+2026-11-15T23:47:02.3405490Z   ✔ preserves the complete JSON at width 46 with "\n" (1459.088772ms)
+2026-11-15T23:47:02.4406170Z   ✔ preserves the complete JSON at width 46 with "\r\n" (2115.124718ms)
+2026-11-15T23:47:02.5385760Z   ✔ preserves the complete JSON at width 64 with "\n" (1454.441688ms)
+2026-11-15T23:47:02.5661740Z   ✔ preserves the complete JSON at width 64 with "\r\n" (1499.617932ms)
+2026-11-15T23:47:02.5796990Z   ✔ preserves the complete JSON at width 76 with "\n" (1207.456414ms)
+2026-11-15T23:47:02.5873440Z   ✔ preserves the complete JSON at width 76 with "\r\n" (1527.071953ms)
+2026-11-15T23:47:02.6877370Z ✔ unpadded wrapped base64 followed by prose (issue 162) (16332.586774ms)
+2026-11-15T23:47:02.7307150Z ✔ recovers before multiple alphabet-only prose lines and scans later payloads (14.82594ms)
+2026-11-15T23:47:02.8307360Z ▶ credential shapes (issue 136)
+2026-11-15T23:47:02.9309350Z   ✔ masks all-caps credential markers that contain a digit (1228.697786ms)
+2026-11-15T23:47:02.9641810Z   ✔ masks XML elements with attributes and camelCase names (75.900528ms)
+2026-11-15T23:47:03.0474000Z   ✔ treats a hash rocket before a quoted literal as a separator (473.473822ms)
+2026-11-15T23:47:03.1001360Z   ✔ masks values that start with markup but keeps placeholders (56.719436ms)
+2026-11-15T23:47:03.1498430Z   ✔ masks plural credential flags but not counters (151.581951ms)
+2026-11-15T23:47:03.1656040Z ✔ credential shapes (issue 136) (1991.646007ms)
+2026-11-15T23:47:03.1785990Z ▶ masked credential context boundaries (issue 148)
+2026-11-15T23:47:03.2349050Z   ✔ preserves the original vendor mask and sentence on repeated passes (1188.157922ms)
+2026-11-15T23:47:03.2515510Z   ✔ still masks a later credential on the same line (192.560755ms)
+2026-11-15T23:47:03.2766950Z   ✔ recognizes complete masks before punctuation and whitespace (189.060462ms)
+2026-11-15T23:47:03.2915700Z   ✔ preserves prose and masks later credentials through repeated base64 passes (98.005547ms)
+2026-11-15T23:47:03.3265720Z   ✔ preserves prose and masks later credentials through repeated base64url passes (26.290916ms)
+2026-11-15T23:47:03.3786930Z   ✔ preserves prose and masks later credentials through repeated hex passes (133.717506ms)
+2026-11-15T23:47:03.3792570Z   ✔ preserves prose and masks later credentials through repeated percent passes (87.694301ms)
+2026-11-15T23:47:03.3886250Z   ✔ does not exempt masks glued to literal credential material (206.87478ms)
+2026-11-15T23:47:03.3998470Z   ✔ keeps exact known secrets authoritative even when they look masked (19.448456ms)
+2026-11-15T23:47:03.4130660Z   ✔ reports the existing template diagnostic without exposing values (1.912865ms)
+2026-11-15T23:47:03.4271260Z ✔ masked credential context boundaries (issue 148) (2149.787884ms)
+2026-11-15T23:47:03.4500840Z ▶ short encoded masks (issue 153)
+2026-11-15T23:47:03.4674380Z   ✔ preserves the exact issue reproduction and encoded mask spellings (2316.664911ms)
+2026-11-15T23:47:03.5681000Z   ✔ keeps the credential ends and escaped GHCR record on every pass (397.704799ms)
+2026-11-15T23:47:03.6009360Z   ✔ does not exempt arbitrary decoded text, partial masks or noncanonical bytes (138.494951ms)
+2026-11-15T23:47:03.6386470Z   ✔ keeps explicit known secrets sensitive, even when they spell a mask (13.366819ms)
+2026-11-15T23:47:03.6659300Z ✔ short encoded masks (issue 153) (2874.224934ms)
+2026-11-15T23:47:03.6841610Z ▶ escaped JSON policy views (issue 153)
+2026-11-15T23:47:03.7263290Z   ✔ preserves a view only after independent inspection with the supplied policy (65.232996ms)
+2026-11-15T23:47:03.7539660Z   ✔ awaits async hooks in decoded views (21.890826ms)
+2026-11-15T23:47:03.7624600Z   ✔ keeps other credentials and exact known secrets sensitive in escaped views (191.263495ms)
+2026-11-15T23:47:03.7848230Z ✔ escaped JSON policy views (issue 153) (281.955852ms)
+2026-11-15T23:47:03.8038030Z ▶ escaped-view inspection limits
+2026-11-15T23:47:03.8187470Z   ✔ retains malformed and oversized findings (9.391361ms)
+2026-11-15T23:47:03.8915250Z   ✔ checks nested views with a finite depth and preserves clean results (321.843053ms)
+2026-11-15T23:47:03.9529710Z   ✔ includes independent async detectors when checking decoded views (50.426737ms)
+2026-11-15T23:47:04.0540300Z   ✔ reports value-free decoded-view diagnostics only when requested (145.315396ms)
+2026-11-15T23:47:04.1538330Z ✔ escaped-view inspection limits (527.764447ms)
+2026-11-15T23:47:04.2005040Z ▶ issue 165: one inspection per structured view and call
+2026-11-15T23:47:04.2541600Z   ✔ inspects each key and string value a single time per sanitize call (1233.223278ms)
+2026-11-15T23:47:04.2947800Z   ✔ reuses unchanged views when verifying a redacted record (1282.247391ms)
+2026-11-15T23:47:04.3350760Z   ✔ shares a repeated view within one record (10.375186ms)
+2026-11-15T23:47:04.3496610Z   ✔ does not reuse results across calls (81.903885ms)
+2026-11-15T23:47:04.3610730Z   ✔ keeps sanitize output and findings equal to plain inspection (3390.857833ms)
+2026-11-15T23:47:04.4469460Z   ✔ analyzes each view a single time in the asynchronous engine (14.672945ms)
+2026-11-15T23:47:04.4731300Z ✔ issue 165: one inspection per structured view and call (6020.917091ms)
+2026-11-15T23:47:04.5099570Z ▶ issue 165: scanning without cloning expressions
+2026-11-15T23:47:04.5377690Z   ✔ matches like matchAll for /a|(?:)/gu on "xa😀a" (4.314612ms)
+2026-11-15T23:47:04.5472190Z   ✔ matches like matchAll for /(?:)/gu on "😀x" (2.018565ms)
+2026-11-15T23:47:04.5827220Z   ✔ matches like matchAll for /(?:)/g on "😀x" (0.469264ms)
+2026-11-15T23:47:04.6195090Z   ✔ matches like matchAll for /b+/g on "abbcbd" (0.406876ms)
+2026-11-15T23:47:04.6364400Z   ✔ matches like matchAll for /(\d)(\w)?/gu on "1a 2 3c" (0.316232ms)
+2026-11-15T23:47:04.6582570Z   ✔ matches like matchAll for /x/y on "xxax" (0.259916ms)
+2026-11-15T23:47:04.6774610Z   ✔ matches like matchAll for /x/gy on "xxax" (0.171743ms)
+2026-11-15T23:47:04.6932730Z   ✔ starts at zero and restores lastIndex (1.393175ms)
+2026-11-15T23:47:04.7248090Z   ✔ lets a callback reuse the same expression (1.751461ms)
+2026-11-15T23:47:04.7793170Z ✔ issue 165: scanning without cloning expressions (12.444035ms)
+2026-11-15T23:48:25.7056240Z ▶ issue 172: long runs in two-byte strings
+2026-11-15T23:48:25.7264980Z   ✔ scans credential keys after an 8 MiB run without overflowing (7622.376677ms)
+2026-11-15T23:48:25.7484490Z   ✔ keeps keys glued to a long run detectable (5817.572728ms)
+2026-11-15T23:48:25.7837000Z   ✔ sanitizes the issue reproduction through createSyncSanitizer (30826.393552ms)
+2026-11-15T23:48:25.8049810Z   ✔ sanitizes a long run with personal data through createSanitizer (58486.887215ms)
+2026-11-15T23:48:59.2003540Z ##[warning]Node.js test suite has run for 210s of its 300s budget.
+2026-11-15T23:49:02.1206620Z   ✔ sanitizes the gh-upload-log record shape through sanitizeFileToFile (36551.82787ms)
+2026-11-15T23:49:02.1274120Z   ✔ spells a class loop that matches what the plain loop matches (151.73043ms)
+2026-11-15T23:49:02.1349240Z   ✔ keeps a spelled loop flat on an 8 MiB two-byte run (73.913672ms)
+2026-11-15T23:49:02.1435720Z   ✔ flattens every class loop of a regular expression without changing matches (121.087755ms)
+2026-11-15T23:49:02.1438940Z ✔ issue 172: long runs in two-byte strings (139657.103224ms)
+2026-11-15T23:49:02.2440810Z ▶ issue 177: Authorization values in Markdown code spans
+2026-11-15T23:49:02.2450890Z   ✔ keeps placeholder "Authorization: token <value>" (1279.409961ms)
+2026-11-15T23:49:02.2452820Z   ✔ keeps placeholder "\"Authorization: token <value>\"" (83.28763ms)
+2026-11-15T23:49:02.2455200Z   ✔ keeps placeholder "`Authorization: token <value>`" (22.846782ms)
+2026-11-15T23:49:02.2458410Z   ✔ keeps placeholder "`Authorization: *** header" (15.695491ms)
+2026-11-15T23:49:02.2460730Z   ✔ keeps placeholder "`Authorization: ***" (46.270536ms)
+2026-11-15T23:49:02.2477780Z   ✔ keeps placeholder "`Authorization: ***" (40.949931ms)
+2026-11-15T23:49:02.2484770Z   ✔ keeps placeholder "`Proxy-Authorization: Basic <credentials>` header" (15.886831ms)
+2026-11-15T23:49:02.2491360Z   ✔ keeps placeholder "Fix the credential sanitizer masking the scheme word instead of the credential in `Authorization: token <value>` (and any other scheme)" (16.059584ms)
+2026-11-15T23:49:02.2494960Z   ✔ reports no finding that includes the closing backtick (66.278214ms)
+2026-11-15T23:49:02.2496850Z   ✔ masks a real credential and keeps the closing backtick (286.067623ms)
+2026-11-15T23:49:02.2498580Z   ✔ keeps masking backticks outside a code span (6.054768ms)
+2026-11-15T23:49:02.2500540Z ✔ issue 177: Authorization values in Markdown code spans (1883.14366ms)
+2026-11-15T23:49:02.2502540Z ▶ Authorization placeholders with literal backticks (issue 181)
+2026-11-15T23:49:02.2504550Z   ✔ keeps complete placeholders across schemes and delimiter lengths (2303.47653ms)
+2026-11-15T23:49:02.2506920Z   ✔ preserves trailing literal backticks while masking entire real credentials (76.845003ms)
+2026-11-15T23:49:02.2509160Z   ✔ does not exempt bare or malformed values or literal suffixes (21.238145ms)
+2026-11-15T23:49:02.2511320Z   ✔ keeps placeholders and masks credentials across every stream split (1256.135497ms)
+2026-11-15T23:49:02.2514780Z   ✔ preserves the quoted example through the CLI (286.630675ms)
+2026-11-15T23:49:02.2516910Z ✔ Authorization placeholders with literal backticks (issue 181) (3947.456099ms)
+2026-11-15T23:49:02.2519070Z ▶ issue 201: Markdown record fields
+2026-11-15T23:49:02.2521890Z   ✔ reports the value without its emphasis and keeps the emphasis (165.523515ms)
+2026-11-15T23:49:02.2523920Z   ✔ joins name fields that are consecutive list items (5.328911ms)
+2026-11-15T23:49:02.2526110Z   ✔ joins the rows of a key/value table (26.967942ms)
+2026-11-15T23:49:02.2527740Z   ✔ keeps one person per record in placeholder mode (131.302257ms)
+2026-11-15T23:49:02.2529540Z   ✔ does not join fields of separate lists, tables or records (8.646047ms)
+2026-11-15T23:49:02.2531280Z ✔ issue 201: Markdown record fields (342.891274ms)
+2026-11-15T23:49:02.2532770Z ▶ issue 34 session label and propagation regressions
+2026-11-15T23:49:02.2535140Z   ✔ bounds escaped label values in 189-character tool output (505.252546ms)
+2026-11-15T23:49:02.2537230Z   ✔ bounds escaped label values in 29524-character tool output (409.822817ms)
+2026-11-15T23:49:02.2539240Z   ✔ bounds escaped label values in 26682-character tool output (309.592475ms)
+2026-11-15T23:49:02.2540990Z   ✔ preserves code value found.phone = number; (4.053405ms)
+2026-11-15T23:49:02.2542500Z   ✔ preserves code value email: getEmail(); (9.197663ms)
+2026-11-15T23:49:02.2543900Z   ✔ preserves code value phone: number; (2.210978ms)
+2026-11-15T23:49:02.2545470Z   ✔ preserves code value PHONE_NUMBER: found.phone (13.441575ms)
+2026-11-15T23:49:02.2547210Z   ✔ preserves code value EMAIL_ADDRESS: emailVariable (2.985555ms)
+2026-11-15T23:49:02.2548950Z   ✔ stops real values at escaped newlines and quotes (71.539403ms)
+2026-11-15T23:49:02.2550790Z   ✔ never seeds oversized detector values (0.718072ms)
+2026-11-15T23:49:02.2552540Z   ✔ stops quoted personal labels at raw and escaped line breaks (256.512051ms)
+2026-11-15T23:49:02.2554600Z   ✔ escapes punctuation before joining flexible name separators (169.793473ms)
+2026-11-15T23:49:02.2556740Z ✔ issue 34 session label and propagation regressions (1888.039548ms)
+2026-11-15T23:49:02.2558400Z ▶ issue 34 structured keys and public CI metadata
+2026-11-15T23:49:02.2559790Z   ✔ keeps ordinary identifier root_turn_id (28.227757ms)
+2026-11-15T23:49:02.2561960Z   ✔ keeps ordinary identifier other_turn_id (102.998386ms)
+2026-11-15T23:49:02.2563490Z   ✔ keeps ordinary identifier test_runner (643.392881ms)
+2026-11-15T23:49:02.2565150Z   ✔ keeps ordinary identifier runner_temp (1.54849ms)
+2026-11-15T23:49:02.2567420Z   ✔ keeps distinct ordinary JSON keys without losing credential or personal keys (857.691111ms)
+2026-11-15T23:49:02.2569860Z   ✔ protects identifier keys after a matching name is confirmed in a value (150.465949ms)
+2026-11-15T23:49:02.2571670Z   ✔ keeps service-account runner paths (86.079394ms)
+2026-11-15T23:49:02.2573020Z   ✔ keeps service-account ubuntu paths (3.296116ms)
+2026-11-15T23:49:02.2574340Z   ✔ keeps service-account vsts paths (2.027689ms)
+2026-11-15T23:49:02.2575720Z   ✔ keeps service-account circleci paths (17.733275ms)
+2026-11-15T23:49:02.2589250Z   ✔ keeps service-account node paths (1.800535ms)
+2026-11-15T23:49:02.2591140Z   ✔ keeps service-account root paths (2.097627ms)
+2026-11-15T23:49:02.2592710Z   ✔ still protects personal home directory names (3.483017ms)
+2026-11-15T23:49:02.2594760Z   ✔ publishes the complete reported public CI log without residuals (637.632139ms)
+2026-11-15T23:49:02.2596910Z   ✔ keeps escaped lone surrogates alongside redactions (1635.612608ms)
+2026-11-15T23:49:02.2598940Z   ✔ wraps internal callback exceptions without exposing text (2.317598ms)
+2026-11-15T23:49:02.2601080Z ✔ issue 34 structured keys and public CI metadata (4217.277445ms)
+2026-11-15T23:49:02.2602410Z ▶ issue 34 two-pass atomic publication
+2026-11-15T23:49:02.2604150Z   ✔ redacts earlier values with 1 workers from a one-shot source (475.730182ms)
+2026-11-15T23:49:02.2606730Z   ✔ redacts earlier values with 4 workers from a one-shot source (5099.732124ms)
+2026-11-15T23:49:02.2611000Z   ✔ reports record and byte offsets for malformed UTF-8 (1.486175ms)
+2026-11-15T23:49:02.2613220Z   ✔ cleans both passes and preserves an existing target on failure (27.109598ms)
+2026-11-15T23:49:02.2615300Z ✔ issue 34 two-pass atomic publication (5604.886767ms)
+2026-11-15T23:49:02.2617610Z ▶ Authorization boundaries (issue 45)
+2026-11-15T23:49:02.2619020Z   ✔ bounds Authorization token at " " (1370.302024ms)
+2026-11-15T23:49:02.2620430Z   ✔ bounds Authorization token at "\t" (17.47973ms)
+2026-11-15T23:49:02.2621870Z   ✔ bounds Authorization token at "'" (108.928735ms)
+2026-11-15T23:49:02.2623220Z   ✔ bounds Authorization token at "\"" (10.846327ms)
+2026-11-15T23:49:02.2624580Z   ✔ bounds Authorization token at "\\" (26.623973ms)
+2026-11-15T23:49:02.2626000Z   ✔ bounds Authorization token at "," (27.239322ms)
+2026-11-15T23:49:02.2627640Z   ✔ bounds Authorization *** " " (223.462194ms)
+2026-11-15T23:49:02.2629030Z   ✔ bounds Authorization *** "\t" (8.549229ms)
+2026-11-15T23:49:02.2630410Z   ✔ bounds Authorization *** "'" (12.069377ms)
+2026-11-15T23:49:02.2631760Z   ✔ bounds Authorization *** "\"" (13.873193ms)
+2026-11-15T23:49:02.2633610Z   ✔ bounds Authorization *** "\\" (5.360579ms)
+2026-11-15T23:49:02.2634940Z   ✔ bounds Authorization *** "," (7.676892ms)
+2026-11-15T23:49:02.2636350Z   ✔ bounds Authorization Basic at " " (7.055373ms)
+2026-11-15T23:49:02.2637810Z   ✔ bounds Authorization Basic at "\t" (19.230246ms)
+2026-11-15T23:49:02.2640710Z   ✔ bounds Authorization Basic at "'" (5.782831ms)
+2026-11-15T23:49:02.2645940Z   ✔ bounds Authorization Basic at "\"" (271.198076ms)
+2026-11-15T23:49:02.2649890Z   ✔ bounds Authorization Basic at "\\" (7.911229ms)
+2026-11-15T23:49:02.2653530Z   ✔ bounds Authorization Basic at "," (7.799215ms)
+2026-11-15T23:49:02.2657450Z   ✔ bounds Authorization Digest at " " (5.752736ms)
+2026-11-15T23:49:02.2660460Z   ✔ bounds Authorization Digest at "\t" (9.193707ms)
+2026-11-15T23:49:02.2666280Z   ✔ bounds Authorization Digest at "'" (8.746556ms)
+2026-11-15T23:49:02.2673710Z   ✔ bounds Authorization Digest at "\"" (11.429514ms)
+2026-11-15T23:49:02.2676070Z   ✔ bounds Authorization Digest at "\\" (9.965046ms)
+2026-11-15T23:49:02.2677430Z   ✔ bounds Authorization Digest at "," (5.11044ms)
+2026-11-15T23:49:02.2678780Z   ✔ bounds Authorization Api-Token at " " (21.4994ms)
+2026-11-15T23:49:02.2680210Z   ✔ bounds Authorization Api-Token at "\t" (9.553626ms)
+2026-11-15T23:49:02.2681630Z   ✔ bounds Authorization Api-Token at "'" (208.288791ms)
+2026-11-15T23:49:02.2683030Z   ✔ bounds Authorization Api-Token at "\"" (6.380526ms)
+2026-11-15T23:49:02.2684450Z   ✔ bounds Authorization Api-Token at "\\" (162.043462ms)
+2026-11-15T23:49:02.2685850Z   ✔ bounds Authorization Api-Token at "," (6.164666ms)
+2026-11-15T23:49:02.2687290Z   ✔ bounds Proxy-Authorization token at " " (16.097521ms)
+2026-11-15T23:49:02.2688770Z   ✔ bounds Proxy-Authorization token at "\t" (3.863782ms)
+2026-11-15T23:49:02.2690220Z   ✔ bounds Proxy-Authorization token at "'" (3.825454ms)
+2026-11-15T23:49:02.2691700Z   ✔ bounds Proxy-Authorization token at "\"" (4.691904ms)
+2026-11-15T23:49:02.2693150Z   ✔ bounds Proxy-Authorization token at "\\" (5.899032ms)
+2026-11-15T23:49:02.2694610Z   ✔ bounds Proxy-Authorization token at "," (5.611176ms)
+2026-11-15T23:49:02.2696350Z   ✔ bounds Proxy-Authorization *** " " (5.680753ms)
+2026-11-15T23:49:02.2698380Z   ✔ bounds Proxy-Authorization *** "\t" (5.028326ms)
+2026-11-15T23:49:02.2700250Z   ✔ bounds Proxy-Authorization *** "'" (5.653871ms)
+2026-11-15T23:49:02.2702600Z   ✔ bounds Proxy-Authorization *** "\"" (7.993665ms)
+2026-11-15T23:49:02.2704120Z   ✔ bounds Proxy-Authorization *** "\\" (5.037917ms)
+2026-11-15T23:49:02.2705600Z   ✔ bounds Proxy-Authorization *** "," (4.793647ms)
+2026-11-15T23:49:02.2707020Z   ✔ bounds Proxy-Authorization Basic at " " (5.796223ms)
+2026-11-15T23:49:02.2708490Z   ✔ bounds Proxy-Authorization Basic at "\t" (5.637701ms)
+2026-11-15T23:49:02.2709960Z   ✔ bounds Proxy-Authorization Basic at "'" (14.243162ms)
+2026-11-15T23:49:02.2711440Z   ✔ bounds Proxy-Authorization Basic at "\"" (6.333477ms)
+2026-11-15T23:49:02.2713820Z   ✔ bounds Proxy-Authorization Basic at "\\" (9.617485ms)
+2026-11-15T23:49:02.2716770Z   ✔ bounds Proxy-Authorization Basic at "," (5.366905ms)
+2026-11-15T23:49:02.2719790Z   ✔ bounds Proxy-Authorization Digest at " " (8.380657ms)
+2026-11-15T23:49:02.2724060Z   ✔ bounds Proxy-Authorization Digest at "\t" (7.269561ms)
+2026-11-15T23:49:03.2958170Z   ✔ bounds Proxy-Authorization Digest at "'" (5.706687ms)
+2026-11-15T23:49:03.3283440Z   ✔ bounds Proxy-Authorization Digest at "\"" (9.413128ms)
+2026-11-15T23:49:03.3379950Z   ✔ bounds Proxy-Authorization Digest at "\\" (12.667133ms)
+2026-11-15T23:49:03.3532130Z   ✔ bounds Proxy-Authorization Digest at "," (4.992411ms)
+2026-11-15T23:49:03.3671310Z   ✔ bounds Proxy-Authorization Api-Token at " " (4.698831ms)
+2026-11-15T23:49:03.3716070Z   ✔ bounds Proxy-Authorization Api-Token at "\t" (6.129176ms)
+2026-11-15T23:49:03.3800910Z   ✔ bounds Proxy-Authorization Api-Token at "'" (4.605773ms)
+2026-11-15T23:49:03.3865790Z   ✔ bounds Proxy-Authorization Api-Token at "\"" (5.450056ms)
+2026-11-15T23:49:03.3918470Z   ✔ bounds Proxy-Authorization Api-Token at "\\" (6.357758ms)
+2026-11-15T23:49:03.3949680Z   ✔ bounds Proxy-Authorization Api-Token at "," (5.549115ms)
+2026-11-15T23:49:03.4040600Z   ✔ retains curl quotes and JSON prompt suffixes across escape depths (1026.877786ms)
+2026-11-15T23:49:03.4096550Z ✔ Authorization boundaries (issue 45) (4158.827549ms)
+2026-11-15T23:49:03.4128430Z ▶ environment configuration selection (issue 46)
+2026-11-15T23:49:03.4167490Z   ✔ excludes configuration names without filtering real credential values (2.103173ms)
+2026-11-15T23:49:03.4209190Z ✔ environment configuration selection (issue 46) (2.360156ms)
+2026-11-15T23:49:03.4258850Z ✔ bounds whole-view WASM copies regardless of credential count (1082.710737ms)
+2026-11-15T23:49:03.4293410Z ✔ retains Unicode offsets and complete matches across the engine transition (10.376555ms)
+2026-11-15T23:49:03.4355020Z ✔ sanitizes 256 KiB of dense tokens within a finite throughput budget (6830.663694ms)
+2026-11-15T23:49:03.4395740Z ✔ preserves required scanner union behavior for dense credentials (444.905529ms)
+2026-11-15T23:49:03.4438550Z ✔ preserves capture groups, entropy filters and boundaries after switching (2396.866061ms)
+2026-11-15T23:49:03.4463810Z ✔ can compile every vendored text rule in the dense-match fallback (348.842811ms)
+2026-11-15T23:49:03.4498170Z ▶ issues 87/88 (text)
+2026-11-15T23:49:03.4781300Z   ✔ keeps опыт работы 5 лет (2695.364262ms)
+2026-11-15T23:49:03.4801470Z   ✔ keeps стаж 12 лет (506.129495ms)
+2026-11-15T23:49:03.4840340Z   ✔ keeps 3 года опыта (7.401004ms)
+2026-11-15T23:49:03.4860820Z   ✔ keeps за последние 3 года (3.761305ms)
+2026-11-15T23:49:03.4873860Z   ✔ keeps более 10 лет (6.220627ms)
+2026-11-15T23:49:03.4875250Z   ✔ keeps через 5 лет (7.962833ms)
+2026-11-15T23:49:03.4892200Z   ✔ keeps договор на 3 года (7.545512ms)
+2026-11-15T23:49:03.4895240Z   ✔ keeps Проект длился 2 года (12.459288ms)
+2026-11-15T23:49:03.4899100Z   ✔ keeps Задача выполнена за 3 года (4.575939ms)
+2026-11-15T23:49:03.4904150Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+2026-11-15T23:49:03.4906820Z     at TCPConnectWrap.afterConnect (node:net:1595:16) (1185.731818ms)
+2026-11-15T23:49:03.4909570Z   ✔ keeps Error: boom
+2026-11-15T23:49:03.4911250Z     at f (/app/src/index.ts:10:5)
+2026-11-15T23:49:03.4915850Z     at async g (node:internal/process/task_queues:95:5) (236.576598ms)
+2026-11-15T23:49:03.4922720Z   ✔ keeps Гражданство: не указано (191.598736ms)
+2026-11-15T23:49:03.4925660Z   ✔ keeps Дети: нет (4.447798ms)
+2026-11-15T23:49:03.4930790Z   ✔ keeps Пол: не указан (4.106475ms)
+2026-11-15T23:49:03.5191270Z   ✔ keeps возраст: не указан (1.913717ms)
+2026-11-15T23:49:03.5240240Z   ✔ keeps Срок 34 дня (1.849023ms)
+2026-11-15T23:49:03.5327530Z   ✔ keeps Пол деревянный (1.858343ms)
+2026-11-15T23:49:03.5369500Z   ✔ keeps Статус: открыт (2.297316ms)
+2026-11-15T23:49:03.5457410Z   ✔ keeps 34 года (1.83338ms)
+2026-11-15T23:49:03.5511340Z   ✔ keeps Server listening at http://0.0.0.0:3000 (3.044574ms)
+2026-11-15T23:49:03.5567470Z   ✔ keeps http://localhost:3000/api/v1/items (2.534574ms)
+2026-11-15T23:49:03.5588990Z   ✔ keeps 127.0.0.1 (1.705966ms)
+2026-11-15T23:49:03.5725210Z   ✔ removes контактный телефон 926 765 4321 (25.092593ms)
+2026-11-15T23:49:03.5872880Z   ✔ removes сот. 8 926 7654321 (165.30582ms)
+2026-11-15T23:49:03.5928970Z   ✔ removes petr.kuznetsov (собака) mail.example (20.133219ms)
+2026-11-15T23:49:03.6153540Z   ✔ removes телега: petr_kuz (33.448459ms)
+2026-11-15T23:49:03.6219300Z   ✔ removes Zoom: petr.kuz (43.134722ms)
+2026-11-15T23:49:03.6263540Z   ✔ removes выдан ТП УФМС Перми 05.06.2015 (166.006659ms)
+2026-11-15T23:49:03.6356720Z   ✔ removes р/с 40817810500000000123 (18.92128ms)
+2026-11-15T23:49:03.6391020Z   ✔ removes г-н Кузнецов (52.439492ms)
+2026-11-15T23:49:03.6438370Z   ✔ removes 1985 года рождения (13.716988ms)
+2026-11-15T23:49:03.6591560Z   ✔ removes г.р. 1985 (18.606927ms)
+2026-11-15T23:49:03.6592920Z   ✔ removes возраст 41 (204.552616ms)
+2026-11-15T23:49:03.6627170Z   ✔ removes Age 41 (12.333969ms)
+2026-11-15T23:49:03.6699740Z   ✔ removes Пол: Ж (14.386198ms)
+2026-11-15T23:49:03.6729890Z   ✔ removes Пол: М (14.446289ms)
+2026-11-15T23:49:03.6760070Z   ✔ removes пол: жен. (141.547369ms)
+2026-11-15T23:49:03.6854350Z   ✔ removes пол муж. (12.908236ms)
+2026-11-15T23:49:03.6922640Z   ✔ removes гражданин РФ (17.236503ms)
+2026-11-15T23:49:03.6923810Z   ✔ removes есть двое детей (34.717835ms)
+2026-11-15T23:49:03.6954740Z   ✔ removes проживаю в Перми (29.939997ms)
+2026-11-15T23:49:03.6987120Z   ✔ removes телефон: 9267654321 (164.400761ms)
+2026-11-15T23:49:03.7125010Z   ✔ removes petr.kuznetsov собака mail.example (13.678827ms)
+2026-11-15T23:49:03.7152620Z   ✔ removes телеграм: petr_kuz (19.987065ms)
+2026-11-15T23:49:03.7198590Z   ✔ removes 1985 г.р. (22.657855ms)
+2026-11-15T23:49:03.7247020Z   ✔ removes возраст: 41 год (15.220348ms)
+2026-11-15T23:49:03.7283910Z   ✔ removes Age: 41 (13.06985ms)
+2026-11-15T23:49:03.7325830Z   ✔ removes Пол: женский (168.501492ms)
+2026-11-15T23:49:03.7357590Z   ✔ removes живу в Перми (11.853275ms)
+2026-11-15T23:49:03.7411660Z   ✔ removes г-жа Лебедева (13.832278ms)
+2026-11-15T23:49:03.7437210Z   ✔ removes Employer: Vasilek (18.068856ms)
+2026-11-15T23:49:03.7469020Z   ✔ removes Company: Vasilek (23.223321ms)
+2026-11-15T23:49:03.7613220Z   ✔ removes Education: MSU (29.154359ms)
+2026-11-15T23:49:03.7686780Z   ✔ removes Цой В. Р. (67.930571ms)
+2026-11-15T23:49:03.7873100Z   ✔ removes Ким Д. С. (12.87183ms)
+2026-11-15T23:49:03.7974450Z   ✔ removes Шевченко Т. Г. (13.891922ms)
+2026-11-15T23:49:03.8020350Z   ✔ removes мне 29 лет (18.932924ms)
+2026-11-15T23:49:03.8049370Z   ✔ removes возраст: 34 (13.21648ms)
+2026-11-15T23:49:03.8076820Z   ✔ removes Женщина, 34 года (14.355636ms)
+2026-11-15T23:49:03.8117110Z   ✔ removes Мне 34 (10.316391ms)
+2026-11-15T23:49:03.8156820Z   ✔ removes исполнилось 34 (29.973922ms)
+2026-11-15T23:49:03.8213780Z   ✔ removes Мужчина, 41 год (23.688266ms)
+2026-11-15T23:49:03.8425970Z ✔ issues 87/88 (text) (6676.502605ms)
+2026-11-15T23:49:03.8515050Z ▶ issues 87/88 (json)
+2026-11-15T23:49:03.8543490Z   ✔ keeps опыт работы 5 лет (18.363916ms)
+2026-11-15T23:49:03.8579770Z   ✔ keeps стаж 12 лет (8.089296ms)
+2026-11-15T23:49:03.8590810Z   ✔ keeps 3 года опыта (5.23908ms)
+2026-11-15T23:49:03.8611310Z   ✔ keeps за последние 3 года (7.062788ms)
+2026-11-15T23:49:03.8622780Z   ✔ keeps более 10 лет (9.863024ms)
+2026-11-15T23:49:03.8627200Z   ✔ keeps через 5 лет (8.386337ms)
+2026-11-15T23:49:03.8630100Z   ✔ keeps договор на 3 года (4.511325ms)
+2026-11-15T23:49:03.8871280Z   ✔ keeps Проект длился 2 года (4.395206ms)
+2026-11-15T23:49:03.8910660Z   ✔ keeps Задача выполнена за 3 года (21.807661ms)
+2026-11-15T23:49:03.8984030Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+2026-11-15T23:49:03.9092780Z     at TCPConnectWrap.afterConnect (node:net:1595:16) (12.133296ms)
+2026-11-15T23:49:03.9121990Z   ✔ keeps Error: boom
+2026-11-15T23:49:03.9137140Z     at f (/app/src/index.ts:10:5)
+2026-11-15T23:49:03.9168900Z     at async g (node:internal/process/task_queues:95:5) (14.268454ms)
+2026-11-15T23:49:03.9202750Z   ✔ keeps Гражданство: не указано (8.471423ms)
+2026-11-15T23:49:03.9247420Z   ✔ keeps Дети: нет (20.316508ms)
+2026-11-15T23:49:03.9304200Z   ✔ keeps Пол: не указан (14.143849ms)
+2026-11-15T23:49:03.9335680Z   ✔ keeps возраст: не указан (4.678752ms)
+2026-11-15T23:49:03.9373600Z   ✔ keeps Срок 34 дня (9.36089ms)
+2026-11-15T23:49:03.9403640Z   ✔ keeps Пол деревянный (5.426507ms)
+2026-11-15T23:49:03.9464100Z   ✔ keeps Статус: открыт (12.798807ms)
+2026-11-15T23:49:03.9587060Z   ✔ keeps 34 года (5.973213ms)
+2026-11-15T23:49:03.9606230Z   ✔ keeps Server listening at http://0.0.0.0:3000 (15.622204ms)
+2026-11-15T23:49:03.9647570Z   ✔ keeps http://localhost:3000/api/v1/items (4.876158ms)
+2026-11-15T23:49:03.9738350Z   ✔ keeps 127.0.0.1 (3.282147ms)
+2026-11-15T23:49:03.9793870Z   ✔ removes контактный телефон 926 765 4321 (29.585981ms)
+2026-11-15T23:49:03.9865110Z   ✔ removes сот. 8 926 7654321 (24.025433ms)
+2026-11-15T23:49:03.9921380Z   ✔ removes petr.kuznetsov (собака) mail.example (21.162957ms)
+2026-11-15T23:49:03.9954850Z   ✔ removes телега: petr_kuz (187.172955ms)
+2026-11-15T23:49:03.9995450Z   ✔ removes Zoom: petr.kuz (38.227125ms)
+2026-11-15T23:49:04.0048240Z   ✔ removes выдан ТП УФМС Перми 05.06.2015 (143.040081ms)
+2026-11-15T23:49:04.0113410Z   ✔ removes р/с 40817810500000000123 (27.851902ms)
+2026-11-15T23:49:04.0159850Z   ✔ removes г-н Кузнецов (29.59164ms)
+2026-11-15T23:49:04.0204260Z   ✔ removes 1985 года рождения (137.402496ms)
+2026-11-15T23:49:04.0235070Z   ✔ removes г.р. 1985 (187.051892ms)
+2026-11-15T23:49:04.0266320Z   ✔ removes возраст 41 (48.326439ms)
+2026-11-15T23:49:04.0278070Z   ✔ removes Age 41 (20.746296ms)
+2026-11-15T23:49:04.0313540Z   ✔ removes Пол: Ж (43.003238ms)
+2026-11-15T23:49:04.0387090Z   ✔ removes Пол: М (61.94213ms)
+2026-11-15T23:49:04.0532280Z   ✔ removes пол: жен. (36.449074ms)
+2026-11-15T23:49:04.0599010Z   ✔ removes пол муж. (74.368789ms)
+2026-11-15T23:49:04.0653970Z   ✔ removes гражданин РФ (100.054015ms)
+2026-11-15T23:49:04.0698860Z   ✔ removes есть двое детей (224.521899ms)
+2026-11-15T23:49:04.0751880Z   ✔ removes проживаю в Перми (40.338514ms)
+2026-11-15T23:49:04.0797970Z   ✔ removes телефон: 9267654321 (29.672277ms)
+2026-11-15T23:49:04.0923070Z   ✔ removes petr.kuznetsov собака mail.example (21.161655ms)
+2026-11-15T23:49:04.0995740Z   ✔ removes телеграм: petr_kuz (40.124755ms)
+2026-11-15T23:49:04.1060970Z   ✔ removes 1985 г.р. (23.922481ms)
+2026-11-15T23:49:04.1103960Z   ✔ removes возраст: 41 год (96.369054ms)
+2026-11-15T23:49:04.1144100Z   ✔ removes Age: 41 (27.985562ms)
+2026-11-15T23:49:04.1198120Z   ✔ removes Пол: женский (81.579911ms)
+2026-11-15T23:49:04.1242690Z   ✔ removes живу в Перми (58.112447ms)
+2026-11-15T23:49:04.1244230Z   ✔ removes г-жа Лебедева (21.432316ms)
+2026-11-15T23:49:04.1385240Z   ✔ removes Employer: Vasilek (19.466716ms)
+2026-11-15T23:49:04.1622980Z   ✔ removes Company: Vasilek (61.981322ms)
+2026-11-15T23:49:04.1668590Z   ✔ removes Education: MSU (102.618633ms)
+2026-11-15T23:49:04.1714850Z   ✔ removes Цой В. Р. (37.551493ms)
+2026-11-15T23:49:04.1755050Z   ✔ removes Ким Д. С. (116.541637ms)
+2026-11-15T23:49:04.1784020Z   ✔ removes Шевченко Т. Г. (34.879931ms)
+2026-11-15T23:49:04.1807510Z   ✔ removes мне 29 лет (47.253948ms)
+2026-11-15T23:49:04.1838080Z   ✔ removes возраст: 34 (195.276545ms)
+2026-11-15T23:49:04.1955200Z   ✔ removes Женщина, 34 года (49.588172ms)
+2026-11-15T23:49:04.1990030Z   ✔ removes Мне 34 (22.480278ms)
+2026-11-15T23:49:04.2018930Z   ✔ removes исполнилось 34 (56.986808ms)
+2026-11-15T23:49:04.2058160Z   ✔ removes Мужчина, 41 год (34.565774ms)
+2026-11-15T23:49:04.2097550Z ✔ issues 87/88 (json) (2886.525142ms)
+2026-11-15T23:49:04.2140080Z ▶ issues 87/88 (jsonl)
+2026-11-15T23:49:04.2207830Z   ✔ keeps опыт работы 5 лет (11.965968ms)
+2026-11-15T23:49:04.2278590Z   ✔ keeps стаж 12 лет (10.36817ms)
+2026-11-15T23:49:04.2378020Z   ✔ keeps 3 года опыта (8.758939ms)
+2026-11-15T23:49:04.2460730Z   ✔ keeps за последние 3 года (22.7115ms)
+2026-11-15T23:49:04.2510800Z   ✔ keeps более 10 лет (11.709931ms)
+2026-11-15T23:49:04.2584480Z   ✔ keeps через 5 лет (18.783636ms)
+2026-11-15T23:49:04.2693650Z   ✔ keeps договор на 3 года (10.835233ms)
+2026-11-15T23:49:04.2734570Z   ✔ keeps Проект длился 2 года (3.864075ms)
+2026-11-15T23:49:04.2837910Z   ✔ keeps Задача выполнена за 3 года (5.968792ms)
+2026-11-15T23:49:04.2905940Z   ✔ keeps Error: connect ECONNREFUSED 127.0.0.1:5432
+2026-11-15T23:49:04.3010330Z     at TCPConnectWrap.afterConnect (node:net:1595:16) (63.557711ms)
+2026-11-15T23:49:04.3203190Z   ✔ keeps Error: boom
+2026-11-15T23:49:04.3313380Z     at f (/app/src/index.ts:10:5)
+2026-11-15T23:49:04.3404400Z     at async g (node:internal/process/task_queues:95:5) (6.933337ms)
+2026-11-15T23:49:04.3462910Z   ✔ keeps Гражданство: не указано (7.193932ms)
+2026-11-15T23:49:04.3553900Z   ✔ keeps Дети: нет (8.953853ms)
+2026-11-15T23:49:04.3646060Z   ✔ keeps Пол: не указан (10.131346ms)
+2026-11-15T23:49:04.3705730Z   ✔ keeps возраст: не указан (31.676354ms)
+2026-11-15T23:49:04.3817990Z   ✔ keeps Срок 34 дня (8.218729ms)
+2026-11-15T23:49:04.3876630Z   ✔ keeps Пол деревянный (5.386663ms)
+2026-11-15T23:49:04.3925580Z   ✔ keeps Статус: открыт (8.268558ms)
+2026-11-15T23:49:04.3982740Z   ✔ keeps 34 года (6.976473ms)
+2026-11-15T23:49:04.4032400Z   ✔ keeps Server listening at http://0.0.0.0:3000 (5.470433ms)
+2026-11-15T23:49:04.4106850Z   ✔ keeps http://localhost:3000/api/v1/items (9.620138ms)
+2026-11-15T23:49:04.4146140Z   ✔ keeps 127.0.0.1 (3.77259ms)
+2026-11-15T23:49:04.4193800Z   ✔ removes контактный телефон 926 765 4321 (62.734174ms)
+2026-11-15T23:49:04.4278790Z   ✔ removes сот. 8 926 7654321 (20.234875ms)
+2026-11-15T23:49:04.4339400Z   ✔ removes petr.kuznetsov (собака) mail.example (27.365218ms)
+2026-11-15T23:49:04.4372600Z   ✔ removes телега: petr_kuz (53.256329ms)
+2026-11-15T23:49:04.4435430Z   ✔ removes Zoom: petr.kuz (35.741133ms)
+2026-11-15T23:49:04.4476030Z   ✔ removes выдан ТП УФМС Перми 05.06.2015 (35.629768ms)
+2026-11-15T23:49:04.4519680Z   ✔ removes р/с 40817810500000000123 (19.439086ms)
+2026-11-15T23:49:04.4555770Z   ✔ removes г-н Кузнецов (60.601615ms)
+2026-11-15T23:49:04.4635870Z   ✔ removes 1985 года рождения (37.898664ms)
+2026-11-15T23:49:04.4705890Z   ✔ removes г.р. 1985 (28.461965ms)
+2026-11-15T23:49:04.4831830Z   ✔ removes возраст 41 (75.847543ms)
+2026-11-15T23:49:04.4872340Z   ✔ removes Age 41 (20.290252ms)
+2026-11-15T23:49:04.4913830Z   ✔ removes Пол: Ж (28.60354ms)
+2026-11-15T23:49:04.4979660Z   ✔ removes Пол: М (32.523437ms)
+2026-11-15T23:49:04.5051210Z   ✔ removes пол: жен. (67.995732ms)
+2026-11-15T23:49:04.5125780Z   ✔ removes пол муж. (30.454419ms)
+2026-11-15T23:49:04.5181710Z   ✔ removes гражданин РФ (29.343314ms)
+2026-11-15T23:49:04.5285380Z   ✔ removes есть двое детей (80.351645ms)
+2026-11-15T23:49:04.5337820Z   ✔ removes проживаю в Перми (31.833413ms)
+2026-11-15T23:49:04.5441480Z   ✔ removes телефон: 9267654321 (99.782159ms)
+2026-11-15T23:49:04.5496350Z   ✔ removes petr.kuznetsov собака mail.example (35.519893ms)
+2026-11-15T23:49:04.5545330Z   ✔ removes телеграм: petr_kuz (25.418417ms)
+2026-11-15T23:49:04.5583530Z   ✔ removes 1985 г.р. (18.906198ms)
+2026-11-15T23:49:04.5645440Z   ✔ removes возраст: 41 год (19.652709ms)
+2026-11-15T23:49:04.5700300Z   ✔ removes Age: 41 (28.775077ms)
+2026-11-15T23:49:04.5764460Z   ✔ removes Пол: женский (28.721932ms)
+2026-11-15T23:49:04.5846990Z   ✔ removes живу в Перми (21.62076ms)
+2026-11-15T23:49:04.5848630Z   ✔ removes г-жа Лебедева (25.530278ms)
+2026-11-15T23:49:04.5912590Z   ✔ removes Employer: Vasilek (24.650465ms)
+2026-11-15T23:49:04.5963710Z   ✔ removes Company: Vasilek (62.448425ms)
+2026-11-15T23:49:04.5995950Z   ✔ removes Education: MSU (17.789952ms)
+2026-11-15T23:49:04.6039790Z   ✔ removes Цой В. Р. (24.95487ms)
+2026-11-15T23:49:04.6090520Z   ✔ removes Ким Д. С. (25.277182ms)
+2026-11-15T23:49:04.6156740Z   ✔ removes Шевченко Т. Г. (18.851379ms)
+2026-11-15T23:49:04.6206400Z   ✔ removes мне 29 лет (18.274049ms)
+2026-11-15T23:49:04.6261390Z   ✔ removes возраст: 34 (17.233137ms)
+2026-11-15T23:49:04.6287710Z   ✔ removes Женщина, 34 года (25.295527ms)
+2026-11-15T23:49:04.6291860Z   ✔ removes Мне 34 (24.569433ms)
+2026-11-15T23:49:04.6295270Z   ✔ removes исполнилось 34 (43.491693ms)
+2026-11-15T23:49:04.6300920Z   ✔ removes Мужчина, 41 год (24.742978ms)
+2026-11-15T23:49:04.6304040Z ✔ issues 87/88 (jsonl) (1700.65978ms)
+2026-11-15T23:49:04.6308770Z ✔ redacts all personal path families under url in json (104.701395ms)
+2026-11-15T23:49:04.6321760Z ✔ keeps asynchronous native behavior consistent for json (601.272589ms)
+2026-11-15T23:49:04.6339370Z ✔ redacts all personal path families under url in jsonl (170.962905ms)
+2026-11-15T23:49:04.6343580Z ✔ keeps asynchronous native behavior consistent for jsonl (712.858734ms)
+2026-11-15T23:49:04.6348130Z ✔ preserves private overrides for bind addresses (23.437188ms)
+2026-11-15T23:49:04.6352680Z ✔ keeps meaningful negative attributes sensitive (11.842154ms)
+2026-11-15T23:49:04.6356960Z ✔ reports exact age spans and preserves units (4.783402ms)
+2026-11-15T23:49:04.6361310Z ✔ protects personal paths in text labels as well as structured fields (5.476306ms)
+2026-11-15T23:49:04.6365620Z ✔ isolates match iteration and resets pre-used expressions (1.561258ms)
+2026-11-15T23:49:04.6369140Z ▶ ordered bounded JSONL streaming
+2026-11-15T23:49:04.6394230Z   ✔ starts file workers when the parent uses module eval input (5880.910351ms)
+2026-11-15T23:49:04.6436740Z   ✔ matches whole-input output in parallel with split UTF-8 and CRLF (11895.63049ms)
+2026-11-15T23:49:04.6447120Z   ✔ accepts a seven-megabyte record followed by records above the whole-input limit (19310.292847ms)
+2026-11-15T23:49:04.6451770Z   ✔ retains deterministic keyed fakes regardless of scheduling (5109.021374ms)
+2026-11-15T23:49:04.6459650Z   ✔ blocks invalid records, incomplete UTF-8, oversized records and invalid worker limits (3.693876ms)
+2026-11-15T23:49:04.6498880Z   ✔ propagates worker failures and terminates workers on early consumer cancellation (3079.56581ms)
+2026-11-15T23:49:04.6501140Z ✔ ordered bounded JSONL streaming (45283.437309ms)
+2026-11-15T23:49:04.6516510Z ▶ known Russian names
+2026-11-15T23:49:04.6517930Z   ✔ [Петров Данил Сергеевич] с Петровым Данилом Сергеевичем. (320.001679ms)
+2026-11-15T23:49:04.6519980Z   ✔ [Данил Сергеевич] с Данилом Сергеевичем. (56.737558ms)
+2026-11-15T23:49:04.6525320Z   ✔ [Сергеевич] с Сергеевичем. (14.623184ms)
+2026-11-15T23:49:04.6528140Z   ✔ [Петров Данил Сергеевич] о Петрове Даниле Сергеевиче. (33.933018ms)
+2026-11-15T23:49:04.6529640Z   ✔ [Смирнова Алина Игоревна] со Смирновой Алиной Игоревной (70.872054ms)
+2026-11-15T23:49:04.6530950Z   ✔ [Петров Данил] с Петровым Данилом. (75.351588ms)
+2026-11-15T23:49:04.6533940Z   ✔ [Петров Данил Сергеевич] Данил Сергеевич Петров пришёл; Данилу Сергеевичу Петрову. (22.02901ms)
+2026-11-15T23:49:04.6535940Z   ✔ [Петров Данил Сергеевич] с Петровым Данилом. (21.069123ms)
+2026-11-15T23:49:04.6537140Z   ✔ [Семёнов Пётр] Семенов Петр (89.795897ms)
+2026-11-15T23:49:04.6538210Z   ✔ [Семенов Петр] Семёнов Пётр (49.603881ms)
+2026-11-15T23:49:04.6539850Z   ✔ [Петров Данил Сергеевич] Петров Д. С.; Петров Д.С.; Д. С. Петров; Петрову Д. С. (136.574673ms)
+2026-11-15T23:49:04.6542010Z   ✔ [Петров Данил Сергеевич] ПЕТРОВ ДАНИЛ СЕРГЕЕВИЧ (16.344797ms)
+2026-11-15T23:49:04.6543900Z   ✔ merges a name listed in full and by its parts (194.12885ms)
+2026-11-15T23:49:04.6546000Z   ✔ uses one token for a name listed with its parts (100.852388ms)
+2026-11-15T23:49:04.6548030Z   ✔ does not match a part unless that part is listed (5.278704ms)
+2026-11-15T23:49:04.6549830Z   ✔ keeps a given name apart from a surname built on it (8.061283ms)
+2026-11-15T23:49:04.6552500Z ✔ known Russian names (1276.057113ms)
+2026-11-15T23:49:04.6555070Z ▶ long tool logs (issues 41/42)
+2026-11-15T23:49:04.6557340Z   ✔ scans a repeated run within a finite time budget (1269.766873ms)
+2026-11-15T23:49:04.6562210Z   ✔ accepts long single records by default without leaking a split header tail (4322.409215ms)
+2026-11-15T23:49:04.6564600Z   ✔ keeps an explicit record limit and total input limit enforceable (2.55649ms)
+2026-11-15T23:49:04.6567100Z   ✔ redacts credentials after a long benign line through the required union (2197.298535ms)
+2026-11-15T23:49:04.6570650Z ✔ long tool logs (issues 41/42) (7795.997286ms)
+2026-11-15T23:49:04.6573300Z ✔ handles rollout-sized runs without overflowing the regex stack (1070.830458ms)
+2026-11-15T23:49:04.6575380Z ▶ private map CLI and stream integration
+2026-11-15T23:49:04.6577140Z   ✔ writes a 0600 json map, reuses it, restores and blocks scanning it (1109.623558ms)
+2026-11-15T23:49:04.6595840Z   ✔ writes a 0600 lino map, reuses it, restores and blocks scanning it (249.271025ms)
+2026-11-15T23:49:04.6598250Z   ✔ requires explicit CLI map retention or discard, with no map in stdout (13.902142ms)
+2026-11-15T23:49:04.6600820Z   ✔ uses one ordered registry across tiny JSONL batches even when workers are requested (1198.652175ms)
+2026-11-15T23:49:04.6603480Z   ✔ keeps the caller map updated through the bounded file API and CLI streaming (678.585988ms)
+2026-11-15T23:49:04.6605710Z ✔ private map CLI and stream integration (3254.086398ms)
+2026-11-15T23:49:04.6608310Z ✔ restores complete streams with different original surfaces in identical batches (1221.311872ms)
+2026-11-15T23:49:04.6610310Z ▶ reversible placeholders (#54)
+2026-11-15T23:49:04.6612200Z   ✔ numbers each type by first appearance and restores a free-text document (907.56638ms)
+2026-11-15T23:49:04.6614610Z   ✔ round trips format {Type}-{n} through both serializations (73.724855ms)
+2026-11-15T23:49:04.6616720Z   ✔ round trips format [{TYPE}_{n}] through both serializations (47.497348ms)
+2026-11-15T23:49:04.6618920Z   ✔ round trips format {{{type}_{n}}} through both serializations (19.994639ms)
+2026-11-15T23:49:04.6621230Z   ✔ reuses a serialized map across files and continues per-type counters (243.179838ms)
+2026-11-15T23:49:04.6623560Z   ✔ keeps an engine registry across calls and verifies with the scanner union (331.045706ms)
+2026-11-15T23:49:04.6626020Z   ✔ restores exact json keys, values, escapes and variant surfaces (1383.938132ms)
+2026-11-15T23:49:04.6629090Z   ✔ restores exact jsonl keys, values, escapes and variant surfaces (122.051604ms)
+2026-11-15T23:49:04.6631680Z   ✔ links surname and initial surfaces to one token, including early mentions (20.895696ms)
+2026-11-15T23:49:04.6633790Z   ✔ does not merge distinct people sharing a surname (15.245489ms)
+2026-11-15T23:49:04.6636220Z   ✔ never retains credentials without explicit opt-in (1177.919693ms)
+2026-11-15T23:49:04.6638730Z   ✔ produces no map and still verifies residuals in no-map mode (18.587212ms)
+2026-11-15T23:49:04.6641400Z   ✔ blocks namespace collisions, invalid templates and private map publication (41.661969ms)
+2026-11-15T23:49:04.6643480Z ✔ reversible placeholders (#54) (4408.128871ms)
+2026-11-15T23:49:04.6644780Z ▶ private restore map validation
+2026-11-15T23:49:04.6646970Z   ✔ rejects malformed maps and preserves arbitrary quoted originals with upstream Links Notation (56.695046ms)
+2026-11-15T23:49:04.6649220Z ✔ private restore map validation (57.057539ms)
+2026-11-15T23:49:04.6651540Z ✔ refuses conflicting originals with indistinguishable complete sanitized documents (13.458755ms)
+2026-11-15T23:49:04.6654160Z ✔ discards a no-map engine registry after each operation (98.655644ms)
+2026-11-15T23:49:04.6656060Z ✔ assigns phone and date placeholders by type (18.845686ms)
+2026-11-15T23:49:04.6659070Z ✔ links all Cyrillic inflections and transliterations to the same identity (82.51888ms)
+2026-11-15T23:49:04.6661590Z ✔ runs residual verification on placeholder output in no-map mode (15.557598ms)
+2026-11-15T23:49:04.6663720Z ✔ rejects a pre-existing token hidden by JSON escapes (116.501325ms)
+2026-11-15T23:49:04.6666450Z ✔ round trips encoded personal payloads without retaining nested documents (141.090164ms)
+2026-11-15T23:49:04.6672380Z ✔ numbers plain and encoded names in source order in both APIs (449.820542ms)
+2026-11-15T23:49:04.6676740Z ▶ requirements review default-engine regressions
+2026-11-15T23:49:04.6678250Z   ✔ covers the entire ampersand value (1910.465178ms)
+2026-11-15T23:49:04.6679630Z   ✔ covers the entire phrase value (429.649064ms)
+2026-11-15T23:49:04.6680940Z   ✔ covers the entire json-quote value (21.696132ms)
+2026-11-15T23:49:04.6685310Z   ✔ covers the entire password-prose value (31.249715ms)
+2026-11-15T23:49:04.6687000Z   ✔ covers the entire russian-prose value (1533.35962ms)
+2026-11-15T23:49:04.6688470Z   ✔ covers the entire env-pass value (9.159262ms)
+2026-11-15T23:49:04.6689760Z   ✔ covers the entire env-db value (9.121ms)
+2026-11-15T23:49:04.6691060Z   ✔ covers the entire mysql value (6.233361ms)
+2026-11-15T23:49:04.6692340Z   ✔ covers the entire sshpass value (69.168239ms)
+2026-11-15T23:49:04.6693620Z   ✔ covers the entire key-prose value (81.082669ms)
+2026-11-15T23:49:04.6694890Z   ✔ covers the entire name-en value (17.127254ms)
+2026-11-15T23:49:04.6696600Z   ✔ covers the entire name-ru value (10.533828ms)
+2026-11-15T23:49:04.6698060Z   ✔ covers the entire phone-ru value (6.398361ms)
+2026-11-15T23:49:04.6699430Z   ✔ covers the entire phone-us value (4.428925ms)
+2026-11-15T23:49:04.6700800Z   ✔ covers the entire address value (9.469207ms)
+2026-11-15T23:49:04.6702070Z   ✔ covers the entire iban value (20.468592ms)
+2026-11-15T23:49:04.6703410Z   ✔ covers the entire passport value (173.165386ms)
+2026-11-15T23:49:04.6704720Z   ✔ covers the entire inn value (20.318044ms)
+2026-11-15T23:49:04.6706060Z   ✔ covers the entire mac value (27.330946ms)
+2026-11-15T23:49:04.6707250Z   ✔ covers the entire handle value (25.182872ms)
+2026-11-15T23:49:04.6708500Z   ✔ covers the entire path-mac value (168.403385ms)
+2026-11-15T23:49:04.6710120Z   ✔ covers the entire path-linux value (26.434389ms)
+2026-11-15T23:49:04.6711520Z   ✔ covers the entire public-email value (18.157411ms)
+2026-11-15T23:49:04.6712980Z   ✔ covers the entire public-ip value (12.145502ms)
+2026-11-15T23:49:04.6714470Z   ✔ covers the entire gitlab-runner value (28.203322ms)
+2026-11-15T23:49:04.6715740Z   ✔ covers the entire fcm value (7.276387ms)
+2026-11-15T23:49:04.6717340Z ✔ requirements review default-engine regressions (4684.650159ms)
+2026-11-15T23:49:04.6720020Z ▶ session and phone regressions (#9, #12)
+2026-11-15T23:49:04.6721880Z   ✔ audits oversized encoded runs without blocking the whole input (619.075969ms)
+2026-11-15T23:49:04.6724270Z   ✔ audits oversized encoded runs without blocking the whole input (59.207211ms)
+2026-11-15T23:49:04.6727400Z   ✔ detects secrets encoded beyond the previous run limit (327.137255ms)
+2026-11-15T23:49:04.6729790Z   ✔ audits oversized UTF-8 base64 even when its probe ends inside a character (72.267318ms)
+2026-11-15T23:49:04.6732680Z   ✔ keeps explicitly structural fields while sanitizing keys, values and nested JSON (1510.510831ms)
+2026-11-15T23:49:04.6735450Z   ✔ credentials and known personal values always override structural declarations (184.895251ms)
+2026-11-15T23:49:04.6737580Z ✔ session and phone regressions (#9, #12) (2776.306811ms)
+2026-11-15T23:49:04.6738530Z ▶ structured integration
+2026-11-15T23:49:04.6739630Z   ✔ supports JSONL in streams and outbound JSON integration (314.72962ms)
+2026-11-15T23:49:04.6742460Z   ✔ streams JSONL through the CLI with structural metadata (239.71947ms)
+2026-11-15T23:49:04.6744710Z   ✔ fails closed for malformed JSON and colliding sanitized keys (11.189495ms)
+2026-11-15T23:49:04.6746410Z ✔ structured integration (567.198458ms)
+2026-11-15T23:49:04.6747670Z ▶ structured publication boundaries
+2026-11-15T23:49:04.6749430Z   ✔ preserves repeated escaped quotes and JSON punctuation inside strings (154.65964ms)
+2026-11-15T23:49:04.6752440Z   ✔ does not treat quoted key-like text inside a value as colliding keys (11.147934ms)
+2026-11-15T23:49:04.6754990Z   ✔ preserves primitive JSON values, source escaping, offsets and original size limits (33.742821ms)
+2026-11-15T23:49:04.6757810Z   ✔ uses structured policies and oversized fallback in bounded worker file publication (6552.816401ms)
+2026-11-15T23:49:04.6760000Z ✔ structured publication boundaries (6753.154681ms)
+2026-11-15T23:49:04.6761470Z ▶ contextual national phones
+2026-11-15T23:49:04.6763280Z   ✔ redacts WhatsApp national phone 8 912 555 0142 (10.343669ms)
+2026-11-15T23:49:04.6765440Z   ✔ redacts WhatsApp national phone 8 (912) 555-01-42 (3.071782ms)
+2026-11-15T23:49:04.6767160Z   ✔ redacts WhatsApp national phone 090 123 4567 (7.154992ms)
+2026-11-15T23:49:04.6768730Z   ✔ redacts WhatsApp national phone 081 234 5678 (3.04434ms)
+2026-11-15T23:49:04.6770350Z   ✔ redacts WhatsApp national phone 0812 3456 7890 (4.80501ms)
+2026-11-15T23:49:04.6772320Z   ✔ redacts Zalo national phone 8 912 555 0142 (3.422782ms)
+2026-11-15T23:49:04.6774240Z   ✔ redacts Zalo national phone 8 (912) 555-01-42 (2.693148ms)
+2026-11-15T23:49:04.6775760Z   ✔ redacts Zalo national phone 090 123 4567 (9.65866ms)
+2026-11-15T23:49:04.6777160Z   ✔ redacts Zalo national phone 081 234 5678 (3.538278ms)
+2026-11-15T23:49:04.6778800Z   ✔ redacts Zalo national phone 0812 3456 7890 (2.312786ms)
+2026-11-15T23:49:04.6780320Z   ✔ redacts Viber national phone 8 912 555 0142 (4.442163ms)
+2026-11-15T23:49:04.6782000Z   ✔ redacts Viber national phone 8 (912) 555-01-42 (9.095513ms)
+2026-11-15T23:49:04.6783990Z   ✔ redacts Viber national phone 090 123 4567 (3.220765ms)
+2026-11-15T23:49:04.6785540Z   ✔ redacts Viber national phone 081 234 5678 (3.270813ms)
+2026-11-15T23:49:04.6787130Z   ✔ redacts Viber national phone 0812 3456 7890 (2.883528ms)
+2026-11-15T23:49:04.6788820Z   ✔ redacts Telegram national phone 8 912 555 0142 (30.330657ms)
+2026-11-15T23:49:04.6790540Z   ✔ redacts Telegram national phone 8 (912) 555-01-42 (4.339868ms)
+2026-11-15T23:49:04.6792290Z   ✔ redacts Telegram national phone 090 123 4567 (2.569685ms)
+2026-11-15T23:49:04.6793930Z   ✔ redacts Telegram national phone 081 234 5678 (2.376748ms)
+2026-11-15T23:49:04.6795540Z   ✔ redacts Telegram national phone 0812 3456 7890 (3.628999ms)
+2026-11-15T23:49:04.6797130Z   ✔ redacts Signal national phone 8 912 555 0142 (2.695329ms)
+2026-11-15T23:49:04.6798730Z   ✔ redacts Signal national phone 8 (912) 555-01-42 (2.730925ms)
+2026-11-15T23:49:04.6801140Z   ✔ redacts Signal national phone 090 123 4567 (2.871113ms)
+2026-11-15T23:49:04.6803790Z   ✔ redacts Signal national phone 081 234 5678 (3.328536ms)
+2026-11-15T23:49:04.6805340Z   ✔ redacts Signal national phone 0812 3456 7890 (2.853299ms)
+2026-11-15T23:49:04.6806870Z   ✔ redacts WeChat national phone 8 912 555 0142 (2.195962ms)
+2026-11-15T23:49:04.6808930Z   ✔ redacts WeChat national phone 8 (912) 555-01-42 (2.566071ms)
+2026-11-15T23:49:04.6810610Z   ✔ redacts WeChat national phone 090 123 4567 (3.440324ms)
+2026-11-15T23:49:04.6812230Z   ✔ redacts WeChat national phone 081 234 5678 (4.265361ms)
+2026-11-15T23:49:04.6813840Z   ✔ redacts WeChat national phone 0812 3456 7890 (4.111318ms)
+2026-11-15T23:49:04.6815430Z   ✔ redacts LINE national phone 8 912 555 0142 (3.737623ms)
+2026-11-15T23:49:04.6816970Z   ✔ redacts LINE national phone 8 (912) 555-01-42 (3.192513ms)
+2026-11-15T23:49:04.6818540Z   ✔ redacts LINE national phone 090 123 4567 (5.712064ms)
+2026-11-15T23:49:04.6819990Z   ✔ redacts LINE national phone 081 234 5678 (3.462759ms)
+2026-11-15T23:49:04.6821460Z   ✔ redacts LINE national phone 0812 3456 7890 (2.188484ms)
+2026-11-15T23:49:04.6823160Z   ✔ redacts KakaoTalk national phone 8 912 555 0142 (2.19442ms)
+2026-11-15T23:49:04.6825050Z   ✔ redacts KakaoTalk national phone 8 (912) 555-01-42 (2.098597ms)
+2026-11-15T23:49:04.6826780Z   ✔ redacts KakaoTalk national phone 090 123 4567 (3.993353ms)
+2026-11-15T23:49:04.6828390Z   ✔ redacts KakaoTalk national phone 081 234 5678 (11.372633ms)
+2026-11-15T23:49:04.6830000Z   ✔ redacts KakaoTalk national phone 0812 3456 7890 (2.703426ms)
+2026-11-15T23:49:04.6831610Z   ✔ redacts звоните national phone 8 912 555 0142 (864.246653ms)
+2026-11-15T23:49:04.6833170Z   ✔ redacts звоните national phone 8 (912) 555-01-42 (3.844133ms)
+2026-11-15T23:49:04.6834690Z   ✔ redacts звоните national phone 090 123 4567 (7.256086ms)
+2026-11-15T23:49:04.6836310Z   ✔ redacts звоните national phone 081 234 5678 (4.178554ms)
+2026-11-15T23:49:04.6837810Z   ✔ redacts звоните national phone 0812 3456 7890 (3.56958ms)
+2026-11-15T23:49:04.6839320Z   ✔ redacts пишите national phone 8 912 555 0142 (107.597292ms)
+2026-11-15T23:49:04.6840920Z   ✔ redacts пишите national phone 8 (912) 555-01-42 (5.744458ms)
+2026-11-15T23:49:04.6842430Z   ✔ redacts пишите national phone 090 123 4567 (5.689614ms)
+2026-11-15T23:49:04.6843860Z   ✔ redacts пишите national phone 081 234 5678 (2.949136ms)
+2026-11-15T23:49:04.6845340Z   ✔ redacts пишите national phone 0812 3456 7890 (6.973527ms)
+2026-11-15T23:49:04.6846820Z   ✔ redacts звонить national phone 8 912 555 0142 (9.141045ms)
+2026-11-15T23:49:04.6848360Z   ✔ redacts звонить national phone 8 (912) 555-01-42 (11.204488ms)
+2026-11-15T23:49:04.6850050Z   ✔ redacts звонить national phone 090 123 4567 (4.255285ms)
+2026-11-15T23:49:04.6851510Z   ✔ redacts звонить national phone 081 234 5678 (5.13356ms)
+2026-11-15T23:49:04.6853000Z   ✔ redacts звонить national phone 0812 3456 7890 (3.484196ms)
+2026-11-15T23:49:04.6854580Z   ✔ redacts номер телефона national phone 8 912 555 0142 (2.73744ms)
+2026-11-15T23:49:04.6856260Z   ✔ redacts номер телефона national phone 8 (912) 555-01-42 (3.781067ms)
+2026-11-15T23:49:04.6858760Z   ✔ redacts номер телефона national phone 090 123 4567 (4.369372ms)
+2026-11-15T23:49:04.6860310Z   ✔ redacts номер телефона national phone 081 234 5678 (8.89225ms)
+2026-11-15T23:49:04.6861930Z   ✔ redacts номер телефона national phone 0812 3456 7890 (6.08348ms)
+2026-11-15T23:49:04.6864730Z   ✔ handles adjacent messenger fields and Russian prose (130.092704ms)
+2026-11-15T23:49:04.6866980Z   ✔ includes parenthesized national area/mobile groups in the phone span (13.290851ms)
+2026-11-15T23:49:04.6868960Z   ✔ keeps tool-call/thread IDs and timestamps (1.943371ms)
+2026-11-15T23:49:04.6870470Z ✔ contextual national phones (1413.643503ms)
+2026-11-15T23:49:04.6871750Z ▶ bounded publication sanitization
+2026-11-15T23:49:04.6874140Z   ✔ holds split UTF-8, quoted credentials, PEM and wrapped base64 groups at every boundary (8694.289002ms)
+2026-11-15T23:49:04.6876580Z   ✔ fails closed when a held record exceeds the configured bound (4.309702ms)
+2026-11-15T23:49:04.6878910Z   ✖ processes a file larger than 10 MiB in a bounded worker and publishes privately (30004.436776ms)
+2026-11-15T23:49:04.6881540Z   ✔ blocks publication on a late invalid UTF-8 JSONL record and cleans temporary files (2509.944078ms)
+2026-11-15T23:49:04.6884060Z   ✔ terminates a timed-out worker and removes staging before returning (23.235417ms)
+2026-11-15T23:49:04.6886000Z ✖ bounded publication sanitization (41240.121614ms)
+2026-11-15T23:49:04.6887490Z ▶ two-pass publication bounds and verification
+2026-11-15T23:49:04.6889370Z   ✔ wraps unexpected source failures and removes the private snapshot (31.835578ms)
+2026-11-15T23:49:04.6891630Z   ✔ supports plain text and privately snapshots a one-shot input (1096.492173ms)
+2026-11-15T23:49:04.6893610Z   ✔ blocks and cleans an exceeded maxTotalBytes bound (43.196844ms)
+2026-11-15T23:49:04.6895390Z   ✔ blocks and cleans an exceeded maxRecordBytes bound (25.894382ms)
+2026-11-15T23:49:04.6897290Z   ✔ blocks and cleans an exceeded maxRegistryValues bound (29.932906ms)
+2026-11-15T23:49:04.6899610Z   ✔ keeps required detectors in discovery, redaction, and residual verification (40.707895ms)
+2026-11-15T23:49:04.6901800Z   ✔ rejects two-pass mode on the incremental output API (1.101384ms)
+2026-11-15T23:49:04.6904010Z   ✔ preserves malformed UTF-8 locations across the bounded file worker (2819.533136ms)
+2026-11-15T23:49:04.6906260Z ✔ two-pass publication bounds and verification (4093.284448ms)
+2026-11-15T23:49:04.6907640Z ▶ two-pass CLI publication
+2026-11-15T23:49:04.6909320Z   ✔ publishes earlier aliases from stdin with a completed registry (117.541921ms)
+2026-11-15T23:49:04.6911410Z   ✔ reports encoding locations and emits no partial stdout (11.315256ms)
+2026-11-15T23:49:04.6913310Z   ✔ requires --stream when --two-pass is requested (2.004477ms)
+2026-11-15T23:49:04.6915590Z ✔ two-pass CLI publication (131.953318ms)
+2026-11-15T23:49:04.6918710Z ▶ security workflow
+2026-11-15T23:49:04.6920490Z   ✔ runs on main pushes, pull requests, weekly schedules, and manual dispatches (7.667192ms)
+2026-11-15T23:49:04.6923000Z   ✔ analyzes JavaScript, GitHub Actions, and shipped Python helpers with CodeQL (1.288053ms)
+2026-11-15T23:49:04.6925420Z   ✔ rejects high-severity dependency changes only on pull requests (0.650458ms)
+2026-11-15T23:49:04.6927550Z   ✔ probes the graph on every event, requiring it outside PRs (0.636159ms)
+2026-11-15T23:49:04.6929630Z   ✔ fails closed on high-severity advisories in every npm lock (67.857918ms)
+2026-11-15T23:49:04.6932100Z   ✔ audits every Python requirements surface without installing NLP packages (0.846024ms)
+2026-11-15T23:49:04.6934410Z   ✔ reports advisories below the gate and fails fixable ones weekly (1.210949ms)
+2026-11-15T23:49:04.6936160Z ✔ security workflow (83.812123ms)
+2026-11-15T23:49:04.6938080Z ✔ excludes historical experiments while scanning shipped examples (1.148161ms)
+2026-11-15T23:49:04.6939720Z ▶ simulate-fresh-merge.sh
+2026-11-15T23:49:04.6941200Z   ✔ quotes base ref arguments to prevent word splitting (2.088878ms)
+2026-11-15T23:49:04.6943690Z   ✔ retries the base fetch with a bounded loop (0.468194ms)
+2026-11-15T23:49:04.6945240Z ✔ simulate-fresh-merge.sh (5.028744ms)
+2026-11-15T23:49:04.6946520Z ▶ simulate-fresh-merge.sh fetch retry
+2026-11-15T23:49:04.6947850Z   ✔ survives a transient fetch failure (570.260397ms)
+2026-11-15T23:49:04.6950250Z   ✔ still fails when the base branch cannot be fetched at all (501.989021ms)
+2026-11-15T23:49:04.6952200Z ✔ simulate-fresh-merge.sh fetch retry (1072.868059ms)
+2026-11-15T23:49:04.6953440Z ▶ tag prefix logic
+2026-11-15T23:49:04.6954660Z   ✔ defaults to "v" prefix (backward compatible) (2.925524ms)
+2026-11-15T23:49:04.6956430Z   ✔ auto-detects "js_v" prefix for multi-language repos (2.437594ms)
+2026-11-15T23:49:04.6958530Z   ✔ keeps explicit "js-v" prefix overrides for compatibility (0.471492ms)
+2026-11-15T23:49:04.6960140Z   ✔ supports "rust-v" prefix (0.658769ms)
+2026-11-15T23:49:04.6961330Z   ✔ supports empty prefix (1.003558ms)
+2026-11-15T23:49:04.6963270Z   ✔ works with pre-release versions (0.412208ms)
+2026-11-15T23:49:04.6964760Z ✔ tag prefix logic (10.797561ms)
+2026-11-15T23:49:04.6965740Z ▶ transient link failures
+2026-11-15T23:49:04.6967300Z   ✔ classifies cached 503 and rejected 429 as retryable, preserving 404 (6.717405ms)
+2026-11-15T23:49:04.6969380Z   ✔ backs off between transient answers and recovers only on success (2.955935ms)
+2026-11-15T23:49:04.6971490Z   ✔ uses authenticated contents GET for GitHub blob and tree throttling (2.057707ms)
+2026-11-15T23:49:04.6974560Z   ✔ does not recover on an API denial and keeps credentials off unrelated hosts (2.08549ms)
+2026-11-15T23:49:04.6976980Z   ✔ never retries a definitive 404 or uses an API answer to hide it (2.315294ms)
+2026-11-15T23:49:04.6979020Z   ✔ bounds persistent 503 errors by the shared wall-clock budget (8.890144ms)
+2026-11-15T23:49:04.6980880Z   ✔ pins every Bun setup to the supported major line (0.901961ms)
+2026-11-15T23:49:04.6982370Z ✔ transient link failures (36.757673ms)
+2026-11-15T23:49:04.6983440Z ▶ use-module interop shim
+2026-11-15T23:49:04.6984890Z   ✔ reproduces the Node 24 namespace that breaks destructuring (3.109458ms)
+2026-11-15T23:49:04.6986720Z   ✔ resolves $ from the Node >= 22.12 CommonJS namespace (0.806183ms)
+2026-11-15T23:49:04.6988440Z   ✔ resolves $ from the Node < 22.12 CommonJS namespace (0.469755ms)
+2026-11-15T23:49:04.6990040Z   ✔ resolves $ when use-m already unwrapped the module (0.419369ms)
+2026-11-15T23:49:04.6992130Z   ✔ resolves $ from a real ES module namespace with named exports (0.448709ms)
+2026-11-15T23:49:04.6993630Z   ✔ resolves a double-wrapped default (0.398981ms)
+2026-11-15T23:49:04.6995450Z   ✔ names the observed keys when no candidate exposes the export (0.52818ms)
+2026-11-15T23:49:04.6997440Z   ✔ reports the received value when use-m resolved nothing (0.455763ms)
+2026-11-15T23:49:04.6999100Z   ✔ describes null, primitives and objects (0.740919ms)
+2026-11-15T23:49:04.7000900Z   ✔ loads command-stream through an injected use() implementation (1.825422ms)
+2026-11-15T23:49:04.7003050Z   ✔ loads lino-arguments through an injected use() implementation (0.579331ms)
+2026-11-15T23:49:04.7004760Z ✔ use-module interop shim (13.924891ms)
+2026-11-15T23:49:04.7005970Z ▶ loadCommandStream turns on errexit
+2026-11-15T23:49:04.7007350Z   ✔ enables shell.errexit on the resolved module (3.042575ms)
+2026-11-15T23:49:04.7008970Z   ✔ still loads a module that exposes no shell (0.436424ms)
+2026-11-15T23:49:04.7010520Z ✔ loadCommandStream turns on errexit (3.879931ms)
+2026-11-15T23:49:04.7011840Z ▶ strict version-only tree validation
+2026-11-15T23:49:04.7013270Z   ✔ updates exactly two metadata fields in lock v2 (12.177208ms)
+2026-11-15T23:49:04.7014900Z   ✔ updates exactly two metadata fields in lock v3 (6.662344ms)
+2026-11-15T23:49:04.7016280Z   ✔ rejects unsupported drift (4.404671ms)
+2026-11-15T23:49:04.7017450Z   ✔ rejects name drift (3.758024ms)
+2026-11-15T23:49:04.7018500Z   ✔ rejects root drift (4.319013ms)
+2026-11-15T23:49:04.7019610Z   ✔ rejects version drift (4.186326ms)
+2026-11-15T23:49:04.7021530Z   ✔ rejects manifest drift (8.294792ms)
+2026-11-15T23:49:04.7022610Z   ✔ rejects graph drift (8.433186ms)
+2026-11-15T23:49:04.7024060Z ✔ strict version-only tree validation (56.521861ms)
+2026-11-15T23:49:04.7025570Z ▶ Wayback CLI retries and failure reporting
+2026-11-15T23:49:04.7027760Z   ✔ handles recover HTTP 429 without claiming no snapshot (2698.96819ms)
+2026-11-15T23:49:04.7029990Z   ✔ handles persistent HTTP 429 without claiming no snapshot (6746.692168ms)
+2026-11-15T23:49:04.7032050Z ✔ Wayback CLI retries and failure reporting (9448.574238ms)
+2026-11-15T23:49:04.7033400Z ▶ workflow concurrency policy
+2026-11-15T23:49:04.7034780Z   ✔ detects unsupported keys in a concurrency block (3.507239ms)
+2026-11-15T23:49:04.7036440Z   ✔ keeps every waiting main writer in the queue (16.767322ms)
+2026-11-15T23:49:04.7038030Z   ✔ uses only keys supported by GitHub Actions (18.050597ms)
+2026-11-15T23:49:04.7040010Z   ✔ uses job-level concurrency so stale checks cannot cancel active writers (5.769739ms)
+2026-11-15T23:49:04.7041970Z ✔ workflow concurrency policy (48.2275ms)
+2026-11-15T23:49:04.7043180Z ▶ workflow reliability policy
+2026-11-15T23:49:04.7055460Z   ✔ sets Git default branch config before checkout initializes repositories (1.413359ms)
+2026-11-15T23:49:04.7057660Z   ✔ excludes Vite source HTML from raw lychee file scans (2.645692ms)
+2026-11-15T23:49:04.7059790Z   ✔ uploads preview regeneration artifacts when screenshot rendering fails (4.317195ms)
+2026-11-15T23:49:04.7062610Z   ✔ uses the official Playwright image for preview regeneration with browser downloads disabled (3.904834ms)
+2026-11-15T23:49:04.7064710Z ✔ workflow reliability policy (14.724602ms)
+2026-11-15T23:49:04.7066020Z ▶ workflow artifact and writer reliability
+2026-11-15T23:49:04.7067770Z   ✔ serializes main writers and retries generated pushes after rebasing (2.822959ms)
+2026-11-15T23:49:04.7069910Z   ✔ verifies desktop package output before uploading artifacts (2.306626ms)
+2026-11-15T23:49:04.7071820Z ✔ workflow artifact and writer reliability (6.077924ms)
+2026-11-15T23:49:04.7073350Z ▶ release workflow change gates
+2026-11-15T23:49:04.7074840Z   ✔ skips the slow test matrix for pull requests with no code changes (2.229288ms)
+2026-11-15T23:49:04.7077030Z   ✔ runs the slow test matrix for workflow changes after fast checks pass (0.817832ms)
+2026-11-15T23:49:04.7079090Z   ✔ skips test-compilation for excluded-only pushes (0.672991ms)
+2026-11-15T23:49:04.7080930Z   ✔ skips check-file-line-limits for excluded-only pushes (0.575549ms)
+2026-11-15T23:49:04.7082550Z   ✔ skips lint for excluded-only pushes (0.617ms)
+2026-11-15T23:49:04.7083900Z   ✔ skips test for excluded-only pushes (0.672463ms)
+2026-11-15T23:49:04.7085430Z   ✔ skips validate-docs for excluded-only pushes (0.568768ms)
+2026-11-15T23:49:04.7086940Z ✔ release workflow change gates (6.852151ms)
+2026-11-15T23:49:04.7088330Z ▶ manual release quality gates
+2026-11-15T23:49:04.7089800Z   ✔ runs lint and tests before an instant manual release (27.556572ms)
+2026-11-15T23:49:04.7091830Z   ✔ blocks an instant manual release after either quality gate fails (1.571832ms)
+2026-11-15T23:49:04.7093980Z   ✔ blocks an instant manual release from a branch other than main (0.728029ms)
+2026-11-15T23:49:04.7095910Z   ✔ waits for successful lint before creating a manual changeset PR (1.366929ms)
+2026-11-15T23:49:04.7097760Z   ✔ does not run instant-release after cancellation (3.986814ms)
+2026-11-15T23:49:04.7099340Z   ✔ does not run changeset-pr after cancellation (0.969013ms)
+2026-11-15T23:49:04.7100910Z ✔ manual release quality gates (97.777497ms)
+2026-11-15T23:49:04.7102050Z ▶ npm publish token bootstrap
+2026-11-15T23:49:04.7103730Z   ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the release publish step (0.757343ms)
+2026-11-15T23:49:04.7106180Z   ✔ passes secrets.NPM_TOKEN as NODE_AUTH_TOKEN on the instant-release publish step (0.464606ms)
+2026-11-15T23:49:04.7108210Z ✔ npm publish token bootstrap (1.495661ms)
+2026-11-15T23:49:04.7109440Z ▶ npm user config cleanup
+2026-11-15T23:49:04.7112000Z   ✔ removes deprecated always-auth before npm commands in the release job (0.552027ms)
+2026-11-15T23:49:04.7114480Z   ✔ removes deprecated always-auth before npm commands in the instant-release job (0.436727ms)
+2026-11-15T23:49:04.7116480Z ✔ npm user config cleanup (1.212509ms)
+2026-11-15T23:49:04.7118220Z ▶ install-from-package smoke test
+2026-11-15T23:49:04.7119820Z   ✔ smoke-tests the published npm package in the release job (0.637033ms)
+2026-11-15T23:49:04.7121910Z   ✔ smoke-tests the published npm package in the instant-release job (5.669067ms)
+2026-11-15T23:49:04.7123700Z ✔ install-from-package smoke test (6.669959ms)
+2026-11-15T23:49:04.7124900Z ℹ tests 1317
+2026-11-15T23:49:04.7125560Z ℹ suites 125
+2026-11-15T23:49:04.7126230Z ℹ pass 1315
+2026-11-15T23:49:04.7126850Z ℹ fail 0
+2026-11-15T23:49:04.7127480Z ℹ cancelled 1
+2026-11-15T23:49:04.7128140Z ℹ skipped 1
+2026-11-15T23:49:04.7128780Z ℹ todo 0
+2026-11-15T23:49:04.7129520Z ℹ duration_ms 211726.353802
+2026-11-15T23:49:04.7130010Z 
+2026-11-15T23:49:04.7130420Z ✖ failing tests:
+2026-11-15T23:49:04.7130810Z 
+2026-11-15T23:49:04.7131540Z test at node_modules/test-anywhere/src/index.js:174:12
+2026-11-15T23:49:04.7133960Z ✖ processes a file larger than 10 MiB in a bounded worker and publishes privately (30004.436776ms)
+2026-11-15T23:49:04.7135620Z   'test timed out after 30000ms'
+2026-11-15T23:49:04.7137000Z Node.js test suite finished in 214s of its 300s budget (exit 1).
+2026-11-15T23:49:04.7145150Z ##[error]Process completed with exit code 1.
+2026-11-15T23:49:04.7563540Z Post job cleanup.
+2026-11-15T23:49:04.7575980Z ##[start-action display=Run actions/setup-node@v7.1.0;id=__220bb207-524a-43b0-b392-b1ea4ac800b4.__actions_setup-node]
+2026-11-15T23:49:04.7584160Z ##[end-action id=__220bb207-524a-43b0-b392-b1ea4ac800b4.__actions_setup-node;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-11-15T23:49:04.7884790Z Post job cleanup.
+2026-11-15T23:49:05.4439500Z [command]/usr/local/bin/git version
+2026-11-15T23:49:05.4531200Z git version 2.55.0
+2026-11-15T23:49:05.5135210Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/c3260160-4c05-4060-87f6-d87328f4f806/.gitconfig'
+2026-11-15T23:49:05.5185290Z Temporarily overriding HOME='/Users/runner/work/_temp/c3260160-4c05-4060-87f6-d87328f4f806' before making global git config changes
+2026-11-15T23:49:05.5233070Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-15T23:49:05.5267980Z [command]/usr/local/bin/git config --global --add safe.directory /Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+2026-11-15T23:49:05.5334650Z Removing SSH command configuration
+2026-11-15T23:49:05.5382660Z [command]/usr/local/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T23:49:05.5790630Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-15T23:49:05.8895430Z Removing HTTP extra header
+2026-11-15T23:49:05.8937380Z [command]/usr/local/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T23:49:05.9374760Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-15T23:49:06.3674550Z Removing includeIf entries pointing to credentials config files
+2026-11-15T23:49:06.3759560Z [command]/usr/local/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T23:49:06.4175100Z [command]/usr/local/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-15T23:49:06.9284810Z Cleaning up orphan processes

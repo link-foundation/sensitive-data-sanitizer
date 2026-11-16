@@ -15,6 +15,7 @@ list, root causes, fixes and upstream reports.
 | `analysis/TEMPLATE-DELTA-REVIEW.md` | Item-by-item comparison with the JS and Python pipeline templates (PRs since the issue 95 review) |
 | `analysis/{js,python}-compare.txt`, `analysis/{js,python}-files.tsv` | File-tree comparison with the templates |
 | `analysis/budgets-now.txt` | Per-job step budgets as charged by `tests/ci-timeouts.test.js` |
+| `analysis/npm-fetch-stall.txt`, `analysis/issue-32-cpu-calibration.txt` | Output of the F20 and F21 experiments |
 | `upstream-reports/` | Bodies of the issues filed in the templates, the npm/cli comment, scan output, and the `gypfile` reproduction logs |
 | `ci-logs/` | Downloaded logs of the failing and relevant runs (main before the fix, and this PR) |
 | `main-runs.json`, `recent-runs.json`, `recent-failed-jobs.tsv` | Run and job listings at the time the issue was opened |
@@ -28,5 +29,10 @@ Reusable scripts live in `experiments/issue-208/`:
 - `scan-unbudgeted.mjs <repo-dir>`: lists workflow steps that run a networked
   install without a step budget. It reads the YAML as data only.
 - `dump-budgets.mjs <workflow.yml:job>...`: prints the budgets charged to a job.
+- `npm-fetch-stall.mjs [TIMEOUT_MS] [CAP_S]`: compares npm's default fetch
+  timeout with the bounded flags against a loopback registry that never
+  answers (F20). Nothing is fetched from the network.
+- `sanitize-warmup-cost.mjs [cold|warm]`: splits the issue-32 probe's CPU time
+  into one-time initialization and linear matching (F21).
 
 Template clones were read as data and never executed.

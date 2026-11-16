@@ -1,0 +1,67 @@
+CodeQL (javascript-typescript)	Require clean CodeQL results	﻿2026-11-16T08:32:08.3839089Z ##[group]Run node scripts/check-codeql-results.mjs codeql-results
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.3839501Z ^[[36;1mnode scripts/check-codeql-results.mjs codeql-results^[[0m
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5296672Z shell: /usr/bin/bash -e {0}
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5296955Z env:
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5297130Z   GIT_CONFIG_COUNT: 1
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5297319Z   GIT_CONFIG_KEY_0: init.defaultBranch
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5297523Z   GIT_CONFIG_VALUE_0: main
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5297713Z   CODEQL_ACTION_DIFF_INFORMED_QUERIES: false
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5297975Z   CODEQL_ACTION_JOB_RUN_UUID: d796a603-8d4d-46d4-b32b-42afcf0e62a9
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5298256Z   CODEQL_ACTION_FEATURE_MULTI_LANGUAGE: false
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5298476Z   CODEQL_ACTION_FEATURE_SANDWICH: false
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5298683Z   CODEQL_ACTION_FEATURE_SARIF_COMBINE: true
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5298889Z   CODEQL_ACTION_FEATURE_WILL_UPLOAD: true
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5299263Z   CODEQL_ACTION_VERSION: 4.39.3
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5299460Z   CODEQL_ACTION_INIT_HAS_RUN: true
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5299810Z   CODEQL_ACTION_ANALYSIS_KEY: .github/workflows/security.yml:codeql
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5300088Z   CODEQL_WORKFLOW_STARTED_AT: 2026-11-16T08:30:59.090Z
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5300319Z   CODEQL_ACTION_HAS_SET_UP_CODEQL: true
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5300507Z   CODEQL_RAM: 14302
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5300672Z   CODEQL_THREADS: 4
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5300868Z   CODEQL_ACTION_AUTOBUILD_DID_COMPLETE_SUCCESSFULLY: true
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5301144Z   CODEQL_ACTION_SARIF_RESULTS_OUTPUT_DIR: codeql-results
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5301716Z   CODEQL_UPLOAD_SARIF__GITHUB_WORKFLOWS_SECURITY_YML_CODEQL_LANGUAGE_JAVASCRIPT_TYPESCRIPT__CODEQL: CODEQL_UPLOAD_SARIF__GITHUB_WORKFLOWS_SECURITY_YML_CODEQL_LANGUAGE_JAVASCRIPT_TYPESCRIPT__CODEQL
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5302481Z   CODEQL_ACTION_ANALYZE_DID_COMPLETE_SUCCESSFULLY: true
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5302709Z ##[endgroup]
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5732753Z "codeql-results/javascript.sarif run 0: js/incomplete-sanitization [unspecified severity] This replaces only the first occurrence of '/'."
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5734000Z "CodeQL result gate rejected 1 finding(s) or report error(s)"
+CodeQL (javascript-typescript)	Require clean CodeQL results	2026-11-16T08:32:08.5771742Z ##[error]Process completed with exit code 1.
+Pipeline Status	Fail the run when a required job was cancelled or failed	﻿2026-11-16T08:32:56.0190764Z ##[group]Run bash scripts/check-pipeline-status.sh
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0191169Z ^[[36;1mbash scripts/check-pipeline-status.sh^[[0m
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0217796Z shell: /usr/bin/bash -e {0}
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0218218Z env:
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0218425Z   GIT_CONFIG_COUNT: 1
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0218664Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0218927Z   GIT_CONFIG_VALUE_0: main
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0219732Z   NEEDS_JSON: {
+Pipeline Status	Fail the run when a required job was cancelled or failed	  "codeql": {
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "failure",
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+Pipeline Status	Fail the run when a required job was cancelled or failed	  "dependency-review": {
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+Pipeline Status	Fail the run when a required job was cancelled or failed	  "dependency-graph": {
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {
+Pipeline Status	Fail the run when a required job was cancelled or failed	      "enabled": "true"
+Pipeline Status	Fail the run when a required job was cancelled or failed	    }
+Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+Pipeline Status	Fail the run when a required job was cancelled or failed	  "npm-audit": {
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+Pipeline Status	Fail the run when a required job was cancelled or failed	  },
+Pipeline Status	Fail the run when a required job was cancelled or failed	  "python-audit": {
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "result": "success",
+Pipeline Status	Fail the run when a required job was cancelled or failed	    "outputs": {}
+Pipeline Status	Fail the run when a required job was cancelled or failed	  }
+Pipeline Status	Fail the run when a required job was cancelled or failed	}
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0222110Z   GH_TOKEN: ***
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0222499Z   RUN_SHA: 1f5737639ea4597be7a92e0b165b2a56b55e5099
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0222853Z   HEAD_REF: refs/pull/209/head
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0223176Z ##[endgroup]
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0693332Z Failed jobs:    codeql
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0693801Z Cancelled jobs: <none>
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.0706445Z ##[error]Failing jobs: codeql
+Pipeline Status	Fail the run when a required job was cancelled or failed	2026-11-16T08:32:56.7277201Z ##[error]Process completed with exit code 1.

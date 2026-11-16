@@ -1,0 +1,394 @@
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	﻿2026-11-16T09:51:51.4244670Z Current runner version: '2.338.2'
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4293060Z ##[group]Runner Image Provisioner
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4295360Z Hosted Compute Agent
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4297500Z Version: 20260819.586
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4299260Z Commit: 3cc4a88dfa507ef76119ad1bb3eccc6378bb2b76
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4301440Z Build Date: 2026-08-18T23:20:18Z
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4303280Z Worker ID: {eb2a4338-4bc8-490d-b144-65b6e2da634f}
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4305200Z Azure Region: westus
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4307450Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4312860Z ##[group]Operating System
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4314020Z macOS
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4315740Z 26.6.1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4317120Z 25G76
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4318820Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4320300Z ##[group]Runner Image
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4322450Z Image: macos-26
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4324300Z Version: 20260824.0517.1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4327450Z Included Software: https://github.com/actions/runner-images/blob/macos-26/20260824.0517/images/macos/macos-26-Readme.md
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4331960Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-26%2F20260824.0517
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4335210Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4337890Z ##[group]GITHUB_TOKEN Permissions
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4343160Z Contents: read
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4345170Z Metadata: read
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4346490Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4351280Z Secret source: Actions
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4354930Z Cache mode: write
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.4358380Z Prepare workflow directory
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.5583940Z Prepare all required actions
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.5682860Z Getting action download info
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:51.8989680Z Download action repository 'actions/checkout@v7.0.1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:52.4024520Z Download action repository 'oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:53.2929420Z Download action repository 'denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed' (SHA:22d081ff2d3a40755e97629de92e3bcbfa7cf2ed)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.3397940Z Complete job name: Test runtimes (macos-26-intel, bun, 6/6)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6017910Z ##[group]Run actions/checkout@v7.0.1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6023790Z with:
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6027160Z   fetch-depth: 0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6031370Z   persist-credentials: false
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6037080Z   repository: link-foundation/sensitive-data-sanitizer
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6084640Z   token: ***
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6087840Z   ssh-strict: true
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6094200Z   ssh-user: git
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6096460Z   clean: true
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6098860Z   sparse-checkout-cone-mode: true
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6101440Z   fetch-tags: false
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6103670Z   show-progress: true
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6105970Z   lfs: false
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6108030Z   submodules: false
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6110250Z   set-safe-directory: true
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6113470Z   allow-unsafe-pr-checkout: false
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6126640Z env:
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6128930Z   GIT_CONFIG_COUNT: 1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6132810Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6135720Z   GIT_CONFIG_VALUE_0: main
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6138500Z   TEST_SHARD: 6/6
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:54.6140500Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.4124090Z Syncing repository: link-foundation/sensitive-data-sanitizer
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.4193390Z ##[group]Getting Git version info
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.4301060Z Working directory is '/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer'
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.4389230Z [command]/usr/local/bin/git version
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.4431730Z git version 2.55.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.4672450Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.5760940Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/49fa9bfa-a40c-43c8-8ca3-4d563011265b/.gitconfig'
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.5777000Z Temporarily overriding HOME='/Users/runner/work/_temp/49fa9bfa-a40c-43c8-8ca3-4d563011265b' before making global git config changes
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.5912420Z Adding repository directory to the temporary git global config as a safe directory
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.6231010Z [command]/usr/local/bin/git config --global --add safe.directory /Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.6491750Z Deleting the contents of '/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer'
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.6535530Z ##[group]Determining repository object format
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.6544020Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.6564330Z ##[group]Initializing the repository
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.6574950Z [command]/usr/local/bin/git init /Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.7203180Z Initialized empty Git repository in /Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.7302150Z [command]/usr/local/bin/git remote add origin https://github.com/link-foundation/sensitive-data-sanitizer
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.7788080Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.7847790Z ##[group]Disabling automatic garbage collection
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.7904590Z [command]/usr/local/bin/git config --local gc.auto 0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.8059400Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.8119520Z ##[group]Setting up auth
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.8130030Z Removing SSH command configuration
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.8168330Z [command]/usr/local/bin/git config --local --name-only --get-regexp core\.sshCommand
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:56.8303600Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.1588190Z Removing HTTP extra header
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.1595360Z [command]/usr/local/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.1864360Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.4431240Z Removing includeIf entries pointing to credentials config files
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.4438580Z [command]/usr/local/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.4641560Z [command]/usr/local/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.7602040Z [command]/usr/local/bin/git config --file /Users/runner/work/_temp/git-credentials-a49879dc-1b9a-4c43-be40-7f233ae73519.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.8224650Z [command]/usr/local/bin/git config --local includeIf.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path /Users/runner/work/_temp/git-credentials-a49879dc-1b9a-4c43-be40-7f233ae73519.config
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.8661560Z [command]/usr/local/bin/git config --local includeIf.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path /Users/runner/work/_temp/git-credentials-a49879dc-1b9a-4c43-be40-7f233ae73519.config
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.8820240Z [command]/usr/local/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-a49879dc-1b9a-4c43-be40-7f233ae73519.config
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.9010070Z [command]/usr/local/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-a49879dc-1b9a-4c43-be40-7f233ae73519.config
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.9255850Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.9300960Z ##[group]Fetching the repository
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:51:57.9352440Z [command]/usr/local/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +eebd1199f958ddecd5c59c7addd79615ea102378:refs/remotes/pull/209/merge
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2193600Z From https://github.com/link-foundation/sensitive-data-sanitizer
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2204140Z  * [new branch]      issue-1-b188f503edf3                     -> origin/issue-1-b188f503edf3
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2207900Z  * [new branch]      issue-100-3ee178fbdee1                   -> origin/issue-100-3ee178fbdee1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2213580Z  * [new branch]      issue-102-b6ecf86c9f05                   -> origin/issue-102-b6ecf86c9f05
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2220540Z  * [new branch]      issue-106-e528442ca6c2                   -> origin/issue-106-e528442ca6c2
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2225850Z  * [new branch]      issue-118-bfb692598f84                   -> origin/issue-118-bfb692598f84
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2227910Z  * [new branch]      issue-120-75801fa5c894                   -> origin/issue-120-75801fa5c894
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2233590Z  * [new branch]      issue-122-34f73532cdd3                   -> origin/issue-122-34f73532cdd3
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2236540Z  * [new branch]      issue-124-e3156f13f3cd                   -> origin/issue-124-e3156f13f3cd
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2238890Z  * [new branch]      issue-126-5ea993b133e4                   -> origin/issue-126-5ea993b133e4
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2240860Z  * [new branch]      issue-128-e3cb1240cec3                   -> origin/issue-128-e3cb1240cec3
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2242820Z  * [new branch]      issue-13-ae4189325e07                    -> origin/issue-13-ae4189325e07
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2244790Z  * [new branch]      issue-142-5e0e1a2b2a47                   -> origin/issue-142-5e0e1a2b2a47
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2246580Z  * [new branch]      issue-144-8601a000905a                   -> origin/issue-144-8601a000905a
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2247930Z  * [new branch]      issue-146-eadba84d290c                   -> origin/issue-146-eadba84d290c
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2249950Z  * [new branch]      issue-148-2aee718b2627                   -> origin/issue-148-2aee718b2627
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2251880Z  * [new branch]      issue-149-cc1e74298dbb                   -> origin/issue-149-cc1e74298dbb
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2253740Z  * [new branch]      issue-150-2b7b7513a315                   -> origin/issue-150-2b7b7513a315
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2256620Z  * [new branch]      issue-151-91ceeb862285                   -> origin/issue-151-91ceeb862285
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2258660Z  * [new branch]      issue-152-98b329eb0b4d                   -> origin/issue-152-98b329eb0b4d
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2260540Z  * [new branch]      issue-153-251074c8d373                   -> origin/issue-153-251074c8d373
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2262410Z  * [new branch]      issue-154-9dd4e45be37f                   -> origin/issue-154-9dd4e45be37f
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2264310Z  * [new branch]      issue-162-90da9a9fbec6                   -> origin/issue-162-90da9a9fbec6
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2266150Z  * [new branch]      issue-166-1c3a0db28af9                   -> origin/issue-166-1c3a0db28af9
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2268020Z  * [new branch]      issue-168-b786a429c41d                   -> origin/issue-168-b786a429c41d
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2269900Z  * [new branch]      issue-170-49405b384e0c                   -> origin/issue-170-49405b384e0c
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2271840Z  * [new branch]      issue-174-f268fc455254                   -> origin/issue-174-f268fc455254
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2273760Z  * [new branch]      issue-178-5b158e6082cf                   -> origin/issue-178-5b158e6082cf
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2275140Z  * [new branch]      issue-180-aafece4fff0c                   -> origin/issue-180-aafece4fff0c
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2276650Z  * [new branch]      issue-184-e5d0caea945a                   -> origin/issue-184-e5d0caea945a
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2278100Z  * [new branch]      issue-190-544583eaa070                   -> origin/issue-190-544583eaa070
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2279990Z  * [new branch]      issue-198-c131c7c54d68                   -> origin/issue-198-c131c7c54d68
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2281550Z  * [new branch]      issue-203-8585ba428494                   -> origin/issue-203-8585ba428494
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2283130Z  * [new branch]      issue-208-a358b536b075                   -> origin/issue-208-a358b536b075
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2285920Z  * [new branch]      issue-24-4efef94003ab                    -> origin/issue-24-4efef94003ab
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2287630Z  * [new branch]      issue-32-18721f994a02                    -> origin/issue-32-18721f994a02
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2288990Z  * [new branch]      issue-34-979b472b0be1                    -> origin/issue-34-979b472b0be1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2290770Z  * [new branch]      issue-36-581486aaaa3f                    -> origin/issue-36-581486aaaa3f
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2292740Z  * [new branch]      issue-38-bc8becdd8d18                    -> origin/issue-38-bc8becdd8d18
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2294490Z  * [new branch]      issue-43-840a44177950                    -> origin/issue-43-840a44177950
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2295790Z  * [new branch]      issue-48-91ec9d5d4db8                    -> origin/issue-48-91ec9d5d4db8
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2297300Z  * [new branch]      issue-52-5379832e5bd4                    -> origin/issue-52-5379832e5bd4
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2298860Z  * [new branch]      issue-56-4276380c7297                    -> origin/issue-56-4276380c7297
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2300760Z  * [new branch]      issue-65-41acbb882c38                    -> origin/issue-65-41acbb882c38
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2302520Z  * [new branch]      issue-71-63a050a5595f                    -> origin/issue-71-63a050a5595f
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2303840Z  * [new branch]      issue-75-bf955ea89a1c                    -> origin/issue-75-bf955ea89a1c
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2305150Z  * [new branch]      issue-84-7c4f150def22                    -> origin/issue-84-7c4f150def22
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2306500Z  * [new branch]      issue-89-9faef95b7b9a                    -> origin/issue-89-9faef95b7b9a
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2307910Z  * [new branch]      issue-92-255abc3c67f8                    -> origin/issue-92-255abc3c67f8
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2309190Z  * [new branch]      issue-95-5445009fe5d0                    -> origin/issue-95-5445009fe5d0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2310370Z  * [new branch]      main                                     -> origin/main
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2311360Z  * [new tag]         v0.12.0                                  -> v0.12.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2313480Z  * [new tag]         v0.12.1                                  -> v0.12.1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2314880Z  * [new tag]         v0.12.2                                  -> v0.12.2
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2316200Z  * [new tag]         v0.13.0                                  -> v0.13.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2317460Z  * [new tag]         v0.14.0                                  -> v0.14.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2318730Z  * [new tag]         v0.15.0                                  -> v0.15.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2319990Z  * [new tag]         v0.16.0                                  -> v0.16.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2321250Z  * [new tag]         v0.16.1                                  -> v0.16.1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2322500Z  * [new tag]         v0.16.2                                  -> v0.16.2
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2323780Z  * [new tag]         v0.17.0                                  -> v0.17.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2324950Z  * [new tag]         v0.17.1                                  -> v0.17.1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2325950Z  * [new tag]         v0.18.0                                  -> v0.18.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2326860Z  * [new tag]         v0.19.0                                  -> v0.19.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2327750Z  * [new tag]         v0.19.1                                  -> v0.19.1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2328730Z  * [new tag]         v0.19.2                                  -> v0.19.2
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2329670Z  * [new tag]         v0.19.3                                  -> v0.19.3
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2330520Z  * [new tag]         v0.20.0                                  -> v0.20.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2331420Z  * [new tag]         v0.21.0                                  -> v0.21.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2332270Z  * [new tag]         v0.21.1                                  -> v0.21.1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2333180Z  * [new tag]         v0.21.2                                  -> v0.21.2
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2334990Z  * [new tag]         v0.21.3                                  -> v0.21.3
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2335890Z  * [new tag]         v0.21.4                                  -> v0.21.4
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2336810Z  * [new tag]         v0.21.5                                  -> v0.21.5
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2337710Z  * [new tag]         v0.21.6                                  -> v0.21.6
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2338570Z  * [new tag]         v0.21.7                                  -> v0.21.7
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2339440Z  * [new tag]         v0.21.8                                  -> v0.21.8
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2340810Z  * [new tag]         v0.22.0                                  -> v0.22.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2341740Z  * [new tag]         v0.22.1                                  -> v0.22.1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2342600Z  * [new tag]         v0.22.2                                  -> v0.22.2
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2343490Z  * [new tag]         v0.22.3                                  -> v0.22.3
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2344450Z  * [new tag]         v0.22.4                                  -> v0.22.4
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2345570Z  * [new tag]         v0.22.5                                  -> v0.22.5
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2346450Z  * [new tag]         v0.23.0                                  -> v0.23.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2347460Z  * [new ref]         eebd1199f958ddecd5c59c7addd79615ea102378 -> pull/209/merge
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2349750Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2350570Z ##[group]Determining the checkout info
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2351460Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2352330Z [command]/usr/local/bin/git sparse-checkout disable
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2438850Z [command]/usr/local/bin/git config --local --unset-all extensions.worktreeConfig
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2616920Z ##[group]Checking out the ref
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:01.2635850Z [command]/usr/local/bin/git checkout --progress --force refs/remotes/pull/209/merge
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.4889660Z Updating files:  30% (687/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.5651910Z Updating files:  31% (689/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.5984280Z Updating files:  32% (711/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.6080740Z Updating files:  33% (733/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.6153100Z Updating files:  34% (755/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.6154630Z Updating files:  35% (777/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.6195920Z Updating files:  36% (800/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.6432720Z Updating files:  37% (822/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.7769070Z Updating files:  38% (844/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.8807380Z Updating files:  39% (866/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.9719890Z Updating files:  40% (888/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.9756930Z Updating files:  41% (911/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.9821160Z Updating files:  42% (933/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.9872010Z Updating files:  43% (955/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.9905230Z Updating files:  44% (977/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:02.9953210Z Updating files:  45% (999/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.0000590Z Updating files:  46% (1022/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.0036870Z Updating files:  47% (1044/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.0092770Z Updating files:  48% (1066/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.0367550Z Updating files:  49% (1088/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.3508750Z Updating files:  50% (1110/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.4514660Z Updating files:  51% (1133/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.5062590Z Updating files:  51% (1134/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.5342610Z Updating files:  52% (1155/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.6213700Z Updating files:  53% (1177/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.6574780Z Updating files:  54% (1199/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.7580120Z Updating files:  55% (1221/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.7755880Z Updating files:  56% (1244/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.8945570Z Updating files:  57% (1266/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.9591130Z Updating files:  58% (1288/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.9792610Z Updating files:  59% (1310/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:03.9961850Z Updating files:  60% (1332/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.0053160Z Updating files:  61% (1355/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.0154350Z Updating files:  62% (1377/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.0242030Z Updating files:  63% (1399/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.0757670Z Updating files:  64% (1421/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.0858630Z Updating files:  65% (1443/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.1694330Z Updating files:  66% (1466/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.2451670Z Updating files:  67% (1488/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.2547540Z Updating files:  68% (1510/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.2621970Z Updating files:  69% (1532/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.2711750Z Updating files:  70% (1554/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.2776210Z Updating files:  71% (1577/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.2859300Z Updating files:  72% (1599/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.2935370Z Updating files:  73% (1621/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.3430510Z Updating files:  74% (1643/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.3492300Z Updating files:  75% (1665/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.3548360Z Updating files:  75% (1667/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.3704410Z Updating files:  76% (1688/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.3997260Z Updating files:  77% (1710/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.4466220Z Updating files:  78% (1732/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.4594890Z Updating files:  79% (1754/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.4824510Z Updating files:  80% (1776/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.5171790Z Updating files:  81% (1799/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.6985810Z Updating files:  82% (1821/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.7509840Z Updating files:  83% (1843/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.8600380Z Updating files:  84% (1865/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.8908170Z Updating files:  85% (1887/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.9069340Z Updating files:  86% (1910/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.9242400Z Updating files:  87% (1932/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.9430420Z Updating files:  88% (1954/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.9630520Z Updating files:  89% (1976/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.9772190Z Updating files:  90% (1998/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:04.9942590Z Updating files:  91% (2021/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.0058090Z Updating files:  92% (2043/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.0206340Z Updating files:  93% (2065/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.0339800Z Updating files:  94% (2087/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.0477120Z Updating files:  95% (2109/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.0609780Z Updating files:  96% (2132/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.0762320Z Updating files:  97% (2154/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.0873130Z Updating files:  98% (2176/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.1004900Z Updating files:  99% (2198/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.1006400Z Updating files: 100% (2220/2220)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.1007370Z Updating files: 100% (2220/2220), done.
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.1138250Z HEAD is now at eebd119 Merge 6e8b74a175f07797d767886745ead6a0a1a40115 into e2835ddcfdfe63360e335593d6ebd0e20929acac
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.1291030Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.1568000Z [command]/usr/local/bin/git log -1 --format=%H
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.1755630Z eebd1199f958ddecd5c59c7addd79615ea102378
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.1778340Z ##[group]Removing auth
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.1779170Z Removing SSH command configuration
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.1788020Z [command]/usr/local/bin/git config --local --name-only --get-regexp core\.sshCommand
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.1951810Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:05.9990230Z Removing HTTP extra header
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.0031730Z [command]/usr/local/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.0179460Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.2728030Z Removing includeIf entries pointing to credentials config files
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.2758010Z [command]/usr/local/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.2902940Z includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.2908830Z includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.2913270Z includeif.gitdir:/github/workspace/.git.path
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.2916490Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.2924790Z [command]/usr/local/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.3135870Z /Users/runner/work/_temp/git-credentials-a49879dc-1b9a-4c43-be40-7f233ae73519.config
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.3193900Z [command]/usr/local/bin/git config --local --unset includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git.path \/Users\/runner\/work\/_temp\/git\-credentials\-a49879dc\-1b9a\-4c43\-be40\-7f233ae73519\.config
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.3427260Z [command]/usr/local/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.3626300Z /Users/runner/work/_temp/git-credentials-a49879dc-1b9a-4c43-be40-7f233ae73519.config
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.3660210Z [command]/usr/local/bin/git config --local --unset includeif.gitdir:/Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer/.git/worktrees/*.path \/Users\/runner\/work\/_temp\/git\-credentials\-a49879dc\-1b9a\-4c43\-be40\-7f233ae73519\.config
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.3876310Z [command]/usr/local/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.4071240Z /github/runner_temp/git-credentials-a49879dc-1b9a-4c43-be40-7f233ae73519.config
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.4194270Z [command]/usr/local/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-a49879dc\-1b9a\-4c43\-be40\-7f233ae73519\.config
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.4305910Z [command]/usr/local/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.4504410Z /github/runner_temp/git-credentials-a49879dc-1b9a-4c43-be40-7f233ae73519.config
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.4524110Z [command]/usr/local/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-a49879dc\-1b9a\-4c43\-be40\-7f233ae73519\.config
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.4760180Z [command]/usr/local/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.7589130Z Removing credentials config '/Users/runner/work/_temp/git-credentials-a49879dc-1b9a-4c43-be40-7f233ae73519.config'
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.7619360Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.8021960Z ##[group]Run bash scripts/simulate-fresh-merge.sh
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.8023360Z ^[[36;1mbash scripts/simulate-fresh-merge.sh^[[0m
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.8140660Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.8141480Z env:
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.8142000Z   GIT_CONFIG_COUNT: 1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.8142650Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.8143360Z   GIT_CONFIG_VALUE_0: main
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.8143900Z   TEST_SHARD: 6/6
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.8144420Z   BASE_REF: main
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.8144940Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.8695150Z === Synchronizing PR with latest main ===
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.8727160Z This prevents stale merge preview issues (see docs/case-studies/issue-23)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.8756730Z 
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:06.9146600Z Fetching latest main...
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:07.5763500Z From https://github.com/link-foundation/sensitive-data-sanitizer
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:07.5765070Z  * branch            main       -> FETCH_HEAD
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:07.6101040Z Current checkout (merge preview): eebd1199f958ddecd5c59c7addd79615ea102378
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:07.6102730Z Latest base branch (main): e2835ddcfdfe63360e335593d6ebd0e20929acac
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:07.6104640Z 
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:07.6315510Z Merge preview is up-to-date with main. No simulation needed.
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:07.6317970Z 
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:07.6742760Z Prepare all required actions
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:07.6744740Z Getting action download info
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:07.7479480Z Download action repository 'actions/setup-node@v7.1.0' (SHA:949feb2413d6458794dcd2491c4babbbce0c15c1)
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.0246210Z ##[group]Run ./.github/actions/setup-node
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.0248940Z with:
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.0250350Z env:
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.0252150Z   GIT_CONFIG_COUNT: 1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.0253190Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.0255550Z   GIT_CONFIG_VALUE_0: main
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.0256980Z   TEST_SHARD: 6/6
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.0258260Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.0614770Z ##[start-action display=Run actions/setup-node@v7.1.0;id=__self.__actions_setup-node]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.1167060Z ##[group]Run actions/setup-node@v7.1.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.1169060Z with:
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.1170420Z   node-version-file: .nvmrc
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.1172230Z   package-manager-cache: false
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.1174020Z   check-latest: false
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.1189690Z   token: ***
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.1191090Z env:
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.1192980Z   GIT_CONFIG_COUNT: 1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.1194670Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.1196230Z   GIT_CONFIG_VALUE_0: main
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.1199090Z   TEST_SHARD: 6/6
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.1200540Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.4908130Z Node version file is not JSON file
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.4989240Z Node version file is not TOML file
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.5050700Z Resolved .nvmrc as 26.13.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:09.5295610Z Attempting to download 26.13.0...
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:10.9018670Z Acquiring 26.13.0 - x64 from https://github.com/actions/node-versions/releases/download/26.13.0-41378513395/node-26.13.0-darwin-x64.tar.gz
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:12.1847100Z Extracting ...
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:12.2139150Z [command]/usr/bin/tar xz --strip 1 -C /Users/runner/work/_temp/194a636f-4186-4589-ba7d-b621fe43c8e4 -f /Users/runner/work/_temp/b0a0059d-8cd5-43ec-adaa-6886c5af4c77
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:16.8408260Z Adding to the cache ...
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:25.8140620Z ##[group]Environment details
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.5780490Z node: v26.13.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.5789600Z npm: 11.20.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.5791690Z yarn: 1.22.22
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.5792740Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.5982810Z ##[end-action id=__self.__actions_setup-node;outcome=success;conclusion=success;duration_ms=17536]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.5988620Z ##[start-action display=Install reviewed npm;id=__self.__run]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.6036910Z ##[group]Run bash scripts/run-with-budget-warning.sh 60 "Reviewed npm install" bash scripts/install-reviewed-npm.sh 12.2.2
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.6039110Z ^[[36;1mbash scripts/run-with-budget-warning.sh 60 "Reviewed npm install" bash scripts/install-reviewed-npm.sh 12.2.2^[[0m
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.6118000Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.6118720Z env:
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.6119140Z   GIT_CONFIG_COUNT: 1
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.6119660Z   GIT_CONFIG_KEY_0: init.defaultBranch
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.6120280Z   GIT_CONFIG_VALUE_0: main
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.6120820Z   TEST_SHARD: 6/6
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.6121290Z ##[endgroup]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:52:26.6911840Z Running Reviewed npm install with a 60s budget (warning at 42s).
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:08.4218730Z ##[warning]Reviewed npm install has run for 42s of its 60s budget.
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:27.2809850Z ##[error]Reviewed npm install did not finish within its 60s budget, so termination was requested. Shorten the step or raise its budget (keeping it below the job's timeout-minutes backstop).
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:27.4613100Z Processes still running when the 60s budget expired (pid user command):
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:27.4797570Z 17353 runner bash scripts/run-with-budget-warning.sh 60 Reviewed npm install bash scripts/install-reviewed-npm.sh 12.2.2
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:27.4832190Z 17356 runner bash scripts/install-reviewed-npm.sh 12.2.2
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:27.4863730Z 17384 runner npm install npm@12.2.2
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.0953410Z ##[error]Process completed with exit code 124.
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.0978620Z ##[end-action id=__self.__run;outcome=failure;conclusion=failure;duration_ms=61498]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.0991420Z ##[start-action display=Enable npm debug logging;id=__self.__run_2]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.1005720Z ##[end-action id=__self.__run_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.1012330Z ##[start-action display=Restore requested package cache with current npm;id=__self.__actions_setup-node_2]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.1024570Z ##[end-action id=__self.__actions_setup-node_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.1462060Z Post job cleanup.
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.1472930Z ##[start-action display=Run actions/setup-node@v7.1.0;id=__c5c10162-f968-47bb-a4a1-64cc86d2a57c.__actions_setup-node]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.1480260Z ##[end-action id=__c5c10162-f968-47bb-a4a1-64cc86d2a57c.__actions_setup-node;outcome=skipped;conclusion=skipped;duration_ms=0]
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.1719750Z Post job cleanup.
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.4464400Z [command]/usr/local/bin/git version
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.4672830Z git version 2.55.0
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.4917490Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/673f00d5-db41-4d72-9c43-c2e8f687846b/.gitconfig'
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.4944290Z Temporarily overriding HOME='/Users/runner/work/_temp/673f00d5-db41-4d72-9c43-c2e8f687846b' before making global git config changes
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.4982660Z Adding repository directory to the temporary git global config as a safe directory
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.5015180Z [command]/usr/local/bin/git config --global --add safe.directory /Users/runner/work/sensitive-data-sanitizer/sensitive-data-sanitizer
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.5108000Z Removing SSH command configuration
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.5141580Z [command]/usr/local/bin/git config --local --name-only --get-regexp core\.sshCommand
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.5251980Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.8213250Z Removing HTTP extra header
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.8242930Z [command]/usr/local/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:28.8345960Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:29.1274450Z Removing includeIf entries pointing to credentials config files
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:29.1285890Z [command]/usr/local/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:29.1549180Z [command]/usr/local/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Test runtimes (macos-26-intel, bun, 6/6)	UNKNOWN STEP	2026-11-16T09:53:29.4664800Z Cleaning up orphan processes

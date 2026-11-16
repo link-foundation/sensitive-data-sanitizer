@@ -17,3 +17,5 @@ Use secretlint 14, which builds the recommended rules into `@secretlint/core`, s
 - Assert the shape of action pins in tests, so Dependabot bumps keep them green.
 - Split the Ubuntu Bun test suite into two shards, and fail the lychee download fixtures only where a test needs the retry.
 - Explain the expected error annotations of the simulated Buildx registry outage with a notice.
+- Bound and retry each registry request of the reviewed npm install, with an http log under tracing.
+- Measure the issue-32 document-guard probe as growth on the same machine after warm-up, instead of an absolute CPU limit.

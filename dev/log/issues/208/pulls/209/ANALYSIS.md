@@ -4,7 +4,7 @@
 
 | # | Requirement (from the issue) | Where it is addressed |
 | --- | --- | --- |
-| R1 | Find and fix every false positive, false negative, warning and error in CI/CD | Findings F1–F19 below |
+| R1 | Find and fix every false positive, false negative, warning and error in CI/CD | Findings F1–F21 below |
 | R2 | Compare the full workflow and CI script trees with the JS and Python pipeline templates and adopt their best practices | `analysis/TEMPLATE-DELTA-REVIEW.md`; every (b) row is ported (F7–F14) |
 | R3 | Report issues found here that also exist in the templates | [Upstream reports](#upstream-reports) |
 | R4 | Follow hive-mind `docs/CI-CD-BEST-PRACTICES.md` | [Best-practices check](#hive-mind-ci-cd-best-practices) |
@@ -27,7 +27,7 @@ All times are UTC.
 
 ## Findings, root causes and fixes
 
-F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best practices that were missing here. F15 to F19 surfaced while CI ran on this PR.
+F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best practices that were missing here. F15 to F21 surfaced while CI ran on this PR.
 
 ### F1. Cancelled macOS test leg on `main` (error)
 
@@ -144,7 +144,7 @@ F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best 
 
 ### F18. Ubuntu Bun suite past its budget warning (warning)
 
-- **Symptom.** On 9f90431 the job "Test runtimes (ubuntu-24.04, bun, 1/1)" warned "Bun test suite has run for 140s of its 200s budget" and finished in 162s (`ci-logs/bun-133190645223.log`). On `main` (e2835dd) the same suite took 137s (`ci-logs/bun-main-133022147761.log`), 3s below the warning.
+- **Symptom.** On 9f90431 the job "Test runtimes (ubuntu-24.04, bun, 1/1)" warned "Bun test suite has run for 140s of its 200s budget" and finished in 162s (`ci-logs/bun-133190645223.log.gz`). On `main` (e2835dd) the same suite took 137s (`ci-logs/bun-main-133022147761.log.gz`), 3s below the warning.
 - **Root cause.** Bun runs test files one after another, and Ubuntu ran the whole suite in one job. The tests this PR adds cost about 25s. The biggest share is `tests/lychee-install.test.js` at 9.5s: it sets `LYCHEE_DOWNLOAD_RETRY_DELAY=0`, but curl reads `--retry-delay 0` as "use the default backoff", which starts at 1s. Every fixture also failed its first request, so each test waited through retries.
 - **Fix.**
   - Ubuntu Bun now runs as two shards, like Bun on Windows (3) and macOS (6). Every other budgeted step in the run stayed at or below 63% of its budget.
@@ -157,6 +157,28 @@ F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best 
 - **Symptom.** The jobs "Buildx registry recovery (recovered)" and "(exhausted)" passed, but carried `failure` annotations such as "500 Internal Server Error: simulated canonical registry outage" (`ci-logs/annotations-9f90431.tsv`).
 - **Root cause.** The fixture injects registry outages. The upstream `docker/setup-buildx-action` annotates each one as an error, and GitHub cannot suppress the annotations of a `uses:` step.
 - **Fix.** After asserting the outcome, the verification step adds a notice that names these annotations as the fixture's, so the annotation list explains itself.
+
+### F20. macOS reviewed-npm install stalled past its budget (error)
+
+- **Symptom.** On 6e8b74a the job "Test runtimes (macos-26-intel, bun, 6/6)" printed nothing from `install-reviewed-npm.sh` for 60s. It then failed with "Reviewed npm install did not finish within its 60s budget", leaving only the script itself running (`ci-logs/macos-bun-6of6-133205558054.log`). The other legs of the same run finished the step.
+- **Root cause.** The script called `npm install` with npm's defaults. The default `fetch-timeout` is 300 000 ms, so one stalled registry request waits five minutes before npm retries it, far beyond the 60s budget. `experiments/issue-208/npm-fetch-stall.mjs` reproduces this offline against a loopback registry that never answers. With the defaults, npm was still waiting on its second request when it was killed at 20s. With bounded flags it retried and failed with `FETCH_ERROR` after 4 requests (`analysis/npm-fetch-stall.txt`). The budget itself worked as intended: it turned the stall into a titled failure in its own step, where F1 had cost a 15 min cancellation.
+- **Fix.**
+  - Both installs pass `--fetch-timeout=20000 --fetch-retries=3 --fetch-retry-mintimeout=1000 --fetch-retry-maxtimeout=5000`, so a stalled request is retried after 20s.
+  - `INSTALL_NPM_FETCH_TIMEOUT_MS` overrides the timeout.
+  - With `RUNNER_DEBUG` or `INSTALL_NPM_VERBOSE=1`, the script adds `--loglevel=http`, so the next stall names the request it waited on. It is off by default.
+  - `tests/install-reviewed-npm.test.js` asserts the flags, the override and the tracing.
+
+### F21. Issue-32 document-guard CPU limit failed on the macOS Intel runner (false positive)
+
+- **Symptom.** On 6e8b74a, "Test runtimes (macos-26-intel, bun, 1/6)" failed `tests/sanitizer-issue-32.test.js` with "Expected 1149.577 to be less than 1000" (`ci-logs/macos-bun-1of6-133205558325.log`). The probe measures CPU milliseconds for sanitizing a 128 KiB tab suffix.
+- **Root cause.** The limit measured the machine, not the guard.
+  - That runner is uniformly slower. Small tests in the same file took 4–10× longer than on Ubuntu, for example 21.68 ms against 2.44 ms.
+  - The probe timed the first `sanitize` call. That call pays a one-time initialization of about 200 ms locally, the same for a one-tab input, which is two-thirds of the 290 ms the probe measured.
+  - The input-dependent part is linear: about 15 ms for 8 KiB, 33 ms for 32 KiB, 110 ms for 128 KiB and 400 ms for 512 KiB. The evidence is in `analysis/issue-32-cpu-calibration.txt` (`experiments/issue-208/sanitize-warmup-cost.mjs`).
+- **Fix.**
+  - The probe warms up before it signals readiness, so the two-second wall-clock deadline of `boundedProbe` covers only the measured work.
+  - It then measures a 16 KiB and a 128 KiB suffix on the same machine, using main-thread CPU where `process.threadCpuUsage` exists. The test requires the growth to stay below 24×: linear matching gives about 8× (4.1–6.0× measured, also under load), quadratic about 64×.
+  - Restoring the quadratic guard that ee9c30e replaced, as a temporary local edit, gave 56× and 29s. The new assertion and the deadline both still catch it.
 
 ## Upstream reports
 
@@ -232,3 +254,4 @@ This was checked against `docs/CI-CD-BEST-PRACTICES.md`:
 
 - The cause of the stall in F1 is not proven, because GitHub deleted the cancelled job's log.
 - That failure can no longer take the job down silently: it now fails in its own step, names the processes it was waiting on, and can be traced with `RUNNER_DEBUG`.
+- F20's log shows no npm output, so which request stalled is not proven. A stalled request matches the silence and the reproduction. Bounded retries cover that case, and the `http` log under `RUNNER_DEBUG` will name the request if it recurs.
