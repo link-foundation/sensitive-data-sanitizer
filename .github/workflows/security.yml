@@ -156,6 +156,16 @@ jobs:
           AUDIT_FIXABLE_LEVEL: ${{ github.event_name == 'schedule' && 'moderate' || '' }}
         run: node "$GITHUB_WORKSPACE/scripts/npm-audit-report.mjs"
 
+      # npm writes `deprecated` into the lock only when it resolves a package,
+      # so the lockfile test misses a version deprecated later. This asks the
+      # registry about every locked version: pull requests get a warning, the
+      # weekly run fails, and an unanswered request always fails.
+      - name: Check live deprecations
+        working-directory: ${{ matrix.directory }}
+        env:
+          DEPRECATED_FAIL: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
+        run: bash "$GITHUB_WORKSPACE/scripts/run-with-budget-warning.sh" 120 "Live deprecation check" node "$GITHUB_WORKSPACE/scripts/check-deprecated-packages.mjs" package-lock.json
+
   python-audit:
     name: Audit resolved Python requirements
     runs-on: ubuntu-24.04
