@@ -1,0 +1,19 @@
+# node v26.13.0, 6 CPUs, Linux; CPU in ms of the main thread
+## node experiments/issue-208/sanitize-warmup-cost.mjs cold|warm
+{"mode":"cold","first128KiB":299,"8KiB":14,"16KiB":20,"32KiB":32,"128KiB":111,"512KiB":379}
+{"mode":"warm","oneTab":183,"first128KiB":140,"8KiB":19,"16KiB":22,"32KiB":40,"128KiB":115,"512KiB":405}
+{"mode":"cold","first128KiB":327,"8KiB":15,"16KiB":24,"32KiB":34,"128KiB":117,"512KiB":388}
+{"mode":"warm","oneTab":195,"first128KiB":148,"8KiB":17,"16KiB":22,"32KiB":33,"128KiB":114,"512KiB":452}
+{"mode":"cold","first128KiB":290,"8KiB":15,"16KiB":19,"32KiB":34,"128KiB":104,"512KiB":380}
+{"mode":"warm","oneTab":174,"first128KiB":138,"8KiB":15,"16KiB":23,"32KiB":39,"128KiB":133,"512KiB":415}
+## node experiments/issue-32/document-whitespace.mjs (new probe), 5 runs
+{"bytes":131107,"milliseconds":155.46899099999996,"smallCpuMilliseconds":24.001,"cpuMilliseconds":130.905,"growth":5.454147743844007}
+{"bytes":131107,"milliseconds":133.38683500000002,"smallCpuMilliseconds":20.999,"cpuMilliseconds":112.005,"growth":5.3338254202581075}
+{"bytes":131107,"milliseconds":138.15718100000004,"smallCpuMilliseconds":25.015,"cpuMilliseconds":112.654,"growth":4.503457925244853}
+{"bytes":131107,"milliseconds":132.13123399999995,"smallCpuMilliseconds":21.998,"cpuMilliseconds":110.014,"growth":5.0010910082734785}
+{"bytes":131107,"milliseconds":149.68298299999992,"smallCpuMilliseconds":24.007,"cpuMilliseconds":125.963,"growth":5.246927979339358}
+## same probe with src/personal.js reverted to the pre-ee9c30e quadratic guard /^[ \t]*["']?[ \t]*[:=：]/ (temporary local edit, not committed)
+{"bytes":131107,"milliseconds":29165.024684,"smallCpuMilliseconds":506.711,"cpuMilliseconds":28604.011,"growth":56.45034546319302}
+## CI evidence: macos-26-intel bun 1/6, job 133205558325 (ci-logs/macos-bun-1of6-133205558325.log)
+old probe: Expected 1149.577 to be less than 1000; test 4196.26ms (Ubuntu bun: 583.98ms)
+same file, other tests: KOVALEVA 26.24 vs 5.74ms, IVANOV 21.68 vs 2.44ms, TKACHENKO 22.22 vs 2.26ms (macOS vs Ubuntu)
