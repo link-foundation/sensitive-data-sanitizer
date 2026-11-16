@@ -56,8 +56,8 @@ describe('issue 32 name and identity regressions', () => {
       // Intel runner spent 1149 ms where Linux needs about 290 ms (issue 208).
       // Compare 8x more input on the same machine instead: linear matching
       // grows about 8x and quadratic 64x. boundedProbe still enforces its
-      // two-second wall-clock deadline.
-      expect(probe.growth).toBeLessThan(24);
+      // two-second wall-clock deadline. The message shows the measurements.
+      expect(probe.growth).toBeLessThan(24, JSON.stringify(probe));
     }
   );
   for (const input of [...filenames, ...pairs]) {

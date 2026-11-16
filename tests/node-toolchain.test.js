@@ -25,14 +25,22 @@ it('installs the npm release required by the manifest on the reviewed Node relea
   assert.ok(
     semver.satisfies(npmVersion, manifest.devEngines.packageManager.version)
   );
-  // Both installs (global prefix and the Node installation) skip scripts.
+  // Both installs (global prefix and the Node installation) skip scripts:
+  // they share install_flags, which starts with --ignore-scripts.
+  assert.match(installer, /^install_flags=\(\n\s+--ignore-scripts /m);
   assert.equal(
-    installer.match(/install --global [^\n]*--ignore-scripts/g)?.length,
+    installer.match(
+      /install --global "npm@\$\{version\}" "\$\{install_flags\[@\]\}"/g
+    )?.length,
     1
   );
   assert.match(
     installer,
-    /install --global --prefix "\$\{node_prefix\}" \\\n\s+"npm@\$\{version\}" --ignore-scripts/
+    /install --global --prefix "\$\{node_prefix\}" \\\n\s+"npm@\$\{version\}" "\$\{install_flags\[@\]\}"/
+  );
+  assert.doesNotMatch(
+    installer,
+    /install_flags=\([^)]*--(?:no-)?ignore-scripts=false/
   );
   assert.equal(node.with['package-manager-cache'], false);
   assert.equal(restore.with.cache, '${{ inputs.cache }}');
