@@ -94,7 +94,16 @@ Overrides: `BUDGET_WARN_PERCENT` (default 70), `BUDGET_GRACE_SECONDS`
 (default 10), `BUDGET_KILL_SECONDS` (default 5), `BUDGET_POLL_SECONDS`
 (default 1), `BUDGET_SUDO_KILL` (default 1), `BUDGET_CAPTURE_OUTPUT`
 (default 1), `BUDGET_STATE_PARENT` (defaults to `RUNNER_TEMP`, then `TMPDIR`),
-and `BUDGET_VERBOSE` (default 0).
+`BUDGET_VERBOSE` (default 0), `BUDGET_ATTEMPTS` (default 1) and
+`BUDGET_RETRY_DELAY_SECONDS` (default 10).
+
+`BUDGET_ATTEMPTS` runs a failing or overrunning command again, each attempt
+under the full budget, after a pause of `BUDGET_RETRY_DELAY_SECONDS`. Every
+`npm ci` step sets `BUDGET_ATTEMPTS: '2'`: one host's registry connection can
+hang an install for its whole budget while the next attempt takes seconds. An
+overrun that a later attempt can still recover from is reported as a warning,
+and each retry adds a `LABEL retried` warning, so a step that passes on its
+retry carries no error annotation. The last overrun is an error as before.
 
 On Windows runners Git Bash may not support process groups; the wrapper falls
 back to signalling the direct child.
@@ -112,6 +121,11 @@ and asserts, for every job that declares budgets, that
 
 How budgets are counted:
 
+- **A retried step counts every attempt.** A step with `BUDGET_ATTEMPTS: '2'`
+  and a 60s budget is charged 2 × 60s plus one 10s pause, 130s.
+- **A step `timeout-minutes` counts as a budget.** `Setup Bun` and both
+  `Setup Deno` attempts have two minutes each, so a hung download fails its
+  step instead of running the job into its backstop.
 - **Composite actions count per call.** A `uses: ./.github/actions/NAME` step
   contributes every budget inside that action, recursively, each time it is
   called: a job that calls `artifact-transport` twice pays its reviewed-npm and
@@ -141,7 +155,8 @@ neither of which was involved in the original failure.
 
 Concurrent sums as computed by the test. Every reviewed-npm install
 (`.github/actions/setup-node`) is 120s and every dependency install is 60s
-unless listed. The test charges every reviewed-npm install in full, although
+unless listed, and every `npm ci` is charged twice plus its pause (130s for a
+60s budget). The test charges every reviewed-npm install in full, although
 the second and later ones in a job only verify the version.
 `node experiments/issue-208/dump-budgets.mjs FILE.yml:JOB` prints the budgets
 behind a row.
@@ -156,23 +171,24 @@ budget, while the same job's `npm ci` took a normal 8s. The bounded retries on
 a stalled registry end after about 52s
 (`experiments/issue-208/npm-fetch-stall.mjs`), well under the 84s warning.
 
-| Workflow: job                        | Backstop | Sum   | Largest step budgets                                     |
-| ------------------------------------ | -------- | ----- | -------------------------------------------------------- |
-| `release.yml: test`                  | 16 min   | 660s  | Node.js 300s, Bun 200s, Deno 200s (legs exclusive)       |
-| `release.yml: session-publication`   | 8 min    | 300s  | corpus 120s                                              |
-| `release.yml: docker-build`          | 30 min   | 1200s | image build 20 min                                       |
-| `release.yml: release`               | 66 min   | 2760s | install 240s, npm publish 1800s, smoke test 600s         |
-| `release.yml: instant-release`       | 65 min   | 2580s | npm publish 1800s, smoke test 600s                       |
-| `release.yml: docker-publish-config` | 45 min   | 1800s | npm availability wait 1800s                              |
-| `release.yml: docker-publish-build`  | 35 min   | 1380s | image build and push 20 min, artifact transport 120s     |
-| `security.yml: npm-audit`            | 10 min   | 240s  | live deprecation check 120s                              |
-| `security.yml: python-audit`         | 10 min   | 360s  | requirements audit 90s, benchmark install 90s            |
-| `example-app.yml: web-build`         | 13 min   | 540s  | two artifact-transport calls 120s each                   |
-| `example-app.yml: preview-regen`     | 20 min   | 510s  | preview `gh` install 90s                                 |
-| `workflows.yml: zizmor`              | 10 min   | 300s  | zizmor 5 min                                             |
-| `workflows.yml: artifact-roundtrip`  | 22 min   | 900s  | four artifact-transport calls 120s each, SDK install 60s |
-| `workflows.yml: shellcheck`          | 10 min   | 60s   | pinned ShellCheck venv install 60s                       |
-| `links.yml: link-checker`            | 10 min   | 240s  | pinned lychee install 60s, artifact transport 120s       |
+| Workflow: job                        | Backstop | Sum   | Largest step budgets                                      |
+| ------------------------------------ | -------- | ----- | --------------------------------------------------------- |
+| `release.yml: test`                  | 18 min   | 750s  | Node.js 300s, Bun 200s, Deno 200s (legs exclusive)        |
+| `release.yml: session-publication`   | 9 min    | 370s  | corpus 120s                                               |
+| `release.yml: docker-build`          | 30 min   | 1200s | image build 20 min                                        |
+| `release.yml: release`               | 72 min   | 3010s | install 2 × 240s, npm publish 1800s, smoke test 600s      |
+| `release.yml: instant-release`       | 65 min   | 2650s | npm publish 1800s, smoke test 600s                        |
+| `release.yml: docker-publish-config` | 45 min   | 1800s | npm availability wait 1800s                               |
+| `release.yml: docker-publish-build`  | 35 min   | 1450s | image build and push 20 min, artifact transport 250s      |
+| `security.yml: npm-audit`            | 10 min   | 240s  | live deprecation check 120s                               |
+| `security.yml: python-audit`         | 10 min   | 360s  | requirements audit 90s, benchmark install 90s             |
+| `example-app.yml: web-build`         | 18 min   | 750s  | two artifact-transport calls 250s each                    |
+| `example-app.yml: preview-tools`     | 12 min   | 470s  | two `npm ci` 130s each                                    |
+| `example-app.yml: preview-regen`     | 20 min   | 720s  | preview `gh` install 90s                                  |
+| `workflows.yml: zizmor`              | 10 min   | 300s  | zizmor 5 min                                              |
+| `workflows.yml: artifact-roundtrip`  | 30 min   | 1250s | four artifact-transport calls 250s each, SDK install 130s |
+| `workflows.yml: shellcheck`          | 10 min   | 60s   | pinned ShellCheck venv install 60s                        |
+| `links.yml: link-checker`            | 10 min   | 310s  | pinned lychee install 60s, artifact transport 250s        |
 
 Run `node --test tests/ci-timeouts.test.js` after changing a budget or a
 `timeout-minutes`; the failure message names the job and the budgets it summed.

@@ -433,3 +433,85 @@ describe('budget boundary regression', () => {
     }
   );
 });
+
+describe('run-with-budget-warning.sh retries', () => {
+  itUnless(sandboxed, noPosixShell)(
+    'runs a failing command again and passes when the retry succeeds',
+    () => {
+      const root = mkdtempSync(path.join(tmpdir(), 'budget-retry-'));
+      const marker = path.join(root, 'first-attempt');
+      try {
+        const result = runBudget(
+          [
+            '30',
+            'Dependency install',
+            'bash',
+            '-c',
+            `if [ -e "$0" ]; then echo second; else : > "$0"; exit 7; fi`,
+            marker,
+          ],
+          { BUDGET_ATTEMPTS: '2', BUDGET_RETRY_DELAY_SECONDS: '0' }
+        );
+
+        expect(result.status).toBe(0);
+        expect(result.output).toContain(
+          '::warning title=Dependency install retried::Dependency install attempt 1 of 2 exited 7'
+        );
+        expect(result.output).toContain('second');
+        expect(result.output).not.toContain('::error');
+      } finally {
+        rmSync(root, { recursive: true, force: true });
+      }
+    }
+  );
+
+  itUnless(sandboxed, noPosixShell)(
+    'warns about an overrun it retries and errors on the last one',
+    () => {
+      const result = runBudget(['1', 'hung install', 'sleep', '60'], {
+        BUDGET_ATTEMPTS: '2',
+        BUDGET_RETRY_DELAY_SECONDS: '0',
+        BUDGET_GRACE_SECONDS: '1',
+      });
+
+      expect(result.status).toBe(124);
+      const overruns = result.output
+        .split('\n')
+        .filter((line) => line.includes('exceeded its execution budget::'));
+      expect(overruns.map((line) => line.split(' ')[0])).toEqual([
+        '::warning',
+        '::error',
+      ]);
+      expect(result.output).toContain('hung install attempt 1 of 2 exited 124');
+    }
+  );
+
+  itUnless(sandboxed, noPosixShell)(
+    'stops after the given number of attempts with the last exit code',
+    () => {
+      const result = runBudget(['30', 'flaky', 'bash', '-c', 'exit 5'], {
+        BUDGET_ATTEMPTS: '3',
+        BUDGET_RETRY_DELAY_SECONDS: '0',
+      });
+
+      expect(result.status).toBe(5);
+      expect(result.output.match(/title=flaky retried::/g).length).toBe(2);
+    }
+  );
+
+  itUnless(sandboxed, noPosixShell)('rejects a malformed attempt count', () => {
+    for (const attempts of ['0', 'two', '']) {
+      const result = runBudget(['30', 'bad', 'true'], {
+        BUDGET_ATTEMPTS: attempts,
+      });
+      expect([attempts, result.status]).toEqual([
+        attempts,
+        attempts === '' ? 0 : 2,
+      ]);
+    }
+    expect(
+      runBudget(['30', 'bad', 'true'], { BUDGET_RETRY_DELAY_SECONDS: 'x' })
+        .status
+    ).toBe(2);
+  });
+});

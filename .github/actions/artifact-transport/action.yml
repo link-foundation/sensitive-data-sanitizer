@@ -33,6 +33,7 @@ runs:
     - name: Install pinned artifact SDK
       shell: bash
       env:
+        BUDGET_ATTEMPTS: '2'
         ACTION_DIRECTORY: ${{ github.action_path }}
       run: bash scripts/run-with-budget-warning.sh 60 "Artifact SDK install" npm ci --prefix "$ACTION_DIRECTORY" --ignore-scripts --no-audit --no-fund
     # Runner artifact credentials are supplied only to the JavaScript action.
