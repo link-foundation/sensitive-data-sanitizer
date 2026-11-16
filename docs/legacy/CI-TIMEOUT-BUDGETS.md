@@ -141,7 +141,13 @@ neither of which was involved in the original failure.
 
 Concurrent sums as computed by the test. Every reviewed-npm install
 (`.github/actions/setup-node`) is 60s and every dependency install is 60s
-unless listed.
+unless listed. `node experiments/issue-208/dump-budgets.mjs FILE.yml:JOB`
+prints the budgets behind a row.
+
+The reviewed-npm budget holds on Windows because
+`scripts/install-reviewed-npm.sh` installs once, into the Node directory that
+both the top-level and nested npm fall back to. Installing into the configured
+global prefix as well took 47–63s there.
 
 | Workflow: job                        | Backstop | Sum   | Largest step budgets                                     |
 | ------------------------------------ | -------- | ----- | -------------------------------------------------------- |
@@ -158,6 +164,8 @@ unless listed.
 | `example-app.yml: preview-regen`     | 20 min   | 390s  | preview `gh` install 90s                                 |
 | `workflows.yml: zizmor`              | 10 min   | 300s  | zizmor 5 min                                             |
 | `workflows.yml: artifact-roundtrip`  | 15 min   | 600s  | four artifact-transport calls 120s each, SDK install 60s |
+| `workflows.yml: shellcheck`          | 10 min   | 60s   | pinned ShellCheck venv install 60s                       |
+| `links.yml: link-checker`            | 10 min   | 180s  | pinned lychee install 60s, artifact transport 120s       |
 
 Run `node --test tests/ci-timeouts.test.js` after changing a budget or a
 `timeout-minutes`; the failure message names the job and the budgets it summed.
