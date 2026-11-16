@@ -266,7 +266,7 @@ variants without script edits.
 
 The link checker workflow (`.github/workflows/links.yml`) validates all links in Markdown and HTML files:
 
-1. **Detection**: Uses [lychee](https://github.com/lycheeverse/lychee-action) to scan all `*.md` and `*.html` files
+1. **Detection**: Uses [lychee](https://github.com/lycheeverse/lychee) to scan all `*.md` and `*.html` files. `scripts/install-lychee.sh` installs the release pinned in `links.yml` (`LYCHEE_VERSION`), retrying the download and requiring the archive to match both the committed `LYCHEE_SHA256_X86_64`/`LYCHEE_SHA256_AARCH64` digest and the published checksum; update all three together. The step fails when lychee writes no report, exits with anything but 0 or 2, or reports no checked links. The link cache is restored on every run and saved only from pushes to `main`
 2. **Web Archive fallback**: For any broken links found, automatically checks the [Wayback Machine](https://web.archive.org) for archived versions
 3. **Actionable suggestions**: Reports one of three outcomes for each broken link:
    - **Archived**: Suggests the Web Archive URL as a replacement
