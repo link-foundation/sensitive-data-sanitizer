@@ -4,7 +4,7 @@
 
 | # | Requirement (from the issue) | Where it is addressed |
 | --- | --- | --- |
-| R1 | Find and fix every false positive, false negative, warning and error in CI/CD | Findings F1–F21 below |
+| R1 | Find and fix every false positive, false negative, warning and error in CI/CD | Findings F1–F22 below |
 | R2 | Compare the full workflow and CI script trees with the JS and Python pipeline templates and adopt their best practices | `analysis/TEMPLATE-DELTA-REVIEW.md`; every (b) row is ported (F7–F14) |
 | R3 | Report issues found here that also exist in the templates | [Upstream reports](#upstream-reports) |
 | R4 | Follow hive-mind `docs/CI-CD-BEST-PRACTICES.md` | [Best-practices check](#hive-mind-ci-cd-best-practices) |
@@ -27,7 +27,7 @@ All times are UTC.
 
 ## Findings, root causes and fixes
 
-F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best practices that were missing here. F15 to F21 surfaced while CI ran on this PR.
+F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best practices that were missing here. F15 to F21 surfaced while CI ran on this PR, and F22 came from an independent review of the PR diff.
 
 ### F1. Cancelled macOS test leg on `main` (error)
 
@@ -163,7 +163,7 @@ F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best 
 - **Symptom.** On 6e8b74a the job "Test runtimes (macos-26-intel, bun, 6/6)" printed nothing from `install-reviewed-npm.sh` for 60s. It then failed with "Reviewed npm install did not finish within its 60s budget", leaving only the script itself running (`ci-logs/macos-bun-6of6-133205558054.log`). The other legs of the same run finished the step.
 - **Root cause.** The script called `npm install` with npm's defaults. The default `fetch-timeout` is 300 000 ms, so one stalled registry request waits five minutes before npm retries it, far beyond the 60s budget. `experiments/issue-208/npm-fetch-stall.mjs` reproduces this offline against a loopback registry that never answers. With the defaults, npm was still waiting on its second request when it was killed at 20s. With bounded flags it retried and failed with `FETCH_ERROR` after 4 requests (`analysis/npm-fetch-stall.txt`). The budget itself worked as intended: it turned the stall into a titled failure in its own step, where F1 had cost a 15 min cancellation.
 - **Fix.**
-  - Both installs pass `--fetch-timeout=20000 --fetch-retries=3 --fetch-retry-mintimeout=1000 --fetch-retry-maxtimeout=5000`, so a stalled request is retried after 20s.
+  - Both installs pass `--fetch-timeout=10000 --fetch-retries=3 --fetch-retry-mintimeout=1000 --fetch-retry-maxtimeout=5000`, so a stalled request is retried after 10s. Four attempts plus backoff end within about 47s, so the retries fit the 60s budget. A 20s first draft would have needed about 87s, and the budget would have cut the retries off (F22).
   - `INSTALL_NPM_FETCH_TIMEOUT_MS` overrides the timeout.
   - With `RUNNER_DEBUG` or `INSTALL_NPM_VERBOSE=1`, the script adds `--loglevel=http`, so the next stall names the request it waited on. It is off by default.
   - `tests/install-reviewed-npm.test.js` asserts the flags, the override and the tracing.
@@ -179,6 +179,26 @@ F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best 
   - The probe warms up before it signals readiness, so the two-second wall-clock deadline of `boundedProbe` covers only the measured work.
   - It then measures a 16 KiB and a 128 KiB suffix on the same machine, using main-thread CPU where `process.threadCpuUsage` exists. The test requires the growth to stay below 24×: linear matching gives about 8× (4.1–6.0× measured, also under load), quadratic about 64×.
   - Restoring the quadratic guard that ee9c30e replaced, as a temporary local edit, gave 56× and 29s. The new assertion and the deadline both still catch it.
+
+### F22. Review of the PR diff (false negative, and retries that could never run)
+
+An independent review of the script and workflow changes found these. Each is fixed:
+
+- **Nested archives evaded the secrets scan (false negative).** `scripts/check-secrets.mjs` unpacked gzip members of a tarball, but scanned every other member as raw bytes. A tracked `bundle.tgz` holding `creds.zip`, or a `creds.zip.gz`, therefore passed unread. Nested members are now judged like tracked files: gzip is unpacked, and zip, plain tar, xz and the other unsupported formats fail the scan. Plain `.tar` files are rejected at the top level too, since a gzip member inside one stays opaque. `tests/check-secrets.test.js` covers four shapes and fails on the old scanner.
+- **Retry chains longer than their step budgets.** A budget that kills curl or npm mid-retry replaces the script's own diagnosis with a generic budget error, and makes the retry settings dead code.
+  - `install-lychee.sh` allowed 60s per attempt and 180s of retries, inside a 60s step. Now each download is bounded at 10s per attempt with no retry after 15s, so two downloads take at most 50s. `tests/lychee-install.test.js` computes this against the budget in `links.yml`.
+  - `setup-preview-gh.sh` allowed 4 × 60s inside 90s. Now attempts are bounded at 20s with no retry after 50s, so the download ends within 70s.
+  - The reviewed npm install is covered by F20's 10s request timeout.
+- **A race could hide a budget annotation.** `run-with-budget-warning.sh` decided whether the relayed output ended mid-line from the file's current last byte. The command may already have written past the relayed range. A `::error` could then land mid-line, where GitHub ignores it. The check now reads the last relayed byte.
+- **The self-repository check missed `uses:` with extra spaces (false negative).** `uses:  ./...` is now detected, and `tests/ci-workflow-policy.test.js` covers it.
+
+The review raised further points that need no change:
+
+- `--mode task` lychee output that the parser cannot read fails closed through the count check.
+- A tracked file deleted locally crashes the local scan, which also fails closed.
+- Warning-level CodeQL notifications failing the gate is the intended F7 behavior, and CI is green with it.
+- The lint path handling for runs from a subdirectory predates this PR.
+- The relative lockfile annotation path for sub-packages applies to no current matrix entry.
 
 ## Upstream reports
 
@@ -254,4 +274,5 @@ This was checked against `docs/CI-CD-BEST-PRACTICES.md`:
 
 - The cause of the stall in F1 is not proven, because GitHub deleted the cancelled job's log.
 - That failure can no longer take the job down silently: it now fails in its own step, names the processes it was waiting on, and can be traced with `RUNNER_DEBUG`.
+- F22's line-state race has no deterministic test. The window lies between two reads of a growing file. The fix is covered by the existing annotation tests.
 - F20's log shows no npm output, so which request stalled is not proven. A stalled request matches the silence and the reproduction. Bounded retries cover that case, and the `http` log under `RUNNER_DEBUG` will name the request if it recurs.

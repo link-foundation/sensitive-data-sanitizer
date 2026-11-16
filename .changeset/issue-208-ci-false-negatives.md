@@ -19,3 +19,6 @@ Use secretlint 14, which builds the recommended rules into `@secretlint/core`, s
 - Explain the expected error annotations of the simulated Buildx registry outage with a notice.
 - Bound and retry each registry request of the reviewed npm install, with an http log under tracing.
 - Measure the issue-32 document-guard probe as growth on the same machine after warm-up, instead of an absolute CPU limit.
+- Fail the secrets scan on zip, plain tar and other unsupported archives nested in gzip evidence.
+- Fit the lychee, preview GitHub CLI and reviewed npm download retries inside their step budgets.
+- Keep budget annotations on their own line when the command writes during relaying, and detect local actions written with extra spaces.
