@@ -14,12 +14,13 @@ import { describe, it } from 'test-anywhere';
 import { itUnless, sandboxed } from './helpers/skip.js';
 
 describe('issue 262 repository regressions', () => {
-  it('runs the pinned secrets scan after Node setup and before installation', () => {
+  // The scan needs `npm ci` first: it runs the lockfile-pinned secretlint.
+  it('runs the locked secrets scan after Node setup and the installation', () => {
     const workflow = readFileSync('.github/workflows/release.yml', 'utf8');
     const lint = workflow.split('\n  lint:')[1].split('\n  test:')[0];
-    const scan = lint.indexOf('secretlint "**/*"');
+    const scan = lint.indexOf('run: npm run check:secrets');
     assert.ok(scan > lint.indexOf('uses: ./.github/actions/setup-node'));
-    assert.ok(scan < lint.indexOf('- name: Install dependencies'));
+    assert.ok(scan > lint.indexOf('- name: Install dependencies'));
   });
 
   itUnless(sandboxed)(

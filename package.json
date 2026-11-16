@@ -130,7 +130,7 @@
     "mrz": "^5.0.2",
     "playwright": "1.65.0",
     "prettier": "^3.9.10",
-    "secretlint": "13.1.0",
+    "secretlint": "14.0.0",
     "semver": "^7.8.6",
     "test-anywhere": "^0.9.1"
   },
@@ -158,9 +158,8 @@
   },
   "dependencies": {
     "@faker-js/faker": "^10.6.0",
-    "@secretlint/core": "13.1.0",
-    "@secretlint/profiler": "13.1.0",
-    "@secretlint/secretlint-rule-preset-recommend": "13.1.0",
+    "@secretlint/core": "14.0.0",
+    "@secretlint/profiler": "14.0.0",
     "libphonenumber-js": "1.13.15",
     "links-notation": "0.31.0",
     "re2-wasm": "1.0.2",
@@ -168,6 +167,7 @@
     "yaml": "^2.9.1"
   },
   "allowScripts": {
+    "better-sqlite3": false,
     "node-pty": false
   },
   "overrides": {

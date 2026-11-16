@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import {
+  existsSync,
   mkdtempSync,
   mkdirSync,
   readFileSync,
@@ -21,6 +22,18 @@ const roots = [
   '.github/actions/artifact-transport',
 ];
 
+// npm runs `node-gyp rebuild` for any package that ships a binding.gyp and no
+// install script of its own, and its install-scripts policy warns about that
+// implied script even when the manifest opts out with `"gypfile": false`
+// (better-sqlite3@13.0.3 does). The lockfile records no
+// hasInstallScript for it, so look for the file wherever it is installed.
+export function hasImpliedInstallScript(root, path, dependency) {
+  return (
+    dependency.hasInstallScript === true ||
+    existsSync(join(root, path, 'binding.gyp'))
+  );
+}
+
 describe('CI audit regressions', () => {
   for (const root of roots) {
     it(`records a decision for every dependency install script in ${root}`, () => {
@@ -29,7 +42,7 @@ describe('CI audit regressions', () => {
         readFileSync(`${root}/package-lock.json`, 'utf8')
       );
       for (const [path, dependency] of Object.entries(lock.packages)) {
-        if (!dependency.hasInstallScript) {
+        if (!path || !hasImpliedInstallScript(root, path, dependency)) {
           continue;
         }
         const name = path.split('node_modules/').at(-1);
@@ -170,6 +183,36 @@ describe('CI audit regressions', () => {
         );
         assert.equal(result.status, 0, result.stdout + result.stderr);
         assert.match(result.stdout, /1 file\(s\), 0 failure\(s\)/);
+      } finally {
+        rmSync(root, { recursive: true, force: true });
+      }
+    }
+  );
+});
+
+describe('implied install scripts', () => {
+  itUnless(sandboxed)(
+    'counts a binding.gyp without an install script as an install script',
+    () => {
+      const root = mkdtempSync(join(tmpdir(), 'implied-gyp-'));
+      try {
+        mkdirSync(join(root, 'node_modules/native'), { recursive: true });
+        mkdirSync(join(root, 'node_modules/plain'), { recursive: true });
+        writeFileSync(join(root, 'node_modules/native/binding.gyp'), '{}');
+        assert.equal(
+          hasImpliedInstallScript(root, 'node_modules/native', {}),
+          true
+        );
+        assert.equal(
+          hasImpliedInstallScript(root, 'node_modules/plain', {}),
+          false
+        );
+        assert.equal(
+          hasImpliedInstallScript(root, 'node_modules/plain', {
+            hasInstallScript: true,
+          }),
+          true
+        );
       } finally {
         rmSync(root, { recursive: true, force: true });
       }

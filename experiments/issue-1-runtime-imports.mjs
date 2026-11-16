@@ -1,6 +1,6 @@
 // Synthetic upstream probe: expose runtime permissions without private input.
 import { lintSource } from '@secretlint/core';
-import { rules } from '@secretlint/secretlint-rule-preset-recommend';
+import { recommendedRules as rules } from '@secretlint/core/builtin';
 import { secretLintProfiler } from '@secretlint/profiler';
 
 secretLintProfiler.setEnabled(false);
