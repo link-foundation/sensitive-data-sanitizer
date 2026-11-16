@@ -30,6 +30,43 @@ function runBudget(args, env = {}) {
   };
 }
 
+describe('run-with-budget-warning.sh annotations', () => {
+  itUnless(sandboxed, noPosixShell)(
+    'starts its workflow commands on a new line after unterminated output',
+    () => {
+      const result = spawnSync(
+        'bash',
+        [
+          scriptPath,
+          '10',
+          'open line',
+          'bash',
+          '-c',
+          "printf 'M\\0src.js\\0'; sleep 2",
+        ],
+        {
+          encoding: 'utf8',
+          env: { ...process.env, BUDGET_WARN_PERCENT: '10' },
+        }
+      );
+      const lines = result.stdout.split('\n');
+
+      expect(result.status).toBe(0);
+      expect(lines).toContain('M\0src.js\0');
+      expect(
+        lines.some((line) =>
+          line.startsWith(
+            '::warning title=open line is approaching its execution budget::'
+          )
+        )
+      ).toBe(true);
+      expect(
+        lines.some((line) => line.startsWith('open line finished in'))
+      ).toBe(true);
+    }
+  );
+});
+
 describe('run-with-budget-warning.sh', () => {
   itUnless(sandboxed, noPosixShell)(
     'passes a successful command through with its output and exit code',

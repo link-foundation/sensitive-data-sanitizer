@@ -97,6 +97,17 @@ fi
 
 stdout_offset=0
 stderr_offset=0
+stdout_line_open=false
+
+# GitHub reads a workflow command (::warning, ::error) only at the start of a
+# line, so relayed output without a final newline would swallow the next one.
+say() {
+  if [ "${stdout_line_open}" = true ]; then
+    echo
+    stdout_line_open=false
+  fi
+  echo "$@"
+}
 
 stream_size() {
   local size
@@ -117,6 +128,12 @@ relay_output() {
   if [ "${size}" -gt "${stdout_offset}" ]; then
     emit_range "${stdout_file}" "${stdout_offset}" "${size}"
     stdout_offset="${size}"
+    # od, not $(tail -c 1): command substitution drops NUL bytes.
+    if [ "$(tail -c 1 "${stdout_file}" | od -An -tx1 | tr -d ' \n')" = "0a" ]; then
+      stdout_line_open=false
+    else
+      stdout_line_open=true
+    fi
   fi
 
   size="$(stream_size "${stderr_file}")"
@@ -233,7 +250,7 @@ report_survivors() {
   local survivors
   survivors="$(group_members)"
   [ -n "${survivors}" ] || return 0
-  echo "::error title=${label} left processes running::${label} could not be terminated. Still running: $(echo "${survivors}" | tr '\n' ';')"
+  say "::error title=${label} left processes running::${label} could not be terminated. Still running: $(echo "${survivors}" | tr '\n' ';')"
   echo "${survivors}" >&2
 }
 
@@ -244,12 +261,12 @@ report_running_at_deadline() {
   local running
   running="$(group_members)"
   [ -n "${running}" ] || return 0
-  echo "Processes still running when the ${budget_seconds}s budget expired (pid user command):"
+  say "Processes still running when the ${budget_seconds}s budget expired (pid user command):"
   echo "${running}"
 }
 
 terminate_over_budget() {
-  echo "::error title=${label} exceeded its execution budget::${label} did not finish within its ${budget_seconds}s budget, so termination was requested. Shorten the step or raise its budget (keeping it below the job's timeout-minutes backstop)."
+  say "::error title=${label} exceeded its execution budget::${label} did not finish within its ${budget_seconds}s budget, so termination was requested. Shorten the step or raise its budget (keeping it below the job's timeout-minutes backstop)."
   relay_output
   report_running_at_deadline
   signal_command TERM
@@ -260,7 +277,7 @@ terminate_over_budget() {
   wait_while_running "${grace_seconds}"
 
   if command_is_running; then
-    echo "${label} ignored SIGTERM after ${grace_seconds}s; sending SIGKILL."
+    say "${label} ignored SIGTERM after ${grace_seconds}s; sending SIGKILL."
     signal_command KILL
     wait_while_running "${kill_seconds}"
   fi
@@ -279,7 +296,7 @@ warned=false
 while command_is_running; do
   if [ "${warned}" = false ] && [ "${SECONDS}" -ge "${warn_seconds}" ]; then
     warned=true
-    echo "::warning title=${label} is approaching its execution budget::${label} has run for ${SECONDS}s of its ${budget_seconds}s budget."
+    say "::warning title=${label} is approaching its execution budget::${label} has run for ${SECONDS}s of its ${budget_seconds}s budget."
   fi
 
   if deadline_elapsed "${budget_seconds}"; then
@@ -301,5 +318,5 @@ if [ -f "${status_file}" ]; then
 else
   status="${wait_status}"
 fi
-echo "${label} finished in ${SECONDS}s of its ${budget_seconds}s budget (exit ${status})."
+say "${label} finished in ${SECONDS}s of its ${budget_seconds}s budget (exit ${status})."
 exit "${status}"
