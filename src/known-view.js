@@ -112,8 +112,10 @@ const invisible =
 // Stress and other accents a Cyrillic word can carry: acute, grave,
 // double acute, double grave, inverted breve and macron.
 const stressMarks = /[\u0300\u0301\u0302\u0304\u030b\u030f\u0311]/gu;
+// What the decoder handles: an encoding, an invisible character, a combining
+// mark or a `+` between letters.
 const trigger =
-  /%[\da-fA-F]{2}|&(?:#\d{1,7}|#[xX][\da-fA-F]{1,6}|[A-Za-z][A-Za-z\d]{1,31});|\\[ntr\\]|[\u0300-\u036f\u00ad\u200b-\u200f\u2060-\u206f\ufeff]|\p{L}\+[\p{L}%]/u;
+  /%[\da-fA-F]{2}|&(?:#\d{1,7}|#[xX][\da-fA-F]{1,6}|[A-Za-z][A-Za-z\d]{1,31});|\\[ntr\\]|[\u0300-\u036f\u00ad\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]|\p{L}\+[\p{L}%]/u;
 const units =
   /(?:%[\da-fA-F]{2})+|&(?:#\d{1,7}|#[xX][\da-fA-F]{1,6}|[A-Za-z][A-Za-z\d]{1,31});|\\[ntr\\]|[\s\S]/uy;
 const plainRun =
@@ -194,34 +196,48 @@ function plusIsSpace(text, index) {
   );
 }
 
-function decodeUnit(writer, text, raw, index, decoding) {
+// The decoded value of a reference, an escape or a `+` that stands for a
+// space; undefined for any other unit.
+const unitValue = (text, raw, index, decoding) =>
+  raw[0] === '&' && raw.length > 1
+    ? decodeReference(raw)
+    : raw[0] === '\\' && raw.length === 2
+      ? escapes[raw[1]]
+      : raw === '+' && decoding && plusIsSpace(text, index)
+        ? ' '
+        : undefined;
+
+// Decodes one unit and tells whether the view changed in a way a match can
+// see. A unit that decodes to one `inert` character, such as the `&` of
+// `&amp;`, cannot be part of any listed value, so it changes no match.
+function decodeUnit(writer, text, raw, index, decoding, inert) {
   const end = index + raw.length;
   if (raw[0] === '%' && raw.length > 1) {
     appendPercent(writer, raw, index);
-    return;
+    return !(raw.length === 3 && inert.includes(percentDecode(raw)));
   }
-  const value =
-    raw[0] === '&' && raw.length > 1
-      ? decodeReference(raw)
-      : raw[0] === '\\' && raw.length === 2
-        ? escapes[raw[1]]
-        : raw === '+' && decoding && plusIsSpace(text, index)
-          ? ' '
-          : undefined;
+  const value = unitValue(text, raw, index, decoding);
   if (value === undefined) {
     if (!invisible.test(raw)) {
       writer.copy(text, index, end);
+      return false;
     }
-  } else if (value && !invisible.test(value)) {
-    writer.append(value, index, end);
+    return true;
   }
+  if (value && !invisible.test(value)) {
+    writer.append(value, index, end);
+    return value.length !== 1 || !inert.includes(value);
+  }
+  return true;
 }
 
 // With `decoding` off (the `decode: false` option) only invisible characters
-// go: encodings stay as they are.
-function decode(text, decoding) {
+// go: encodings stay as they are. `changed` tells whether a match can differ
+// from one in the original text.
+function decode(text, decoding, inert) {
   const writer = projectionWriter(text.length);
-  let index = 0;
+  let index = 0,
+    changed = false;
   while (index < text.length) {
     plainRun.lastIndex = index;
     if (plainRun.test(text)) {
@@ -231,10 +247,10 @@ function decode(text, decoding) {
     }
     units.lastIndex = index;
     const raw = decoding ? units.exec(text)[0] : text[index];
-    decodeUnit(writer, text, raw, index, decoding);
+    changed = decodeUnit(writer, text, raw, index, decoding, inert) || changed;
     index += raw.length;
   }
-  return writer.finish();
+  return { ...writer.finish(), changed };
 }
 
 const latinToCyrillic = new Map(
@@ -305,14 +321,18 @@ function normalizeWords(view) {
   return writer.finish();
 }
 
-// The decoded view of `text`, or undefined when nothing in it would change.
+// The decoded view of `text`, or undefined when no match in it could differ
+// from a match in the text: nothing would change, or only `inert`
+// characters would (characters no listed value or name gap can contain).
 // `decoding: false` keeps percent-encoding, HTML references and escapes.
-export function knownView(text, decoding = true) {
-  const mixed = cyrillicLetter.test(text) && /[A-Za-z]/u.test(text);
-  if (!mixed && !trigger.test(text)) {
+export function knownView(text, decoding = true, inert = '') {
+  const encoded = trigger.test(text);
+  if (!encoded && !wordChange.test(text)) {
     return undefined;
   }
-  const decoded = decode(text, decoding);
+  const decoded = decode(text, decoding, inert);
   const view = normalizeWords(decoded);
-  return view.text === text ? undefined : view;
+  return view.text === text || (view === decoded && !decoded.changed)
+    ? undefined
+    : view;
 }

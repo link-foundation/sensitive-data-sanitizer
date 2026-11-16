@@ -234,8 +234,16 @@ assignments, CSV/TSV rows under a header, Markdown tables, XML elements, SQL
 given name (`first_name`, `givenName`, `fname`, `имя`), a surname
 (`last_name`, `familyName`, `surname`, `фамилия`) or a patronymic
 (`middle_name`, `отчество`). The fields must belong to one record: a blank
-line, another JSON object, another list item or another XML parent separates
-them, and a record must hold the surname and at least one other listed part.
+line, another JSON object or YAML list entry, a text line or another XML
+parent separates them, and a record must hold the surname and at least one
+other listed part. In Markdown, consecutive list items that each hold one name
+field (`- **Фамилия:** Пряжкина` then `- **Имя:** Велимира`) form one record,
+and so do consecutive rows of a key/value table whose first cell is a name key
+and whose second cell is the value (`| Фамилия | Пряжкина |`, with or without
+a header row). A repeated key, a blank line or a line that is not a list item
+or a table row ends such a record. Bold, italic and code markers (`*`, `_`,
+`` ` ``) around a key or a value are not part of the finding, so
+`Фамилия: **Пряжкина**` becomes `Фамилия: **[REDACTED]**`.
 Each field is reported and replaced on its own and links to the same person.
 `structured: 'json'`/`'jsonl'` input reads the same records from the parsed
 values.

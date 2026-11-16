@@ -1,5 +1,6 @@
 import { itUnless, nodeCliUnavailable } from './helpers/skip.js';
 import { describe, it, expect } from 'test-anywhere';
+import { LONG_TEST_TIMEOUT, itWithin } from './helpers/long-test.js';
 import { sanitizeStream, createSanitizer } from '../src/index.js';
 import { execFileSync } from 'node:child_process';
 
@@ -54,25 +55,30 @@ describe('ordered bounded JSONL streaming', () => {
       })
     ).toBe(expected);
   });
-  it('accepts a seven-megabyte record followed by records above the whole-input limit', async () => {
-    // JSON whitespace contributes to record/transport limits without forcing
-    // each detector to rescan seven million copies of the same character.
-    const record = `${' '.repeat(7 * 1024 * 1024)}${JSON.stringify({
-      stdout: 'ordinary output',
-      password: 'short-private',
-    })}\n`;
-    expect(Buffer.byteLength(record) > 7 * 1024 * 1024).toBe(true);
-    const output = await collect([record, record], {
-      structured: 'jsonl',
-      workers: 2,
-    });
-    expect(output.includes('short-private')).toBe(false);
-    const parsed = output.split('\n').filter(Boolean).map(JSON.parse);
-    expect(parsed.length).toBe(2);
-    for (const item of parsed) {
-      expect(item.stdout).toBe(JSON.parse(record).stdout);
+  // 12–21 s on a macOS Intel runner: it has the long-run bound.
+  itWithin(
+    'accepts a seven-megabyte record followed by records above the whole-input limit',
+    LONG_TEST_TIMEOUT,
+    async () => {
+      // JSON whitespace contributes to record/transport limits without forcing
+      // each detector to rescan seven million copies of the same character.
+      const record = `${' '.repeat(7 * 1024 * 1024)}${JSON.stringify({
+        stdout: 'ordinary output',
+        password: 'short-private',
+      })}\n`;
+      expect(Buffer.byteLength(record) > 7 * 1024 * 1024).toBe(true);
+      const output = await collect([record, record], {
+        structured: 'jsonl',
+        workers: 2,
+      });
+      expect(output.includes('short-private')).toBe(false);
+      const parsed = output.split('\n').filter(Boolean).map(JSON.parse);
+      expect(parsed.length).toBe(2);
+      for (const item of parsed) {
+        expect(item.stdout).toBe(JSON.parse(record).stdout);
+      }
     }
-  });
+  );
   it('retains deterministic keyed fakes regardless of scheduling', async () => {
     const input = Array.from({ length: 6 }, (_, i) =>
       JSON.stringify({ i, person: 'Marina Kovaleva', pnr: 'K7QWZP' })

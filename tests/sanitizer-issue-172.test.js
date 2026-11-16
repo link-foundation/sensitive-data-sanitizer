@@ -2,6 +2,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, it, expect } from 'test-anywhere';
+import { LONG_TEST_TIMEOUT, itWithin } from './helpers/long-test.js';
 import { detectContext } from '../src/context.js';
 import { createSyncSanitizer } from '../src/credentials-entry.js';
 import { createSanitizer, sanitizeFileToFile } from '../src/index.js';
@@ -14,7 +15,9 @@ import { flatRegExp, unicodeRun } from '../src/unicode-runs.js';
 // a hive mask (`xx-…789`) overflowed the regular-expression stack, so
 // `sanitize()` failed closed with ERR_SANITIZATION. One-byte strings passed.
 // Before the fix 4 MiB failed in credentialPrefix and 6 MiB in the e-mail
-// scans; 8 MiB keeps a margin.
+// scans; 8 MiB keeps a margin. These tests check that a long run does not
+// overflow, not how fast it is scanned: each has its own 90 s bound, since a
+// slow macOS Intel runner can take over the 30 s bound of every other test.
 const large = 8 * 1024 * 1024;
 const secret = 'xx-private-value';
 const run = (unit, bytes) => unit.repeat(Math.ceil(bytes / unit.length));
@@ -26,62 +29,82 @@ const tails = {
 };
 
 describe('issue 172: long runs in two-byte strings', () => {
-  it('scans credential keys after an 8 MiB run without overflowing', () => {
-    for (const unit of ['A', 'Ab', 'a1', 'A_', 'Я']) {
-      const text = `${run(unit, large)}\n— password=${secret}\n`;
-      const found = [];
-      detectContext(text, (finding) => found.push(finding), true);
-      expect(
-        found.map((finding) => text.slice(finding.start, finding.end))
-      ).toEqual([secret]);
+  itWithin(
+    'scans credential keys after an 8 MiB run without overflowing',
+    LONG_TEST_TIMEOUT,
+    () => {
+      for (const unit of ['A', 'Ab', 'a1', 'A_', 'Я']) {
+        const text = `${run(unit, large)}\n— password=${secret}\n`;
+        const found = [];
+        detectContext(text, (finding) => found.push(finding), true);
+        expect(
+          found.map((finding) => text.slice(finding.start, finding.end))
+        ).toEqual([secret]);
+      }
     }
-  });
+  );
 
-  it('keeps keys glued to a long run detectable', () => {
-    for (const text of [
-      `— ${run('Ab', large)}ClientSecret: ${secret}\n`,
-      `— ${run('a', large)}_password: ${secret}\n`,
-    ]) {
-      const found = [];
-      detectContext(text, (finding) => found.push(finding), true);
-      expect([
-        ...new Set(found.map((f) => text.slice(f.start, f.end))),
-      ]).toEqual([secret]);
+  itWithin(
+    'keeps keys glued to a long run detectable',
+    LONG_TEST_TIMEOUT,
+    () => {
+      for (const text of [
+        `— ${run('Ab', large)}ClientSecret: ${secret}\n`,
+        `— ${run('a', large)}_password: ${secret}\n`,
+      ]) {
+        const found = [];
+        detectContext(text, (finding) => found.push(finding), true);
+        expect([
+          ...new Set(found.map((f) => text.slice(f.start, f.end))),
+        ]).toEqual([secret]);
+      }
     }
-  });
+  );
 
-  it('sanitizes the issue reproduction through createSyncSanitizer', () => {
-    const engine = createSyncSanitizer({ credentialsOnly: true, ...options });
-    for (const [name, tail] of Object.entries(tails)) {
-      const result = engine.sanitize(run('Ab', large) + tail);
-      expect([name, result.text.includes(secret)]).toEqual([name, false]);
+  itWithin(
+    'sanitizes the issue reproduction through createSyncSanitizer',
+    LONG_TEST_TIMEOUT,
+    () => {
+      const engine = createSyncSanitizer({ credentialsOnly: true, ...options });
+      for (const [name, tail] of Object.entries(tails)) {
+        const result = engine.sanitize(run('Ab', large) + tail);
+        expect([name, result.text.includes(secret)]).toEqual([name, false]);
+      }
     }
-  });
+  );
 
-  it('sanitizes a long run with personal data through createSanitizer', async () => {
-    const text = `${run('A', large)}\n🔐 token refreshed — mail jane.doe@example.com\npassword=${secret}\n`;
-    const result = await createSanitizer(options).sanitize(text);
-    expect(result.text.includes(secret)).toBe(false);
-    expect(result.text.includes('jane.doe@example.com')).toBe(false);
-  });
-
-  it('sanitizes the gh-upload-log record shape through sanitizeFileToFile', async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'issue-172-'));
-    try {
-      const input = join(dir, 'in.log');
-      const output = join(dir, 'out.log');
-      writeFileSync(
-        input,
-        `✅ step started — ok\n{"type":"image","data":"${run('A', 6 * 1024 * 1024)}"}\n🔐 token refreshed\npassword=${secret}\n`
-      );
-      await sanitizeFileToFile(input, output, options);
-      const text = readFileSync(output, 'utf8');
-      expect(text.includes(secret)).toBe(false);
-      expect(text.includes('🔐 token refreshed')).toBe(true);
-    } finally {
-      rmSync(dir, { recursive: true, force: true });
+  itWithin(
+    'sanitizes a long run with personal data through createSanitizer',
+    LONG_TEST_TIMEOUT,
+    async () => {
+      const text = `${run('A', large)}\n🔐 token refreshed — mail jane.doe@example.com\npassword=${secret}\n`;
+      const result = await createSanitizer(options).sanitize(text);
+      expect(result.text.includes(secret)).toBe(false);
+      expect(result.text.includes('jane.doe@example.com')).toBe(false);
     }
-  });
+  );
+
+  itWithin(
+    'sanitizes the gh-upload-log record shape through sanitizeFileToFile',
+    LONG_TEST_TIMEOUT,
+    async () => {
+      const dir = mkdtempSync(join(tmpdir(), 'issue-172-'));
+      try {
+        const input = join(dir, 'in.log');
+        const output = join(dir, 'out.log');
+        writeFileSync(
+          input,
+          `✅ step started — ok\n{"type":"image","data":"${run('A', 6 * 1024 * 1024)}"}\n🔐 token refreshed\npassword=${secret}\n`
+        );
+        await sanitizeFileToFile(input, output, options);
+        const text = readFileSync(output, 'utf8');
+        expect(text.includes(secret)).toBe(false);
+        expect(text.includes('🔐 token refreshed')).toBe(true);
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
+    }
+  );
 
   it('spells a class loop that matches what the plain loop matches', () => {
     const samples = ['ab', 'Ab𝐀c', '𠀀', 'é—Я', '1_2', '😀', '', 'a b', '𝐀𝐁x'];

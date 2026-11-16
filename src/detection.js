@@ -16,7 +16,7 @@ import {
 } from './credentials.js';
 import { localAddress } from './public.js';
 import { detectKnownPersonal } from './personal-variants.js';
-import { detectKnownRecords } from './known-records.js';
+import { detectKnownRecords, hasRecordKey } from './known-records.js';
 import { knownView } from './known-view.js';
 import { builtInEnabled } from './policy.js';
 import { feature } from './features.js';
@@ -269,6 +269,40 @@ export function nativeDetect(text, options, emit) {
   }
 }
 
+// Characters that cannot be part of a listed-name match: no name gap or
+// initial holds them, and no listed value does. A URL value's query may hold
+// `&`. A decoded view that only turns `&amp;` or `&lt;` into one of them finds
+// nothing the text does not, so it is not built (issue 202). Record values
+// may hold them and the `;` of a reference splits CSV cells, so a text with a
+// record key keeps the view.
+const inertCache = new WeakMap();
+function inertCharacters(lists) {
+  let inert = '';
+  for (const char of '&<') {
+    if (
+      lists.every(([entries]) => {
+        if (!inertCache.has(entries)) {
+          inertCache.set(
+            entries,
+            [...'&<'].filter(
+              (mark) =>
+                !entries.some(
+                  (entry) =>
+                    String(entry.value).includes(mark) ||
+                    (mark === '&' && entry.type === 'URL')
+                )
+            )
+          );
+        }
+        return inertCache.get(entries).includes(char);
+      })
+    ) {
+      inert += char;
+    }
+  }
+  return inert;
+}
+
 // Listed names are matched in the text, in the records it holds and in its
 // decoded view (`%D0%9F…`, `&#1055;…`, `Велими́ра`, `Пряжкинa`). A finding
 // of the view covers the original characters it was decoded from.
@@ -280,7 +314,11 @@ function detectKnownValues(text, options, emit) {
   if (!lists.length) {
     return;
   }
-  const view = knownView(text, options.decode !== false);
+  const view = knownView(
+    text,
+    options.decode !== false,
+    hasRecordKey(text) ? '' : inertCharacters(lists)
+  );
   const decoded = (finding) => {
     const start = view.starts[finding.start];
     const end = view.ends[finding.end - 1];

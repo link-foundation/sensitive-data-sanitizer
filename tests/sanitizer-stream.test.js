@@ -1,4 +1,5 @@
 import { itUnless, nodeCliUnavailable } from './helpers/skip.js';
+import { LONG_TEST_TIMEOUT, itWithin } from './helpers/long-test.js';
 import { describe, it, expect } from 'test-anywhere';
 import {
   mkdtemp,
@@ -11,6 +12,11 @@ import {
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { sanitizeStream, sanitizeFileBounded } from '../src/index.js';
+// The 10 MiB test takes 16–20 s on a macOS Intel runner and over 30 s on a
+// slow one, so it has the long-run bound of the large-input tests.
+const itLarge = nodeCliUnavailable
+  ? itUnless(nodeCliUnavailable)
+  : (name, fn) => itWithin(name, LONG_TEST_TIMEOUT, fn);
 async function collect(chunks, options) {
   let result = '';
   for await (const chunk of sanitizeStream(chunks, options)) {
@@ -45,7 +51,7 @@ describe('bounded publication sanitization', () => {
     }
     expect(blocked).toBe(true);
   });
-  itUnless(nodeCliUnavailable)(
+  itLarge(
     'processes a file larger than 10 MiB in a bounded worker and publishes privately',
     async () => {
       const directory = await mkdtemp(join(tmpdir(), 'sanitizer-large-'));
