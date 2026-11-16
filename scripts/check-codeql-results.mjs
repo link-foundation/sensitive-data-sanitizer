@@ -20,20 +20,23 @@ function reportsIn(directory) {
   });
 }
 
-function describeNotification(notification) {
-  const descriptor =
-    notification?.descriptor?.id ??
-    notification?.associatedRule?.id ??
-    'unknown diagnostic';
-  const locations = Array.isArray(notification?.locations)
-    ? notification.locations
+function describeLocations(item) {
+  return Array.isArray(item?.locations)
+    ? item.locations
         .map((location) => {
           const physical = location?.physicalLocation;
           return `${physical?.artifactLocation?.uri ?? 'unknown location'}:${physical?.region?.startLine ?? '?'}`;
         })
         .join(', ')
     : '';
-  return `${descriptor} ${locations}`;
+}
+
+function describeNotification(notification) {
+  const descriptor =
+    notification?.descriptor?.id ??
+    notification?.associatedRule?.id ??
+    'unknown diagnostic';
+  return `${descriptor} ${describeLocations(notification)}`;
 }
 
 function validNotification(notification, message, level) {
@@ -100,7 +103,7 @@ function checkRun(run, index, file) {
     ),
     ...run.results.map(
       (finding) =>
-        `${file} run ${index}: ${finding?.ruleId ?? 'unknown rule'} [${finding?.level ?? 'unspecified severity'}] ${finding?.message?.text ?? 'CodeQL finding'}`
+        `${file} run ${index}: ${finding?.ruleId ?? 'unknown rule'} [${finding?.level ?? 'unspecified severity'}] ${describeLocations(finding) || 'unknown location'} ${finding?.message?.text ?? 'CodeQL finding'}`
     ),
   ];
 }

@@ -87,6 +87,27 @@ describe('CodeQL local result gate', () => {
       }
     );
   }
+  itUnless(sandboxed)('names the file and line of each finding', () => {
+    const result = check([
+      report([
+        {
+          ruleId: 'js/incomplete-sanitization',
+          level: 'warning',
+          message: { text: 'replaces only the first occurrence' },
+          locations: [
+            {
+              physicalLocation: {
+                artifactLocation: { uri: 'tests/example.test.js' },
+                region: { startLine: 31 },
+              },
+            },
+          ],
+        },
+      ]),
+    ]);
+    assert.notEqual(result.status, 0);
+    assert.match(result.stdout + result.stderr, /tests\/example\.test\.js:31/);
+  });
   it('makes full analysis and the strict result gate prerequisites of terminal success', () => {
     const workflow = readFileSync('.github/workflows/security.yml', 'utf8');
     assert.match(workflow, /CODEQL_ACTION_DIFF_INFORMED_QUERIES: 'false'/);

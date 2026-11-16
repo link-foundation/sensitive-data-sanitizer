@@ -28,7 +28,7 @@ function registry(documents, calls = []) {
 }
 
 const URL = (name, version) =>
-  `https://registry.npmjs.org/${name.replace('/', '%2F')}/${version}`;
+  `https://registry.npmjs.org/${name.replaceAll('/', '%2F')}/${version}`;
 
 describe('collectPackages', () => {
   it('lists each installed registry version once', () => {
