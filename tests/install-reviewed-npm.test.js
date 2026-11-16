@@ -18,27 +18,29 @@ const scriptPath = fileURLToPath(
   new URL('../scripts/install-reviewed-npm.sh', import.meta.url)
 );
 
-// A fake npm models a Windows runner image: the global prefix
-// is separate from the Node installation, so `npm install --global` changes
-// what the top-level `npm` runs but not the copy a nested `npm` falls back to
-// once npm_config_prefix points elsewhere.
-function makeRunner({ top, bundled, reviewedCliUpdatesBundled = true }) {
+// A fake npm models a Windows runner image: the shims next to node run the
+// npm under the configured global prefix when one is installed there, and
+// otherwise the npm in the Node directory. A nested `npm` (npm_config_prefix
+// pointing elsewhere) always runs the Node directory's npm.
+function makeRunner({ configured, bundled, nodeCliUpdatesBundled = true }) {
   const root = mkdtempSync(path.join(tmpdir(), 'install-reviewed-npm-'));
   const bin = path.join(root, 'bin');
   const state = path.join(root, 'state');
-  const globalPrefix = path.join(root, 'global');
-  // npm's global layout differs: <prefix>/node_modules on Windows and
-  // <prefix>/lib/node_modules elsewhere. Provide both.
-  const reviewedClis = [
-    path.join(globalPrefix, 'node_modules', 'npm', 'bin', 'npm-cli.js'),
-    path.join(globalPrefix, 'lib', 'node_modules', 'npm', 'bin', 'npm-cli.js'),
+  // npm's global layout differs: <node dir>/node_modules on Windows and
+  // <node dir>/../lib/node_modules elsewhere. Provide both.
+  const nodeDir = path.join(root, 'node', 'bin');
+  const nodePrefix =
+    process.platform === 'win32' ? nodeDir : path.dirname(nodeDir);
+  const nodeClis = [
+    path.join(nodeDir, 'node_modules', 'npm', 'bin', 'npm-cli.js'),
+    path.join(root, 'node', 'lib', 'node_modules', 'npm', 'bin', 'npm-cli.js'),
   ];
   mkdirSync(bin);
   mkdirSync(state);
-  for (const cli of reviewedClis) {
+  for (const cli of nodeClis) {
     mkdirSync(path.dirname(cli), { recursive: true });
   }
-  writeFileSync(path.join(state, 'top'), top);
+  writeFileSync(path.join(state, 'configured'), configured);
   writeFileSync(path.join(state, 'bundled'), bundled);
   writeFileSync(path.join(state, 'calls'), '');
 
@@ -51,25 +53,24 @@ function makeRunner({ top, bundled, reviewedCliUpdatesBundled = true }) {
       'echo "npm $*" >>"$state/calls"',
       'case "$1" in',
       '  --version)',
-      '    if [ -n "${npm_config_prefix:-}" ]; then cat "$state/bundled"; else cat "$state/top"; fi ;;',
-      `  prefix) echo '${globalPrefix}' ;;`,
-      '  install) printf %s "${3#npm@}" >"$state/top" ;;',
+      '    if [ -z "${npm_config_prefix:-}" ] && [ -s "$state/configured" ]; then cat "$state/configured"; else cat "$state/bundled"; fi ;;',
+      '  install) printf %s "${3#npm@}" >"$state/configured" ;;',
       'esac',
       '',
     ].join('\n')
   );
   chmodSync(npm, 0o755);
-  const reviewedSource = [
+  const nodeCliSource = [
     "const { appendFileSync, writeFileSync } = require('node:fs');",
     'const args = process.argv.slice(2);',
-    `appendFileSync(${JSON.stringify(path.join(state, 'calls'))}, 'reviewed ' + args.join(' ') + '\\n');`,
-    reviewedCliUpdatesBundled
+    `appendFileSync(${JSON.stringify(path.join(state, 'calls'))}, 'node-dir-npm ' + args.join(' ') + '\\n');`,
+    nodeCliUpdatesBundled
       ? `writeFileSync(${JSON.stringify(path.join(state, 'bundled'))}, args.find((arg) => arg.startsWith('npm@')).slice(4));`
       : '',
     '',
   ].join('\n');
-  for (const cli of reviewedClis) {
-    writeFileSync(cli, reviewedSource);
+  for (const cli of nodeClis) {
+    writeFileSync(cli, nodeCliSource);
   }
   const env = {
     ...process.env,
@@ -77,17 +78,8 @@ function makeRunner({ top, bundled, reviewedCliUpdatesBundled = true }) {
     RUNNER_TEMP: root,
     RUNNER_DEBUG: '',
     INSTALL_NPM_VERBOSE: '',
+    INSTALL_NPM_NODE_DIR: nodeDir,
   };
-  // The script installs into the prefix of whichever `node` it finds; ask
-  // the same node (Bun and Deno run this file with their own execPath).
-  const nodePrefix = spawnSync(
-    'node',
-    [
-      '-p',
-      "const p = require('node:path'); const d = p.dirname(process.execPath); process.platform === 'win32' ? d : p.dirname(d)",
-    ],
-    { encoding: 'utf8', env }
-  ).stdout.trim();
 
   const run = (args) => {
     const result = spawnSync('bash', [scriptPath, ...args], {
@@ -108,22 +100,23 @@ function makeRunner({ top, bundled, reviewedCliUpdatesBundled = true }) {
   };
 }
 
+const NODE_DIR_INSTALL = (prefix) =>
+  `node-dir-npm install --global --prefix ${prefix} npm@12.2.2 --ignore-scripts --no-audit --no-fund`;
+const CONFIGURED_PREFIX_INSTALL =
+  'npm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund';
+
 describe('install-reviewed-npm.sh', () => {
   itUnless(sandboxed, noPosixShell)(
-    'replaces the npm that nested --prefix scripts fall back to',
+    'needs one install when the configured prefix holds no npm',
     () => {
-      const runner = makeRunner({ top: '11.20.0', bundled: '11.20.0' });
+      const runner = makeRunner({ configured: '', bundled: '11.20.0' });
       try {
         const result = runner.run(['12.2.2']);
 
         expect(result.status).toBe(0);
-        expect(result.calls).toContain(
-          'npm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund'
-        );
-        // Installed into the Node installation itself, by the reviewed npm.
-        expect(result.calls).toContain(
-          `reviewed install --global --prefix ${runner.nodePrefix} npm@12.2.2 --ignore-scripts --no-audit --no-fund`
-        );
+        // Installed into the Node installation itself, by its own npm.
+        expect(result.calls).toContain(NODE_DIR_INSTALL(runner.nodePrefix));
+        expect(result.calls).not.toContain(CONFIGURED_PREFIX_INSTALL);
         expect(result.output).toContain(
           'npm 12.2.2 is in effect for top-level and nested npm commands.'
         );
@@ -134,9 +127,25 @@ describe('install-reviewed-npm.sh', () => {
   );
 
   itUnless(sandboxed, noPosixShell)(
+    'also replaces an npm installed under the configured prefix',
+    () => {
+      const runner = makeRunner({ configured: '11.20.0', bundled: '11.20.0' });
+      try {
+        const result = runner.run(['12.2.2']);
+
+        expect(result.status).toBe(0);
+        expect(result.calls).toContain(NODE_DIR_INSTALL(runner.nodePrefix));
+        expect(result.calls).toContain(CONFIGURED_PREFIX_INSTALL);
+      } finally {
+        runner.cleanup();
+      }
+    }
+  );
+
+  itUnless(sandboxed, noPosixShell)(
     'installs nothing when every npm already is the reviewed release',
     () => {
-      const runner = makeRunner({ top: '12.2.2', bundled: '12.2.2' });
+      const runner = makeRunner({ configured: '', bundled: '12.2.2' });
       try {
         const result = runner.run(['12.2.2']);
 
@@ -152,9 +161,9 @@ describe('install-reviewed-npm.sh', () => {
     'fails with a titled error when a nested npm still is not reviewed',
     () => {
       const runner = makeRunner({
-        top: '11.20.0',
+        configured: '11.20.0',
         bundled: '11.20.0',
-        reviewedCliUpdatesBundled: false,
+        nodeCliUpdatesBundled: false,
       });
       try {
         const result = runner.run(['12.2.2']);
@@ -173,7 +182,7 @@ describe('install-reviewed-npm.sh', () => {
   );
 
   itUnless(sandboxed, noPosixShell)('rejects a version range', () => {
-    const runner = makeRunner({ top: '12.2.2', bundled: '12.2.2' });
+    const runner = makeRunner({ configured: '', bundled: '12.2.2' });
     try {
       expect(runner.run(['^12']).status).toBe(2);
     } finally {

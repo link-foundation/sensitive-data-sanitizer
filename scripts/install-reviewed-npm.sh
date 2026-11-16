@@ -14,11 +14,18 @@
 # npm 11.20.0 printed `Unknown env config "global-ignore-file"` for a config
 # npm 12 exports, and skipped npm 12's install-script policy).
 #
+# Installing into the Node directory first covers both cases in one
+# install: the shims fall back to it when the configured prefix holds no npm.
+# Only when the top-level npm still differs (the configured prefix carries an
+# npm of its own) does a second install target the configured prefix.
+#
 # Usage:
 #   bash scripts/install-reviewed-npm.sh VERSION
 #
 # Environment:
-#   INSTALL_NPM_VERBOSE  trace each decision (default: RUNNER_DEBUG, else 0)
+#   INSTALL_NPM_VERBOSE   trace each decision (default: RUNNER_DEBUG, else 0)
+#   INSTALL_NPM_NODE_DIR  directory holding node and its npm (default: the
+#                         directory of the `node` on PATH)
 #
 # Every invocation verifies both the top-level and the nested npm, and is a
 # no-op when both already report VERSION, so repeated composite-action calls
@@ -34,14 +41,16 @@ version="$1"
 verbose="${INSTALL_NPM_VERBOSE:-${RUNNER_DEBUG:-0}}"
 trace() { [ "${verbose}" = "1" ] && echo "[install-npm] $*" >&2 || true; }
 
-node_dir="$(node -p 'require("node:path").dirname(process.execPath)')"
+node_dir="${INSTALL_NPM_NODE_DIR:-$(node -p 'require("node:path").dirname(process.execPath)')}"
 platform="$(node -p process.platform)"
 # npm's global layout: <prefix>/node_modules on Windows, <prefix>/lib/node_modules
 # elsewhere, with node itself in <prefix> or <prefix>/bin respectively.
 if [ "${platform}" = win32 ]; then
   node_prefix="${node_dir}"
+  node_npm_cli="${node_prefix}/node_modules/npm/bin/npm-cli.js"
 else
   node_prefix="$(dirname "${node_dir}")"
+  node_npm_cli="${node_prefix}/lib/node_modules/npm/bin/npm-cli.js"
 fi
 # Any directory without an npm install stands in for `npm --prefix DIR`.
 nested_prefix="${RUNNER_TEMP:-${TMPDIR:-/tmp}}"
@@ -52,24 +61,23 @@ nested_version() {
 }
 
 trace "node: ${node_dir} (${platform}); Node install prefix: ${node_prefix}"
-trace "before: top-level npm $(top_level_version), nested npm $(nested_version)"
-
-if [ "$(top_level_version)" != "${version}" ]; then
-  npm install --global "npm@${version}" --ignore-scripts --no-audit --no-fund
+# Each `npm --version` costs seconds on Windows runners; only spend them when
+# tracing.
+if [ "${verbose}" = "1" ]; then
+  trace "before: top-level npm $(top_level_version), nested npm $(nested_version)"
 fi
 
 if [ "$(nested_version)" != "${version}" ]; then
-  # Run the reviewed npm by path rather than through a shim in the directory
-  # being replaced.
-  global_prefix="$(npm prefix --global)"
-  if [ "${platform}" = win32 ]; then
-    reviewed_cli="${global_prefix}/node_modules/npm/bin/npm-cli.js"
-  else
-    reviewed_cli="${global_prefix}/lib/node_modules/npm/bin/npm-cli.js"
-  fi
-  trace "nested npm differs; installing into ${node_prefix} with ${reviewed_cli}"
-  node "${reviewed_cli}" install --global --prefix "${node_prefix}" \
+  # Run the Node directory's npm by path: a shell or batch shim in the
+  # directory being replaced would be rewritten while it runs.
+  trace "installing into ${node_prefix} with ${node_npm_cli}"
+  node "${node_npm_cli}" install --global --prefix "${node_prefix}" \
     "npm@${version}" --ignore-scripts --no-audit --no-fund
+fi
+
+if [ "$(top_level_version)" != "${version}" ]; then
+  trace "the configured global prefix holds another npm; installing there"
+  npm install --global "npm@${version}" --ignore-scripts --no-audit --no-fund
 fi
 
 top_level="$(top_level_version)"
