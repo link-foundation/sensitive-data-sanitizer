@@ -27,6 +27,16 @@
 #   BUDGET_VERBOSE        trace liveness and signalling decisions (default:
 #                         RUNNER_DEBUG, so a GitHub "Re-run with debug logging"
 #                         turns it on; otherwise 0)
+#   BUDGET_ATTEMPTS       run the command up to this many times while it fails
+#                         or overruns, each attempt with the full budget
+#                         (default 1). For steps such as `npm ci` that can
+#                         hang on one host and pass on the next attempt.
+#   BUDGET_RETRY_DELAY_SECONDS
+#                         pause between attempts (default 10)
+#
+# A retried step can spend BUDGET_ATTEMPTS * SECONDS plus the pauses between
+# attempts; tests/ci-timeouts charges that much against the job's
+# timeout-minutes.
 #
 # Exit codes: the command's own status, or 124 on timeout (matching timeout(1)).
 set -uo pipefail
@@ -51,6 +61,42 @@ if [ "$budget_seconds" -le 0 ]; then
   echo "Budget must be greater than zero seconds." >&2
   exit 2
 fi
+
+attempts="${BUDGET_ATTEMPTS:-1}"
+retry_delay="${BUDGET_RETRY_DELAY_SECONDS:-10}"
+case "${attempts}" in
+  '' | *[!0-9]* | 0 | 00*)
+    echo "BUDGET_ATTEMPTS must be a whole number of at least 1, got '${attempts}'." >&2
+    exit 2
+    ;;
+esac
+case "${retry_delay}" in
+  '' | *[!0-9]*)
+    echo "BUDGET_RETRY_DELAY_SECONDS must be a whole number of seconds, got '${retry_delay}'." >&2
+    exit 2
+    ;;
+esac
+
+# Each attempt is a fresh run of this script with one attempt. An overrun
+# that a later attempt can still recover from is a warning, not an error, so
+# a step that passes on its retry carries no error annotation.
+if [ "${attempts}" -gt 1 ]; then
+  attempt=1
+  while :; do
+    level=warning
+    [ "${attempt}" -ge "${attempts}" ] && level=error
+    BUDGET_ATTEMPTS=1 BUDGET_OVERRUN_LEVEL="${level}" \
+      bash "${BASH_SOURCE[0]}" "${budget_seconds}" "${label}" "$@"
+    status=$?
+    if [ "${status}" -eq 0 ] || [ "${attempt}" -ge "${attempts}" ]; then
+      exit "${status}"
+    fi
+    echo "::warning title=${label} retried::${label} attempt ${attempt} of ${attempts} exited ${status}; trying again in ${retry_delay}s."
+    sleep "${retry_delay}"
+    attempt=$((attempt + 1))
+  done
+fi
+overrun_level="${BUDGET_OVERRUN_LEVEL:-error}"
 
 warn_percent="${BUDGET_WARN_PERCENT:-70}"
 grace_seconds="${BUDGET_GRACE_SECONDS:-10}"
@@ -268,7 +314,7 @@ report_running_at_deadline() {
 }
 
 terminate_over_budget() {
-  say "::error title=${label} exceeded its execution budget::${label} did not finish within its ${budget_seconds}s budget, so termination was requested. Shorten the step or raise its budget (keeping it below the job's timeout-minutes backstop)."
+  say "::${overrun_level} title=${label} exceeded its execution budget::${label} did not finish within its ${budget_seconds}s budget, so termination was requested. Shorten the step or raise its budget (keeping it below the job's timeout-minutes backstop)."
   relay_output
   report_running_at_deadline
   signal_command TERM

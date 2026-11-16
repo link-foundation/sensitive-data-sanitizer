@@ -210,7 +210,7 @@ jobs:
   artifact-roundtrip:
     name: Artifact Transport Regression
     runs-on: ubuntu-24.04
-    timeout-minutes: 22
+    timeout-minutes: 30
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-artifacts
       cancel-in-progress: true
@@ -223,6 +223,8 @@ jobs:
 
       - name: Install pinned artifact dependencies
         shell: bash
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 60 "Artifact SDK install" npm ci --prefix .github/actions/artifact-transport --ignore-scripts --no-audit --no-fund
 
       - name: Exercise actual SDK archive dependencies

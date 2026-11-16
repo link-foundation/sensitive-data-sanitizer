@@ -99,6 +99,30 @@ function resolveBudget(raw, envs) {
   };
 }
 
+// A retried step spends every attempt's budget plus the pause between them.
+function chargeAttempts(budget, envs) {
+  const read = (name, fallback) =>
+    String(
+      envs.map((env) => env?.[name]).find((v) => v !== undefined) ?? fallback
+    );
+  const attempts = read('BUDGET_ATTEMPTS', 1);
+  const delay = read('BUDGET_RETRY_DELAY_SECONDS', 10);
+
+  if (!/^[1-9]\d*$/.test(attempts) || !/^\d+$/.test(delay)) {
+    return {
+      seconds: NaN,
+      source: `BUDGET_ATTEMPTS "${attempts}" or BUDGET_RETRY_DELAY_SECONDS "${delay}" is not a whole number`,
+    };
+  }
+
+  return {
+    ...budget,
+    seconds:
+      Number(attempts) * budget.seconds +
+      (Number(attempts) - 1) * Number(delay),
+  };
+}
+
 function readCompositeAction(reference) {
   const directory = reference.replace(/^\.\//, '').replace(/\/$/, '');
   const file = ['action.yml', 'action.yaml']
@@ -128,7 +152,7 @@ function getStepsBudgets(steps, envs, condition, stack = []) {
       budgets.push({
         label: [...stack, match[2]].join(' > '),
         condition: stepCondition,
-        ...resolveBudget(match[1], stepEnvs),
+        ...chargeAttempts(resolveBudget(match[1], stepEnvs), stepEnvs),
       });
     }
 
@@ -263,15 +287,15 @@ describe('CI timeout policy', () => {
   it('sets timeout-minutes for every release workflow job', () => {
     const expectedTimeouts = {
       'detect-changes': 5,
-      'session-publication': 8,
+      'session-publication': 9,
       'test-compilation': 5,
       'check-file-line-limits': 5,
       'version-check': 5,
       'changeset-check': 10,
       lint: 10,
-      test: 16,
+      test: 18,
       'validate-docs': 5,
-      release: 66,
+      release: 72,
       'instant-release': 65,
       'docker-build': 30,
       'docker-publish-config': 45,
@@ -560,6 +584,41 @@ describe('step budget grouping', () => {
     expect(budgets.map((budget) => budget.seconds)).toEqual([70, 60, 50]);
   });
 
+  it('charges every attempt of a retried step and the pauses between', () => {
+    const workflow = [
+      'name: Fixture',
+      '',
+      'jobs:',
+      '  job:',
+      '    timeout-minutes: 15',
+      '    steps:',
+      '      - name: Retried install',
+      '        env:',
+      "          BUDGET_ATTEMPTS: '2'",
+      '        run: bash scripts/run-with-budget-warning.sh 60 "install" npm ci',
+      '      - name: Slow pause',
+      '        env:',
+      "          BUDGET_ATTEMPTS: '3'",
+      "          BUDGET_RETRY_DELAY_SECONDS: '30'",
+      '        run: bash scripts/run-with-budget-warning.sh 60 "fetch" npm ci',
+      '      - name: Once',
+      '        run: bash scripts/run-with-budget-warning.sh 60 "once" npm test',
+      '      - name: Malformed',
+      '        env:',
+      "          BUDGET_ATTEMPTS: 'two'",
+      '        run: bash scripts/run-with-budget-warning.sh 60 "bad" npm ci',
+      '',
+    ].join('\n');
+
+    const budgets = getStepBudgetSeconds(workflow, 'job');
+
+    expect(budgets.slice(0, 3).map((budget) => budget.seconds)).toEqual([
+      130, 240, 60,
+    ]);
+    expect(Number.isFinite(budgets[3].seconds)).toBe(false);
+    expect(budgets[3].source).toContain('BUDGET_ATTEMPTS "two"');
+  });
+
   it('reports a budget it cannot read and never skips one silently', () => {
     const workflow = [
       'name: Fixture',
@@ -761,6 +820,40 @@ describe('dependency install budgets', () => {
     }
 
     expect(findings).toEqual([]);
+  });
+
+  // One host's registry connection can hang `npm ci` for the whole budget
+  // while the next attempt finishes in seconds, so every one runs twice.
+  it('retries every npm ci once under its own budget', () => {
+    const steps = [
+      ...workflowFiles.flatMap((file) =>
+        Object.entries(parse(readWorkflow(file)).jobs ?? {}).flatMap(
+          ([jobName, job]) =>
+            (job.steps ?? []).map((step) => [`${file}:${jobName}`, step, job])
+        )
+      ),
+      ...readdirSync('.github/actions', { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => `./.github/actions/${entry.name}`)
+        .flatMap((reference) =>
+          (readCompositeAction(reference)?.runs.steps ?? []).map((step) => [
+            reference,
+            step,
+            {},
+          ])
+        ),
+    ].filter(([, step]) => /\bnpm ci\b/.test(String(step.run ?? '')));
+
+    expect(steps.length).toBeGreaterThan(10);
+    expect(
+      steps
+        .filter(([, step, job]) => {
+          const attempts =
+            step.env?.BUDGET_ATTEMPTS ?? job.env?.BUDGET_ATTEMPTS;
+          return String(attempts) !== '2';
+        })
+        .map(([where, step]) => `${where}: ${step.name}`)
+    ).toEqual([]);
   });
 
   it('flags a bare install and accepts wrapped or offline ones', () => {

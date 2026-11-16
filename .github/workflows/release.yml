@@ -145,7 +145,7 @@ jobs:
   session-publication:
     name: Session Publication Corpus
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    timeout-minutes: 9
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-session-publication
       cancel-in-progress: true
@@ -167,6 +167,8 @@ jobs:
       - uses: ./.github/actions/setup-node
       - name: Install corpus dependencies
         shell: bash
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
       - name: Publish Codex and Claude session corpus with zero residuals
         run: bash scripts/run-with-budget-warning.sh 120 "Session publication corpus" node --max-old-space-size=512 experiments/issue-34/session-corpus.mjs
@@ -221,6 +223,8 @@ jobs:
 
       - name: Install dependencies
         shell: bash
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       - name: Check for changesets
@@ -278,6 +282,8 @@ jobs:
 
       - name: Install dependencies
         shell: bash
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       # The locked devDependency, not `npx --yes`: an ad-hoc install resolves
@@ -322,7 +328,7 @@ jobs:
     # only the backstop behind those budgets, sized so the budgets always
     # expire first. A job killed by timeout-minutes reports *cancelled*,
     # which hides the failure -- see docs/legacy/CI-TIMEOUT-BUDGETS.md.
-    timeout-minutes: 16
+    timeout-minutes: 18
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.runtime }}-${{ matrix.os }}-${{ matrix.shard }}
       cancel-in-progress: true
@@ -414,6 +420,8 @@ jobs:
 
       - name: Install dependencies (Node.js)
         shell: bash
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       - name: Run tests (Node.js)
@@ -429,8 +437,12 @@ jobs:
           bash scripts/run-with-budget-warning.sh 120 "Install history rewrite tool" "$RUNNER_TEMP/history-tools/bin/pip" install git-filter-repo==2.47.0
           GIT_FILTER_REPO="$RUNNER_TEMP/history-tools/bin/git-filter-repo" bash scripts/run-with-budget-warning.sh 60 "History rewrite integration" node --max-old-space-size=512 experiments/history-rewrite-integration.mjs
 
+      # A download that hangs fails the step under its own name rather than
+      # running the job into its timeout-minutes, which GitHub reports as a
+      # cancelled run.
       - name: Setup Bun
         if: matrix.runtime == 'bun'
+        timeout-minutes: 2
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version: '1.4.4'
@@ -452,6 +464,7 @@ jobs:
       - name: Setup Deno
         id: setup-deno
         if: matrix.runtime == 'deno'
+        timeout-minutes: 2
         continue-on-error: true # Retried below; the retry has no exception.
         uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
         with:
@@ -466,6 +479,7 @@ jobs:
 
       - name: Setup Deno (retry)
         if: matrix.runtime == 'deno' && steps.setup-deno.outcome == 'failure'
+        timeout-minutes: 2
         uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
         with:
           deno-version: v2.9.8
@@ -632,7 +646,7 @@ jobs:
         release-preflight,
       ]
     # Registry verification can take over 15 minutes after a successful publish.
-    timeout-minutes: 66
+    timeout-minutes: 72
     concurrency:
       group: main-writer-${{ github.repository }}-main
       cancel-in-progress: false
@@ -686,6 +700,8 @@ jobs:
         run: node scripts/check-package-manager.mjs
 
       - name: Install dependencies
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 240 "Release dependency install" npm ci
 
       - name: Update npm for OIDC trusted publishing
@@ -828,6 +844,8 @@ jobs:
 
       - name: Install dependencies
         shell: bash
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       - name: Update npm for OIDC trusted publishing
@@ -1097,6 +1115,8 @@ jobs:
 
       - name: Install dependencies
         shell: bash
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       - name: Create changeset file

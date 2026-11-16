@@ -76,7 +76,7 @@ jobs:
   web-build:
     name: Build web app
     runs-on: ubuntu-24.04
-    timeout-minutes: 13
+    timeout-minutes: 18
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-web-build
       cancel-in-progress: true
@@ -115,6 +115,8 @@ jobs:
 
       - name: Install app dependencies
         shell: bash
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 60 "Example app dependency install" npm ci --prefix examples/universal-app --no-audit --no-fund
 
       - name: Build app
@@ -204,6 +206,8 @@ jobs:
 
       - name: Install app dependencies
         shell: bash
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 60 "Example app dependency install" npm ci --prefix examples/universal-app --no-audit --no-fund
 
       - name: Verify desktop compatibility APIs
@@ -264,6 +268,8 @@ jobs:
 
       - name: Install app dependencies
         shell: bash
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 60 "Example app dependency install" npm ci --prefix examples/universal-app --no-audit --no-fund
 
       - name: Add Android project
@@ -302,6 +308,8 @@ jobs:
 
       - name: Install app dependencies
         shell: bash
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 60 "Example app dependency install" npm ci --prefix examples/universal-app --no-audit --no-fund
 
       - name: Add iOS project
@@ -316,7 +324,7 @@ jobs:
     runs-on: ubuntu-24.04
     container:
       image: mcr.microsoft.com/playwright@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d # v1.65.0-noble
-    timeout-minutes: 10
+    timeout-minutes: 12
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-preview-tools
       cancel-in-progress: true
@@ -338,11 +346,14 @@ jobs:
       # Exercise the main-only writer's install/build/browser path on PRs too.
       - name: Install locked preview dependencies
         env:
+          BUDGET_ATTEMPTS: '2'
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
         shell: bash
         run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci --no-audit --no-fund
       - name: Install locked example dependencies
         shell: bash
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 60 "Example app dependency install" npm ci --prefix examples/universal-app --no-audit --no-fund
       - name: Verify preview generation
         run: node scripts/update-preview-images.mjs
@@ -400,11 +411,14 @@ jobs:
 
       - name: Install example app dependencies
         shell: bash
+        env:
+          BUDGET_ATTEMPTS: '2'
         run: bash scripts/run-with-budget-warning.sh 60 "Example app dependency install" npm ci --prefix examples/universal-app --no-audit --no-fund
 
       # Preview tools and their transitive dependencies share the reviewed root lock.
       - name: Install browser automation dependencies
         env:
+          BUDGET_ATTEMPTS: '2'
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
         shell: bash
         run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci --no-audit --no-fund
