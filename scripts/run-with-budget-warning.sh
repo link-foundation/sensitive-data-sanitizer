@@ -128,8 +128,10 @@ relay_output() {
   if [ "${size}" -gt "${stdout_offset}" ]; then
     emit_range "${stdout_file}" "${stdout_offset}" "${size}"
     stdout_offset="${size}"
-    # od, not $(tail -c 1): command substitution drops NUL bytes.
-    if [ "$(tail -c 1 "${stdout_file}" | od -An -tx1 | tr -d ' \n')" = "0a" ]; then
+    # Inspect the last relayed byte, not the file's current last byte, which
+    # the command may already have extended. od, not $(...) alone: command
+    # substitution drops NUL bytes.
+    if [ "$(emit_range "${stdout_file}" "$((size - 1))" "${size}" | od -An -tx1 | tr -d ' \n')" = "0a" ]; then
       stdout_line_open=false
     else
       stdout_line_open=true

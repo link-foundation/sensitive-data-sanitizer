@@ -103,7 +103,7 @@ function makeRunner({ configured, bundled, nodeCliUpdatesBundled = true }) {
 // Each registry request is bounded and retried quickly: npm's default
 // 300s fetch timeout outlasts the step's 60s budget.
 const INSTALL_FLAGS =
-  '--ignore-scripts --no-audit --no-fund --fetch-timeout=20000 --fetch-retries=3 --fetch-retry-mintimeout=1000 --fetch-retry-maxtimeout=5000';
+  '--ignore-scripts --no-audit --no-fund --fetch-timeout=10000 --fetch-retries=3 --fetch-retry-mintimeout=1000 --fetch-retry-maxtimeout=5000';
 const NODE_DIR_INSTALL = (prefix) =>
   `node-dir-npm install --global --prefix ${prefix} npm@12.2.2 ${INSTALL_FLAGS}\n`;
 const CONFIGURED_PREFIX_INSTALL = `npm install --global npm@12.2.2 ${INSTALL_FLAGS}\n`;
@@ -157,7 +157,7 @@ describe('install-reviewed-npm.sh', () => {
 
         expect(result.status).toBe(0);
         expect(result.calls).toContain(
-          `npm@12.2.2 ${INSTALL_FLAGS.replace('=20000', '=9000')} --loglevel=http\n`
+          `npm@12.2.2 ${INSTALL_FLAGS.replace('=10000', '=9000')} --loglevel=http\n`
         );
         expect(result.output).toContain('[install-npm] installing into');
       } finally {

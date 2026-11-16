@@ -127,17 +127,18 @@ describe('self-repository action exception', () => {
   });
 
   it('rejects a local action user missing from the exception', () => {
-    const errors = checkSelfRepositoryPolicy(
-      {
-        ...files,
-        '.github/workflows/new.yml':
-          'steps:\n  - uses: ./.github/actions/setup-node\n',
-      },
-      config
-    );
-    expect(errors).toEqual([
-      'Unlisted self-repository action user: .github/workflows/new.yml',
-    ]);
+    for (const step of [
+      '  - uses: ./.github/actions/setup-node',
+      '  -   uses:  "./.github/actions/setup-node"',
+    ]) {
+      const errors = checkSelfRepositoryPolicy(
+        { ...files, '.github/workflows/new.yml': `steps:\n${step}\n` },
+        config
+      );
+      expect(errors).toEqual([
+        'Unlisted self-repository action user: .github/workflows/new.yml',
+      ]);
+    }
     expect(checkSelfRepositoryPolicy(files, '').length).toBeGreaterThan(0);
   });
 

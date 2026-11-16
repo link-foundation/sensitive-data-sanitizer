@@ -27,13 +27,14 @@
 #   INSTALL_NPM_NODE_DIR  directory holding node and its npm (default: the
 #                         directory of the `node` on PATH)
 #   INSTALL_NPM_FETCH_TIMEOUT_MS
-#                         per-request registry timeout (default 20000)
+#                         per-request registry timeout (default 10000)
 #
 # npm waits 300000ms on a stalled registry request before its first retry,
-# far past this step's 60s budget. A macOS runner stalled exactly so on
-# PR #209, while a parallel job finished the same install in 30s. Each
-# request is therefore bounded and retried quickly, and tracing adds npm's
-# per-request http log.
+# far past this step's 60s budget. A macOS runner printed nothing for that
+# whole budget on PR #209, while a parallel job finished the same install in
+# 30s. Each request is therefore bounded and retried quickly: 4 attempts of
+# 10s plus 1-5s backoffs end within about 47s, so the retries still fit the
+# budget. Tracing adds npm's per-request http log.
 #
 # Every invocation verifies both the top-level and the nested npm, and is a
 # no-op when both already report VERSION, so repeated composite-action calls
@@ -51,7 +52,7 @@ trace() { [ "${verbose}" = "1" ] && echo "[install-npm] $*" >&2 || true; }
 
 install_flags=(
   --ignore-scripts --no-audit --no-fund
-  "--fetch-timeout=${INSTALL_NPM_FETCH_TIMEOUT_MS:-20000}"
+  "--fetch-timeout=${INSTALL_NPM_FETCH_TIMEOUT_MS:-10000}"
   --fetch-retries=3 --fetch-retry-mintimeout=1000 --fetch-retry-maxtimeout=5000
 )
 if [ "${verbose}" = "1" ]; then

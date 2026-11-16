@@ -15,7 +15,7 @@ export const MAX_DECOMPRESSED_BYTES = 128 * 1024 * 1024;
 const isCompressed = (name) => /\.(gz|tgz)$/i.test(name);
 const isTarball = (name) => /\.(tar\.gz|tgz)$/i.test(name);
 const isUnsupportedArchive = (name) =>
-  /\.(zip|bz2|tbz2?|xz|txz|zst|lz4|lzma|br|7z|rar)$/i.test(name);
+  /\.(tar|zip|bz2|tbz2?|xz|txz|zst|lz4|lzma|br|7z|rar)$/i.test(name);
 const field = (block, start, length) =>
   block
     .subarray(start, start + length)
@@ -150,17 +150,23 @@ export function scanCompressed(
   budget.remaining -= inflated.length;
   if (isTarball(name)) {
     for (const entry of readTarEntries(inflated)) {
-      const memberName = `${name}/${entry.name}`;
-      if (isCompressed(entry.name)) {
-        scanCompressed(memberName, entry.content, scan, budget, depth + 1);
-      } else {
-        scan(memberName, entry.content);
-      }
+      scanMember(`${name}/${entry.name}`, entry.content, scan, budget, depth);
     }
-  } else if (isCompressed(name.slice(0, -3))) {
-    scanCompressed(name.slice(0, -3), inflated, scan, budget, depth + 1);
   } else {
-    scan(name.slice(0, -3), inflated);
+    scanMember(name.slice(0, -3), inflated, scan, budget, depth);
+  }
+}
+
+// Members are judged by name like tracked files: gzip is unpacked, other
+// archive formats (zip, plain tar, xz, ...) would hide their contents.
+function scanMember(name, content, scan, budget, depth) {
+  if (isUnsupportedArchive(name)) {
+    throw new Error(`Cannot scan nested archive format of ${name}`);
+  }
+  if (isCompressed(name)) {
+    scanCompressed(name, content, scan, budget, depth + 1);
+  } else {
+    scan(name, content);
   }
 }
 

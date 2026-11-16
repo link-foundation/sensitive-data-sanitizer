@@ -47,10 +47,14 @@ trap 'rm -rf "$work"' EXIT
 # --retry-all-errors also retries HTTP 5xx/429 and dropped connections; --fail
 # keeps an error page from being saved as the archive. Each attempt and the
 # whole retry loop are bounded so a stalled download cannot hold the job.
+# curl starts no retry after --retry-max-time, but the last attempt may run
+# its full --max-time, so two downloads need at most 2 x (15 + 10) = 50s.
+# That fits the 60s step budget in links.yml, so a failed download reaches
+# the error below instead of being killed mid-retry.
 fetch() {
   curl --fail --silent --show-error --location \
     --retry "${LYCHEE_DOWNLOAD_RETRIES:-5}" --retry-all-errors --retry-delay "${LYCHEE_DOWNLOAD_RETRY_DELAY:-5}" \
-    --connect-timeout 20 --max-time 60 --retry-max-time 180 \
+    --connect-timeout 10 --max-time 10 --retry-max-time 15 \
     --output "$2" "$1"
 }
 

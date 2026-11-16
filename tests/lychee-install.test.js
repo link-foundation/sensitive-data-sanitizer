@@ -165,4 +165,20 @@ describe('lychee installer pins', () => {
       assert.ok(script.includes(flag), `curl is missing ${flag}`);
     }
   });
+
+  check('finishes both downloads inside the install step budget', () => {
+    const script = readFileSync(installer, 'utf8');
+    const seconds = (flag) =>
+      Number(script.match(new RegExp(`${flag} (\\d+)`))[1]);
+    const budget = Number(
+      workflow.match(/run-with-budget-warning\.sh (\d+) "lychee install"/)[1]
+    );
+    // No retry starts after --retry-max-time; the last attempt may still
+    // run for --max-time. A longer chain would be killed mid-retry.
+    const perDownload = seconds('--retry-max-time') + seconds('--max-time');
+    assert.ok(
+      2 * perDownload < budget,
+      `2 x ${perDownload}s of downloads exceed the ${budget}s budget`
+    );
+  });
 });

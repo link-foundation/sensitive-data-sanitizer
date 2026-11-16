@@ -92,6 +92,20 @@ describe('compressed evidence secrets', () => {
       /secret detected/
     );
   });
+  it('fails closed on archive formats nested where gzip is expected', () => {
+    for (const [name, bytes] of [
+      ['bundle.tgz', gzipSync(tar(tarEntry('creds.zip', 'PK')))],
+      ['bundle.tgz', gzipSync(tar(tarEntry('inner.tar', tar())))],
+      ['creds.zip.gz', gzipSync('PK')],
+      ['logs.tar.xz.gz', gzipSync('xz')],
+    ]) {
+      assert.throws(
+        () => scanCompressed(name, bytes, () => {}),
+        /Cannot scan nested archive format/,
+        name
+      );
+    }
+  });
   it('fails closed on corrupt gzip and truncated or invalid tar', () => {
     assert.throws(() =>
       scanCompressed('bad.gz', Buffer.from('not gzip'), () => {})

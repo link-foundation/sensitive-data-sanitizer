@@ -118,7 +118,7 @@ export function checkSelfRepositoryPolicy(files, config) {
   const errors = [];
   const used = new Set();
   for (const [path, text] of Object.entries(files)) {
-    if (/^\s*(?:- )?uses: ['"]?\.\//m.test(text)) {
+    if (/^\s*(?:-\s+)?uses:\s+['"]?\.\//m.test(text)) {
       const name = path.split(/[\\/]/).at(-1);
       used.add(name);
       if (!allowed.has(name)) {
