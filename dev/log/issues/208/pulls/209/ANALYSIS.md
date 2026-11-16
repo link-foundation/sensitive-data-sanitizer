@@ -4,7 +4,7 @@
 
 | # | Requirement (from the issue) | Where it is addressed |
 | --- | --- | --- |
-| R1 | Find and fix every false positive, false negative, warning and error in CI/CD | Findings F1–F24 below |
+| R1 | Find and fix every false positive, false negative, warning and error in CI/CD | Findings F1–F25 below |
 | R2 | Compare the full workflow and CI script trees with the JS and Python pipeline templates and adopt their best practices | `analysis/TEMPLATE-DELTA-REVIEW.md`; every (b) row is ported (F7–F14) |
 | R3 | Report issues found here that also exist in the templates | [Upstream reports](#upstream-reports) |
 | R4 | Follow hive-mind `docs/CI-CD-BEST-PRACTICES.md` | [Best-practices check](#hive-mind-ci-cd-best-practices) |
@@ -27,7 +27,7 @@ All times are UTC.
 
 ## Findings, root causes and fixes
 
-F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best practices that were missing here. F15 to F21, F23 and F24 surfaced while CI ran on this PR, and F22 came from an independent review of the PR diff.
+F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best practices that were missing here. F15 to F21 and F23 to F25 surfaced while CI ran on this PR, and F22 came from an independent review of the PR diff.
 
 ### F1. Cancelled macOS test leg on `main` (error)
 
@@ -140,7 +140,7 @@ F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best 
 
 ### F17. Windows reviewed-npm step over its budget
 
-- See F3. The step budget stays at 60 s. A raise to 90 s would have pushed three Linux jobs over their 70% backstops, so the redundant install was removed instead. F24 later raised it to 90 s for a slow macOS install, together with those three backstops.
+- See F3. The step budget stays at 60 s. A raise to 90 s would have pushed three Linux jobs over their 70% backstops, so the redundant install was removed instead. F24 later raised it to 90 s for a slow macOS install, together with those three backstops, and F25 to 120 s for a slow Windows install.
 
 ### F18. Ubuntu Bun suite past its budget warning (warning)
 
@@ -163,7 +163,7 @@ F1 to F6 are failures and warnings seen in CI logs. F7 to F14 are template best 
 - **Symptom.** On 6e8b74a the job "Test runtimes (macos-26-intel, bun, 6/6)" printed nothing from `install-reviewed-npm.sh` for 60s. It then failed with "Reviewed npm install did not finish within its 60s budget", leaving only the script itself running (`ci-logs/macos-bun-6of6-133205558054.log`). The other legs of the same run finished the step.
 - **Root cause.** The script called `npm install` with npm's defaults. The default `fetch-timeout` is 300 000 ms, so one stalled registry request waits five minutes before npm retries it, far beyond the 60s budget. `experiments/issue-208/npm-fetch-stall.mjs` reproduces this offline against a loopback registry that never answers. With the defaults, npm was still waiting on its second request when it was killed at 20s. With bounded flags it retried and failed with `FETCH_ERROR` after 4 requests (`analysis/npm-fetch-stall.txt`). The budget itself worked as intended: it turned the stall into a titled failure in its own step, where F1 had cost a 15 min cancellation.
 - **Fix.**
-  - Both installs pass `--fetch-timeout=10000 --fetch-retries=3 --fetch-retry-mintimeout=1000 --fetch-retry-maxtimeout=5000`, so a stalled request is retried after 10s. Four attempts plus backoffs of 1s, 5s and 5s fail after 51.9s, measured offline (`analysis/npm-fetch-stall.txt`). This was first estimated as about 47s; F24 corrected it and raised the budget to 90s. A 20s first draft would have needed about 87s, and the budget would have cut the retries off (F22).
+  - Both installs pass `--fetch-timeout=10000 --fetch-retries=3 --fetch-retry-mintimeout=1000 --fetch-retry-maxtimeout=5000`, so a stalled request is retried after 10s. Four attempts plus backoffs of 1s, 5s and 5s fail after 51.9s, measured offline (`analysis/npm-fetch-stall.txt`). This was first estimated as about 47s; F24 corrected it and raised the budget to 90s, and F25 to 120s. A 20s first draft would have needed about 87s, and the budget would have cut the retries off (F22).
   - `INSTALL_NPM_FETCH_TIMEOUT_MS` overrides the timeout.
   - With `RUNNER_DEBUG` or `INSTALL_NPM_VERBOSE=1`, the script adds `--loglevel=http`, so the next stall names the request it waited on. It is off by default.
   - `tests/install-reviewed-npm.test.js` asserts the flags, the override and the tracing.
@@ -189,7 +189,7 @@ An independent review of the script and workflow changes found these. Each is fi
 - **Retry chains longer than their step budgets.** A budget that kills curl or npm mid-retry replaces the script's own diagnosis with a generic budget error, and makes the retry settings dead code.
   - `install-lychee.sh` allowed 60s per attempt and 180s of retries, inside a 60s step. Now each download is bounded at 10s per attempt with no retry after 15s, so two downloads take at most 50s. `tests/lychee-install.test.js` computes this against the budget in `links.yml`.
   - `setup-preview-gh.sh` allowed 4 × 60s inside 90s. Now attempts are bounded at 20s with no retry after 50s, so the download ends within 70s.
-  - The reviewed npm install is covered by F20's 10s request timeout. Its chain ends after about 52s, inside the 63s warning of the 90s budget (F24).
+  - The reviewed npm install is covered by F20's 10s request timeout. Its chain ends after about 52s, inside the 84s warning of the 120s budget (F24, F25).
 - **A race could hide a budget annotation.** `run-with-budget-warning.sh` decided whether the relayed output ended mid-line from the file's current last byte. The command may already have written past the relayed range. A `::error` could then land mid-line, where GitHub ignores it. The check now reads the last relayed byte.
 - **The self-repository check missed `uses:` with extra spaces (false negative).** `uses:  ./...` is now detected, and `tests/ci-workflow-policy.test.js` covers it.
 
@@ -232,6 +232,23 @@ The review raised further points that need no change:
   - npm printed `removed 8 packages, and changed 77 packages in 47s`. The install made progress and did not stall. Other runs took 7–32s on macOS, 17–35s on Windows and 3–5s on Ubuntu.
   - Measuring F20's retry chain offline at the production timeout gave 51.9s, not the 47s estimated before. A stalled registry would have left only 8s of the 60s budget.
   - Fix: the budget is 90s. It warns at 63s, above both the slow healthy install and the stalled-registry chain. The CI timeout test charges every reviewed-npm call in a job in full, even the no-op second calls, so three Ubuntu jobs went over 70% of their backstops: `example-app.yml: web-build` went from 10 to 11 min, `release.yml: session-publication` from 6 to 7 min and `workflows.yml: artifact-roundtrip` from 15 to 18 min. `docs/legacy/CI-TIMEOUT-BUDGETS.md` lists the new sums.
+
+### F25. Three CI problems at bbbfdb0 (two false positives and a warning)
+
+"Checks and release" run 43859851028 failed in two macOS Intel Deno jobs and warned in one Windows job. The logs are `ci-logs/job-133276936283.log.gz`, `ci-logs/job-133276936307.log.gz` and `ci-logs/job-133276937030.log.gz`. All other workflows on bbbfdb0 passed, and no other job carried an annotation.
+
+- **`setup-deno` failed with `TypeError: fetch failed` on macOS Deno 2/6 (error, transient).**
+  - setup-deno v2.0.5 printed "Failed fetching. Retrying in 250ms" through "4000ms", then failed the step after 8 s. No test ran. The other nine Deno jobs downloaded the same release.
+  - Root cause: a network failure between the runner and the Deno download host. The action's own retries span only 8 s, too short for a brief outage. The log does not say which request failed.
+  - Fix: the first attempt runs with `continue-on-error`. If it fails, a step prints a notice that the error annotation above belongs to the first attempt, waits 20 s, and runs the same pinned action once more. The retry has no exception, so a second failure still fails the job. `tests/setup-deno-retry.test.js` pins this.
+- **`tests/sanitizer-issue-51.test.js` failed "sanitizes 256 KiB of dense tokens within a finite throughput budget" on macOS Deno 4/6 (false positive).**
+  - The test required one 256 KiB `sanitize()` call, including one-time initialization, to finish within 8 s. Earlier CI runs took 0.34–5.3 s. This run took over 8 s on a macOS Intel runner under Deno. Locally the first 256 KiB call takes 2.7 s under Deno and about 1.2 s under Node.
+  - Root cause: an absolute limit measures the runner as F21 did, not the scanner. The regression it guards against, a WASM copy of the whole input for every match, grows quadratically.
+  - Fix: the 256 KiB result is still checked in full. Then `measureGrowth` compares 4 KiB and 32 KiB of tokens after a warm-up, and the test requires the ratio to stay under 24. Linear scanning measures 4.8–7.8× under Node, Bun and Deno. With the unbounded copies restored as a temporary local edit, the ratio is 40–49× and the test fails. The failure message prints every measurement. `analysis/dense-token-growth.txt` holds the numbers, and `experiments/issue-208/dense-token-growth.mjs` reproduces them.
+  - The growth check costs about 0.7 s locally, so the test takes about 3 s, well inside its 30 s per-test bound even on a runner 5× slower.
+- **"Reviewed npm install has run for 63s of its 90s budget" on Windows Deno 1/3 (warning).**
+  - npm printed `changed 77 packages in 59s`. In the same job, `npm ci` of 242 packages took a normal 8 s. The reviewed install took 16–22 s in the other Windows jobs and 5–16 s on macOS (`analysis/npm-install-times.tsv`). So that runner was not slow in general; one self-install was, most likely on the network, since npm fetches its own release as one tarball.
+  - Fix: the budget is 120 s, which warns at 84 s. That is above the slowest healthy install so far (59 s) and well above the 51.9 s stalled-registry chain, which still fails the step. Charging the larger budget kept the 70% rule only after five backstops grew: `release.yml` test from 15 to 16 min, session-publication from 7 to 8 min and release from 65 to 66 min, `example-app.yml` web-build from 11 to 13 min, and `workflows.yml` artifact-roundtrip from 18 to 22 min. `docs/legacy/CI-TIMEOUT-BUDGETS.md` lists the new sums.
 
 ## Upstream reports
 
@@ -299,6 +316,8 @@ This was checked against `docs/CI-CD-BEST-PRACTICES.md`:
   - `tests/node-toolchain.test.js`
   - `tests/sanitizer-issue-32.test.js`
   - `tests/test-sharding.test.js`
+  - `tests/setup-deno-retry.test.js`
+  - `tests/sanitizer-issue-51.test.js`
   - `tests/run-with-budget-warning.test.js`
   - `tests/lint-changed-files.test.js`
   - `tests/codeql-results.test.js`
@@ -313,4 +332,5 @@ This was checked against `docs/CI-CD-BEST-PRACTICES.md`:
 - F22's line-state race has no deterministic test. The window lies between two reads of a growing file. The fix is covered by the existing annotation tests.
 - F23's Windows growth of 30 is not tied to the CPU clock by direct evidence. A recurrence would print its measurements.
 - F24's shard estimate uses one slow run's per-file times. The runner speed varies about 3.5×, so a slower runner could still warn, but it would no longer come near the budget.
+- F25's setup-deno and Windows npm logs do not name the slow or failed request. `RUNNER_DEBUG` adds npm's `http` log; setup-deno has no request log.
 - F20's log shows no npm output, so which request stalled is not proven. A stalled request matches the silence and the reproduction. Bounded retries cover that case, and the `http` log under `RUNNER_DEBUG` will name the request if it recurs.

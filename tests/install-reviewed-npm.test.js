@@ -101,7 +101,7 @@ function makeRunner({ configured, bundled, nodeCliUpdatesBundled = true }) {
 }
 
 // Each registry request is bounded and retried quickly: npm's default
-// 300s fetch timeout outlasts the step's 90s budget.
+// 300s fetch timeout outlasts the step's 120s budget.
 const INSTALL_FLAGS =
   '--ignore-scripts --no-audit --no-fund --fetch-timeout=10000 --fetch-retries=3 --fetch-retry-mintimeout=1000 --fetch-retry-maxtimeout=5000';
 const NODE_DIR_INSTALL = (prefix) =>

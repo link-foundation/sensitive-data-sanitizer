@@ -263,15 +263,15 @@ describe('CI timeout policy', () => {
   it('sets timeout-minutes for every release workflow job', () => {
     const expectedTimeouts = {
       'detect-changes': 5,
-      'session-publication': 7,
+      'session-publication': 8,
       'test-compilation': 5,
       'check-file-line-limits': 5,
       'version-check': 5,
       'changeset-check': 10,
       lint: 10,
-      test: 15,
+      test: 16,
       'validate-docs': 5,
-      release: 65,
+      release: 66,
       'instant-release': 65,
       'docker-build': 30,
       'docker-publish-config': 45,

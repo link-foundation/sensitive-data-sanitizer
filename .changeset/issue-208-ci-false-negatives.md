@@ -24,3 +24,4 @@ Use secretlint 14, which builds the recommended rules into `@secretlint/core`, s
 - Keep budget annotations on their own line when the command writes during relaying, and detect local actions written with extra spaces.
 - Average the issue-32 small-input probe over several calls and compare wall-clock growth too, so coarse Windows CPU clocks cannot fail it.
 - Split the 8 MiB issue-172 tests into three files that run in separate shards, and give the reviewed npm install a 90s budget, so slow macOS Intel runners stay below the budget warnings.
+- Retry a failed Deno download once, compare the issue-51 dense-token throughput as growth on the same machine instead of against an 8-second limit, and give the reviewed npm install a 120s budget after a 59s Windows install.

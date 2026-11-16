@@ -30,13 +30,13 @@
 #                         per-request registry timeout (default 10000)
 #
 # npm waits 300000ms on a stalled registry request before its first retry,
-# far past this step's budget (60s then, 90s now). A macOS runner printed
+# far past this step's budget (60s then, 120s now). A macOS runner printed
 # nothing for that whole budget on PR #209, while a parallel job finished the
 # same install in 30s. Each request is therefore bounded and retried quickly:
 # 4 attempts of 10s plus backoffs of 1s, 5s and 5s fail after about 52s
-# (experiments/issue-208/npm-fetch-stall.mjs), under the 63s budget warning.
-# A healthy install on a slow macOS Intel runner took 47s. Tracing adds npm's
-# per-request http log.
+# (experiments/issue-208/npm-fetch-stall.mjs), under the 84s budget warning.
+# Healthy installs took up to 47s on macOS Intel and 59s on Windows. Tracing
+# adds npm's per-request http log.
 #
 # Every invocation verifies both the top-level and the nested npm, and is a
 # no-op when both already report VERSION, so repeated composite-action calls
