@@ -81,10 +81,10 @@ function makeRunner({ configured, bundled, nodeCliUpdatesBundled = true }) {
     INSTALL_NPM_NODE_DIR: nodeDir,
   };
 
-  const run = (args) => {
+  const run = (args, extraEnv = {}) => {
     const result = spawnSync('bash', [scriptPath, ...args], {
       encoding: 'utf8',
-      env,
+      env: { ...env, ...extraEnv },
     });
     return {
       status: result.status,
@@ -100,10 +100,13 @@ function makeRunner({ configured, bundled, nodeCliUpdatesBundled = true }) {
   };
 }
 
+// Each registry request is bounded and retried quickly: npm's default
+// 300s fetch timeout outlasts the step's 60s budget.
+const INSTALL_FLAGS =
+  '--ignore-scripts --no-audit --no-fund --fetch-timeout=20000 --fetch-retries=3 --fetch-retry-mintimeout=1000 --fetch-retry-maxtimeout=5000';
 const NODE_DIR_INSTALL = (prefix) =>
-  `node-dir-npm install --global --prefix ${prefix} npm@12.2.2 --ignore-scripts --no-audit --no-fund`;
-const CONFIGURED_PREFIX_INSTALL =
-  'npm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund';
+  `node-dir-npm install --global --prefix ${prefix} npm@12.2.2 ${INSTALL_FLAGS}\n`;
+const CONFIGURED_PREFIX_INSTALL = `npm install --global npm@12.2.2 ${INSTALL_FLAGS}\n`;
 
 describe('install-reviewed-npm.sh', () => {
   itUnless(sandboxed, noPosixShell)(
@@ -136,6 +139,27 @@ describe('install-reviewed-npm.sh', () => {
         expect(result.status).toBe(0);
         expect(result.calls).toContain(NODE_DIR_INSTALL(runner.nodePrefix));
         expect(result.calls).toContain(CONFIGURED_PREFIX_INSTALL);
+      } finally {
+        runner.cleanup();
+      }
+    }
+  );
+
+  itUnless(sandboxed, noPosixShell)(
+    'logs each registry request and honors a fetch timeout when tracing',
+    () => {
+      const runner = makeRunner({ configured: '', bundled: '11.20.0' });
+      try {
+        const result = runner.run(['12.2.2'], {
+          INSTALL_NPM_VERBOSE: '1',
+          INSTALL_NPM_FETCH_TIMEOUT_MS: '9000',
+        });
+
+        expect(result.status).toBe(0);
+        expect(result.calls).toContain(
+          `npm@12.2.2 ${INSTALL_FLAGS.replace('=20000', '=9000')} --loglevel=http\n`
+        );
+        expect(result.output).toContain('[install-npm] installing into');
       } finally {
         runner.cleanup();
       }

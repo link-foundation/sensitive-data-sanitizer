@@ -26,6 +26,14 @@
 #   INSTALL_NPM_VERBOSE   trace each decision (default: RUNNER_DEBUG, else 0)
 #   INSTALL_NPM_NODE_DIR  directory holding node and its npm (default: the
 #                         directory of the `node` on PATH)
+#   INSTALL_NPM_FETCH_TIMEOUT_MS
+#                         per-request registry timeout (default 20000)
+#
+# npm waits 300000ms on a stalled registry request before its first retry,
+# far past this step's 60s budget. A macOS runner stalled exactly so on
+# PR #209, while a parallel job finished the same install in 30s. Each
+# request is therefore bounded and retried quickly, and tracing adds npm's
+# per-request http log.
 #
 # Every invocation verifies both the top-level and the nested npm, and is a
 # no-op when both already report VERSION, so repeated composite-action calls
@@ -40,6 +48,15 @@ fi
 version="$1"
 verbose="${INSTALL_NPM_VERBOSE:-${RUNNER_DEBUG:-0}}"
 trace() { [ "${verbose}" = "1" ] && echo "[install-npm] $*" >&2 || true; }
+
+install_flags=(
+  --ignore-scripts --no-audit --no-fund
+  "--fetch-timeout=${INSTALL_NPM_FETCH_TIMEOUT_MS:-20000}"
+  --fetch-retries=3 --fetch-retry-mintimeout=1000 --fetch-retry-maxtimeout=5000
+)
+if [ "${verbose}" = "1" ]; then
+  install_flags+=(--loglevel=http)
+fi
 
 node_dir="${INSTALL_NPM_NODE_DIR:-$(node -p 'require("node:path").dirname(process.execPath)')}"
 platform="$(node -p process.platform)"
@@ -72,12 +89,12 @@ if [ "$(nested_version)" != "${version}" ]; then
   # directory being replaced would be rewritten while it runs.
   trace "installing into ${node_prefix} with ${node_npm_cli}"
   node "${node_npm_cli}" install --global --prefix "${node_prefix}" \
-    "npm@${version}" --ignore-scripts --no-audit --no-fund
+    "npm@${version}" "${install_flags[@]}"
 fi
 
 if [ "$(top_level_version)" != "${version}" ]; then
   trace "the configured global prefix holds another npm; installing there"
-  npm install --global "npm@${version}" --ignore-scripts --no-audit --no-fund
+  npm install --global "npm@${version}" "${install_flags[@]}"
 fi
 
 top_level="$(top_level_version)"
