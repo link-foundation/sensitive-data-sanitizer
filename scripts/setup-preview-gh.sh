@@ -16,7 +16,9 @@ install_dir="$(mktemp -d "$RUNNER_TEMP/preview-gh.XXXXXX")"
 archive="$install_dir/gh.tar.gz"
 trap 'rm -f "$archive"' EXIT
 
+# Bound each attempt so a stalled transfer retries instead of hanging.
 curl --fail --silent --show-error --location --retry 3 \
+  --connect-timeout 15 --max-time 60 \
   "https://github.com/cli/cli/releases/download/v${version}/gh_${version}_linux_amd64.tar.gz" \
   --output "$archive"
 if ! printf '%s  %s\n' "$checksum" "$archive" | sha256sum --check --status; then

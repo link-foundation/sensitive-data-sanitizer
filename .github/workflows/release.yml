@@ -145,7 +145,7 @@ jobs:
   session-publication:
     name: Session Publication Corpus
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 6
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-session-publication
       cancel-in-progress: true
@@ -166,7 +166,8 @@ jobs:
         run: bash scripts/simulate-fresh-merge.sh
       - uses: ./.github/actions/setup-node
       - name: Install corpus dependencies
-        run: npm ci
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
       - name: Publish Codex and Claude session corpus with zero residuals
         run: bash scripts/run-with-budget-warning.sh 120 "Session publication corpus" node --max-old-space-size=512 experiments/issue-34/session-corpus.mjs
 
@@ -219,7 +220,8 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: Install dependencies
-        run: npm ci
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       - name: Check for changesets
         env:
@@ -274,11 +276,15 @@ jobs:
       - name: Setup Node.js
         uses: ./.github/actions/setup-node
 
-      - name: Check for secrets
-        run: npx --yes -p secretlint@13.1.0 -p @secretlint/secretlint-rule-preset-recommend@13.1.0 secretlint "**/*"
-
       - name: Install dependencies
-        run: npm ci
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
+
+      # The locked devDependency, not `npx --yes`: an ad-hoc install resolves
+      # secretlint's dependencies afresh, outside the lockfile, the audit and
+      # any install budget (issue #208).
+      - name: Check for secrets
+        run: npm run check:secrets
 
       - name: Dry-run release versioning (PR only)
         if: github.event_name == 'pull_request'
@@ -402,7 +408,8 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: Install dependencies (Node.js)
-        run: npm ci
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       - name: Run tests (Node.js)
         if: matrix.runtime == 'node'
@@ -444,7 +451,7 @@ jobs:
         shell: bash
         # Cold npm downloads previously consumed the test execution budget.
         # Bound dependency preparation separately, as for Node and Bun installs.
-        run: deno test -A --parallel --no-run --frozen
+        run: bash scripts/run-with-budget-warning.sh 60 "Deno dependency preparation" deno test -A --parallel --no-run --frozen
 
       - name: Run tests (Deno)
         if: matrix.runtime == 'deno'
@@ -795,7 +802,8 @@ jobs:
         run: node scripts/sanitize-npm-userconfig.mjs
 
       - name: Install dependencies
-        run: npm ci
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       - name: Update npm for OIDC trusted publishing
         run: node scripts/setup-npm.mjs
@@ -905,7 +913,7 @@ jobs:
     name: Build Docker Image
     needs: [docker-publish-config]
     if: needs.docker-publish-config.outputs.enabled == 'true'
-    timeout-minutes: 30
+    timeout-minutes: 35
     strategy:
       fail-fast: false
       matrix:
@@ -1063,7 +1071,8 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: Install dependencies
-        run: npm ci
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       - name: Create changeset file
         env:

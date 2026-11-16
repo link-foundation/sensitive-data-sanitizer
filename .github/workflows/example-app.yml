@@ -114,7 +114,8 @@ jobs:
         uses: actions/configure-pages@v6.0.0
 
       - name: Install app dependencies
-        run: npm ci --prefix examples/universal-app --no-audit --no-fund
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Example app dependency install" npm ci --prefix examples/universal-app --no-audit --no-fund
 
       - name: Build app
         run: npm run example:web:build
@@ -202,7 +203,8 @@ jobs:
           cache-dependency-path: examples/universal-app/package-lock.json
 
       - name: Install app dependencies
-        run: npm ci --prefix examples/universal-app --no-audit --no-fund
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Example app dependency install" npm ci --prefix examples/universal-app --no-audit --no-fund
 
       - name: Verify desktop compatibility APIs
         run: node --pending-deprecation --throw-deprecation scripts/check-desktop-compat.mjs
@@ -261,7 +263,8 @@ jobs:
         uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd # v4.0.4
 
       - name: Install app dependencies
-        run: npm ci --prefix examples/universal-app --no-audit --no-fund
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Example app dependency install" npm ci --prefix examples/universal-app --no-audit --no-fund
 
       - name: Add Android project
         run: npm --prefix examples/universal-app run mobile:android:add
@@ -298,7 +301,8 @@ jobs:
           cache-dependency-path: examples/universal-app/package-lock.json
 
       - name: Install app dependencies
-        run: npm ci --prefix examples/universal-app --no-audit --no-fund
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Example app dependency install" npm ci --prefix examples/universal-app --no-audit --no-fund
 
       - name: Add iOS project
         run: npm --prefix examples/universal-app run mobile:ios:add
@@ -312,7 +316,7 @@ jobs:
     runs-on: ubuntu-24.04
     container:
       image: mcr.microsoft.com/playwright@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d # v1.65.0-noble
-    timeout-minutes: 5
+    timeout-minutes: 10
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-preview-tools
       cancel-in-progress: true
@@ -327,7 +331,7 @@ jobs:
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: ./.github/actions/setup-node
       - name: Install pinned GitHub CLI
-        run: bash scripts/setup-preview-gh.sh
+        run: bash scripts/run-with-budget-warning.sh 90 "Preview GitHub CLI install" bash scripts/setup-preview-gh.sh
       - name: Verify publishing tools without repository writes
         run: bash scripts/check-preview-tools.sh
 
@@ -335,9 +339,11 @@ jobs:
       - name: Install locked preview dependencies
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
-        run: npm ci --no-audit --no-fund
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci --no-audit --no-fund
       - name: Install locked example dependencies
-        run: npm ci --prefix examples/universal-app --no-audit --no-fund
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Example app dependency install" npm ci --prefix examples/universal-app --no-audit --no-fund
       - name: Verify preview generation
         run: node scripts/update-preview-images.mjs
 
@@ -387,19 +393,21 @@ jobs:
 
       - uses: ./.github/actions/setup-node
       - name: Install pinned GitHub CLI
-        run: bash scripts/setup-preview-gh.sh
+        run: bash scripts/run-with-budget-warning.sh 90 "Preview GitHub CLI install" bash scripts/setup-preview-gh.sh
 
       - name: Verify publishing tools without repository writes
         run: bash scripts/check-preview-tools.sh
 
       - name: Install example app dependencies
-        run: npm ci --prefix examples/universal-app --no-audit --no-fund
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Example app dependency install" npm ci --prefix examples/universal-app --no-audit --no-fund
 
       # Preview tools and their transitive dependencies share the reviewed root lock.
       - name: Install browser automation dependencies
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
-        run: npm ci --no-audit --no-fund
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci --no-audit --no-fund
 
       - name: Regenerate preview images
         id: regenerate

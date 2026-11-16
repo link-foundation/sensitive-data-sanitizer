@@ -190,7 +190,8 @@ jobs:
       # importing the noise. Measured: after the digest pins below it reports
       # nothing, and stays silent until someone reintroduces a mutable image.
       - name: Audit for pedantic-only high-severity findings
-        timeout-minutes: 10
+        # Measured at ~4s; the step deadline stays well inside the job backstop.
+        timeout-minutes: 5
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -201,7 +202,7 @@ jobs:
   artifact-roundtrip:
     name: Artifact Transport Regression
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 15
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-artifacts
       cancel-in-progress: true
@@ -213,7 +214,8 @@ jobs:
       - uses: ./.github/actions/setup-node
 
       - name: Install pinned artifact dependencies
-        run: npm ci --prefix .github/actions/artifact-transport --ignore-scripts --no-audit --no-fund
+        shell: bash
+        run: bash scripts/run-with-budget-warning.sh 60 "Artifact SDK install" npm ci --prefix .github/actions/artifact-transport --ignore-scripts --no-audit --no-fund
 
       - name: Exercise actual SDK archive dependencies
         run: node --pending-deprecation --throw-deprecation scripts/check-artifact-archive.mjs

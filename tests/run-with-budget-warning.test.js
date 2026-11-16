@@ -197,6 +197,45 @@ describe('run-with-budget-warning.sh', () => {
   );
 });
 
+describe('run-with-budget-warning.sh diagnostics', () => {
+  // A hung step (a stalled `npm ci`, say) prints nothing about what it waits
+  // on, so the overrun itself must name the processes it stops.
+  itUnless(sandboxed, noPosixShell)(
+    'names the processes still running when the budget expires',
+    () => {
+      const marker = 800000 + (process.pid % 1000);
+      const result = runBudget(['2', 'stalled install', 'sleep', `${marker}`], {
+        BUDGET_GRACE_SECONDS: '2',
+      });
+
+      expect(result.status).toBe(124);
+      expect(result.output).toContain(
+        'Processes still running when the 2s budget expired'
+      );
+      expect(result.output).toContain(`sleep ${marker}`);
+    }
+  );
+
+  itUnless(sandboxed, noPosixShell)(
+    'traces only when verbose or GitHub debug logging is requested',
+    () => {
+      const quiet = runBudget(['30', 'quiet', 'true'], {
+        BUDGET_VERBOSE: '',
+        RUNNER_DEBUG: '',
+      });
+      const debug = runBudget(['30', 'debug', 'true'], { RUNNER_DEBUG: '1' });
+      const explicitOff = runBudget(['30', 'off', 'true'], {
+        RUNNER_DEBUG: '1',
+        BUDGET_VERBOSE: '0',
+      });
+
+      expect(quiet.output).not.toContain('[budget]');
+      expect(debug.output).toContain('[budget] control state:');
+      expect(explicitOff.output).not.toContain('[budget]');
+    }
+  );
+});
+
 describe('run-with-budget-warning.sh argument validation', () => {
   itUnless(sandboxed, noPosixShell)(
     'rejects a missing or non-numeric budget',

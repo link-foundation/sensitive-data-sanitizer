@@ -388,7 +388,9 @@ describe('workflow reliability policy', () => {
     expect(previewRegenJob).toContain('container:');
     expect(imageVersion).toBe('1.65.0');
     expect(devDependencies.playwright).toBe(imageVersion);
-    expect(previewRegenJob).toContain('run: npm ci --no-audit --no-fund');
+    expect(previewRegenJob).toContain(
+      'run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci --no-audit --no-fund'
+    );
     expect(previewRegenJob).toContain("PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'");
     expect(previewRegenJob).not.toContain('npx playwright install');
     expect(previewRegenJob).not.toContain('~/.cache/ms-playwright');

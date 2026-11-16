@@ -1,11 +1,16 @@
 import { describe, it, expect } from 'test-anywhere';
-import { readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { parse } from 'yaml';
 import { waitForVersionOnRegistry } from '../scripts/publish-retry.mjs';
 import { parseArgs as parseWaitArgs } from '../scripts/wait-for-npm.mjs';
 
 const releaseWorkflow = readWorkflow('.github/workflows/release.yml');
 const linksWorkflow = readWorkflow('.github/workflows/links.yml');
 const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
+const workflowFiles = readdirSync('.github/workflows')
+  .filter((name) => /\.ya?ml$/.test(name))
+  .sort()
+  .map((name) => `.github/workflows/${name}`);
 
 function readWorkflow(filePath) {
   return readFileSync(filePath, 'utf8').replaceAll('\r\n', '\n');
@@ -66,188 +71,153 @@ function getStepBlock(workflow, stepName) {
 
 // A step declares its deadline either by wrapping a command in
 // run-with-budget-warning.sh or, for `uses:` steps that cannot be wrapped,
-// with a step-level timeout-minutes. Every budget keeps the `if:` condition
-// of the step it belongs to: mutually exclusive conditions (a matrix leg,
-// say) never share a job clock, so summing them as a sequence would
-// manufacture violations no job can incur.
-function splitStepBlocks(jobBlock) {
-  const lines = jobBlock.split('\n');
-  const steps = [];
-  let current = null;
+// with a step-level timeout-minutes. A `uses: ./.github/actions/NAME` step
+// contributes every budget inside that composite action for each call:
+// a call runs all of its steps again, so the job clock pays every time.
+// Every budget keeps the `if:` condition of the step it belongs to, so that
+// provably exclusive legs (a matrix leg, say) are not summed as a sequence.
+const BUDGET_PATTERN = /run-with-budget-warning\.sh\s+(\S+)\s+"([^"]+)"/g;
 
-  for (const line of lines) {
-    if (/^ {6}- /.test(line)) {
-      if (current) {
-        steps.push(current.join('\n'));
-      }
-      current = [line];
-    } else if (current && /^ {8}/.test(line)) {
-      current.push(line);
-    } else if (current && line.trim() === '') {
-      current.push(line);
-    } else if (current) {
-      steps.push(current.join('\n'));
-      current = null;
-    }
+function resolveBudget(raw, envs) {
+  if (/^\d+$/.test(raw)) {
+    return { seconds: Number(raw) };
   }
 
-  if (current) {
-    steps.push(current.join('\n'));
+  const variableName = raw.replace(/^["']|["']$/g, '').replace(/^\$/, '');
+  const resolved = envs
+    .map((env) => env?.[variableName])
+    .find((value) => value !== undefined);
+
+  if (resolved !== undefined && /^\d+$/.test(String(resolved))) {
+    return { seconds: Number(resolved) };
   }
 
-  return steps;
+  return {
+    seconds: NaN,
+    source: `"${variableName}" does not resolve to an integer in the step, job, or workflow env`,
+  };
 }
 
-function getStepCondition(stepBlock) {
-  const lines = stepBlock.split('\n');
+function readCompositeAction(reference) {
+  const directory = reference.replace(/^\.\//, '').replace(/\/$/, '');
+  const file = ['action.yml', 'action.yaml']
+    .map((name) => `${directory}/${name}`)
+    .find((candidate) => existsSync(candidate));
 
-  for (let index = 0; index < lines.length; index += 1) {
-    const inline = lines[index].match(/^ {8}if:\s*(.+)$/);
-
-    if (!inline) {
-      continue;
-    }
-
-    const value = inline[1].trim();
-
-    if (['|', '>', '|-', '>-', '|+', '+'].includes(value)) {
-      const continuation = [];
-
-      for (let cursor = index + 1; cursor < lines.length; cursor += 1) {
-        const line = lines[cursor];
-
-        if (line.trim() === '') {
-          continue;
-        }
-        if (!/^ {10}/.test(line)) {
-          break;
-        }
-
-        continuation.push(line.trim());
-      }
-
-      return continuation.join(' ');
-    }
-
-    return value;
+  if (!file) {
+    return undefined;
   }
 
-  return '';
+  const action = parse(readFileSync(file, 'utf8'));
+
+  return action?.runs?.using === 'composite' ? action : undefined;
 }
 
-function parseEnvBlock(lines, envHeaderRegex, keyRegex) {
-  const env = {};
-  let inside = false;
-
-  for (const line of lines) {
-    if (!inside) {
-      inside = envHeaderRegex.test(line);
-      continue;
-    }
-    if (line.trim() === '') {
-      continue;
-    }
-
-    const key = line.match(keyRegex);
-
-    if (!key) {
-      break;
-    }
-
-    env[key[1]] = key[2].trim().replace(/^['"]|['"]$/g, '');
-  }
-
-  return env;
-}
-
-function getStepEnv(stepBlock) {
-  return parseEnvBlock(
-    stepBlock.split('\n').slice(1),
-    /^ {8}env:\s*$/,
-    /^ {10}([A-Za-z_][A-Za-z0-9_]*):\s*(.*)$/
-  );
-}
-
-function getJobEnv(jobBlock) {
-  const lines = jobBlock.split('\n');
-  const stepsIndex = lines.findIndex((line) => line.trim() === 'steps:');
-
-  return parseEnvBlock(
-    stepsIndex === -1 ? lines : lines.slice(0, stepsIndex),
-    /^ {4}env:\s*$/,
-    /^ {6}([A-Za-z_][A-Za-z0-9_]*):\s*(.*)$/
-  );
-}
-
-function getWorkflowEnv(workflow) {
-  const lines = normalizeNewlines(workflow).split('\n');
-  const jobsIndex = lines.findIndex((line) => line === 'jobs:');
-
-  return parseEnvBlock(
-    jobsIndex === -1 ? lines : lines.slice(0, jobsIndex),
-    /^env:\s*$/,
-    /^ {2}([A-Za-z_][A-Za-z0-9_]*):\s*(.*)$/
-  );
-}
-
-function getStepBudgetSeconds(workflow, jobName) {
-  const block = getJobBlock(workflow, jobName);
-  const jobEnv = getJobEnv(block);
-  const workflowEnv = getWorkflowEnv(workflow);
+function getStepsBudgets(steps, envs, condition, stack = []) {
   const budgets = [];
 
-  for (const stepBlock of splitStepBlocks(block)) {
-    const condition = getStepCondition(stepBlock);
-    const stepEnv = getStepEnv(stepBlock);
+  for (const step of steps ?? []) {
+    // A composite step runs only when its caller does, so both apply.
+    const stepCondition = [condition, normalizeCondition(step.if)]
+      .filter(Boolean)
+      .join(' && ');
+    const stepEnvs = [step.env, ...envs];
 
-    for (const match of stepBlock.matchAll(
-      /run-with-budget-warning\.sh\s+(\S+)\s+"([^"]+)"/g
-    )) {
-      const raw = match[1];
-      let seconds;
-      let source;
-
-      if (/^\d+$/.test(raw)) {
-        seconds = Number(raw);
-      } else {
-        const variableName = raw.replace(/^["']|["']$/g, '').replace(/^\$/, '');
-        const resolved =
-          stepEnv[variableName] ??
-          jobEnv[variableName] ??
-          workflowEnv[variableName];
-
-        if (resolved !== undefined && /^\d+$/.test(resolved)) {
-          seconds = Number(resolved);
-        } else {
-          seconds = NaN;
-          source = `"${variableName}" does not resolve to an integer in the step, job, or workflow env`;
-        }
-      }
-
-      budgets.push({ label: match[2], seconds, condition, source });
+    for (const match of String(step.run ?? '').matchAll(BUDGET_PATTERN)) {
+      budgets.push({
+        label: [...stack, match[2]].join(' > '),
+        condition: stepCondition,
+        ...resolveBudget(match[1], stepEnvs),
+      });
     }
 
-    const stepTimeout = stepBlock.match(/^ {8}timeout-minutes:\s*(\d+)\s*$/m);
-
-    if (stepTimeout) {
+    if (step['timeout-minutes'] !== undefined) {
       budgets.push({
-        label: 'step timeout-minutes',
-        seconds: Number(stepTimeout[1]) * 60,
-        condition,
+        label: [...stack, 'step timeout-minutes'].join(' > '),
+        seconds: Number(step['timeout-minutes']) * 60,
+        condition: stepCondition,
       });
+    }
+
+    const uses = String(step.uses ?? '');
+
+    if (uses.startsWith('./') && !stack.includes(uses)) {
+      const action = readCompositeAction(uses);
+
+      if (action) {
+        budgets.push(
+          ...getStepsBudgets(action.runs.steps, [], stepCondition, [
+            ...stack,
+            uses,
+          ])
+        );
+      }
     }
   }
 
   return budgets;
 }
 
-// The largest a job can spend is every unconditional budget plus the largest
-// single conditional group. Grouping by the condition text is deliberately
-// conservative: steps guarded by literally the same expression are summed,
-// and steps guarded by distinct expressions are treated as alternatives even
-// when the expressions could both be true -- deciding that would need
-// expression evaluation, and the per-budget check below still bounds each
-// step individually.
+function getStepBudgetSeconds(workflowText, jobName) {
+  const workflow = parse(normalizeNewlines(workflowText));
+  const job = workflow?.jobs?.[jobName];
+
+  return job ? getStepsBudgets(job.steps, [job.env, workflow.env], '') : [];
+}
+
+// GitHub status functions say *whether* a step runs after earlier results,
+// not which leg of the job it belongs to, so they never make steps exclusive.
+const STATUS_FUNCTION = /^!?\s*(always|success|failure|cancelled)\(\)$/;
+
+function normalizeCondition(condition) {
+  return String(condition ?? '')
+    .replace(/^\s*\$\{\{([\s\S]*)\}\}\s*$/, '$1')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Only a top-level `&&` chain is split. A condition with `||` or parentheses
+// stays a single opaque conjunct, which can never be proven exclusive.
+function getConjuncts(condition) {
+  if (condition === '') {
+    return [];
+  }
+  if (/\|\||[()]/.test(condition.replace(/\b\w+\(\)/g, ''))) {
+    return [condition];
+  }
+
+  return condition
+    .split('&&')
+    .map((conjunct) => conjunct.trim())
+    .filter((conjunct) => conjunct && !STATUS_FUNCTION.test(conjunct));
+}
+
+function getComparisons(conjuncts) {
+  return conjuncts
+    .map((conjunct) =>
+      conjunct.match(/^([A-Za-z_][\w.-]*)\s*(==|!=)\s*'([^']*)'$/)
+    )
+    .filter(Boolean)
+    .map(([, subject, operator, value]) => ({ subject, operator, value }));
+}
+
+// Two conditions are exclusive only when one requires `x == 'a'` and the
+// other `x == 'b'` (or `x != 'a'`) for the same `x`. Anything else -- an
+// event check next to a matrix check, say -- may run in the same job.
+function areExclusive(left, right) {
+  return getComparisons(left).some((a) =>
+    getComparisons(right).some(
+      (b) =>
+        a.subject === b.subject &&
+        ((a.operator === '==' && b.operator === '==' && a.value !== b.value) ||
+          (a.operator !== b.operator && a.value === b.value))
+    )
+  );
+}
+
+// The largest a job can spend is the heaviest set of condition groups that
+// can all run together: unconditional budgets plus every group that no other
+// chosen group excludes. Groups are few, so every subset is checked.
 function getConcurrentBudgetSeconds(budgets) {
   const groups = new Map();
 
@@ -258,21 +228,41 @@ function getConcurrentBudgetSeconds(budgets) {
     );
   }
 
-  const unconditional = groups.get('') ?? 0;
-  const conditional = Array.from(groups.entries())
-    .filter(([condition]) => condition !== '')
-    .map(([, seconds]) => seconds);
+  const entries = Array.from(groups, ([condition, seconds]) => ({
+    conjuncts: getConjuncts(condition),
+    seconds,
+  }));
 
-  return (
-    unconditional + (conditional.length > 0 ? Math.max(...conditional) : 0)
-  );
+  if (entries.length > 16) {
+    return entries.reduce((sum, entry) => sum + entry.seconds, 0);
+  }
+
+  let largest = 0;
+
+  for (let mask = 0; mask < 1 << entries.length; mask += 1) {
+    const chosen = entries.filter((_, index) => mask & (1 << index));
+    const compatible = chosen.every((entry, index) =>
+      chosen
+        .slice(index + 1)
+        .every((other) => !areExclusive(entry.conjuncts, other.conjuncts))
+    );
+
+    if (compatible) {
+      largest = Math.max(
+        largest,
+        chosen.reduce((sum, entry) => sum + entry.seconds, 0)
+      );
+    }
+  }
+
+  return largest;
 }
 
 describe('CI timeout policy', () => {
   it('sets timeout-minutes for every release workflow job', () => {
     const expectedTimeouts = {
       'detect-changes': 5,
-      'session-publication': 5,
+      'session-publication': 6,
       'test-compilation': 5,
       'check-file-line-limits': 5,
       'version-check': 5,
@@ -284,7 +274,7 @@ describe('CI timeout policy', () => {
       'instant-release': 65,
       'docker-build': 30,
       'docker-publish-config': 45,
-      'docker-publish-build': 30,
+      'docker-publish-build': 35,
       'docker-publish': 30,
       'changeset-pr': 10,
       'pipeline-status': 5,
@@ -377,28 +367,41 @@ describe('CI execution budgets', () => {
   });
 
   it('keeps every declared step budget under the job backstop', () => {
-    const jobsWithBudgets = listWorkflowJobs(releaseWorkflow)
-      .map((jobName) => ({
-        jobName,
-        budgets: getStepBudgetSeconds(releaseWorkflow, jobName),
-        backstop: getTimeoutMinutes(releaseWorkflow, jobName),
-      }))
-      .filter((job) => job.budgets.length > 0);
+    const jobsWithBudgets = workflowFiles.flatMap((file) => {
+      const text = readWorkflow(file);
+      const workflow = parse(text);
 
-    expect(jobsWithBudgets.map((job) => job.jobName).sort()).toEqual([
-      'docker-build',
-      'docker-publish-build',
-      'docker-publish-config',
-      'instant-release',
-      'release',
-      'session-publication',
-      'test',
-    ]);
+      return Object.entries(workflow.jobs ?? {}).map(([jobName, job]) => ({
+        jobName: `${file.replace('.github/workflows/', '')}:${jobName}`,
+        budgets: getStepBudgetSeconds(text, jobName),
+        backstop: job['timeout-minutes'],
+      }));
+    });
+    const budgeted = jobsWithBudgets.filter((job) => job.budgets.length > 0);
+
+    // Every workflow with a dependency install now owns its budgets; a job
+    // dropping out of this list means a budget (or a whole step) vanished.
+    for (const jobName of [
+      'release.yml:test',
+      'release.yml:lint',
+      'release.yml:release',
+      'release.yml:docker-build',
+      'example-app.yml:desktop-package',
+      'example-app.yml:preview-tools',
+      'security.yml:python-audit',
+      'security.yml:npm-audit',
+      'workflows.yml:artifact-roundtrip',
+    ]) {
+      expect(budgeted.map((job) => job.jobName)).toContain(jobName);
+    }
 
     const violations = [];
 
-    for (const { jobName, budgets, backstop } of jobsWithBudgets) {
-      expect(typeof backstop).toBe('number');
+    for (const { jobName, budgets, backstop } of budgeted) {
+      if (typeof backstop !== 'number') {
+        violations.push(`${jobName}: declares budgets but no timeout-minutes`);
+        continue;
+      }
 
       const allowedSeconds = Math.floor(
         (backstop * 60 * MAX_BUDGET_SHARE_PERCENT) / 100
@@ -578,5 +581,196 @@ describe('step budget grouping', () => {
     expect(budgets[0].seconds).toBe(900);
     expect(Number.isFinite(budgets[1].seconds)).toBe(false);
     expect(budgets[1].source).toContain('"NOWHERE_BUDGET"');
+  });
+});
+
+// Fixtures for the grouping rules: a condition that is merely
+// *different* is not exclusive, composite actions spend their caller's
+// clock, and no dependency install may run without its own budget.
+describe('step budget grouping across conditions and composite actions', () => {
+  const fixture = (steps) =>
+    [
+      'name: Fixture',
+      '',
+      'jobs:',
+      '  job:',
+      '    timeout-minutes: 15',
+      '    steps:',
+      ...steps,
+      '',
+    ].join('\n');
+
+  it('sums conditions that can hold together, such as an event and a leg', () => {
+    const budgets = getStepBudgetSeconds(
+      fixture([
+        '      - name: PR only',
+        "        if: github.event_name == 'pull_request'",
+        '        run: bash scripts/run-with-budget-warning.sh 100 "pr" npm test',
+        '      - name: Node leg',
+        "        if: matrix.runtime == 'node'",
+        '        run: bash scripts/run-with-budget-warning.sh 200 "node" npm test',
+        '      - name: Bun leg',
+        "        if: matrix.runtime == 'bun'",
+        '        run: bash scripts/run-with-budget-warning.sh 150 "bun" bun test',
+      ]),
+      'job'
+    );
+
+    // pr + node; the two runtime legs still exclude each other.
+    expect(getConcurrentBudgetSeconds(budgets)).toBe(300);
+  });
+
+  it('adds a narrower condition to the broader one it implies', () => {
+    const budgets = getStepBudgetSeconds(
+      fixture([
+        '      - name: Node leg',
+        "        if: matrix.runtime == 'node'",
+        '        run: bash scripts/run-with-budget-warning.sh 200 "node" npm test',
+        '      - name: Node on Linux',
+        "        if: matrix.runtime == 'node' && matrix.os == 'ubuntu-24.04'",
+        '        run: bash scripts/run-with-budget-warning.sh 100 "linux" npm test',
+        '      - name: Deno leg',
+        "        if: matrix.runtime == 'deno'",
+        '        run: bash scripts/run-with-budget-warning.sh 250 "deno" deno test',
+      ]),
+      'job'
+    );
+
+    expect(getConcurrentBudgetSeconds(budgets)).toBe(300);
+  });
+
+  it('never treats status functions or || conditions as exclusive', () => {
+    const budgets = getStepBudgetSeconds(
+      fixture([
+        '      - name: Always',
+        '        if: always()',
+        '        run: bash scripts/run-with-budget-warning.sh 50 "always" true',
+        '      - name: Leg or event',
+        "        if: matrix.runtime == 'node' || github.event_name == 'push'",
+        '        run: bash scripts/run-with-budget-warning.sh 60 "either" true',
+        '      - name: Bun after success',
+        "        if: success() && matrix.runtime == 'bun'",
+        '        run: bash scripts/run-with-budget-warning.sh 70 "bun" true',
+      ]),
+      'job'
+    );
+
+    expect(getConcurrentBudgetSeconds(budgets)).toBe(180);
+  });
+
+  it('charges every call of a local composite action to the job', () => {
+    const budgets = getStepBudgetSeconds(
+      fixture([
+        '      - uses: ./.github/actions/setup-node',
+        '      - name: Upload',
+        '        uses: ./.github/actions/artifact-transport',
+        '      - name: Download on main',
+        "        if: github.ref == 'refs/heads/main'",
+        '        uses: ./.github/actions/artifact-transport',
+      ]),
+      'job'
+    );
+    const setupNode = getStepBudgetSeconds(
+      fixture(['      - uses: ./.github/actions/setup-node']),
+      'job'
+    );
+    const transport = getStepBudgetSeconds(
+      fixture(['      - uses: ./.github/actions/artifact-transport']),
+      'job'
+    );
+
+    expect(setupNode.length).toBeGreaterThan(0);
+    // The transport action runs setup-node itself before its SDK install.
+    expect(transport.length).toBe(setupNode.length + 1);
+    expect(budgets.length).toBe(setupNode.length + 2 * transport.length);
+    expect(getConcurrentBudgetSeconds(budgets)).toBe(
+      getConcurrentBudgetSeconds(setupNode) +
+        2 * getConcurrentBudgetSeconds(transport)
+    );
+  });
+});
+
+// An install talks to a registry or a download host, which is exactly what
+// can hang for minutes without output. Each one owns a budget, so a stall
+// fails as a titled error that lists the stuck processes; an unbudgeted one
+// runs into the job timeout, which cancels the job and can lose its log.
+const INSTALL_COMMAND =
+  /(^|[\s;&|(])(npm\s+(ci|install|i)\b|npx\s+(--yes|-y)\b|pipx\s+install\b|pip3?\s+install\b|uv\s+pip\s+install\b|bun\s+install\b|deno\s+(install|cache)\b|deno\s+test\b.*--no-run|curl\b|wget\b|apt-get\s+install\b|brew\s+install\b)/;
+// Offline installs only copy what an earlier, budgeted step fetched.
+const OFFLINE_INSTALL = /--no-index\b|--offline\b/;
+
+function findUnbudgetedInstalls(steps, where) {
+  const findings = [];
+
+  for (const step of steps ?? []) {
+    const logicalLines = String(step.run ?? '')
+      .replace(/\s*\\\n\s*/g, ' ')
+      .split('\n')
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith('#'));
+
+    for (const line of logicalLines) {
+      if (
+        INSTALL_COMMAND.test(line) &&
+        !OFFLINE_INSTALL.test(line) &&
+        !/run-with-budget-warning\.sh\s+\S+\s+"[^"]+"/.test(line)
+      ) {
+        findings.push(`${where}: "${step.name ?? step.uses}" runs ${line}`);
+      }
+    }
+  }
+
+  return findings;
+}
+
+describe('dependency install budgets', () => {
+  it('wraps every networked install in workflows and composite actions', () => {
+    const findings = workflowFiles.flatMap((file) => {
+      const workflow = parse(readWorkflow(file));
+
+      return Object.entries(workflow.jobs ?? {}).flatMap(([jobName, job]) =>
+        findUnbudgetedInstalls(job.steps, `${file}:${jobName}`)
+      );
+    });
+    const actions = readdirSync('.github/actions', { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => `./.github/actions/${entry.name}`);
+
+    for (const reference of actions) {
+      const action = readCompositeAction(reference);
+
+      if (action) {
+        findings.push(...findUnbudgetedInstalls(action.runs.steps, reference));
+      }
+    }
+
+    expect(findings).toEqual([]);
+  });
+
+  it('flags a bare install and accepts wrapped or offline ones', () => {
+    expect(
+      findUnbudgetedInstalls(
+        [
+          { name: 'bare', run: 'npm ci' },
+          { name: 'continued', run: 'pipx install \\\n  uv==0.13.7' },
+          { name: 'npx', run: 'npx --yes -p tool@1.0.0 tool' },
+          {
+            name: 'wrapped',
+            run: 'bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci',
+          },
+          {
+            name: 'offline',
+            run: 'uv pip install --system --no-index -r requirements.txt',
+          },
+          { name: 'comment', run: '# npm ci is wrapped below' },
+          { name: 'script', run: 'npm run build' },
+        ],
+        'fixture'
+      )
+    ).toEqual([
+      'fixture: "bare" runs npm ci',
+      'fixture: "continued" runs pipx install uv==0.13.7',
+      'fixture: "npx" runs npx --yes -p tool@1.0.0 tool',
+    ]);
   });
 });

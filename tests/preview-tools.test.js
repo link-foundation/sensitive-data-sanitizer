@@ -30,13 +30,17 @@ describe('preview container environment', () => {
     expect(writer.needs).toContain('preview-tools');
     expect(workflow.jobs['pipeline-status'].needs).toContain('preview-tools');
     for (const job of [tools, writer]) {
-      const commands = job.steps.map((step) => step.run);
-      expect(
-        commands.indexOf('bash scripts/setup-preview-gh.sh')
-      ).toBeGreaterThan(-1);
+      const commands = job.steps.map((step) => step.run ?? '');
+      // The install downloads a release asset, so it runs under its own budget.
+      const install = commands.findIndex((command) =>
+        /^bash scripts\/run-with-budget-warning\.sh \d+ "[^"]+" bash scripts\/setup-preview-gh\.sh$/.test(
+          command
+        )
+      );
+      expect(install).toBeGreaterThan(-1);
       expect(
         commands.indexOf('bash scripts/check-preview-tools.sh')
-      ).toBeGreaterThan(commands.indexOf('bash scripts/setup-preview-gh.sh'));
+      ).toBeGreaterThan(install);
     }
     expect(
       tools.steps.some((step) =>

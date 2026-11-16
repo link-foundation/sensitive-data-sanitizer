@@ -24,7 +24,9 @@
 #                         (default 1)
 #   BUDGET_STATE_PARENT   parent for private state (default RUNNER_TEMP, then
 #                         TMPDIR or /tmp)
-#   BUDGET_VERBOSE        trace liveness and signalling decisions (default 0)
+#   BUDGET_VERBOSE        trace liveness and signalling decisions (default:
+#                         RUNNER_DEBUG, so a GitHub "Re-run with debug logging"
+#                         turns it on; otherwise 0)
 #
 # Exit codes: the command's own status, or 124 on timeout (matching timeout(1)).
 set -uo pipefail
@@ -56,7 +58,7 @@ kill_seconds="${BUDGET_KILL_SECONDS:-5}"
 poll_seconds="${BUDGET_POLL_SECONDS:-1}"
 capture_output="${BUDGET_CAPTURE_OUTPUT:-1}"
 sudo_kill="${BUDGET_SUDO_KILL:-1}"
-verbose="${BUDGET_VERBOSE:-0}"
+verbose="${BUDGET_VERBOSE:-${RUNNER_DEBUG:-0}}"
 warn_seconds=$((budget_seconds * warn_percent / 100))
 
 # A fractional value is legitimate, but it must be a number: the grace loop
@@ -235,8 +237,21 @@ report_survivors() {
   echo "${survivors}" >&2
 }
 
+# A stalled step leaves no other evidence of *what* it was waiting on (a hung
+# install, for example, prints nothing until it finishes), so record the
+# process group before signalling it.
+report_running_at_deadline() {
+  local running
+  running="$(group_members)"
+  [ -n "${running}" ] || return 0
+  echo "Processes still running when the ${budget_seconds}s budget expired (pid user command):"
+  echo "${running}"
+}
+
 terminate_over_budget() {
   echo "::error title=${label} exceeded its execution budget::${label} did not finish within its ${budget_seconds}s budget, so termination was requested. Shorten the step or raise its budget (keeping it below the job's timeout-minutes backstop)."
+  relay_output
+  report_running_at_deadline
   signal_command TERM
 
   # The step's own SECONDS clock, not an accumulation of the (possibly

@@ -20,9 +20,19 @@ runs:
     # setup-node selects Node's bundled npm, which currently predates npm 12.
     # npm ships its own bundled dependency tree; this exact reviewed release
     # also disables lifecycle scripts. Keep this exception on this install only.
+    # The script also replaces the copy next to node, which nested
+    # `npm --prefix DIR` scripts fall back to on Windows (issue #208), and
+    # verifies both. A registry stall fails under its own name instead of
+    # running into the job's timeout-minutes.
     - name: Install reviewed npm
       shell: bash
-      run: npm install --global npm@12.2.2 --ignore-scripts --no-audit --no-fund # zizmor: ignore[adhoc-packages]
+      run: bash scripts/run-with-budget-warning.sh 60 "Reviewed npm install" bash scripts/install-reviewed-npm.sh 12.2.2
+    # Off by default. A "Re-run with debug logging" (runner.debug) lists every
+    # registry request, so an install that stalls shows what it waited on.
+    - name: Enable npm debug logging
+      if: runner.debug == '1'
+      shell: bash
+      run: echo "NPM_CONFIG_LOGLEVEL=http" >> "$GITHUB_ENV"
     - name: Restore requested package cache with current npm
       if: inputs.cache != ''
       uses: actions/setup-node@v7.1.0
