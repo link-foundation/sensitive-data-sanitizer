@@ -56,6 +56,16 @@ describe('extractErrorsSection', () => {
     const legacy = '# Link report\n\n* [404] https://broken.example/legacy\n';
     assert.equal(extractErrorsSection(legacy), legacy);
   });
+
+  it('returns nothing when the report has sections but no Errors section', () => {
+    const redirectsOnly =
+      '# Summary\n\n## Redirects per input\n\n* [404] https://working.example/moved\n';
+    assert.equal(extractErrorsSection(redirectsOnly), '');
+    assert.deepEqual(extractBrokenLinks(redirectsOnly), {
+      urls: [],
+      others: [],
+    });
+  });
 });
 
 describe('extractBrokenUrls', () => {

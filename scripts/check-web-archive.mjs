@@ -32,7 +32,10 @@ import { setTimeout as sleep } from 'node:timers/promises';
 import { readFileSync, appendFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { validateLycheeReport } from './lychee-report.mjs';
+import {
+  extractErrorsSection,
+  validateLycheeReport,
+} from './lychee-report.mjs';
 
 const WAYBACK_API = 'https://archive.org/wayback/available?url=';
 
@@ -49,37 +52,7 @@ function setOutput(name, value) {
   console.log(`${name}=${value}`);
 }
 
-/**
- * Extract the "Errors per input" section of a lychee markdown report.
- *
- * Everything after it - most importantly "## Redirects per input" - describes
- * links that resolved successfully, so scanning the whole report would make
- * every redirected link look broken. Reports without that heading (older
- * lychee versions, hand-written fixtures) are parsed in full.
- *
- * @param {string} content - The markdown content from lychee
- * @param {string} kind - Failure section name; defaults to Errors
- * @returns {string} The errors section, or the whole document when there is none
- */
-export function extractErrorsSection(content, kind = 'Errors') {
-  const lines = content.split('\n');
-  const start = lines.findIndex(
-    (line) => /^#+\s+(Errors|Timeouts) per input\s*$/.exec(line)?.[1] === kind
-  );
-  if (start === -1) {
-    return kind === 'Errors' ? content : '';
-  }
-  const heading = /^(#+)\s/.exec(lines[start])[1].length;
-  const section = [];
-  for (const line of lines.slice(start + 1)) {
-    const next = /^(#+)\s/.exec(line);
-    if (next && next[1].length <= heading) {
-      break; // a sibling or parent heading ends the errors section
-    }
-    section.push(line);
-  }
-  return section.join('\n');
-}
+export { extractErrorsSection } from './lychee-report.mjs';
 
 /**
  * Extract broken links from lychee markdown output.
