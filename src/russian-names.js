@@ -2,7 +2,11 @@ import { firstNames } from './names.js';
 
 // Finite Russian name grammar shared by known-value matching and fake mode.
 const patronymic = /(?:ич|овна|евна|ична|vich|ovna|evna)$/iu;
-const surname = /(?:ов|ев|ин|ын|ский|цкий|ова|ева|ина|ына|ская|цкая)$/iu;
+// A surname suffix follows a stem of two letters or more, so a short given
+// name that merely ends like one (`Ева`, `Лев`) is not a surname, and `ё`
+// reads as `е` (`Шмелёва`, `Фомичёв`).
+const surname =
+  /\p{L}{2}(?:ов|ев|ин|ын|ский|цкий|ова|ева|ина|ына|ская|цкая)$/iu;
 const fold = (word) => word.toLowerCase().replaceAll('ё', 'е');
 const givenNames = new Set(firstNames.ru.split(' ').map(fold));
 
@@ -56,7 +60,7 @@ export function russianNameRoles(words, known = isGivenName) {
     return { given: 0, patronymic: 1 };
   }
   const candidates = [0, 1].filter(
-    (i) => surname.test(words[i]) && !known(words[i])
+    (i) => surname.test(fold(words[i])) && !known(words[i])
   );
   return candidates.length === 1
     ? { surname: candidates[0], given: 1 - candidates[0] }

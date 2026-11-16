@@ -154,13 +154,18 @@ function russianFakeName(surface, lemma, key, context) {
   const parts = lemma.trim().split(/\s+/u);
   const slots = nameSlots(parts);
   const sex = nameSex(parts, slots);
+  const givenIndex = russianNameRoles(parts)?.given;
   const lemmaWords = parts.flatMap((part, i) =>
     part.match(letters).map((word) => {
       const slot = slots[i];
       return {
         slot,
         lemmaForms: russianNameForms(word, slot, sex),
-        pattern: new RegExp(`^(?:${wordPattern(word, 'PERSON')})$`, 'iu'),
+        // The given name of a known pair declines even when short (`Яну`).
+        pattern: new RegExp(
+          `^(?:${wordPattern(word, 'PERSON', undefined, i === givenIndex)})$`,
+          'iu'
+        ),
         first: word[0].toLowerCase().replace('ё', 'е'),
         fake: fakeWord(capitalize(word), key, slot, undefined, sex),
       };
@@ -168,14 +173,23 @@ function russianFakeName(surface, lemma, key, context) {
   );
   const matched = surface.match(letters).map((word) => {
     const initial = word.length === 1;
-    const entry = lemmaWords.find(
-      (candidate) =>
-        !candidate.used &&
-        (initial
-          ? candidate.slot !== 'lastName' &&
-            candidate.first === word.toLowerCase().replace('ё', 'е')
-          : candidate.pattern.test(word))
-    );
+    const first = word.toLowerCase().replace('ё', 'е');
+    const free = (candidate) =>
+      !candidate.used &&
+      (initial ? candidate.first === first : candidate.pattern.test(word));
+    // An initial stands for a given name or patronymic first, and for the
+    // surname only after a given name, as in `Яну С.`.
+    const entry =
+      lemmaWords.find(
+        (candidate) =>
+          free(candidate) && (!initial || candidate.slot !== 'lastName')
+      ) ??
+      (initial &&
+      lemmaWords.some(
+        (candidate) => candidate.used && candidate.slot === 'firstName'
+      )
+        ? lemmaWords.find(free)
+        : undefined);
     if (entry) {
       entry.used = true;
     }

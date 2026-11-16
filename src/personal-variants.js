@@ -26,7 +26,25 @@ export function organizationFamily(core) {
 // ё and е are one letter in ordinary Russian writing; the i flag covers Ё and Е.
 const foldYo = (pattern) => pattern.replace(/[еёЕЁ]/gu, '[её]');
 const fleeting = { павел: 'Павл', лев: 'Льв' };
+// Oblique forms that drop a vowel the regular endings keep: `Любовь` is
+// `Любви` as well as `Любови`.
+const extraForms = { любовь: 'Любви' };
 const hardCases = '(?:а|у|ом|е)';
+// A given name of up to three letters (`Ян`, `Ким`, `Ева`, `Ия`, `Ной`) or a
+// short stem (`Юрий`) declines like a longer one. Only a word
+// that the name's roles mark as the given name gets these endings, next to
+// its surname or the surname's initial; other short words stay as written,
+// and endings of `-о`, `-и`, `-у`, `-е`, `-ю` and `-э` are indeclinable.
+const shortGivenEndings = [
+  [/[жчшщц]а$/u, 1, '(?:а|и|е|у|ей|ею|ой|ою)'],
+  [/а$/u, 1, '(?:а|ы|и|е|у|ой|ою)'],
+  [/я$/u, 1, '(?:я|и|е|ю|ей|ею)'],
+  [/ий$/u, 2, '(?:ий|ия|ию|ием|ии)'],
+  [/[аеёиоуыэюя]й$/u, 1, '(?:й|я|ю|ем|е)'],
+  [/ь$/u, 1, '(?:ь|я|ю|ем|е|и|ью)'],
+  [/[жчшщц]$/u, 0, '(?:а|у|ем|ом|е)?'],
+  [/[бвгдзклмнпрстфх]$/u, 0, `${hardCases}?`],
+];
 // Only caller-confirmed Russian words receive finite case alternatives. A
 // minimum three-letter stem avoids turning short names into broad matches.
 // A family is named by the plural of a possessive or -ский surname:
@@ -34,7 +52,12 @@ const hardCases = '(?:а|у|ом|е)';
 // surname names the family.
 const possessivePlural = '|ы|ых|ым|ыми';
 const adjectivePlural = '|ие|их|им|ими';
-function cyrillicPattern(word, type) {
+function cyrillicPattern(word, type, given = false) {
+  const lower = word.toLowerCase();
+  const pattern = regularPattern(word, lower, type, given);
+  return extraForms[lower] ? `(?:${pattern}|${extraForms[lower]})` : pattern;
+}
+function regularPattern(word, lower, type, given) {
   const endings = [
     [/(?:ова|ева|ёва|ина|ына)$/u, 1, `(?:а|ой|ою|у|е|ы${possessivePlural})`],
     [/(?:ск|цк)ая$/u, 2, `(?:ая|ой|ою|ую${adjectivePlural})`],
@@ -57,20 +80,29 @@ function cyrillicPattern(word, type) {
     [/я$/u, 1, '(?:я|и|е|ю|ей|ею)'],
     [/ь$/u, 1, '(?:ь|я|ю|ем|е|и|ью)'],
   ];
-  const lower = word.toLowerCase();
   if (fleeting[lower]) {
     return `(?:${word}|${fleeting[lower]}${hardCases})`;
   }
-  for (const [ending, remove, suffix] of endings) {
-    if (ending.test(lower) && word.length - remove >= 3) {
-      return escapePattern(remove ? word.slice(0, -remove) : word) + suffix;
+  const declined = (table, minStem) => {
+    for (const [ending, remove, suffix] of table) {
+      if (ending.test(lower) && word.length - remove >= minStem) {
+        return escapePattern(remove ? word.slice(0, -remove) : word) + suffix;
+      }
     }
+    return undefined;
+  };
+  const regular = declined(endings, 3);
+  if (regular) {
+    return regular;
   }
   if (/^[а-яё]{3,}[бвгджзклмнпрстфхцчшщ]$/u.test(lower)) {
     // Plural forms would turn a given name into a surname: Петр and Петров.
     return `${escapePattern(word)}${type === 'PERSON' ? `${hardCases}?` : '(?:а|у|ом|е|ы|ов|ам|ами|ах)?'}`;
   }
-  return escapePattern(word);
+  return (
+    (given && type === 'PERSON' && declined(shortGivenEndings, 1)) ||
+    escapePattern(word)
+  );
 }
 const cyrillicWord = /^[а-яё]+$/iu;
 const anyOf = (options) =>
@@ -147,13 +179,14 @@ function latinChunks(word) {
 const latinPattern = (word) => latinChunks(word).map(anyOf).join('');
 // Optional entry flags: `transliterate` adds the Latin spellings of Cyrillic
 // words. Callers without flags keep the exact Cyrillic grammar.
-export function wordPattern(word, type, flags) {
+// `given` marks the given name of a listed person (see `shortGivenEndings`).
+export function wordPattern(word, type, flags, given = false) {
   const parts = word.split('-');
   const native = foldYo(
     parts
       .map((part) =>
         cyrillicWord.test(part)
-          ? cyrillicPattern(part, type)
+          ? cyrillicPattern(part, type, given)
           : escapePattern(part)
       )
       .join('-')
@@ -224,10 +257,15 @@ const initialPattern = (word, flags) => `${initialLetter(word, flags)}\\.`;
 // listed `Тютюнник Евсей`.
 const anyInitial = '\\p{Lu}\\.';
 const withSecond = (initial) => `${initial}(?:${initialGap}${anyInitial})?`;
+// An initial without its period is a letter that ends its token: a letter,
+// a digit or `-digit` after it continues a code or a word, as in `mark F2C`,
+// `Марк Ф2` or `Марк Ф-2`. A period after it belongs to the
+// initial, so the shorter match never leaves it out.
+const initialEnd = '(?![\\p{L}\\p{M}\\p{N}.]|[-_]\\p{N})';
 // A given name with the initial of the surname, as in `Велимира П.` or
 // `Velimira P.`, is the everyday short form in chats and notes.
 const givenAndInitial = (given, surname, type, flags) =>
-  `${wordPattern(given, type, flags)}${textGap}${initialLetter(surname, flags)}\\.?`;
+  `${wordPattern(given, type, flags, true)}${textGap}${initialLetter(surname, flags)}(?:\\.|${initialEnd})`;
 // A surname with the initial of the given name after or before it, whatever
 // the surname's ending: `Тютюнник Е.`, `Е. Тютюнник`, `Е.Тютюнник`. When no
 // patronymic is listed, any second initial stands for it: `Тютюнник Е.О.`,
@@ -247,15 +285,17 @@ function russianForms(words, roles, type, flags, related) {
   );
   const gap = gapFor(flags);
   const full = (...parts) =>
-    parts.map((part) => wordPattern(part, type, flags)).join(gap);
+    parts
+      .map((part) => wordPattern(name[part], type, flags, part === 'given'))
+      .join(gap);
   if (name.surname === undefined) {
     return [];
   }
   const initial = initialPattern(name.given, flags);
   const last = wordPattern(name.surname, type, flags);
   const short = [
-    full(name.surname, name.given),
-    full(name.given, name.surname),
+    full('surname', 'given'),
+    full('given', 'surname'),
     ...initialForms(last, initial, gap),
     givenAndInitial(name.given, name.surname, type, flags),
   ];
@@ -264,21 +304,24 @@ function russianForms(words, roles, type, flags, related) {
   }
   const initials = `${initial}${initialGap}${initialPattern(name.patronymic, flags)}`;
   return [
-    full(name.surname, name.given, name.patronymic),
-    full(name.given, name.patronymic, name.surname),
+    full('surname', 'given', 'patronymic'),
+    full('given', 'patronymic', 'surname'),
     `${last}${textGap}${initials}`,
     `${initials}${initialGap}${last}`,
     ...short,
-    ...(related ? [full(name.given, name.patronymic)] : []),
+    ...(related ? [full('given', 'patronymic')] : []),
   ];
 }
 // Two words whose roles are unknown, such as `Тютюнник Евсей` or `John Smith`,
 // match in either order and with the other word reduced to its initial,
-// written after the word or, with a period, before it.
-function pairForms(words, type, flags) {
-  const [first, second] = words.map((word) => wordPattern(word, type, flags));
+// written after the word or, with a period, before it. `given` is the index
+// of the given name when the roles are known.
+function pairForms(words, type, flags, given) {
+  const [first, second] = words.map((word, i) =>
+    wordPattern(word, type, flags, i === given)
+  );
   const withInitial = (name, word) =>
-    `${name}${textGap}${initialLetter(word, flags)}(?:\\.(?:${initialGap}${anyInitial})?)?`;
+    `${name}${textGap}${initialLetter(word, flags)}(?:\\.(?:${initialGap}${anyInitial})?|${initialEnd})`;
   return [
     `${second}${gapFor(flags)}${first}`,
     withInitial(first, words[1]),
@@ -302,23 +345,25 @@ export function personalPatterns(value, type, flags, related = false) {
   const patterns = new Set();
   for (const surface of values) {
     const parts = surface.split(separator);
+    const words = parts.filter((_part, i) => i % 2 === 0);
+    const roles = type === 'PERSON' ? russianNameRoles(words) : undefined;
     patterns.add(
       parts
         .map((part, i) =>
-          i % 2 ? gapFor(flags) : wordPattern(part, type, flags)
+          i % 2
+            ? gapFor(flags)
+            : wordPattern(part, type, flags, i / 2 === roles?.given)
         )
         .join('')
     );
     if (type !== 'PERSON') {
       continue;
     }
-    const words = parts.filter((_part, i) => i % 2 === 0);
-    const roles = russianNameRoles(words);
     const forms = roles ? russianForms(words, roles, type, flags, related) : [];
     if (words.length === 2) {
       forms.push(
         ...(roles
-          ? [pairForms(words, type, flags)[0]]
+          ? [pairForms(words, type, flags, roles.given)[0]]
           : pairForms(words, type, flags))
       );
     }
