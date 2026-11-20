@@ -294,6 +294,8 @@ For CLI name recognition, `--presidio PATH` selects a local Python JSON bridge. 
 
 `history` audits reachable blobs, commit messages/authors, annotated tags, and reflog-reachable objects without changing refs. It can find deleted files. It reports object hashes and safe findings, and refuses limits or reports skipped binary objects as incomplete. The `history rewrite SOURCE --output NEW_DIRECTORY` command previews private replacement/mailmap files in a fresh mirror clone; add `--apply` to rewrite only that clone and re-audit blobs, metadata, paths and refs. It never pushes. Remote caches, forks, artifacts and unreachable objects require separate remediation; see the [history guide](docs/HISTORY-REMEDIATION.md).
 
+Scope a local history audit with `--from` and `--to` commit references or `--since` and `--until` UTC dates. An applied rewrite writes `manifest.lino` by default. Use `--format json` for `manifest.json`. See the [history guide](docs/HISTORY-REMEDIATION.md) for the scope semantics.
+
 ## Contributing
 
 ```sh

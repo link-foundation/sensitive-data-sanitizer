@@ -5,6 +5,7 @@ import { createSanitizer } from './engines.js';
 import { auditGitHistory } from './history.js';
 import { decodeText } from './files.js';
 import { failure } from './detection.js';
+import { encodeLinoObject } from './lino-object.js';
 
 function git(repository, args) {
   try {
@@ -172,10 +173,17 @@ export async function rewriteGitHistory(
     sanitizerOptions = {},
     filterRepoCommand = 'git-filter-repo',
     maxPaths = 10000,
-    ...auditOptions
+    manifestFormat = 'lino',
+    maxObjects,
+    maxBytes,
+    maxTotalBytes,
   } = {}
 ) {
   validateRewriteOptions(apply, maxPaths, filterRepoCommand);
+  if (!['lino', 'json'].includes(manifestFormat)) {
+    throw failure('ERR_CONFIG');
+  }
+  const auditOptions = { maxObjects, maxBytes, maxTotalBytes };
   const directory = resolve(destination),
     repository = join(directory, 'repository.git');
   sanitizer ??= createSanitizer(sanitizerOptions);
@@ -213,7 +221,7 @@ export async function rewriteGitHistory(
     if (apply) {
       runFilter(repository, directory, filterRepoCommand);
       return await completedRewrite(
-        { repository, directory, before, plan },
+        { repository, directory, before, plan, manifestFormat },
         sanitizer,
         auditOptions,
         maxPaths
@@ -295,7 +303,7 @@ async function removePrivatePlan(directory) {
 }
 
 async function completedRewrite(
-  { repository, directory, before, plan },
+  { repository, directory, before, plan, manifestFormat },
   sanitizer,
   auditOptions,
   maxPaths
@@ -319,9 +327,11 @@ async function completedRewrite(
     changedRefs: Object.keys(plan.data.refs).length,
   };
   await writeFile(
-    join(directory, 'manifest.json'),
-    `${JSON.stringify(result, null, 2)}\n`,
-    { mode: 0o600 }
+    join(directory, `manifest.${manifestFormat}`),
+    manifestFormat === 'json'
+      ? `${JSON.stringify(result, null, 2)}\n`
+      : encodeLinoObject(result),
+    { flag: 'wx', mode: 0o600 }
   );
   return result;
 }

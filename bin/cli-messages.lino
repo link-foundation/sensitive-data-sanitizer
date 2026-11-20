@@ -46,6 +46,8 @@ en
     --format FORMAT     Reports: lino (default), json; scan also sarif, csv or junit
     --report-path PATH  Create a private report file (default stdout)
     --staged            Scan changed Git index blobs from the current directory
+    --from REF --to REF  Limit a history audit to a Git revision range
+    --since UTC --until UTC  Filter history by commit dates (YYYY-MM-DD or UTC timestamp)
     --respect-gitignore Scan tracked and non-ignored untracked Git paths
     --baseline PATH     Suppress previously reviewed scan occurrences
     --write-baseline PATH  Save findings for review (requires SDS_BASELINE_KEY)
@@ -114,6 +116,8 @@ ru
     --format FORMAT     Отчёты: lino по умолчанию, json, для scan также sarif, csv и junit
     --report-path PATH  Записать закрытый отчёт в новый файл
     --staged            Сканировать изменённые объекты индекса Git
+    --from REF --to REF  Проверить диапазон ревизий Git
+    --since UTC --until UTC  Фильтровать по датам коммитов (ГГГГ-ММ-ДД или время UTC)
     --respect-gitignore Сканировать отслеживаемые и неигнорируемые файлы Git
     --baseline PATH     Учитывать ранее проверенные срабатывания
     --write-baseline PATH Сохранить срабатывания для проверки. Нужен SDS_BASELINE_KEY
@@ -180,6 +184,8 @@ zh
     --format FORMAT     报告默认为 lino，也支持 json，scan 还支持 sarif、csv 和 junit
     --report-path PATH  将私有报告写入新文件
     --staged            扫描 Git 索引中有变更的对象
+    --from REF --to REF  将历史审计限制在 Git 修订范围内
+    --since UTC --until UTC  按提交日期筛选历史（YYYY-MM-DD 或 UTC 时间戳）
     --respect-gitignore 扫描已跟踪文件和未被忽略的未跟踪文件
     --baseline PATH     使用已审核发现的基线
     --write-baseline PATH 保存待审核的发现，需要 SDS_BASELINE_KEY
@@ -246,6 +252,8 @@ hi
     --format FORMAT     रिपोर्ट: डिफ़ॉल्ट lino, json, scan के लिए sarif, csv और junit भी
     --report-path PATH  नई फ़ाइल में निजी रिपोर्ट लिखें
     --staged            Git इंडेक्स में बदले हुए ऑब्जेक्ट स्कैन करें
+    --from REF --to REF  Git के दिए गए संशोधनों तक इतिहास जाँच सीमित करें
+    --since UTC --until UTC  कमिट की तारीख से इतिहास छाँटें (YYYY-MM-DD या UTC समय)
     --respect-gitignore ट्रैक की गई फ़ाइलें और अनदेखी न की गई नई फ़ाइलें स्कैन करें
     --baseline PATH     पहले जाँचे गए निष्कर्षों की बेसलाइन इस्तेमाल करें
     --write-baseline PATH समीक्षा के लिए निष्कर्ष सहेजें। SDS_BASELINE_KEY आवश्यक

@@ -58,6 +58,16 @@ function invoke(root, args, env = {}) {
   });
 }
 
+function git(root, args, env = {}) {
+  const result = spawnSync('git', args, {
+    cwd: root,
+    env: { ...process.env, ...env },
+    encoding: 'utf8',
+  });
+  expect(result.status).toBe(0);
+  return result.stdout.trim();
+}
+
 describe('CLI languages and Links Notation', () => {
   it('provides localized help and diagnostics in the four requested languages', async () => {
     for (const [locale, help, error] of [
@@ -143,17 +153,13 @@ describe('CLI languages and Links Notation', () => {
 describe('CLI scan input and suppression', () => {
   it('scans index blobs and respects Git ignore rules for worktree scans', async () => {
     await workspace((root) => {
-      function git(...args) {
-        const result = spawnSync('git', args, { cwd: root, encoding: 'utf8' });
-        expect(result.status).toBe(0);
-      }
-      git('init', '-q');
-      git('config', 'core.autocrlf', 'false');
+      git(root, ['init', '-q']);
+      git(root, ['config', 'core.autocrlf', 'false']);
       writeFileSync(join(root, '.gitignore'), 'build.log\n');
       writeFileSync(join(root, 'build.log'), 'password=fixture-ignored');
       const tracked = '--tracked.log';
       writeFileSync(join(root, tracked), 'password=fixture-staged');
-      git('add', '--', '.gitignore', tracked);
+      git(root, ['add', '--', '.gitignore', tracked]);
       writeFileSync(join(root, tracked), 'public content');
       const args = ['scan', '--native-only', '--format', 'json'];
       const staged = invoke(root, [...args, '--staged', '--', tracked]);
@@ -275,5 +281,58 @@ describe('CLI scan input and suppression', () => {
     const truncated = await run(args, fixture.subarray(0, 50));
     expect(truncated.status).toBe(2);
     expect(JSON.parse(truncated.stdout).skipped[0].reason).toBe('ERR_ARCHIVE');
+  });
+});
+
+describe('scoped Git history audits', () => {
+  it('selects revisions and commit dates without altering refs or the checkout', async () => {
+    await workspace(async (root) => {
+      git(root, ['init', '-q']);
+      const file = join(root, 'log.txt');
+      const commit = (text, date) => {
+        writeFileSync(file, text);
+        git(root, ['add', '--', 'log.txt']);
+        const identity = {
+          GIT_AUTHOR_NAME: 'Fixture',
+          GIT_AUTHOR_EMAIL: 'test@example.org',
+          GIT_COMMITTER_NAME: 'Fixture',
+          GIT_COMMITTER_EMAIL: 'test@example.org',
+          GIT_AUTHOR_DATE: date,
+          GIT_COMMITTER_DATE: date,
+        };
+        git(
+          root,
+          ['-c', 'commit.gpgsign=false', 'commit', '-qm', 'Update file'],
+          identity
+        );
+        return git(root, ['rev-parse', 'HEAD']);
+      };
+      const old = commit('password=fixture-history', '2024-01-31T23:59:59Z');
+      const head = commit('public material', '2024-02-01T00:00:00Z');
+      const args = ['history', root, '--native-only', '--credentials-only'];
+      const whole = await run(args);
+      expect(whole.status).toBe(1);
+      expect(
+        decodeLinoObject(whole.stdout, 16384).findings.some(
+          ({ type }) => type === 'blob'
+        )
+      ).toBe(true);
+
+      expect((await run([...args, '--from', old, '--to', head])).status).toBe(
+        0
+      );
+      const empty = await run([...args, '--from', head, '--format', 'json']);
+      expect(JSON.parse(empty.stdout)).toEqual({
+        scanned: 0,
+        findings: [],
+        skipped: [],
+        complete: true,
+      });
+      expect((await run([...args, '--since', '2024-02-01'])).status).toBe(0);
+      expect((await run([...args, '--until', '2024-01-31'])).status).toBe(1);
+      expect((await run([...args, '--since', '2024-02-30'])).status).toBe(2);
+      expect(git(root, ['rev-parse', 'HEAD'])).toBe(head);
+      expect(readFileSync(file, 'utf8')).toBe('public material');
+    });
   });
 });

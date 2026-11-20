@@ -92,6 +92,10 @@ function parseArgs(argv, defaultConfigPath) {
     ['--baseline', 'baseline'],
     ['--write-baseline', 'writeBaseline'],
     ['--max-archive-depth', 'archiveDepth'],
+    ['--from', 'from'],
+    ['--to', 'to'],
+    ['--since', 'since'],
+    ['--until', 'until'],
   ]);
   const paths = [];
   for (let i = rewrite ? 2 : 1; i < argv.length; i++) {
@@ -140,9 +144,21 @@ function validateArgs(config) {
   validateFeatureArgs(config);
   validatePaths(config);
   validateScanArgs(config);
+  validateHistoryArgs(config);
   validateReportArgs(config);
   validateOutput(config);
   validateBridge(config);
+}
+
+function validateHistoryArgs(config) {
+  if (
+    (config.command !== 'history' || config.rewrite) &&
+    [config.from, config.to, config.since, config.until].some(
+      (bound) => bound !== undefined
+    )
+  ) {
+    throw failure('ERR_ARGUMENT');
+  }
 }
 
 function validatePaths(config) {
@@ -479,6 +495,7 @@ async function historyCommand(config, engine, { stdout }) {
       apply: Boolean(config.apply),
       filterRepoCommand: config.filterRepo ?? 'git-filter-repo',
       maxBytes: config.maxBytes,
+      manifestFormat: config.format,
     });
     await publishReport(result, config, stdout, packageVersion());
     return 0;
@@ -486,6 +503,10 @@ async function historyCommand(config, engine, { stdout }) {
   const result = await auditGitHistory(config.path, {
     sanitizer: engine,
     maxBytes: config.maxBytes,
+    from: config.from,
+    to: config.to,
+    since: config.since,
+    until: config.until,
   });
   await publishReport(result, config, stdout, packageVersion());
   return !result.complete ? 2 : result.findings.length ? 1 : 0;

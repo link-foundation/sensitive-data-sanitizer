@@ -1,10 +1,11 @@
 /** Real git-filter-repo integration, entirely within a disposable local repo. */
-import { mkdtemp, writeFile, rm, readdir } from 'node:fs/promises';
+import { mkdtemp, writeFile, rm, readdir, readFile } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import { strict as assert } from 'node:assert';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { rewriteGitHistory } from '../src/index.js';
+import { decodeLinoObject } from '../src/lino-object.js';
 const directory = await mkdtemp(
   join(tmpdir(), 'sanitizer-rewrite-integration-')
 );
@@ -41,9 +42,24 @@ try {
     ''
   );
   assert.deepEqual((await readdir(join(directory, 'clean'))).sort(), [
-    'manifest.json',
+    'manifest.lino',
     'repository.git',
   ]);
+  const manifest = await readFile(
+    join(directory, 'clean', 'manifest.lino'),
+    'utf8'
+  );
+  assert.equal(decodeLinoObject(manifest, 1024 * 1024).after.complete, true);
+  await rewriteGitHistory(source, join(directory, 'clean-json'), {
+    apply: true,
+    filterRepoCommand: process.env.GIT_FILTER_REPO ?? 'git-filter-repo',
+    manifestFormat: 'json',
+  });
+  const json = await readFile(
+    join(directory, 'clean-json', 'manifest.json'),
+    'utf8'
+  );
+  assert.equal(JSON.parse(json).after.complete, true);
   console.log(
     JSON.stringify({
       complete: true,
