@@ -10,31 +10,48 @@ export async function auditGitHistory(
     maxObjects = 10000,
     maxBytes = 10 * 1024 * 1024,
     maxTotalBytes = 100 * 1024 * 1024,
+    from,
+    to,
+    since,
+    until,
   } = {}
 ) {
   sanitizer ??= createSanitizer();
   validateLimits([maxObjects, maxBytes, maxTotalBytes]);
   const git = (args, input) => {
     try {
-      return execFileSync('git', ['-C', repository, ...args], {
-        input,
-        maxBuffer: Math.max(maxBytes + 1024, 4 * 1024 * 1024),
-        stdio: ['pipe', 'pipe', 'pipe'],
-      });
+      return execFileSync(
+        'git',
+        ['--no-replace-objects', '-C', repository, ...args],
+        {
+          env: { ...process.env, GIT_NO_LAZY_FETCH: '1' },
+          input,
+          maxBuffer: Math.max(maxBytes + 1024, 4 * 1024 * 1024),
+          stdio: ['pipe', 'pipe', 'pipe'],
+        }
+      );
     } catch {
       throw failure('ERR_GIT');
     }
   };
   const objects = new Set(
-    git(['rev-list', '--objects', '--all', '--reflog'])
+    git([
+      'rev-list',
+      '--objects',
+      '--no-object-names',
+      ...historySelection(git, { from, to, since, until }),
+      '--',
+    ])
       .toString('utf8')
       .trim()
       .split('\n')
       .filter(Boolean)
-      .map((line) => line.split(' ')[0])
   );
   if (objects.size > maxObjects) {
     throw failure('ERR_LIMIT');
+  }
+  if (!objects.size) {
+    return { scanned: 0, findings: [], skipped: [], complete: true };
   }
   const metadata = git(
     ['cat-file', '--batch-check=%(objectname) %(objecttype) %(objectsize)'],
@@ -71,6 +88,69 @@ export async function auditGitHistory(
     }
   }
   return { scanned, findings, skipped, complete: skipped.length === 0 };
+}
+
+function historyDate(date, endOfDay) {
+  if (
+    typeof date !== 'string' ||
+    !/^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}Z)?$/.test(date)
+  ) {
+    throw failure('ERR_CONFIG');
+  }
+  const utc =
+    date.length === 10
+      ? `${date}T${endOfDay ? '23:59:59' : '00:00:00'}Z`
+      : date;
+  const value = new Date(utc);
+  if (
+    !Number.isFinite(value.getTime()) ||
+    value.toISOString() !== utc.replace('Z', '.000Z')
+  ) {
+    throw failure('ERR_CONFIG');
+  }
+  return value.getTime() / 1000;
+}
+
+function historySelection(git, { from, to, since, until }) {
+  const first = since === undefined ? undefined : historyDate(since, false);
+  const last = until === undefined ? undefined : historyDate(until, true);
+  if (first !== undefined && last !== undefined && first > last) {
+    throw failure('ERR_CONFIG');
+  }
+  const selection = [];
+  if (first !== undefined) {
+    selection.push(`--since-as-filter=@${first}`);
+  }
+  if (last !== undefined) {
+    selection.push(`--until=@${last}`);
+  }
+  if (from !== undefined || to !== undefined) {
+    selection.push(commitId(git, to ?? 'HEAD'));
+    if (from !== undefined) {
+      selection.push(`^${commitId(git, from)}`);
+    }
+  } else {
+    selection.push('--all', '--reflog');
+  }
+  return selection;
+}
+
+function commitId(git, ref) {
+  if (typeof ref !== 'string' || !ref) {
+    throw failure('ERR_CONFIG');
+  }
+  const id = git([
+    'rev-parse',
+    '--verify',
+    '--end-of-options',
+    `${ref}^{commit}`,
+  ])
+    .toString('ascii')
+    .trim();
+  if (!/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/.test(id)) {
+    throw failure('ERR_GIT');
+  }
+  return id;
 }
 
 function parseRecord(record) {

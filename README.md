@@ -166,13 +166,14 @@ console.log(result.text); // password=[REDACTED] [REDACTED]
 ```sh
 printf 'password=short\n' | sensitive-data-sanitizer redact -
 sensitive-data-sanitizer redact input.txt --in-place
-sensitive-data-sanitizer scan logs --config /private/policy.json
+sensitive-data-sanitizer scan logs --config /private/policy.lino
 sensitive-data-sanitizer scan src/a.js src/b.js --format sarif > report.sarif
+sensitive-data-sanitizer scan --staged --credentials-only
 sensitive-data-sanitizer redact input.txt --gitleaks --trufflehog --output safe.txt
 sensitive-data-sanitizer redact input.txt --presidio /path/presidio-bridge.py --model en_core_web_sm --language en
 sensitive-data-sanitizer redact large-session.jsonl --jsonl --stream --output safe-session.jsonl
 sensitive-data-sanitizer history rewrite ./repository --output ./private-preview
-sensitive-data-sanitizer --help
+sensitive-data-sanitizer --locale hi --help
 ```
 
 `--output` creates a new file without clobbering an existing one. `--in-place` replaces the input atomically after verification. Intermediate and output files use mode `0600` on POSIX. Symlinks are refused. NUL-containing input is refused by default; `--allow-binary` explicitly preserves NUL bytes in plain logs while credentials are still sanitized. JSON/JSONL remain strict. Plain logs preserve invalid UTF-8 bytes exactly; JSON/JSONL and configuration files require valid UTF-8. Directory scans omit `.git` and `node_modules`; skipped binary/malformed-structured/oversized files make the report incomplete. Stdout is written after the complete operation succeeds.
@@ -183,11 +184,35 @@ sensitive-data-sanitizer --help
 | 1    | A complete scan/history audit found sensitive data                       |
 | 2    | Error, detector failure, or incomplete scan; redaction output is blocked |
 
-Defaults: 32 MiB whole-text input bytes, 100,000 findings and 10,000 files. `--stream` permits 1 GiB total with plain-text records up to the total input limit or 8 MiB JSONL records, bounded workers and atomic publication. `--worker-timeout-ms N` sets the worker inactivity/per-batch deadline (default 60000 ms); verified file progress resets the deadline, so large files can run longer overall. `--max-bytes` sets the byte limit; JSON config sets the other sanitizer limits. `--paranoid` adds entropy heuristics and increases false positives. `--native-only` explicitly disables Secretlint.
+Defaults include 32 MiB whole-text input bytes, 100,000 findings and 10,000 files. `--stream` permits 1 GiB total with plain-text records up to the total input limit or 8 MiB JSONL records, bounded workers and atomic publication. `--worker-timeout-ms N` sets the worker inactivity/per-batch deadline (default 60000 ms). Verified file progress resets the deadline, so large files can run longer overall. `--max-bytes` sets the byte limit. The policy file sets the other sanitizer limits. `--paranoid` adds entropy heuristics and increases false positives. `--native-only` explicitly disables Secretlint.
 
-`scan` accepts several paths and `--format sarif` emits SARIF 2.1.0 for code-scanning viewers. The repository's `.pre-commit-hooks.yaml` provides `sensitive-data-sanitizer` (credentials) and `sensitive-data-sanitizer-pii` hooks for [pre-commit](https://pre-commit.com). UTF-16 files with a byte order mark are read and written back in their own encoding.
+`scan` and `history` emit Links Notation reports by default. Use `--format json` for existing JSON consumers. `scan` also supports `--format sarif` (SARIF 2.1.0), `--format csv` and `--format junit`. Reports contain safe finding metadata. Use `--report-path PATH` to create a private report file without overwriting an existing file.
+
+`scan --staged` reads changed Git index blobs, including when the working copy has unstaged edits. `scan --respect-gitignore` reads tracked and non-ignored untracked working-tree files. Both modes use the current directory and accept optional literal paths. Use `--` before paths beginning with a dash. The repository's `.pre-commit-hooks.yaml` provides `sensitive-data-sanitizer` (credentials only) and `sensitive-data-sanitizer-pii` (credentials and personal data) hooks for [pre-commit](https://pre-commit.com). UTF-16 files with a byte order mark retain their encoding during redaction.
+
+`scan --max-archive-depth N` enables ZIP, TAR and GZIP scanning. Each enclosing format uses one depth level, so `nested.tar.gz` uses two. The maximum is five. Each input shares its `--max-bytes` budget across decompressed layers and a limit of 10,000 entries. Members are read in memory. Unreadable, unsupported or over-limit members make the report incomplete.
+
+To adopt scanning on an existing repository, set `SDS_BASELINE_KEY` to 32 random bytes encoded as 64 lowercase hexadecimal characters in your local or CI secret store. From the same working directory, run the scans with the same policy.
+
+```sh
+sensitive-data-sanitizer scan --respect-gitignore --write-baseline /private/baseline.lino
+sensitive-data-sanitizer scan --respect-gitignore --baseline /private/baseline.lino
+```
+
+Review the first report before using the baseline. A complete scan can write a baseline and still exit 1 for findings. Each keyed fingerprint suppresses one exact finding value per path and rule even if its line moves. Changed values, new paths and additional occurrences remain visible. A missing or malformed key fails the scan. Losing or changing the key requires a fresh review. Keep the key separate from the baseline. Baselines apply to scan reports and their exit status. Redaction and residual verification always use the original policy.
 
 ## Configuration
+
+The CLI accepts a readable [Links Notation](https://github.com/link-foundation/links-notation) policy file through `--config PATH` or `SDS_CONFIG`. JSON policy files remain supported. An explicit flag overrides the environment setting. For example, the following policy enables the documents profile and sets the findings limit.
+
+```lino
+(
+  profile "documents"
+  maxFindings 10000
+)
+```
+
+Help and diagnostics are available in English, Russian, Chinese and Hindi through `--locale en|ru|zh|hi` or `SDS_LOCALE` (English by default). Detection already inspects all four languages independently of that setting.
 
 For AI sessions, `--jsonl` preserves JSON records and declares `id`, `type`,
 `name`, and `description` as metadata. `--json` handles a single JSON document;
@@ -268,6 +293,8 @@ For CLI name recognition, `--presidio PATH` selects a local Python JSON bridge. 
 ## Git history
 
 `history` audits reachable blobs, commit messages/authors, annotated tags, and reflog-reachable objects without changing refs. It can find deleted files. It reports object hashes and safe findings, and refuses limits or reports skipped binary objects as incomplete. The `history rewrite SOURCE --output NEW_DIRECTORY` command previews private replacement/mailmap files in a fresh mirror clone; add `--apply` to rewrite only that clone and re-audit blobs, metadata, paths and refs. It never pushes. Remote caches, forks, artifacts and unreachable objects require separate remediation; see the [history guide](docs/HISTORY-REMEDIATION.md).
+
+Scope a local history audit with `--from` and `--to` commit references or `--since` and `--until` UTC dates. An applied rewrite writes `manifest.lino` by default. Use `--format json` for `manifest.json`. See the [history guide](docs/HISTORY-REMEDIATION.md) for the scope semantics.
 
 ## Contributing
 

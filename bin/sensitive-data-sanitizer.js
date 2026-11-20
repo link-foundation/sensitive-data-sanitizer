@@ -9,7 +9,6 @@ import {
   readTextFile,
   readTextInput,
   atomicWrite,
-  listTextCandidates,
   decodeTextInput,
   encodeTextOutput,
 } from '../src/files.js';
@@ -20,7 +19,14 @@ import {
   knownSecretsFromEnv,
   knownSecretsFromGitHubConfig,
 } from '../src/known.js';
-import { toSarif } from '../src/sarif.js';
+import { decodeLinoObject } from '../src/lino-object.js';
+import {
+  cliLocale,
+  cliLocaleArgument,
+  resolveCliEnvironment,
+} from './cli-messages.js';
+import { readStdinBytes, scanCommand } from './scan.js';
+import { publishReport } from './scan-report.js';
 import { createWikidataVerifier } from '../src/public-verifier.js';
 import { streamCommand } from './stream.js';
 import { sessionStructuralFields } from '../src/structured.js';
@@ -32,68 +38,10 @@ import {
   createPresidioDetector,
 } from '../src/external.js';
 
-const help = `Usage: sensitive-data-sanitizer <redact|scan|restore|history> [path|-] [options]
-
-redact    Sanitize one text log or stdin; publish only after verification
-scan      Report metadata for files, directories, or stdin (never source text);
-          several paths may follow scan (for example staged files)
-restore   Restore placeholders in a file using --map PATH (private output)
-history   Audit local reachable Git blobs, commit/tag metadata, and reflogs
-history rewrite SOURCE --output DIRECTORY [--apply]
-          Preview a fresh mirror clone; --apply rewrites only that clone
-
---config PATH       JSON knownSecrets, knownPersonal, publicEntities, limits
---output PATH       Write a new private output file atomically (redact only)
---in-place          Atomically replace the input file (redact only)
---native-only       Disable Secretlint; selected local detectors remain required
---credentials-only  Preserve personal/account details; redact credentials only
---known-only        Replace only knownPersonal/knownSecrets and reused map values
---env-secrets       Include values of all credential-named environment variables
---gh-config         Include tokens from the local gh hosts.yml credential file
---paranoid          Add entropy detection (can redact innocent identifiers)
---betterleaks       Require local Betterleaks (full rules; validation disabled)
---gitleaks          Require locally installed Gitleaks in the detector union
---trufflehog        Require local TruffleHog with verification/updates disabled
---presidio PATH     Require a local Presidio JSON bridge (see examples)
---python COMMAND    Python executable for the bridge (default python3)
---model NAME        Installed model passed to the selected bridge
---language CODE     Model language passed to the selected bridge
---stream            Process text records; files use a bounded worker
---allow-binary      Treat NUL as a log byte (plain text only)
---worker-timeout-ms N Stream worker inactivity/per-batch limit (default 60000)
---two-pass          Collect identities first, then publish the complete stream
---json              Sanitize JSON strings and keys; preserve session metadata
---jsonl             Sanitize JSONL records; combine with --stream for sessions
---identity-mask     First/last 2 identity mask (publication profile default)
---profile NAME      publication (redact default) or documents (CV/entity rules)
---proper-names MODE Structural prose rule: capitalized (off by default)
---scripts LIST      Comma-separated Unicode Script names (default Cyrillic)
---placeholder       Typed numbered placeholders; requires --map or --no-map
---map PATH          Private JSON/.lino restore map; reuse it across files/runs
---no-map            Discard placeholder mapping after full anonymization
---placeholder-format TEMPLATE  Default {Type}-{n}; also [{TYPE}_{n}]
---map-format FORMAT json or lino (otherwise inferred from .lino extension)
---format FORMAT     scan report: json (default) or sarif (SARIF 2.1.0)
---map-credentials   Explicitly keep credentials in the private restore map
---max-record-bytes N Maximum record bytes (text: total limit; JSONL: 8388608)
---hive-mask         Opt-in first/last 3 mask for values longer than 12 characters
---preserve-encoding Re-encode sanitized encoded payloads with round-trip checks
---gh-auth           Read local gh auth token and mask its exact value
---verify-public     Opt-in Wikidata name lookup (sends candidate public names)
---apply             Apply history rewrite to the fresh clone, then audit it
---filter-repo PATH  git-filter-repo executable for history rewrite
---max-bytes NUMBER  Input byte limit (default 33554432; stream: 1073741824)
---help              Show help
---version           Show package version
-
-Exit codes: 0 successful redact / clean scan; 1 findings; 2 error/incomplete.
-Directory scans omit .git and node_modules. Binary files are reported as
-skipped and produce exit 2. History operations never push.`;
-
-function parseArgs(argv) {
+function parseArgs(argv, defaultConfigPath) {
   const command = argv[0];
   const rewrite = command === 'history' && argv[1] === 'rewrite';
-  const config = { command, rewrite, path: '-' };
+  const config = { command, rewrite, path: '-', config: defaultConfigPath };
   const boolean = new Map([
     ['--in-place', 'inPlace'],
     ['--native-only', 'nativeOnly'],
@@ -119,6 +67,8 @@ function parseArgs(argv) {
     ['--placeholder', 'placeholder'],
     ['--no-map', 'noMap'],
     ['--map-credentials', 'mapCredentials'],
+    ['--staged', 'staged'],
+    ['--respect-gitignore', 'respectGitignore'],
   ]);
   const valued = new Map([
     ['--config', 'config'],
@@ -138,11 +88,22 @@ function parseArgs(argv) {
     ['--map-format', 'mapFormat'],
     ['--placeholder-format', 'placeholderFormat'],
     ['--format', 'format'],
+    ['--report-path', 'reportPath'],
+    ['--baseline', 'baseline'],
+    ['--write-baseline', 'writeBaseline'],
+    ['--max-archive-depth', 'archiveDepth'],
+    ['--from', 'from'],
+    ['--to', 'to'],
+    ['--since', 'since'],
+    ['--until', 'until'],
   ]);
   const paths = [];
   for (let i = rewrite ? 2 : 1; i < argv.length; i++) {
     const arg = argv[i];
-    if (boolean.has(arg)) {
+    if (arg === '--') {
+      paths.push(...argv.slice(i + 1));
+      break;
+    } else if (boolean.has(arg)) {
       config[boolean.get(arg)] = true;
     } else if (valued.has(arg)) {
       if (!argv[i + 1] || argv[i + 1].startsWith('--')) {
@@ -155,12 +116,8 @@ function parseArgs(argv) {
       throw failure('ERR_ARGUMENT');
     }
   }
-  // Only scan accepts several paths (for example staged files from a hook).
-  if (paths.length > 1 && (command !== 'scan' || paths.includes('-'))) {
-    throw failure('ERR_ARGUMENT');
-  }
   config.path = paths[0] ?? '-';
-  config.paths = paths.length ? paths : ['-'];
+  config.paths = paths;
   validateArgs(config);
   return config;
 }
@@ -185,8 +142,36 @@ function validateArgs(config) {
     throw failure('ERR_ARGUMENT');
   }
   validateFeatureArgs(config);
+  validatePaths(config);
+  validateScanArgs(config);
+  validateHistoryArgs(config);
+  validateReportArgs(config);
   validateOutput(config);
   validateBridge(config);
+}
+
+function validateHistoryArgs(config) {
+  if (
+    (config.command !== 'history' || config.rewrite) &&
+    [config.from, config.to, config.since, config.until].some(
+      (bound) => bound !== undefined
+    )
+  ) {
+    throw failure('ERR_ARGUMENT');
+  }
+}
+
+function validatePaths(config) {
+  // Only scan accepts several paths, including staged files from a hook.
+  if (
+    config.paths.length > 1 &&
+    (config.command !== 'scan' ||
+      (!config.staged &&
+        !config.respectGitignore &&
+        config.paths.includes('-')))
+  ) {
+    throw failure('ERR_ARGUMENT');
+  }
 }
 
 function validateFeatureArgs(config) {
@@ -208,15 +193,66 @@ function validateFeatureArgs(config) {
 
 function validateStructuredArgs(config) {
   validateStreamArgs(config);
-  if (
-    (config.twoPass && !config.stream) ||
-    (config.format !== undefined &&
-      (config.command !== 'scan' || !['json', 'sarif'].includes(config.format)))
-  ) {
+  if (config.twoPass && !config.stream) {
     throw failure('ERR_ARGUMENT');
   }
   if ((config.json && config.jsonl) || (config.stream && config.json)) {
     throw failure('ERR_ARGUMENT');
+  }
+}
+
+function validateScanArgs(config) {
+  const scan = config.command === 'scan';
+  if (
+    (!scan &&
+      (config.staged ||
+        config.respectGitignore ||
+        config.baseline ||
+        config.writeBaseline ||
+        config.archiveDepth !== undefined)) ||
+    (config.staged && config.respectGitignore)
+  ) {
+    throw failure('ERR_ARGUMENT');
+  }
+  config.archiveDepth = Number(config.archiveDepth ?? 0);
+  if (
+    !Number.isInteger(config.archiveDepth) ||
+    config.archiveDepth < 0 ||
+    config.archiveDepth > 5
+  ) {
+    throw failure('ERR_ARGUMENT');
+  }
+}
+
+function validateReportArgs(config) {
+  const formats =
+    config.command === 'scan'
+      ? ['lino', 'json', 'sarif', 'csv', 'junit']
+      : ['lino', 'json'];
+  if (config.format !== undefined || config.reportPath) {
+    if (
+      !['scan', 'history'].includes(config.command) ||
+      (config.format !== undefined && !formats.includes(config.format))
+    ) {
+      throw failure('ERR_ARGUMENT');
+    }
+  }
+  const inputs = [
+    ...config.paths,
+    config.config,
+    config.baseline,
+    config.output,
+  ]
+    .filter(Boolean)
+    .map((path) => resolve(path));
+  for (const target of [config.reportPath, config.writeBaseline].filter(
+    Boolean
+  )) {
+    const path = resolve(target);
+    if (inputs.includes(path)) {
+      throw failure('ERR_OUTPUT');
+    }
+    inputs.push(path);
   }
 }
 
@@ -256,20 +292,6 @@ function validateOutput(config) {
   }
 }
 
-async function stdinText(stream, maxBytes, options) {
-  const chunks = [];
-  let size = 0;
-  for await (const chunk of stream) {
-    const buffer = Buffer.from(chunk);
-    size += buffer.length;
-    if (size > maxBytes) {
-      throw failure('ERR_LIMIT');
-    }
-    chunks.push(buffer);
-  }
-  return decodeTextInput(Buffer.concat(chunks), options);
-}
-
 export async function runCli(
   argv,
   {
@@ -278,26 +300,31 @@ export async function runCli(
     stderr = process.stderr,
   } = {}
 ) {
+  let t = cliLocale('en');
   try {
+    argv = [...argv];
+    const env = resolveCliEnvironment();
+    t = cliLocale(cliLocaleArgument(argv, env.locale));
     if (!argv.length || ['--help', '-h'].includes(argv[0])) {
-      stdout.write(`${help}\n`);
+      stdout.write(`${t('help')}\n`);
       return 0;
     }
     if (['--version', '-v'].includes(argv[0])) {
       stdout.write(`${packageVersion()}\n`);
       return 0;
     }
-    const config = parseArgs(argv);
+    const config = parseArgs(argv, env.config);
     const context = { stdin, stdout };
     return await dispatchCommand(config, context);
   } catch (error) {
     const location =
       Number.isSafeInteger(error.record) && Number.isSafeInteger(error.offset)
-        ? `; record ${error.record}, byte ${error.offset}`
+        ? t('location', { record: error.record, offset: error.offset })
         : '';
-    stderr.write(
-      `Sanitization failed; output was blocked (${/^ERR_[A-Z_]+$/.test(error.code) ? error.code : 'ERR_SANITIZATION'}${location}).\n`
-    );
+    const code = /^ERR_[A-Z_]+$/.test(error.code)
+      ? error.code
+      : 'ERR_SANITIZATION';
+    stderr.write(`${t('failure', { code, location })}\n`);
     return 2;
   }
 }
@@ -320,14 +347,18 @@ async function dispatchCommand(config, context) {
   if (config.command === 'redact') {
     return await redactCommand(config, engine, context);
   }
-  return await scanCommand(config, engine, context);
+  return await scanCommand(config, engine, context, packageVersion());
 }
 
 async function loadOptions(config) {
   let options = {};
   if (config.config) {
     try {
-      options = JSON.parse(await readTextFile(config.config, 1024 * 1024));
+      const maxBytes = 1024 * 1024;
+      const text = await readTextFile(config.config, maxBytes);
+      options = text.trimStart().startsWith('{')
+        ? JSON.parse(text)
+        : decodeLinoObject(text, maxBytes);
     } catch {
       throw failure('ERR_CONFIG');
     }
@@ -432,13 +463,13 @@ function selectedDetectors(config, detectors = []) {
   return selected;
 }
 
-function inputText(path, config, stdin) {
+async function inputText(path, config, stdin) {
   const options = {
     lossless: config.lossless,
     allowBinary: Boolean(config.allowBinary),
   };
   return path === '-'
-    ? stdinText(stdin, config.maxBytes, options)
+    ? decodeTextInput(await readStdinBytes(stdin, config.maxBytes), options)
     : readTextInput(path, config.maxBytes, options);
 }
 
@@ -464,48 +495,21 @@ async function historyCommand(config, engine, { stdout }) {
       apply: Boolean(config.apply),
       filterRepoCommand: config.filterRepo ?? 'git-filter-repo',
       maxBytes: config.maxBytes,
+      manifestFormat: config.format,
     });
-    stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+    await publishReport(result, config, stdout, packageVersion());
     return 0;
   }
   const result = await auditGitHistory(config.path, {
     sanitizer: engine,
     maxBytes: config.maxBytes,
+    from: config.from,
+    to: config.to,
+    since: config.since,
+    until: config.until,
   });
-  stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+  await publishReport(result, config, stdout, packageVersion());
   return !result.complete ? 2 : result.findings.length ? 1 : 0;
-}
-
-async function scanCommand(config, engine, { stdin, stdout }) {
-  const files = [];
-  for (const path of config.paths) {
-    files.push(...(path === '-' ? ['-'] : await listTextCandidates(path)));
-  }
-  const results = [],
-    skipped = [];
-  for (const file of files) {
-    const path = (await engine.sanitize(file)).text;
-    try {
-      results.push({
-        path,
-        findings: await engine.inspect(
-          (await inputText(file, config, stdin)).text
-        ),
-      });
-    } catch (error) {
-      if (['ERR_BINARY', 'ERR_ENCODING', 'ERR_LIMIT'].includes(error.code)) {
-        skipped.push({ path, reason: error.code });
-      } else {
-        throw error;
-      }
-    }
-  }
-  const complete = skipped.length === 0;
-  const report = { complete, results, skipped };
-  stdout.write(
-    `${JSON.stringify(config.format === 'sarif' ? toSarif(report, { version: packageVersion() }) : report, null, 2)}\n`
-  );
-  return !complete ? 2 : results.some((r) => r.findings.length) ? 1 : 0;
 }
 
 if (

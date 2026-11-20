@@ -30,7 +30,7 @@ partial, **–** absent, **?** unverified.
 | Invalid UTF-8 preserved byte for byte                  | Y (plain logs and streams)                    | –                        | –           | –          | –          | –     | –              | –          | –           | –                    |
 | Nested decoding                                        | Y (depth 2, bounded candidates)               | Y (`--max-decode-depth`) | Y           | Y          | ?          | ?     | –              | –          | –           | –                    |
 | Re-encode the redacted payload (`preserveEncoding`)    | Y                                             | –                        | –           | –          | –          | –     | –              | –          | –           | –                    |
-| Archives, Office, PDF, images                          | –                                             | P                        | P           | Y          | Y          | Y     | –              | –          | –           | P (Presidio image)   |
+| Archives, Office, PDF, images                          | P (bounded ZIP, TAR and GZIP text members)    | P                        | P           | Y          | Y          | Y     | –              | –          | –           | P (Presidio image)   |
 
 Gitleaks and Betterleaks decode `U+XXXX` in their codec but do not document it
 (the **P** cells). TruffleHog keeps HTML attribute values as separate chunks;
@@ -68,5 +68,5 @@ scan.
 - Double-encoded HTML entities (`&amp;#112;`), which TruffleHog decodes.
 - BOM-less UTF-16 and UTF-32 detection.
 - Separate scans of HTML attribute values.
-- Archives, Office documents, PDF and images.
+- Archive formats outside ZIP, TAR and GZIP, plus Office/PDF text extraction and OCR.
 - Compressed or encrypted payloads (out of scope for a text redactor).

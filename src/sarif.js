@@ -121,6 +121,9 @@ export function toSarif(report, { version, path = '-' } = {}) {
         ],
         columnKind: 'utf16CodeUnits',
         results,
+        ...(report?.baselined === undefined
+          ? {}
+          : { properties: { baselined: report.baselined } }),
       },
     ],
   };

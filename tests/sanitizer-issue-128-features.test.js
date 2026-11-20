@@ -448,7 +448,12 @@ describe('UTF-16 text files with a byte order mark', () => {
         expect(decoded).toBe('﻿user log\r\nmail [REDACTED]\r\n');
       }
       const out = [];
-      expect(await runCli(['scan', dir, '--native-only'], io(out))).toBe(1);
+      expect(
+        await runCli(
+          ['scan', dir, '--native-only', '--format', 'json'],
+          io(out)
+        )
+      ).toBe(1);
       const report = JSON.parse(Buffer.concat(out).toString());
       expect(report.complete).toBe(true);
       expect(report.results.map((r) => r.findings[0].type)).toEqual([

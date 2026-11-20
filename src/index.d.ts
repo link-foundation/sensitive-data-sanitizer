@@ -335,6 +335,10 @@ export declare function auditGitHistory(
     maxObjects?: number;
     maxBytes?: number;
     maxTotalBytes?: number;
+    from?: string;
+    to?: string;
+    since?: string;
+    until?: string;
   }
 ): Promise<HistoryAudit>;
 /** Callback receives private matched data. Sync APIs require an immediate string. */
@@ -643,6 +647,7 @@ export declare function rewriteGitHistory(
     sanitizer?: Sanitizer;
     sanitizerOptions?: SanitizerOptions;
     filterRepoCommand?: string;
+    manifestFormat?: 'lino' | 'json';
     maxPaths?: number;
     maxObjects?: number;
     maxBytes?: number;

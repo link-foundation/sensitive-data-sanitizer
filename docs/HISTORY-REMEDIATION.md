@@ -3,10 +3,17 @@
 Deleting a file in the current checkout does not remove its older blobs. The sanitizer's `history` command reads all local refs and reflog-reachable objects, scanning blobs, commit authors/messages and annotated tag metadata. It emits object IDs and safe findings only, and never changes refs or pushes.
 
 ```sh
-sensitive-data-sanitizer history /path/to/audit-clone --config /private/policy.json
+sensitive-data-sanitizer history /path/to/audit-clone --config /private/policy.lino
 ```
 
 Exit 1 means findings; exit 2 means incomplete analysis or failure. Trees are traversed by Git but their filename bytes are not sanitized. Binary/non-UTF-8 objects are skipped with `complete: false`. Input/object/count limits prevent treating a partial audit as success. Unreachable objects without refs/reflogs, un-fetched branches, Git LFS storage, PR refs not fetched locally, submodules, release artifacts and remote mirrors are outside that local scope. A local report cannot certify erasure on GitHub.
+
+Use `--from BASE --to TIP` for a local commit/object range. The base and its reachable objects are excluded. `--to` alone selects its ancestry, and `--from` alone uses `HEAD` as the tip. `--since UTC` and `--until UTC` filter by committer date. Both accept `YYYY-MM-DD` or `YYYY-MM-DDTHH:MM:SSZ`. Date-only bounds use the first or last second of the UTC day, respectively. Reports from a scoped audit cover that selection. A time filter can include older blobs present in a selected tree.
+
+```sh
+sensitive-data-sanitizer history ./repository --from main --to HEAD --report-path review.lino
+sensitive-data-sanitizer history ./repository --since 2026-01-01 --until 2026-01-31 --format json
+```
 
 ## Reviewed rewrite procedure
 
@@ -31,7 +38,7 @@ The automated regression creates a repository with a credential-bearing file, co
 
 `history rewrite SOURCE --output NEW_DIRECTORY` creates a new private mirror clone with `--no-local`, audits reachable objects and reflogs, and writes private `replace-text.txt`, `mailmap`, `replacements.json` and callback files for review. The original repository is unchanged. These preview files contain original private values: keep the directory private and remove it after review. The clone's origin remote is removed; no operation pushes.
 
-Add `--apply` to rewrite only the fresh clone using locally installed `git-filter-repo` (tested with 2.47.0). Use `--filter-repo PATH` to select its executable. Exact original-object callbacks sanitize complete blob contents, commit/tag messages, author/committer/tagger identities, filenames and refnames. They avoid replacement-file newline/regex ambiguity. Path/ref collisions fail rather than dropping objects. After filtering, the command audits again, checks names and refs, runs `git fsck --full`, removes private plans and writes a metadata-only manifest. An incomplete audit, binary object, remaining finding or missing tool fails and removes the new directory. A pre-existing destination is never reused or deleted.
+Add `--apply` to rewrite only the fresh clone using locally installed `git-filter-repo` (tested with 2.47.0). Use `--filter-repo PATH` to select its executable. Exact original-object callbacks sanitize complete blob contents, commit/tag messages, author/committer/tagger identities, filenames and refnames. They avoid replacement-file newline/regex ambiguity. Path/ref collisions fail rather than dropping objects. After filtering, the command audits again, checks names and refs, runs `git fsck --full`, removes private plans and writes a metadata-only `manifest.lino`. Use `--format json` for a JSON report and `manifest.json`. An incomplete audit, binary object, remaining finding or missing tool fails and removes the new directory. A pre-existing destination is never reused or deleted.
 
 ```sh
 sensitive-data-sanitizer history rewrite ./repository --output ./private-preview

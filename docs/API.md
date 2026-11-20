@@ -141,12 +141,14 @@ JSONL uses the coordinator in source order, even if several workers were
 requested. File APIs also keep this registry in the caller process.
 
 `serializeRestoreMap(map, 'json' | 'lino')` and `parseRestoreMap(text)` round
-trip the same schema. Lino uses the upstream `links-notation` parser and
-formatter: a named `sensitive-data-restore-map` link carries the escaped JSON
-schema as a reference, preserving all metadata and unusual original strings.
+trip the same schema. Maps default to readable Links Notation using
+`lino-objects-codec`. The reader also accepts JSON and the earlier
+`sensitive-data-restore-map` link containing one JSON reference. Strings with
+isolated UTF-16 code units still use that envelope to preserve the original
+code units when writing UTF-8.
 `readRestoreMap(path)` and `writeRestoreMap(path, map, {format?, replace?})`
-use bounded file reads and the existing atomic `0600` writer. The default
-serialization is JSON, or Lino for a `.lino` output path. Existing files require
+use bounded file reads and the existing atomic `0600` writer. A `.json` output
+path selects JSON unless `format` is set explicitly. Existing files require
 `replace: true`; symlinks are refused. `inspect`, `sanitize`, scanner union and
 CLI publication paths reject marked map content with `ERR_PRIVATE_MAP`.
 Keep maps out of Git, logs, model requests and publication directories. The map
