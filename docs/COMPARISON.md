@@ -1,8 +1,9 @@
 # Competitor comparison
 
 General comparison reviewed on 2026-11-10. Live gateway comparison reviewed on 2026-11-20. The research, sources and collected test cases are in
-[the issue 128 case study](case-studies/issue-128/README.md) and
-[the live LLM gateway audit](case-studies/issue-218/README.md). This page is the
+[the issue 128 case study](case-studies/issue-128/README.md),
+[the live LLM gateway audit](case-studies/issue-218/README.md), and
+[the multilingual CLI and competitor workflow audit](case-studies/issue-220/README.md). This page is the
 high-level summary; each feature area has a detailed page:
 
 | Feature area                                                   | Detailed page                                                            |
@@ -69,7 +70,7 @@ executes the upstream engine; native rule imports remain a subset.
 | Git history audit and rewrite              | Y (audit + rewrite)                                                          | P (audit)              | P (audit)  | P (audit)  | –              | –          | –        | –             | –         | –          | –         | –         | –      |
 | Runs without network or account            | Y                                                                            | Y                      | Y          | Y          | Y              | Y          | Y        | Y             | Y         | –          | P         | –         | P      |
 | ML named-entity recognition                | P (optional `@nlpjs/ner` detector, Presidio bridge)                          | –                      | –          | –          | –              | –          | Y        | –             | Y         | Y          | Y         | Y         | Y      |
-| Images, PDF, Office, archives              | –                                                                            | P                      | Y          | Y          | –              | –          | P        | ?             | –         | Y          | –         | Y         | Y      |
+| Images, PDF, Office, archives              | P (ZIP, TAR and GZIP text members)                                           | P                      | Y          | Y          | –              | –          | P        | ?             | –         | Y          | –         | Y         | Y      |
 
 The full tables with every tool are on the detailed pages.
 
