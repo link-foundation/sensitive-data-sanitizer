@@ -34,6 +34,7 @@ Regenerate this index with `node experiments/issue-146/index-docs.mjs`.
 | [issue-149/README.md](issue-149/README.md)                                                               | Issue 149: bounded wrapped-base64 inspection                                                    |
 | [issue-21/README.md](issue-21/README.md)                                                                 | Case Study: Issue #21 - Supporting Both Single-Language and Multi-Language Repositories         |
 | [issue-212/README.md](issue-212/README.md)                                                               | Issue 212: repository-wide pipeline repairs                                                     |
+| [issue-218/README.md](issue-218/README.md)                                                               | Live LLM gateway evidence, streaming reply restoration and local detectors                      |
 | [issue-23/README.md](issue-23/README.md)                                                                 | Case Study: Issue #23 - Best CI/CD Practices from Hive Mind Repository                          |
 | [issue-24/README.md](issue-24/README.md)                                                                 | Session accuracy, realistic fakes and bounded JSONL                                             |
 | [issue-24/REQUIREMENTS.md](issue-24/REQUIREMENTS.md)                                                     | Complete scope, alternatives and solution plans                                                 |

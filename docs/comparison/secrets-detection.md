@@ -47,9 +47,13 @@ validation are not ported ([provenance](../../src/vendor/betterleaks/provenance.
 | Template / placeholder negatives                | Y                                      | Y              | Y                | Y          | Y                     | ?     | Y              | –          | Y          | –     | –        | Y        |
 | Ciphertext / hash negatives                     | – (redacted on purpose)                | –              | Y                | –          | –                     | –     | –              | –          | –          | –     | –        | –        |
 | Canary-token labelling                          | –                                      | –              | –                | –          | Y                     | –     | –              | –          | –          | –     | –        | –        |
-| Live verification / revocation                  | P (read-only checks; no revocation)    | –              | Y                | Y          | Y                     | Y     | P              | –          | –          | –     | –        | –        |
+| Live verification / revocation                  | P (opt-in verification only)           | –              | Y                | Y          | Y                     | Y     | P              | –          | –          | –     | –        | –        |
 | Caller-known secrets (env, gh config)           | Y                                      | –              | –                | –          | –                     | –     | –              | –          | –          | –     | –        | –        |
 | Credentials in personal-data context            | Y (one pass)                           | –              | –                | –          | P                     | –     | –              | –          | –          | –     | P        | –        |
+
+This project scans offline by default. The separate [opt-in verifier](../VERIFICATION.md)
+sends a supplied credential to its named provider for a read-only check.
+Credential revocation and rotation are unavailable.
 
 ## How to use the features here
 
