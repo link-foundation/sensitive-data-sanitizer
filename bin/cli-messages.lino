@@ -1,0 +1,267 @@
+en
+  failure "Sanitization failed. Output was blocked ({{code}}{{location}})."
+  location "; record {{record}}, byte {{offset}}"
+  help """
+    Usage: sensitive-data-sanitizer <redact|scan|restore|history> [path|-] [options]
+
+    redact    Sanitize one text log or stdin; publish only after verification
+    scan      Report metadata for files, directories, or stdin (never source text);
+              several paths may follow scan (for example staged files)
+    restore   Restore placeholders in a file using --map PATH (private output)
+    history   Audit local reachable Git blobs, commit/tag metadata, and reflogs
+    history rewrite SOURCE --output DIRECTORY [--apply]
+              Preview a fresh mirror clone; --apply rewrites only that clone
+
+    --config PATH       Links Notation policy file (also accepts legacy JSON)
+    --output PATH       Write a new private output file atomically (redact only)
+    --in-place          Atomically replace the input file (redact only)
+    --native-only       Disable Secretlint; selected local detectors remain required
+    --credentials-only  Preserve personal/account details; redact credentials only
+    --known-only        Replace only knownPersonal/knownSecrets and reused map values
+    --env-secrets       Include values of all credential-named environment variables
+    --gh-config         Include tokens from the local gh hosts.yml credential file
+    --paranoid          Add entropy detection (can redact innocent identifiers)
+    --betterleaks       Require local Betterleaks (full rules; validation disabled)
+    --gitleaks          Require locally installed Gitleaks in the detector union
+    --trufflehog        Require local TruffleHog with verification/updates disabled
+    --presidio PATH     Require a local Presidio JSON bridge (see examples)
+    --python COMMAND    Python executable for the bridge (default python3)
+    --model NAME        Installed model passed to the selected bridge
+    --language CODE     Model language passed to the selected bridge
+    --stream            Process text records; files use a bounded worker
+    --allow-binary      Treat NUL as a log byte (plain text only)
+    --worker-timeout-ms N Stream worker inactivity/per-batch limit (default 60000)
+    --two-pass          Collect identities first, then publish the complete stream
+    --json              Sanitize JSON strings and keys; preserve session metadata
+    --jsonl             Sanitize JSONL records; combine with --stream for sessions
+    --identity-mask     First/last 2 identity mask (publication profile default)
+    --profile NAME      publication (redact default) or documents (CV/entity rules)
+    --proper-names MODE Structural prose rule: capitalized (off by default)
+    --scripts LIST      Comma-separated Unicode Script names (default Cyrillic)
+    --placeholder       Typed numbered placeholders; requires --map or --no-map
+    --map PATH          Private .lino restore map; reuse it across files/runs
+    --no-map            Discard placeholder mapping after full anonymization
+    --placeholder-format TEMPLATE  Default {Type}-{n}; also [{TYPE}_{n}]
+    --map-format FORMAT lino (default); .json paths or json use legacy JSON
+    --format FORMAT     Reports: lino (default), json; scan also sarif, csv or junit
+    --report-path PATH  Create a private report file (default stdout)
+    --staged            Scan changed Git index blobs from the current directory
+    --respect-gitignore Scan tracked and non-ignored untracked Git paths
+    --baseline PATH     Suppress previously reviewed scan occurrences
+    --write-baseline PATH  Save findings for review (requires SDS_BASELINE_KEY)
+    --max-archive-depth N  Scan nested ZIP, TAR and GZIP layers (0 default; max 5)
+    --locale CODE       Help and errors in en, ru, zh or hi (env SDS_LOCALE)
+    --map-credentials   Explicitly keep credentials in the private restore map
+    --max-record-bytes N Maximum record bytes (text: total limit; JSONL: 8388608)
+    --hive-mask         Opt-in first/last 3 mask for values longer than 12 characters
+    --preserve-encoding Re-encode sanitized encoded payloads with round-trip checks
+    --gh-auth           Read local gh auth token and mask its exact value
+    --verify-public     Opt-in Wikidata name lookup (sends candidate public names)
+    --apply             Apply history rewrite to the fresh clone, then audit it
+    --filter-repo PATH  git-filter-repo executable for history rewrite
+    --max-bytes NUMBER  Input byte limit (default 33554432; stream: 1073741824)
+    --help              Show help
+    --version           Show package version
+
+    Exit codes: 0 successful redact / clean scan; 1 findings; 2 error/incomplete.
+    Directory scans omit .git and node_modules. Binary files are reported as
+    skipped and produce exit 2. History operations never push.
+  """
+ru
+  failure "Не удалось обработать данные. Вывод заблокирован ({{code}}{{location}})."
+  location ", запись {{record}}, байт {{offset}}"
+  help """
+    Использование: sensitive-data-sanitizer <redact|scan|restore|history> [путь|-] [параметры]
+
+    redact    Скрыть конфиденциальные данные в журнале или stdin и проверить результат
+    scan      Вывести метаданные для файлов, каталогов или stdin. Допустимо несколько путей
+    restore   Восстановить значения по закрытой карте --map PATH
+    history   Проверить доступные объекты и метаданные Git, включая журнал ссылок
+    history rewrite SOURCE --output DIRECTORY [--apply]
+              Создать отдельный зеркальный клон для просмотра или изменения (--apply)
+
+    --config PATH       Файл политики в нотации связей. Поддерживается и JSON
+    --output PATH       Атомарно создать закрытый выходной файл
+    --in-place          Атомарно заменить исходный файл при редактировании
+    --native-only       Отключить Secretlint. Выбранные локальные сканеры обязательны
+    --credentials-only  Скрывать только учётные данные
+    --known-only        Заменять только известные значения и значения из карты
+    --env-secrets       Учитывать переменные среды с именами учётных данных
+    --gh-config         Учитывать токены из локального файла gh hosts.yml
+    --paranoid          Включить анализ энтропии, возможны ложные срабатывания
+    --betterleaks       Использовать локальный Betterleaks без проверки токенов
+    --gitleaks          Использовать локальный Gitleaks
+    --trufflehog        Использовать локальный TruffleHog без проверок и обновлений
+    --presidio PATH     Использовать локальный адаптер Presidio для JSON
+    --python COMMAND    Интерпретатор адаптера (по умолчанию python3)
+    --model NAME        Установленная модель для адаптера
+    --language CODE     Язык модели для адаптера
+    --stream            Обрабатывать текст по записям с ограничением ресурсов
+    --allow-binary      Сохранять нулевые байты в обычном тексте
+    --worker-timeout-ms N Лимит ожидания рабочего процесса в мс (60000)
+    --two-pass          Собрать идентификаторы перед обработкой потока
+    --json              Обрабатывать строки и ключи JSON
+    --jsonl             Обрабатывать записи JSONL
+    --identity-mask     Оставлять первые и последние два символа
+    --profile NAME      publication для публикаций или documents для документов
+    --proper-names MODE Правило для имён с заглавной буквы (capitalized)
+    --scripts LIST      Системы письма Unicode через запятую (Cyrillic)
+    --placeholder       Типизированные метки. Требуется --map или --no-map
+    --map PATH          Закрытая карта восстановления .lino
+    --no-map            Удалить карту после обезличивания
+    --placeholder-format TEMPLATE Шаблон меток (по умолчанию {Type}-{n})
+    --map-format FORMAT lino по умолчанию, json для совместимости
+    --format FORMAT     Отчёты: lino по умолчанию, json, для scan также sarif, csv и junit
+    --report-path PATH  Записать закрытый отчёт в новый файл
+    --staged            Сканировать изменённые объекты индекса Git
+    --respect-gitignore Сканировать отслеживаемые и неигнорируемые файлы Git
+    --baseline PATH     Учитывать ранее проверенные срабатывания
+    --write-baseline PATH Сохранить срабатывания для проверки. Нужен SDS_BASELINE_KEY
+    --max-archive-depth N Глубина ZIP, TAR, GZIP (0 по умолчанию, максимум 5)
+    --locale CODE       Язык справки: en, ru, zh или hi (SDS_LOCALE)
+    --map-credentials   Сохранить учётные данные в закрытой карте
+    --max-record-bytes N Максимум байтов в записи (JSONL: 8388608)
+    --hive-mask         Оставлять первые и последние три символа в длинных значениях
+    --preserve-encoding Восстановить исходное кодирование очищенных значений
+    --gh-auth           Скрыть точное значение токена из gh auth
+    --verify-public     Проверять публичные имена через Wikidata по запросу
+    --apply             Изменить историю только в новом зеркальном клоне
+    --filter-repo PATH  Путь к git-filter-repo
+    --max-bytes NUMBER  Максимум байтов (33554432, поток: 1073741824)
+    --help              Показать справку
+    --version           Показать версию
+
+    Коды выхода: 0 — успех или чистая проверка, 1 — обнаружены данные, 2 — ошибка или неполная проверка.
+  """
+zh
+  failure "敏感数据处理失败。输出已阻止（{{code}}{{location}}）。"
+  location "，记录 {{record}}，字节 {{offset}}"
+  help """
+    用法：sensitive-data-sanitizer <redact|scan|restore|history> [路径|-] [选项]
+
+    redact    对日志或标准输入脱敏，验证后输出
+    scan      报告文件、目录或标准输入中的发现，可指定多个路径。报告仅含元数据
+    restore   使用 --map PATH 指定的私有映射还原数据
+    history   审计本地 Git 可达对象、元数据和引用日志
+    history rewrite SOURCE --output DIRECTORY [--apply]
+              预览新的镜像克隆，使用 --apply 仅改写该克隆
+
+    --config PATH       Links Notation 策略文件，也兼容 JSON
+    --output PATH       原子创建新的私有输出文件
+    --in-place          脱敏后原子替换输入文件
+    --native-only       禁用 Secretlint，仍运行已选的本地扫描器
+    --credentials-only  仅隐藏凭据
+    --known-only        仅替换已知值及复用的映射值
+    --env-secrets       纳入名称表明含凭据的环境变量
+    --gh-config         纳入本地 gh hosts.yml 中的令牌
+    --paranoid          启用熵检测，可能误报普通标识符
+    --betterleaks       运行本地 Betterleaks，关闭凭据验证
+    --gitleaks          运行本地 Gitleaks
+    --trufflehog        运行本地 TruffleHog，关闭验证和更新
+    --presidio PATH     运行本地 Presidio JSON 适配器
+    --python COMMAND    适配器的 Python 命令（默认 python3）
+    --model NAME        适配器使用的本地模型
+    --language CODE     适配器的模型语言
+    --stream            按记录处理文本，限制工作进程资源
+    --allow-binary      允许保留纯文本中的 NUL 字节
+    --worker-timeout-ms N 工作进程等待上限（默认 60000 毫秒）
+    --two-pass          收集身份信息后再处理并输出完整数据流
+    --json              脱敏 JSON 字符串和键
+    --jsonl             脱敏 JSONL 记录
+    --identity-mask     保留身份值首尾各两个字符
+    --profile NAME      使用 publication 发布策略或 documents 文档策略
+    --proper-names MODE 启用 capitalized 专有名词规则
+    --scripts LIST      以逗号分隔的 Unicode 文字系统（默认 Cyrillic）
+    --placeholder       使用带类型和编号的占位符，须指定 --map 或 --no-map
+    --map PATH          私有 .lino 还原映射
+    --no-map            匿名化后丢弃映射
+    --placeholder-format TEMPLATE 默认 {Type}-{n}
+    --map-format FORMAT 默认 lino，json 用于兼容
+    --format FORMAT     报告默认为 lino，也支持 json，scan 还支持 sarif、csv 和 junit
+    --report-path PATH  将私有报告写入新文件
+    --staged            扫描 Git 索引中有变更的对象
+    --respect-gitignore 扫描已跟踪文件和未被忽略的未跟踪文件
+    --baseline PATH     使用已审核发现的基线
+    --write-baseline PATH 保存待审核的发现，需要 SDS_BASELINE_KEY
+    --max-archive-depth N ZIP、TAR 和 GZIP 嵌套层数（默认 0，最大 5）
+    --locale CODE       帮助语言为 en、ru、zh 或 hi（SDS_LOCALE）
+    --map-credentials   将凭据保留在私有映射中
+    --max-record-bytes N 每条记录的字节上限（JSONL：8388608）
+    --hive-mask         为长值保留首尾各三个字符
+    --preserve-encoding 将已脱敏的值按原编码重新编码
+    --gh-auth           通过本地 gh auth 获取并遮盖令牌
+    --verify-public     显式启用通过 Wikidata 查询公开姓名
+    --apply             仅改写新的镜像克隆
+    --filter-repo PATH  git-filter-repo 可执行文件路径
+    --max-bytes NUMBER  输入字节上限（默认 33554432，流式：1073741824）
+    --help              显示帮助
+    --version           显示版本
+
+    退出码：0 表示成功或未发现问题，1 表示有发现，2 表示错误或扫描未完成。
+  """
+hi
+  failure "संवेदनशील डेटा का प्रसंस्करण विफल रहा। आउटपुट रोक दिया गया ({{code}}{{location}})।"
+  location ", रिकॉर्ड {{record}}, बाइट {{offset}}"
+  help """
+    उपयोग: sensitive-data-sanitizer <redact|scan|restore|history> [पथ|-] [विकल्प]
+
+    redact    लॉग या मानक इनपुट से संवेदनशील डेटा हटाकर परिणाम सत्यापित करें
+    scan      फ़ाइल, निर्देशिका या मानक इनपुट से केवल निष्कर्षों का मेटाडेटा दें
+    restore   --map PATH की निजी मैप फ़ाइल से मूल मान वापस लाएँ
+    history   उपलब्ध Git ऑब्जेक्ट, मेटाडेटा और रेफ़लॉग की जाँच करें
+    history rewrite SOURCE --output DIRECTORY [--apply]
+              नया मिरर क्लोन देखें या --apply से उसी क्लोन को बदलें
+
+    --config PATH       Links Notation नीति फ़ाइल, पुराने JSON का भी समर्थन
+    --output PATH       नई निजी आउटपुट फ़ाइल परमाण्विक रूप से बनाएँ
+    --in-place          संवेदनशील डेटा हटाकर इनपुट फ़ाइल को परमाण्विक रूप से बदलें
+    --native-only       Secretlint बंद करें। चुने गए स्थानीय स्कैनर फिर भी चलेंगे
+    --credentials-only  केवल प्रमाणीकरण जानकारी छिपाएँ
+    --known-only        केवल ज्ञात और मैप में मौजूद मान बदलें
+    --env-secrets       प्रमाणीकरण संबंधी नामों वाले परिवेश चर शामिल करें
+    --gh-config         स्थानीय gh hosts.yml से टोकन शामिल करें
+    --paranoid          एंट्रॉपी आधारित जाँच चालू करें, ग़लत निष्कर्ष संभव हैं
+    --betterleaks       सत्यापन बंद रखकर स्थानीय Betterleaks चलाएँ
+    --gitleaks          स्थानीय Gitleaks चलाएँ
+    --trufflehog        सत्यापन और अपडेट बंद रखकर स्थानीय TruffleHog चलाएँ
+    --presidio PATH     स्थानीय Presidio JSON अडैप्टर चलाएँ
+    --python COMMAND    अडैप्टर का Python कमांड (डिफ़ॉल्ट python3)
+    --model NAME        अडैप्टर के लिए स्थापित मॉडल
+    --language CODE     अडैप्टर मॉडल की भाषा
+    --stream            टेक्स्ट रिकॉर्ड सीमित संसाधनों के साथ संसाधित करें
+    --allow-binary      सादे टेक्स्ट में NUL बाइट बनाए रखें
+    --worker-timeout-ms N कार्य प्रक्रिया की प्रतीक्षा सीमा (डिफ़ॉल्ट 60000 मिलीसेकंड)
+    --two-pass          स्ट्रीम प्रकाशित करने से पहले पहचान डेटा एकत्र करें
+    --json              JSON स्ट्रिंग और कुंजियों से संवेदनशील डेटा हटाएँ
+    --jsonl             JSONL रिकॉर्ड से संवेदनशील डेटा हटाएँ
+    --identity-mask     पहचान मान के शुरू और अंत में दो-दो अक्षर रखें
+    --profile NAME      प्रकाशन के लिए publication या दस्तावेज़ों के लिए documents
+    --proper-names MODE व्यक्तिवाचक नामों के लिए capitalized नियम
+    --scripts LIST      कॉमा से अलग Unicode लिपियाँ (डिफ़ॉल्ट Cyrillic)
+    --placeholder       प्रकार और नंबर वाले स्थानधारक। --map या --no-map आवश्यक
+    --map PATH          निजी .lino पुनर्स्थापन मैप
+    --no-map            डेटा अनाम करने के बाद मैप छोड़ दें
+    --placeholder-format TEMPLATE डिफ़ॉल्ट {Type}-{n}
+    --map-format FORMAT डिफ़ॉल्ट lino, संगतता के लिए json
+    --format FORMAT     रिपोर्ट: डिफ़ॉल्ट lino, json, scan के लिए sarif, csv और junit भी
+    --report-path PATH  नई फ़ाइल में निजी रिपोर्ट लिखें
+    --staged            Git इंडेक्स में बदले हुए ऑब्जेक्ट स्कैन करें
+    --respect-gitignore ट्रैक की गई फ़ाइलें और अनदेखी न की गई नई फ़ाइलें स्कैन करें
+    --baseline PATH     पहले जाँचे गए निष्कर्षों की बेसलाइन इस्तेमाल करें
+    --write-baseline PATH समीक्षा के लिए निष्कर्ष सहेजें। SDS_BASELINE_KEY आवश्यक
+    --max-archive-depth N ZIP, TAR और GZIP की गहराई (डिफ़ॉल्ट 0, अधिकतम 5)
+    --locale CODE       सहायता की भाषा: en, ru, zh या hi (SDS_LOCALE)
+    --map-credentials   प्रमाणीकरण जानकारी निजी मैप में रखें
+    --max-record-bytes N प्रति रिकॉर्ड अधिकतम बाइट (JSONL: 8388608)
+    --hive-mask         लंबे मान के शुरू और अंत में तीन-तीन अक्षर रखें
+    --preserve-encoding साफ़ किए गए मान की मूल एन्कोडिंग रखें
+    --gh-auth           स्थानीय gh auth का टोकन छिपाएँ
+    --verify-public     सार्वजनिक नामों के लिए वैकल्पिक Wikidata जाँच
+    --apply             केवल नए मिरर क्लोन का इतिहास बदलें
+    --filter-repo PATH  git-filter-repo का पथ
+    --max-bytes NUMBER  इनपुट बाइट सीमा (33554432, स्ट्रीम: 1073741824)
+    --help              सहायता दिखाएँ
+    --version           संस्करण दिखाएँ
+
+    निकास कोड: 0 सफल या साफ़ स्कैन, 1 संवेदनशील डेटा मिला, 2 त्रुटि या अधूरा स्कैन।
+  """

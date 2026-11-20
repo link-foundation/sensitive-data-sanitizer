@@ -74,6 +74,10 @@ export async function readTextInput(
   maxBytes = 10 * 1024 * 1024,
   options
 ) {
+  return decodeTextInput(await readFileBytes(path, maxBytes), options);
+}
+
+export async function readFileBytes(path, maxBytes) {
   let handle;
   try {
     const info = await lstat(path);
@@ -97,7 +101,7 @@ export async function readTextInput(
     if (read > maxBytes || read > opened.size) {
       throw failure('ERR_LIMIT');
     }
-    return decodeTextInput(bytes.subarray(0, read), options);
+    return bytes.subarray(0, read);
   } catch (error) {
     if (error.code?.startsWith('ERR_')) {
       throw error;

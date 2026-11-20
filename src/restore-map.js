@@ -2,11 +2,14 @@ import { createHash } from 'node:crypto';
 import { Parser, Link } from 'links-notation';
 import { failure, escapePattern } from './detection.js';
 import { atomicWrite, readTextFile } from './files.js';
+import { decodeLinoObject, encodeLinoObject } from './lino-object.js';
 
 export const restoreMapKind = 'sensitive-data-restore-map';
 export const documentDigest = (text) =>
   createHash('sha256').update(text).digest('hex');
 const defaultFormat = '{Type}-{n}';
+const maxMapBytes = 32 * 1024 * 1024;
+const legacyLino = /^\s*\(["\x27`]?sensitive-data-restore-map["\x27`]?\s*:/;
 export function validatePlaceholderFormat(format = defaultFormat) {
   if (
     typeof format !== 'string' ||
@@ -127,7 +130,7 @@ function validateDocument(doc) {
   }
 }
 
-export function serializeRestoreMap(map, format = 'json') {
+export function serializeRestoreMap(map, format = 'lino') {
   validateRestoreMap(map);
   if (format === 'json') {
     return `${JSON.stringify(map, null, 2)}\n`;
@@ -135,22 +138,26 @@ export function serializeRestoreMap(map, format = 'json') {
   if (format !== 'lino') {
     throw failure('ERR_CONFIG');
   }
-  // Let the upstream formatter handle quotes, slashes, newlines and Unicode.
+  const text = encodeLinoObject(map);
+  if (text.isWellFormed()) {
+    return text;
+  }
+  // The legacy envelope preserves isolated UTF-16 code units via JSON escapes.
   return `${new Link(restoreMapKind, [new Link(JSON.stringify(map))]).toString()}\n`;
 }
 export function parseRestoreMap(text) {
   try {
-    if (
-      typeof text !== 'string' ||
-      Buffer.byteLength(text) > 32 * 1024 * 1024
-    ) {
+    if (typeof text !== 'string' || Buffer.byteLength(text) > maxMapBytes) {
       throw failure('ERR_MAP');
     }
     if (text.trimStart().startsWith('{')) {
       return validateRestoreMap(JSON.parse(text));
     }
+    if (!legacyLino.test(text)) {
+      return validateRestoreMap(decodeLinoObject(text, maxMapBytes));
+    }
     const links = new Parser({
-      maxInputSize: 32 * 1024 * 1024,
+      maxInputSize: maxMapBytes,
       maxDepth: 8,
     }).parse(text);
     if (
@@ -167,17 +174,17 @@ export function parseRestoreMap(text) {
   }
 }
 export const readRestoreMap = async (path) =>
-  parseRestoreMap(await readTextFile(path, 32 * 1024 * 1024));
+  parseRestoreMap(await readTextFile(path, maxMapBytes));
 export async function writeRestoreMap(
   path,
   map,
-  { format = path.endsWith('.lino') ? 'lino' : 'json', replace = false } = {}
+  { format = /\.json$/i.test(path) ? 'json' : 'lino', replace = false } = {}
 ) {
   await atomicWrite(path, serializeRestoreMap(map, format), { replace });
 }
 export function rejectRestoreMap(text) {
   if (
-    /"kind"\s*:\s*"sensitive-data-restore-map"|\(["\x27`]?sensitive-data-restore-map["\x27`]?\s*:/.test(
+    /"kind"\s*:\s*"sensitive-data-restore-map"|\(["\x27`]?sensitive-data-restore-map["\x27`]?\s*:|(?:^|[\s(])["\x27`]?kind["\x27`]?\s+["\x27`]?sensitive-data-restore-map(?=["\x27`\s)]|$)/.test(
       text
     )
   ) {

@@ -89,7 +89,7 @@ describe('sanitizer CLI reports and validation', () => {
     'reports findings through exit 1 and metadata without leaking source',
     () => {
       const result = invoke(
-        ['scan', '-'],
+        ['scan', '-', '--format', 'json'],
         'password=short private@example.org'
       );
       expect(result.status).toBe(1);
@@ -141,7 +141,7 @@ describe('sanitizer CLI reports and validation', () => {
         const binary = join(root, 'binary.dat');
         writeFileSync(binary, Buffer.from([0, 1, 2]));
         writeFileSync(join(root, 'text.txt'), 'safe');
-        const result = invoke(['scan', root]);
+        const result = invoke(['scan', root, '--format', 'json']);
         expect(result.status).toBe(2);
         expect(JSON.parse(result.stdout).complete).toBe(false);
         expect(readFileSync(binary)).toEqual(Buffer.from([0, 1, 2]));

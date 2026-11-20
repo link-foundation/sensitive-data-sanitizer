@@ -73,7 +73,14 @@ describe('scan with several paths', () => {
       await writeFile(join(dir, 'c.txt'), 'mail eve@private.test\n');
       const out = [];
       const code = await runCli(
-        ['scan', join(dir, 'a.txt'), join(dir, 'b.txt'), '--native-only'],
+        [
+          'scan',
+          join(dir, 'a.txt'),
+          join(dir, 'b.txt'),
+          '--native-only',
+          '--format',
+          'json',
+        ],
         io(out)
       );
       expect(code).toBe(1);
