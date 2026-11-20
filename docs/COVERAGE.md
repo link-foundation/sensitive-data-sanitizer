@@ -100,11 +100,11 @@ Credential labels have fixtures for 17 language variants:
 | Korean              | 비밀번호                 |
 | Arabic              | كلمة المرور              |
 | Hebrew              | סיסמה                    |
-| Hindi               | पासवर्ड                  |
+| Hindi               | पासवर्ड                   |
 | Turkish             | şifre                    |
 | Indonesian          | kata_sandi               |
 | Vietnamese          | mật_khẩu                 |
-| Thai                | รหัสผ่าน                 |
+| Thai                | รหัสผ่าน                   |
 
 These are tested label patterns, not 17 complete NER language models. `src/locales.js` and `src/rules.js` define the exact vocabulary. Unicode NFKC, combining marks, common invisible/bidi controls, ANSI escapes and JSON Unicode escapes are projected to a detection view with original offset mapping. Original delimiters/content outside redactions remain intact. NFKC does not equate every homoglyph or transliteration.
 
