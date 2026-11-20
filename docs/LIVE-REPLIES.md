@@ -128,8 +128,9 @@ deltas, disconnection and independently authenticated sessions.
 ## Optional loopback semantic detection
 
 [The detector examples](../examples/local-model-spans.mjs) work with
-`createSanitizer({ detectors: [detector] })`. Both send input to an explicitly
-configured loopback server on `127.0.0.1` or `[::1]`; redirects are rejected.
+`createSanitizer({ detectors: [detector] })`. Both connect directly to an
+explicitly configured server on `127.0.0.1` or `[::1]`, bypass proxy environment
+settings, and accept only successful, uncompressed responses.
 Deploy the model locally and keep body logging disabled. The ordinary scan
 path remains offline when these examples are unused.
 

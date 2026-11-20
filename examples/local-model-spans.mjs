@@ -1,4 +1,5 @@
 import { Buffer } from 'node:buffer';
+import { request as httpRequest } from 'node:http';
 import { TextDecoder } from 'node:util';
 import { URL } from 'node:url';
 import { failure } from '../src/detection.js';
@@ -77,35 +78,50 @@ function normalize(text, spans, { unit, rule, minConfidence, maxSpans }) {
     );
 }
 
+function postLocalReport(url, body, signal) {
+  return new Promise((resolve, reject) => {
+    const outgoing = httpRequest(
+      url,
+      {
+        // A dedicated connection keeps unredacted input off ambient proxies.
+        agent: false,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(body),
+          'Accept-Encoding': 'identity',
+        },
+        signal,
+      },
+      resolve
+    );
+    outgoing.once('error', reject);
+    outgoing.end(body);
+  });
+}
+
 async function readJson(response, maxResponseBytes) {
-  if (!response.ok || !response.body) {
-    void response.body?.cancel().catch(() => {});
+  const encoding = response.headers['content-encoding'];
+  if (
+    response.statusCode < 200 ||
+    response.statusCode >= 300 ||
+    (encoding !== undefined && encoding.toLowerCase() !== 'identity')
+  ) {
+    response.destroy();
     throw failure('ERR_ENGINE');
   }
-  const reader = response.body.getReader();
   const decoder = new TextDecoder('utf-8', { fatal: true });
   let size = 0;
   const parts = [];
-  try {
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) {
-        break;
-      }
-      size += value.length;
-      if (size > maxResponseBytes) {
-        throw failure('ERR_LIMIT');
-      }
-      parts.push(decoder.decode(value, { stream: true }));
+  for await (const part of response) {
+    size += part.length;
+    if (size > maxResponseBytes) {
+      throw failure('ERR_LIMIT');
     }
-    parts.push(decoder.decode());
-    return JSON.parse(parts.join(''));
-  } catch (error) {
-    void reader.cancel().catch(() => {});
-    throw error;
-  } finally {
-    reader.releaseLock();
+    parts.push(decoder.decode(part, { stream: true }));
   }
+  parts.push(decoder.decode());
+  return JSON.parse(parts.join(''));
 }
 
 function localEndpoint(endpoint) {
@@ -161,13 +177,11 @@ function localDetector(options, { rule, unit, request, parse, minConfidence }) {
           ? AbortSignal.any([signal, deadline])
           : deadline;
         scanSignal.throwIfAborted();
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(request(text)),
-          redirect: 'error',
-          signal: scanSignal,
-        });
+        const response = await postLocalReport(
+          url,
+          JSON.stringify(request(text)),
+          scanSignal
+        );
         const report = await readJson(response, maxResponseBytes);
         const findings = normalize(text, parse(text, report), {
           unit,

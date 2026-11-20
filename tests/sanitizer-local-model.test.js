@@ -1,7 +1,11 @@
 import { rejects } from 'node:assert/strict';
 import { Buffer } from 'node:buffer';
+import { execFile } from 'node:child_process';
 import { once } from 'node:events';
 import { createServer } from 'node:http';
+import process from 'node:process';
+import { URL } from 'node:url';
+import { promisify } from 'node:util';
 import { describe, expect, it } from 'test-anywhere';
 import {
   createLocalModelDetector,
@@ -12,6 +16,7 @@ import { createSanitizer } from '../src/index.js';
 const person = 'Alice Fiction';
 const prefix = '🧪 é ';
 const sample = prefix + person;
+const execFileAsync = promisify(execFile);
 const codePointSpan = {
   start: Array.from(prefix).length,
   end: Array.from(sample).length,
@@ -145,6 +150,47 @@ describe('opt-in local model spans', () => {
 });
 
 describe('local model failure policy and limits', () => {
+  it('connects directly even when Node enables a proxy for all destinations', async () => {
+    if (
+      process.versions.bun ||
+      process.versions.deno ||
+      !process.allowedNodeEnvironmentFlags.has('--use-env-proxy')
+    ) {
+      return;
+    }
+    await serve(
+      (_body, response) => {
+        const status = response.req.url === '/scan' ? 200 : 502;
+        response.writeHead(status).end(JSON.stringify(modelReport([])));
+      },
+      async (endpoint) => {
+        // Forward proxy requests use the absolute URL as the request target.
+        const proxy = new URL(endpoint).origin;
+        await execFileAsync(
+          process.execPath,
+          [
+            '--input-type=module',
+            '--eval',
+            `const { createLocalModelDetector } = await import(process.argv[1]);
+             await createLocalModelDetector({ endpoint: process.argv[2], model: 'fixture' }).detect('sample');`,
+            new URL('../examples/local-model-spans.mjs', import.meta.url).href,
+            endpoint,
+          ],
+          {
+            env: {
+              ...process.env,
+              NODE_USE_ENV_PROXY: '1',
+              HTTP_PROXY: proxy,
+              http_proxy: proxy,
+              NO_PROXY: '',
+              no_proxy: '',
+            },
+          }
+        );
+      }
+    );
+  });
+
   it('fails the entire report on invalid offsets, scores, types, quotes, or truncated completion', async () => {
     let report;
     await serve(
