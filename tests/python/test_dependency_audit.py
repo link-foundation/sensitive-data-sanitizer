@@ -26,11 +26,14 @@ class DependencyAuditTests(unittest.TestCase):
         files = (
             b"experiments/benchmark/requirements.txt\0examples/my app/requirements-dev.txt\0"
             b"dev/log/requirements.txt\0docs/case-studies/x/requirements.txt\0ruff.toml\0"
+            + audit.BENCHMARK_RESOLUTION.encode()
+            + b"\0"
         )
         with patch.object(audit.subprocess, "check_output", return_value=files):
             self.assertEqual(
                 audit.discover(),
                 [
+                    audit.BENCHMARK_RESOLUTION,
                     "examples/my app/requirements-dev.txt",
                     "experiments/benchmark/requirements.txt",
                 ],
@@ -105,6 +108,17 @@ class DependencyAuditTests(unittest.TestCase):
         self.assertEqual(command[0], "pip-audit")
         self.assertIn("--require-hashes", command)
         self.assertEqual(command[-1], "requirements.lock")
+
+    def test_audits_the_maintained_benchmark_resolution_directly(self):
+        with patch.object(
+            audit.subprocess, "run", return_value=subprocess.CompletedProcess([], 0)
+        ) as run:
+            self.assertEqual(audit.audit([audit.BENCHMARK_RESOLUTION]), 0)
+        run.assert_called_once()
+        command = run.call_args.args[0]
+        self.assertEqual(command[0], "pip-audit")
+        self.assertIn("--require-hashes", command)
+        self.assertEqual(command[-1], audit.BENCHMARK_RESOLUTION)
 
 
 if __name__ == "__main__":

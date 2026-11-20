@@ -12,12 +12,18 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+BENCHMARK_RESOLUTION = (
+    "dev/log/issues/102/pulls/103/research/requirements-python314.txt"
+)
+
 
 def discover():
     paths = subprocess.check_output(["git", "ls-files", "-z"]).decode().split("\0")
     manifests = []
     for path in filter(None, paths):
-        if path.startswith(("dev/log/", "docs/case-studies/")):
+        if path != BENCHMARK_RESOLUTION and path.startswith(
+            ("dev/log/", "docs/case-studies/")
+        ):
             continue
         name = Path(path).name
         if name.startswith("requirements") and name.endswith(".txt"):
@@ -43,9 +49,12 @@ def audit(manifests):
             print(f"Auditing resolved Python dependencies: {manifest}", flush=True)
             resolved = str(Path(directory) / f"resolved-{index}.txt")
             lock = Path(manifest).with_suffix(".lock")
+            if manifest == BENCHMARK_RESOLUTION:
+                lock = Path(manifest)
+            locked = lock.is_file()
             commands = (
                 []
-                if lock.is_file()
+                if locked
                 else [
                     [
                         "uv",
@@ -71,7 +80,7 @@ def audit(manifests):
                     "--progress-spinner",
                     "off",
                     "--requirement",
-                    str(lock) if lock.is_file() else resolved,
+                    str(lock) if locked else resolved,
                 ]
             )
             for command in commands:

@@ -6,9 +6,15 @@ import { parse } from 'yaml';
 
 it('keeps weekly dependency updates aligned with every tracked manifest', () => {
   const config = parse(readFileSync('.github/dependabot.yml', 'utf8'));
+  const maintainedBenchmarkResolution =
+    'dev/log/issues/102/pulls/103/research/requirements-python314.txt';
   const paths = execFileSync('git', ['ls-files', '-z'], { encoding: 'utf8' })
     .split('\0')
-    .filter((path) => !/^(dev\/log|docs\/case-studies)\//u.test(path));
+    .filter(
+      (path) =>
+        path === maintainedBenchmarkResolution ||
+        !/^(dev\/log|docs\/case-studies)\//u.test(path)
+    );
   const directory = (path) =>
     dirname(path) === '.' ? '/' : `/${dirname(path)}`;
   for (const [ecosystem, filename] of [
