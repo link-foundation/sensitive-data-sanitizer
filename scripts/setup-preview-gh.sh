@@ -10,8 +10,8 @@ if [[ "$(uname -s)/$(uname -m)" != Linux/x86_64 ]]; then
   exit 1
 fi
 
-version=2.103.3
-checksum=4c806978ffce1cec70853302a56d70ac6da4f19bae7adca4e1a8ab00633dd91d
+version=2.105.0
+checksum=79e7ab5db738c48777b696e374f8b428f0647debfb424f44d2f426370407fe2f
 install_dir="$(mktemp -d "$RUNNER_TEMP/preview-gh.XXXXXX")"
 archive="$install_dir/gh.tar.gz"
 trap 'rm -f "$archive"' EXIT

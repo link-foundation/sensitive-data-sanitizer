@@ -117,9 +117,9 @@ jobs:
         with:
           python-version-file: .python-version
       - name: Lint every maintained Python helper
-        run: pipx run --spec ruff==0.17.4 ruff check --output-format=github .
+        run: pipx run --spec ruff==0.17.6 ruff check --output-format=github .
       - name: Check Python formatting
-        run: pipx run --spec ruff==0.17.4 ruff format --check .
+        run: pipx run --spec ruff==0.17.6 ruff format --check .
       - name: Test Python dependency audit failures and discovery
         run: python3 -m unittest discover -s tests/python -v
 

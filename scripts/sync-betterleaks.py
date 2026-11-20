@@ -27,7 +27,7 @@ import urllib.request
 from pathlib import Path
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--version", default="v1.10.0")
+parser.add_argument("--version", default="v1.10.1")
 parser.add_argument("--source", type=Path, help="Use an already-downloaded TOML")
 parser.add_argument("--license", type=Path, help="Use an already-downloaded LICENSE")
 args = parser.parse_args()

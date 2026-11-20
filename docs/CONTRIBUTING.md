@@ -2,7 +2,7 @@
 
 ## Development Workflow
 
-Use Node.js 26.13.0 with npm 12.2.2 for development and release tooling.
+Use Node.js 26.13.1 with npm 12.2.3 for development and release tooling.
 Changesets 3 requires a supported Node.js 22.11, 24, or 26+ runtime.
 
 1. **Fork the repository** and clone your fork
@@ -42,10 +42,10 @@ Ruff lint and formatting checks. Use the Python release in `.python-version`; im
 benchmark or example dependencies is not required for these static checks:
 
 ```bash
-pipx run --spec ruff==0.17.4 ruff check .
-pipx run --spec ruff==0.17.4 ruff format --check .
+pipx run --spec ruff==0.17.6 ruff check .
+pipx run --spec ruff==0.17.6 ruff format --check .
 # Apply formatting locally
-pipx run --spec ruff==0.17.4 ruff format .
+pipx run --spec ruff==0.17.6 ruff format .
 ```
 
 Immutable downloaded evidence under `dev/log/` and `docs/case-studies/` is
@@ -55,7 +55,7 @@ locations while keeping credentials out of logs.
 
 Security CI also audits every tracked `requirements*.txt` file, including the
 benchmark dependencies. It resolves transitive wheel metadata and hashes with
-`uv==0.13.7`, then checks that complete resolution with `pip-audit==2.10.1`.
+`uv==0.13.9`, then checks that complete resolution with `pip-audit==2.10.1`.
 The audit reads metadata without installing NLP packages or executing build
 hooks. A separate CI smoke check installs the hash-locked benchmark graph and
 model, then exercises the actual offline scanners. New Python manifest formats

@@ -52,15 +52,6 @@ export function readPackageInfo(options = {}) {
 }
 
 /**
- * Escape a string for safe use inside a regular expression.
- * @param {string} value
- * @returns {string}
- */
-export function escapeRegExp(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-/**
  * Build a regex that matches the package bump line in a changeset.
  * @param {string} packageName
  * @param {Object} options
@@ -73,7 +64,7 @@ export function getChangesetVersionTypeRegex(
 ) {
   const quotePattern = requireQuotes ? '[\'"]' : '[\'"]?';
   return new RegExp(
-    `^${quotePattern}${escapeRegExp(packageName)}${quotePattern}:\\s+(major|minor|patch)\\s*$`,
+    `^${quotePattern}${RegExp.escape(packageName)}${quotePattern}:\\s+(major|minor|patch)\\s*$`,
     'm'
   );
 }

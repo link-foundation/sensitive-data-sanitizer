@@ -380,16 +380,20 @@ describe('workflow reliability policy', () => {
       '.github/workflows/example-app.yml'
     );
     const previewRegenJob = getJobBlock(exampleAppWorkflow, 'preview-regen');
-    const imageVersion = previewRegenJob.match(
-      /image:\s*mcr\.microsoft\.com\/playwright@sha256:[0-9a-f]{64} # v([0-9.]+)-noble/
-    )?.[1];
+    const images = [
+      ...exampleAppWorkflow.matchAll(
+        /image:\s*(mcr\.microsoft\.com\/playwright@sha256:[0-9a-f]{64}) # v([0-9.]+)-noble/g
+      ),
+    ];
     const { devDependencies } = JSON.parse(
       readFileSync('package.json', 'utf8')
     );
 
     expect(previewRegenJob).toContain('container:');
-    expect(imageVersion).toBe('1.65.0');
-    expect(devDependencies.playwright).toBe(imageVersion);
+    expect(images.length).toBe(2);
+    expect(images[0][1]).toBe(images[1][1]);
+    expect(images[0][2]).toBe(devDependencies.playwright);
+    expect(images[1][2]).toBe(devDependencies.playwright);
     expect(previewRegenJob).toContain(
       'run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci --no-audit --no-fund'
     );

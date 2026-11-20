@@ -12,7 +12,7 @@ describe('upstream Buildx retries and registry fallback', () => {
   it('delegates both pulls and bootstrap to the same reviewed upstream release', () => {
     expect(canonical.uses).toMatch(pinnedRef('docker/setup-buildx-action'));
     expect(mirror.uses).toBe(canonical.uses);
-    expect(canonical.with.version).toBe('v0.38.2');
+    expect(canonical.with.version).toBe('v0.39.1');
     expect(mirror.with.version).toBe(canonical.with.version);
     expect(canonical.with['driver-opts']).toBe(
       'image=${{ inputs.buildkit-image }}'
@@ -35,7 +35,7 @@ describe('upstream Buildx retries and registry fallback', () => {
   it('keeps mirror opt-out and forwards verbose and runner debug settings', () => {
     expect(action.inputs['registry-mirror'].default).toBe('mirror.gcr.io');
     expect(action.inputs['buildkit-image'].default).toBe(
-      'moby/buildkit:v0.34.2'
+      'moby/buildkit:v0.35.1'
     );
     for (const step of action.runs.steps) {
       expect(step.env.RUNNER_DEBUG).toContain("inputs.verbose == 'true'");
