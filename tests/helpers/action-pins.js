@@ -4,10 +4,6 @@
 
 const PINNED_TAG = String.raw`v\d+\.\d+\.\d+`;
 
-function escapeRegExp(text) {
-  return text.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&');
-}
-
 /**
  * Matches a `uses:` line calling `action` at a full semver tag.
  *
@@ -15,7 +11,7 @@ function escapeRegExp(text) {
  * @returns {RegExp}
  */
 export function pinnedUses(action) {
-  return new RegExp(`uses: ${escapeRegExp(action)}@${PINNED_TAG}(?=\\s|$)`);
+  return new RegExp(`uses: ${RegExp.escape(action)}@${PINNED_TAG}(?=\\s|$)`);
 }
 
 /**
@@ -26,5 +22,5 @@ export function pinnedUses(action) {
  * @returns {RegExp}
  */
 export function pinnedRef(action) {
-  return new RegExp(`^${escapeRegExp(action)}@${PINNED_TAG}$`);
+  return new RegExp(`^${RegExp.escape(action)}@${PINNED_TAG}$`);
 }

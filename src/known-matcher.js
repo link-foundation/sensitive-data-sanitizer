@@ -74,7 +74,7 @@ const foldedCharacters = new Map();
 function foldCharacter(char) {
   if (!foldedCharacters.has(char)) {
     const folded = foldText(char);
-    const escaped = char.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+    const escaped = RegExp.escape(char);
     foldedCharacters.set(
       char,
       isAnchorCharacter(folded) &&
