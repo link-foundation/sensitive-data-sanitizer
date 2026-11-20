@@ -1,4 +1,5 @@
 import { createHmac } from 'node:crypto';
+import { realpath } from 'node:fs/promises';
 import { relative, resolve, sep } from 'node:path';
 import { atomicWrite, readTextFile } from '../src/files.js';
 import { failure } from '../src/detection.js';
@@ -30,7 +31,12 @@ async function readBaseline(path) {
   }
 }
 
-export async function openScanBaseline({ baseline, writeBaseline }) {
+export async function openScanBaseline({
+  baseline,
+  writeBaseline,
+  staged,
+  respectGitignore,
+}) {
   if (!baseline && !writeBaseline) {
     return undefined;
   }
@@ -39,6 +45,7 @@ export async function openScanBaseline({ baseline, writeBaseline }) {
     throw failure('ERR_BASELINE_KEY');
   }
   const secret = Buffer.from(key, 'hex');
+  const directory = await realpath(process.cwd());
   const fingerprints = [];
   const remaining = new Map();
   if (baseline) {
@@ -47,15 +54,18 @@ export async function openScanBaseline({ baseline, writeBaseline }) {
     }
   }
   return {
-    filter(path, text, findings, stdin) {
-      const [file, ...members] = path;
-      const location = stdin
-        ? ['stdin', ...members]
-        : [
-            'file',
-            relative(process.cwd(), resolve(file)).split(sep).join('/'),
-            ...members,
-          ];
+    async location({ path, stdin }) {
+      if (stdin) {
+        return ['stdin'];
+      }
+      // Git supplies logical index paths even if no file is checked out.
+      const file =
+        staged || respectGitignore
+          ? resolve(directory, path)
+          : await realpath(path).catch(() => resolve(path));
+      return ['file', relative(directory, file).split(sep).join('/')];
+    },
+    filter(location, text, findings) {
       return findings.filter((finding) => {
         const digest = createHmac('sha256', secret)
           .update(

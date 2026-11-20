@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'test-anywhere';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { Readable } from 'node:stream';
@@ -184,7 +190,13 @@ describe('CLI scan input and suppression', () => {
       expect(encoded).not.toContain('fixture.txt');
 
       writeFileSync(file, 'ordinary header\npassword=fixture-old\n');
-      const moved = invoke(root, [...args, file, '--baseline', baseline], env);
+      const alias = join(root, 'alias');
+      symlinkSync(root, alias, 'junction');
+      const moved = invoke(
+        root,
+        [...args, join(alias, 'fixture.txt'), '--baseline', baseline],
+        env
+      );
       expect(moved.status).toBe(0);
       expect(JSON.parse(moved.stdout).baselined).toBe(originalCount);
 

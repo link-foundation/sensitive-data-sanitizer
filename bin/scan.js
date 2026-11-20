@@ -80,7 +80,7 @@ async function* scanInputs(file, config, archive) {
   }
 }
 
-async function inspectInput(input, context, stdin) {
+async function inspectInput(input, context, location) {
   const { config, engine, baseline, report } = context;
   const path = (await engine.sanitize(input.path.join('!'))).text;
   if (input.reason) {
@@ -103,7 +103,11 @@ async function inspectInput(input, context, stdin) {
   let findings = await engine.inspect(text);
   if (baseline) {
     const total = findings.length;
-    findings = baseline.filter(input.path, text, findings, stdin);
+    findings = baseline.filter(
+      [...location, ...input.path.slice(1)],
+      text,
+      findings
+    );
     report.baselined += total - findings.length;
   }
   report.results.push({ path, findings });
@@ -122,8 +126,9 @@ export async function scanCommand(config, engine, { stdin, stdout }, version) {
   };
   const context = { config, engine, baseline, report };
   for (const file of await scanFiles(config, stdin)) {
+    const location = await baseline?.location(file);
     for await (const input of scanInputs(file, config, archive)) {
-      await inspectInput(input, context, file.stdin);
+      await inspectInput(input, context, location);
     }
   }
   report.complete = report.skipped.length === 0;

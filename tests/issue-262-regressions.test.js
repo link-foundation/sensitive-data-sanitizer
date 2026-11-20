@@ -75,10 +75,10 @@ describe('issue 262 repository regressions', () => {
     const manifest = JSON.parse(readFileSync('package.json', 'utf8'));
     const lock = JSON.parse(readFileSync('package-lock.json', 'utf8'));
     for (const name of ['command-stream', 'lino-arguments']) {
-      assert.match(manifest.devDependencies[name], /^\d+\.\d+\.\d+$/);
+      assert.match(manifest.dependencies[name], /^\d+\.\d+\.\d+$/);
       assert.equal(
         lock.packages[`node_modules/${name}`].version,
-        manifest.devDependencies[name]
+        manifest.dependencies[name]
       );
       assert.match(lock.packages[`node_modules/${name}`].integrity, /^sha512-/);
     }
