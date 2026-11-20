@@ -433,6 +433,33 @@ export declare function writeRestoreMap(
 ): Promise<void>;
 /** Exact original-document restoration; derived text uses canonical surfaces. */
 export declare function restore(text: string, map: RestoreMap): string;
+/** An independent, single-use cursor over one decoded field or UTF-8 text. */
+export interface RestoreCursor<Chunk> {
+  write(chunk: Chunk): string;
+  finish(): string;
+  cancel(): void;
+}
+export interface StreamingRestorer {
+  open(options?: {
+    encoding?: 'text';
+    signal?: AbortSignal;
+  }): RestoreCursor<string>;
+  open(options: {
+    encoding: 'utf8';
+    signal?: AbortSignal;
+  }): RestoreCursor<Uint8Array>;
+}
+/** Snapshot canonical personal values from an authenticated session's private map. */
+export declare function createStreamingRestorer(
+  map: RestoreMap,
+  options?: {
+    maxEntries?: number;
+    maxMapUnits?: number;
+    maxChunkUnits?: number;
+    maxInputUnits?: number;
+    maxOutputUnits?: number;
+  }
+): StreamingRestorer;
 /** Sorted, frozen list of the types built-in rules turn into `Type-n` tokens. */
 export declare function reservedPlaceholderTypes(): readonly string[];
 /** Whether `text` is one whole token of the placeholder namespace. */

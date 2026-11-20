@@ -130,6 +130,9 @@ describe('publishable package metadata', () => {
       'docs/README.md',
       'docs/USE-CASES.md',
       'docs/VERIFICATION.md',
+      'docs/LIVE-REPLIES.md',
+      'examples/live-reply-adapter.mjs',
+      'examples/local-model-spans.mjs',
       'examples/verify-credential.mjs',
       'examples/known-names-in-code.mjs',
     ]);

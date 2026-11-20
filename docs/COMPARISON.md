@@ -1,7 +1,8 @@
 # Competitor comparison
 
-Review date: 2026-11-10. The research, sources and collected test cases are in
-[the issue 128 case study](case-studies/issue-128/README.md). This page is the
+General comparison reviewed on 2026-11-10. Live gateway comparison reviewed on 2026-11-20. The research, sources and collected test cases are in
+[the issue 128 case study](case-studies/issue-128/README.md) and
+[the live LLM gateway audit](case-studies/issue-218/README.md). This page is the
 high-level summary; each feature area has a detailed page:
 
 | Feature area                                                   | Detailed page                                                            |
@@ -13,7 +14,7 @@ high-level summary; each feature area has a detailed page:
 | allow lists, inline comments, template values, thresholds      | [Suppression and allow lists](comparison/suppression-and-allow-lists.md) |
 | JSON reports, SARIF, offsets, pre-commit, CI                   | [Reporting and CI integration](comparison/reporting-and-ci.md)           |
 | custom detectors, rule replacement, scanner bridges, callbacks | [Extensibility](comparison/extensibility.md)                             |
-| offline use, streaming, Git history, platforms, limits         | [Deployment and operation](comparison/deployment.md)                     |
+| offline use, live gateways, streaming, Git history, limits     | [Deployment and operation](comparison/deployment.md)                     |
 | competitor test cases run against this project                 | [Measured results](comparison/measured-results.md)                       |
 
 Legend: **Y** supported, **P** partial, **–** absent or not documented, **?**
@@ -41,33 +42,34 @@ executes the upstream engine; native rule imports remain a subset.
 
 ## Tools compared
 
-| Group               | Tools                                                                                                                                                                                                                                                            |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Open-source secrets | Gitleaks, Betterleaks, TruffleHog, Kingfisher, Titus, detect-secrets, Secretlint, ripsecrets, Trivy, Talisman, git-secrets, ggshield, whispers, secrets-patterns-db                                                                                              |
-| Open-source PII     | Presidio, scrubadub, DataFog, LLM Guard, Philter/Phileas, OpenRedaction, redact-pii, @redactpii/node, pii-codex, pino/fast-redact, Rehydra, flare-redact, cloakrs, PasteGuard, pii-shield, packyme/privacy-filter                                                |
-| Closed source       | Google Sensitive Data Protection, Azure AI Language PII, AWS Comprehend/Macie/CloudWatch Logs, GitHub secret scanning, GitGuardian, Nightfall, Limina, Skyflow, Tonic Textual, Protecto, Datadog, New Relic, Splunk/Elastic, Sentry, Cloudflare, Portkey, Lakera |
+| Group                         | Tools                                                                                                                                                                                                                                                            |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Open-source secrets           | Gitleaks, Betterleaks, TruffleHog, Kingfisher, Titus, detect-secrets, Secretlint, ripsecrets, Trivy, Talisman, git-secrets, ggshield, whispers, secrets-patterns-db                                                                                              |
+| Open-source PII               | Presidio, scrubadub, DataFog, LLM Guard, Philter/Phileas, OpenRedaction, redact-pii, @redactpii/node, pii-codex, pino/fast-redact, Rehydra, flare-redact, cloakrs, PasteGuard, pii-shield, packyme/privacy-filter                                                |
+| Open-source live LLM gateways | [ai-proxy, LiteLLM with Presidio, LLM Shield Proxy with LiteLLM integration, token-proxy, CloakPipe, piast-gate](comparison/deployment.md#live-llm-gateways)                                                                                                     |
+| Closed source                 | Google Sensitive Data Protection, Azure AI Language PII, AWS Comprehend/Macie/CloudWatch Logs, GitHub secret scanning, GitGuardian, Nightfall, Limina, Skyflow, Tonic Textual, Protecto, Datadog, New Relic, Splunk/Elastic, Sentry, Cloudflare, Portkey, Lakera |
 
 ## Overview matrix
 
-| Capability                                 | This project                                                | Gitleaks / Betterleaks | TruffleHog | Kingfisher | detect-secrets | Secretlint | Presidio | OpenRedaction | LLM Guard | Google SDP | Azure PII | Nightfall | Limina |
-| ------------------------------------------ | ----------------------------------------------------------- | ---------------------- | ---------- | ---------- | -------------- | ---------- | -------- | ------------- | --------- | ---------- | --------- | --------- | ------ |
-| Credential provider rules                  | Y (51 native + 221 Gitleaks + 203 Betterleaks + Secretlint) | Y (222 / 474)          | Y (800+)   | Y (503)    | P (26 plugins) | Y (27)     | –        | P             | P         | P          | –         | Y         | –      |
-| Personal data detection                    | Y                                                           | –                      | –          | P          | –              | –          | Y        | Y             | Y         | Y          | Y         | Y         | Y      |
-| Rewrites the text (not only reports)       | Y                                                           | P                      | –          | P          | –              | P          | Y        | Y             | Y         | Y          | Y         | Y         | Y      |
-| Reversible output                          | Y (placeholders, AES-256-GCM)                               | –                      | –          | –          | –              | –          | Y        | Y             | Y         | Y          | –         | Y         | Y      |
-| Offline checksum confidence (CRC32, Luhn)  | Y                                                           | –                      | –          | Y          | –              | –          | Y        | Y             | Y         | Y          | ?         | ?         | ?      |
-| Live credential verification               | P ([12 opt-in read-only checks](VERIFICATION.md))           | P (Betterleaks)        | Y          | Y          | P              | –          | –        | –             | –         | –          | –         | –         | –      |
-| Encoded content (base64, hex, escapes)     | Y                                                           | Y                      | Y          | P          | –              | –          | –        | –             | –         | –          | –         | –         | –      |
-| Structured JSON/JSONL streaming            | Y                                                           | –                      | –          | –          | –              | –          | P        | ?             | –         | Y          | –         | Y         | Y      |
-| Allow list and inline suppression          | Y                                                           | Y                      | Y          | Y          | Y              | Y          | Y        | Y             | Y         | Y          | Y         | Y         | Y      |
-| Per-type thresholds                        | Y                                                           | –                      | –          | P          | –              | –          | Y        | ?             | P         | Y          | Y         | Y         | ?      |
-| Custom declarative detectors with hotwords | Y                                                           | P (no hotwords)        | P          | P          | P              | P          | Y        | Y             | P         | Y          | P         | Y         | Y      |
-| SARIF output                               | Y                                                           | Y / ?                  | Y          | Y          | –              | Y          | –        | –             | –         | –          | –         | –         | –      |
-| Pre-commit hook                            | Y                                                           | Y                      | Y          | Y          | Y              | Y          | –        | –             | –         | –          | –         | –         | –      |
-| Git history audit and rewrite              | Y (audit + rewrite)                                         | P (audit)              | P (audit)  | P (audit)  | –              | –          | –        | –             | –         | –          | –         | –         | –      |
-| Runs without network or account            | Y                                                           | Y                      | Y          | Y          | Y              | Y          | Y        | Y             | Y         | –          | P         | –         | P      |
-| ML named-entity recognition                | P (optional `@nlpjs/ner` detector, Presidio bridge)         | –                      | –          | –          | –              | –          | Y        | –             | Y         | Y          | Y         | Y         | Y      |
-| Images, PDF, Office, archives              | –                                                           | P                      | Y          | Y          | –              | –          | P        | ?             | –         | Y          | –         | Y         | Y      |
+| Capability                                 | This project                                                                 | Gitleaks / Betterleaks | TruffleHog | Kingfisher | detect-secrets | Secretlint | Presidio | OpenRedaction | LLM Guard | Google SDP | Azure PII | Nightfall | Limina |
+| ------------------------------------------ | ---------------------------------------------------------------------------- | ---------------------- | ---------- | ---------- | -------------- | ---------- | -------- | ------------- | --------- | ---------- | --------- | --------- | ------ |
+| Credential provider rules                  | Y (51 native + 221 Gitleaks + 203 Betterleaks + Secretlint)                  | Y (222 / 474)          | Y (800+)   | Y (503)    | P (26 plugins) | Y (27)     | –        | P             | P         | P          | –         | Y         | –      |
+| Personal data detection                    | Y                                                                            | –                      | –          | P          | –              | –          | Y        | Y             | Y         | Y          | Y         | Y         | Y      |
+| Rewrites the text (not only reports)       | Y                                                                            | P                      | –          | P          | –              | P          | Y        | Y             | Y         | Y          | Y         | Y         | Y      |
+| Reversible output                          | Y (placeholders, AES-256-GCM)                                                | –                      | –          | –          | –              | –          | Y        | Y             | Y         | Y          | –         | Y         | Y      |
+| Offline checksum confidence (CRC32, Luhn)  | Y                                                                            | –                      | –          | Y          | –              | –          | Y        | Y             | Y         | Y          | ?         | ?         | ?      |
+| Live credential verification               | P ([12 opt-in read-only checks sent to the named provider](VERIFICATION.md)) | P (Betterleaks)        | Y          | Y          | P              | –          | –        | –             | –         | –          | –         | –         | –      |
+| Encoded content (base64, hex, escapes)     | Y                                                                            | Y                      | Y          | P          | –              | –          | –        | –             | –         | –          | –         | –         | –      |
+| Structured JSON/JSONL streaming            | Y                                                                            | –                      | –          | –          | –              | –          | P        | ?             | –         | Y          | –         | Y         | Y      |
+| Allow list and inline suppression          | Y                                                                            | Y                      | Y          | Y          | Y              | Y          | Y        | Y             | Y         | Y          | Y         | Y         | Y      |
+| Per-type thresholds                        | Y                                                                            | –                      | –          | P          | –              | –          | Y        | ?             | P         | Y          | Y         | Y         | ?      |
+| Custom declarative detectors with hotwords | Y                                                                            | P (no hotwords)        | P          | P          | P              | P          | Y        | Y             | P         | Y          | P         | Y         | Y      |
+| SARIF output                               | Y                                                                            | Y / ?                  | Y          | Y          | –              | Y          | –        | –             | –         | –          | –         | –         | –      |
+| Pre-commit hook                            | Y                                                                            | Y                      | Y          | Y          | Y              | Y          | –        | –             | –         | –          | –         | –         | –      |
+| Git history audit and rewrite              | Y (audit + rewrite)                                                          | P (audit)              | P (audit)  | P (audit)  | –              | –          | –        | –             | –         | –          | –         | –         | –      |
+| Runs without network or account            | Y                                                                            | Y                      | Y          | Y          | Y              | Y          | Y        | Y             | Y         | –          | P         | –         | P      |
+| ML named-entity recognition                | P (optional `@nlpjs/ner` detector, Presidio bridge)                          | –                      | –          | –          | –              | –          | Y        | –             | Y         | Y          | Y         | Y         | Y      |
+| Images, PDF, Office, archives              | –                                                                            | P                      | Y          | Y          | –              | –          | P        | ?             | –         | Y          | –         | Y         | Y      |
 
 The full tables with every tool are on the detailed pages.
 
@@ -92,10 +94,16 @@ placeholder-like passwords, hashes and ciphertext that a code scanner may
 ignore, because a wrong "safe" decision leaks data. The measured-results page
 classifies every remaining case.
 
+## Credential verification and network use
+
+Default scanning is offline. A caller can explicitly enable and invoke
+[read-only credential verification](VERIFICATION.md), which sends a supplied
+credential to its named provider. Verification leaves the scan and redaction
+decision unchanged. Keep the verifier disabled in local-only proxy deployments.
+
 ## Not supported, by design
 
-- Live credential verification or revocation: it sends the secret to its
-  provider.
+- Credential revocation and rotation.
 - Uploading text to a cloud service.
 - Proprietary ML models; the [Presidio bridge](API.md#optional-offline-recognition)
   and custom detectors accept local models.

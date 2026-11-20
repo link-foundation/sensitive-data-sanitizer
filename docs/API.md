@@ -76,6 +76,10 @@ restore(result.text, result.map); // exact original
 
 ### Reversible placeholders
 
+For live provider replies, [bounded streaming restoration](LIVE-REPLIES.md#bounded-cursor)
+uses an independent cursor per decoded text field. The [adapter contract](LIVE-REPLIES.md)
+covers authenticated sessions, cancellation and transport decoding.
+
 `transformation: {mode: 'placeholder'}` emits typed tokens such as `Person-1`,
 `Email-1`, `Phone-1`, `Organization-1`, `Education-1`, `Location-1` and `Date-1`.
 Numbers start at one per type and follow the first occurrence in the input.
@@ -352,6 +356,10 @@ A detector supplies `detect(text)`, returning an array of `{start, end, type, ca
 Callbacks, policies, binaries, model packages, and their rule identifiers are trusted code/configuration. A malicious adapter can omit findings, leak input through its own logging/network calls, or never resolve. Local subprocess helpers use 30-second termination and 10 MiB output caps; arbitrary callback time budgets belong to the embedding application. Pin binary/model versions in deployments. Do not convert a failed scan into an empty result.
 
 ## Report adapters
+
+[Optional loopback detector examples](LIVE-REPLIES.md#optional-loopback-semantic-detection)
+adapt OpenAI Privacy Filter and OpenAI-compatible local models to the required
+detector interface.
 
 - `fromGitleaks(text, report)` matches every literal `Secret` occurrence and supported decoded representations.
 - `fromTrufflehog(text, report)` maps `Raw`/`RawV2` to every literal or bounded decoded occurrence. Unmapped raw values are errors.

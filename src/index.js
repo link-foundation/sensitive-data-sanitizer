@@ -61,6 +61,7 @@ export {
   readRestoreMap,
   writeRestoreMap,
 } from './restore-map.js';
+export { createStreamingRestorer } from './restore-stream.js';
 export {
   reservedPlaceholderTypes,
   isPlaceholderToken,

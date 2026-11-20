@@ -9,6 +9,7 @@
 - [Coverage and limits](COVERAGE.md): supported formats, languages, performance and failure behavior.
 - [Best practices](BEST-PRACTICES.md): publication and operational guidance.
 - [Rules](RULES.md): rule families and custom policy controls.
+- [Live LLM request and reply adapters](LIVE-REPLIES.md) for bounded restoration and local detector examples.
 - [Optional credential verification](VERIFICATION.md): explicit network opt-in, providers and outcome meanings.
 - [Git history remediation](HISTORY-REMEDIATION.md): auditing and rewriting repository history.
 
