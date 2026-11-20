@@ -1,5 +1,0 @@
----
-'@link-foundation/sensitive-data-sanitizer': minor
----
-
-Find listed `knownPersonal` names in more shapes with `knownOnly: true`. Match parts separated by table, CSV, quote, Markdown and dash punctuation (`Пряжкина, Велимира`, `| Пряжкина | Велимира |`, `**Пряжкина** Велимира`) and replace each separated part on its own, so cells, quotes and SQL values stay. Require an upper-case letter for an initial, so `Он же в офисе.` no longer matches `Же Варлаам`, and match initials before the surname (`Е. О. Тютюнник`, `В.О. Пряжкина`) and plural surnames (`Пряжкины`, `Ольховецких`). Match a name split over the name fields of one record in JSON, JSONL, YAML, CSV/TSV, Markdown tables, XML, SQL, `.env`/INI and query strings, in text and in `structured` input. Find listed names behind URL percent-encoding, HTML character references, literal escapes, invisible format characters, stress marks and look-alike letters of another script, and replace them as the same person; `decode: false` keeps the encodings as they are.

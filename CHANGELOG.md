@@ -1,5 +1,44 @@
 # Changelog
 
+## 0.24.0
+
+### Minor Changes
+
+- Find listed `knownPersonal` names in more shapes with `knownOnly: true`. Match parts separated by table, CSV, quote, Markdown and dash punctuation (`Пряжкина, Велимира`, `| Пряжкина | Велимира |`, `**Пряжкина** Велимира`) and replace each separated part on its own, so cells, quotes and SQL values stay. Require an upper-case letter for an initial, so `Он же в офисе.` no longer matches `Же Варлаам`, and match initials before the surname (`Е. О. Тютюнник`, `В.О. Пряжкина`) and plural surnames (`Пряжкины`, `Ольховецких`). Match a name split over the name fields of one record in JSON, JSONL, YAML, CSV/TSV, Markdown tables, XML, SQL, `.env`/INI and query strings, in text and in `structured` input. Find listed names behind URL percent-encoding, HTML character references, literal escapes, invisible format characters, stress marks and look-alike letters of another script, and replace them as the same person; `decode: false` keeps the encodings as they are.
+
+  Join Markdown name records with `knownOnly: true`: consecutive list items that each hold one name field (`- **Фамилия:** Пряжкина`, `- **Имя:** Велимира`) and key/value table rows (`| Фамилия | Пряжкина |`) form one record, and bold, italic and code markers around a key or value stay outside the finding, so `Фамилия: **Пряжкина**` becomes `Фамилия: **[REDACTED]**`. Make `knownOnly` matching about 4× faster on short texts and faster on large ones: an anchor trie finds candidate positions, word starts are checked only there, and the decoded view is skipped when it cannot change a match. Give the large-input tests (the 8 MiB long runs, the 10 MiB bounded worker file and the 7 MB JSONL record) their own 90 s per-test bound so a slow CI runner does not block a release.
+
+  Find listed short Russian given names in every case with `knownOnly: true`: `Ян`, `Ким`, `Ева`, `Ия`, `Лев`, `Ной` and `Любовь` now match beside the listed surname or its initial (`Сурдину Яну`, `с Гусевым Кимом`, `Шмелёвой Еве`, `Пыжикову Льву`, `Рябинцевой Любви`, `Яну С.`), and fake mode replaces them as the same person. A surname with `ё` (`Шмелёва`, `Фомичёв`) and a short given name that ends like a surname (`Ева`, `Лев`) now get the right roles. An initial without a period must end its word, so `Марк Ф2`, `Марк Ф-2`, `Марк Фб` and `if I mark F2C` no longer match `Фомичёв Марк`, while `Марк Ф`, `Марк Ф,` and `Марк Ф.` still do. Keep a single hung install from blocking a release:
+
+  - Retry every `npm ci` once under its own budget (`BUDGET_ATTEMPTS` in `scripts/run-with-budget-warning.sh`), and give `Setup Bun` and both `Setup Deno` attempts a two-minute step timeout.
+  - Let `Rerun unacquired jobs` also rerun a cancelled, timed-out or failed run whose only bad jobs stalled in their setup before any test step ran, confirmed by a timeout annotation, so a run that someone cancelled stays cancelled.
+
+  Use secretlint 14, which builds the recommended rules into `@secretlint/core`, so the deprecated `@secretlint/secretlint-rule-preset-recommend` package is no longer installed and secret detection uses `@secretlint/core/builtin`. Harden CI against false results:
+
+  - Give every networked install a step budget and count composite actions and quoted wrapper paths in the job budgets.
+  - Install the reviewed npm into the Node installation, so nested npm scripts on Windows use it too, with one install where the runner allows it.
+  - Run the lockfile-pinned secretlint after `npm ci`, and scan compressed and git-ignored tracked evidence for secrets.
+  - Check locked npm packages for deprecations on the live registry.
+  - Fail the CodeQL gate on tool warnings and errors, escape SARIF text in logs, and name the file and line of each finding.
+  - Install a pinned, checksum-verified lychee, fail on missing or empty link reports, parse only the lychee Errors section one record per line, and save the link cache only from `main`.
+  - Run JavaScript checks when only `examples/` or `experiments/` change, apply the line limit to shell scripts and Git hooks, run ShellCheck from a private venv, and keep the zizmor self-repository exception equal to its users.
+  - Fail `prepare` when Husky reports an error.
+  - Start budget annotations on a new line after unterminated command output.
+  - Report lint warnings anywhere in a changed file, and every warning when the lint configuration changes.
+  - Assert the shape of action pins in tests, so Dependabot bumps keep them green.
+  - Split the Ubuntu Bun test suite into two shards, and fail the lychee download fixtures only where a test needs the retry.
+  - Explain the expected error annotations of the simulated Buildx registry outage with a notice.
+  - Bound and retry each registry request of the reviewed npm install, with an http log under tracing.
+  - Measure the issue-32 document-guard probe as growth on the same machine after warm-up, instead of an absolute CPU limit.
+  - Fail the secrets scan on zip, plain tar and other unsupported archives nested in gzip evidence.
+  - Fit the lychee, preview GitHub CLI and reviewed npm download retries inside their step budgets.
+  - Keep budget annotations on their own line when the command writes during relaying, and detect local actions written with extra spaces.
+  - Average the issue-32 small-input probe over several calls and compare wall-clock growth too, so coarse Windows CPU clocks cannot fail it.
+  - Split the 8 MiB issue-172 tests into three files that run in separate shards, and give the reviewed npm install a 90s budget, so slow macOS Intel runners stay below the budget warnings.
+  - Retry a failed Deno download once, compare the issue-51 dense-token throughput as growth on the same machine instead of against an 8-second limit, and give the reviewed npm install a 120s budget after a 59s Windows install.
+
+  Add bounded streaming restoration of personal placeholders in live provider replies. Include a JSON and SSE adapter example with session isolation, plus opt-in loopback detector examples for OpenAI Privacy Filter and OpenAI-compatible local models.
+
 ## 0.23.0
 
 ### Minor Changes
