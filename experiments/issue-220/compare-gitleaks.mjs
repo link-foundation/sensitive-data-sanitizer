@@ -15,6 +15,9 @@ import { tokenWithChecksum } from '../../src/token-checksum.js';
 const { privateKey } = generateKeyPairSync('ed25519', {
   privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
 });
+const connection = new URL('postgresql://localhost/example');
+connection.username = 'demo';
+connection.password = 'violet-canoe';
 
 const fixtures = [
   ['credential-en', true, 'password: violet canoe'],
@@ -26,7 +29,7 @@ const fixtures = [
   ['person-zh', true, '姓名：王小明'],
   ['person-hi', true, 'नाम: आरव शर्मा'],
   ['email', true, 'Contact: someone@unknown.example'],
-  ['uri-credentials', true, 'postgresql://demo:violet-canoe@localhost/example'],
+  ['uri-credentials', true, connection.href],
   [
     'pem',
     true,
