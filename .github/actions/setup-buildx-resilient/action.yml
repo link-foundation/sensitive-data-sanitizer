@@ -6,7 +6,7 @@ inputs:
   buildkit-image:
     description: 'Pinned BuildKit image used by the docker-container driver.'
     required: false
-    default: 'moby/buildkit:v0.34.2'
+    default: 'moby/buildkit:v0.35.1'
   registry-mirror:
     description: 'Fallback Docker Hub mirror host; empty disables fallback.'
     required: false
@@ -27,7 +27,7 @@ runs:
       env:
         RUNNER_DEBUG: ${{ inputs.verbose == 'true' && '1' || env.RUNNER_DEBUG }}
       with:
-        version: v0.38.2
+        version: v0.39.1
         driver-opts: image=${{ inputs.buildkit-image }}
 
     # The mirror must be the actual driver image: pre-seeding the canonical
@@ -38,5 +38,5 @@ runs:
       env:
         RUNNER_DEBUG: ${{ inputs.verbose == 'true' && '1' || env.RUNNER_DEBUG }}
       with:
-        version: v0.38.2
+        version: v0.39.1
         driver-opts: image=${{ inputs.registry-mirror }}/${{ inputs.buildkit-image }}

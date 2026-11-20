@@ -38,7 +38,8 @@ describe('setup-npm version requirements', () => {
     expect(isSupportedNpmVersion('11.4.2')).toBe(false);
     expect(isSupportedNpmVersion('11.5.0')).toBe(false);
     expect(isSupportedNpmVersion('11.5.1')).toBe(false);
-    expect(isSupportedNpmVersion('12.2.2')).toBe(true);
+    expect(isSupportedNpmVersion('12.2.2')).toBe(false);
+    expect(isSupportedNpmVersion(NPM_MIN_VERSION)).toBe(true);
   });
 
   it(`requires Node.js ${NODE_MIN_VERSION} or later`, () => {

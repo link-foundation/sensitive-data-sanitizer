@@ -258,10 +258,11 @@ jobs:
           cache-dependency-path: examples/universal-app/package-lock.json
 
       - name: Setup Java
-        uses: actions/setup-java@v6.2.0
+        uses: actions/setup-java@v6.3.0
         with:
           distribution: temurin
-          java-version: '21.0.13+9'
+          java-version: '21.0.13+2.1'
+          problem-matcher: true
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd # v4.0.4
@@ -323,7 +324,7 @@ jobs:
     name: Verify preview container tools
     runs-on: ubuntu-24.04
     container:
-      image: mcr.microsoft.com/playwright@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d # v1.65.0-noble
+      image: mcr.microsoft.com/playwright@sha256:1507cbfc550a63a6b7396791ca4f00df17beb56342d2447b3f106c306f525579 # v1.65.1-noble
     timeout-minutes: 12
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-preview-tools
@@ -370,7 +371,7 @@ jobs:
       # Pinned by digest (a mutable tag is arbitrary code execution in a job
       # that holds contents: write). Re-resolve when bumping:
       #   docker buildx imagetools inspect mcr.microsoft.com/playwright:<tag>
-      image: mcr.microsoft.com/playwright@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d # v1.65.0-noble
+      image: mcr.microsoft.com/playwright@sha256:1507cbfc550a63a6b7396791ca4f00df17beb56342d2447b3f106c306f525579 # v1.65.1-noble
     timeout-minutes: 20
     concurrency:
       group: main-writer-${{ github.repository }}-main

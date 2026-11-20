@@ -44,16 +44,16 @@ jobs:
           persist-credentials: false
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4.39.3
+        uses: github/codeql-action/init@v4.39.4
         with:
           languages: ${{ matrix.language }}
           config-file: ./.github/codeql/codeql-config.yml
 
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v4.39.3
+        uses: github/codeql-action/autobuild@v4.39.4
 
       - name: Analyze
-        uses: github/codeql-action/analyze@v4.39.3
+        uses: github/codeql-action/analyze@v4.39.4
         with:
           output: codeql-results
 
@@ -113,7 +113,7 @@ jobs:
           persist-credentials: false
 
       - name: Review dependency changes
-        uses: actions/dependency-review-action@v5.0.0
+        uses: actions/dependency-review-action@v5.0.1
         with:
           # Same level as the npm-audit gate; npm-audit annotates the lower
           # severities this accepts.
@@ -182,7 +182,7 @@ jobs:
           python-version-file: .python-version
       - name: Install pinned metadata resolver and auditor
         run: |
-          bash scripts/run-with-budget-warning.sh 60 "uv install" pipx install uv==0.13.7
+          bash scripts/run-with-budget-warning.sh 60 "uv install" pipx install uv==0.13.9
           bash scripts/run-with-budget-warning.sh 60 "pip-audit install" pipx install pip-audit==2.10.1
       - name: Audit every tracked Python requirements file
         run: bash scripts/run-with-budget-warning.sh 90 "Python requirements audit" python scripts/audit-python-dependencies.py

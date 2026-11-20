@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 3,
+  "collectedAt": "2026-11-20T15:17:13.585Z",
+  "issueNumber": 223,
+  "prNumber": "224",
+  "branchName": "issue-223-f7aee62ca003",
+  "tool": "codex",
+  "sessionId": "01a1f95f-fd40-7580-8e7a-9bce0c97e7b2",
+  "rawCommand": "/home/box/.nvm/versions/node/v26.13.0/bin/node /home/box/.bun/install/global/node_modules/@link-assistant/hive-mind/src/solve.mjs https://github.com/link-foundation/sensitive-data-sanitizer/issues/223 --development-log --deep-analysis --auto-merge --update-all-dependencies --think xhigh --tool codex --attach-logs --verbose --no-tool-check --disable-report-issue --language en",
+  "developmentLogDirectory": "./dev/log/issues/223/pulls/224",
+  "caseStudyDirectory": "./docs/case-studies/issue-223",
+  "artifacts": {
+    "solveLog": "./dev/log/issues/223/pulls/224/sessions/01a1f95f-fd40-7580-8e7a-9bce0c97e7b2/solve.log",
+    "solveLogRange": {
+      "startByte": 0,
+      "endByte": 3241415
+    },
+    "sessionFiles": [
+      "./dev/log/issues/223/pulls/224/sessions/01a1f95f-fd40-7580-8e7a-9bce0c97e7b2/codex-01a1f95f-fd40-7580-8e7a-9bce0c97e7b2.jsonl"
+    ]
+  }
+}

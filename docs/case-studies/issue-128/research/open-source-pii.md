@@ -133,7 +133,7 @@ Tests live under https://github.com/data-privacy-stack/presidio/tree/main/presid
 | test_iban_recognizer.py                      | `AL47 212A 1009 0000 0002 3569 8741`                             | letter in numeric BBAN                     | neg     |
 | test_in_aadhaar_recognizer.py                | `3123:4567:8909`                                                 | Verhoeff                                   | pos     |
 | test_fi_personal_identity_code_recognizer.py | `My finnish id code is030594W903B.`                              | `030594W903B`                              | pos     |
-| test_th_tnin_recognizer.py                   | `เลขประจำตัวประชาชน: 3456789012347`                              | TH_TNIN                                    | pos     |
+| test_th_tnin_recognizer.py                   | `เลขประจำตัวประชาชน: 3456789012347`                               | TH_TNIN                                    | pos     |
 | test_ca_sin_recognizer.py                    | `mon NAS: 258 933 688`                                           | CA_SIN                                     | pos     |
 | test_ip_recognizer.py                        | `Connect to [2001:db8::1]:8080`                                  | `2001:db8::1`                              | pos     |
 | test_ip_recognizer.py                        | `fe80::1%eth0`                                                   | IPv6 with zone id                          | pos     |

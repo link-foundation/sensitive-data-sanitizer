@@ -1,0 +1,113 @@
+dependency,baseline,registry latest,selected,location,reason,registry
+./.github/actions/artifact-transport,same branch,same branch,same branch,.github/workflows/example-app.yml:129,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport
+./.github/actions/artifact-transport,same branch,same branch,same branch,.github/workflows/example-app.yml:138,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport
+./.github/actions/artifact-transport,same branch,same branch,same branch,.github/workflows/example-app.yml:235,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport
+./.github/actions/artifact-transport,same branch,same branch,same branch,.github/workflows/example-app.yml:283,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport
+./.github/actions/artifact-transport,same branch,same branch,same branch,.github/workflows/example-app.yml:488,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport
+./.github/actions/artifact-transport,same branch,same branch,same branch,.github/workflows/links.yml:176,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport
+./.github/actions/artifact-transport,same branch,same branch,same branch,.github/workflows/release.yml:1033,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport
+./.github/actions/artifact-transport,same branch,same branch,same branch,.github/workflows/release.yml:999,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport
+./.github/actions/artifact-transport,same branch,same branch,same branch,.github/workflows/security.yml:66,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport
+./.github/actions/artifact-transport,same branch,same branch,same branch,.github/workflows/workflows.yml:241,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport
+./.github/actions/artifact-transport,same branch,same branch,same branch,.github/workflows/workflows.yml:248,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport
+./.github/actions/artifact-transport,same branch,same branch,same branch,.github/workflows/workflows.yml:260,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport
+./.github/actions/artifact-transport,same branch,same branch,same branch,.github/workflows/workflows.yml:268,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport
+./.github/actions/artifact-transport/run,same branch,same branch,same branch,.github/actions/artifact-transport/action.yml:42,Repository-local composite; versioned with the code.,./.github/actions/artifact-transport/run
+./.github/actions/publish-dockerhub,same branch,same branch,same branch,.github/workflows/release.yml:981,Repository-local composite; versioned with the code.,./.github/actions/publish-dockerhub
+./.github/actions/setup-buildx-resilient,same branch,same branch,same branch,.github/actions/publish-dockerhub/action.yml:38,Repository-local composite; versioned with the code.,./.github/actions/setup-buildx-resilient
+./.github/actions/setup-buildx-resilient,same branch,same branch,same branch,.github/workflows/release.yml:1024,Repository-local composite; versioned with the code.,./.github/actions/setup-buildx-resilient
+./.github/actions/setup-buildx-resilient,same branch,same branch,same branch,.github/workflows/release.yml:536,Repository-local composite; versioned with the code.,./.github/actions/setup-buildx-resilient
+./.github/actions/setup-buildx-resilient,same branch,same branch,same branch,.github/workflows/workflows.yml:312,Repository-local composite; versioned with the code.,./.github/actions/setup-buildx-resilient
+./.github/actions/setup-node,same branch,same branch,same branch,.github/actions/artifact-transport/action.yml:32,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/example-app.yml:171,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/example-app.yml:202,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/example-app.yml:255,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/example-app.yml:305,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/example-app.yml:341,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/example-app.yml:406,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/example-app.yml:553,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/example-app.yml:98,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/links.yml:236,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/release.yml:108,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/release.yml:1114,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/release.yml:1200,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/release.yml:167,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/release.yml:222,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/release.yml:281,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/release.yml:419,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/release.yml:687,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/release.yml:838,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/rerun-unacquired.yml:57,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/security.yml:144,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/security.yml:247,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/workflows.yml:222,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+./.github/actions/setup-node,same branch,same branch,same branch,.github/workflows/workflows.yml:365,Repository-local composite; versioned with the code.,./.github/actions/setup-node
+actions/cache/restore,v6.1.0,v6.1.0,v6.1.0,.github/workflows/links.yml:90,Current.,https://github.com/actions/cache/releases/tag/v6.1.0
+actions/cache/save,v6.1.0,v6.1.0,v6.1.0,.github/workflows/links.yml:145,Current.,https://github.com/actions/cache/releases/tag/v6.1.0
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/example-app.yml:167,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/example-app.yml:197,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/example-app.yml:250,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/example-app.yml:300,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/example-app.yml:336,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/example-app.yml:392,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/example-app.yml:548,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/example-app.yml:93,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/links.yml:231,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/links.yml:75,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:1019,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:104,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:1099,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:1195,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:128,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:158,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:188,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:216,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:268,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:405,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:526,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:574,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:608,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:681,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:72,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:832,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:933,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/release.yml:972,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/rerun-unacquired.yml:52,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/security.yml:111,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/security.yml:140,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/security.yml:177,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/security.yml:242,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/security.yml:42,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/security.yml:82,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/workflows.yml:113,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/workflows.yml:138,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/workflows.yml:164,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/workflows.yml:218,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/workflows.yml:294,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/workflows.yml:360,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/workflows.yml:65,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/checkout,v7.0.1,v7.0.1,v7.0.1,.github/workflows/workflows.yml:93,Current.,https://github.com/actions/checkout/releases/tag/v7.0.1
+actions/configure-pages,v6.0.0,v6.0.0,v6.0.0,.github/workflows/example-app.yml:114,Current.,https://github.com/actions/configure-pages/releases/tag/v6.0.0
+actions/dependency-review-action,v5.0.0,v5.0.1,v5.0.1,.github/workflows/security.yml:116,Current.,https://github.com/actions/dependency-review-action/releases/tag/v5.0.1
+actions/setup-java,v6.2.0,v6.3.0,v6.3.0,.github/workflows/example-app.yml:261,Current.,https://github.com/actions/setup-java/releases/tag/v6.3.0
+actions/setup-node,v7.1.0,v7.1.0,v7.1.0,.github/actions/setup-node/action.yml:13,Current.,https://github.com/actions/setup-node/releases/tag/v7.1.0
+actions/setup-node,v7.1.0,v7.1.0,v7.1.0,.github/actions/setup-node/action.yml:38,Current.,https://github.com/actions/setup-node/releases/tag/v7.1.0
+actions/setup-python,v7.1.0,v7.1.0,v7.1.0,.github/workflows/security.yml:180,Current.,https://github.com/actions/setup-python/releases/tag/v7.1.0
+actions/setup-python,v7.1.0,v7.1.0,v7.1.0,.github/workflows/workflows.yml:116,Current.,https://github.com/actions/setup-python/releases/tag/v7.1.0
+android-actions/setup-android,be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd (v4.0.4),v4.0.4,be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd (v4.0.4),.github/workflows/example-app.yml:268,Current.,https://github.com/android-actions/setup-android/releases/tag/v4.0.4
+denoland/setup-deno,22d081ff2d3a40755e97629de92e3bcbfa7cf2ed (v2.0.5),v2.0.5,22d081ff2d3a40755e97629de92e3bcbfa7cf2ed (v2.0.5),.github/workflows/release.yml:469,Current.,https://github.com/denoland/setup-deno/releases/tag/v2.0.5
+denoland/setup-deno,22d081ff2d3a40755e97629de92e3bcbfa7cf2ed (v2.0.5),v2.0.5,22d081ff2d3a40755e97629de92e3bcbfa7cf2ed (v2.0.5),.github/workflows/release.yml:483,Current.,https://github.com/denoland/setup-deno/releases/tag/v2.0.5
+docker/build-push-action,v7.4.0,v7.4.0,v7.4.0,.github/actions/publish-dockerhub/action.yml:56,Current.,https://github.com/docker/build-push-action/releases/tag/v7.4.0
+docker/build-push-action,v7.4.0,v7.4.0,v7.4.0,.github/workflows/release.yml:545,Current.,https://github.com/docker/build-push-action/releases/tag/v7.4.0
+docker/login-action,v4.8.0,v4.8.0,v4.8.0,.github/actions/publish-dockerhub/action.yml:41,Current.,https://github.com/docker/login-action/releases/tag/v4.8.0
+docker/login-action,v4.8.0,v4.8.0,v4.8.0,.github/workflows/release.yml:1027,Current.,https://github.com/docker/login-action/releases/tag/v4.8.0
+docker/metadata-action,v6.2.0,v6.2.0,v6.2.0,.github/actions/publish-dockerhub/action.yml:48,Current.,https://github.com/docker/metadata-action/releases/tag/v6.2.0
+docker/setup-buildx-action,v4.4.1,v4.4.1,v4.4.1,.github/actions/setup-buildx-resilient/action.yml:26,Current.,https://github.com/docker/setup-buildx-action/releases/tag/v4.4.1
+docker/setup-buildx-action,v4.4.1,v4.4.1,v4.4.1,.github/actions/setup-buildx-resilient/action.yml:37,Current.,https://github.com/docker/setup-buildx-action/releases/tag/v4.4.1
+docker://rhysd/actionlint,sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667 (v1.7.12),v1.7.12,sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667 (v1.7.12),.github/workflows/workflows.yml:80,Current.,https://github.com/rhysd/actionlint/releases/tag/v1.7.12
+github/codeql-action/analyze,v4.39.3,v4.39.4,v4.39.4,.github/workflows/security.yml:56,Current.,https://github.com/github/codeql-action/releases/tag/v4.39.4
+github/codeql-action/autobuild,v4.39.3,v4.39.4,v4.39.4,.github/workflows/security.yml:53,Current.,https://github.com/github/codeql-action/releases/tag/v4.39.4
+github/codeql-action/init,v4.39.3,v4.39.4,v4.39.4,.github/workflows/security.yml:47,Current.,https://github.com/github/codeql-action/releases/tag/v4.39.4
+oven-sh/setup-bun,0c5077e51419868618aeaa5fe8019c62421857d6 (v2.2.0),v2.2.0,0c5077e51419868618aeaa5fe8019c62421857d6 (v2.2.0),.github/workflows/release.yml:446,Current.,https://github.com/oven-sh/setup-bun/releases/tag/v2.2.0
+peter-evans/create-pull-request,3ffccacd46053766916f087ce41d627c0b8cf2d1 (v8.1.3),v8.1.3,3ffccacd46053766916f087ce41d627c0b8cf2d1 (v8.1.3),.github/workflows/release.yml:1136,Current.,https://github.com/peter-evans/create-pull-request/releases/tag/v8.1.3
+zizmorcore/zizmor-action,v0.8.1,v0.8.1,v0.8.1,.github/workflows/workflows.yml:178,Current.,https://github.com/zizmorcore/zizmor-action/releases/tag/v0.8.1

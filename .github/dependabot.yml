@@ -26,7 +26,9 @@ updates:
         patterns: ['*']
 
   - package-ecosystem: pip
-    directory: /experiments/benchmark
+    directories:
+      - /experiments/benchmark
+      - /dev/log/issues/102/pulls/103/research
     schedule:
       interval: weekly
     cooldown:

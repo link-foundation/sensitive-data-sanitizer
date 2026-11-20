@@ -5,7 +5,6 @@ import { documentVocabulary } from './document-vocabulary.js';
 const boundary = '[\\p{L}\\p{M}\\p{N}_]';
 const proper = "\\p{Lu}[\\p{L}\\p{M}’'-]{1,47}";
 const name = `${proper}(?:[ \\t]+${proper}){0,3}`;
-const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const blocked =
   /^(?:Kubernetes|PostgreSQL|Python|JavaScript|TypeScript|Node|Docker|Redis|Linux|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|REDACTED)$/iu;
 const configError = () =>
@@ -21,8 +20,11 @@ function rulesFor(language) {
     .filter((row) => row[0] === language)
     .flatMap((row) => row[3].split('|'));
   const rules = [
-    ['PERSON', `(?:${names.map(escape).join('|')})(?:[ \\t]+${proper})?`],
-    ['LOCATION', `(?:${places.map(escape).join('|') || '(?!)'})`],
+    [
+      'PERSON',
+      `(?:${names.map(RegExp.escape).join('|')})(?:[ \\t]+${proper})?`,
+    ],
+    ['LOCATION', `(?:${places.map(RegExp.escape).join('|') || '(?!)'})`],
   ];
   if (language === 'ru') {
     rules.push(

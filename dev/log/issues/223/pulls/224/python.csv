@@ -1,0 +1,176 @@
+dependency,baseline,registry latest,selected,location,reason,registry
+annotated-doc,0.0.5,0.0.7,0.0.7,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/annotated-doc/json
+annotated-doc,0.0.5,0.0.7,0.0.7,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/annotated-doc/json
+annotated-types,0.8.0,0.8.0,0.8.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/annotated-types/json
+annotated-types,0.8.0,0.8.0,0.8.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/annotated-types/json
+anyio,4.16.0,4.16.0,4.16.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/anyio/json
+anyio,4.16.0,4.16.0,4.16.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/anyio/json
+blis,1.3.4,1.3.4,1.3.4,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/blis/json
+blis,1.3.4,1.3.4,1.3.4,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/blis/json
+boolean-py,runner resolved,5.0,5.0,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/boolean-py/json
+cachecontrol,runner resolved,0.15.0,0.15.0,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/cachecontrol/json
+catalogue,2.0.10,2.0.10,2.0.10,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/catalogue/json
+catalogue,2.0.10,2.0.10,2.0.10,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/catalogue/json
+certifi,2026.10.23,2026.10.23,2026.10.23,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/certifi/json
+certifi,2026.10.23,2026.10.23,2026.10.23,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/certifi/json
+certifi,2026.10.23,2026.10.23,2026.10.23,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/certifi/json
+charset-normalizer,3.5.2,3.5.2,3.5.2,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/charset-normalizer/json
+charset-normalizer,3.5.2,3.5.2,3.5.2,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/charset-normalizer/json
+charset-normalizer,3.5.2,3.5.2,3.5.2,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/charset-normalizer/json
+click,8.5.0,8.5.1,8.5.1,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/click/json
+click,8.5.0,8.5.1,8.5.1,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/click/json
+cloudpathlib,0.26.0,0.26.0,0.26.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/cloudpathlib/json
+cloudpathlib,0.26.0,0.26.0,0.26.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/cloudpathlib/json
+cloudpickle,3.1.2,3.1.3,3.1.3,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/cloudpickle/json
+cloudpickle,3.1.2,3.1.3,3.1.3,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/cloudpickle/json
+confection,1.3.4,1.3.4,1.3.4,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/confection/json
+confection,1.3.4,1.3.4,1.3.4,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/confection/json
+cyclonedx-python-lib,11.12.0,11.12.0,11.12.0,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/cyclonedx-python-lib/json
+cymem,2.0.16,2.0.16,2.0.16,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/cymem/json
+cymem,2.0.16,2.0.16,2.0.16,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/cymem/json
+dateparser,1.5.0,1.5.1,1.5.1,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/dateparser/json
+dateparser,1.5.0,1.5.1,1.5.1,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/dateparser/json
+defusedxml,0.7.1,0.7.1,0.7.1,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/defusedxml/json
+defusedxml,0.7.1,0.7.1,0.7.1,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/defusedxml/json
+defusedxml,0.7.1,0.7.1,0.7.1,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/defusedxml/json
+detect-secrets,1.5.0,1.5.0,1.5.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/detect-secrets/json
+detect-secrets,1.5.0,1.5.0,1.5.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/detect-secrets/json
+detect-secrets,1.5.0,1.5.0,1.5.0,experiments/benchmark/requirements.txt,Current.,https://pypi.org/pypi/detect-secrets/json
+faker,40.44.0,40.54.0,40.54.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/faker/json
+faker,40.44.0,40.54.0,40.54.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/faker/json
+filelock,4.2.9,4.2.12,4.2.12,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/filelock/json
+filelock,4.2.9,4.2.12,4.2.12,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/filelock/json
+filelock,4.2.9,4.2.12,4.2.12,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/filelock/json
+git-filter-repo,2.47.0,2.47.0,2.47.0,.github/workflows/release.yml,Current.,https://pypi.org/pypi/git-filter-repo/json
+h11,0.16.0,0.16.0,0.16.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/h11/json
+h11,0.16.0,0.16.0,0.16.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/h11/json
+httpcore,1.0.9,1.0.9,1.0.9,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/httpcore/json
+httpcore,1.0.9,1.0.9,1.0.9,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/httpcore/json
+httpx,0.28.1,0.28.1,0.28.1,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/httpx/json
+httpx,0.28.1,0.28.1,0.28.1,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/httpx/json
+idna,3.20,3.20,3.20,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/idna/json
+idna,3.20,3.20,3.20,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/idna/json
+idna,3.20,3.20,3.20,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/idna/json
+jinja2,3.1.6,3.1.6,3.1.6,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/jinja2/json
+jinja2,3.1.6,3.1.6,3.1.6,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/jinja2/json
+joblib,1.6.0,1.6.0,1.6.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/joblib/json
+joblib,1.6.0,1.6.0,1.6.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/joblib/json
+license-expression,30.4.4,30.4.4,30.4.4,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/license-expression/json
+markdown-it-py,4.2.0,4.3.0,4.3.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/markdown-it-py/json
+markdown-it-py,4.2.0,4.3.0,4.3.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/markdown-it-py/json
+markdown-it-py,4.2.0,4.3.0,4.3.0,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/markdown-it-py/json
+markupsafe,3.0.4,3.0.4,3.0.4,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/markupsafe/json
+markupsafe,3.0.4,3.0.4,3.0.4,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/markupsafe/json
+mdurl,0.1.2,0.1.2,0.1.2,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/mdurl/json
+mdurl,0.1.2,0.1.2,0.1.2,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/mdurl/json
+mdurl,0.1.2,0.1.2,0.1.2,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/mdurl/json
+msgpack,1.2.4,1.2.4,1.2.4,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/msgpack/json
+murmurhash,1.0.16,1.0.16,1.0.16,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/murmurhash/json
+murmurhash,1.0.16,1.0.16,1.0.16,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/murmurhash/json
+narwhals,2.28.0,2.29.0,2.29.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/narwhals/json
+narwhals,2.28.0,2.29.0,2.29.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/narwhals/json
+nltk,3.10.4,3.10.4,3.10.4,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/nltk/json
+nltk,3.10.4,3.10.4,3.10.4,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/nltk/json
+numpy,2.4.6,2.5.5,2.4.6,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Presidio 2.2.366 requires numpy<2.5.0.,https://pypi.org/pypi/numpy/json
+numpy,2.4.6,2.5.5,2.4.6,experiments/benchmark/requirements.lock,Presidio 2.2.366 requires numpy<2.5.0.,https://pypi.org/pypi/numpy/json
+packageurl-python,0.17.6,0.17.6,0.17.6,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/packageurl-python/json
+packaging,26.3,26.3,26.3,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/packaging/json
+packaging,26.3,26.3,26.3,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/packaging/json
+packaging,26.3,26.3,26.3,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/packaging/json
+phonenumbers,9.0.42,9.0.44,9.0.44,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/phonenumbers/json
+phonenumbers,9.0.42,9.0.44,9.0.44,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/phonenumbers/json
+pip,26.3,26.3,26.3,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/pip/json
+pip-api,runner resolved,0.0.35,0.0.35,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/pip-api/json
+pip-audit,2.10.1,2.10.1,2.10.1,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/pip-audit/json
+pip-requirements-parser,32.0.1,32.0.1,32.0.1,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/pip-requirements-parser/json
+platformdirs,4.14.5,4.14.8,4.14.8,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/platformdirs/json
+preshed,3.0.13,3.0.15,3.0.13,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Presidio 2.2.366 requires preshed<3.0.14.,https://pypi.org/pypi/preshed/json
+preshed,3.0.13,3.0.15,3.0.13,experiments/benchmark/requirements.lock,Presidio 2.2.366 requires preshed<3.0.14.,https://pypi.org/pypi/preshed/json
+presidio-analyzer,2.2.366,2.2.366,2.2.366,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/presidio-analyzer/json
+presidio-analyzer,2.2.366,2.2.366,2.2.366,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/presidio-analyzer/json
+presidio-analyzer,2.2.366,2.2.366,2.2.366,experiments/benchmark/requirements.txt,Current.,https://pypi.org/pypi/presidio-analyzer/json
+py-serializable,2.1.0,2.2.0,2.2.0,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/py-serializable/json
+pydantic,2.14.3,2.14.4,2.14.4,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/pydantic/json
+pydantic,2.14.3,2.14.4,2.14.4,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/pydantic/json
+pydantic-core,2.50.4,2.50.5,2.50.5,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/pydantic-core/json
+pydantic-core,2.50.4,2.50.5,2.50.5,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/pydantic-core/json
+pygments,2.21.0,2.21.0,2.21.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/pygments/json
+pygments,2.21.0,2.21.0,2.21.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/pygments/json
+pygments,runner resolved,2.21.0,2.21.0,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/pygments/json
+pyparsing,3.3.3,3.3.3,3.3.3,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/pyparsing/json
+python-dateutil,4.0.0,4.0.0,4.0.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/python-dateutil/json
+python-dateutil,4.0.0,4.0.0,4.0.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/python-dateutil/json
+python-stdnum,2.2,2.2,2.2,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/python-stdnum/json
+python-stdnum,2.2,2.2,2.2,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/python-stdnum/json
+pytz,2026.6,2026.6,2026.6,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/pytz/json
+pytz,2026.6,2026.6,2026.6,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/pytz/json
+pyyaml,6.0.3,6.0.3,6.0.3,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/pyyaml/json
+pyyaml,6.0.3,6.0.3,6.0.3,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/pyyaml/json
+regex,2026.9.29,2026.11.19,2026.11.19,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/regex/json
+regex,2026.9.29,2026.11.19,2026.11.19,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/regex/json
+requests,2.34.2,2.34.2,2.34.2,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/requests/json
+requests,2.34.2,2.34.2,2.34.2,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/requests/json
+requests,2.34.2,2.34.2,2.34.2,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/requests/json
+requests-file,3.0.1,3.0.1,3.0.1,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/requests-file/json
+requests-file,3.0.1,3.0.1,3.0.1,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/requests-file/json
+rich,15.0.0,15.0.0,15.0.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/rich/json
+rich,15.0.0,15.0.0,15.0.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/rich/json
+rich,15.0.0,15.0.0,15.0.0,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/rich/json
+ruff,0.17.4,0.17.6,0.17.6,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/ruff/json
+scikit-learn,1.9.1,1.9.1,1.9.1,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/scikit-learn/json
+scikit-learn,1.9.1,1.9.1,1.9.1,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/scikit-learn/json
+scipy,1.18.1,1.18.1,1.18.1,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/scipy/json
+scipy,1.18.1,1.18.1,1.18.1,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/scipy/json
+scrubadub,2.0.1,2.0.1,2.0.1,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/scrubadub/json
+scrubadub,2.0.1,2.0.1,2.0.1,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/scrubadub/json
+scrubadub,2.0.1,2.0.1,2.0.1,experiments/benchmark/requirements.txt,Current.,https://pypi.org/pypi/scrubadub/json
+setuptools,84.2.1,84.2.1,84.2.1,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/setuptools/json
+setuptools,84.2.1,84.2.1,84.2.1,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/setuptools/json
+shellcheck-py,0.11.0.1,0.11.0.1,0.11.0.1,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/shellcheck-py/json
+shellingham,1.5.4,1.5.4,1.5.4,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/shellingham/json
+shellingham,1.5.4,1.5.4,1.5.4,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/shellingham/json
+smart-open,9.0.2,9.0.6,9.0.6,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/smart-open/json
+smart-open,9.0.2,9.0.6,9.0.6,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/smart-open/json
+sortedcontainers,2.4.0,2.4.0,2.4.0,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/sortedcontainers/json
+spacy,3.8.18,3.8.18,3.8.18,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/spacy/json
+spacy,3.8.18,3.8.18,3.8.18,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/spacy/json
+spacy,3.8.18,3.8.18,3.8.18,experiments/benchmark/requirements.txt,Current.,https://pypi.org/pypi/spacy/json
+spacy-legacy,3.0.12,3.0.12,3.0.12,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/spacy-legacy/json
+spacy-legacy,3.0.12,3.0.12,3.0.12,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/spacy-legacy/json
+spacy-loggers,1.0.5,1.0.5,1.0.5,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/spacy-loggers/json
+spacy-loggers,1.0.5,1.0.5,1.0.5,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/spacy-loggers/json
+srsly,2.5.6,3.0.1,2.5.6,dev/log/issues/102/pulls/103/research/requirements-python314.txt,"spacy srsly<3.0.0,>=2.5.3; thinc srsly<3.1.0,>=2.4.0; weasel srsly>=2.4.3",https://pypi.org/pypi/srsly/json
+srsly,2.5.6,3.0.1,2.5.6,experiments/benchmark/requirements.lock,"spacy srsly<3.0.0,>=2.5.3; thinc srsly<3.1.0,>=2.4.0; weasel srsly>=2.4.3",https://pypi.org/pypi/srsly/json
+textblob,0.15.3,0.20.1,0.15.3,dev/log/issues/102/pulls/103/research/requirements-python314.txt,scrubadub 2.0.1 requires textblob==0.15.3.,https://pypi.org/pypi/textblob/json
+textblob,0.15.3,0.20.1,0.15.3,experiments/benchmark/requirements.lock,scrubadub 2.0.1 requires textblob==0.15.3.,https://pypi.org/pypi/textblob/json
+thinc,8.3.14,10.0.0,8.3.14,dev/log/issues/102/pulls/103/research/requirements-python314.txt,"spacy thinc<8.4.0,>=8.3.12",https://pypi.org/pypi/thinc/json
+thinc,8.3.14,10.0.0,8.3.14,experiments/benchmark/requirements.lock,"spacy thinc<8.4.0,>=8.3.12",https://pypi.org/pypi/thinc/json
+threadpoolctl,3.8.0,3.8.0,3.8.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/threadpoolctl/json
+threadpoolctl,3.8.0,3.8.0,3.8.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/threadpoolctl/json
+tldextract,5.4.0,5.4.0,5.4.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/tldextract/json
+tldextract,5.4.0,5.4.0,5.4.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/tldextract/json
+tomli,2.5.0,2.5.0,2.5.0,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/tomli/json
+tomli-w,runner resolved,1.2.0,1.2.0,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/tomli-w/json
+tqdm,4.70.1,4.70.1,4.70.1,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/tqdm/json
+tqdm,4.70.1,4.70.1,4.70.1,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/tqdm/json
+typer,0.27.3,0.29.2,0.29.2,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/typer/json
+typer,0.27.3,0.29.2,0.29.2,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/typer/json
+typing-extensions,4.16.0,4.16.0,4.16.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/typing-extensions/json
+typing-extensions,4.16.0,4.16.0,4.16.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/typing-extensions/json
+typing-inspection,0.4.5,0.4.5,0.4.5,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/typing-inspection/json
+typing-inspection,0.4.5,0.4.5,0.4.5,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/typing-inspection/json
+tzdata,2026.6,2026.6,2026.6,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/tzdata/json
+tzdata,2026.6,2026.6,2026.6,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/tzdata/json
+tzlocal,5.4.5,5.4.5,5.4.5,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/tzlocal/json
+tzlocal,5.4.5,5.4.5,5.4.5,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/tzlocal/json
+urllib3,2.8.0,2.8.0,2.8.0,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/urllib3/json
+urllib3,2.8.0,2.8.0,2.8.0,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/urllib3/json
+urllib3,2.8.0,2.8.0,2.8.0,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/urllib3/json
+uv,0.13.7,0.13.9,0.13.9,.github/workflows/security.yml,Current.,https://pypi.org/pypi/uv/json
+wasabi,1.1.3,1.1.3,1.1.3,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/wasabi/json
+wasabi,1.1.3,1.1.3,1.1.3,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/wasabi/json
+weasel,1.0.1,1.0.1,1.0.1,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/weasel/json
+weasel,1.0.1,1.0.1,1.0.1,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/weasel/json
+wrapt,2.5.2,2.5.2,2.5.2,dev/log/issues/102/pulls/103/research/requirements-python314.txt,Current.,https://pypi.org/pypi/wrapt/json
+wrapt,2.5.2,2.5.2,2.5.2,experiments/benchmark/requirements.lock,Current.,https://pypi.org/pypi/wrapt/json
+zizmor,1.32.0,1.32.0,1.32.0,isolated tooling environment (not a project lock),Current.,https://pypi.org/pypi/zizmor/json

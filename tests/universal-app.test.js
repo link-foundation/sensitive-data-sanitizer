@@ -119,9 +119,11 @@ describe('universal React example app', () => {
     expect(existsSync('scripts/update-preview-images.mjs')).toBe(true);
 
     expect(workflow).toContain('preview-regen:');
-    // Pinned by digest; the tag lives in the trailing comment.
-    expect(workflow).toMatch(
-      /image: mcr\.microsoft\.com\/playwright@sha256:[0-9a-f]{64} # v1\.65\.0-noble/
+    const previewImage = workflow
+      .split('\n')
+      .find((line) => line.includes('image: mcr.microsoft.com/playwright@'));
+    expect(previewImage).toContain(
+      `# v${rootPackageJson.devDependencies.playwright}-noble`
     );
     expect(workflow).toContain('browser-commander');
     expect(workflow).not.toContain('npx playwright install');

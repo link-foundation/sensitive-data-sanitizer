@@ -1282,7 +1282,7 @@ const result = await sanitizer.sanitize(privateText);
 ```
 
 CLI: `sensitive-data-sanitizer redact input.txt --betterleaks`. Install and pin
-Betterleaks separately; v1.10.0 is the tested CLI contract. The adapter uses its
+Betterleaks separately; v1.10.1 is the tested CLI contract. The adapter uses its
 default upstream config in a private temporary directory, overrides environment
 config and local ignore files, ignores inline allow directives and explicitly
 passes `--validation=false`. It delegates upstream filters and component rules

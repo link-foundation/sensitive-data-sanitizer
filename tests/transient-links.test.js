@@ -123,7 +123,10 @@ describe('transient link failures', () => {
 
   it('pins every Bun setup to the supported major line', () => {
     const workflow = readFileSync('.github/workflows/release.yml', 'utf8');
-    expect(workflow).not.toContain('bun-version: latest');
-    expect(workflow).toContain("bun-version: '1.4.4'");
+    const versions = [...workflow.matchAll(/^\s+bun-version:\s*(\S+)$/gm)];
+    expect(versions.length).toBeGreaterThan(0);
+    for (const [, version] of versions) {
+      expect(version).toMatch(/^'1\.\d+\.\d+'$/);
+    }
   });
 });

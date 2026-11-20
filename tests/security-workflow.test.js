@@ -135,7 +135,7 @@ describe('security workflow', () => {
 
   it('audits every Python requirements surface without installing NLP packages', () => {
     const audit = getJobBlock('python-audit');
-    expect(audit).toContain('pipx install uv==0.13.7');
+    expect(audit).toContain('pipx install uv==0.13.9');
     expect(audit).toContain('pipx install pip-audit==2.10.1');
     expect(audit).toContain('python scripts/audit-python-dependencies.py');
     expect(getJobBlock('pipeline-status')).toContain('      - python-audit');
