@@ -1,5 +1,8 @@
 import { eachMatch, escapePattern, failure } from './detection.js';
-import { russianNameRoles } from './russian-names.js';
+import {
+  isStandaloneRussianSurname,
+  russianNameRoles,
+} from './russian-names.js';
 import { knownMatcher } from './compiled-known.js';
 import { flatRegExp } from './unicode-runs.js';
 
@@ -52,12 +55,36 @@ const shortGivenEndings = [
 // surname names the family.
 const possessivePlural = '|ы|ых|ым|ыми';
 const adjectivePlural = '|ие|их|им|ими';
-function cyrillicPattern(word, type, given = false) {
-  const lower = word.toLowerCase();
-  const pattern = regularPattern(word, lower, type, given);
-  return extraForms[lower] ? `(?:${pattern}|${extraForms[lower]})` : pattern;
+const hardConsonant = /[бвгджзклмнпрстфхцчшщ]$/u;
+const indeclinableSurname = /[ыи]х$/u;
+
+function nounSurnamePlural(word, lower) {
+  if (lower.length < 3 || /(?:ов|ев|ёв|ин|ын|[оиы]й)$/u.test(lower)) {
+    return undefined;
+  }
+  if (/[йь]$/u.test(lower)) {
+    const genitive = lower.endsWith('й') ? 'ев' : 'ей';
+    return `${word.slice(0, -1)}(?:и|${genitive}|ям|ями|ях)`;
+  }
+  if (!hardConsonant.test(lower)) {
+    return undefined;
+  }
+  const nominative = /[гкхжчшщ]$/u.test(lower) ? 'и' : 'ы';
+  const genitive = /[жчшщ]$/u.test(lower) ? 'ей' : 'ов';
+  // The animate accusative uses the genitive ending.
+  return `${word}(?:${nominative}|${genitive}|ам|ами|ах)`;
 }
-function regularPattern(word, lower, type, given) {
+
+function cyrillicPattern(word, type, given, family) {
+  const lower = word.toLowerCase();
+  if (family && indeclinableSurname.test(lower)) {
+    return word;
+  }
+  const singular = regularPattern(word, lower, type, given, family);
+  const extra = extraForms[lower] ?? (family && nounSurnamePlural(word, lower));
+  return extra ? `(?:${singular}|${extra})` : singular;
+}
+function regularPattern(word, lower, type, given, family) {
   const endings = [
     [/(?:ова|ева|ёва|ина|ына)$/u, 1, `(?:а|ой|ою|у|е|ы${possessivePlural})`],
     [/(?:ск|цк)ая$/u, 2, `(?:ая|ой|ою|ую${adjectivePlural})`],
@@ -95,7 +122,7 @@ function regularPattern(word, lower, type, given) {
   if (regular) {
     return regular;
   }
-  if (/^[а-яё]{3,}[бвгджзклмнпрстфхцчшщ]$/u.test(lower)) {
+  if (lower.length >= (family ? 3 : 4) && hardConsonant.test(lower)) {
     // Plural forms would turn a given name into a surname: Петр and Петров.
     return `${escapePattern(word)}${type === 'PERSON' ? `${hardCases}?` : '(?:а|у|ом|е|ы|ов|ам|ами|ах)?'}`;
   }
@@ -180,13 +207,13 @@ const latinPattern = (word) => latinChunks(word).map(anyOf).join('');
 // Optional entry flags: `transliterate` adds the Latin spellings of Cyrillic
 // words. Callers without flags keep the exact Cyrillic grammar.
 // `given` marks the given name of a listed person (see `shortGivenEndings`).
-export function wordPattern(word, type, flags, given = false) {
+export function wordPattern(word, type, flags, given = false, family = false) {
   const parts = word.split('-');
   const native = foldYo(
     parts
       .map((part) =>
         cyrillicWord.test(part)
-          ? cyrillicPattern(part, type, given)
+          ? cyrillicPattern(part, type, given, family)
           : escapePattern(part)
       )
       .join('-')
@@ -347,12 +374,13 @@ export function personalPatterns(value, type, flags, related = false) {
     const parts = surface.split(separator);
     const words = parts.filter((_part, i) => i % 2 === 0);
     const roles = type === 'PERSON' ? russianNameRoles(words) : undefined;
+    const family = type === 'PERSON' && isStandaloneRussianSurname(surface);
     patterns.add(
       parts
         .map((part, i) =>
           i % 2
             ? gapFor(flags)
-            : wordPattern(part, type, flags, i / 2 === roles?.given)
+            : wordPattern(part, type, flags, i / 2 === roles?.given, family)
         )
         .join('')
     );
@@ -467,6 +495,31 @@ function familyPatterns(entries, rule, options) {
       )
     : [];
 }
+const identifierBefore = /[\p{L}\p{M}\p{N}_][.-]?$/u;
+const identifierAfter = /^[.-]?[\p{L}\p{M}\p{N}_]/u;
+function matchesKnownCase(text, entry, match, rule) {
+  if (entry.properCase !== undefined) {
+    return !entry.properCase || !/^\p{Ll}/u.test(match[0]);
+  }
+  if (
+    rule !== 'known-personal' ||
+    entry.type !== 'PERSON' ||
+    !/^[а-яё]/u.test(match[0]) ||
+    !isStandaloneRussianSurname(entry.value)
+  ) {
+    return true;
+  }
+  // Enabling identifier matching still requires evidence that this match is
+  // part of an identifier, such as an underscore or camel-case boundary.
+  const start = match.index;
+  const end = start + match[0].length;
+  return (
+    entry.identifiers &&
+    (identifierBefore.test(text.slice(Math.max(0, start - 3), start)) ||
+      identifierAfter.test(text.slice(end, end + 3)))
+  );
+}
+
 // An entry's expression runs only when the text holds one of its literal
 // anchors, so a call costs in proportion to the text, not to the list.
 export function detectKnownPersonal(text, entries, rule, emit, options) {
@@ -476,8 +529,7 @@ export function detectKnownPersonal(text, entries, rule, emit, options) {
   const families = familyPatterns(entries, rule, options);
   let count = 0;
   const visit = (entry, match) => {
-    // A stored capitalized word in lower case is ordinary text: `Мороз`, `мороз`.
-    if (entry.properCase && /^\p{Ll}/u.test(match[0])) {
+    if (!matchesKnownCase(text, entry, match, rule)) {
       return;
     }
     if (++count > (options.maxFindings ?? 100000)) {

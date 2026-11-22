@@ -22,6 +22,20 @@ const anyGivenName = new Set(
     .flatMap((list) => list.split(' '))
     .map(fold)
 );
+const otherStandaloneGivenNames = new Set(
+  'Ян Ким Ева Ия Ной Евсей Велимира Варлаам Лев Марк Олеся'.split(' ').map(fold)
+);
+// A single Cyrillic PERSON value has no explicit name role. Treat it as a
+// possible surname unless all its parts are recognized given names.
+export const isStandaloneRussianSurname = (value) =>
+  /^[а-яё]+(?:-[а-яё]+)*$/iu.test(value) &&
+  value
+    .split('-')
+    .map(fold)
+    .some(
+      (word) => !anyGivenName.has(word) && !otherStandaloneGivenNames.has(word)
+    );
+
 const inflectedPatronymic =
   /(?:[оеь]вич|[оеь]ич|ич)(?:а|у|ем|е)?$|(?:овн|евн|ичн)(?:а|ы|е|у|ой|ою)$/iu;
 const nameCase = /(?:ом|ем|ой|ей|ою|ею|а|я|у|ю|е|ы|и)$/u;

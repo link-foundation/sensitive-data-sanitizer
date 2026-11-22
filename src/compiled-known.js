@@ -12,7 +12,7 @@ export const projectedKnown = (entries) => compiled.get(entries)?.projected;
 // Per-entry matching options, also accepted as compileKnown
 // defaults for entries that do not set them.
 export const entryFlags = ['properCase', 'identifiers', 'transliterate'];
-const compileOptions = new Set(['warm', 'identifiers', 'transliterate']);
+const compileOptions = new Set(['warm', ...entryFlags]);
 
 const buildMatcher = (entries) =>
   createMatcher(
@@ -74,7 +74,10 @@ export function compileKnown(...args) {
       [
         entry.type,
         entry.value,
-        ...entryFlags.map((flag) => copy[flag] ?? false),
+        // Undefined enables the default surname policy; false opts out.
+        ...entryFlags.map((flag) =>
+          flag === 'properCase' ? copy[flag] : (copy[flag] ?? false)
+        ),
       ].join('\0'),
       Object.freeze(copy)
     );

@@ -2,6 +2,7 @@ import { personalPattern, maxPropagationLength, failure } from './detection.js';
 import { actionable } from './confidence.js';
 import { organizationCore, organizationFamily } from './personal-variants.js';
 import { nameAliases } from './transliteration.js';
+import { isStandaloneRussianSurname } from './russian-names.js';
 
 function mrzSeeds(value, finding, seeds) {
   for (const match of value.matchAll(
@@ -67,10 +68,35 @@ function organizationSeed(text, value, finding, seeds, options) {
     }
   }
 }
+function knownSurnameSeeds(options) {
+  let listed;
+  return (value, finding) => {
+    if (finding.rule !== 'known-personal' || finding.type !== 'PERSON') {
+      return false;
+    }
+    if (isStandaloneRussianSurname(value)) {
+      return true;
+    }
+    // Promoting a Latin hit can also introduce case-insensitive Cyrillic
+    // aliases outside the known matcher's policy.
+    listed ??= new Set(
+      (options.knownPersonal ?? [])
+        .filter(
+          (entry) =>
+            entry.type === 'PERSON' && isStandaloneRussianSurname(entry.value)
+        )
+        .map((entry) => entry.value.toLowerCase())
+    );
+    return (
+      listed.size > 0 && nameAliases(value).some((alias) => listed.has(alias))
+    );
+  };
+}
 // Only confirmed values seed propagation. A low-score numeric coincidence
 // must never turn every log occurrence into a high-score identity.
 export function confirmedSeeds(text, findings, options) {
   const seeds = new Map();
+  const knownSurnameSeed = knownSurnameSeeds(options);
   for (const finding of findings) {
     if (!eligibleSeed(finding, options)) {
       continue;
@@ -87,6 +113,12 @@ export function confirmedSeeds(text, findings, options) {
       continue;
     }
     const value = decodedValue(text.slice(finding.start, finding.end)).trim();
+    // The known matcher already looks for standalone Cyrillic surnames on
+    // every pass. Promoting one of its hits to an inferred identity would
+    // bypass the entry's casing and identifier policy on other occurrences.
+    if (knownSurnameSeed(value, finding)) {
+      continue;
+    }
     if (finding.type === 'PASSPORT_MRZ') {
       mrzSeeds(value, finding, seeds);
     } else if (value.length >= 2) {

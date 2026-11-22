@@ -56,6 +56,28 @@ const sentenceWords = words(`
   these those a an it is are was were in on at for from to with and but or if
   when where what who why how yes no not also
 `);
+// Cardinal numerals also start compound quantities, as in «Двадцать три
+// года». Keep the first word even when the sentence ends at the quantity.
+const numerals = words(`
+  ноль нуль один одна одно одни два две три четыре пять шесть семь восемь девять десять
+  одиннадцать двенадцать тринадцать четырнадцать пятнадцать шестнадцать семнадцать
+  восемнадцать девятнадцать двадцать тридцать сорок пятьдесят шестьдесят семьдесят
+  восемьдесят девяносто сто двести триста четыреста пятьсот шестьсот семьсот
+  восемьсот девятьсот тысяча миллион миллиард триллион
+  одного одной двух трех четырех пяти шести семи восьми девяти десяти
+  полтора полторы несколько
+`);
+// A finite list covers common instructions without treating all words with
+// an imperative-looking ending as verbs.
+const imperatives = words(`
+  задай задайте спроси спросите ответь ответьте скажи говори говорите
+  напиши напишите прочитай прочитайте открой откройте закрой закройте
+  посмотри посмотрите проверь проверьте выбери выберите нажми нажмите
+  введи введите добавь добавьте удали удалите отправь отправьте
+  покажи покажите позвони позвоните сделай сделайте подожди подождите
+  начни начните продолжи продолжите сохрани сохраните скопируй скопируйте
+  используй используйте попробуй попробуйте дай дайте давай давайте
+`);
 // Past tense (`Работал`, `Звонила`, `Переехали`), first person present
 // (`Работаю`, `Занимаюсь`) and third person present. A bare masculine `-л` form is also a surname shape
 // (`Шагал`), so it is kept only before a lowercase word.
@@ -110,6 +132,8 @@ export function keepsProseWord(text, value, start, end, options) {
   const lower = fold(value);
   return (
     sentenceWords.has(lower) ||
+    numerals.has(lower) ||
+    imperatives.has(lower) ||
     pastTense.test(lower) ||
     firstPerson.test(lower) ||
     thirdPerson.test(lower) ||

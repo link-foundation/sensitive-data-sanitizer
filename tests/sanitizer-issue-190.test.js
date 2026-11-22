@@ -367,7 +367,7 @@ describe('issue 189: prefiltered matching', () => {
     ];
     const texts = [
       'Тютюнника Евсея и ЕЛКИНА ПЕТРА, Елкиным Петром, ёлкин пётр.',
-      'Пряжкиной В. О., Велимире П., римский-корсаков, Ли Яну, STEISS steiß.',
+      'Пряжкиной В. О., Велимире П., Римский-Корсаков, Ли Яну, STEISS steiß.',
       'Đorđe Šešelj ÐORĐE ŠEŠELJ; tyutyunnikCase TYUTYUNNIK_x schukin evgeny',
       'TSOY_YULIA tsoiIuliia цой_юлия ООО «Ромашка» «ромашка плюс»',
       'call +7 999 123-45-67, evsey@example.org, example.org/evsey?x=1',

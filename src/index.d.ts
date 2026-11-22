@@ -24,6 +24,7 @@ export interface Finding {
 export interface PersonalValue {
   type: string;
   value: string;
+  /** True rejects a lowercase first letter. False allows lowercase standalone Cyrillic surnames. */
   properCase?: boolean;
   /** Also match the value as a segment of a code identifier (`name_id`, `getNameValue`). */
   identifiers?: boolean;
@@ -33,6 +34,8 @@ export interface PersonalValue {
 export interface CompileKnownOptions {
   /** Compile every matching expression now instead of on first use. */
   warm?: boolean;
+  /** Default for entries without their own `properCase` flag. */
+  properCase?: boolean;
   /** Default for entries without their own `identifiers` flag. */
   identifiers?: boolean;
   /** Default for entries without their own `transliterate` flag. */

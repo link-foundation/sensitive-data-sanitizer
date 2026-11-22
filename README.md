@@ -102,7 +102,8 @@ Known Russian names match in all six cases and in any word order, with `ё`/`е`
 spelling variants and initials (`с Петровым Данилом Сергеевичем`, `Петров Д. С.`,
 `Данил П.`), also when a line break or a comment prefix splits them, when
 table, CSV, quote or Markdown punctuation separates them (`Петров, Данил`,
-`| Петров | Данил |`, `**Петров** Данил`), in plural forms (`Петровы`), when the
+`| Петров | Данил |`, `**Петров** Данил`), in plural forms (`Петровы`,
+`у Рабиновичей`, `с Ковальчуками`), when the
 parts sit in the name fields of one record (`{"first_name": "Данил",
 "last_name": "Петров"}`, CSV, YAML, SQL, XML, query strings) and when they are
 percent-encoded, HTML-escaped, carry stress marks, invisible characters or
@@ -117,6 +118,9 @@ name with a patronymic counts as such a part. Flag an entry with
 `identifiers: true` to find it inside code identifiers (`petrov_id`,
 `getPetrovName`) or `transliterate: true` to find Latin spellings of a Cyrillic
 name (`Danil Petrov`); see the [example](examples/known-names-in-code.mjs).
+Standalone Cyrillic surnames require an uppercase first letter in prose.
+Use `properCase: false` on an entry or as a `compileKnown` default to match
+these surnames in lowercase prose as well.
 
 With `properNames: 'capitalized'`, placeholder output keeps the sentence around a
 name (`Кандидат Person-1`, `Меня зовут Person-1`, `Благодарим Вас, Person-1`), and
