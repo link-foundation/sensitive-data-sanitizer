@@ -298,17 +298,21 @@ The `documents` profile additionally recognizes:
   given-name plus initial, Russian surname/given-name pairs using finite case
   forms and lower case, and surnames after г-жа/господин/госпожа.
 - Listed `knownPersonal` names across table, CSV, quote, Markdown and dash
-  punctuation, in plural surname forms, with upper-case initials before or
+  punctuation, in regular noun and adjective plural surname forms, with upper-case initials before or
   after the surname, split over the name fields of one JSON, YAML, CSV/TSV,
   Markdown (also bold keys, list items and key/value table rows), XML, SQL,
   `.env`/INI or query-string record, and behind URL
   percent-encoding, HTML character references, `\n` and `\uXXXX` escapes, invisible
   format characters, stress marks and look-alike letters of another script.
+  Standalone Cyrillic surnames use capitalization in prose unless
+  `properCase: false` is set. Full names remain case-insensitive.
   Unlisted names in these shapes still depend on the free-text rules.
 - Birth years with д.р./г.р./год рождения/родился/родилась/Born in context;
   Russian age expressions and Пол labels, English Sex, and gender beside age.
   Bare age-in-years expressions are ambiguous and remain unchanged without
-  affirmative personal-age context; durations are preserved.
+  affirmative personal-age context; durations are preserved. Capitalized prose
+  preserves common sentence-initial numerals and imperatives. Strict age
+  detection excludes the sequence numbers inside recognized placeholders.
 - Labelled citizenship, marital status, children, nationality, religion,
   disability and criminal record, including the reported English labels.
 - Company/employer/workplace labels, capitalized company/holding/bank names,

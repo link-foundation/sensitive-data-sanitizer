@@ -17,16 +17,43 @@ import { detectStrict } from './strict.js';
 import { realisticFake } from './fake.js';
 import { prepareFakeText } from './fake-entities.js';
 import { fakeDocumentSpans } from './specimens.js';
+import { recognizedPlaceholderSpans } from './placeholders.js';
+
+function placeholderContains(spans, start) {
+  let low = 0,
+    high = spans.length;
+  while (low < high) {
+    const mid = (low + high) >>> 1;
+    if (spans[mid].end <= start) {
+      low = mid + 1;
+    } else {
+      high = mid;
+    }
+  }
+  return spans[low]?.start <= start;
+}
 
 function detectPersonalData(text, emit, options) {
+  let placeholders;
+  const emitPersonal = (finding) => {
+    // Native age rules start at the quantity. A placeholder's sequence
+    // number cannot supply that evidence, even when a year noun follows it.
+    if (finding.type === 'AGE') {
+      placeholders ??= recognizedPlaceholderSpans(text, options);
+      if (placeholderContains(placeholders, finding.start)) {
+        return;
+      }
+    }
+    emit(finding);
+  };
   detectPersonal(text, emit);
-  detectProseAndDocuments(text, emit, options, detectDocumentEntities);
+  detectProseAndDocuments(text, emitPersonal, options, detectDocumentEntities);
   detectCatalog(text, emit);
   detectIdentity(text, emit);
   detectNational(text, emit);
   detectPersonalContext(text, emit);
   detectPersonalEvidence(text, emit);
-  detectStrict(text, emit, options);
+  detectStrict(text, emitPersonal, options);
 }
 
 registerFeatures({

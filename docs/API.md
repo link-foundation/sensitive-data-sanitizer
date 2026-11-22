@@ -269,8 +269,7 @@ characters, stress marks and look-alike letters are still normalized. Names in
 `\uXXXX` escapes are found through the general detection view described under
 encoded content, and are also replaced as the same person.
 
-Two optional boolean flags widen the match of an entry; pass them on the entry
-(`{type, value, identifiers: true}`) or as `compileKnown` defaults:
+Pass optional boolean flags on each entry or as `compileKnown` defaults.
 
 - `identifiers` also matches the value as a segment of a code identifier:
   `tyutyunnik_id`, `getTyutyunnikName`, `TYUTYUNNIK_KEY`, and its words joined by
@@ -282,6 +281,17 @@ Two optional boolean flags widen the match of an entry; pass them on the entry
   `Yevsey Tjutjunnik`, including a trailing initial (`Tyutyunnik E.`). Latin
   spellings are matched in the form written in the entry; Russian case endings
   apply to the Cyrillic form only.
+- `properCase: false` allows lowercase standalone Cyrillic surnames in prose.
+  By default, a separately listed `PERSON` surname matches `Сундуков` or
+  `СУНДУКОВ`, while `много сундуков` stays readable. Lowercase identifier
+  segments and Latin spellings still match with their respective flags, and
+  full names remain case-insensitive. `properCase: true` explicitly rejects
+  matches starting with a lowercase letter in any type or context.
+
+For a regular noun-type surname listed alone, the matcher recognizes singular
+case forms and family plurals such as `Рабиновичи`, `Рабиновичей`,
+`Рабиновичам`, `Рабиновичами` and `Рабиновичах`. A consonant-ending surname
+can name the family regardless of the gender of the listed person.
 
 See the [known names in code example](../examples/known-names-in-code.mjs).
 Every replaced occurrence retains its exact original surface privately. With
@@ -323,7 +333,7 @@ new document recognizers; `documentEntities: false` turns them off explicitly.
 | `profile`                | Off; `'publication'` sets a 0.3 threshold and identity masking; `'documents'` enables document entities                                                          |
 | `knownOnly`              | `false`; disable all automatic detection (including credentials, Secretlint and custom detectors); use explicit findings, known values and reused map identities |
 | `knownSecrets`           | `[]`; exact literal credential values, regardless of length or format, plus their standalone hex (either case) and base64/base64url spellings                    |
-| `knownPersonal`          | `[]`; `{type, value, identifiers?, transliterate?}`; whole-word case-insensitive matching with bounded Russian forms; list parts to match them alone             |
+| `knownPersonal`          | `[]`; `{type, value, properCase?, identifiers?, transliterate?}`; bounded Russian forms and default capitalization for standalone Cyrillic surnames              |
 | `publicEntities`         | `[]`; exact PERSON/ORGANIZATION/EDUCATION/LOCATION/EMAIL exception with HTTPS evidence and review date                                                           |
 | `findings`               | `[]`; validated detections for the original input, supplied by the caller                                                                                        |
 | `detectors`              | `[]`; required callbacks in both engines; sync methods require arrays                                                                                            |
@@ -979,6 +989,7 @@ eager compilation:
 
 ```js
 const names = compileKnown(list, { identifiers: true, transliterate: true });
+const uncapitalized = compileKnown(list, { properCase: false });
 const warmed = compileKnown(list, { warm: true });
 ```
 
@@ -994,14 +1005,14 @@ There is no process-wide registry of caller values; weak metadata is released
 with the compiled list. Mutating the input cannot change it. Compiled arrays
 work with the same APIs as plain arrays, with identical output.
 
-| Type                             | Matching behavior                                                                                                                                                                 |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `PERSON`                         | Unicode whole-word, case-insensitive; Russian cases, ё/е, reversed two-part names, full-name orders/initials and parts with the surname; list a part separately to match it alone |
-| `ORGANIZATION`                   | Russian word forms, legal-form/quote-free core for names of at least three characters                                                                                             |
-| `EDUCATION`, `LOCATION`          | Whole-word case-insensitive with bounded Russian noun/adjective forms (e.g. МГУ / мгу, Тверь / Твери)                                                                             |
-| `URL`                            | Optional HTTP(S) scheme; query, fragment and trailing slash are consumed with the known path                                                                                      |
-| `DATE`, `DATE_OF_BIRTH`, `PHONE` | Literal spellings by default; use `personalVariants(entries)` before compilation for ISO/day-first date and numeric phone variants                                                |
-| Other uppercase type ids         | Same whole-word case-insensitive and bounded Russian word forms; type labels the finding/transform and does not activate a new parser                                             |
+| Type                             | Matching behavior                                                                                                                                                                                     |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PERSON`                         | Unicode whole-word; Russian cases, ё/е, family plurals, reversed two-part names, full-name orders/initials and parts with the surname; standalone Cyrillic surnames require capitalization by default |
+| `ORGANIZATION`                   | Russian word forms, legal-form/quote-free core for names of at least three characters                                                                                                                 |
+| `EDUCATION`, `LOCATION`          | Whole-word case-insensitive with bounded Russian noun/adjective forms (e.g. МГУ / мгу, Тверь / Твери)                                                                                                 |
+| `URL`                            | Optional HTTP(S) scheme; query, fragment and trailing slash are consumed with the known path                                                                                                          |
+| `DATE`, `DATE_OF_BIRTH`, `PHONE` | Literal spellings by default; use `personalVariants(entries)` before compilation for ISO/day-first date and numeric phone variants                                                                    |
+| Other uppercase type ids         | Same whole-word case-insensitive and bounded Russian word forms; type labels the finding/transform and does not activate a new parser                                                                 |
 
 Transliterations are generated only for entries with `transliterate: true`. Values longer than 256 code units use literal
 matching instead of word-form expansion. `properCase: true` rejects a lower-case

@@ -372,6 +372,22 @@ export function keptPlaceholderSpans(text, findings, options) {
   }
   return placeholderTokens(text, callPattern(findings, options));
 }
+// Numeric rules need to distinguish placeholder sequence numbers from input
+// data. Existing tokens are recognized under 'keep'. The active map identifies
+// the tokens generated during sanitization under the default collision policy.
+export function recognizedPlaceholderSpans(text, options) {
+  if (keepsExisting(options)) {
+    return keptPlaceholderSpans(text, [], options);
+  }
+  const entries = options[placeholderState]?.map.entries;
+  if (!entries?.length || !mayContainPlaceholder(text, options)) {
+    return [];
+  }
+  const generated = new Set(entries.map(({ token }) => token));
+  return placeholderTokens(text, callPattern([], options)).filter(
+    ({ start, end }) => generated.has(text.slice(start, end))
+  );
+}
 const significant = /[\p{L}\p{N}]/u;
 // A finding made only of kept tokens is kept, and one that starts or ends
 // inside a kept token is trimmed to the text beside it.
@@ -492,8 +508,10 @@ function canonicalKnown(value, type, options, state) {
   );
   // `Петров Данил` and `Петров Данил Сергеевич` are one person: the fullest wins.
   const longest = Math.max(0, ...known.map((e) => e.value.length));
-  const fullest = known.filter((e) => e.value.length === longest);
-  const listed = fullest.length === 1 ? fullest[0].value : value;
+  const fullest = new Set(
+    known.filter((e) => e.value.length === longest).map((e) => e.value)
+  );
+  const listed = fullest.size === 1 ? fullest.values().next().value : value;
   if (type !== 'PERSON') {
     return listed;
   }
