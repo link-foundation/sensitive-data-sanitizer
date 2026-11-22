@@ -90,9 +90,11 @@ describe('issue 202: short knownOnly texts', () => {
       ['PERSON', 'ПряжкинаВелимира'],
       ['PERSON', 'Пряжкина Велимира'],
     ]);
-    expect(spans('по Ольховецкий, ольховецкий', known)).toEqual([
+    expect(
+      spans('по Ольховецкий, ольховецкий, ольховецкого_note', known)
+    ).toEqual([
       ['PERSON', 'Ольховецкий'],
-      ['PERSON', 'ольховецкий'],
+      ['PERSON', 'ольховецкого'],
     ]);
     expect(spans('𝐚Пряжкина и Пряжкинаx', known)).toEqual([]);
     expect(spans('АБВ Ольховецкий DEMOОльховецкий', known)).toEqual([
