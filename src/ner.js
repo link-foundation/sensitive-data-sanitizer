@@ -1,6 +1,7 @@
 // Optional entry: no core module imports NLP.js or this recognizer.
 import { firstNames } from './names.js';
 import { documentVocabulary } from './document-vocabulary.js';
+import { escapePattern } from './escape-pattern.js';
 
 const boundary = '[\\p{L}\\p{M}\\p{N}_]';
 const proper = "\\p{Lu}[\\p{L}\\p{M}’'-]{1,47}";
@@ -22,9 +23,9 @@ function rulesFor(language) {
   const rules = [
     [
       'PERSON',
-      `(?:${names.map(RegExp.escape).join('|')})(?:[ \\t]+${proper})?`,
+      `(?:${names.map(escapePattern).join('|')})(?:[ \\t]+${proper})?`,
     ],
-    ['LOCATION', `(?:${places.map(RegExp.escape).join('|') || '(?!)'})`],
+    ['LOCATION', `(?:${places.map(escapePattern).join('|') || '(?!)'})`],
   ];
   if (language === 'ru') {
     rules.push(

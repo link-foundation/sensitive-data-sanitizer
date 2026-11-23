@@ -6,6 +6,8 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+  schedule:
+    - cron: '23 7 * * 1'
   # Manual release support - consolidated here to work with npm trusted publishing
   # npm only allows ONE workflow file as trusted publisher, so all publishing
   # must go through this workflow (release.yml)
@@ -63,7 +65,7 @@ jobs:
     concurrency:
       group: check-${{ github.workflow }}-${{ github.ref }}-detect-changes
       cancel-in-progress: true
-    if: github.event_name != 'workflow_dispatch'
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
     outputs:
       js-changed: ${{ steps.changes.outputs.js-changed }}
       docs-changed: ${{ steps.changes.outputs.docs-changed }}
@@ -313,12 +315,38 @@ jobs:
       - name: Check code duplication
         run: npm run check:duplication
 
-  # Test matrix: 3 runtimes (Node.js, Bun, Deno) x 3 OS (Ubuntu, macOS, Windows)
+  # Resolve current Node LTS lines on each test run and weekly without a code change.
+  test-matrix:
+    name: Resolve Node.js LTS matrix
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    concurrency:
+      group: check-${{ github.workflow }}-${{ github.ref }}-test-matrix${{ github.event_name == 'schedule' && '-scheduled' || '' }}
+      cancel-in-progress: true
+    needs: [detect-changes]
+    if: |
+      !cancelled() &&
+      (
+        needs.detect-changes.outputs.any-code-changed == 'true' ||
+        github.event_name == 'schedule' ||
+        (github.event_name == 'workflow_dispatch' && github.event.inputs.release_mode == 'instant')
+      )
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - name: Read the official Node.js schedule and release index
+        id: matrix
+        run: node scripts/node-lts-matrix.mjs
+
+  # Test each supported Node LTS, Bun and Deno on Ubuntu, macOS and Windows.
   # IMPORTANT: Tests must validate the ACTUAL merge result, not a stale merge preview.
   # See docs/case-studies/issue-23 for why this is critical.
   # Fast-fail: slow test matrix only runs after fast checks pass (hive-mind principle #5)
   test:
-    name: Test runtimes
+    name: Test runtimes (${{ matrix.os }}, ${{ matrix.runtime }}${{ matrix.node && format(' {0}', matrix.node) || '' }}, ${{ matrix.shard }})
     env:
       TEST_SHARD: ${{ matrix.shard }}
     runs-on: ${{ matrix.os }}
@@ -330,77 +358,27 @@ jobs:
     # which hides the failure -- see docs/legacy/CI-TIMEOUT-BUDGETS.md.
     timeout-minutes: 18
     concurrency:
-      group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.runtime }}-${{ matrix.os }}-${{ matrix.shard }}
+      group: check-${{ github.workflow }}-${{ github.ref }}-test-${{ matrix.runtime }}-${{ matrix.os }}-${{ matrix.shard }}-${{ matrix.node }}${{ github.event_name == 'schedule' && '-scheduled' || '' }}
       cancel-in-progress: true
     needs:
       [
-        detect-changes,
+        test-matrix,
         changeset-check,
         test-compilation,
         lint,
         check-file-line-limits,
       ]
-    # Use !cancelled() instead of always() so cancellation propagates correctly (hive-mind issue #1278)
-    # Run for relevant code/package/workflow changes, or for an instant manual
-    # release. Skipped fast checks count as non-failures only after one of
-    # those positive gates passes.
+    # Run after the matrix resolves and all applicable fast checks pass.
     if: |
       !cancelled() &&
-      (
-        needs.detect-changes.outputs.any-code-changed == 'true' ||
-        (
-          github.event_name == 'workflow_dispatch' &&
-          github.event.inputs.release_mode == 'instant'
-        )
-      ) &&
+      needs.test-matrix.result == 'success' &&
       (needs.changeset-check.result == 'success' || needs.changeset-check.result == 'skipped') &&
       (needs.test-compilation.result == 'success' || needs.test-compilation.result == 'skipped') &&
       (needs.lint.result == 'success' || needs.lint.result == 'skipped') &&
       (needs.check-file-line-limits.result == 'success' || needs.check-file-line-limits.result == 'skipped')
     strategy:
       fail-fast: false
-      matrix:
-        os: [ubuntu-24.04, windows-2025]
-        runtime: [node, bun, deno]
-        shard: ['1/1']
-        exclude:
-          - { os: ubuntu-24.04, runtime: bun, shard: '1/1' }
-          - { os: windows-2025, runtime: bun, shard: '1/1' }
-          - { os: windows-2025, runtime: deno, shard: '1/1' }
-        # Intel runners avoid ARM64 capacity failures. Partition the suite so
-        # each job retains its existing execution budget on the slower pool.
-        # Windows Bun runs subprocess fixtures serially and Deno initializes
-        # a separate worker graph per file. Partition both within their budgets.
-        include:
-          # Bun runs files serially on Ubuntu too: the whole suite reached
-          # 162s of its 200s budget (issue 208), so it runs in two halves.
-          - { os: ubuntu-24.04, runtime: bun, shard: '1/2' }
-          - { os: ubuntu-24.04, runtime: bun, shard: '2/2' }
-          - { os: windows-2025, runtime: bun, shard: '1/3' }
-          - { os: windows-2025, runtime: bun, shard: '2/3' }
-          - { os: windows-2025, runtime: bun, shard: '3/3' }
-          - { os: windows-2025, runtime: deno, shard: '1/3' }
-          - { os: windows-2025, runtime: deno, shard: '2/3' }
-          - { os: windows-2025, runtime: deno, shard: '3/3' }
-          - { os: macos-26-intel, runtime: node, shard: '1/3' }
-          - { os: macos-26-intel, runtime: node, shard: '2/3' }
-          - { os: macos-26-intel, runtime: node, shard: '3/3' }
-          # Bun executes these files serially. Three stripes colocated timer,
-          # subprocess and 10 MiB stream fixtures past the 200s suite budget.
-          - { os: macos-26-intel, runtime: bun, shard: '1/6' }
-          - { os: macos-26-intel, runtime: bun, shard: '2/6' }
-          - { os: macos-26-intel, runtime: bun, shard: '3/6' }
-          - { os: macos-26-intel, runtime: bun, shard: '4/6' }
-          - { os: macos-26-intel, runtime: bun, shard: '5/6' }
-          - { os: macos-26-intel, runtime: bun, shard: '6/6' }
-          # Six stripes separate the measured subprocess, timer and JSONL
-          # workloads; four stripes still warned on cold macOS Deno runners.
-          - { os: macos-26-intel, runtime: deno, shard: '1/6' }
-          - { os: macos-26-intel, runtime: deno, shard: '2/6' }
-          - { os: macos-26-intel, runtime: deno, shard: '3/6' }
-          - { os: macos-26-intel, runtime: deno, shard: '4/6' }
-          - { os: macos-26-intel, runtime: deno, shard: '5/6' }
-          - { os: macos-26-intel, runtime: deno, shard: '6/6' }
+      matrix: ${{ fromJSON(needs.test-matrix.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -417,11 +395,14 @@ jobs:
 
       - name: Setup Node.js
         uses: ./.github/actions/setup-node
+        with:
+          node-version: ${{ matrix.node }}
 
       - name: Install dependencies (Node.js)
         shell: bash
         env:
           BUDGET_ATTEMPTS: '2'
+          npm_config_engine_strict: 'true'
         run: bash scripts/run-with-budget-warning.sh 60 "Dependency install" npm ci
 
       - name: Run tests (Node.js)
@@ -595,6 +576,7 @@ jobs:
   # of surfacing as a registry error after the matrix.
   release-preflight:
     name: Release Preflight
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -1166,7 +1148,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     concurrency:
-      group: check-${{ github.workflow }}-${{ github.ref }}-pipeline-status
+      group: check-${{ github.workflow }}-${{ github.ref }}-pipeline-status${{ github.event_name == 'schedule' && '-scheduled' || '' }}
       cancel-in-progress: true
     if: >-
       !cancelled()
@@ -1177,6 +1159,7 @@ jobs:
       - version-check
       - changeset-check
       - lint
+      - test-matrix
       - test
       - session-publication
       - docker-build

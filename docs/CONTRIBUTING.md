@@ -5,6 +5,13 @@
 Use Node.js 26.13.1 with npm 12.2.3 for development and release tooling.
 Changesets 3 requires a supported Node.js 22.11, 24, or 26+ runtime.
 
+The library and CLI support all active and maintenance Node.js LTS lines. CI
+resolves their latest patches from the official release schedule and download
+index on code changes, instant releases and weekly checks. Scheduled runs test
+Node.js on Ubuntu, macOS and Windows. Changes to the LTS lineup require no
+workflow edits. If you use an older LTS line for development, the reviewed npm
+requires Node.js 22.22.2+ on 22.x or 24.15.0+ on 24.x.
+
 1. **Fork the repository** and clone your fork
 2. **Create a feature branch**: `git checkout -b feature/my-feature`
 3. **Install dependencies**: `bun install` (or `npm install`)

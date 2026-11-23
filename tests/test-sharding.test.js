@@ -1,7 +1,7 @@
 import { it, expect } from 'test-anywhere';
-import { readdirSync, readFileSync } from 'node:fs';
-import { parse } from 'yaml';
+import { readdirSync } from 'node:fs';
 import { selectTests, testCommand } from '../scripts/run-test-shard.mjs';
+import { createTestMatrix } from '../scripts/node-lts-matrix.mjs';
 
 it('partitions every test file exactly once, independent of directory order', () => {
   const files = readdirSync('tests');
@@ -17,27 +17,20 @@ it('partitions every test file exactly once, independent of directory order', ()
   ).toBe(true);
 });
 
-it('covers every runtime and OS once while distributing Bun and Deno fixtures', () => {
-  const workflow = parse(readFileSync('.github/workflows/release.yml', 'utf8'));
-  const matrix = workflow.jobs.test.strategy.matrix;
-  const legs = matrix.os.flatMap((os) =>
-    matrix.runtime.flatMap((runtime) =>
-      matrix.shard.map((shard) => ({ os, runtime, shard }))
-    )
-  );
-  const selected = legs.filter(
-    (leg) =>
-      !(matrix.exclude ?? []).some((excluded) =>
-        Object.entries(excluded).every(([key, value]) => leg[key] === value)
-      )
-  );
-  selected.push(...matrix.include);
+it('covers each runtime version and OS once while distributing Bun and Deno fixtures', () => {
+  const nodeVersions = ['22.23.5', '24.22.3', '26.13.1', '27.3.0'];
+  const { include } = createTestMatrix(nodeVersions);
   const files = readdirSync('tests');
   const whole = selectTests(files, '1/1');
+  const runtimes = [
+    ...nodeVersions.map((node) => ({ runtime: 'node', node })),
+    { runtime: 'bun', node: '' },
+    { runtime: 'deno', node: '' },
+  ];
   for (const os of ['ubuntu-24.04', 'windows-2025', 'macos-26-intel']) {
-    for (const runtime of ['node', 'bun', 'deno']) {
-      const shards = selected.filter(
-        (leg) => leg.os === os && leg.runtime === runtime
+    for (const { runtime, node } of runtimes) {
+      const shards = include.filter(
+        (leg) => leg.os === os && leg.runtime === runtime && leg.node === node
       );
       const covered = shards.flatMap(({ shard }) => selectTests(files, shard));
       expect(covered.sort()).toEqual(whole);

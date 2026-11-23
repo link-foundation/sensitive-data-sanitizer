@@ -135,7 +135,11 @@ in either mode. See the [placeholder API](docs/API.md#reversible-placeholders),
 [coverage](docs/COVERAGE.md#document-entities), and
 [runnable example](examples/reversible-placeholders.mjs).
 
-Sanitizer APIs require Node.js 26.13.1 or later. Template arithmetic utilities are available under `@link-foundation/sensitive-data-sanitizer/legacy`; the existing universal example uses that browser-compatible entry. From this checkout:
+The sanitizer supports the latest patch of every Node.js line in active or
+maintenance LTS, as well as Bun and Deno. See the [Node.js release schedule](https://github.com/nodejs/Release#release-schedule) for the current LTS lines.
+
+The universal example uses the browser-compatible template arithmetic entry at
+`@link-foundation/sensitive-data-sanitizer/legacy`. From this checkout:
 
 ```sh
 npm ci

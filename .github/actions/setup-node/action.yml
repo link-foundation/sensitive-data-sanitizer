@@ -1,6 +1,8 @@
 name: Set up reviewed Node.js and npm
 description: Use the repository's Node.js release and npm lockfile tooling consistently.
 inputs:
+  node-version:
+    description: Optional Node.js version for runtime tests, defaulting to .nvmrc
   cache:
     description: Optional setup-node package manager cache
   cache-dependency-path:
@@ -12,7 +14,8 @@ runs:
   steps:
     - uses: actions/setup-node@v7.1.0
       with:
-        node-version-file: .nvmrc
+        node-version: ${{ inputs.node-version }}
+        node-version-file: ${{ inputs.node-version == '' && '.nvmrc' || '' }}
         # Cache discovery runs npm before setup-node returns. The bundled
         # npm cannot satisfy devEngines yet (actions/setup-node#1553).
         package-manager-cache: false
@@ -37,6 +40,7 @@ runs:
       if: inputs.cache != ''
       uses: actions/setup-node@v7.1.0
       with:
-        node-version-file: .nvmrc
+        node-version: ${{ inputs.node-version }}
+        node-version-file: ${{ inputs.node-version == '' && '.nvmrc' || '' }}
         cache: ${{ inputs.cache }}
         cache-dependency-path: ${{ inputs.cache-dependency-path }}
