@@ -1,5 +1,5 @@
-// Shared inputs of the issue 172 tests, which are split across three files
-// so that the shard selector can run them in separate CI jobs (issue 208).
+// Shared inputs of the issue 172 tests. Separate files give each engine its
+// own Node.js 22 file timeout and let CI distribute the scans across shards.
 //
 // Issue 172: with the `u` flag, V8 compiles a class that can match an astral
 // code point (`[\p{L}\p{N}]`) as a non-simple loop on a two-byte string (one

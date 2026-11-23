@@ -5,8 +5,7 @@ import { detectContext } from '../src/context.js';
 import { flatRegExp, unicodeRun } from '../src/unicode-runs.js';
 
 // The detector and regular-expression part of the issue 172 tests (see
-// helpers/issue-172.js). The engine and file-to-file tests live in
-// sanitizer-issue-172-engines.test.js and sanitizer-issue-172-file.test.js.
+// helpers/issue-172.js). The engine and file-to-file tests run separately.
 describe('issue 172: long runs in two-byte strings', () => {
   itWithin(
     'scans credential keys after an 8 MiB run without overflowing',

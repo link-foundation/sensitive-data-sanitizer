@@ -479,7 +479,7 @@ jobs:
         # 8 MiB long-run tests (tests/sanitizer-issue-172*.test.js) take about
         # a minute per file on cold macOS Intel runners, so the shard holding
         # one needs the same 200s budget as Bun. scripts/run-test-shard.mjs
-        # deals the three files to separate shards.
+        # deals the large-input files to separate shards.
         run: bash scripts/run-with-budget-warning.sh 200 "Deno test suite" node scripts/run-test-shard.mjs deno "$TEST_SHARD"
 
   # === DOCKER IMAGE BUILD CHECK (pull requests) ===

@@ -3,6 +3,24 @@ import { readdirSync } from 'node:fs';
 import { selectTests, testCommand } from '../scripts/run-test-shard.mjs';
 import { createTestMatrix } from '../scripts/node-lts-matrix.mjs';
 
+const engineTests = [
+  'sanitizer-issue-172-async-engine.test.js',
+  'sanitizer-issue-172-sync-engine.test.js',
+];
+const expensive = [
+  'pr-guards.test.js',
+  'release-api-integrity.test.js',
+  'detect-code-changes.test.js',
+  'run-with-budget-warning.test.js',
+  'release-preflight.test.js',
+  'sanitizer-jsonl-stream.test.js',
+  'sanitizer-issue-172.test.js',
+  ...engineTests,
+  'sanitizer-issue-172-file.test.js',
+  'sanitizer-issue-170.test.js',
+  'sanitizer-issue-128-evidence.test.js',
+];
+
 it('partitions every test file exactly once, independent of directory order', () => {
   const files = readdirSync('tests');
   const whole = selectTests(files, '1/1');
@@ -55,19 +73,6 @@ it('covers each runtime version and OS once while distributing Bun and Deno fixt
       if (os === 'macos-26-intel' && ['bun', 'deno'].includes(runtime)) {
         // These heavy files consumed most of the suite budget
         // together on a cold runner. Keep them in separate execution jobs.
-        const expensive = [
-          'pr-guards.test.js',
-          'release-api-integrity.test.js',
-          'detect-code-changes.test.js',
-          'run-with-budget-warning.test.js',
-          'release-preflight.test.js',
-          'sanitizer-jsonl-stream.test.js',
-          'sanitizer-issue-172.test.js',
-          'sanitizer-issue-172-engines.test.js',
-          'sanitizer-issue-172-file.test.js',
-          'sanitizer-issue-170.test.js',
-          'sanitizer-issue-128-evidence.test.js',
-        ];
         const counted = (names) =>
           shards.map(
             ({ shard }) =>
@@ -91,6 +96,20 @@ it('covers each runtime version and OS once while distributing Bun and Deno fixt
   }
 });
 
+it('runs the long engine tests in separate macOS Node.js shards', () => {
+  const files = readdirSync('tests');
+  const { include } = createTestMatrix(['22.23.5']);
+  const shards = include.filter(
+    ({ os, runtime }) => os === 'macos-26-intel' && runtime === 'node'
+  );
+  const assignments = shards.map(({ shard }) => selectTests(files, shard));
+  const engineShards = engineTests.map((file) =>
+    assignments.findIndex((tests) => tests.includes(`tests/${file}`))
+  );
+  expect(engineShards.every((index) => index !== -1)).toBe(true);
+  expect(new Set(engineShards).size).toBe(engineTests.length);
+});
+
 it('rejects invalid shard selection and empty or unknown runtime commands', () => {
   for (const shard of ['0/3', '4/3', '1/0', 'all', '1/2/3']) {
     expect(() => selectTests(['a.test.js'], shard)).toThrow();
@@ -100,19 +119,6 @@ it('rejects invalid shard selection and empty or unknown runtime commands', () =
 });
 
 it('keeps measured expensive suites apart as unrelated files are added', () => {
-  const expensive = [
-    'pr-guards.test.js',
-    'release-api-integrity.test.js',
-    'detect-code-changes.test.js',
-    'run-with-budget-warning.test.js',
-    'release-preflight.test.js',
-    'sanitizer-jsonl-stream.test.js',
-    'sanitizer-issue-172.test.js',
-    'sanitizer-issue-172-engines.test.js',
-    'sanitizer-issue-172-file.test.js',
-    'sanitizer-issue-170.test.js',
-    'sanitizer-issue-128-evidence.test.js',
-  ];
   for (const count of [2, 3, 4, 6]) {
     for (let extra = 0; extra <= 12; extra++) {
       const files = [
