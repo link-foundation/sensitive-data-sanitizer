@@ -5,8 +5,7 @@ import { detectContext } from '../src/context.js';
 import { flatRegExp, unicodeRun } from '../src/unicode-runs.js';
 
 // The detector and regular-expression part of the issue 172 tests (see
-// helpers/issue-172.js). The engine and file-to-file tests live in
-// sanitizer-issue-172-engines.test.js and sanitizer-issue-172-file.test.js.
+// helpers/issue-172.js). The engine and file-to-file tests run separately.
 describe('issue 172: long runs in two-byte strings', () => {
   itWithin(
     'scans credential keys after an 8 MiB run without overflowing',
@@ -70,6 +69,18 @@ describe('issue 172: long runs in two-byte strings', () => {
     );
     const text = `${run('A', large)}: —`;
     expect([...text.matchAll(pattern)].length).toBe(1);
+  });
+
+  it('keeps greedy and lazy match order when the suffix shares the class', () => {
+    const cls = '[\\p{L}\\p{N}]';
+    for (const quantifier of ['+', '*', '+?', '*?']) {
+      const plain = new RegExp(`^(${cls}${quantifier})A+!`, 'u');
+      const flat = new RegExp(`^(${unicodeRun(cls, quantifier)})A+!`, 'u');
+      for (const count of [7, 8, 9, 15, 16, 17]) {
+        const text = `${'A'.repeat(count)}𝐀${'A'.repeat(count)}!`;
+        expect(flat.exec(text)?.[1]).toBe(plain.exec(text)?.[1]);
+      }
+    }
   });
 
   it('flattens every class loop of a regular expression without changing matches', () => {

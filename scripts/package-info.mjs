@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 
+import { escapePattern } from '../src/escape-pattern.js';
 import { getPackageJsonPath } from './js-paths.mjs';
 
 /**
@@ -64,7 +65,7 @@ export function getChangesetVersionTypeRegex(
 ) {
   const quotePattern = requireQuotes ? '[\'"]' : '[\'"]?';
   return new RegExp(
-    `^${quotePattern}${RegExp.escape(packageName)}${quotePattern}:\\s+(major|minor|patch)\\s*$`,
+    `^${quotePattern}${escapePattern(packageName)}${quotePattern}:\\s+(major|minor|patch)\\s*$`,
     'm'
   );
 }

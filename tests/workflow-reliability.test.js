@@ -180,6 +180,7 @@ function createTestJobContext({
         },
       },
       'changeset-check': { result },
+      'test-matrix': { result },
       'test-compilation': { result },
       lint: { result },
       'check-file-line-limits': { result },
@@ -282,10 +283,19 @@ describe('workflow concurrency policy', () => {
         'true'
       );
     }
+    const scheduledSuffix =
+      "${{ github.event_name == 'schedule' && '-scheduled' || '' }}";
+    for (const jobName of ['test-matrix', 'pipeline-status']) {
+      expectCancellableCheckConcurrency(
+        getJobBlock(releaseWorkflow, jobName),
+        jobName,
+        scheduledSuffix
+      );
+    }
     expectCancellableCheckConcurrency(
       getJobBlock(releaseWorkflow, 'test'),
       'test',
-      '-${{ matrix.runtime }}-${{ matrix.os }}-${{ matrix.shard }}',
+      `-\${{ matrix.runtime }}-\${{ matrix.os }}-\${{ matrix.shard }}-\${{ matrix.node }}${scheduledSuffix}`,
       'true'
     );
 
@@ -501,7 +511,33 @@ describe('release workflow change gates', () => {
     expect(evaluateWorkflowIf(testCondition, nonCodePullRequest)).toBe(false);
   });
 
-  it('runs the slow test matrix for workflow changes after fast checks pass', () => {
+  it('resolves the test matrix for code changes, scheduled LTS checks and instant releases', () => {
+    const workflow = readWorkflow('.github/workflows/release.yml');
+    const condition = getMultilineIfExpression(
+      getJobBlock(workflow, 'test-matrix')
+    );
+    for (const options of [
+      { outputs: { 'any-code-changed': 'true' } },
+      { eventName: 'schedule' },
+      { eventName: 'workflow_dispatch', releaseMode: 'instant' },
+    ]) {
+      expect(evaluateWorkflowIf(condition, createTestJobContext(options))).toBe(
+        true
+      );
+    }
+    expect(evaluateWorkflowIf(condition, createTestJobContext())).toBe(false);
+    expect(
+      evaluateWorkflowIf(
+        condition,
+        createTestJobContext({
+          eventName: 'workflow_dispatch',
+          releaseMode: 'changeset-pr',
+        })
+      )
+    ).toBe(false);
+  });
+
+  it('runs the test shards after discovery and applicable fast checks pass', () => {
     const workflow = readWorkflow('.github/workflows/release.yml');
     const testJob = getJobBlock(workflow, 'test');
     const testCondition = getMultilineIfExpression(testJob);
@@ -513,12 +549,15 @@ describe('release workflow change gates', () => {
     });
 
     expect(evaluateWorkflowIf(testCondition, workflowPullRequest)).toBe(true);
+    workflowPullRequest.needs['test-matrix'].result = 'failure';
+    expect(evaluateWorkflowIf(testCondition, workflowPullRequest)).toBe(false);
   });
 
   for (const jobName of [
     'test-compilation',
     'check-file-line-limits',
     'lint',
+    'test-matrix',
     'test',
     'validate-docs',
   ]) {
@@ -548,6 +587,8 @@ describe('manual release quality gates', () => {
 
     context.cancelled = cancelled;
     context.needs.lint.result = lintResult;
+    context.needs['test-matrix'].result =
+      releaseMode === 'instant' ? 'success' : 'skipped';
     context.needs.test = { result: testResult };
     return context;
   }

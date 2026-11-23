@@ -8,6 +8,8 @@
 // text the way the `iu` flags compare characters, and runs an expression only
 // when one of its anchors occurs at a word start of the text.
 
+import { escapePattern } from './escape-pattern.js';
+
 // Characters whose case-insensitive equivalents all lower-case to one
 // character of this set, apart from the listed exceptions. The set and the
 // exceptions are checked against every code point in the tests: printable
@@ -74,7 +76,7 @@ const foldedCharacters = new Map();
 function foldCharacter(char) {
   if (!foldedCharacters.has(char)) {
     const folded = foldText(char);
-    const escaped = RegExp.escape(char);
+    const escaped = escapePattern(char);
     foldedCharacters.set(
       char,
       isAnchorCharacter(folded) &&

@@ -23,6 +23,9 @@ import { feature } from './features.js';
 import { tokenChecksum } from './token-checksum.js';
 import { refineCredentialSpans, cookieValues } from './credential-spans.js';
 import { unicodeRun } from './unicode-runs.js';
+import { escapePattern } from './escape-pattern.js';
+
+export { escapePattern };
 
 export const REDACTED = '[REDACTED]';
 export const failure = (code = 'ERR_SANITIZATION', location = {}) =>
@@ -98,10 +101,6 @@ function knownEncodedForms(value) {
     encodedForms.set(value, pattern);
   }
   return pattern;
-}
-
-export function escapePattern(text) {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 /**

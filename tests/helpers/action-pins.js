@@ -2,6 +2,8 @@
 // Dependabot moves the numbers, so tests assert the action and the pin
 // shape; the workflow stays the single place that names the release.
 
+import { escapePattern } from '../../src/escape-pattern.js';
+
 const PINNED_TAG = String.raw`v\d+\.\d+\.\d+`;
 
 /**
@@ -11,7 +13,7 @@ const PINNED_TAG = String.raw`v\d+\.\d+\.\d+`;
  * @returns {RegExp}
  */
 export function pinnedUses(action) {
-  return new RegExp(`uses: ${RegExp.escape(action)}@${PINNED_TAG}(?=\\s|$)`);
+  return new RegExp(`uses: ${escapePattern(action)}@${PINNED_TAG}(?=\\s|$)`);
 }
 
 /**
@@ -22,5 +24,5 @@ export function pinnedUses(action) {
  * @returns {RegExp}
  */
 export function pinnedRef(action) {
-  return new RegExp(`^${RegExp.escape(action)}@${PINNED_TAG}$`);
+  return new RegExp(`^${escapePattern(action)}@${PINNED_TAG}$`);
 }

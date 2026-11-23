@@ -20,7 +20,7 @@
     "npm:links-notation@0.31.8": "0.31.8",
     "npm:lino-arguments@0.4.1": "0.4.1",
     "npm:lino-i18n@0.6.0": "0.6.0_eslint@10.15.0",
-    "npm:lino-objects-codec@1.0.0": "1.0.0",
+    "npm:lino-objects-codec@0.9.6": "0.9.6",
     "npm:lint-staged@^17.6.1": "17.6.1",
     "npm:mrz@^5.0.2": "5.0.2",
     "npm:playwright@1.65.1": "1.65.1",
@@ -1260,7 +1260,7 @@
         "intl-messageformat",
         "links-notation@0.31.8",
         "lino-arguments",
-        "lino-objects-codec@0.9.6"
+        "lino-objects-codec"
       ],
       "optionalPeers": [
         "eslint"
@@ -1269,12 +1269,6 @@
     },
     "lino-objects-codec@0.9.6": {
       "integrity": "sha512-KyZX1jkGQlmyN/8lwuUBhmZFXW0c7SR43qJaAzTiMG+rMhxXBMq4fpr7nIlCe5HiuP1eKCZ+k+5ax19KbPzrAA==",
-      "dependencies": [
-        "links-notation@0.31.8"
-      ]
-    },
-    "lino-objects-codec@1.0.0": {
-      "integrity": "sha512-6R/3twBL4hG+U1aqqJlz37PycGVor0XR9OZCNSITm7vZ90oH5Yp08/rluHjpzAL7qmSjNn6RLzjuwuzhTT/sEw==",
       "dependencies": [
         "links-notation@0.31.8"
       ]
@@ -1707,7 +1701,7 @@
         "npm:links-notation@0.31.8",
         "npm:lino-arguments@0.4.1",
         "npm:lino-i18n@0.6.0",
-        "npm:lino-objects-codec@1.0.0",
+        "npm:lino-objects-codec@0.9.6",
         "npm:lint-staged@^17.6.1",
         "npm:mrz@^5.0.2",
         "npm:playwright@1.65.1",

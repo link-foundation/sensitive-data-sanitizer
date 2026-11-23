@@ -20,7 +20,13 @@ it('installs the npm release required by the manifest on the reviewed Node relea
   const npmVersion = install.run.match(
     /install-reviewed-npm\.sh (\d+\.\d+\.\d+)$/
   )[1];
-  assert.equal(node.with['node-version-file'], '.nvmrc');
+  for (const step of [node, restore]) {
+    assert.equal(step.with['node-version'], '${{ inputs.node-version }}');
+    assert.equal(
+      step.with['node-version-file'],
+      "${{ inputs.node-version == '' && '.nvmrc' || '' }}"
+    );
+  }
   assert.ok(semver.valid(readFileSync('.nvmrc', 'utf8').trim()));
   assert.ok(
     semver.satisfies(npmVersion, manifest.devEngines.packageManager.version)

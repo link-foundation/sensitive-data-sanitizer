@@ -5,8 +5,8 @@
 // is a two-byte string (one holding any character above U+00FF, such as an
 // emoji, `—` or a `…` mask). Such a loop pushes one backtracking entry per
 // character, so a 4 MiB letter run overflowed V8's regular-expression stack
-// and `sanitize()` failed with ERR_SANITIZATION. A class of BMP code points
-// only stays a simple loop on any string.
+// and `sanitize()` failed with ERR_SANITIZATION. A BMP-only class stays a
+// simple loop on newer runtimes. Node.js 22 and 24 need explicit groups.
 //
 // `unicodeRun('[\\p{L}\\p{N}]', '+')` spells `[\p{L}\p{N}]+` as
 // `[\p{L}\p{N}]B*(?:AB*){0,256}`, where B lists the BMP members of the class as
@@ -16,6 +16,10 @@
 // experiments/issue-172/bmp-class.mjs and experiments/issue-172/find-regex.mjs.
 
 const ASTRAL_LIMIT = 256;
+const needsBmpGroups =
+  !globalThis.Bun &&
+  !globalThis.Deno &&
+  Number.parseInt(globalThis.process?.versions?.node, 10) < 26;
 let planes;
 const cache = new Map();
 
@@ -90,12 +94,21 @@ export function unicodeRun(cls, quantifier = '+', ignoreCase = false) {
   const { bmp, astral } = split(cls, ignoreCase);
   const lazy = quantifier.endsWith('?') ? '?' : '';
   const atLeastOne = quantifier.startsWith('+');
-  if (!astral) {
+  if (!astral && !needsBmpGroups) {
     return `${bmp}${quantifier}`;
   }
-  const rest = `${bmp}*${lazy}(?:${astral}${bmp}*${lazy}){0,${ASTRAL_LIMIT}}${lazy}`;
+  // Older V8 versions still push a backtracking entry per BMP character. Group
+  // eight explicit atoms and a bounded remainder to keep the same match
+  // order with fewer stack entries. An exact quantifier inside the group
+  // still uses a stack entry per character on this runtime.
+  const bmpRun = needsBmpGroups
+    ? `(?:${bmp.repeat(8)})*${lazy}${bmp}{0,7}${lazy}`
+    : `${bmp}*${lazy}`;
+  const rest = astral
+    ? `${bmpRun}(?:${astral}${bmpRun}){0,${ASTRAL_LIMIT}}${lazy}`
+    : bmpRun;
   // The first character takes the original class: one step, no loop.
-  return atLeastOne ? `${cls}${rest}` : rest;
+  return atLeastOne ? `${astral ? cls : bmp}${rest}` : rest;
 }
 
 // One atom of a pattern source at `i`: a class, `\p{…}`, an escape or a

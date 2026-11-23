@@ -75,6 +75,8 @@ function makeRunner({ configured, bundled, nodeCliUpdatesBundled = true }) {
   const env = {
     ...process.env,
     PATH: `${bin}${path.delimiter}${process.env.PATH}`,
+    // npm test exports its own prefix, which the fake Windows shim would use.
+    npm_config_prefix: '',
     RUNNER_TEMP: root,
     RUNNER_DEBUG: '',
     INSTALL_NPM_VERBOSE: '',

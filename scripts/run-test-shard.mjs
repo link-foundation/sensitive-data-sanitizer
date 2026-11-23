@@ -16,12 +16,12 @@ export function selectTests(files, shard) {
   // filenames can colocate these whenever another test is added. They are
   // dealt round-robin in this order: the six heaviest first, then the rest
   // lightest first, so that with six shards (macOS Intel) the heaviest
-  // shares its job with the lightest. The times are from a slow macOS Intel
-  // Bun run, where the issue 172 tests took 128 s of a 200 s suite budget as
-  // one file (issue 208).
+  // shares its job with the lightest. The engine tests also stay apart in
+  // the three macOS Node.js shards to bound competition for CPU time.
   const expensive = [
-    'sanitizer-issue-172-engines.test.js', // 60 s
+    'sanitizer-issue-172-async-engine.test.js', // up to 59 s on macOS Node.js
     'sanitizer-issue-172-file.test.js', // 43 s
+    'sanitizer-issue-172-sync-engine.test.js', // up to 29 s on macOS Node.js
     'run-with-budget-warning.test.js', // 32 s
     'release-preflight.test.js', // 26 s
     'sanitizer-issue-170.test.js', // 26 s
@@ -43,9 +43,15 @@ export function selectTests(files, shard) {
     .map((file) => `tests/${file}`);
 }
 
-export function testCommand(runtime, files) {
+export function testCommand(
+  runtime,
+  files,
+  nodeMajor = Number.parseInt(process.versions.node, 10)
+) {
+  // Node 22 applies this flag to the whole file, including its long tests.
+  const nodeTimeout = nodeMajor === 22 ? 90000 : 30000;
   const options = {
-    node: ['--test', '--test-timeout=30000'],
+    node: ['--test', `--test-timeout=${nodeTimeout}`],
     bun: ['test', '--timeout', '30000'],
     deno: ['test', '-A', '--parallel'],
   };
