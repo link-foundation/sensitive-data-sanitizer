@@ -1,7 +1,8 @@
 /**
  * Register a test with its own per-test time bound. Every other test has the
- * 30 s bound that `node --test --test-timeout=30000` and
- * `bun test --timeout 30000` set. The large-input tests (the 8 MiB long runs
+ * 30 s bound that the Node.js 24+ and Bun runners set. Node.js 22 bounds
+ * whole files, and Deno has no runner-level per-test bound.
+ * The large-input tests (the 8 MiB long runs
  * of issue 172, the 10 MiB bounded worker file and the 7 MB JSONL record)
  * take 12–20 s on a normal macOS Intel runner and up to 35 s on a slow one;
  * they check limits and correctness on large inputs, not scan speed. test-anywhere's `it(name, fn)` takes no options, so the native

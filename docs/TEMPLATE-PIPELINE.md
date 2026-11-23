@@ -191,12 +191,10 @@ explicit budget via `scripts/run-with-budget-warning.sh`, which warns at
 70% of the budget and fails the step with exit code 124 when it expires.
 See [CI-TIMEOUT-BUDGETS.md](legacy/CI-TIMEOUT-BUDGETS.md).
 
-Individual tests are also capped inside supported runners:
-`npm test` runs `node --test --test-timeout=30000`, and the CI Bun
-runner uses `bun test --timeout 30000`. Both bound a _single test_, not
-the suite, which is why the suite budget above exists. Deno does not
-provide a single global per-test timeout flag, so Deno tests are
-protected by their step budget and the matrix job backstop.
+The local and CI Node.js runners use the same timeout policy. Node.js 24+
+and Bun set a 30-second limit per test. Node.js 22 applies its runner
+timeout to each test file, with a 90-second limit that accommodates the
+long-running tests. Deno tests use the suite budget and job backstop.
 
 A test that is slow by nature, such as the 8 MiB long-run tests in
 `tests/sanitizer-issue-172*.test.js`, the 10 MiB bounded worker test in

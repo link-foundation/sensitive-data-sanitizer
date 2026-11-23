@@ -72,6 +72,18 @@ describe('issue 172: long runs in two-byte strings', () => {
     expect([...text.matchAll(pattern)].length).toBe(1);
   });
 
+  it('keeps greedy and lazy match order when the suffix shares the class', () => {
+    const cls = '[\\p{L}\\p{N}]';
+    for (const quantifier of ['+', '*', '+?', '*?']) {
+      const plain = new RegExp(`^(${cls}${quantifier})A+!`, 'u');
+      const flat = new RegExp(`^(${unicodeRun(cls, quantifier)})A+!`, 'u');
+      for (const count of [7, 8, 9, 15, 16, 17]) {
+        const text = `${'A'.repeat(count)}𝐀${'A'.repeat(count)}!`;
+        expect(flat.exec(text)?.[1]).toBe(plain.exec(text)?.[1]);
+      }
+    }
+  });
+
   it('flattens every class loop of a regular expression without changing matches', () => {
     const samples = [
       'abc def',

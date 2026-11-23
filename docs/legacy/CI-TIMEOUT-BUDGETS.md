@@ -39,11 +39,11 @@ dependent release workflow reported `skipped`.
 
 ## Per-test timeouts do not bound a suite
 
-`bun test --timeout 30000` and `node --test --test-timeout=30000` bound a
-**single test** at 30 seconds. They do not bound the suite: 25 tests that each
-take 29 seconds pass every per-test check and still blow a 10-minute job cap.
-Keep them — a hung test is worth catching early — but do not treat them as a
-suite deadline.
+`bun test --timeout 30000` and `node --test --test-timeout=30000` on
+Node.js 24+ bound a **single test** at 30 seconds. On Node.js 22 the option
+applies to a test file, so the shard runner sets a 90-second file limit that
+accommodates tests with their own longer deadlines. The suite budget
+applies separately to all test files in the shard.
 
 ## The rule
 

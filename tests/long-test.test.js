@@ -23,7 +23,15 @@ const runFixture = (bound, sleep) => {
     );
     const args = bun
       ? ['test', '--timeout', '300', file]
-      : ['--test', '--test-timeout=300', file];
+      : [
+          '--test',
+          // Run this single fixture without Node 22's parent file timer.
+          ...(process.versions.node.startsWith('22.')
+            ? ['--experimental-test-isolation=none']
+            : []),
+          '--test-timeout=300',
+          file,
+        ];
     // A nested `node --test` that has NODE_TEST_CONTEXT in its environment,
     // even a blank one, reports to this runner; without it the child is a
     // test run of its own.

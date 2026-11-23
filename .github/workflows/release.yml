@@ -346,7 +346,7 @@ jobs:
   # See docs/case-studies/issue-23 for why this is critical.
   # Fast-fail: slow test matrix only runs after fast checks pass (hive-mind principle #5)
   test:
-    name: Test runtimes (${{ matrix.os }}, ${{ matrix.runtime }}${{ matrix.node && format(' {0}', matrix.node) || '' }}, ${{ matrix.shard }})
+    name: Test runtimes
     env:
       TEST_SHARD: ${{ matrix.shard }}
     runs-on: ${{ matrix.os }}

@@ -66,7 +66,7 @@
     }
   },
   "scripts": {
-    "test": "node --test --test-timeout=30000 tests/*.test.js",
+    "test": "node scripts/run-test-shard.mjs node 1/1",
     "lint": "node scripts/lint.mjs",
     "lint:all": "eslint .",
     "lint:fix": "eslint . --fix",

@@ -43,9 +43,15 @@ export function selectTests(files, shard) {
     .map((file) => `tests/${file}`);
 }
 
-export function testCommand(runtime, files) {
+export function testCommand(
+  runtime,
+  files,
+  nodeMajor = Number.parseInt(process.versions.node, 10)
+) {
+  // Node 22 applies this flag to the whole file, including its long tests.
+  const nodeTimeout = nodeMajor === 22 ? 90000 : 30000;
   const options = {
-    node: ['--test', '--test-timeout=30000'],
+    node: ['--test', `--test-timeout=${nodeTimeout}`],
     bun: ['test', '--timeout', '30000'],
     deno: ['test', '-A', '--parallel'],
   };

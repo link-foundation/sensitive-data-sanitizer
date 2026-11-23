@@ -135,11 +135,15 @@ it('keeps measured expensive suites apart as unrelated files are added', () => {
   }
 });
 
-it('preserves per-test limits and explicit file selection for each runtime', () => {
+it('passes the timeout and explicit file selection for each runtime', () => {
   const files = ['tests/a.test.js'];
-  expect(testCommand('node', files)).toEqual([
+  expect(testCommand('node', files, 24)).toEqual([
     'node',
     ['--test', '--test-timeout=30000', ...files],
+  ]);
+  expect(testCommand('node', files, 22)).toEqual([
+    'node',
+    ['--test', '--test-timeout=90000', ...files],
   ]);
   expect(testCommand('bun', files)).toEqual([
     'bun',
