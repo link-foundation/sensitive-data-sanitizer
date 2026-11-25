@@ -166,7 +166,7 @@
     "links-notation": "0.31.8",
     "lino-arguments": "0.4.1",
     "lino-i18n": "0.6.0",
-    "lino-objects-codec": "0.9.6",
+    "lino-objects-codec": "1.0.0",
     "re2-wasm": "1.0.2",
     "re2js": "^2.10.0",
     "tar-stream": "3.2.2",
