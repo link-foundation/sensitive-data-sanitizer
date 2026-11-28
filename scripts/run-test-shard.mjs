@@ -17,7 +17,7 @@ export function selectTests(files, shard) {
   // dealt round-robin in this order: the six heaviest first, then the rest
   // lightest first, so that with six shards (macOS Intel) the heaviest
   // shares its job with the lightest. The engine tests also stay apart in
-  // the three macOS Node.js shards to bound competition for CPU time.
+  // separate macOS Node.js shards to bound competition for CPU time.
   const expensive = [
     'sanitizer-issue-172-async-engine.test.js', // up to 59 s on macOS Node.js
     'sanitizer-issue-172-file.test.js', // 43 s
