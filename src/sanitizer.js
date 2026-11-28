@@ -576,6 +576,7 @@ function inspectText(text, options = {}) {
   validateOptions(options);
   validateInput(text, options);
   if (options.structured) {
+    options = withRedactionMarker(options);
     const memo = structuredInspection(options);
     const batches = structuredBatches(text, options);
     const findings = batches.flatMap((batch) => [

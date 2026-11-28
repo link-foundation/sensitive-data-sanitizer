@@ -57,6 +57,26 @@ describe('known credential collisions with redaction (issue 238)', () => {
     }
   });
 
+  it('verifies the empty marker in denied and explicitly sensitive JSON values', async () => {
+    const { createSyncSanitizer, createSanitizer } =
+      await import('../src/index.js');
+    const input = '{"keep":"ordinary","denied":"private","sensitive":42}';
+    const expected = '{"keep":"ordinary","denied":"","sensitive":""}';
+    for (const structured of ['json', 'jsonl']) {
+      const options = {
+        structured,
+        knownSecrets: ['REDACTED'],
+        allowedFields: ['keep', 'sensitive'],
+        sensitiveFields: ['sensitive'],
+      };
+      const sync = createSyncSanitizer(options);
+      const asyncEngine = createSanitizer({ ...options, secretlint: false });
+      assert.equal(sync.sanitize(input).text, expected);
+      assert.equal((await asyncEngine.sanitize(input)).text, expected);
+      assert.deepEqual(sync.inspect(expected), []);
+    }
+  });
+
   it('returns only the failure stage and safe type counts for a nonconverging detector', async () => {
     const input = 'PRIVATE_FIXTURE_DATA';
     const options = {
