@@ -39,6 +39,7 @@ import {
   validateExempt,
 } from './exempt.js';
 import { builtInRules } from './rule-catalog.js';
+import { isPlaceholderToken } from './placeholder-types.js';
 import {
   separatedParts,
   structuredRecordFindings,
@@ -680,6 +681,20 @@ function policyKept(text, finding, options) {
   if (builtInRule(finding) && templatedCredential(text, finding)) {
     options.debug?.({ event: 'template-value', rule: finding.rule });
     return false;
+  }
+  if (
+    finding.category === 'personal' &&
+    builtInRule(finding) &&
+    !exactRules.has(finding.rule) &&
+    (finding.rule === 'messenger-label' || !hasPlaceholders(options))
+  ) {
+    const value = text.slice(finding.start, finding.end);
+    if (
+      /^[A-Za-z]+(?:[A-Za-z0-9]*)-[1-9]\d*$/u.test(value) &&
+      isPlaceholderToken(value)
+    ) {
+      return false;
+    }
   }
   return true;
 }

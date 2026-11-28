@@ -536,17 +536,36 @@ function detectPersonalFormats(text, options, emit) {
   );
   collectMatches(
     text,
-    /(?<![\w:])(?:[a-fA-F0-9]{0,4}:){2,7}[a-fA-F0-9]{0,4}(?![\w:])/g,
+    /(?<![\p{L}\p{M}\p{N}_:>])(?:[a-fA-F0-9]{0,4}:){2,7}[a-fA-F0-9]{0,4}(?![\p{L}\p{M}\p{N}_:<])/gu,
     emit,
     { type: 'IP_ADDRESS', category: 'personal', rule: 'ipv6' },
     0,
-    // Rust paths such as a::b and namespace prefixes are valid IPv6 syntax,
-    // but carry no useful address evidence in coding-session text.
-    (v) =>
-      isIP(v) === 6 &&
-      (options.publicKnowledge === false || !localAddress(v)) &&
-      v !== '::' &&
-      !/^[a-fA-F0-9]{0,4}::$/.test(v) &&
-      (v.split(':').filter(Boolean).length >= 3 || /\d/.test(v))
+    (value, match) => ipv6Evidence(text, value, match.index, options)
+  );
+}
+
+function ipv6Evidence(text, value, start, options) {
+  if (
+    isIP(value) !== 6 ||
+    (options.publicKnowledge !== false && localAddress(value))
+  ) {
+    return false;
+  }
+  // Rust paths such as a::b and namespace prefixes also have IPv6 syntax.
+  if (
+    /^[a-fA-F0-9]{0,4}::$/.test(value) ||
+    (value.split(':').filter(Boolean).length < 3 && !/\d/.test(value))
+  ) {
+    return false;
+  }
+  // In documents and their JSON recordings, a short decimal suffix often
+  // identifies a component index. Require address context for these forms.
+  return (
+    !options.documentEntities ||
+    value === '::1' ||
+    !/^[a-fA-F0-9]{0,2}::\d{1,2}$/.test(value) ||
+    /(?<![\p{L}\p{M}\p{N}_])(?:ipv?6?|адрес|host)["'\]\s:=[]*$/iu.test(
+      text.slice(Math.max(0, start - 48), start)
+    )
   );
 }
