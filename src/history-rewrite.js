@@ -1,10 +1,11 @@
 import { execFileSync } from 'node:child_process';
 import { mkdir, writeFile, readFile, rm, chmod } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
-import { createSanitizer } from './engines.js';
+import { createSanitizer, sanitizerConfiguration } from './engines.js';
 import { auditGitHistory } from './history.js';
 import { decodeText } from './files.js';
 import { failure } from './detection.js';
+import { redactionMarker } from './transforms.js';
 import { encodeLinoObject } from './lino-object.js';
 
 function git(repository, args) {
@@ -17,7 +18,7 @@ function git(repository, args) {
     throw failure('ERR_GIT');
   }
 }
-async function identity(line, engine) {
+async function identity(line, engine, marker) {
   const match = /^(.*) <([^>]*)> (\d+ [+-]\d{4})$/.exec(line);
   if (!match) {
     throw failure('ERR_GIT');
@@ -27,7 +28,7 @@ async function identity(line, engine) {
   const date = (await engine.inspect(match[3])).length ? '0 +0000' : match[3];
   return {
     name: name.text,
-    email: email.redactions ? 'REDACTED' : email.text,
+    email: email.redactions ? marker.slice(1, -1) : email.text,
     date,
     originalName: match[1],
     originalEmail: match[2],
@@ -40,6 +41,7 @@ function regexp(value) {
     .replaceAll('\r', '\\r');
 }
 async function buildPlan(repository, audit, engine, maxPaths) {
+  const marker = redactionMarker(sanitizerConfiguration(engine) ?? {});
   const data = { blobs: {}, commits: {}, tags: {}, paths: {}, refs: {} },
     replacements = new Set(),
     mailmap = new Set();
@@ -50,7 +52,7 @@ async function buildPlan(repository, audit, engine, maxPaths) {
     for (const f of entry.findings) {
       const value = text.slice(f.start, f.end);
       replacements.add(
-        `regex:${regexp(value).replaceAll('==>', '\\x3d\\x3d\\x3e')}==>[REDACTED]`
+        `regex:${regexp(value).replaceAll('==>', '\\x3d\\x3d\\x3e')}==>${marker}`
       );
     }
     if (entry.type === 'blob') {
@@ -76,7 +78,11 @@ async function buildPlan(repository, audit, engine, maxPaths) {
       if (!line) {
         continue;
       }
-      const person = await identity(line.slice(field.length + 1), engine);
+      const person = await identity(
+        line.slice(field.length + 1),
+        engine,
+        marker
+      );
       details[field] = {
         name: person.name,
         email: person.email,
@@ -238,7 +244,8 @@ export async function rewriteGitHistory(
   } catch (error) {
     await rm(directory, { recursive: true, force: true });
     throw failure(
-      /^ERR_[A-Z_]+$/.test(error.code) ? error.code : 'ERR_HISTORY_REWRITE'
+      /^ERR_[A-Z_]+$/.test(error.code) ? error.code : 'ERR_HISTORY_REWRITE',
+      { stage: error.stage, findingCounts: error.findingCounts }
     );
   }
 }

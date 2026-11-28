@@ -20,19 +20,43 @@ const labels = new Set(
     ' '
   )
 );
+const russianLabel =
+  /(?<![\p{L}\p{M}\p{N}_])(?:имя|фио|фамилия|кандидат|соискатель)[ \t]*:[ \t]*/giu;
+const labelledWord = "[\\p{L}\\p{M}]{1,48}(?:[-’'][\\p{L}\\p{M}]{1,48})?";
+const labelledEnd = "(?![\\p{L}\\p{M}\\p{N}_@’'-]|[ \\t]*:)";
+const labelledName = new RegExp(
+  `${labelledWord}${labelledEnd}(?:[ \\t]+(?=\\p{Lu})${labelledWord}${labelledEnd}){0,2}`,
+  'uy'
+);
 
 export function detectDocumentPersonCues(text, emit) {
+  const details = {
+    type: 'PERSON',
+    rule: 'document-person-cue',
+    category: 'personal',
+    confidence: 0.85,
+  };
   collectMatches(
     text,
     pattern,
     emit,
-    {
-      type: 'PERSON',
-      rule: 'document-person-cue',
-      category: 'personal',
-      confidence: 0.85,
-    },
+    details,
     1,
     (value) => !labels.has(value.toLowerCase())
   );
+  for (const cue of text.matchAll(russianLabel)) {
+    const start = cue.index + cue[0].length;
+    if (
+      /^(?:нет|не[ \t]+указан[оаы]?|unknown)(?![\p{L}\p{M}])/iu.test(
+        text.slice(start, start + 32)
+      )
+    ) {
+      continue;
+    }
+    labelledName.lastIndex = start;
+    const match = labelledName.exec(text);
+    if (match) {
+      emit({ start, end: start + match[0].length, ...details });
+    }
+  }
 }

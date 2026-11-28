@@ -5,6 +5,7 @@ import {
 } from './russian-names.js';
 import { knownMatcher } from './compiled-known.js';
 import { flatRegExp } from './unicode-runs.js';
+import { russianMobileSource } from './phone-variants.js';
 
 const boundary = '[\\p{L}\\p{M}\\p{N}_]';
 export function organizationCore(value) {
@@ -362,6 +363,10 @@ export function personalPatterns(value, type, flags, related = false) {
     // Large explicit values still support literal matching without expansion.
     return [escapePattern(value)];
   }
+  const phone = type === 'PHONE' && russianMobileSource(value.trim());
+  if (phone) {
+    return [escapePattern(value), phone];
+  }
   const values = new Set([value]);
   if (type === 'ORGANIZATION') {
     const core = organizationCore(value);
@@ -455,6 +460,13 @@ export function personalSource(value, type, flags) {
     }
     core = core.slice(0, end);
     return `(?<![\\p{L}\\p{N}_./-])(?:https?:\\/\\/)?${escapePattern(core)}(?:\\/)?(?:[?#][^\\s"<>\\\\]*)?(?![\\p{L}\\p{N}_-])`;
+  }
+  const phone =
+    type === 'PHONE' &&
+    value.length <= 256 &&
+    russianMobileSource(value.trim());
+  if (phone) {
+    return `(?<![\\p{L}\\p{M}\\p{N}_+])(?:${escapePattern(value)}|${phone})(?!${boundary})`;
   }
   const alternatives = personalPatterns(value, type, flags).join('|');
   if (flags?.identifiers) {

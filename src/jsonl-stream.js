@@ -7,6 +7,7 @@ import { workerExecArgv, hasWorkerCallbacks } from './worker-options.js';
 import { prepareStreamEngine } from './engines.js';
 import { inspect } from './sanitizer.js';
 import { hasPlaceholders } from './placeholders.js';
+import { boundedRecords, recordBatches } from './stream-records.js';
 
 async function* records(source, { maxRecordBytes, maxTotalBytes }) {
   const decoder = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true });
@@ -52,28 +53,13 @@ async function* records(source, { maxRecordBytes, maxTotalBytes }) {
     yield decode();
   }
 }
-async function* batches(source, config) {
-  let parts = [],
-    length = 0;
-  for await (const record of records(source, config)) {
-    const bytes = Buffer.byteLength(record);
-    if (length && length + bytes > config.batchBytes) {
-      yield parts.join('');
-      parts = [];
-      length = 0;
-    }
-    parts.push(record);
-    length += bytes;
-    if (length >= config.batchBytes) {
-      yield parts.join('');
-      parts = [];
-      length = 0;
-    }
-  }
-  if (length) {
-    yield parts.join('');
-  }
-}
+const batches = (source, config) =>
+  recordBatches(
+    config.redactOversized
+      ? boundedRecords(source, config)
+      : records(source, config),
+    config.batchBytes
+  );
 function workerSlot(options, heap, timeout) {
   let worker;
   try {

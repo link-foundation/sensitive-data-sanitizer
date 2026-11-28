@@ -55,6 +55,31 @@ describe('fresh-clone history remediation', () => {
     }
   );
   itUnless(nodeCliUnavailable)(
+    'uses the verified fallback in history preview replacements and identities',
+    async () => {
+      const directory = await mkdtemp(join(tmpdir(), 'sanitizer-history-'));
+      try {
+        const { source } = await repository(directory);
+        const preview = join(directory, 'preview');
+        await rewriteGitHistory(source, preview, {
+          sanitizerOptions: { secretlint: false, knownSecrets: ['REDACTED'] },
+        });
+        const replacements = await readFile(
+          join(preview, 'replace-text.txt'),
+          'utf8'
+        );
+        expect(replacements.includes('==>\n')).toBe(true);
+        expect(replacements.includes('REDACTED')).toBe(false);
+        const mailmap = await readFile(join(preview, 'mailmap'), 'utf8');
+        expect(mailmap.includes('<> John Smith <john@private.example>')).toBe(
+          true
+        );
+      } finally {
+        await rm(directory, { recursive: true, force: true });
+      }
+    }
+  );
+  itUnless(nodeCliUnavailable)(
     'fails closed for missing rewrite tools and pre-existing destinations',
     async () => {
       const directory = await mkdtemp(join(tmpdir(), 'sanitizer-history-'));

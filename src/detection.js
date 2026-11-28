@@ -24,13 +24,37 @@ import { tokenChecksum } from './token-checksum.js';
 import { refineCredentialSpans, cookieValues } from './credential-spans.js';
 import { unicodeRun } from './unicode-runs.js';
 import { escapePattern } from './escape-pattern.js';
+import { reservedPlaceholderTypes } from './placeholder-types.js';
 
 export { escapePattern };
 
 export const REDACTED = '[REDACTED]';
+const residualStages = new Set([
+  'callback-output',
+  'redaction-verification',
+  'known-output',
+  'placeholder-output',
+]);
+let safeFindingTypes;
+function residualMetadata(code, { stage, findingCounts }) {
+  if (code !== 'ERR_RESIDUAL' || !residualStages.has(stage)) {
+    return {};
+  }
+  safeFindingTypes ??= new Set([...reservedPlaceholderTypes(), 'CUSTOM']);
+  return {
+    stage,
+    findingCounts: Object.fromEntries(
+      Object.entries(findingCounts ?? {}).filter(
+        ([type, count]) =>
+          safeFindingTypes.has(type) && Number.isSafeInteger(count) && count > 0
+      )
+    ),
+  };
+}
 export const failure = (code = 'ERR_SANITIZATION', location = {}) =>
   Object.assign(new Error('Sanitization failed; output was blocked.'), {
     code,
+    ...residualMetadata(code, location),
     ...Object.fromEntries(
       ['record', 'offset', 'recordOffset']
         .filter(
@@ -39,6 +63,15 @@ export const failure = (code = 'ERR_SANITIZATION', location = {}) =>
         .map((key) => [key, location[key]])
     ),
   });
+export function residualFailure(stage, findings) {
+  safeFindingTypes ??= new Set([...reservedPlaceholderTypes(), 'CUSTOM']);
+  const findingCounts = Object.create(null);
+  for (const finding of findings) {
+    const type = safeFindingTypes.has(finding.type) ? finding.type : 'CUSTOM';
+    findingCounts[type] = (findingCounts[type] ?? 0) + 1;
+  }
+  return failure('ERR_RESIDUAL', { stage, findingCounts });
+}
 // Unexpected errors are replaced by a generic failure so no input text can
 // leak through an error message. `SENSITIVE_DATA_SANITIZER_DEBUG=1` prints
 // the original stack to stderr for local diagnosis (for example a
@@ -171,7 +204,11 @@ function advanceIndex(text, index, unicode) {
 function collectMatch(match, group, details, accept, emit) {
   const raw = match[group];
   const value = details.category === 'personal' ? raw?.trim() : raw;
-  if (!value || value.trim() === REDACTED || !accept(value, match)) {
+  if (
+    !value ||
+    (details.rule !== 'known-secret' && value.trim() === REDACTED) ||
+    !accept(value, match)
+  ) {
     return;
   }
   const offset = group ? match[0].lastIndexOf(value) : 0;
@@ -337,9 +374,9 @@ function detectKnownValues(text, options, emit) {
   }
 }
 
-function detectNative(text, options, emit) {
+function detectKnownSecrets(text, values, emit) {
   const credential = { type: 'SECRET', category: 'credential' };
-  for (const value of options.knownSecrets ?? []) {
+  for (const value of values) {
     collectMatches(text, new RegExp(escapePattern(value), 'g'), emit, {
       ...credential,
       rule: 'known-secret',
@@ -349,6 +386,19 @@ function detectNative(text, options, emit) {
       rule: 'known-secret',
     });
   }
+}
+
+export function containsKnownSecret(text, values) {
+  let found = false;
+  detectKnownSecrets(text, values, () => {
+    found = true;
+  });
+  return found;
+}
+
+function detectNative(text, options, emit) {
+  const credential = { type: 'SECRET', category: 'credential' };
+  detectKnownSecrets(text, options.knownSecrets ?? [], emit);
   detectKnownValues(text, options, emit);
   if (options.knownOnly) {
     return;
@@ -536,17 +586,36 @@ function detectPersonalFormats(text, options, emit) {
   );
   collectMatches(
     text,
-    /(?<![\w:])(?:[a-fA-F0-9]{0,4}:){2,7}[a-fA-F0-9]{0,4}(?![\w:])/g,
+    /(?<![\p{L}\p{M}\p{N}_:>])(?:[a-fA-F0-9]{0,4}:){2,7}[a-fA-F0-9]{0,4}(?![\p{L}\p{M}\p{N}_:<])/gu,
     emit,
     { type: 'IP_ADDRESS', category: 'personal', rule: 'ipv6' },
     0,
-    // Rust paths such as a::b and namespace prefixes are valid IPv6 syntax,
-    // but carry no useful address evidence in coding-session text.
-    (v) =>
-      isIP(v) === 6 &&
-      (options.publicKnowledge === false || !localAddress(v)) &&
-      v !== '::' &&
-      !/^[a-fA-F0-9]{0,4}::$/.test(v) &&
-      (v.split(':').filter(Boolean).length >= 3 || /\d/.test(v))
+    (value, match) => ipv6Evidence(text, value, match.index, options)
+  );
+}
+
+function ipv6Evidence(text, value, start, options) {
+  if (
+    isIP(value) !== 6 ||
+    (options.publicKnowledge !== false && localAddress(value))
+  ) {
+    return false;
+  }
+  // Rust paths such as a::b and namespace prefixes also have IPv6 syntax.
+  if (
+    /^[a-fA-F0-9]{0,4}::$/.test(value) ||
+    (value.split(':').filter(Boolean).length < 3 && !/\d/.test(value))
+  ) {
+    return false;
+  }
+  // In documents and their JSON recordings, a short decimal suffix often
+  // identifies a component index. Require address context for these forms.
+  return (
+    !options.documentEntities ||
+    value === '::1' ||
+    !/^[a-fA-F0-9]{0,2}::\d{1,2}$/.test(value) ||
+    /(?<![\p{L}\p{M}\p{N}_])(?:ipv?6?|адрес|host)["'\]\s:=[]*$/iu.test(
+      text.slice(Math.max(0, start - 48), start)
+    )
   );
 }

@@ -17,6 +17,7 @@ import {
   internalFailure,
   nativeDetect,
   REDACTED,
+  residualFailure,
   residualRounds,
 } from './detection.js';
 import { projectText } from './projection.js';
@@ -28,6 +29,8 @@ import {
   renderReplacement,
   hasCustomTransforms,
   renderCallbackAsync,
+  withRedactionMarker,
+  redactionMarker,
 } from './transforms.js';
 import { isIdentityType } from './identity-types.js';
 import { rejectRestoreMap } from './restore-map.js';
@@ -39,6 +42,7 @@ import {
   validateExempt,
 } from './exempt.js';
 import { builtInRules } from './rule-catalog.js';
+import { isPlaceholderToken } from './placeholder-types.js';
 import {
   separatedParts,
   structuredRecordFindings,
@@ -572,6 +576,7 @@ function inspectText(text, options = {}) {
   validateOptions(options);
   validateInput(text, options);
   if (options.structured) {
+    options = withRedactionMarker(options);
     const memo = structuredInspection(options);
     const batches = structuredBatches(text, options);
     const findings = batches.flatMap((batch) => [
@@ -680,6 +685,20 @@ function policyKept(text, finding, options) {
   if (builtInRule(finding) && templatedCredential(text, finding)) {
     options.debug?.({ event: 'template-value', rule: finding.rule });
     return false;
+  }
+  if (
+    finding.category === 'personal' &&
+    builtInRule(finding) &&
+    !exactRules.has(finding.rule) &&
+    (finding.rule === 'messenger-label' || !hasPlaceholders(options))
+  ) {
+    const value = text.slice(finding.start, finding.end);
+    if (
+      /^[A-Za-z]+(?:[A-Za-z0-9]*)-[1-9]\d*$/u.test(value) &&
+      isPlaceholderToken(value)
+    ) {
+      return false;
+    }
   }
   return true;
 }
@@ -1032,7 +1051,7 @@ export function redactResult(
 ) {
   options = applyProfile(options);
   const spans = validatedSpans(text, findings, options);
-  options = initializePlaceholders(options);
+  options = withRedactionMarker(initializePlaceholders(options));
   options = withFeature('prepareFakeText', options, text, findings, options);
   preparePlaceholderText(text, findings, options);
   const parts = [];
@@ -1065,11 +1084,13 @@ export function redactResult(
     outputLength += span.start - cursor;
     const transform =
       options.transformations?.[span.type] ?? options.transformation;
-    if (retainedReplacement(transform, 'placeholder', span, replacement)) {
+    if (
+      retainedReplacement(transform, 'placeholder', span, replacement, options)
+    ) {
       // `Organization-1` followed by `99` would read as a token that does not
       // exist, so a span that ends there fails the run instead.
       if (/\d$/.test(replacement) && /\d/.test(text[span.end] ?? '')) {
-        throw failure('ERR_RESIDUAL');
+        throw residualFailure('placeholder-output', [span]);
       }
       occurrences.push({
         start: outputLength,
@@ -1080,12 +1101,12 @@ export function redactResult(
     }
     if (
       hasPlaceholders(options) &&
-      !retainedReplacement(transform, 'placeholder', span, replacement)
+      !retainedReplacement(transform, 'placeholder', span, replacement, options)
     ) {
       irreversibleRedactions++;
     }
     outputLength += replacement.length;
-    if (retainedReplacement(transform, 'fake', span, replacement)) {
+    if (retainedReplacement(transform, 'fake', span, replacement, options)) {
       faked.push(span);
     }
     cursor = span.end;
@@ -1103,10 +1124,11 @@ export function redactResult(
   fakedResults.set(result, faked);
   return result;
 }
-function retainedReplacement(transform, mode, span, replacement) {
+function retainedReplacement(transform, mode, span, replacement, options) {
   return (
     transform?.mode === mode &&
     replacement !== REDACTED &&
+    replacement !== redactionMarker(options) &&
     (span.category === 'personal' || transform.credentials)
   );
 }
@@ -1131,7 +1153,7 @@ export async function redactResultAsync(
   options,
   sanitizeDecoded
 ) {
-  options = initializePlaceholders(options);
+  options = withRedactionMarker(initializePlaceholders(options));
   preparePlaceholderText(text, findings, options);
   const replacements = new Map();
   const jsonRanges = callbackStringRanges(text, options);
@@ -1172,12 +1194,15 @@ export async function redactResultAsync(
       // Without a recognizable re-encoding, the encoded text itself is masked.
       replacements.set(
         `${span.start}:${span.end}`,
-        encodeRun(run, result.text === run.text ? REDACTED : result.text) ??
+        encodeRun(
+          run,
+          result.text === run.text ? redactionMarker(options) : result.text
+        ) ??
           renderReplacement(
             text,
             span,
             { ...options, preserveEncoding: false },
-            () => ({ text: REDACTED })
+            () => ({ text: redactionMarker(options) })
           )
       );
     }
@@ -1200,7 +1225,7 @@ function sanitizeText(text, options = {}, round = 0) {
   options = applyProfile(options);
   validateOptions(options);
   options = withStructuredMemo(
-    placeholderKnown(initializePlaceholders(options))
+    withRedactionMarker(placeholderKnown(initializePlaceholders(options)))
   );
   const findings = inspect(text, options);
   const result = redactResult(text, findings, options);
@@ -1211,32 +1236,81 @@ function sanitizeText(text, options = {}, round = 0) {
   const clean =
     !findings.length && !options.findings?.length && !options.detectors?.length;
   const residual = (output) =>
-    !(clean && output === text) &&
-    inspect(output, { ...options, findings: [] }).some((f) =>
-      actionable(f, options)
-    );
-  if (hasCustomTransforms(options) && residual(result.text)) {
-    throw failure('ERR_RESIDUAL');
+    clean && output === text
+      ? []
+      : inspect(output, { ...options, findings: [] }).filter((f) =>
+          actionable(f, options)
+        );
+  if (hasCustomTransforms(options)) {
+    const remaining = residual(result.text);
+    if (remaining.length) {
+      throw residualFailure('callback-output', remaining);
+    }
   }
-  const sanitized = redactResult(text, findings, {
-    ...options,
-    transformation: undefined,
-    transformations: undefined,
-    identityMask: false,
-    preserveEncoding: false,
-  }).text;
-  if (residual(sanitized)) {
-    return redactAgain(result, findings, options, round, (next, nextRound) =>
-      sanitizeText(result.text, next, nextRound)
+  const sanitized = redactResult(
+    text,
+    findings,
+    fullRedactionOptions(options)
+  ).text;
+  const known = knownOutputFindings(result.text, sanitized, options);
+  const remaining = known.length ? known : residual(sanitized);
+  if (remaining.length) {
+    return redactAgain(
+      result,
+      findings,
+      options,
+      round,
+      { known, remaining },
+      (next, nextRound) => sanitizeText(result.text, next, nextRound)
     );
   }
   if (options.structured) {
     verifyStructured(result.text, options);
   }
-  if (hasPlaceholders(options) && residual(result.text)) {
-    throw failure('ERR_RESIDUAL');
+  if (hasPlaceholders(options)) {
+    const remaining = residual(result.text);
+    if (remaining.length) {
+      throw residualFailure('placeholder-output', remaining);
+    }
   }
   return { ...result, findings: auditFaked(findings, options, result) };
+}
+
+export function fullRedactionOptions(options) {
+  return {
+    ...options,
+    transformation: undefined,
+    transformations: undefined,
+    identityMask: false,
+    preserveEncoding: false,
+  };
+}
+
+// A typed mask may deliberately retain some characters. Still check the
+// actual output for explicit secrets, including in its decoded views.
+export function knownOutputFindings(text, shadow, options) {
+  if (text === shadow || !options.knownSecrets?.length) {
+    return [];
+  }
+  const known = inspect(text, {
+    knownOnly: true,
+    credentialsOnly: true,
+    knownSecrets: options.knownSecrets,
+    decode: options.decode,
+    maxInputLength: options.maxInputLength,
+    maxFindings: options.maxFindings,
+    structured: options.structured,
+    rules: options.rules,
+    types: options.types,
+    allowCredentialDisable: options.allowCredentialDisable,
+  }).filter(
+    (finding) =>
+      finding.rule !== 'encoded-limit' && actionable(finding, options)
+  );
+  if (known.length && hasPlaceholders(options)) {
+    throw residualFailure('placeholder-output', known);
+  }
+  return known;
 }
 
 function validateLimits(options) {
@@ -1256,9 +1330,19 @@ function validateLimits(options) {
 // A value found again after redaction, for example when raw and decoded
 // layers disagree about a span, is redacted in another round. Only a run that
 // does not converge within residualRounds fails closed.
-export function redactAgain(result, findings, options, round, rerun) {
+export function redactAgain(
+  result,
+  findings,
+  options,
+  round,
+  { known, remaining },
+  rerun
+) {
   if (round >= residualRounds) {
-    throw failure('ERR_RESIDUAL');
+    throw residualFailure(
+      known.length ? 'known-output' : 'redaction-verification',
+      remaining
+    );
   }
   options.debug?.({ event: 'residual-redaction', round: round + 1 });
   const merge = (next) => ({
@@ -1273,7 +1357,13 @@ export function redactAgain(result, findings, options, round, rerun) {
       : {}),
     findings: auditFaked(findings, options, result),
   });
-  const next = rerun({ ...options, findings: [] }, round + 1);
+  const next = rerun(
+    {
+      ...(known.length ? fullRedactionOptions(options) : options),
+      findings: [],
+    },
+    round + 1
+  );
   return next instanceof Promise ? next.then(merge) : merge(next);
 }
 

@@ -3,9 +3,11 @@ import { readdirSync } from 'node:fs';
 import { selectTests, testCommand } from '../scripts/run-test-shard.mjs';
 import { createTestMatrix } from '../scripts/node-lts-matrix.mjs';
 
-const engineTests = [
+const largeRunTests = [
   'sanitizer-issue-172-async-engine.test.js',
   'sanitizer-issue-172-sync-engine.test.js',
+  'sanitizer-issue-172-file.test.js',
+  'sanitizer-issue-172.test.js',
 ];
 const expensive = [
   'pr-guards.test.js',
@@ -14,9 +16,7 @@ const expensive = [
   'run-with-budget-warning.test.js',
   'release-preflight.test.js',
   'sanitizer-jsonl-stream.test.js',
-  'sanitizer-issue-172.test.js',
-  ...engineTests,
-  'sanitizer-issue-172-file.test.js',
+  ...largeRunTests,
   'sanitizer-issue-170.test.js',
   'sanitizer-issue-128-evidence.test.js',
 ];
@@ -35,7 +35,7 @@ it('partitions every test file exactly once, independent of directory order', ()
   ).toBe(true);
 });
 
-it('covers each runtime version and OS once while distributing Bun and Deno fixtures', () => {
+it('covers each runtime version and OS once across the configured shards', () => {
   const nodeVersions = ['22.23.5', '24.22.3', '26.13.1', '27.3.0'];
   const { include } = createTestMatrix(nodeVersions);
   const files = readdirSync('tests');
@@ -53,10 +53,11 @@ it('covers each runtime version and OS once while distributing Bun and Deno fixt
       const covered = shards.flatMap(({ shard }) => selectTests(files, shard));
       expect(covered.sort()).toEqual(whole);
       expect(new Set(covered).size).toBe(whole.length);
-      if (os === 'windows-2025' && ['bun', 'deno'].includes(runtime)) {
+      if (os === 'windows-2025') {
         expect(
           shards.every(
-            ({ shard }) => selectTests(files, shard).length < whole.length / 2
+            ({ shard }) =>
+              selectTests(files, shard).length <= Math.ceil(whole.length / 2)
           )
         ).toBe(true);
       }
@@ -96,18 +97,18 @@ it('covers each runtime version and OS once while distributing Bun and Deno fixt
   }
 });
 
-it('runs the long engine tests in separate macOS Node.js shards', () => {
+it('runs the long input tests in separate macOS Node.js shards', () => {
   const files = readdirSync('tests');
   const { include } = createTestMatrix(['22.23.5']);
   const shards = include.filter(
     ({ os, runtime }) => os === 'macos-26-intel' && runtime === 'node'
   );
   const assignments = shards.map(({ shard }) => selectTests(files, shard));
-  const engineShards = engineTests.map((file) =>
+  const largeRunShards = largeRunTests.map((file) =>
     assignments.findIndex((tests) => tests.includes(`tests/${file}`))
   );
-  expect(engineShards.every((index) => index !== -1)).toBe(true);
-  expect(new Set(engineShards).size).toBe(engineTests.length);
+  expect(largeRunShards.every((index) => index !== -1)).toBe(true);
+  expect(new Set(largeRunShards).size).toBe(largeRunTests.length);
 });
 
 it('rejects invalid shard selection and empty or unknown runtime commands', () => {

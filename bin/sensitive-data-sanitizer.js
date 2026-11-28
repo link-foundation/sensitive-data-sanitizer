@@ -54,6 +54,7 @@ function parseArgs(argv, defaultConfigPath) {
     ['--betterleaks', 'betterleaks'],
     ['--trufflehog', 'trufflehog'],
     ['--stream', 'stream'],
+    ['--redact-oversized-records', 'redactOversizedRecords'],
     ['--allow-binary', 'allowBinary'],
     ['--two-pass', 'twoPass'],
     ['--json', 'json'],
@@ -176,7 +177,12 @@ function validatePaths(config) {
 
 function validateFeatureArgs(config) {
   config.maxRecordBytes = Number(
-    config.maxRecordBytes ?? (config.jsonl ? 8388608 : config.maxBytes)
+    config.maxRecordBytes ??
+      (config.redactOversizedRecords
+        ? 262144
+        : config.jsonl
+          ? 8388608
+          : config.maxBytes)
   );
   if (
     !Number.isSafeInteger(config.maxRecordBytes) ||
@@ -193,7 +199,7 @@ function validateFeatureArgs(config) {
 
 function validateStructuredArgs(config) {
   validateStreamArgs(config);
-  if (config.twoPass && !config.stream) {
+  if ((config.twoPass || config.redactOversizedRecords) && !config.stream) {
     throw failure('ERR_ARGUMENT');
   }
   if ((config.json && config.jsonl) || (config.stream && config.json)) {

@@ -1,6 +1,11 @@
 import { feature } from './features.js';
 import { createHmac } from 'node:crypto';
-import { failure, REDACTED } from './detection.js';
+import {
+  containsKnownSecret,
+  failure,
+  REDACTED,
+  residualFailure,
+} from './detection.js';
 import { encodedValue, encodeRun, decodedRuns } from './encoded.js';
 import { isIdentityType } from './identity-types.js';
 import { validatePlaceholder, placeholderReplacement } from './placeholders.js';
@@ -19,6 +24,25 @@ const modes = new Set([
   'placeholder',
   'encrypt',
 ]);
+const markerKey = Symbol('redaction marker');
+export function withRedactionMarker(options) {
+  if (!options.knownSecrets?.length || options[markerKey] !== undefined) {
+    return options;
+  }
+  const secrets = options.knownSecrets;
+  const projected = secrets
+    .map((value) => projectText(value).text)
+    .filter(Boolean);
+  // Empty redaction also works inside JSON strings and cannot itself repeat
+  // the secret. The complete output still goes through residual scanning.
+  const marker =
+    containsKnownSecret(REDACTED, secrets) ||
+    containsKnownSecret(REDACTED, projected)
+      ? ''
+      : REDACTED;
+  return { ...options, [markerKey]: marker };
+}
+export const redactionMarker = (options) => options[markerKey] ?? REDACTED;
 export function validateTransforms(options) {
   if (
     options.preserveEncoding !== undefined &&
@@ -250,7 +274,7 @@ function transformed(value, finding, transform, options) {
       Promise.resolve(result).catch(() => {});
       throw failure('ERR_CONFIG');
     }
-    return verifiedCallback(value, result);
+    return verifiedCallback(value, result, finding);
   }
   if (!transform || transform.mode === 'redact') {
     return REDACTED;
@@ -291,7 +315,7 @@ function jsonValueReplacement(text, finding, options) {
   const transform =
     options.transformations?.JSON_VALUE ?? options.transformation;
   if (transform?.mode !== 'placeholder') {
-    return JSON.stringify(REDACTED);
+    return JSON.stringify(redactionMarker(options));
   }
   const raw = text.slice(finding.start, finding.end);
   return JSON.stringify(
@@ -328,7 +352,7 @@ export function renderReplacement(
       // Redact the fragment if recursive scanning makes no progress.
       const encoded = encodeRun(
         run,
-        sanitized === run.text ? REDACTED : sanitized
+        sanitized === run.text ? redactionMarker(options) : sanitized
       );
       if (encoded !== undefined) {
         return encoded;
@@ -373,13 +397,17 @@ function renderValue(text, finding, transform, options, jsonRanges) {
     typeof transform !== 'function'
   );
   if (invalid) {
-    return REDACTED;
+    return redactionMarker(options);
   }
   const result =
     transform?.mode === 'placeholder'
       ? placeholderReplacement(raw, finding, transform, options)
       : transformed(raw, finding, transform, options);
-  return jsonQuoted ? JSON.stringify(result).slice(1, -1) : result;
+  const replacement =
+    typeof transform !== 'function' && result === REDACTED
+      ? redactionMarker(options)
+      : result;
+  return jsonQuoted ? JSON.stringify(replacement).slice(1, -1) : replacement;
 }
 
 export const hasCustomTransforms = (options) =>
@@ -387,23 +415,32 @@ export const hasCustomTransforms = (options) =>
     options.transformation,
     ...Object.values(options.transformations ?? {}),
   ].some((t) => typeof t === 'function');
-function verifiedCallback(value, result) {
+function verifiedCallback(value, result, finding) {
   if (typeof result !== 'string') {
     throw failure('ERR_CONFIG');
   }
   const normalize = (s) => projectText(s).text.toLowerCase();
-  const originals = [
-    value,
-    ...Array.from(decodedRuns(value), (run) => run.text),
-  ]
-    .map(normalize)
-    .filter(Boolean);
-  if (
-    [result, ...Array.from(decodedRuns(result), (run) => run.text)].some(
-      (view) => originals.some((original) => normalize(view).includes(original))
-    )
-  ) {
-    throw failure('ERR_RESIDUAL');
+  const originals = new Set([normalize(value)]);
+  for (const run of decodedRuns(value)) {
+    if (!run.limited) {
+      originals.add(normalize(run.text));
+    }
+  }
+  originals.delete('');
+  const views = [...originals];
+  const repeatsOriginal = (view) => {
+    const normalized = normalize(view);
+    return views.some((original) => normalized.includes(original));
+  };
+  if (repeatsOriginal(result)) {
+    throw residualFailure('callback-output', [finding]);
+  }
+  for (const run of decodedRuns(result)) {
+    // An opaque replacement cannot be verified even when it differs from the
+    // original and the caller disabled automatic encoded detection.
+    if (run.limited || repeatsOriginal(run.text)) {
+      throw residualFailure('callback-output', [finding]);
+    }
   }
   return result;
 }
@@ -411,7 +448,8 @@ export async function renderCallbackAsync(text, finding, callback, jsonRanges) {
   const { raw, jsonQuoted } = replacementInput(text, finding, jsonRanges);
   const result = verifiedCallback(
     raw,
-    await callback(Object.freeze({ ...finding, value: raw }))
+    await callback(Object.freeze({ ...finding, value: raw })),
+    finding
   );
   return jsonQuoted ? JSON.stringify(result).slice(1, -1) : result;
 }

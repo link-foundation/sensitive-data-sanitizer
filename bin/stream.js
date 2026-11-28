@@ -21,6 +21,7 @@ export async function streamCommand(
     const target = destination ?? join(spool, 'output');
     const limits = {
       maxRecordBytes: config.maxRecordBytes,
+      oversizedRecords: config.redactOversizedRecords ? 'redact' : 'error',
       maxTotalBytes: config.maxBytes,
       replace: Boolean(config.inPlace),
       twoPass: Boolean(config.twoPass),

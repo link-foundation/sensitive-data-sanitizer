@@ -9,11 +9,12 @@ const releasesUrl = 'https://nodejs.org/dist/index.json';
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 const versionPattern = /^v(\d+)\.\d+\.\d+$/;
 
-// Keep the measured per-runtime shard counts when adding another Node line.
+// Keep Node.js under the suite budget on Windows and spread the long-input
+// regressions over distinct macOS Intel jobs.
 const shards = {
   'ubuntu-24.04': { node: 1, bun: 2, deno: 1 },
-  'windows-2025': { node: 1, bun: 3, deno: 3 },
-  'macos-26-intel': { node: 3, bun: 6, deno: 6 },
+  'windows-2025': { node: 2, bun: 3, deno: 3 },
+  'macos-26-intel': { node: 4, bun: 6, deno: 6 },
 };
 
 function latestLtsByMajor(releases) {

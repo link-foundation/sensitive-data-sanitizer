@@ -2,6 +2,7 @@ import { structuredInspection } from './structured-memo.js';
 import { failure } from './detection.js';
 import { documentFieldType } from './document-fields.js';
 import { hasPlaceholders } from './placeholders.js';
+import { redactionMarker } from './transforms.js';
 import { scanField, fieldMatches, builtInEnabled } from './policy.js';
 import { vocabularyField } from './vocabulary.js';
 
@@ -163,7 +164,7 @@ export function structuredFieldFindings(batch, options) {
       entry.key ||
       (!type && !denied) ||
       (!denied && entry.raw.length <= 2) ||
-      JSON.parse(entry.raw) === '[REDACTED]'
+      JSON.parse(entry.raw) === redactionMarker(options)
     ) {
       return [];
     }
@@ -518,7 +519,7 @@ function declaredValueFinding(text, token, options) {
   ) {
     return undefined;
   }
-  if (text.slice(start, end) === '"[REDACTED]"') {
+  if (text.slice(start, end) === JSON.stringify(redactionMarker(options))) {
     return undefined;
   }
   return {

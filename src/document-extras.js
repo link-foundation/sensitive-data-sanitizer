@@ -21,9 +21,12 @@ const duration = new RegExp(
   `(?<!${boundary})(${name})(?=[ \\t]*\\(\\d{1,2}[ \\t]+(?:год|года|лет|years?)\\))`,
   'gu'
 );
+const documentShareLink = flatRegExp(
+  /(?<![\p{L}\p{M}\p{N}_./@-])(?:(?:https?:\/\/)?(?:www\.)?hh\.ru\/resume\/[A-Za-z0-9_-]{1,128}\/?|https?:\/\/[^\s/"'<>]+\/(?:[^\s/?#"'<>]{1,64}\/){0,5}[A-Za-z0-9_-]{24,128}(?:\/[^\s?&#"'<>\\]{0,64})?)(?![\p{L}\p{N}_-])(?:[?#][^\s"'<>\\)\]}]*[^\s"'<>\\)\]}.,;!])?/giu
+);
 export function detectDocumentExtras(text, emit, range, debug, options) {
   for (const [type, rule, pattern, group] of [
-    ['PHONE', 'document-mobile-bare', /^[78]9\d{9}$/gm, 0],
+    ['PHONE', 'document-mobile-bare', /^[ \t]*([78]9\d{9})[ \t]*\r?$/gm, 1],
     [
       'PHONE',
       'document-mobile-comma',
@@ -60,7 +63,7 @@ export function detectDocumentExtras(text, emit, range, debug, options) {
     [
       'PHONE',
       'document-mobile-context',
-      /(?<![\p{L}\p{N}_])(?:пишите|контакт)[:,]?[ \t]+([78]9\d{9})(?!\d)/giu,
+      /(?<![\p{L}\p{M}\p{N}_])(?:пишите|звоните|контакт)(?:[ \t]*[:,][ \t]*|[ \t]+)([78]?9\d{9})(?![\p{L}\p{M}\p{N}_])/giu,
       1,
     ],
     [
@@ -84,14 +87,7 @@ export function detectDocumentExtras(text, emit, range, debug, options) {
       ),
       0,
     ],
-    [
-      'URL',
-      'document-share-link',
-      flatRegExp(
-        /https?:\/\/[^\s/"<>]+\/(?:[^\s/?#"<>]{1,64}\/){0,5}[A-Za-z0-9_-]{24,128}(?:\/[^\s?&#"<>\\]{0,64})?/gu
-      ),
-      0,
-    ],
+    ['URL', 'document-share-link', documentShareLink, 0],
   ]) {
     collectMatches(
       text,

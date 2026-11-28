@@ -54,6 +54,7 @@ try {
     apply: true,
     filterRepoCommand: process.env.GIT_FILTER_REPO ?? 'git-filter-repo',
     manifestFormat: 'json',
+    sanitizerOptions: { knownSecrets: ['REDACTED'] },
   });
   const json = await readFile(
     join(directory, 'clean-json', 'manifest.json'),
