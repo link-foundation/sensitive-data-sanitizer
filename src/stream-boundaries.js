@@ -53,7 +53,7 @@ function advanceNetrc(line, state) {
 }
 // Steps: 0 idle, 1 expects the machine name, 2 `login`, 3 the user,
 // 4 `password`, 5 the password value. Completing an entry returns to idle.
-function netrcStep(step, token, validName = netrcName.test(token)) {
+function netrcStep(step, token, validName) {
   if (netrcContinues(step, token, validName)) {
     return step === 5 ? 0 : step + 1;
   }
@@ -63,7 +63,7 @@ function netrcContinues(step, token, validName) {
   switch (step) {
     case 1:
     case 3:
-      return validName;
+      return validName ?? netrcName.test(token);
     case 2:
       return token === 'login';
     case 4:
@@ -83,6 +83,12 @@ function wrappedLine(line, continues) {
 }
 
 export function releaseBoundary(text, final) {
+  if (final) {
+    return text.length;
+  }
+  // A partial physical line cannot release a record. Leave it for the next
+  // complete line or EOF, especially when a long record spans many chunks.
+  const end = text.lastIndexOf('\n') + 1;
   let offset = 0,
     boundary = 0,
     base64Start = -1;
@@ -93,7 +99,7 @@ export function releaseBoundary(text, final) {
     putty: false,
     netrc: 0,
   };
-  for (const match of text.matchAll(/[^\n]*\n|[^\n]+$/g)) {
+  for (const match of text.slice(0, end).matchAll(/[^\n]*\n/g)) {
     const line = match[0];
     const base64 = wrappedLine(line, base64Start >= 0);
     if (base64 && base64Start < 0) {
@@ -110,11 +116,11 @@ export function releaseBoundary(text, final) {
     }
     if (base64Start >= 0) {
       boundary = Math.min(boundary, base64Start);
-    } else if (line.endsWith('\n') || final) {
+    } else {
       boundary = offset;
     }
   }
-  return final ? text.length : boundary;
+  return boundary;
 }
 
 const pemBegin = '-----BEGIN ';
