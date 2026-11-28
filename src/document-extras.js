@@ -29,12 +29,6 @@ export function detectDocumentExtras(text, emit, range, debug, options) {
     ['PHONE', 'document-mobile-bare', /^[ \t]*([78]9\d{9})[ \t]*\r?$/gm, 1],
     [
       'PHONE',
-      'document-mobile-bare',
-      /(?<![\p{L}\p{M}\p{N}_+])9\d{9}(?![\p{L}\p{M}\p{N}_])/gu,
-      0,
-    ],
-    [
-      'PHONE',
       'document-mobile-comma',
       /,[ \t]*([78]9\d{9})(?![\p{L}\p{N}_])/gu,
       1,
@@ -69,7 +63,7 @@ export function detectDocumentExtras(text, emit, range, debug, options) {
     [
       'PHONE',
       'document-mobile-context',
-      /(?<![\p{L}\p{N}_])(?:пишите|звоните|контакт)[:,]?[ \t]+([78]9\d{9})(?!\d)/giu,
+      /(?<![\p{L}\p{M}\p{N}_])(?:пишите|звоните|контакт)(?:[ \t]*[:,][ \t]*|[ \t]+)([78]?9\d{9})(?![\p{L}\p{M}\p{N}_])/giu,
       1,
     ],
     [
