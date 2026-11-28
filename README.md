@@ -332,7 +332,8 @@ credential values are still redacted.
 Long plain-text records are held until a safe boundary, including credentials
 longer than a 64 KiB input chunk. Memory grows with the largest held record;
 set `--max-record-bytes` for a smaller deployment budget. Crossing an explicit
-record or total limit blocks atomic publication. See [the tool-log integration
+record or total limit blocks atomic publication. Add `--redact-oversized-records`
+to omit entire oversized records and continue with bounded memory. See [the tool-log integration
 example](examples/shared-tool-logs.mjs) and [API byte handling](docs/API.md).
 
 ## License

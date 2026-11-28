@@ -55,6 +55,7 @@ en
     --locale CODE       Help and errors in en, ru, zh or hi (env SDS_LOCALE)
     --map-credentials   Explicitly keep credentials in the private restore map
     --max-record-bytes N Maximum record bytes (text: total limit; JSONL: 8388608)
+    --redact-oversized-records  Redact oversized records and continue (default record limit: 256 KiB)
     --hive-mask         Opt-in first/last 3 mask for values longer than 12 characters
     --preserve-encoding Re-encode sanitized encoded payloads with round-trip checks
     --gh-auth           Read local gh auth token and mask its exact value
@@ -125,6 +126,7 @@ ru
     --locale CODE       Язык справки: en, ru, zh или hi (SDS_LOCALE)
     --map-credentials   Сохранить учётные данные в закрытой карте
     --max-record-bytes N Максимум байтов в записи (JSONL: 8388608)
+    --redact-oversized-records  Скрывать слишком большие записи и продолжать (по умолчанию: 256 КиБ)
     --hive-mask         Оставлять первые и последние три символа в длинных значениях
     --preserve-encoding Восстановить исходное кодирование очищенных значений
     --gh-auth           Скрыть точное значение токена из gh auth
@@ -193,6 +195,7 @@ zh
     --locale CODE       帮助语言为 en、ru、zh 或 hi（SDS_LOCALE）
     --map-credentials   将凭据保留在私有映射中
     --max-record-bytes N 每条记录的字节上限（JSONL：8388608）
+    --redact-oversized-records  隐去超长记录并继续（默认上限：256 KiB）
     --hive-mask         为长值保留首尾各三个字符
     --preserve-encoding 将已脱敏的值按原编码重新编码
     --gh-auth           通过本地 gh auth 获取并遮盖令牌
@@ -261,6 +264,7 @@ hi
     --locale CODE       सहायता की भाषा: en, ru, zh या hi (SDS_LOCALE)
     --map-credentials   प्रमाणीकरण जानकारी निजी मैप में रखें
     --max-record-bytes N प्रति रिकॉर्ड अधिकतम बाइट (JSONL: 8388608)
+    --redact-oversized-records  बड़ी रिकॉर्ड सामग्री हटाकर जारी रखें (डिफ़ॉल्ट सीमा: 256 KiB)
     --hive-mask         लंबे मान के शुरू और अंत में तीन-तीन अक्षर रखें
     --preserve-encoding साफ़ किए गए मान की मूल एन्कोडिंग रखें
     --gh-auth           स्थानीय gh auth का टोकन छिपाएँ

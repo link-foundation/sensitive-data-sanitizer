@@ -498,7 +498,10 @@ export interface StreamOptions extends SanitizerOptions {
   maxRegistryValues?: number;
   sanitizerOptions?: SanitizerOptions;
   sanitizer?: Sanitizer;
+  /** Maximum retained input bytes per logical record, including its ending. */
   maxRecordBytes?: number;
+  /** Redact an entire oversized record and continue, or throw (default). */
+  oversizedRecords?: 'error' | 'redact';
   batchBytes?: number;
   maxTotalBytes?: number;
   worker?: boolean;

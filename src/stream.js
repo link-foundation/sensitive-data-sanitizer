@@ -23,6 +23,13 @@ import { sanitizeJsonlStream } from './jsonl-stream.js';
 import { workerExecArgv, hasWorkerCallbacks } from './worker-options.js';
 import { streamIdentity } from './stream-identity.js';
 import { workerResult } from './file-worker-result.js';
+import { releaseBoundary } from './stream-boundaries.js';
+import {
+  boundedRecords,
+  bytePieces,
+  omissionBytes,
+  recordBatches,
+} from './stream-records.js';
 import {
   hasPlaceholders,
   initializePlaceholders,
@@ -33,6 +40,7 @@ const streamKeys = new Set([
   'sanitizer',
   'sanitizerOptions',
   'maxRecordBytes',
+  'oversizedRecords',
   'batchBytes',
   'maxTotalBytes',
   'worker',
@@ -53,17 +61,15 @@ function configuration(options, collecting = false, complete) {
     options.structured;
   const jsonl = structured === 'jsonl';
   validateBinary(options, structured);
-  const batchBytes = options.batchBytes ?? 256 * 1024;
-  const maxTotalBytes = options.maxTotalBytes ?? 1024 * 1024 * 1024;
-  const maxRecordBytes =
-    options.maxRecordBytes ?? (jsonl ? 8 * 1024 * 1024 : maxTotalBytes);
-  for (const limit of [maxRecordBytes, batchBytes, maxTotalBytes]) {
-    if (!Number.isSafeInteger(limit) || limit <= 0) {
-      throw failure('ERR_CONFIG');
-    }
-  }
+  const limits = streamLimits(options, jsonl);
+  const { redactOversized, maxRecordBytes, batchBytes } = limits;
   const identity = streamIdentity(
-    identityConfiguration(options, suppliedOptions, maxRecordBytes, batchBytes),
+    identityConfiguration(
+      options,
+      suppliedOptions,
+      Math.max(maxRecordBytes, redactOversized ? omissionBytes : 0),
+      batchBytes
+    ),
     options.maxRegistryValues,
     collecting,
     complete
@@ -71,11 +77,11 @@ function configuration(options, collecting = false, complete) {
   const sanitizerOptions = initializePlaceholders(identity.options);
   const engine = createSanitizer(sanitizerOptions);
   return {
-    maxRecordBytes,
-    batchBytes,
-    maxTotalBytes,
+    ...limits,
     sanitizerOptions,
     jsonl,
+    structured,
+    allowBinary: options.allowBinary,
     identity,
     collecting,
     engine:
@@ -88,6 +94,27 @@ function configuration(options, collecting = false, complete) {
             },
           },
   };
+}
+
+function streamLimits(options, jsonl) {
+  if (
+    options.oversizedRecords !== undefined &&
+    !['error', 'redact'].includes(options.oversizedRecords)
+  ) {
+    throw failure('ERR_CONFIG');
+  }
+  const redactOversized = options.oversizedRecords === 'redact';
+  const batchBytes = options.batchBytes ?? 256 * 1024;
+  const maxTotalBytes = options.maxTotalBytes ?? 1024 * 1024 * 1024;
+  const maxRecordBytes =
+    options.maxRecordBytes ??
+    (redactOversized ? batchBytes : jsonl ? 8 * 1024 * 1024 : maxTotalBytes);
+  for (const limit of [maxRecordBytes, batchBytes, maxTotalBytes]) {
+    if (!Number.isSafeInteger(limit) || limit <= 0) {
+      throw failure('ERR_CONFIG');
+    }
+  }
+  return { maxRecordBytes, batchBytes, maxTotalBytes, redactOversized };
 }
 function validateBinary(options, structured) {
   if (
@@ -118,125 +145,18 @@ function identityConfiguration(
     maxInputLength: Math.max(maxRecordBytes, batchBytes) + 1,
   };
 }
-// Hold an incomplete record, multiline quotes, PEM blocks and wrapped base64.
-// Held records have a finite byte limit; exceeding it blocks publication.
-function advanceQuotes(line, state) {
-  for (let i = 0; i < line.length; i++) {
-    const char = line[i];
-    if (state.escaped) {
-      state.escaped = false;
-      continue;
-    }
-    if (char === '\\' && state.quote) {
-      state.escaped = true;
-      continue;
-    }
-    if (state.quote && char === state.quote) {
-      state.quote = '';
-    } else if (!state.quote && opensQuote(char, line[i - 1])) {
-      state.quote = char;
-    }
-  }
-}
-function opensQuote(char, previous) {
-  return (
-    char === '"' || (char === "'" && !/[\p{L}\p{N}]/u.test(previous ?? ''))
-  );
-}
-function advanceCredentials(line, state) {
-  if (/-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----/.test(line)) {
-    state.pem = true;
-  }
-  if (/-----END [A-Z0-9 ]*PRIVATE KEY-----/.test(line)) {
-    state.pem = false;
-  }
-  if (/^PuTTY-User-Key-File-[23]:/.test(line)) {
-    state.putty = true;
-  }
-  if (/^Private-MAC:[ \t]*[a-fA-F0-9]+/.test(line)) {
-    state.putty = false;
-  }
-  advanceNetrc(line, state);
-}
-// A netrc entry is the token sequence `machine <name> | default`, `login
-// <user>`, `password <value>`, possibly across lines. Hold text only while the
-// tokens seen so far are a proper prefix of that sequence; any other token
-// abandons the entry. Lines like `default = ["macro"]` or `machine learning
-// is fun` are therefore released at once, and each token costs O(1), so held
-// text is never rescanned for every following line.
-const netrcName = /^[^\s"'<>]+$/;
-function advanceNetrc(line, state) {
-  for (const [token] of line.matchAll(/\S+/g)) {
-    state.netrc = netrcStep(state.netrc, token);
-  }
-}
-// Steps: 0 idle, 1 expects the machine name, 2 `login`, 3 the user,
-// 4 `password`, 5 the password value. Completing an entry returns to idle.
-function netrcStep(step, token) {
-  if (netrcContinues(step, token)) {
-    return step === 5 ? 0 : step + 1;
-  }
-  return token === 'machine' ? 1 : token === 'default' ? 2 : 0;
-}
-function netrcContinues(step, token) {
-  switch (step) {
-    case 1:
-    case 3:
-      return netrcName.test(token);
-    case 2:
-      return token === 'login';
-    case 4:
-      return token === 'password';
-    case 5:
-      return true;
-    default:
-      return false;
-  }
-}
-function releaseBoundary(text, final) {
-  let offset = 0,
-    boundary = 0,
-    base64Start = -1;
-  const state = {
-    quote: '',
-    escaped: false,
-    pem: false,
-    putty: false,
-    netrc: 0,
-  };
-  for (const match of text.matchAll(/[^\n]*\n|[^\n]+$/g)) {
-    const line = match[0];
-    const base64 = (
-      base64Start >= 0
-        ? /^[A-Za-z0-9+/_-]{1,128}={0,2}\r?\n?$/
-        : /^[A-Za-z0-9+/_-]{16,128}={0,2}\r?\n?$/
-    ).test(line);
-    if (base64 && base64Start < 0) {
-      base64Start = offset;
-    }
-    if (!base64) {
-      base64Start = -1;
-    }
-    advanceCredentials(line, state);
-    advanceQuotes(line, state);
-    offset += line.length;
-    if (state.quote || state.pem || state.putty || state.netrc) {
-      continue;
-    }
-    if (base64Start >= 0) {
-      boundary = Math.min(boundary, base64Start);
-    } else if (line.endsWith('\n') || final) {
-      boundary = offset;
-    }
-  }
-  return final ? text.length : boundary;
-}
 export async function* sanitizeStream(source, options = {}) {
+  yield* sanitizeWithProgress(source, options);
+}
+async function* sanitizeWithProgress(source, options, onProgress) {
   if (options.twoPass) {
     throw failure('ERR_CONFIG');
   }
   try {
-    yield* streamWithConfiguration(source, options, configuration(options));
+    yield* streamWithConfiguration(source, options, {
+      ...configuration(options),
+      onProgress,
+    });
   } catch (error) {
     throw internalFailure(error);
   }
@@ -258,7 +178,16 @@ async function* streamBatches(source, options, config) {
     yield* sanitizeJsonlStream(source, options, config);
     return;
   }
-  const { engine, maxRecordBytes, batchBytes, maxTotalBytes } = config;
+  if (config.redactOversized) {
+    for await (const text of recordBatches(
+      boundedRecords(source, config),
+      config.batchBytes
+    )) {
+      yield* sanitizeBatch(text, config);
+    }
+    return;
+  }
+  const { maxRecordBytes, batchBytes, maxTotalBytes } = config;
   const decoder = new LogDecoder();
   let pending = '',
     total = 0,
@@ -281,13 +210,7 @@ async function* streamBatches(source, options, config) {
       const text = pending.slice(0, boundary);
       pending = pending.slice(boundary);
       pendingBytes -= encodeLogText(text).length;
-      config.identity.prepare(text, await prepareStreamEngine(engine, text));
-      if (config.collecting) {
-        config.onProgress?.();
-      }
-      if (!config.collecting) {
-        yield (await engine.sanitize(text)).text;
-      }
+      yield* sanitizeBatch(text, config);
     }
     // An incomplete logical record is rescanned at geometrically increasing
     // sizes, so arbitrary chunking cannot turn one long line quadratic.
@@ -335,6 +258,17 @@ async function* streamBatches(source, options, config) {
   }
   yield* process(true);
 }
+async function* sanitizeBatch(
+  text,
+  { engine, identity, collecting, onProgress }
+) {
+  identity.prepare(text, await prepareStreamEngine(engine, text));
+  if (collecting) {
+    onProgress?.();
+  } else {
+    yield (await engine.sanitize(text)).text;
+  }
+}
 export async function sanitizeStreamToFile(
   source,
   path,
@@ -350,7 +284,7 @@ export async function sanitizeStreamToFile(
     handle = await open(temporary, 'wx', 0o600);
     const stream = options.twoPass
       ? twoPassStream(source, temporary, options, onProgress)
-      : sanitizeStream(source, options);
+      : sanitizeWithProgress(source, options, onProgress);
     for await (const chunk of stream) {
       const bytes = encodeLogText(chunk);
       outputBytes += bytes.length;
@@ -384,13 +318,17 @@ async function* twoPassStream(source, temporary, options, onProgress) {
     async function* capture() {
       let total = 0;
       for await (const chunk of source) {
-        const bytes = Buffer.from(chunk);
-        total += bytes.length;
-        if (total > discovery.maxTotalBytes) {
-          throw failure('ERR_LIMIT');
+        const pieces = discovery.redactOversized
+          ? bytePieces(chunk)
+          : [Buffer.from(chunk)];
+        for (const bytes of pieces) {
+          total += bytes.length;
+          if (total > discovery.maxTotalBytes) {
+            throw failure('ERR_LIMIT');
+          }
+          await input.writeFile(bytes);
+          yield bytes;
         }
-        await input.writeFile(bytes);
-        yield bytes;
       }
     }
     for await (const chunk of streamWithConfiguration(
@@ -407,11 +345,10 @@ async function* twoPassStream(source, temporary, options, onProgress) {
       twoPass: false,
       sanitizerOptions: discovery.sanitizerOptions,
     };
-    yield* streamWithConfiguration(
-      createReadStream(spool),
-      complete,
-      configuration(complete, false, true)
-    );
+    yield* streamWithConfiguration(createReadStream(spool), complete, {
+      ...configuration(complete, false, true),
+      onProgress,
+    });
   } catch (error) {
     throw internalFailure(error);
   } finally {
