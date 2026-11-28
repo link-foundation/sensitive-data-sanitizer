@@ -178,6 +178,17 @@ export type DebugEvent =
   | { event: 'two-pass-confirmation'; type: string }
   | { event: 'propagation-skipped'; reason: 'length'; type: string }
   | { event: 'gitleaks-rule'; rule: string; length: number; ms: number };
+
+export interface ResidualSanitizationError extends Error {
+  code: 'ERR_RESIDUAL';
+  stage?:
+    | 'callback-output'
+    | 'redaction-verification'
+    | 'known-output'
+    | 'placeholder-output';
+  /** Counts by built-in type, with other identifiers grouped under CUSTOM. */
+  findingCounts?: Readonly<Record<string, number>>;
+}
 export interface SanitizedText {
   text: string;
   findings: Finding[];

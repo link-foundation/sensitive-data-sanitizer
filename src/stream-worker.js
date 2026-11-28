@@ -21,5 +21,7 @@ try {
     record: error.record,
     offset: error.offset,
     recordOffset: error.recordOffset,
+    stage: error.stage,
+    findingCounts: error.findingCounts,
   });
 }

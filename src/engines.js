@@ -13,11 +13,17 @@ import {
   reviewFindings,
   markFake,
   applyProfile,
+  fullRedactionOptions,
+  knownOutputFindings,
 } from './sanitizer.js';
-import { failure, internalFailure } from './detection.js';
+import { failure, internalFailure, residualFailure } from './detection.js';
 import { projectText } from './projection.js';
 import { decodedRuns } from './encoded.js';
-import { hasCustomTransforms } from './transforms.js';
+import {
+  hasCustomTransforms,
+  redactionMarker,
+  withRedactionMarker,
+} from './transforms.js';
 import { builtInEnabled } from './policy.js';
 import { exemptFindingsAsync, escapedExemptionView } from './exempt.js';
 import { structuredInspection, withStructuredMemo } from './structured-memo.js';
@@ -298,17 +304,12 @@ function createScreened(analyze, options) {
   };
 }
 
-export function createSanitizer(options = {}) {
-  options = applyProfile(options);
-  validateOptions(options);
-  options = initializePlaceholders(options);
-  const engines = configuredEngines(options);
-  let prepared;
-  async function analyze(
+function createAnalyzer(engines, defaults) {
+  return async function analyze(
     text,
-    initial = options.findings ?? [],
+    initial = defaults.findings ?? [],
     plain = false,
-    scopedOptions = options,
+    scopedOptions = defaults,
     nativeFindings
   ) {
     const options = placeholderKnown(scopedOptions);
@@ -342,9 +343,16 @@ export function createSanitizer(options = {}) {
     return options.verifyPublic
       ? verifyFindings(text, detected, options.verifyPublic)
       : detected;
-  }
+  };
+}
 
-  const screened = createScreened(analyze, options);
+export function createSanitizer(options = {}) {
+  options = applyProfile(options);
+  validateOptions(options);
+  options = withRedactionMarker(initializePlaceholders(options));
+  const engines = configuredEngines(options);
+  const screened = createScreened(createAnalyzer(engines, options), options);
+  let prepared;
 
   const sanitizer = {
     inspect: guarded(async (text) =>
@@ -383,13 +391,7 @@ export function createSanitizer(options = {}) {
     if (depth === 0) {
       prepared = undefined;
     }
-    const fullOptions = {
-      ...options,
-      transformation: undefined,
-      transformations: undefined,
-      identityMask: false,
-      preserveEncoding: false,
-    };
+    const fullOptions = fullRedactionOptions(options);
     const result = await redactResultAsync(
       text,
       findings,
@@ -403,9 +405,14 @@ export function createSanitizer(options = {}) {
           recursiveOptions
         )
     );
-    if (await customResidual(result.text, options, plain, screened)) {
-      throw failure('ERR_RESIDUAL');
-    }
+    await verifyTransformedOutput(
+      result.text,
+      options,
+      plain,
+      screened,
+      hasCustomTransforms(options),
+      'callback-output'
+    );
     const sanitized = fullRedaction
       ? result.text
       : (
@@ -423,30 +430,63 @@ export function createSanitizer(options = {}) {
               )
           )
         ).text;
+    const known = knownOutputFindings(
+      result.text,
+      sanitized,
+      plain ? { ...options, structured: undefined } : options
+    );
     // Verification at the publication boundary runs every enabled engine.
-    if (
-      (await screened(sanitized, [], plain, options)).some((f) =>
-        actionable(f, options)
-      )
-    ) {
-      return redactAgain(result, findings, options, round, (next, nextRound) =>
-        sanitizeText(result.text, depth, fullRedaction, plain, next, nextRound)
+    const remaining = known.length
+      ? known
+      : (await screened(sanitized, [], plain, options)).filter((f) =>
+          actionable(f, options)
+        );
+    if (remaining.length) {
+      return redactAgain(
+        result,
+        findings,
+        options,
+        round,
+        { known, remaining },
+        (next, nextRound) =>
+          sanitizeText(
+            result.text,
+            depth,
+            fullRedaction || known.length > 0,
+            plain,
+            next,
+            nextRound
+          )
       );
     }
     verifyStructuredResult(result.text, options, plain);
-    if (await placeholderResidual(result.text, options, plain, screened)) {
-      throw failure('ERR_RESIDUAL');
-    }
+    await verifyTransformedOutput(
+      result.text,
+      options,
+      plain,
+      screened,
+      hasPlaceholders(options),
+      'placeholder-output'
+    );
     return { ...result, findings: auditFaked(findings, options, result) };
   }
 }
-async function customResidual(text, options, plain, analyze) {
-  return (
-    hasCustomTransforms(options) &&
-    (await analyze(text, [], plain, options)).some((f) =>
+async function verifyTransformedOutput(
+  text,
+  options,
+  plain,
+  analyze,
+  enabled,
+  stage
+) {
+  if (enabled) {
+    const remaining = (await analyze(text, [], plain, options)).filter((f) =>
       actionable(f, options)
-    )
-  );
+    );
+    if (remaining.length) {
+      throw residualFailure(stage, remaining);
+    }
+  }
 }
 
 function guarded(callback, cleanup = () => {}) {
@@ -460,15 +500,6 @@ function guarded(callback, cleanup = () => {}) {
     }
   };
 }
-async function placeholderResidual(text, options, plain, analyze) {
-  return (
-    hasPlaceholders(options) &&
-    (await analyze(text, [], plain, options)).some((f) =>
-      actionable(f, options)
-    )
-  );
-}
-
 function eligiblePublic(text, finding, findings) {
   return (
     finding.category !== 'credential' &&
@@ -522,7 +553,7 @@ async function verifyFindings(text, findings, verifier) {
 function sanitizeNested(sanitizeText, decoded, depth, fullRedaction, options) {
   return depth < 2
     ? sanitizeText(decoded, depth + 1, fullRedaction, true, options)
-    : Promise.resolve({ text: '[REDACTED]' });
+    : Promise.resolve({ text: redactionMarker(options) });
 }
 
 function verifyStructuredResult(text, options, plain) {

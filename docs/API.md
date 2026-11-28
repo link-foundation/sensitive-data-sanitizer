@@ -943,10 +943,18 @@ Sync methods reject thenables with `ERR_CONFIG`; the asynchronous engine awaits
 callbacks. Throws block publication. Returning the original, its normalized or
 bounded encoded representation fails with `ERR_RESIDUAL`. The emitted text also
 passes all configured residual detectors, so returning a new email/secret blocks.
+An opaque input span such as `ENCODED_LIMIT` can be replaced with independently
+verifiable text. A callback result that still exceeds the decoding budget fails.
 This is bounded heuristic verification, not proof against arbitrary encodings.
 Unlike built-in partial transforms, a callback deliberately controls credential
 replacement too; the same checks apply. `preserveEncoding` recursively transforms
 decoded content then re-encodes it.
+
+Built-in redaction can use an empty replacement when `[REDACTED]` would contain
+a configured credential. The resulting text still passes residual verification,
+including newly adjacent characters. `ERR_RESIDUAL` exposes `stage` and
+`findingCounts` for diagnosis. Counts include only built-in finding type names
+and the `CUSTOM` bucket. The error carries no finding values or offsets.
 
 The stages are detection → validated finding union/policy → transformation →
 residual verification. `redact` exposes only the transformation stage and does not
